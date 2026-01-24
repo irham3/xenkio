@@ -5,7 +5,7 @@ import { Search, ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ShinyText from '@/components/reactbits/ShinyText';
 import { cn } from '@/lib/utils';
-import { TOOLS } from '@/lib/data';
+import { DUMMY_TOOLS as TOOLS } from '@/data/dummy-tools';
 import Fuse from 'fuse.js';
 
 const placeholders = [

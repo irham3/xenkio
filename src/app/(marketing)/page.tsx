@@ -7,7 +7,8 @@ import { CategoryTabs } from "@/components/home/category-tabs";
 import { ToolCardFeatured } from "@/components/tools/tool-card-featured";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { StatsBanner } from "@/components/home/stats-banner";
-import { CATEGORIES, TOOLS } from "@/lib/data";
+import { CATEGORIES } from "@/data/categories";
+import { DUMMY_TOOLS as TOOLS } from "@/data/dummy-tools";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 

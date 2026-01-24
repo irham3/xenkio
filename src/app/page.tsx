@@ -1,3 +1,5 @@
+'use client';
+
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
@@ -6,6 +8,8 @@ import { ToolCardFeatured } from "@/components/tools/tool-card-featured";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { StatsBanner } from "@/components/home/stats-banner";
 import { CATEGORIES, TOOLS } from "@/lib/data";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   const featuredTools = TOOLS.filter(t => t.featured);
@@ -16,72 +20,121 @@ export default function Home() {
       <HeroSection />
       <CategoryTabs />
 
-      {/* Popular Tools / Featured - Bento-ish Grid */}
-      <section className="py-16 container mx-auto px-4">
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-8 flex items-center gap-3">
-          Most Popular Tools
-        </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* First one is large featured card */}
-          <div className="lg:col-span-2">
-            {featuredTools[0] && (
-              <ToolCardFeatured
-                {...featuredTools[0]}
-                stats={featuredTools[0].stats || ''}
-              />
-            )}
+      {/* Popular Tools - Featured Bento Grid */}
+      <section className="py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                Most Popular Tools
+              </h2>
+              <p className="mt-2 text-gray-600">
+                Trusted by millions of users worldwide
+              </p>
+            </div>
+            <Link
+              href="/tools"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 hover:bg-primary-50 rounded-lg transition-colors"
+            >
+              View all tools
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
-          {/* Side column with compact cards */}
-          <div className="flex flex-col gap-6">
-            {featuredTools.slice(1, 3).map(tool => (
-              <ToolCardCompact key={tool.id} {...tool} />
+
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Large featured card */}
+            <div className="lg:col-span-6">
+              {featuredTools[0] && (
+                <ToolCardFeatured
+                  {...featuredTools[0]}
+                />
+              )}
+            </div>
+
+            {/* Right column - two compact cards stacked */}
+            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+              {featuredTools.slice(1, 3).map(tool => (
+                <ToolCardFeatured
+                  key={tool.id}
+                  {...tool}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Second row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+            {featuredTools.slice(3, 4).map(tool => (
+              <ToolCardFeatured
+                key={tool.id}
+                {...tool}
+              />
+            ))}
+            {/* Fill with compact cards */}
+            {TOOLS.filter(t => !t.featured).slice(0, 3).map(tool => (
+              <ToolCardCompact
+                key={tool.id}
+                {...tool}
+              />
             ))}
           </div>
         </div>
       </section>
 
       {/* Category Sections */}
-      {CATEGORIES.map((category) => {
+      {CATEGORIES.map((category, index) => {
         const categoryTools = TOOLS.filter(t => t.categoryId === category.id);
+        const isEven = index % 2 === 0;
+        const CategoryIcon = category.icon;
 
         return (
-          <section key={category.id} className="py-16 border-y border-gray-100 bg-white">
-            <div className="container mx-auto px-4">
+          <section
+            key={category.id}
+            id={`category-${category.id}`}
+            className={`py-16 lg:py-20 ${isEven ? 'bg-white' : 'bg-gray-50'}`}
+          >
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              {/* Category Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-white rounded-xl shadow-sm text-gray-800">
-                    <category.icon className="w-8 h-8" />
+                  <div
+                    className="flex items-center justify-center w-14 h-14 rounded-2xl"
+                    style={{ backgroundColor: category.backgroundColor }}
+                  >
+                    <CategoryIcon className="w-7 h-7 text-gray-700" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">{category.name}</h2>
-                    <p className="text-gray-600 text-sm mt-1">{category.description}</p>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {category.name}
+                    </h2>
+                    <p className="text-gray-500 mt-0.5">
+                      {category.description}
+                    </p>
                   </div>
                 </div>
-                <button className="text-primary-600 font-semibold hover:text-primary-700 transition-colors bg-white/50 hover:bg-white px-4 py-2 rounded-lg text-sm">
-                  View All {category.toolCount} Tools →
-                </button>
+                <Link
+                  href={`/tools?category=${category.id}`}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-primary-600 hover:text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors"
+                >
+                  View All {category.toolCount} Tools
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                {/* Show matched tools */}
-                {categoryTools.map(tool => (
-                  <ToolCardCompact key={tool.id} {...tool} />
-                ))}
-                {/* Fill with some placeholders to create a nice grid effect even with dummy data */}
-                {Array.from({ length: Math.max(0, 5 - categoryTools.length) }).map((_, i) => (
+              {/* Tools Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
+                {categoryTools.slice(0, 10).map(tool => (
                   <ToolCardCompact
-                    key={`placeholder-${category.id}-${i}`}
-                    title={`${category.name} Tool ${i + 1}`}
-                    description={`Professional ${category.name.toLowerCase()} tool for your workflow.`}
-                    icon={category.icon}
-                    href="#"
-                    usageCount={`${(Math.random() * 10).toFixed(1)}k`}
+                    key={tool.id}
+                    {...tool}
                   />
                 ))}
               </div>
             </div>
           </section>
-        )
+        );
       })}
 
       <StatsBanner />

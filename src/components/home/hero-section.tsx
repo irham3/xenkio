@@ -1,32 +1,184 @@
-import { Search } from "lucide-react";
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+import { Search, ArrowRight, Zap, Shield, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
+import ShinyText from '@/components/reactbits/ShinyText';
+import { cn } from '@/lib/utils';
+import { TOOLS } from '@/lib/data';
+import Fuse from 'fuse.js';
+
+const placeholders = [
+  'Search 130+ tools...',
+  'Convert PDF to Word...',
+  'Generate QR codes...',
+  'Compress images...',
+  'Format JSON data...',
+];
+
+const fuse = new Fuse(TOOLS, {
+  keys: ['title', 'description'],
+  threshold: 0.4,
+  includeScore: true,
+});
 
 export function HeroSection() {
-  return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-primary-100 to-primary-200 py-20 px-4">
-      <div className="container mx-auto max-w-4xl text-center">
-        <h1 className="text-4xl md:text-[56px] font-extrabold text-gray-900 mb-4 tracking-tight leading-[1.1]">
-          Every Tool You Need.<br />
-          <span className="text-primary-600">One Platform.</span>
-        </h1>
-        <p className="text-lg md:text-[20px] text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-          Process files instantly. No signup required. Access over 100+ tools for developers, designers, and data analysts.
-        </p>
+  const [query, setQuery] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const [results, setResults] = useState<typeof TOOLS>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-        {/* Search Bar */}
-        <div className="relative max-w-xl mx-auto group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-primary-300 to-primary-400 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-200"></div>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (query.trim()) {
+      const searchResults = fuse.search(query).slice(0, 5);
+      setResults(searchResults.map((r) => r.item));
+    } else {
+      setResults([]);
+    }
+  }, [query]);
+
+  const showResults = isFocused && results.length > 0;
+
+  return (
+    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50/80 via-white to-white">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-[0.015]" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+      }} />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+        <div className="text-center max-w-4xl mx-auto">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 mb-8 text-sm font-medium text-primary-700 bg-primary-50 border border-primary-200/60 rounded-full"
+          >
+            <Zap className="w-4 h-4" />
+            Free tools for everyone
+          </motion.div>
+
+          {/* Main heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 mb-6"
+          >
+            Every Tool You Need.{' '}
+            <span className="relative">
+              <ShinyText
+                text="One Platform."
+                disabled={false}
+                speed={3}
+                className="block sm:inline"
+                color="#0EA5E9"
+                shineColor="#ffffff"
+              />
+            </span>
+          </motion.h1>
+
+          {/* Subheading */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed"
+          >
+            Process files, convert formats, and transform data instantly.
+            No signup required, completely free.
+          </motion.p>
+
+          {/* Search bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="relative max-w-2xl mx-auto"
+          >
+            <div
+              className={cn(
+                'relative flex items-center bg-white rounded-2xl border-2 transition-all duration-300',
+                isFocused
+                  ? 'border-primary-400 shadow-xl shadow-primary-500/10'
+                  : 'border-gray-200 shadow-lg shadow-gray-200/50'
+              )}
+            >
+              <Search className="absolute left-5 w-5 h-5 text-gray-400" />
+              <input
+                ref={inputRef}
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+                placeholder={placeholders[placeholderIndex]}
+                className="w-full pl-14 pr-36 py-5 text-[17px] text-gray-900 placeholder:text-gray-400 bg-transparent rounded-2xl focus:outline-none"
+              />
+              <button className="absolute right-3 flex items-center gap-2 px-5 py-2.5 text-[15px] font-semibold text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-xl shadow-md shadow-primary-500/20 transition-all duration-300">
+                Search
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
-            <input
-              type="text"
-              placeholder="Search for tools (e.g. JSON Formatter, PDF to Word)..."
-              className="w-full h-14 pl-12 pr-4 rounded-xl border-2 border-gray-200 bg-white shadow-medium focus:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-100 transition-all text-gray-900 placeholder:text-gray-400"
-            />
-          </div>
+
+            {/* Search results dropdown */}
+            {showResults && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden z-50"
+              >
+                {results.map((tool) => (
+                  <a
+                    key={tool.id}
+                    href={tool.href}
+                    className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100">
+                      <tool.icon className="w-5 h-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="text-[15px] font-medium text-gray-900">{tool.title}</div>
+                      <div className="text-sm text-gray-500">{tool.description.slice(0, 60)}...</div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-400" />
+                  </a>
+                ))}
+              </motion.div>
+            )}
+          </motion.div>
+
+          {/* Trust indicators */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 mt-12 text-sm text-gray-500"
+          >
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4 text-green-500" />
+              <span>100% Secure</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary-500" />
+              <span>Instant Processing</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4 text-accent-500" />
+              <span>No Registration</span>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
-  )
+  );
 }

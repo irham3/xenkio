@@ -1,26 +1,92 @@
+'use client';
+
+import { useRef } from 'react';
+import { FileText, Users, Wrench, LucideIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import CountUp from '@/components/reactbits/CountUp';
+
+interface StatProps {
+  value: number;
+  suffix: string;
+  label: string;
+  icon: LucideIcon;
+  delay: number;
+}
+
+function AnimatedStat({ value, suffix, label, icon: Icon, delay }: StatProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: delay / 1000 }}
+      className="flex flex-col items-center text-center"
+    >
+      <div className="flex items-center justify-center w-14 h-14 mb-4 rounded-2xl bg-white/10 backdrop-blur-sm shadow-inner shadow-white/10">
+        <Icon className="w-7 h-7 text-white/90" strokeWidth={1.5} />
+      </div>
+      <div className="text-4xl sm:text-5xl font-extrabold text-white mb-2 tracking-tight flex items-center justify-center gap-1">
+        <CountUp
+          to={value}
+          duration={2.5}
+          delay={0.2}
+          separator=","
+          className="tabular-nums"
+        />
+        <span>{suffix}</span>
+      </div>
+      <div className="text-base text-white/70 font-medium">{label}</div>
+    </motion.div>
+  );
+}
+
 export function StatsBanner() {
   const stats = [
-    { number: "2.5B", label: "Files Processed" },
-    { number: "10M+", label: "Active Users" },
-    { number: "130+", label: "Tools Available" },
+    {
+      value: 2.5,
+      suffix: 'B+',
+      label: 'Files Processed',
+      icon: FileText,
+      delay: 0,
+    },
+    {
+      value: 10,
+      suffix: 'M+',
+      label: 'Monthly Users',
+      icon: Users,
+      delay: 150,
+    },
+    {
+      value: 130,
+      suffix: '+',
+      label: 'Tools Available',
+      icon: Wrench,
+      delay: 300,
+    },
   ];
 
   return (
-    <div className="bg-gradient-to-br from-primary-900 to-primary-700 py-16 px-4">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-24">
-          {stats.map((stat, i) => (
-            <div key={i} className="text-center group hover:scale-105 transition-transform duration-300">
-              <div className="text-4xl md:text-[48px] font-extrabold text-white mb-2 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-                {stat.number}
-              </div>
-              <div className="text-white/90 text-sm md:text-base font-medium">
-                {stat.label}
-              </div>
-            </div>
+    <section className="relative overflow-hidden">
+      {/* Gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800" />
+
+      {/* Pattern overlay */}
+      <div className="absolute inset-0 opacity-10" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0v30M0 15h30' stroke='%23fff' stroke-width='1' fill='none'/%3E%3C/svg%3E")`
+      }} />
+
+      {/* Content */}
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-8">
+          {stats.map((stat) => (
+            <AnimatedStat key={stat.label} {...stat} />
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

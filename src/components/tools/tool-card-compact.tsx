@@ -1,37 +1,76 @@
-import { ArrowRight, LucideIcon } from "lucide-react";
-import Link from "next/link";
+'use client';
+
+import Link from 'next/link';
+import { ArrowUpRight, Sparkles, Crown } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { LucideIcon } from 'lucide-react';
 
 interface ToolCardCompactProps {
+  id?: string;
   title: string;
   description: string;
   icon: LucideIcon;
   href: string;
   usageCount?: string;
+  isNew?: boolean;
+  isPremium?: boolean;
+  categoryId?: string;
 }
 
-export function ToolCardCompact({ title, description, icon: Icon, href, usageCount }: ToolCardCompactProps) {
+export function ToolCardCompact({
+  title,
+  description,
+  icon: Icon,
+  href,
+  usageCount,
+  isNew,
+  isPremium,
+}: ToolCardCompactProps) {
   return (
-    <Link href={href} className="group flex flex-col h-full bg-white border border-gray-200 rounded-xl p-5 hover:border-primary-200 hover:shadow-primary hover:-translate-y-0.5 transition-all duration-200">
-      <div className="flex items-start justify-between mb-4">
-        <div className="h-12 w-12 bg-primary-50 rounded-lg flex items-center justify-center text-primary-500 group-hover:scale-110 transition-transform duration-200 shadow-sm">
-          <Icon className="w-6 h-6" />
+    <Link href={href} className="block group">
+      <motion.div
+        whileHover={{ y: -3 }}
+        transition={{ duration: 0.2 }}
+        className="relative h-full p-5 rounded-xl bg-white border border-gray-200 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/5 transition-all duration-300"
+      >
+        {/* Badges */}
+        {(isNew || isPremium) && (
+          <div className="absolute top-3 right-3">
+            {isNew && (
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-50">
+                <Sparkles className="w-3 h-3 text-primary-600" />
+              </span>
+            )}
+            {isPremium && (
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-amber-50">
+                <Crown className="w-3 h-3 text-amber-600" />
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Icon */}
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gray-50 group-hover:bg-primary-50 mb-4 transition-colors">
+          <Icon className="w-6 h-6 text-gray-600 group-hover:text-primary-600 transition-colors" strokeWidth={1.5} />
         </div>
-      </div>
 
-      <h3 className="text-[16px] font-semibold text-gray-900 mb-1 group-hover:text-primary-600 transition-colors">
-        {title}
-      </h3>
+        {/* Content */}
+        <h3 className="text-[15px] font-semibold text-gray-900 mb-1.5 group-hover:text-primary-600 transition-colors line-clamp-1">
+          {title}
+        </h3>
+        <p className="text-sm text-gray-500 mb-3 line-clamp-1">
+          {description}
+        </p>
 
-      <p className="text-[14px] text-gray-500 line-clamp-2 mb-4 flex-grow leading-relaxed">
-        {description}
-      </p>
-
-      {usageCount && (
-        <div className="text-[13px] text-gray-400 mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
-          <span>{usageCount} uses today</span>
-          <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 text-primary-500" />
+        {/* Footer */}
+        <div className="flex items-center justify-between">
+          {usageCount && (
+            <span className="text-xs text-gray-400">{usageCount} uses</span>
+          )}
+          <ArrowUpRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 transition-colors ml-auto" />
         </div>
-      )}
+      </motion.div>
     </Link>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { QRConfig } from '../types';
+import { QRConfig } from '../../../../features/qr-generator/types';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Upload, X } from 'lucide-react';

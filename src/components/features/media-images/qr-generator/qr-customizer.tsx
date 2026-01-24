@@ -1,8 +1,8 @@
 
 'use client';
 
-import { QRConfig } from '../types';
-import { QR_ERROR_LEVELS } from '../constants';
+import { QRConfig } from '../../../../features/qr-generator/types';
+import { QR_ERROR_LEVELS } from '../../../../features/qr-generator/constants';
 import { Label } from '@/components/ui/label';
 
 interface QrCustomizerProps {

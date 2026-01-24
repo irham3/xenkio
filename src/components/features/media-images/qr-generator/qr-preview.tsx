@@ -1,6 +1,6 @@
 'use client';
 
-import { QRConfig } from '../types';
+import { QRConfig } from '../../../../features/qr-generator/types';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';

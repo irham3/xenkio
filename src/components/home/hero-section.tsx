@@ -55,7 +55,7 @@ export function HeroSection() {
       }} />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-        <div className="text-center max-w-4xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -74,10 +74,10 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 mb-6"
           >
-            Every Tool You Need.{' '}
+            Every Tool You Need in {' '}
             <span className="relative">
               <ShinyText
-                text="One Platform."
+                text="One Platform"
                 disabled={false}
                 speed={3}
                 className="block sm:inline"

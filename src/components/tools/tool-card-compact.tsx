@@ -6,11 +6,12 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
 
+import { DUMMY_TOOLS } from '@/data/dummy-tools';
+
 interface ToolCardCompactProps {
-  id?: string;
+  id: string;
   title: string;
   description: string;
-  icon: LucideIcon;
   href: string;
   usageCount?: string;
   isNew?: boolean;
@@ -19,14 +20,17 @@ interface ToolCardCompactProps {
 }
 
 export function ToolCardCompact({
+  id,
   title,
   description,
-  icon: Icon,
   href,
   usageCount,
   isNew,
   isPremium,
 }: ToolCardCompactProps) {
+  const tool = DUMMY_TOOLS.find(t => t.id === id);
+  const Icon = tool?.icon || Sparkles;
+
   return (
     <Link href={href} className="block group">
       <motion.div

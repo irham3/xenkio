@@ -39,8 +39,9 @@ export function CarouselGeneratorForm({ config, onChange }: CarouselGeneratorFor
 
                 {/* Layout Mode */}
                 <div className="space-y-3">
-                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Layout Mode</Label>
+                    <Label htmlFor="layout-mode-select" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Layout Mode</Label>
                     <select
+                        id="layout-mode-select"
                         className="flex h-11 w-full rounded-lg border-2 border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50"
                         value={config.layout}
                         onChange={(e) => onChange({ layout: e.target.value as CarouselLayout })}
@@ -60,7 +61,7 @@ export function CarouselGeneratorForm({ config, onChange }: CarouselGeneratorFor
 
                 {/* Background Color */}
                 <div className="space-y-3">
-                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Background Design</Label>
+                    <Label htmlFor="bg-color-hex" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Background Design</Label>
                     <div className="flex gap-2 items-center p-2 rounded-lg border-2 bg-muted/20">
                         <div className="relative group">
                             <input
@@ -73,6 +74,7 @@ export function CarouselGeneratorForm({ config, onChange }: CarouselGeneratorFor
                             <div className="absolute inset-0 rounded-md ring-1 ring-inset ring-black/10 pointer-events-none" />
                         </div>
                         <Input
+                            id="bg-color-hex"
                             type="text"
                             value={config.backgroundColor}
                             onChange={(e) => onChange({ backgroundColor: e.target.value })}
@@ -106,10 +108,11 @@ export function CarouselGeneratorForm({ config, onChange }: CarouselGeneratorFor
                 {/* Gap Control */}
                 <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                        <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Slide Gap</Label>
+                        <Label htmlFor="slide-gap-input" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Slide Gap</Label>
                         <span className="text-xs font-bold px-2 py-0.5 rounded bg-secondary">{config.gap}px</span>
                     </div>
                     <input
+                        id="slide-gap-input"
                         type="range"
                         min="0"
                         max="100"

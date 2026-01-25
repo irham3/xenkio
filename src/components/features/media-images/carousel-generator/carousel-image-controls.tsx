@@ -62,7 +62,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
             {/* Scale */}
             <div className="space-y-3 pt-2 border-t border-primary/10">
                 <div className="flex items-center justify-between text-xs">
-                    <Label className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[10px]">Scale</Label>
+                    <Label htmlFor="image-scale-input" className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[10px]">Scale</Label>
                     <div className="flex items-center gap-2">
                         <span className="text-primary font-black font-mono">{Math.round(image.scale * 100)}%</span>
                         <TooltipProvider>
@@ -78,6 +78,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
                     </div>
                 </div>
                 <input
+                    id="image-scale-input"
                     type="range"
                     min="0.1"
                     max="3"
@@ -91,11 +92,12 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
             {/* Rotation */}
             <div className="space-y-3">
                 <div className="flex justify-between text-xs">
-                    <Label className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[10px]">Rotation</Label>
+                    <Label htmlFor="image-rotation-input" className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[10px]">Rotation</Label>
                     <span className="text-primary font-black font-mono">{image.rotation}°</span>
                 </div>
                 <div className="flex items-center gap-3">
                     <input
+                        id="image-rotation-input"
                         type="range"
                         min="-180"
                         max="180"

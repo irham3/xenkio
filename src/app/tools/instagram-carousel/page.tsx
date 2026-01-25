@@ -1,6 +1,13 @@
-'use client';
-
+import type { Metadata } from 'next';
 import { CarouselGenerator } from '@/components/features/media-images/carousel-generator/carousel-generator';
+
+export const runtime = 'edge';
+
+export const metadata: Metadata = {
+    title: 'Instagram Carousel Generator | Xenkio',
+    description: 'Create seamless, swipeable Instagram carousels. Upload images, design layouts spanning multiple slides, and export automatically sliced images ready to post.',
+    keywords: ['instagram carousel', 'seamless carousel', 'instagram grid', 'social media tools', 'content creator'],
+};
 
 export default function InstagramCarouselPage() {
     return (

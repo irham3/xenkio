@@ -47,9 +47,10 @@ export function CarouselUploader({ onImagesSelected, className }: CarouselUpload
     }, [onImagesSelected]);
 
     return (
-        <div
+        <button
+            type="button"
             className={cn(
-                "relative group cursor-pointer border-2 border-dashed rounded-xl transition-all duration-200 ease-in-out p-8 text-center",
+                "relative group cursor-pointer border-2 border-dashed rounded-xl transition-all duration-200 ease-in-out p-8 text-center w-full focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                 isDragging
                     ? "border-primary bg-primary/5 scale-[1.01]"
                     : "border-border hover:border-primary/50 hover:bg-muted/50",
@@ -83,6 +84,7 @@ export function CarouselUploader({ onImagesSelected, className }: CarouselUpload
                     </p>
                 </div>
             </div>
-        </div>
+        </button>
+
     );
 }

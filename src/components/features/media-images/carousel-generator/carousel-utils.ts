@@ -1,5 +1,5 @@
 import { CarouselConfig, CarouselImage, INSTAGRAM_SIZES } from './types';
-import JSZip from 'jszip';
+
 
 // Helper to load image for canvas
 const loadImage = (url: string): Promise<HTMLImageElement> => {
@@ -57,6 +57,7 @@ export async function generateCarouselDownloads(config: CarouselConfig): Promise
     }
 
     // 3. Slice and Zip
+    const JSZip = (await import('jszip')).default;
     const zip = new JSZip();
     const folder = zip.folder("instagram-carousel");
 

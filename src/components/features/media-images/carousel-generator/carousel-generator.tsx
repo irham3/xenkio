@@ -127,7 +127,7 @@ export function CarouselGenerator() {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-100px)] min-h-[600px]">
             {/* Left Sidebar: Controls */}
-            <div className="lg:col-span-3 flex flex-col gap-6 overflow-y-auto pr-4 scrollbar-hide bg-muted/30 p-4 rounded-2xl border">
+            <aside className="lg:col-span-3 flex flex-col gap-6 overflow-y-auto pr-4 scrollbar-hide bg-muted/30 p-4 rounded-2xl border">
                 <div className="space-y-6">
                     <div>
                         <h2 className="text-xl font-black tracking-tight mb-1 text-primary">Configuration</h2>
@@ -174,7 +174,7 @@ export function CarouselGenerator() {
                         </p>
                     </div>
                 </div>
-            </div>
+            </aside>
 
             {/* Right/Center: Preview */}
             <div className="lg:col-span-9 h-full">
@@ -185,6 +185,6 @@ export function CarouselGenerator() {
                     onSelectImage={setSelectedImageId}
                 />
             </div>
-        </div>
+        </div >
     );
 }

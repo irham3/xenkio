@@ -5,7 +5,7 @@ import "./globals.css";
 const fontSans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: "Xenkio - Every Tool You Need. One Platform.",
+  title: "Xenkio - Every Tool You Need in One Platform.",
   description: "Process files instantly. No signup required.",
 };
 

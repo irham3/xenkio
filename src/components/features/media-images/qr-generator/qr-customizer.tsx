@@ -54,7 +54,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                 <Label>Error Correction Level</Label>
                 <select
                     value={config.level}
-                    onChange={(e) => onChange({ level: e.target.value as any })}
+                    onChange={(e) => onChange({ level: e.target.value as QRConfig['level'] })}
                     className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                 >
                     {QR_ERROR_LEVELS.map((level) => (

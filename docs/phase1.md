@@ -82,7 +82,8 @@ Base: 16px, weight: 400, color: #475569, line-height: 1.7
 ┌─────────────────────────────────────────────────────────┐
 │ HERO SECTION (with gradient background) │
 │ │
-│ Every Tool You Need. One Platform. │
+│ Every Tool You Need in
+ One Platform. │
 │ Process files instantly. No signup required. │
 │ │
 │ [Search Bar - Full Width - Aceternity Input] │
@@ -150,7 +151,7 @@ Base: 16px, weight: 400, color: #475569, line-height: 1.7
 **Path:** `src/components/home/hero-section.tsx`
 **Features:**
 - Gradient background (primary-50 to primary-100)
-- Main heading: "Every Tool You Need. One Platform."
+- Main heading: "Every Tool You Need in One Platform."
 - Subheading: "Process files instantly. No signup required."
 - **Aceternity Placeholders and Vanish Input** for search
 - Height: 240px

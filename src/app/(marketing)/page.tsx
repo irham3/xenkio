@@ -8,12 +8,12 @@ import { ToolCardFeatured } from "@/components/tools/tool-card-featured";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { StatsBanner } from "@/components/home/stats-banner";
 import { CATEGORIES } from "@/data/categories";
-import { DUMMY_TOOLS as TOOLS } from "@/data/dummy-tools";
+import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/dummy-tools";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
-  const featuredTools = TOOLS.filter(t => t.featured);
+  const featuredTools = TOOLS.filter((t: ToolData) => t.featured);
 
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col font-sans">
@@ -56,7 +56,7 @@ export default function Home() {
 
             {/* Right column - two compact cards stacked */}
             <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-              {featuredTools.slice(1, 3).map(tool => (
+              {featuredTools.slice(1, 3).map((tool: ToolData) => (
                 <ToolCardFeatured
                   key={tool.id}
                   {...tool}
@@ -67,14 +67,14 @@ export default function Home() {
 
           {/* Second row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            {featuredTools.slice(3, 4).map(tool => (
+            {featuredTools.slice(3, 4).map((tool: ToolData) => (
               <ToolCardFeatured
                 key={tool.id}
                 {...tool}
               />
             ))}
             {/* Fill with compact cards */}
-            {TOOLS.filter(t => !t.featured).slice(0, 3).map(tool => (
+            {TOOLS.filter((t: ToolData) => !t.featured).slice(0, 3).map((tool: ToolData) => (
               <ToolCardCompact
                 key={tool.id}
                 {...tool}
@@ -86,7 +86,7 @@ export default function Home() {
 
       {/* Category Sections */}
       {CATEGORIES.map((category, index) => {
-        const categoryTools = TOOLS.filter(t => t.categoryId === category.id);
+        const categoryTools = TOOLS.filter((t: ToolData) => t.categoryId === category.id);
         const isEven = index % 2 === 0;
         const CategoryIcon = category.icon;
 
@@ -126,7 +126,7 @@ export default function Home() {
 
               {/* Tools Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
-                {categoryTools.slice(0, 10).map(tool => (
+                {categoryTools.slice(0, 10).map((tool: ToolData) => (
                   <ToolCardCompact
                     key={tool.id}
                     {...tool}

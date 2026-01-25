@@ -1,5 +1,3 @@
-'use client';
-
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
@@ -11,6 +9,14 @@ import { CATEGORIES } from "@/data/categories";
 import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/dummy-tools";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Xenkio - All-in-One Online Productivity Tools",
+  description: "Access 130+ professional online tools for free. Process files, convert formats, and transform data instantly. No signup required.",
+};
+
+export const runtime = 'edge';
 
 export default function Home() {
   const featuredTools = TOOLS.filter((t: ToolData) => t.featured);
@@ -49,7 +55,15 @@ export default function Home() {
             <div className="lg:col-span-6">
               {featuredTools[0] && (
                 <ToolCardFeatured
-                  {...featuredTools[0]}
+                  id={featuredTools[0].id}
+                  title={featuredTools[0].title}
+                  description={featuredTools[0].description}
+                  href={featuredTools[0].href}
+                  stats={featuredTools[0].stats}
+                  isNew={featuredTools[0].isNew}
+                  isPremium={featuredTools[0].isPremium}
+                  gradientFrom={featuredTools[0].gradientFrom}
+                  gradientTo={featuredTools[0].gradientTo}
                 />
               )}
             </div>
@@ -59,7 +73,15 @@ export default function Home() {
               {featuredTools.slice(1, 3).map((tool: ToolData) => (
                 <ToolCardFeatured
                   key={tool.id}
-                  {...tool}
+                  id={tool.id}
+                  title={tool.title}
+                  description={tool.description}
+                  href={tool.href}
+                  stats={tool.stats}
+                  isNew={tool.isNew}
+                  isPremium={tool.isPremium}
+                  gradientFrom={tool.gradientFrom}
+                  gradientTo={tool.gradientTo}
                 />
               ))}
             </div>
@@ -70,14 +92,28 @@ export default function Home() {
             {featuredTools.slice(3, 4).map((tool: ToolData) => (
               <ToolCardFeatured
                 key={tool.id}
-                {...tool}
+                id={tool.id}
+                title={tool.title}
+                description={tool.description}
+                href={tool.href}
+                stats={tool.stats}
+                isNew={tool.isNew}
+                isPremium={tool.isPremium}
+                gradientFrom={tool.gradientFrom}
+                gradientTo={tool.gradientTo}
               />
             ))}
             {/* Fill with compact cards */}
             {TOOLS.filter((t: ToolData) => !t.featured).slice(0, 3).map((tool: ToolData) => (
               <ToolCardCompact
                 key={tool.id}
-                {...tool}
+                id={tool.id}
+                title={tool.title}
+                description={tool.description}
+                href={tool.href}
+                usageCount={tool.usageCount}
+                isNew={tool.isNew}
+                isPremium={tool.isPremium}
               />
             ))}
           </div>
@@ -129,7 +165,13 @@ export default function Home() {
                 {categoryTools.slice(0, 10).map((tool: ToolData) => (
                   <ToolCardCompact
                     key={tool.id}
-                    {...tool}
+                    id={tool.id}
+                    title={tool.title}
+                    description={tool.description}
+                    href={tool.href}
+                    usageCount={tool.usageCount}
+                    isNew={tool.isNew}
+                    isPremium={tool.isPremium}
                   />
                 ))}
               </div>

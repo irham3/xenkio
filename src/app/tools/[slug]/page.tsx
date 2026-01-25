@@ -1,23 +1,41 @@
-'use client';
-
-import { useParams } from 'next/navigation';
 import { DUMMY_TOOLS } from '@/data/dummy-tools';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
-export default function ToolPage() {
-    const params = useParams();
-    const slug = params.slug as string;
-    const tool = DUMMY_TOOLS.find(t => t.slug === slug);
+interface Props {
+    params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+    return DUMMY_TOOLS.map((tool) => ({
+        slug: tool.slug || tool.id,
+    }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { slug } = await params;
+    const tool = DUMMY_TOOLS.find(t => t.slug === slug || t.id === slug);
+
+    if (!tool) return { title: 'Tool Not Found' };
+
+    return {
+        title: tool.title,
+        description: tool.description,
+        openGraph: {
+            title: `${tool.title} | Xenkio`,
+            description: tool.description,
+        }
+    };
+}
+
+export default async function ToolPage({ params }: Props) {
+    const { slug } = await params;
+    const tool = DUMMY_TOOLS.find(t => t.slug === slug || t.id === slug);
 
     if (!tool) {
-        return (
-            <div className="container mx-auto py-20 text-center">
-                <h1 className="text-4xl font-bold text-gray-900">Tool Not Found</h1>
-                <p className="mt-4 text-gray-600">The tool you are looking for does not exist.</p>
-            </div>
-        );
+        notFound();
     }
 
-    // Fallback for other tools (non-functional placeholder)
     return (
         <div className="container mx-auto px-4 py-20 max-w-4xl text-center">
             <div className="mb-8 flex justify-center">

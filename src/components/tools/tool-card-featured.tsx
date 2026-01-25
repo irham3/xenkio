@@ -7,11 +7,12 @@ import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
 import SpotlightCard from '@/components/reactbits/SpotlightCard';
 
+import { DUMMY_TOOLS } from '@/data/dummy-tools';
+
 interface ToolCardFeaturedProps {
-  id?: string;
+  id: string; // id is now required
   title: string;
   description: string;
-  icon: LucideIcon;
   href: string;
   usageCount?: string;
   stats?: string;
@@ -22,9 +23,9 @@ interface ToolCardFeaturedProps {
 }
 
 export function ToolCardFeatured({
+  id,
   title,
   description,
-  icon: Icon,
   href,
   stats,
   isNew,
@@ -32,6 +33,9 @@ export function ToolCardFeatured({
   gradientFrom = '#3B82F6',
   gradientTo = '#1D4ED8',
 }: ToolCardFeaturedProps) {
+  const tool = DUMMY_TOOLS.find(t => t.id === id);
+  const Icon = tool?.icon || Sparkles; // Fallback
+
   return (
     <Link href={href} className="block h-full group">
       <SpotlightCard

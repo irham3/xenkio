@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -20,12 +20,14 @@ export function PlaceholdersAndVanishInput({
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  /*
   interface PixelData {
     x: number;
     y: number;
     color: string;
   }
-  const newDataRef = useRef<PixelData[]>([]);
+  */
+  // const newDataRef = useRef<PixelData[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
@@ -83,7 +85,7 @@ export function PlaceholdersAndVanishInput({
     ctx.fillStyle = "#FFF";
     ctx.fillText(value, 16, 40);
 
-    const checkboardString = value;
+    // const checkboardString = value;
 
     // This is a simplified "vanish" implementation that just dissolves the text
     // A full particle simulation is complex to write without the exact source
@@ -96,7 +98,9 @@ export function PlaceholdersAndVanishInput({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     vanishAndSubmit();
-    onSubmit && onSubmit(e);
+    if (onSubmit) {
+      onSubmit(e);
+    }
   };
 
   const vanishAndSubmit = () => {
@@ -106,10 +110,10 @@ export function PlaceholdersAndVanishInput({
     // Basic vanish: clear value after small delay for animation
     const val = value;
     if (val && inputRef.current) {
-      const maxX = newDataRef.current.reduce(
-        (prev, current) => (current.x > prev ? current.x : prev),
-        0
-      );
+      // const maxX = newDataRef.current.reduce(
+      //   (prev, current) => (current.x > prev ? current.x : prev),
+      //   0
+      // );
       // animate particles
     }
   };
@@ -143,7 +147,9 @@ export function PlaceholdersAndVanishInput({
         onChange={(e) => {
           if (!animating) {
             setValue(e.target.value);
-            onChange && onChange(e);
+            if (onChange) {
+              onChange(e);
+            }
           }
         }}
         onFocus={onFocus}

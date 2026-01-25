@@ -3,8 +3,6 @@
 import Link from 'next/link';
 import { ArrowUpRight, Sparkles, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { LucideIcon } from 'lucide-react';
 
 import { DUMMY_TOOLS } from '@/data/dummy-tools';
 

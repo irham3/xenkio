@@ -2,9 +2,6 @@
 
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Crown } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { LucideIcon } from 'lucide-react';
 import SpotlightCard from '@/components/reactbits/SpotlightCard';
 
 import { DUMMY_TOOLS } from '@/data/dummy-tools';

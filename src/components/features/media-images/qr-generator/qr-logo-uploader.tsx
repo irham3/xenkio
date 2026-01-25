@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRef } from 'react';
+import Image from 'next/image';
 
 interface QrLogoUploaderProps {
     config: QRConfig;
@@ -77,7 +78,14 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
             ) : (
                 <div className="flex items-center gap-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
                     <div className="w-12 h-12 relative bg-white rounded border border-gray-200 flex items-center justify-center overflow-hidden">
-                        <img src={config.imageSettings.src} alt="Logo preview" className="max-w-full max-h-full object-contain" />
+                        <Image
+                            src={config.imageSettings.src}
+                            alt="Logo preview"
+                            width={48}
+                            height={48}
+                            unoptimized
+                            className="max-w-full max-h-full object-contain"
+                        />
                     </div>
                     <div className="flex-1">
                         <p className="text-sm font-medium text-gray-900">Logo Uploaded</p>

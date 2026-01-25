@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { Search, ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ShinyText from '@/components/reactbits/ShinyText';
+import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
 import { cn } from '@/lib/utils';
-import { TOOLS } from '@/lib/data';
+import { DUMMY_TOOLS as TOOLS } from '@/data/dummy-tools';
 import Fuse from 'fuse.js';
 
 const placeholders = [
@@ -26,22 +27,22 @@ export function HeroSection() {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
-  const [results, setResults] = useState<typeof TOOLS>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect for placeholders rotation removed as it is handled in the component
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
+  //   }, 3000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
-  useEffect(() => {
+  const results = useMemo(() => {
     if (query.trim()) {
       const searchResults = fuse.search(query).slice(0, 5);
-      setResults(searchResults.map((r) => r.item));
+      return searchResults.map((r) => r.item);
     } else {
-      setResults([]);
+      return [];
     }
   }, [query]);
 
@@ -103,32 +104,18 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="relative max-w-2xl mx-auto"
+            className="relative max-w-2xl mx-auto z-20"
           >
-            <div
-              className={cn(
-                'relative flex items-center bg-white rounded-2xl border-2 transition-all duration-300',
-                isFocused
-                  ? 'border-primary-400 shadow-xl shadow-primary-500/10'
-                  : 'border-gray-200 shadow-lg shadow-gray-200/50'
-              )}
-            >
-              <Search className="absolute left-5 w-5 h-5 text-gray-400" />
-              <input
-                ref={inputRef}
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-                placeholder={placeholders[placeholderIndex]}
-                className="w-full pl-14 pr-36 py-5 text-[17px] text-gray-900 placeholder:text-gray-400 bg-transparent rounded-2xl focus:outline-none"
-              />
-              <button className="absolute right-3 flex items-center gap-2 px-5 py-2.5 text-[15px] font-semibold text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-xl shadow-md shadow-primary-500/20 transition-all duration-300">
-                Search
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
+            <PlaceholdersAndVanishInput
+              placeholders={placeholders}
+              onChange={(e) => setQuery(e.target.value)}
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log('Search submit', query);
+              }}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+            />
 
             {/* Search results dropdown */}
             {showResults && (

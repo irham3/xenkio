@@ -1,0 +1,18 @@
+- Harus pakai standard nextjs 16 terbaru
+- Tidak boleh ada error atau warning ESLint sama sekali
+- harus pakai tipe data, tidak boleh any meskipun implicit
+- Harus SEO Friendly dan implementasi semua best practice SEO untuk nextjs 16 terbaru:
+    - setiap halaman harus punya meta tag, title, description, dll, 
+    - bisa diakses tanpa login, 
+    - bisa diakses oleh search engine, 
+    - tidak boleh ada halaman yang tidak bisa diakses oleh search engine, 
+    - by default setiap page itu pakai server side rendering dan jika perlu di client buat component client yang dalam server side page
+    - Gunakan Server Components sebanyak mungkin untuk performa lebih baik
+    - Implementasi Pagination yang SEO-friendly dengan rel="prev" dan rel="next"
+    - Optimalkan Time to First Byte (TTFB) dengan edge functions
+    - Gunakan ISR (Incremental Static Regeneration) untuk konten dinamis
+    - Optimalkan untuk Featured Snippets dengan struktur konten yang baik
+    - Gunakan lazy loading untuk iframe dan video
+
+- Update sitemap dan robots yang dinamis (bukan statis) jika diperlukan
+-  

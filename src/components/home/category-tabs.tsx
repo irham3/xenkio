@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { CATEGORIES } from '@/lib/data';
+import { CATEGORIES } from '@/data/categories';
 import { cn } from '@/lib/utils';
 import { LayoutGrid } from 'lucide-react';
 

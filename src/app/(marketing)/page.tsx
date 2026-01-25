@@ -1,5 +1,3 @@
-'use client';
-
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
@@ -7,12 +5,21 @@ import { CategoryTabs } from "@/components/home/category-tabs";
 import { ToolCardFeatured } from "@/components/tools/tool-card-featured";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { StatsBanner } from "@/components/home/stats-banner";
-import { CATEGORIES, TOOLS } from "@/lib/data";
+import { CATEGORIES } from "@/data/categories";
+import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/dummy-tools";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Xenkio - All-in-One Online Productivity Tools",
+  description: "Access 130+ professional online tools for free. Process files, convert formats, and transform data instantly. No signup required.",
+};
+
+export const runtime = 'edge';
 
 export default function Home() {
-  const featuredTools = TOOLS.filter(t => t.featured);
+  const featuredTools = TOOLS.filter((t: ToolData) => t.featured);
 
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col font-sans">
@@ -48,17 +55,33 @@ export default function Home() {
             <div className="lg:col-span-6">
               {featuredTools[0] && (
                 <ToolCardFeatured
-                  {...featuredTools[0]}
+                  id={featuredTools[0].id}
+                  title={featuredTools[0].title}
+                  description={featuredTools[0].description}
+                  href={featuredTools[0].href}
+                  stats={featuredTools[0].stats}
+                  isNew={featuredTools[0].isNew}
+                  isPremium={featuredTools[0].isPremium}
+                  gradientFrom={featuredTools[0].gradientFrom}
+                  gradientTo={featuredTools[0].gradientTo}
                 />
               )}
             </div>
 
             {/* Right column - two compact cards stacked */}
             <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-              {featuredTools.slice(1, 3).map(tool => (
+              {featuredTools.slice(1, 3).map((tool: ToolData) => (
                 <ToolCardFeatured
                   key={tool.id}
-                  {...tool}
+                  id={tool.id}
+                  title={tool.title}
+                  description={tool.description}
+                  href={tool.href}
+                  stats={tool.stats}
+                  isNew={tool.isNew}
+                  isPremium={tool.isPremium}
+                  gradientFrom={tool.gradientFrom}
+                  gradientTo={tool.gradientTo}
                 />
               ))}
             </div>
@@ -66,17 +89,31 @@ export default function Home() {
 
           {/* Second row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            {featuredTools.slice(3, 4).map(tool => (
+            {featuredTools.slice(3, 4).map((tool: ToolData) => (
               <ToolCardFeatured
                 key={tool.id}
-                {...tool}
+                id={tool.id}
+                title={tool.title}
+                description={tool.description}
+                href={tool.href}
+                stats={tool.stats}
+                isNew={tool.isNew}
+                isPremium={tool.isPremium}
+                gradientFrom={tool.gradientFrom}
+                gradientTo={tool.gradientTo}
               />
             ))}
             {/* Fill with compact cards */}
-            {TOOLS.filter(t => !t.featured).slice(0, 3).map(tool => (
+            {TOOLS.filter((t: ToolData) => !t.featured).slice(0, 3).map((tool: ToolData) => (
               <ToolCardCompact
                 key={tool.id}
-                {...tool}
+                id={tool.id}
+                title={tool.title}
+                description={tool.description}
+                href={tool.href}
+                usageCount={tool.usageCount}
+                isNew={tool.isNew}
+                isPremium={tool.isPremium}
               />
             ))}
           </div>
@@ -85,7 +122,7 @@ export default function Home() {
 
       {/* Category Sections */}
       {CATEGORIES.map((category, index) => {
-        const categoryTools = TOOLS.filter(t => t.categoryId === category.id);
+        const categoryTools = TOOLS.filter((t: ToolData) => t.categoryId === category.id);
         const isEven = index % 2 === 0;
         const CategoryIcon = category.icon;
 
@@ -125,10 +162,16 @@ export default function Home() {
 
               {/* Tools Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
-                {categoryTools.slice(0, 10).map(tool => (
+                {categoryTools.slice(0, 10).map((tool: ToolData) => (
                   <ToolCardCompact
                     key={tool.id}
-                    {...tool}
+                    id={tool.id}
+                    title={tool.title}
+                    description={tool.description}
+                    href={tool.href}
+                    usageCount={tool.usageCount}
+                    isNew={tool.isNew}
+                    isPremium={tool.isPremium}
                   />
                 ))}
               </div>

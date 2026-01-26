@@ -49,6 +49,7 @@ import {
     Stamp,
     Merge,
     Split,
+    GalleryHorizontal,
     LucideIcon,
 } from 'lucide-react';
 
@@ -554,6 +555,16 @@ export const DUMMY_TOOLS: ToolData[] = [
         href: '/tools/split-pdf',
         usageCount: '670K',
         categoryId: 'documents',
+    },
+    {
+        id: '51',
+        title: 'Instagram Carousel',
+        description: 'Create seamless swipeable carousel posts for Instagram.',
+        icon: GalleryHorizontal,
+        href: '/tools/instagram-carousel',
+        usageCount: '1.5k',
+        isNew: true,
+        categoryId: 'media-images',
     },
 ];
 

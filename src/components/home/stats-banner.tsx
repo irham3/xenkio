@@ -3,7 +3,6 @@
 import { useRef } from 'react';
 import { FileText, Users, Wrench, LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import CountUp from '@/components/reactbits/CountUp';
 
 interface StatProps {
@@ -72,7 +71,7 @@ export function StatsBanner() {
   return (
     <section className="relative overflow-hidden">
       {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800" />
+      <div className="absolute inset-0 bg-linear-to-br from-primary-600 via-primary-700 to-primary-800" />
 
       {/* Pattern overlay */}
       <div className="absolute inset-0 opacity-10" style={{

@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo } from 'react';
-import { Search, ArrowRight, Zap, Shield, Clock } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ShinyText from '@/components/reactbits/ShinyText';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
-import { cn } from '@/lib/utils';
 import { DUMMY_TOOLS as TOOLS } from '@/data/dummy-tools';
 import Fuse from 'fuse.js';
 
@@ -26,8 +25,6 @@ const fuse = new Fuse(TOOLS, {
 export function HeroSection() {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const [placeholderIndex, setPlaceholderIndex] = useState(0);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // useEffect for placeholders rotation removed as it is handled in the component
   // useEffect(() => {
@@ -49,7 +46,7 @@ export function HeroSection() {
   const showResults = isFocused && results.length > 0;
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50/80 via-white to-white">
+    <section className="relative overflow-hidden bg-linear-to-b from-primary-50/80 via-white to-white">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.015]" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`

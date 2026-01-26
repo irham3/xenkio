@@ -1,8 +1,4 @@
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { CategoryTabs } from "@/components/home/category-tabs";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
-import { CATEGORIES } from "@/data/categories";
 import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/dummy-tools";
 import { Metadata } from "next";
 

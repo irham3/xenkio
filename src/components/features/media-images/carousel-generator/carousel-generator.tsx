@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import { CarouselConfig, CarouselImage, CarouselLayout, CarouselSize, INSTAGRAM_SIZES } from './types';
+import { CarouselConfig, CarouselImage, INSTAGRAM_SIZES } from './types';
 import { CarouselPreview } from './carousel-preview';
 import { CarouselGeneratorForm } from './carousel-generator-form';
 import { CarouselUploader } from './carousel-uploader';
@@ -29,7 +29,7 @@ export function CarouselGenerator() {
     }, [config.size]);
 
     const handleImagesSelected = useCallback(async (files: File[]) => {
-        const { height, width } = INSTAGRAM_SIZES[config.size];
+        const { height } = INSTAGRAM_SIZES[config.size];
 
         const newImagesPromises = files.map(async (file, index) => {
             const url = URL.createObjectURL(file);
@@ -38,7 +38,7 @@ export function CarouselGenerator() {
             img.src = url;
             await new Promise((resolve) => { img.onload = resolve; });
 
-            let baseScale = (height * 0.8) / img.naturalHeight;
+            const baseScale = (height * 0.8) / img.naturalHeight;
 
             return {
                 id: Math.random().toString(36).substr(2, 9),
@@ -71,7 +71,7 @@ export function CarouselGenerator() {
             }
             return updated;
         });
-    }, [config.images.length, config.layout, config.size]);
+    }, [config.images.length, config.size]);
 
     const handleConfigChange = (updates: Partial<CarouselConfig>) => {
         setConfig(current => {
@@ -162,7 +162,7 @@ export function CarouselGenerator() {
                     <div className="pt-6 border-t border-border/50">
                         <Button
                             size="lg"
-                            className="w-full font-bold shadow-xl bg-gradient-to-r from-primary to-primary/80 hover:scale-[1.02] active:scale-95 transition-all h-14 text-lg rounded-xl"
+                            className="w-full font-bold shadow-xl bg-linear-to-r from-primary to-primary/80 hover:scale-[1.02] active:scale-95 transition-all h-14 text-lg rounded-xl"
                             onClick={handleDownload}
                             disabled={isExporting || config.images.length === 0}
                         >

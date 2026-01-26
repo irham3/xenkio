@@ -92,8 +92,7 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            Process files, convert formats, and transform data instantly.
-            No signup required, completely free.
+            Process files, convert formats, and transform data instantly. No signup required, completely free.
           </motion.p>
 
           {/* Search bar */}

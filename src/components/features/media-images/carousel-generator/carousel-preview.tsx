@@ -32,7 +32,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
             const newZoom = Math.min(zoomX, zoomY, 0.8); // Cap at 80%
             setZoom(Math.max(0.1, Math.floor(newZoom * 100) / 100));
         }
-    }, [config.slideCount, config.size]);
+    }, [config.slideCount, config.size, width, height]);
 
     // Drag Logic
     // ... (rest of drag logic)

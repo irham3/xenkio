@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
     Trash2, RotateCw, ArrowUp, ArrowDown, ArrowLeft, ArrowRight,
-    BringToFront, SendToBack, Layers, RefreshCw
+    BringToFront, SendToBack, RefreshCw
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 

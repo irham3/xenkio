@@ -1,6 +1,11 @@
 - Harus pakai standard nextjs 16 terbaru
 - Tidak boleh ada error atau warning ESLint sama sekali
 - harus pakai tipe data, tidak boleh any meskipun implicit
+- Harus menggunakan TypeScript dan harus implementasi semua best practice TypeScript
+- Harus menggunakan Tailwind CSS dan harus implementasi semua best practice Tailwind CSS
+- Harus menggunakan Shadcn UI dan harus implementasi semua best practice Shadcn UI
+- Harus menggunakan Nextjs 16 terbaru dan harus implementasi semua best practice Nextjs 16 terbaru
+- Implementasi best practice untuk gambar termasuk menggunakan next image, lazy loading, compression, alt text, dll
 - Harus SEO Friendly dan implementasi semua best practice SEO untuk nextjs 16 terbaru:
     - setiap halaman harus punya meta tag, title, description, dll, 
     - bisa diakses tanpa login, 
@@ -13,6 +18,10 @@
     - Gunakan ISR (Incremental Static Regeneration) untuk konten dinamis
     - Optimalkan untuk Featured Snippets dengan struktur konten yang baik
     - Gunakan lazy loading untuk iframe dan video
+    - Update sitemap dan robots yang dinamis (bukan statis) jika diperlukan
 
-- Update sitemap dan robots yang dinamis (bukan statis) jika diperlukan
--  
+- Implementasi semua best practice untuk web metrics termasuk Lighthouse, Google PageSpeed Insights, dll
+- Implementasi semua best practice untuk performa termasuk lazy loading, code splitting, dll
+- Implementasi semua best practice untuk keamanan, tidak boleh ada kerentanan dari semua aspek security termasuk OWASP
+- Implementasi semua best practice untuk accessibility termasuk WCAG, harus ada alt text, harus ada aria label, dll
+- Implementasi semua best practice untuk mobile termasuk responsive design

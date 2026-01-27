@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { DUMMY_TOOLS } from '@/data/tools';
-import { QrGeneratorClient } from './qr-generator-client';
+import { QrGeneratorClient } from './client';
 import { notFound } from 'next/navigation';
 
 const slug = 'qr-code-generator';

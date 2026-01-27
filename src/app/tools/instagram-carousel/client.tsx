@@ -10,7 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Download, Loader2, Settings, Layers } from 'lucide-react';
 
-export function CarouselGeneratorClient() {
+export function InstagramCarouselClient() {
   const {
     config,
     selectedImageId,

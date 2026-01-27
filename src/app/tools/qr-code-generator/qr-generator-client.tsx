@@ -1,10 +1,10 @@
 'use client';
 
 import { useQrGenerator } from '@/features/qr-generator/hooks/use-qr-generator';
-import { QrGeneratorForm } from '@/components/features/media-images/qr-generator/qr-generator-form';
-import { QrCustomizer } from '@/components/features/media-images/qr-generator/qr-customizer';
-import { QrPreview } from '@/components/features/media-images/qr-generator/qr-preview';
-import { QrLogoUploader } from '@/components/features/media-images/qr-generator/qr-logo-uploader';
+import { QrGeneratorForm } from '@/features/qr-generator/components/qr-generator-form';
+import { QrCustomizer } from '@/features/qr-generator/components/qr-customizer';
+import { QrPreview } from '@/features/qr-generator/components/qr-preview';
+import { QrLogoUploader } from '@/features/qr-generator/components/qr-logo-uploader';
 
 export function QrGeneratorClient() {
   // Hook for QR Generator logic

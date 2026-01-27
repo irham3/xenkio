@@ -1,11 +1,10 @@
-
 import {
     Database,
-    Image,
-    Type,
+    FileImage,
     Code2,
-    Shield,
     FileText,
+    Lock,
+    Type,
     LucideIcon,
 } from 'lucide-react';
 
@@ -14,57 +13,65 @@ export interface CategoryData {
     name: string;
     description: string;
     icon: LucideIcon;
+    color: string;
     toolCount: number;
-    backgroundColor: string;
 }
 
 export const CATEGORIES: CategoryData[] = [
     {
         id: 'data-processing',
         name: 'Data Processing',
-        description: 'Extract, transform, and analyze structured data',
+        description: 'Transform, convert, and analyze data in various formats',
         icon: Database,
-        toolCount: 23,
-        backgroundColor: '#EFF6FF',
+        color: '#8B5CF6',
+        toolCount: 7,
     },
     {
         id: 'media-images',
         name: 'Media & Images',
-        description: 'Compress, convert, and enhance visual assets',
-        icon: Image,
-        toolCount: 31,
-        backgroundColor: '#FEF3C7',
-    },
-    {
-        id: 'text-utilities',
-        name: 'Text Utilities',
-        description: 'Transform, format, and analyze text content',
-        icon: Type,
-        toolCount: 18,
-        backgroundColor: '#F3E8FF',
+        description: 'Edit, convert, and optimize images and media files',
+        icon: FileImage,
+        color: '#10B981',
+        toolCount: 12,
     },
     {
         id: 'developer-tools',
         name: 'Developer Tools',
-        description: 'Essential utilities for software development',
+        description: 'Code formatting, debugging, and development utilities',
         icon: Code2,
-        toolCount: 27,
-        backgroundColor: '#ECFDF5',
-    },
-    {
-        id: 'security-privacy',
-        name: 'Security & Privacy',
-        description: 'Encryption, hashing, and security utilities',
-        icon: Shield,
-        toolCount: 15,
-        backgroundColor: '#FEE2E2',
+        color: '#3B82F6',
+        toolCount: 10,
     },
     {
         id: 'documents',
         name: 'Documents',
-        description: 'PDF tools, converters, and document processing',
+        description: 'Convert, merge, split, and edit PDF and document files',
         icon: FileText,
-        toolCount: 19,
-        backgroundColor: '#FEF9C3',
+        color: '#F97316',
+        toolCount: 8,
+    },
+    {
+        id: 'security-privacy',
+        name: 'Security & Privacy',
+        description: 'Password generation, encryption, and security tools',
+        icon: Lock,
+        color: '#EF4444',
+        toolCount: 6,
+    },
+    {
+        id: 'text-utilities',
+        name: 'Text Utilities',
+        description: 'Text manipulation, conversion, and formatting tools',
+        icon: Type,
+        color: '#EC4899',
+        toolCount: 6,
     },
 ];
+
+export function getCategoryById(id: string): CategoryData | undefined {
+    return CATEGORIES.find((cat) => cat.id === id);
+}
+
+export function getCategoryByToolId(toolCategoryId: string): CategoryData | undefined {
+    return CATEGORIES.find((cat) => cat.id === toolCategoryId);
+}

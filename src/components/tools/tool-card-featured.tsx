@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Crown } from 'lucide-react';
-import SpotlightCard from '@/components/reactbits/SpotlightCard';
+import SpotlightCard from '@/components/reactbits/spotlight-card';
 
-import { DUMMY_TOOLS } from '@/data/dummy-tools';
+import { DUMMY_TOOLS } from '@/data/tools';
 
 interface ToolCardFeaturedProps {
   id: string; // id is now required

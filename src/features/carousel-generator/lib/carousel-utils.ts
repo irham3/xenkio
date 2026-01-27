@@ -1,4 +1,4 @@
-import { CarouselConfig, CarouselImage, INSTAGRAM_SIZES } from './types';
+import { CarouselConfig, CarouselImage, INSTAGRAM_SIZES } from '../types';
 
 
 // Helper to load image for canvas

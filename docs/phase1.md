@@ -476,118 +476,242 @@ export const CATEGORIES: Category[] = [
 ## Project Structure
 ```
 xenkio/
-├── src/
-│ ├── app/ # Next.js App Router
-│ │ ├── (marketing)/ # Route group for landing pages
-│ │ │ ├── page.tsx # Homepage
-│ │ │ ├── about/
-│ │ │ ├── pricing/
-│ │ │ └── layout.tsx # Layout for marketing
-│ │ │
-│ │ ├── tools/ # Tool pages
-│ │ │ ├── page.tsx # Tools directory/listing
-│ │ │ ├── [slug]/ # Dynamic route for each tool
-│ │ │ │ └── page.tsx
-│ │ │ └── layout.tsx # Layout for tools
-│ │ │
-│ │ ├── api/ # API routes (if needed)
-│ │ │ ├── tools/
-│ │ │ └── health/
-│ │ │
-│ │ ├── layout.tsx # Root layout
-│ │ ├── globals.css
-│ │ └── providers.tsx # Client providers wrapper
-│ │
-│ ├── components/
-│ │ ├── ui/ # Base UI components (shadcn/ui)
-│ │ │ ├── button.tsx
-│ │ │ ├── input.tsx
-│ │ │ ├── card.tsx
-│ │ │ └── ...
-│ │ │
-│ │ ├── layout/ # Layout components
-│ │ │ ├── header.tsx
-│ │ │ ├── footer.tsx
-│ │ │ ├── sidebar.tsx
-│ │ │ └── navigation.tsx
-│ │ │
-│ │ ├── tools/ # Shared tool components
-│ │ │ ├── tool-card.tsx
-│ │ │ ├── tool-header.tsx
-│ │ │ ├── tool-output.tsx
-│ │ │ └── tool-wrapper.tsx
-│ │ │
-│ │ └── common/ # Reusable components
-│ │ ├── copy-button.tsx
-│ │ ├── download-button.tsx
-│ │ ├── file-uploader.tsx
-│ │ └── loading-spinner.tsx
-│ │
-│ ├── features/ # Feature-based organization
-│ │ ├── qr-generator/
-│ │ │ ├── components/
-│ │ │ │ ├── qr-generator-form.tsx
-│ │ │ │ ├── qr-preview.tsx
-│ │ │ │ └── qr-customizer.tsx
-│ │ │ ├── hooks/
-│ │ │ │ └── use-qr-generator.ts
-│ │ │ ├── utils/
-│ │ │ │ ├── generate-qr.ts
-│ │ │ │ └── validate-qr-input.ts
-│ │ │ ├── types.ts
-│ │ │ └── constants.ts
-│ │ │
-│ │ ├── metadata-extractor/
-│ │ │ ├── components/
-│ │ │ ├── hooks/
-│ │ │ ├── utils/
-│ │ │ ├── types.ts
-│ │ │ └── constants.ts
-│ │ │
-│ │ ├── image-optimizer/
-│ │ ├── json-formatter/
-│ │ └── ... # Other tools
-│ │
-│ ├── lib/ # Shared utilities & configs
-│ │ ├── utils.ts # cn() and helper functions
-│ │ ├── validations.ts # Zod schemas
-│ │ ├── constants.ts # App-wide constants
-│ │ └── registry.ts # Tool registry configuration
-│ │
-│ ├── hooks/ # Global custom hooks
-│ │ ├── use-clipboard.ts
-│ │ ├── use-download.ts
-│ │ ├── use-file-reader.ts
-│ │ └── use-local-storage.ts
-│ │
-│ ├── types/ # Global TypeScript types
-│ │ ├── tool.ts
-│ │ ├── common.ts
-│ │ └── index.ts
-│ │
-│ ├── config/ # Configuration files
-│ │ ├── site.ts # Site metadata
-│ │ ├── tools.ts # Tools configuration
-│ │ └── navigation.ts # Navigation structure
-│ │
-│ └── styles/ # Additional styles
-│ └── themes.css
-│
-├── public/
-│ ├── images/
-│ ├── icons/
-│ └── fonts/
-│
-├── tests/
-│ ├── unit/
-│ ├── integration/
-│ └── e2e/
-│
-├── next.config.js
-├── tailwind.config.ts
-├── tsconfig.json
-├── package.json
-└── README.md
+├── 📁 .next/                           # Next.js Build Output
+├── 📁 .vscode/                         # VSCode Settings
+│   ├── settings.json                   # Editor config
+│   └── extensions.json                 # Recommended extensions
+├── 📁 docs/                            # Dokumentasi Proyek
+│   ├── base.md                         # System prompt & prinsip dasar
+│   ├── phase1.md                       # Dokumentasi fase 1
+│   ├── architecture.md                 # Arsitektur sistem
+│   └── contributing.md                 # Panduan kontribusi
+├── 📁 public/                          # Aset Statis
+│   ├── 📁 icons/                       # Icon files
+│   │   ├── file.svg
+│   │   ├── globe.svg
+│   │   ├── next.svg
+│   │   ├── vercel.svg
+│   │   └── window.svg
+│   ├── 📁 images/                      # Static images
+│   │   ├── 📁 og/                      # Open Graph images
+│   │   │   ├── og-default.png
+│   │   │   ├── og-qr.png
+│   │   │   └── og-carousel.png
+│   │   └── 📁 tools/                   # Tool preview images
+│   │       ├── qr-preview.png
+│   │       └── carousel-preview.png
+│   ├── 📁 fonts/                       # Custom fonts (optional)
+│   ├── favicon.ico
+│   ├── robots.txt                      # Static robots file
+│   └── manifest.json                   # PWA manifest
+├── 📁 src/                             # Source Code Utama
+│   ├── 📁 app/                         # App Router (Routing & Pages)
+│   │   ├── 📁 (marketing)/             # Route Group: Marketing
+│   │   │   ├── page.tsx                # Homepage (/)
+│   │   │   ├── layout.tsx              # Marketing layout
+│   │   │   ├── 📁 about/               # About page
+│   │   │   │   └── page.tsx
+│   │   │   ├── 📁 pricing/             # Pricing page
+│   │   │   │   └── page.tsx
+│   │   │   └── 📁 blog/                # Blog section
+│   │   │       ├── page.tsx            # Blog list
+│   │   │       └── [slug]/
+│   │   │           └── page.tsx        # Blog detail
+│   │   ├── 📁 (tools)/                 # Route Group: Tools
+│   │   │   ├── layout.tsx              # Tools layout
+│   │   │   └── tools/                  # Tools base path
+│   │   │       ├── page.tsx            # Tools directory (/tools)
+│   │   │       ├── 📁 qr-code-generator/
+│   │   │       │   ├── page.tsx        # Server Component (SEO)
+│   │   │       │   ├── loading.tsx     # Loading state
+│   │   │       │   ├── error.tsx       # Error boundary
+│   │   │       │   └── opengraph-image.tsx # Dynamic OG image
+│   │   │       └── 📁 instagram-carousel/
+│   │   │           ├── page.tsx        # Server Component (SEO)
+│   │   │           ├── loading.tsx
+│   │   │           ├── error.tsx
+│   │   │           └── opengraph-image.tsx
+│   │   ├── layout.tsx                  # Root Layout
+│   │   ├── providers.tsx               # Root Providers
+│   │   ├── globals.css                 # Global styles
+│   │   ├── error.tsx                   # Global error boundary
+│   │   ├── not-found.tsx               # 404 page
+│   │   ├── robots.ts                   # Dynamic robots.txt
+│   │   ├── sitemap.ts                  # Dynamic sitemap.xml
+│   │   └── manifest.ts                 # Dynamic manifest.json
+│   ├── 📁 features/                    # Feature Modules (Business Logic)
+│   │   ├── 📁 qr-generator/            # QR Generator Feature
+│   │   │   ├── 📁 components/          # Feature-specific components
+│   │   │   │   ├── qr-client.tsx       # 🔵 Main client wrapper
+│   │   │   │   ├── qr-generator-form.tsx   # 🔵 Form component
+│   │   │   │   ├── qr-preview.tsx      # 🔵 Preview component
+│   │   │   │   ├── qr-customizer.tsx   # 🔵 Customization panel
+│   │   │   │   ├── qr-logo-uploader.tsx # 🔵 Logo upload
+│   │   │   │   ├── qr-download-button.tsx # 🔵 Download handler
+│   │   │   │   └── qr-seo-content.tsx  # 🟢 SEO content (server)
+│   │   │   ├── 📁 hooks/               # Feature-specific hooks
+│   │   │   │   ├── use-qr-generator.ts # QR generation logic
+│   │   │   │   ├── use-qr-download.ts  # Download handler
+│   │   │   │   └── use-qr-history.ts   # History tracking
+│   │   │   ├── 📁 lib/                 # Feature utilities
+│   │   │   │   ├── qr-utils.ts         # QR helper functions
+│   │   │   │   ├── qr-validator.ts     # Input validation
+│   │   │   │   └── qr-encoder.ts       # QR encoding logic
+│   │   │   ├── 📁 schemas/             # Validation schemas
+│   │   │   │   └── qr-schema.ts        # Zod schema
+│   │   │   ├── 📁 actions/             # ✨ Server Actions (Feature-specific)
+│   │   │   │   ├── generate-qr.ts      # Generate QR code
+│   │   │   │   ├── save-qr-history.ts  # Save to history
+│   │   │   │   └── track-qr-usage.ts   # Analytics tracking
+│   │   │   ├── constants.ts            # Feature constants
+│   │   │   ├── types.ts                # Feature types
+│   │   │   └── index.ts                # Public API (barrel export)
+│   │   └── 📁 carousel-generator/      # Carousel Feature
+│   │       ├── 📁 components/
+│   │       │   ├── carousel-client.tsx         # 🔵 Main wrapper
+│   │       │   ├── carousel-generator-form.tsx # 🔵 Form
+│   │       │   ├── carousel-preview.tsx        # 🔵 Preview
+│   │       │   ├── carousel-uploader.tsx       # 🔵 Image uploader
+│   │       │   ├── carousel-image-controls.tsx # 🔵 Image controls
+│   │       │   ├── carousel-export-options.tsx # 🔵 Export settings
+│   │       │   └── carousel-seo-content.tsx    # 🟢 SEO content
+│   │       ├── 📁 hooks/
+│   │       │   ├── use-carousel-generator.ts
+│   │       │   ├── use-image-processor.ts
+│   │       │   └── use-canvas-renderer.ts
+│   │       ├── 📁 lib/
+│   │       │   ├── carousel-utils.ts
+│   │       │   ├── image-processor.ts
+│   │       │   └── canvas-renderer.ts
+│   │       ├── 📁 schemas/
+│   │       │   └── carousel-schema.ts
+│   │       ├── 📁 actions/             # ✨ Server Actions
+│   │       │   ├── process-images.ts   # Process uploaded images
+│   │       │   ├── generate-carousel.ts # Generate carousel
+│   │       │   └── optimize-output.ts  # Optimize final output
+│   │       ├── constants.ts
+│   │       ├── types.ts
+│   │       └── index.ts
+│   ├── 📁 components/                  # Shared Components
+│   │   ├── 📁 ui/                      # Base UI Components (Shadcn)
+│   │   │   ├── button.tsx              # Button primitive
+│   │   │   ├── input.tsx               # Input primitive
+│   │   │   ├── label.tsx               # Label primitive
+│   │   │   ├── card.tsx                # Card primitive
+│   │   │   ├── dialog.tsx              # Modal dialog
+│   │   │   ├── dropdown-menu.tsx       # Dropdown menu
+│   │   │   ├── tabs.tsx                # Tabs component
+│   │   │   ├── toast.tsx               # Toast notifications
+│   │   │   ├── tooltip.tsx             # Tooltip primitive
+│   │   │   ├── select.tsx              # Select dropdown
+│   │   │   ├── slider.tsx              # Range slider
+│   │   │   ├── switch.tsx              # Toggle switch
+│   │   │   ├── badge.tsx               # Badge component
+│   │   │   ├── separator.tsx           # Divider line
+│   │   │   ├── skeleton.tsx            # Loading skeleton
+│   │   │   └── placeholders-and-vanish-input.tsx # Animated input
+│   │   ├── 📁 layout/                  # Layout Components
+│   │   │   ├── navbar.tsx              # Main navigation
+│   │   │   ├── footer.tsx              # Footer
+│   │   │   ├── sidebar.tsx             # Sidebar (if needed)
+│   │   │   ├── breadcrumb.tsx          # Breadcrumb navigation
+│   │   │   └── container.tsx           # Container wrapper
+│   │   ├── 📁 shared/                  # Shared Business Components
+│   │   │   ├── tool-card.tsx           # Tool card component
+│   │   │   ├── tool-grid.tsx           # Tool grid layout
+│   │   │   ├── category-filter.tsx     # Category filtering
+│   │   │   ├── search-tools.tsx        # Search functionality
+│   │   │   ├── hero-section.tsx        # Reusable hero
+│   │   │   ├── feature-section.tsx     # Feature showcase
+│   │   │   └── cta-section.tsx         # Call-to-action
+│   │   ├── 📁 reactbits/               # Premium Animation Components
+│   │   │   ├── count-up.tsx            # Number animation
+│   │   │   ├── shiny-text.tsx          # Shiny text effect
+│   │   │   ├── spotlight-card.tsx      # Spotlight effect
+│   │   │   ├── animated-gradient.tsx   # Gradient animation
+│   │   │   ├── particle-background.tsx # Particle effect
+│   │   │   └── typewriter.tsx          # Typewriter effect
+│   │   └── 📁 icons/                   # Custom icon components
+│   │       ├── logo.tsx                # Brand logo
+│   │       └── social-icons.tsx        # Social media icons
+│   ├── 📁 server/                      # Server-only Code
+│   │   ├── 📁 actions/                 # ✨ Global Server Actions
+│   │   │   ├── analytics.ts            # Analytics tracking
+│   │   │   ├── feedback.ts             # User feedback
+│   │   │   └── newsletter.ts           # Newsletter subscription
+│   │   ├── 📁 services/                # Business logic services
+│   │   │   ├── email-service.ts        # Email sending (Resend, etc)
+│   │   │   ├── storage-service.ts      # File storage (if needed)
+│   │   │   └── analytics-service.ts    # Analytics processing
+│   │   └── 📁 db/                      # Database (if needed)
+│   │       ├── index.ts                # DB client (Prisma/Drizzle)
+│   │       ├── schema.ts               # DB schema
+│   │       └── queries.ts              # DB queries
+│   ├── 📁 lib/                         # Shared Utilities
+│   │   ├── utils.ts                    # General utilities (cn, etc)
+│   │   ├── error-handler.ts            # Error handling
+│   │   ├── logger.ts                   # Logging utility
+│   │   ├── analytics.ts                # Analytics helpers
+│   │   └── validators.ts               # Common validators
+│   ├── 📁 hooks/                       # Shared React Hooks
+│   │   ├── use-media-query.ts          # Responsive breakpoints
+│   │   ├── use-local-storage.ts        # LocalStorage hook
+│   │   ├── use-debounce.ts             # Debounce hook
+│   │   ├── use-clipboard.ts            # Clipboard operations
+│   │   ├── use-toast.ts                # Toast notifications
+│   │   └── use-server-action.ts        # Server action wrapper hook
+│   ├── 📁 config/                      # Configuration
+│   │   ├── site.ts                     # Site metadata & SEO
+│   │   ├── env.ts                      # Environment variables
+│   │   ├── navigation.ts               # Navigation structure
+│   │   └── features.ts                 # Feature flags
+│   ├── 📁 data/                        # Static Data
+│   │   ├── categories.ts               # Tool categories
+│   │   ├── tools.ts                    # Tool definitions
+│   │   ├── testimonials.ts             # User testimonials
+│   │   └── faqs.ts                     # FAQ data
+│   ├── 📁 types/                       # Global TypeScript Types
+│   │   ├── tool.ts                     # Tool interface
+│   │   ├── action.ts                   # Server action types
+│   │   ├── common.ts                   # Common types
+│   │   └── index.ts                    # Type exports
+│   ├── 📁 styles/                      # Additional Styles
+│   │   ├── themes/                     # Theme definitions
+│   │   │   ├── light.css
+│   │   │   └── dark.css
+│   │   └── animations.css              # Custom animations
+│   └── 📁 middleware/                  # Edge Middleware Logic
+│       └── index.ts                    # Middleware config (rate limit, etc)
+├── 📁 tests/                           # Testing
+│   ├── 📁 unit/                        # Unit tests
+│   │   ├── qr-generator.test.ts
+│   │   └── carousel-generator.test.ts
+│   ├── 📁 integration/                 # Integration tests
+│   │   └── server-actions.test.ts
+│   ├── 📁 e2e/                         # E2E tests (Playwright)
+│   │   ├── qr-flow.spec.ts
+│   │   └── carousel-flow.spec.ts
+│   └── setup.ts                        # Test setup
+├── 📁 scripts/                         # Build & Utility Scripts
+│   ├── generate-sitemap.ts             # Sitemap generator
+│   ├── optimize-images.ts              # Image optimization
+│   └── seed-data.ts                    # Seed dummy data
+├── .env                                # Environment variables (local)
+├── .env.example                        # Environment template
+├── .env.production                     # Production variables
+├── .gitignore                          # Git ignore rules
+├── .prettierrc                         # Prettier config
+├── .prettierignore                     # Prettier ignore
+├── eslint.config.mjs                   # ESLint configuration
+├── next-env.d.ts                       # Next.js TypeScript types
+├── next.config.ts                      # Next.js configuration
+├── package.json                        # Dependencies & scripts
+├── pnpm-lock.yaml                      # Lock file (pnpm)
+├── postcss.config.mjs                  # PostCSS config
+├── tailwind.config.ts                  # Tailwind configuration
+├── tsconfig.json                       # TypeScript config
+├── vitest.config.ts                    # Vitest config (testing)
+└── README.md                           # Project documentation
 ```
 ---
 ## Aceternity UI Components Usage

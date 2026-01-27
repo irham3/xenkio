@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import { FileText, Users, Wrench, LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import CountUp from '@/components/reactbits/CountUp';
+import CountUp from '@/components/reactbits/count-up';
 
 interface StatProps {
   value: number;

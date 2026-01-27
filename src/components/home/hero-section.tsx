@@ -3,9 +3,9 @@
 import { useState, useMemo } from 'react';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
-import ShinyText from '@/components/reactbits/ShinyText';
+import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
-import { DUMMY_TOOLS as TOOLS } from '@/data/dummy-tools';
+import { DUMMY_TOOLS as TOOLS } from '@/data/tools';
 import Fuse from 'fuse.js';
 
 const placeholders = [

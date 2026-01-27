@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CarouselGenerator } from '@/components/features/media-images/carousel-generator/carousel-generator';
+import { CarouselGeneratorClient } from './carousel-generator-client';
 
 export const runtime = 'edge';
 
@@ -25,10 +25,8 @@ export default function InstagramCarouselPage() {
                 </p>
             </div>
 
-            {/* Application Container */}
-            <div className="bg-background rounded-xl border shadow-sm p-1 min-h-[800px]">
-                <CarouselGenerator />
-            </div>
+            {/* Feature UI (Client Component) */}
+            <CarouselGeneratorClient />
         </div>
     );
 }

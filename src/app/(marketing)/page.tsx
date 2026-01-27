@@ -6,7 +6,7 @@ import { ToolCardFeatured } from "@/components/tools/tool-card-featured";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { StatsBanner } from "@/components/home/stats-banner";
 import { CATEGORIES } from "@/data/categories";
-import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/dummy-tools";
+import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/tools";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
@@ -138,7 +138,7 @@ export default function Home() {
                 <div className="flex items-center gap-4">
                   <div
                     className="flex items-center justify-center w-14 h-14 rounded-2xl"
-                    style={{ backgroundColor: category.backgroundColor }}
+                    style={{ backgroundColor: category.color + '20' }}
                   >
                     <CategoryIcon className="w-7 h-7 text-gray-700" />
                   </div>

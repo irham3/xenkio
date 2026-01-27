@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { DUMMY_TOOLS } from '@/data/dummy-tools'
+import { DUMMY_TOOLS } from '@/data/tools'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://xenkio.com'

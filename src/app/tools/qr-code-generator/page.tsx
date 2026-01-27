@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { DUMMY_TOOLS } from '@/data/dummy-tools';
+import { DUMMY_TOOLS } from '@/data/tools';
 import { QrGeneratorClient } from './qr-generator-client';
 import { notFound } from 'next/navigation';
 

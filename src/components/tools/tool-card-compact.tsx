@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Sparkles, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-import { DUMMY_TOOLS } from '@/data/dummy-tools';
+import { DUMMY_TOOLS } from '@/data/tools';
 
 interface ToolCardCompactProps {
   id: string;

@@ -1,5 +1,5 @@
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
-import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/dummy-tools";
+import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/tools";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

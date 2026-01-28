@@ -8,6 +8,128 @@
 - **Zero tolerance policy**: No ESLint errors or warnings whatsoever
 - **Type safety**: Full TypeScript implementation with explicit types - no `any` types (including implicit)
 - **Code quality**: Implement all TypeScript, Tailwind CSS, Shadcn UI, and Next.js 16 best practices
+- **The Best**: Every tool you build must be THE BEST version of that tool on the internet. Not "good enough" - THE BEST.
+- **Zero Error**: No errors & warning in code whatsoever. Always review and fix after finish
+
+## 🏆 Core UX Principles
+
+### 1. **Zero Learning Curve**
+```
+User should NEVER need to:
+- Read instructions
+- Watch tutorial
+- Ask "how do I...?"
+- Click more than 3 times to get result
+
+If user is confused for more than 3 seconds → YOU FAILED
+```
+
+### 2. **Instant Gratification**
+```
+Show results IMMEDIATELY:
+- Live preview as user types
+- Real-time updates
+- No "processing..." spinners unless absolutely necessary
+- Instant feedback on every action
+
+Speed is a feature. Fast = Professional.
+```
+
+### 3. **Smart Defaults**
+```
+Every setting should have THE BEST default value:
+- User shouldn't need to adjust anything for 80% of use cases
+- Advanced options hidden by default
+- "It just works" out of the box
+
+Example:
+QR Code size: Default 400px (perfect for most uses)
+NOT: Default 100px (too small) or ask user to choose
+```
+
+### 4. **Progressive Disclosure**
+```
+Show simple first, complexity only when needed:
+
+Basic View (Default):
+[Simple options everyone needs]
+
+Advanced (Collapsed):
+[Click to expand - expert options]
+
+NEVER overwhelm with all options at once
+```
+
+### 5. **Clear Visual Hierarchy**
+```
+User's eyes should flow naturally:
+1. Main action (biggest, brightest)
+2. Primary input (obvious where to start)
+3. Secondary options (visible but not distracting)
+4. Advanced options (hidden or muted)
+
+Use size, color, spacing to guide attention
+```
+
+## 🏆 Core UX Principles
+
+### 1. **Zero Learning Curve**
+```
+User should NEVER need to:
+- Read instructions
+- Watch tutorial
+- Ask "how do I...?"
+- Click more than 3 times to get result
+
+If user is confused for more than 3 seconds → YOU FAILED
+```
+
+### 2. **Instant Gratification**
+```
+Show results IMMEDIATELY:
+- Live preview as user types
+- Real-time updates
+- No "processing..." spinners unless absolutely necessary
+- Instant feedback on every action
+
+Speed is a feature. Fast = Professional.
+```
+
+### 3. **Smart Defaults**
+```
+Every setting should have THE BEST default value:
+- User shouldn't need to adjust anything for 80% of use cases
+- Advanced options hidden by default
+- "It just works" out of the box
+
+Example:
+QR Code size: Default 400px (perfect for most uses)
+NOT: Default 100px (too small) or ask user to choose
+```
+
+### 4. **Progressive Disclosure**
+```
+Show simple first, complexity only when needed:
+
+Basic View (Default):
+[Simple options everyone needs]
+
+Advanced (Collapsed):
+[Click to expand - expert options]
+
+NEVER overwhelm with all options at once
+```
+
+### 5. **Clear Visual Hierarchy**
+```
+User's eyes should flow naturally:
+1. Main action (biggest, brightest)
+2. Primary input (obvious where to start)
+3. Secondary options (visible but not distracting)
+4. Advanced options (hidden or muted)
+
+Use size, color, spacing to guide attention
+```
 
 ## Framework & Technology Stack
 
@@ -19,6 +141,8 @@
 - Implement proper data fetching patterns (server-side by default)
 - **Cloudflare Pages Compatibility**: Ensure all features work with Cloudflare Pages runtime
 - Use Edge Runtime for API routes when possible for better Cloudflare performance
+- If a server page needs client-side features, create a separate client.tsx (combining client components and client-side logic from features folder) and import it in the server page
+- Use proper error handling and loading states
 
 ### TypeScript Best Practices
 - Enable strict mode in `tsconfig.json`
@@ -117,6 +241,7 @@
 - Use neutral colors as foundation
 - Accent colors should be used sparingly for impact
 - Consider color blindness in design decisions
+- Always use colors from global.css file
 
 #### Professional Polish
 - Micro-interactions that feel natural and purposeful
@@ -171,11 +296,13 @@
 - Implement canonical URLs to prevent duplicate content
 - Use descriptive, keyword-rich titles (50-60 characters)
 - Write compelling meta descriptions (150-160 characters)
+- Use keywords in metadata description and tags that are currently trending on google trend
 - Implement Open Graph tags for social sharing
 - Use Twitter Card tags for Twitter sharing
 - Add author and publisher metadata
 - Implement hreflang for multi-language sites
 - Use proper heading hierarchy (single h1, then h2, h3, etc.)
+- Always add route to sitemap.ts when adding new page
 
 ### Search Engine Accessibility
 - All pages must be accessible without authentication (public routes)
@@ -497,28 +624,6 @@
 - Reduce main thread work
 - Optimize for slower devices
 
-## Cloudflare Pages Deployment
-
-### Initial Setup & Configuration
-
-#### Cloudflare Pages Setup
-- Connect your GitHub/GitLab repository to Cloudflare Pages
-- Configure build settings in Cloudflare Pages dashboard
-- Set framework preset to "Next.js"
-- Install required adapter: `@cloudflare/next-on-pages`
-- Configure Node.js version in environment variables if needed
-- Enable automatic deployments from main branch
-- Configure preview deployments for pull requests
-- Set up custom domain and SSL (automatic with Cloudflare)
-
-#### Build Configuration
-- **Build command**: `npx @cloudflare/next-on-pages@1`
-- **Build output directory**: `.vercel/output/static`
-- **Root directory**: `/` (or your project root)
-- **Node version**: 18.x or higher (set in environment variables)
-- Enable build caching for faster deployments
-- Configure build notifications (email/webhook)
-
 ### Next.js Configuration for Cloudflare
 
 #### next.config.js Setup
@@ -562,364 +667,6 @@
 - Validate environment variables at build time
 - Use type-safe environment variable access
 
-### Database Preparation (Future Supabase Integration)
-
-#### Architecture Planning
-- Design database schema with Supabase in mind
-- Plan for PostgreSQL-specific features
-- Consider Row Level Security (RLS) policies from the start
-- Design authentication flow for Supabase Auth
-- Plan API routes that will connect to Supabase
-- Consider real-time subscription needs
-- Plan file storage strategy with Supabase Storage
-
-#### Code Structure for Future Migration
-- Create abstraction layers for database operations
-- Use TypeScript interfaces for database types
-- Prepare data fetching patterns compatible with Supabase
-- Structure API routes for easy Supabase integration
-- Plan authentication state management
-- Create placeholder functions for database operations
-- Document database requirements and schemas
-
-### Cloudflare-Specific Features
-
-#### Cloudflare Workers Integration
-- Use Cloudflare Workers for serverless functions
-- Implement edge computing for dynamic routes
-- Use Workers KV for edge caching
-- Implement rate limiting with Workers
-- Use Workers for API middleware
-- Optimize Workers for low latency
-
-#### Cloudflare R2 Storage
-- Consider Cloudflare R2 for object storage needs
-- Use R2 for media file storage
-- Implement presigned URLs for secure uploads
-- Configure CORS for R2 buckets
-- Set up R2 public access when needed
-- Plan migration strategy to Supabase Storage later
-
-#### Cloudflare Analytics
-- Enable Cloudflare Web Analytics
-- Monitor Core Web Vitals via Cloudflare
-- Track page views and performance metrics
-- Set up custom analytics events
-- Monitor security threats via Cloudflare dashboard
-- Use Cloudflare Insights for performance optimization
-
-### Deployment Workflow
-
-#### Pre-Deployment Checklist
-- [ ] All tests passing locally
-- [ ] Build succeeds without errors or warnings
-- [ ] All TypeScript types properly defined
-- [ ] ESLint shows zero errors/warnings
-- [ ] All environment variables configured in Cloudflare
-- [ ] Database connections tested (when Supabase is integrated)
-- [ ] Image optimization verified
-- [ ] SEO meta tags implemented on all pages
-- [ ] Accessibility audit passed
-- [ ] Mobile responsiveness verified
-- [ ] Performance budget met (Lighthouse 90+)
-- [ ] Security headers configured
-- [ ] Error boundaries implemented
-- [ ] Loading states implemented
-- [ ] 404 and error pages styled
-
-#### Git Workflow for Cloudflare Pages
-- Push to feature branch triggers preview deployment
-- Merge to main branch triggers production deployment
-- Use descriptive branch names
-- Write clear commit messages
-- Create pull requests for code review
-- Test in preview deployment before merging
-- Tag releases for version tracking
-- Keep main branch always deployable
-
-#### Post-Deployment Verification
-- [ ] Production site loads correctly
-- [ ] All pages accessible and functional
-- [ ] Custom domain working with SSL
-- [ ] Analytics tracking operational
-- [ ] API routes functioning correctly
-- [ ] Images loading and optimized
-- [ ] Forms submitting correctly
-- [ ] Authentication working (when implemented)
-- [ ] Database connections active (when Supabase integrated)
-- [ ] No console errors in browser
-- [ ] Mobile version working properly
-- [ ] Lighthouse scores meet targets
-- [ ] Cloudflare Analytics showing data
-
-### Monitoring & Maintenance
-
-#### Cloudflare Monitoring
-- Monitor site uptime via Cloudflare dashboard
-- Track Core Web Vitals in Cloudflare Analytics
-- Review security events and threats
-- Monitor bandwidth and request volume
-- Check cache hit ratio for optimization
-- Review error logs regularly
-- Set up email alerts for critical issues
-
-#### Performance Monitoring
-- Monitor Lighthouse scores regularly
-- Track Core Web Vitals trends over time
-- Use Cloudflare's Performance insights
-- Monitor API response times
-- Track bundle size over time
-- Monitor image optimization effectiveness
-- Review and optimize slow pages
-
-#### Regular Maintenance Tasks
-
-**Daily:**
-- Check Cloudflare Analytics for anomalies
-- Review error logs
-- Monitor site uptime
-- Check security alerts
-
-**Weekly:**
-- Review performance metrics
-- Check for dependency updates
-- Review preview deployments
-- Monitor cache performance
-
-**Monthly:**
-- Run full Lighthouse audit
-- Update dependencies
-- Review and optimize images
-- Check and renew SSL certificates (auto-renewed by Cloudflare)
-- Review security headers configuration
-- Optimize Cloudflare cache settings
-
-**Quarterly:**
-- Comprehensive security audit
-- Performance optimization review
-- Update Cloudflare settings for new features
-- Review and optimize Workers
-- Database performance review (when Supabase integrated)
-
-### Rollback & Recovery
-
-#### Rollback Procedures
-- Use Cloudflare Pages deployment history for instant rollback
-- Keep previous production deployment available
-- Test rollback procedure regularly
-- Document rollback decision criteria
-- Monitor after rollback for issues
-- Communicate rollback to team
-- Investigate root cause of issues
-
-#### Backup Strategy
-- Rely on Git for code versioning
-- Backup environment variables regularly
-- Document all Cloudflare configurations
-- Backup database regularly (when Supabase integrated)
-- Store backups in secure location
-- Test restore procedures
-- Maintain disaster recovery plan
-
-### Cloudflare Pages Limitations & Workarounds
-
-#### Known Limitations
-- Function size limits (1MB compressed)
-- Execution time limits (CPU time constraints)
-- No native Node.js runtime (use Edge Runtime)
-- Limited middleware capabilities
-- No WebSocket support in Workers (yet)
-- File upload size limits
-
-#### Workarounds & Solutions
-- Use edge-compatible libraries
-- Optimize function bundle sizes
-- Use Cloudflare Workers for complex logic
-- Implement chunked file uploads
-- Use Cloudflare Durable Objects for stateful logic
-- Leverage Cloudflare R2 for large files
-- Use external services for unsupported features
-
-## Testing Strategy
-
-### Testing Requirements
-- Unit tests for utility functions and business logic
-- Integration tests for API routes and data flows
-- End-to-end tests for critical user flows
-- Accessibility testing with axe-core or similar
-- Performance testing with Lighthouse CI
-- Security testing with OWASP ZAP or similar
-- Cross-browser testing (Chrome, Firefox, Safari, Edge)
-- Mobile device testing (iOS and Android)
-- Visual regression testing
-- Load testing for API endpoints
-- Test preview deployments before production
-
-### Testing Tools
-- **Jest**: Unit testing
-- **React Testing Library**: Component testing
-- **Playwright or Cypress**: E2E testing
-- **Lighthouse CI**: Performance testing (integrate with Cloudflare Pages)
-- **axe-core**: Accessibility testing
-- **MSW (Mock Service Worker)**: API mocking
-- **Testing Library User Event**: User interaction simulation
-
-### Continuous Testing with Cloudflare
-- Run tests in GitHub Actions before deployment
-- Test preview deployments automatically
-- Block merges on failing tests
-- Run Lighthouse CI on preview deployments
-- Monitor production with Cloudflare Analytics
-- Implement feature flags using Cloudflare Workers
-- Use A/B testing with Cloudflare Workers
-
-### File Organization Principles
-- Group by feature, not by file type
-- Keep related files together
-- Use index files for cleaner imports
-- Separate client and server code clearly
-- Use meaningful, descriptive names
-- Avoid deep nesting (max 3-4 levels)
-- Keep component files focused and small
-- Use barrel exports for public APIs
-- Prepare structure for Supabase integration
-
-## Documentation Requirements
-
-### Required Documentation
-
-#### README.md
-- Project overview and goals
-- Tech stack description
-- Setup instructions
-- Environment variables documentation
-- Deployment instructions for Cloudflare Pages
-- Development workflow
-- Testing instructions
-- Contributing guidelines
-
-#### .env.example
-- Document all required environment variables
-- Provide example values (non-sensitive)
-- Explain purpose of each variable
-- Include Cloudflare-specific variables
-- Include placeholder Supabase variables for future
-
-#### API Documentation
-- Document all API routes
-- Explain request/response formats
-- Include authentication requirements
-- Provide usage examples
-- Document error responses
-- Prepare for Supabase API integration
-
-#### Component Documentation
-- Use Storybook for component library
-- Document props and types
-- Provide usage examples
-- Include accessibility notes
-- Document design decisions
-
-## Quality Assurance Checklist
-
-### Pre-Deployment Checklist
-- [ ] Zero ESLint errors/warnings
-- [ ] All TypeScript types explicitly defined
-- [ ] All images use next/image with optimization
-- [ ] Every page has complete SEO meta tags
-- [ ] All pages accessible to search engines
-- [ ] Server Components used by default
-- [ ] Lighthouse score 90+ in all categories
-- [ ] No OWASP security vulnerabilities
-- [ ] WCAG 2.1 AA compliance verified
-- [ ] Mobile responsive on all breakpoints
-- [ ] Dynamic sitemap.xml implemented
-- [ ] Dynamic robots.txt implemented
-- [ ] Core Web Vitals passing
-- [ ] Design looks professional and unique (not AI-generated/template)
-- [ ] Light mode only implementation
-- [ ] Custom layouts that break conventional patterns
-- [ ] Professional typography and color theory applied
-- [ ] Cloudflare Pages build succeeds
-- [ ] All environment variables configured in Cloudflare
-- [ ] Edge Runtime compatibility verified
-- [ ] Security headers configured in Cloudflare
-- [ ] Cloudflare Analytics enabled
-- [ ] Custom domain configured with SSL
-- [ ] Rate limiting implemented
-- [ ] Error boundaries implemented
-- [ ] Loading states for all async operations
-- [ ] Proper error handling throughout
-- [ ] No hardcoded secrets in codebase
-- [ ] Dependencies up to date
-- [ ] Build succeeds without warnings
-- [ ] All forms have proper validation
-- [ ] All links have proper href attributes
-- [ ] All buttons have proper type attributes
-- [ ] No inline styles (use Tailwind classes)
-- [ ] No console.log in production code
-- [ ] Proper copyright and legal notices
-- [ ] All tests passing
-- [ ] Performance budget met
-- [ ] Bundle size within Cloudflare limits
-- [ ] No memory leaks
-- [ ] Proper 404 page implemented
-- [ ] Error pages styled and functional
-- [ ] Preview deployment tested
-- [ ] Database abstraction ready (for future Supabase)
-
-### Post-Deployment Checklist
-- [ ] Production deployment successful
-- [ ] Custom domain working with SSL
-- [ ] All pages load correctly
-- [ ] Cloudflare Analytics tracking
-- [ ] Performance monitoring active
-- [ ] Error tracking working
-- [ ] SEO verification (Google Search Console)
-- [ ] Sitemap submitted to search engines
-- [ ] Social media cards validated
-- [ ] Mobile responsiveness verified
-- [ ] Cross-browser testing completed
-- [ ] Accessibility audit passed
-- [ ] Cloudflare security features enabled
-- [ ] DNS configured correctly
-- [ ] CDN functioning properly (Cloudflare)
-- [ ] Cache hit ratio acceptable
-- [ ] Monitoring alerts configured
-- [ ] Documentation updated
-- [ ] Team trained on deployment process
-
-## Version Control Best Practices
-
-### Git Workflow for Cloudflare Pages
-- Use feature branches for development
-- Feature branches trigger preview deployments
-- Main branch triggers production deployments
-- Implement pull request reviews
-- Write meaningful commit messages
-- Use conventional commits format
-- Squash commits before merging
-- Keep main branch deployable always
-- Tag releases properly
-- Maintain clean git history
-
-### Branch Naming Convention
-- `feature/description` - New features
-- `bugfix/description` - Bug fixes
-- `hotfix/description` - Urgent production fixes
-- `refactor/description` - Code improvements
-- `docs/description` - Documentation updates
-
-### Commit Message Format
-- `feat:` - New feature
-- `fix:` - Bug fix
-- `docs:` - Documentation changes
-- `style:` - Formatting changes
-- `refactor:` - Code restructuring
-- `test:` - Adding tests
-- `chore:` - Maintenance tasks
-- `perf:` - Performance improvements
-
 ## Performance Budget
 
 ### Bundle Size Targets for Cloudflare
@@ -944,43 +691,6 @@
 - API response time: < 200ms (p95)
 - Edge function execution time: < 50ms
 
-## Resources & References
-
-### Cloudflare Documentation
-- Cloudflare Pages Documentation
-- Cloudflare Workers Documentation
-- Cloudflare Analytics Documentation
-- Cloudflare Security Documentation
-- Cloudflare Images Documentation
-- Cloudflare R2 Documentation
-
-### Next.js Resources
-- Next.js 16 Documentation
-- Next.js on Cloudflare Pages Guide
-- @cloudflare/next-on-pages Documentation
-- Edge Runtime Documentation
-
-### Other Official Documentation
-- TypeScript Documentation
-- Tailwind CSS Documentation
-- Shadcn UI Documentation
-- React Documentation
-- Supabase Documentation (for future reference)
-
-### Performance & SEO Tools
-- Lighthouse
-- Google PageSpeed Insights
-- Cloudflare Web Analytics
-- Google Search Console
-- WebPageTest
-- Chrome DevTools
-
-### Security & Monitoring
-- Cloudflare Security Dashboard
-- OWASP ZAP
-- Snyk
-- GitHub Dependabot
-- Cloudflare Logs
 
 xenkio/
 ├── 📁 .next/                           # Next.js Build Output
@@ -1026,13 +736,13 @@ xenkio/
 │   │   │   ├── layout.tsx              # ✅ Layout khusus tools
 │   │   │   ├── 📁 qr-code-generator/   # ✅
 │   │   │   │   ├── page.tsx            # ✅ Server Component (SEO)
-│   │   │   │   ├── qr-generator-client.tsx # ✅ Client wrapper (KEEP THIS)
+│   │   │   │   ├── client.tsx # ✅ Client wrapper (KEEP THIS)
 │   │   │   │   ├── loading.tsx         # Loading state
 │   │   │   │   ├── error.tsx           # Error boundary
 │   │   │   │   └── opengraph-image.tsx # Dynamic OG image
 │   │   │   └── 📁 instagram-carousel/  # ✅
 │   │   │       ├── page.tsx            # ✅ Server Component (SEO)
-│   │   │       ├── carousel-client.tsx # Client wrapper (NEW - mirror qr structure)
+│   │   │       ├── client.tsx # Client wrapper (NEW - mirror qr structure)
 │   │   │       ├── loading.tsx
 │   │   │       ├── error.tsx
 │   │   │       └── opengraph-image.tsx

@@ -18,6 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/privacy',
     '/terms',
     '/tools',
+    '/tools/image-compressor',
+    '/tools/instagram-carousel',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

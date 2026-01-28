@@ -444,6 +444,7 @@ export const DUMMY_TOOLS: ToolData[] = [
         href: '/tools/password-generator',
         usageCount: '1.1M',
         categoryId: 'security-privacy',
+        slug: 'password-generator',
     },
     {
         id: '39',

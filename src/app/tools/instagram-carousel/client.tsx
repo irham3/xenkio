@@ -111,7 +111,7 @@ export function InstagramCarouselClient() {
               </div>
             </div>
 
-            <div className="aspect-[16/9] lg:aspect-auto lg:h-[600px] w-full bg-muted/20 rounded-lg overflow-hidden relative border border-gray-100">
+            <div className="aspect-video lg:aspect-auto lg:h-[600px] w-full bg-muted/20 rounded-lg overflow-hidden relative border border-gray-100">
               <CarouselPreview
                 config={config}
                 onChange={updateConfig}

@@ -11,6 +11,27 @@ export interface QRConfig {
         height: number;
         width: number;
         excavate: boolean;
+        x?: number;
+        y?: number;
+        opacity?: number;
+        borderRadius?: number;
+        borderSize?: number;
+        borderColor?: string;
+    };
+    dotStyle: 'square' | 'rounded' | 'dots';
+    cornerStyle: 'square' | 'rounded' | 'extra-rounded';
+    cornerColor?: string;
+    cornerDotColor?: string;
+    gradient?: {
+        enabled: boolean;
+        startColor: string;
+        endColor: string;
+        rotation: number;
+    };
+    frame?: {
+        style: 'none' | 'simple' | 'modern' | 'badge';
+        text: string;
+        color: string;
     };
 }
 

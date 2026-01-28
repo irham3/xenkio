@@ -8,6 +8,19 @@ export const DEFAULT_QR_CONFIG: QRConfig = {
     bgColor: '#ffffff',
     level: 'M',
     includeMargin: true,
+    dotStyle: 'square',
+    cornerStyle: 'square',
+    gradient: {
+        enabled: false,
+        startColor: '#000000',
+        endColor: '#4f46e5',
+        rotation: 45,
+    },
+    frame: {
+        style: 'none',
+        text: 'SCAN ME',
+        color: '#000000',
+    },
 };
 
 export const QR_ERROR_LEVELS = [

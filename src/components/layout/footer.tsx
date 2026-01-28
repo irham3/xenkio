@@ -168,16 +168,10 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-gray-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <p className="text-sm text-gray-500">
               © {new Date().getFullYear()} Xenkio. All rights reserved.
             </p>
-            <div className="flex items-center gap-6 text-sm text-gray-500">
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-green-500" />
-                All systems operational
-              </span>
-            </div>
           </div>
         </div>
       </div>

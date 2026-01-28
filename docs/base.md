@@ -11,6 +11,7 @@
 - **The Best**: Every tool you build must be THE BEST version of that tool on the internet. Not "good enough" - THE BEST.
 - **Zero Error**: No errors & warning in code whatsoever. Always review and fix after finish
 
+
 ## 🏆 Core UX Principles
 
 ### 1. **Zero Learning Curve**
@@ -134,7 +135,7 @@ Use size, color, spacing to guide attention
 ## Framework & Technology Stack
 
 ### Next.js 16 Latest Standards
-- Use Next.js 16 stable release with all latest features
+- Use Next.js 16 stable release with all latest fea tures
 - Implement App Router architecture
 - Leverage Server Components by default for optimal performance
 - Use Client Components only when necessary (wrap client-specific code in separate components within server pages)
@@ -143,6 +144,7 @@ Use size, color, spacing to guide attention
 - Use Edge Runtime for API routes when possible for better Cloudflare performance
 - If a server page needs client-side features, create a separate client.tsx (combining client components and client-side logic from features folder) and import it in the server page
 - Use proper error handling and loading states
+- Always add export const runtime = 'edge'; for server pages
 
 ### TypeScript Best Practices
 - Enable strict mode in `tsconfig.json`

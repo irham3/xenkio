@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { DUMMY_TOOLS } from '@/data/tools';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';

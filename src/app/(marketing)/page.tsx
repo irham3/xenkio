@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
@@ -16,7 +18,6 @@ export const metadata: Metadata = {
   description: "Access 130+ professional online tools for free. Process files, convert formats, and transform data instantly. No signup required.",
 };
 
-export const runtime = 'edge';
 
 export default function Home() {
   const featuredTools = TOOLS.filter((t: ToolData) => t.featured);

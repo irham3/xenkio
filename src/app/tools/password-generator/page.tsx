@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { Metadata } from 'next';
 import { DUMMY_TOOLS } from '@/data/tools';
 import { PasswordGeneratorClient } from './client';

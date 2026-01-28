@@ -1,7 +1,8 @@
+export const runtime = 'edge';
+
 import type { Metadata } from 'next';
 import { InstagramCarouselClient } from './client';
 
-export const runtime = 'edge';
 
 export const metadata: Metadata = {
     title: 'Instagram Carousel Generator | Xenkio',

@@ -3,7 +3,7 @@ export const runtime = 'edge';
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
-import { CategoryTabs } from "@/components/home/category-tabs";
+
 import { ToolCardFeatured } from "@/components/tools/tool-card-featured";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { StatsBanner } from "@/components/home/stats-banner";
@@ -26,7 +26,6 @@ export default function Home() {
     <main className="min-h-screen bg-gray-50 flex flex-col font-sans">
       <Navbar />
       <HeroSection />
-      <CategoryTabs />
 
       {/* Popular Tools - Featured Bento Grid */}
       <section className="py-16 lg:py-20">

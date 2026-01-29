@@ -75,7 +75,7 @@ export const DUMMY_TOOLS: ToolData[] = [
     {
         id: '1',
         title: 'QR Code Generator',
-        description: 'Create custom QR codes with logos, colors, and multiple export formats including PNG, SVG, and PDF.',
+        description: 'Create custom QR codes with logos, colors, and multiple export formats including PNG, and SVG.',
         icon: QrCode,
         href: '/tools/qr-code-generator',
         slug: 'qr-code-generator',

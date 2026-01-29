@@ -5,7 +5,7 @@ import { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Merge PDF | Xenkio Tools",
-  description: "Combine multiple PDF files into one document. Drag to reorder pages, choose page size options, and download your merged PDF instantly.",
+  description: "Combine multiple PDF files into one document. Drag to reorder files, choose page size options, and download your merged PDF instantly.",
 }
 
 export default function MergePdfPage() {

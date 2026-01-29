@@ -4,7 +4,7 @@ import { useState, useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { PDFDocument, PageSizes } from "pdf-lib"
 import { motion, AnimatePresence, Reorder } from "framer-motion"
-import { Upload, X, Download, FileText, Settings2, GripVertical, Merge } from "lucide-react"
+import { Upload, X, Download, FileText, Settings2, GripVertical, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
@@ -15,6 +15,7 @@ interface PdfFile {
   name: string
   pageCount: number
   size: number
+  arrayBuffer: ArrayBuffer
 }
 
 type PageSizeMode = "default" | "standard"
@@ -31,23 +32,42 @@ export function PdfMerger() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [pageMode, setPageMode] = useState<PageSizeMode>("default")
   const [standardSize, setStandardSize] = useState<StandardPageSize>("A4")
+  const [error, setError] = useState<string | null>(null)
 
   const loadPdfInfo = async (file: File): Promise<PdfFile> => {
     const arrayBuffer = await file.arrayBuffer()
     const pdfDoc = await PDFDocument.load(arrayBuffer)
     return {
-      id: Math.random().toString(36).substring(7),
+      id: crypto.randomUUID(),
       file,
       name: file.name,
       pageCount: pdfDoc.getPageCount(),
       size: file.size,
+      arrayBuffer,
     }
   }
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const pdfPromises = acceptedFiles.map(loadPdfInfo)
-    const newPdfs = await Promise.all(pdfPromises)
-    setPdfFiles((prev) => [...prev, ...newPdfs])
+    setError(null)
+    const validPdfs: PdfFile[] = []
+    const failedFiles: string[] = []
+
+    for (const file of acceptedFiles) {
+      try {
+        const pdfInfo = await loadPdfInfo(file)
+        validPdfs.push(pdfInfo)
+      } catch {
+        failedFiles.push(file.name)
+      }
+    }
+
+    if (failedFiles.length > 0) {
+      setError(`Failed to load: ${failedFiles.join(", ")}`)
+    }
+
+    if (validPdfs.length > 0) {
+      setPdfFiles((prev) => [...prev, ...validPdfs])
+    }
   }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -77,14 +97,14 @@ export function PdfMerger() {
   const mergePdfs = async () => {
     if (pdfFiles.length === 0) return
     setIsProcessing(true)
+    setError(null)
 
     try {
       const mergedPdf = await PDFDocument.create()
       const targetPageSize = getPageSize(standardSize)
 
       for (const pdfFile of pdfFiles) {
-        const arrayBuffer = await pdfFile.file.arrayBuffer()
-        const pdfDoc = await PDFDocument.load(arrayBuffer)
+        const pdfDoc = await PDFDocument.load(pdfFile.arrayBuffer)
         const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices())
 
         for (const page of copiedPages) {
@@ -133,8 +153,8 @@ export function PdfMerger() {
       link.click()
       document.body.removeChild(link)
       URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error("Failed to merge PDFs:", error)
+    } catch {
+      setError("Failed to merge PDFs. Please check if all files are valid.")
     } finally {
       setIsProcessing(false)
     }
@@ -269,6 +289,12 @@ export function PdfMerger() {
             </div>
           )}
 
+          {error && (
+            <div className="p-3 rounded-lg bg-red-50 border border-red-200">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
+
           <div className="pt-4 border-t border-gray-100">
             <Button
               className="w-full"
@@ -278,7 +304,7 @@ export function PdfMerger() {
             >
               {isProcessing ? (
                 <>
-                  <Merge className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Merging...
                 </>
               ) : (
@@ -350,9 +376,9 @@ export function PdfMerger() {
                     size="icon"
                     onClick={() => removePdf(pdf.id)}
                     className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label={`Remove ${pdf.name}`}
                   >
                     <X className="w-4 h-4" />
-                    <span className="sr-only">Remove</span>
                   </Button>
                 </Reorder.Item>
               ))}

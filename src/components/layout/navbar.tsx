@@ -3,14 +3,19 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, Sparkles } from 'lucide-react';
+import { Menu, X, Sparkles } from 'lucide-react';
 import ShinyText from '@/components/reactbits/shiny-text';
 import { cn } from '@/lib/utils';
 import { CATEGORIES } from '@/data/categories';
 
+import { DUMMY_TOOLS } from '@/data/tools';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('');
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -115,20 +120,86 @@ export function Navbar() {
             {/* Desktop Navigation - Center */}
             <div className="hidden xl:flex items-center justify-center flex-1">
               <div className="flex items-center gap-1">
+                {/* 'All Tools' Link - Keeping it simple or we can add a general dropdown later */}
+                {/* <Link
+                  href="/tools"
+                  onClick={handleAllToolsClick}
+                  className={cn(
+                    "px-3.5 py-2 text-[14px] font-medium rounded-lg transition-all duration-200",
+                    effectiveActiveCategory === '' && pathname === '/'
+                      ? "text-primary-600 bg-primary-50"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  )}
+                >
+                  All Tools
+                </Link> */}
+
                 {CATEGORIES.map((category) => (
-                  <a
+                  <div
                     key={category.id}
-                    href={`#category-${category.id}`}
-                    onClick={(e) => handleCategoryClick(e, category.id)}
-                    className={cn(
-                      "px-3.5 py-2 text-[14px] font-medium rounded-lg transition-all duration-200 whitespace-nowrap",
-                      effectiveActiveCategory === category.id
-                        ? "text-primary-600 bg-primary-50"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                    )}
+                    className="relative"
+                    onMouseEnter={() => setHoveredCategory(category.id)}
+                    onMouseLeave={() => setHoveredCategory(null)}
                   >
-                    {category.name}
-                  </a>
+                    <a
+                      href={`#category-${category.id}`}
+                      onClick={(e) => handleCategoryClick(e, category.id)}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3.5 py-2 text-[14px] font-medium rounded-lg transition-all duration-200 whitespace-nowrap cursor-pointer",
+                        effectiveActiveCategory === category.id || hoveredCategory === category.id
+                          ? "text-primary-600 bg-primary-50"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                      )}
+                    >
+                      {category.name}
+                      <ChevronDown
+                        className={cn(
+                          "w-3.5 h-3.5 transition-transform duration-200",
+                          hoveredCategory === category.id ? "rotate-180" : ""
+                        )}
+                      />
+                    </a>
+
+                    <AnimatePresence>
+                      {hoveredCategory === category.id && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95, x: '-50%' }}
+                          animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }}
+                          exit={{ opacity: 0, y: 5, scale: 0.95, x: '-50%' }}
+                          transition={{ duration: 0.15, ease: "easeOut" }}
+                          className="absolute top-full left-1/2 mt-2 w-[540px] p-3 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50"
+                        >
+                          <div className="grid grid-cols-2 gap-2">
+                            {DUMMY_TOOLS.filter(t => t.categoryId === category.id).map((tool) => (
+                              <Link
+                                key={tool.id}
+                                href={tool.href}
+                                className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors"
+                              >
+                                <div className={cn(
+                                  "flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 group-hover:bg-white group-hover:shadow-sm transition-all",
+                                  "text-gray-500 group-hover:text-primary-600"
+                                )}>
+                                  <tool.icon className="w-4 h-4" />
+                                </div>
+                                <div>
+                                  <div className="text-sm font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+                                    {tool.title}
+                                  </div>
+                                  <p className="text-[11px] text-gray-500 line-clamp-1 mt-0.5">
+                                    {tool.description}
+                                  </p>
+                                </div>
+                              </Link>
+                            ))}
+                            {DUMMY_TOOLS.filter(t => t.categoryId === category.id).length === 0 && (
+                              <p className="col-span-2 p-3 text-xs text-center text-gray-400">No tools available directly in this menu.</p>
+                            )}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 ))}
               </div>
             </div>
@@ -176,7 +247,7 @@ export function Navbar() {
           )}
         >
           <div className="px-4 py-3 space-y-1 bg-white border-t border-gray-100 max-h-[80vh] overflow-y-auto">
-            <Link
+            {/* <Link
               href="/tools"
               onClick={handleAllToolsClick}
               className={cn(
@@ -187,7 +258,7 @@ export function Navbar() {
               )}
             >
               All Tools
-            </Link>
+            </Link> */}
             {CATEGORIES.map((category) => (
               <a
                 key={category.id}

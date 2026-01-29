@@ -16,7 +16,7 @@ export default function HashGeneratorPage() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-5xl">
       <div className="text-center mb-12 space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 pb-2">
+        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-900 to-gray-600 pb-2">
           Advanced Hash Generator
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">

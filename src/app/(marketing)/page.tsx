@@ -3,8 +3,6 @@ export const runtime = 'edge';
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
-
-import { ToolCardFeatured } from "@/components/tools/tool-card-featured";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { StatsBanner } from "@/components/home/stats-banner";
 import { CATEGORIES } from "@/data/categories";
@@ -20,18 +18,16 @@ export const metadata: Metadata = {
 
 
 export default function Home() {
-  const featuredTools = TOOLS.filter((t: ToolData) => t.featured);
-
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col font-sans">
       <Navbar />
       <HeroSection />
 
       {/* Popular Tools - Featured Bento Grid */}
-      <section className="py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="flex items-center justify-between mb-10">
+      {/* <section className="py-16 lg:py-20"> */}
+      {/* <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> */}
+      {/* Section Header */}
+      {/* <div className="flex items-center justify-between mb-10">
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 Most Popular Tools
@@ -47,12 +43,12 @@ export default function Home() {
               View all tools
               <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
+          </div> */}
 
-          {/* Bento Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Large featured card */}
-            <div className="lg:col-span-6">
+      {/* Bento Grid */}
+      {/* <div className="grid grid-cols-1 lg:grid-cols-12 gap-6"> */}
+      {/* Large featured card */}
+      {/* <div className="lg:col-span-6">
               {featuredTools[0] && (
                 <ToolCardFeatured
                   id={featuredTools[0].id}
@@ -67,9 +63,9 @@ export default function Home() {
                 />
               )}
             </div>
-
-            {/* Right column - two compact cards stacked */}
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+            */}
+      {/* Right column - two compact cards stacked */}
+      {/* <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
               {featuredTools.slice(1, 3).map((tool: ToolData) => (
                 <ToolCardFeatured
                   key={tool.id}
@@ -85,10 +81,10 @@ export default function Home() {
                 />
               ))}
             </div>
-          </div>
+            </div>
 
           {/* Second row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
             {featuredTools.slice(3, 4).map((tool: ToolData) => (
               <ToolCardFeatured
                 key={tool.id}
@@ -103,8 +99,9 @@ export default function Home() {
                 gradientTo={tool.gradientTo}
               />
             ))}
-            {/* Fill with compact cards */}
-            {TOOLS.filter((t: ToolData) => !t.featured).slice(0, 3).map((tool: ToolData) => (
+            */}
+      {/* Fill with compact cards */}
+      {/* {TOOLS.filter((t: ToolData) => !t.featured).slice(0, 3).map((tool: ToolData) => (
               <ToolCardCompact
                 key={tool.id}
                 id={tool.id}
@@ -116,9 +113,9 @@ export default function Home() {
                 isPremium={tool.isPremium}
               />
             ))}
-          </div>
-        </div>
-      </section>
+          </div> */}
+      {/* </div> */}
+      {/* </section>  */}
 
       {/* Category Sections */}
       {CATEGORIES.map((category, index) => {
@@ -130,7 +127,7 @@ export default function Home() {
           <section
             key={category.id}
             id={`category-${category.id}`}
-            className={`py-16 lg:py-20 ${isEven ? 'bg-white' : 'bg-gray-50'}`}
+            className={`py-16 lg:py-20 ${!isEven ? 'bg-white' : 'bg-gray-50'}`}
           >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               {/* Category Header */}

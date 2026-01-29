@@ -74,7 +74,7 @@ export function Navbar() {
       window.scrollTo({
         top: elementPosition - offset,
         behavior: 'smooth'
-      });
+      })
       setActiveCategory(categoryId);
     }
   };
@@ -120,19 +120,7 @@ export function Navbar() {
             {/* Desktop Navigation - Center */}
             <div className="hidden xl:flex items-center justify-center flex-1">
               <div className="flex items-center gap-1">
-                {/* 'All Tools' Link - Keeping it simple or we can add a general dropdown later */}
-                {/* <Link
-                  href="/tools"
-                  onClick={handleAllToolsClick}
-                  className={cn(
-                    "px-3.5 py-2 text-[14px] font-medium rounded-lg transition-all duration-200",
-                    effectiveActiveCategory === '' && pathname === '/'
-                      ? "text-primary-600 bg-primary-50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                  )}
-                >
-                  All Tools
-                </Link> */}
+
 
                 {CATEGORIES.map((category) => (
                   <div

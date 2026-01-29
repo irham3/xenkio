@@ -14,12 +14,12 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
+  // Derived state to cleaner handling of active category display
+  const effectiveActiveCategory = pathname === '/' ? activeCategory : '';
+
   // Handle scroll spy
   useEffect(() => {
-    if (pathname !== '/') {
-      setActiveCategory('');
-      return;
-    }
+    if (pathname !== '/') return;
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 100; // Offset for sticky header
@@ -45,6 +45,9 @@ export function Navbar() {
         }
       }
     };
+
+    // Initialize on mount/route change
+    handleScroll();
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -112,18 +115,6 @@ export function Navbar() {
             {/* Desktop Navigation - Center */}
             <div className="hidden xl:flex items-center justify-center flex-1">
               <div className="flex items-center gap-1">
-                <Link
-                  href="/tools"
-                  onClick={handleAllToolsClick}
-                  className={cn(
-                    "px-3.5 py-2 text-[14px] font-medium rounded-lg transition-all duration-200",
-                    activeCategory === '' && pathname === '/'
-                      ? "text-primary-600 bg-primary-50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                  )}
-                >
-                  All Tools
-                </Link>
                 {CATEGORIES.map((category) => (
                   <a
                     key={category.id}
@@ -131,7 +122,7 @@ export function Navbar() {
                     onClick={(e) => handleCategoryClick(e, category.id)}
                     className={cn(
                       "px-3.5 py-2 text-[14px] font-medium rounded-lg transition-all duration-200 whitespace-nowrap",
-                      activeCategory === category.id
+                      effectiveActiveCategory === category.id
                         ? "text-primary-600 bg-primary-50"
                         : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                     )}
@@ -145,18 +136,18 @@ export function Navbar() {
             {/* Right side actions */}
             <div className="flex items-center gap-3 shrink-0">
               {/* Search button */}
-              <button className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-500 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-[180px]">
+              {/* <button className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-500 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-[180px]">
                 <Search className="w-4 h-4 shrink-0" />
                 <span className="text-gray-400">Search tools...</span>
                 <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium text-gray-400 bg-white border border-gray-200 rounded">
                   ⌘K
                 </kbd>
-              </button>
+              </button> */}
 
               {/* Mobile search */}
-              <button className="sm:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+              {/* <button className="sm:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
                 <Search className="w-5 h-5" />
-              </button>
+              </button> */}
 
               {/* Get Started button */}
               <Link
@@ -190,7 +181,7 @@ export function Navbar() {
               onClick={handleAllToolsClick}
               className={cn(
                 "flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-lg transition-colors",
-                activeCategory === '' && pathname === '/'
+                effectiveActiveCategory === '' && pathname === '/'
                   ? "text-primary-600 bg-primary-50"
                   : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
               )}
@@ -204,18 +195,18 @@ export function Navbar() {
                 onClick={(e) => handleCategoryClick(e, category.id)}
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-lg transition-colors",
-                  activeCategory === category.id
+                  effectiveActiveCategory === category.id
                     ? "text-primary-600 bg-primary-50"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                 )}
               >
                 <div className={cn(
                   "flex items-center justify-center w-8 h-8 rounded-lg",
-                  activeCategory === category.id ? "bg-primary-100" : "bg-gray-100"
+                  effectiveActiveCategory === category.id ? "bg-primary-100" : "bg-gray-100"
                 )}>
                   <category.icon className={cn(
                     "w-4 h-4",
-                    activeCategory === category.id ? "text-primary-600" : "text-gray-500"
+                    effectiveActiveCategory === category.id ? "text-primary-600" : "text-gray-500"
                   )} />
                 </div>
                 {category.name}

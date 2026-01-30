@@ -542,9 +542,10 @@ export const DUMMY_TOOLS: ToolData[] = [
     {
         id: '49',
         title: 'Merge PDF',
-        description: 'Combine multiple PDF files into a single document.',
+        description: 'Combine multiple PDF files into one document. Drag to reorder, choose page size options, and download instantly.',
         icon: Merge,
         href: '/tools/merge-pdf',
+        slug: 'merge-pdf',
         usageCount: '890K',
         categoryId: 'documents',
     },

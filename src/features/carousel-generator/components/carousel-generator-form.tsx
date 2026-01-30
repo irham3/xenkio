@@ -30,7 +30,7 @@ export function CarouselGeneratorForm({ config, onChange }: CarouselGeneratorFor
                                 `}
               >
                 <span className="font-bold">{info.label.split(' ')[0]}</span>
-                <span className="text-[10px] opacity-70 mt-1 font-medium">{key}</span>
+                <span className="text-[12px] opacity-70 mt-1 font-medium">{key}</span>
               </button>
             ))}
           </div>
@@ -99,7 +99,7 @@ export function CarouselGeneratorForm({ config, onChange }: CarouselGeneratorFor
               >+</Button>
             </div>
           </div>
-          <p className="text-[10px] text-muted-foreground px-1 italic">
+          <p className="text-[12px] text-muted-foreground px-1 italic">
             Total slides for the carousel (Max 10).
           </p>
         </div>

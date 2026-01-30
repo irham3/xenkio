@@ -163,7 +163,7 @@ export function Navbar() {
                                   <div className="text-sm font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
                                     {tool.title}
                                   </div>
-                                  <p className="text-[11px] text-gray-500 line-clamp-1 mt-0.5">
+                                  <p className="text-[12px] text-gray-500 line-clamp-1 mt-0.5">
                                     {tool.description}
                                   </p>
                                 </div>
@@ -187,7 +187,7 @@ export function Navbar() {
               {/* <button className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-500 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-[180px]">
                 <Search className="w-4 h-4 shrink-0" />
                 <span className="text-gray-400">Search tools...</span>
-                <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium text-gray-400 bg-white border border-gray-200 rounded">
+                <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[12px] font-medium text-gray-400 bg-white border border-gray-200 rounded">
                   ⌘K
                 </kbd>
               </button> */}

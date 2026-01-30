@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { verifyHash as verifyHashUtil } from '../lib/hash-utils';
 import { useHashGenerator } from '../hooks/use-hash-generator';
 import { HASH_ALGORITHMS } from '../constants';
@@ -8,14 +8,14 @@ import { HashAlgorithm } from '../types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, ChevronDown, ShieldCheck, ShieldX, Zap, Hash, FileCheck, Info } from 'lucide-react';
+import { Copy, Check, ChevronDown, ShieldCheck, ShieldX, Zap, Hash, FileCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type TabMode = 'generate' | 'verify';
 
 export function HashGenerator() {
-  const { options, result, isGenerating, updateOption } = useHashGenerator();
+  const { options, result, isGenerating, updateOption, generate } = useHashGenerator();
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<TabMode>('generate');
 
@@ -26,7 +26,7 @@ export function HashGenerator() {
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
 
-  const currentAlgo = HASH_ALGORITHMS.find(a => a.id === options.algorithm);
+  // const currentAlgo = HASH_ALGORITHMS.find(a => a.id === options.algorithm);
   // const verifyAlgo = HASH_ALGORITHMS.find(a => a.id === verifyAlgorithm);
 
   const handleCopy = () => {
@@ -37,32 +37,29 @@ export function HashGenerator() {
     }
   };
 
-  // Debounced verification
-  useEffect(() => {
-    if (activeTab !== 'verify' || !verifyHash || !verifyText) {
+  const handleVerify = async () => {
+    if (!verifyHash || !verifyText) {
       setIsMatch(null);
       return;
     }
 
-    const timer = setTimeout(async () => {
-      setIsVerifying(true);
-      try {
-        const match = await verifyHashUtil(verifyText, verifyHash, verifyAlgorithm);
-        setIsMatch(match);
-      } catch (e) {
-        setIsMatch(false);
-      } finally {
-        setIsVerifying(false);
-      }
-    }, 500);
+    setIsVerifying(true);
+    try {
+      const match = await verifyHashUtil(verifyText, verifyHash, verifyAlgorithm);
+      setIsMatch(match);
+    } catch {
+      setIsMatch(false);
+    } finally {
+      setIsVerifying(false);
+    }
+  };
 
-    return () => clearTimeout(timer);
-  }, [activeTab, verifyText, verifyHash, verifyAlgorithm]);
+
 
   return (
     <div className="w-full">
       {/* Tab Switcher */}
-      <div className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl mb-6 max-w-xs border border-gray-200">
+      <div className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl mb-6 w-full border border-gray-200">
         <button
           onClick={() => setActiveTab('generate')}
           className={cn(
@@ -72,7 +69,7 @@ export function HashGenerator() {
               : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
           )}
         >
-          <Hash className="w-4 h-4" />
+          {/* <Hash className="w-4 h-4" /> */}
           Generate
         </button>
         <button
@@ -84,7 +81,7 @@ export function HashGenerator() {
               : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
           )}
         >
-          <FileCheck className="w-4 h-4" />
+          {/* <FileCheck className="w-4 h-4" /> */}
           Verify
         </button>
       </div>
@@ -141,9 +138,9 @@ export function HashGenerator() {
                       </select>
                       <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                     </div>
-                    <p className="text-[11px] text-gray-500 leading-snug">
+                    {/* <p className="text-[12px] text-gray-500 leading-snug">
                       {currentAlgo?.description}
-                    </p>
+                    </p> */}
                   </div>
 
                   {/* Dynamic Options based on Algorithm */}
@@ -168,7 +165,7 @@ export function HashGenerator() {
                             onChange={(e) => updateOption('cost', parseInt(e.target.value))}
                             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
                           />
-                          <div className="flex justify-between mt-1 text-[10px] text-gray-400">
+                          <div className="flex justify-between mt-1 text-[12px] text-gray-400">
                             <span>4 (Fast)</span>
                             <span className={(options.cost ?? 10) > 12 ? "text-amber-500 font-medium" : ""}>
                               {options.cost && options.cost > 14 ? "Very Slow!" : "12 (Standard)"}
@@ -183,7 +180,7 @@ export function HashGenerator() {
                     {options.algorithm === 'ARGON2' && (
                       <div className="grid grid-cols-2 gap-3 animate-in slide-in-from-top-2 fade-in duration-300">
                         <div className="space-y-1">
-                          <Label className="text-[11px] font-medium text-gray-500 uppercase">Memory (KB)</Label>
+                          <Label className="text-[12px] font-medium text-gray-500 uppercase">Memory (KB)</Label>
                           <Input
                             type="number"
                             value={options.memory}
@@ -192,7 +189,7 @@ export function HashGenerator() {
                           />
                         </div>
                         <div className="space-y-1">
-                          <Label className="text-[11px] font-medium text-gray-500 uppercase">Iterations</Label>
+                          <Label className="text-[12px] font-medium text-gray-500 uppercase">Iterations</Label>
                           <Input
                             type="number"
                             value={options.iterations}
@@ -220,6 +217,26 @@ export function HashGenerator() {
                     )}
                   </div>
 
+                  <div className="pt-2">
+                    <Button
+                      onClick={generate}
+                      disabled={isGenerating || !options.text}
+                      className="w-full bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-all"
+                    >
+                      {isGenerating ? (
+                        <>
+                          <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="w-4 h-4 mr-2" />
+                          Generate Hash
+                        </>
+                      )}
+                    </Button>
+                  </div>
+
                 </motion.div>
               ) : (
                 <motion.div
@@ -241,6 +258,7 @@ export function HashGenerator() {
                       onChange={(e) => {
                         setVerifyText(e.target.value);
                         updateOption('text', e.target.value);
+                        setIsMatch(null);
                       }}
                       placeholder="Enter the original text..."
                       className="w-full min-h-[100px] p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
@@ -256,6 +274,7 @@ export function HashGenerator() {
                         onChange={(e) => {
                           setVerifyAlgorithm(e.target.value as HashAlgorithm);
                           updateOption('algorithm', e.target.value as HashAlgorithm);
+                          setIsMatch(null);
                         }}
                         className="w-full appearance-none bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block p-3 pr-10 outline-none transition-all hover:bg-gray-100 cursor-pointer"
                       >
@@ -278,7 +297,10 @@ export function HashGenerator() {
                     <Input
                       id="verify-hash"
                       value={verifyHash}
-                      onChange={(e) => setVerifyHash(e.target.value)}
+                      onChange={(e) => {
+                        setVerifyHash(e.target.value);
+                        setIsMatch(null);
+                      }}
                       placeholder="Paste hash here..."
                       className={cn(
                         "bg-gray-50 focus:bg-white font-mono text-sm",
@@ -288,20 +310,40 @@ export function HashGenerator() {
                       )}
                     />
                   </div>
+
+                  <div className="pt-2">
+                    <Button
+                      onClick={handleVerify}
+                      disabled={isVerifying || !verifyText || !verifyHash}
+                      className="w-full bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-all"
+                    >
+                      {isVerifying ? (
+                        <>
+                          <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                          Verifying...
+                        </>
+                      ) : (
+                        <>
+                          <ShieldCheck className="w-4 h-4 mr-2" />
+                          Verify Hash
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
           {/* RIGHT PANEL: Output & Results */}
-          <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[400px] border-l border-gray-100">
+          <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px] border-l border-gray-100">
 
             {activeTab === 'generate' ? (
-              <div className="flex flex-col h-full">
+              <div className="flex flex-col h-auto"> {/* Changed h-full to h-auto */}
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-semibold text-gray-800">Generated Hash</h3>
                   {result?.executionTime !== undefined && !result.error && (
-                    <span className="flex items-center gap-1.5 text-[11px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
+                    <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
                       <Zap className="w-3 h-3" />
                       {result.executionTime.toFixed(1)}ms
                     </span>
@@ -310,7 +352,7 @@ export function HashGenerator() {
 
                 <div className="flex-1 relative group">
                   <div className={cn(
-                    "w-full h-full min-h-[250px] p-5 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
+                    "w-full min-h-[120px] p-5 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300", /* Changed min-h-250 to min-h-120 and removed h-full */
                     isGenerating
                       ? "bg-white border-primary-200 text-gray-400"
                       : result?.error
@@ -364,15 +406,7 @@ export function HashGenerator() {
               </div>
             ) : (
               <div className="flex flex-col h-full justify-center">
-                {!verifyHash || !verifyText ? (
-                  <div className="flex flex-col items-center text-center p-8 opacity-60">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                      <FileCheck className="w-8 h-8 text-gray-400" />
-                    </div>
-                    <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Verify</h3>
-                    <p className="text-xs text-gray-500 max-w-[200px]">Enter original text and the hash to compare them instantly.</p>
-                  </div>
-                ) : isVerifying ? (
+                {isVerifying ? (
                   <div className="flex flex-col items-center justify-center p-8 opacity-60">
                     <span className="relative flex h-8 w-8 mb-4">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
@@ -383,7 +417,7 @@ export function HashGenerator() {
                     <h3 className="text-sm font-semibold text-gray-800 mb-1">Verifying...</h3>
                     <p className="text-xs text-gray-500">Comparing cryptographic signatures</p>
                   </div>
-                ) : (
+                ) : isMatch !== null ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -423,13 +457,21 @@ export function HashGenerator() {
 
                     {!isMatch && result?.hash && (
                       <div className="mt-6 pt-4 border-t border-gray-100">
-                        <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-2">Expected Hash</p>
+                        <p className="text-[12px] text-gray-400 uppercase tracking-wider font-semibold mb-2">Expected Hash</p>
                         <div className="bg-gray-50 p-2 rounded text-[12px] font-mono text-gray-500 break-all select-all">
                           {result.hash}
                         </div>
                       </div>
                     )}
                   </motion.div>
+                ) : (
+                  <div className="flex flex-col items-center text-center p-8 opacity-60">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                      <FileCheck className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Verify</h3>
+                    <p className="text-xs text-gray-500 max-w-[200px]">Enter original text and the hash to compare them instantly.</p>
+                  </div>
                 )}
               </div>
             )}

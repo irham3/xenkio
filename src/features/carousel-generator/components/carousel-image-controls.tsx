@@ -24,7 +24,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
           <h3 className="text-sm font-black flex items-center gap-2 uppercase tracking-wider text-primary">
             Configuration
           </h3>
-          <p className="text-[10px] text-muted-foreground font-bold">IMAGE SETTINGS</p>
+          <p className="text-[12px] text-muted-foreground font-bold">IMAGE SETTINGS</p>
         </div>
         <Button variant="ghost" size="icon" className="h-9 w-9 text-destructive hover:text-white hover:bg-destructive rounded-full transition-all shadow-sm" onClick={onDelete}>
           <Trash2 size={18} />
@@ -62,7 +62,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
       {/* Scale */}
       <div className="space-y-3 pt-2 border-t border-primary/10">
         <div className="flex items-center justify-between text-xs">
-          <Label htmlFor="image-scale-input" className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[10px]">Scale</Label>
+          <Label htmlFor="image-scale-input" className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[12px]">Scale</Label>
           <div className="flex items-center gap-2">
             <span className="text-primary font-black font-mono">{Math.round(image.scale * 100)}%</span>
             <TooltipProvider>
@@ -92,7 +92,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
       {/* Rotation */}
       <div className="space-y-3">
         <div className="flex justify-between text-xs">
-          <Label htmlFor="image-rotation-input" className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[10px]">Rotation</Label>
+          <Label htmlFor="image-rotation-input" className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[12px]">Rotation</Label>
           <span className="text-primary font-black font-mono">{image.rotation}°</span>
         </div>
         <div className="flex items-center gap-3">
@@ -114,7 +114,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
 
       {/* Nudge Controls */}
       <div className="space-y-4 pt-2 border-t border-primary/10">
-        <Label className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[10px]">Micro Positioning</Label>
+        <Label className="font-bold uppercase tracking-widest text-muted-foreground/80 text-[12px]">Micro Positioning</Label>
         <div className="grid grid-cols-3 gap-2 w-fit mx-auto bg-background/40 p-3 rounded-2xl border border-primary/5">
           <div />
           <Button variant="outline" size="icon" className="h-9 w-9 rounded-lg border-2 hover:bg-primary hover:text-white transition-all shadow-sm" onClick={() => onChange({ y: image.y - 1 })}>

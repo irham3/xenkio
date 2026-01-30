@@ -201,7 +201,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
                 width: 0
               }}
             >
-              <div className="absolute top-4 -right-3 w-6 h-6 flex items-center justify-center text-[11px] text-white font-black bg-red-500 shadow-lg rounded-full ring-2 ring-white">
+              <div className="absolute top-4 -right-3 w-6 h-6 flex items-center justify-center text-[12px] text-white font-black bg-red-500 shadow-lg rounded-full ring-2 ring-white">
                 {i + 1}
               </div>
             </div>

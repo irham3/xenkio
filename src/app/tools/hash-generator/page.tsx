@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import HashGeneratorClient from './client';
-import { Shield } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Hash Generator | MD5, SHA256, Bcrypt, Argon2 Online Tool',
@@ -18,12 +17,12 @@ export default function HashGeneratorPage() {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="bg-white">
-        <div className="container mx-auto px-4 pt-16 pb-12 max-w-5xl">
+        <div className="container mx-auto px-4 py-12 max-w-5xl">
           <div className="text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-600 mb-4">
+            {/* <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-600 mb-4">
               <Shield className="w-3.5 h-3.5" />
               100% Client-Side Processing
-            </div>
+            </div> */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
               Hash Generator
             </h1>

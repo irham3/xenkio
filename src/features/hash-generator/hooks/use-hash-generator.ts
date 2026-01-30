@@ -54,15 +54,6 @@ export function useHashGenerator() {
     }
   }, [options]);
 
-  // Debounce generation
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      generate();
-    }, 300); 
-
-    return () => clearTimeout(timer);
-  }, [generate]);
-
   const updateOption = <K extends keyof HashOptions>(key: K, value: HashOptions[K]) => {
     setOptions(prev => ({ ...prev, [key]: value }));
   };
@@ -72,5 +63,7 @@ export function useHashGenerator() {
     result,
     isGenerating,
     updateOption,
+    generate,
   };
 }
+

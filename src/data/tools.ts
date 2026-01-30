@@ -199,6 +199,7 @@ export const DUMMY_TOOLS: ToolData[] = [
         description: 'Pick colors from images and convert between HEX, RGB, and HSL.',
         icon: Palette,
         href: '/tools/color-picker',
+        slug: 'color-picker',
         usageCount: '1.2M',
         categoryId: 'media-images',
     },

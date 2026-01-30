@@ -6,11 +6,11 @@ import { RegexTesterClient } from './client';
 import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: 'Regex Tester 2025 - Test & Debug Regular Expressions Online',
+  title: 'Regex Tester - Test & Debug Regular Expressions Online',
   description: 'Test, debug, and validate regular expressions with real-time matching, syntax highlighting, and match details. Free online regex tester with common patterns and quick reference guide.',
-  keywords: ['regex tester', 'regular expression tester', 'regex validator', 'regex debugger', 'regex pattern matcher', 'regex online', 'regex editor', '2025'],
+  keywords: ['regex tester', 'regular expression tester', 'regex validator', 'regex debugger', 'regex pattern matcher', 'regex online', 'regex editor'],
   openGraph: {
-    title: 'Regex Tester 2025 | Xenkio',
+    title: 'Regex Tester | Xenkio',
     description: 'Test and debug regular expressions online with live matching and syntax highlighting.',
     type: 'website',
   }

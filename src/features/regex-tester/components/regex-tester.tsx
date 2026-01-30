@@ -40,9 +40,21 @@ export function RegexTester() {
   const handleCopyPattern = useCallback(async () => {
     if (!config.pattern) return;
     const fullPattern = `/${config.pattern}/${buildFlagsString(config.flags)}`;
-    await navigator.clipboard.writeText(fullPattern);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(fullPattern);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for browsers without clipboard API
+      const textArea = document.createElement('textarea');
+      textArea.value = fullPattern;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   }, [config.pattern, config.flags]);
 
   const handleSelectPattern = useCallback((pattern: string) => {

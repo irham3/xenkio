@@ -2,6 +2,18 @@ import { useState, useCallback, useMemo } from 'react';
 import { RegexConfig, RegexFlags, RegexResult, RegexHistoryItem } from '../types';
 import { DEFAULT_CONFIG, testRegex, buildFlagsString } from '../lib/regex-utils';
 
+function generateId(): string {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  // Fallback for older browsers
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export function useRegexTester() {
   const [config, setConfig] = useState<RegexConfig>(DEFAULT_CONFIG);
   const [testString, setTestString] = useState('');
@@ -30,7 +42,7 @@ export function useRegexTester() {
     if (!config.pattern || !testString) return;
 
     const historyItem: RegexHistoryItem = {
-      id: crypto.randomUUID(),
+      id: generateId(),
       pattern: config.pattern,
       flags: buildFlagsString(config.flags),
       testString: testString.substring(0, 100),

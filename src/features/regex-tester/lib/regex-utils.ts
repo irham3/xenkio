@@ -1,4 +1,4 @@
-import { RegexConfig, RegexFlags, RegexMatch, RegexResult } from '../types';
+import { RegexFlags, RegexMatch, RegexResult } from '../types';
 
 export const DEFAULT_FLAGS: RegexFlags = {
   global: true,
@@ -9,7 +9,7 @@ export const DEFAULT_FLAGS: RegexFlags = {
   sticky: false,
 };
 
-export const DEFAULT_CONFIG: RegexConfig = {
+export const DEFAULT_CONFIG = {
   pattern: '',
   flags: DEFAULT_FLAGS,
 };
@@ -33,8 +33,27 @@ export function getLineAndColumn(text: string, index: number): { line: number; c
   };
 }
 
+function generateId(): string {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  // Fallback for older browsers
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
+function getTime(): number {
+  if (typeof performance !== 'undefined' && performance.now) {
+    return performance.now();
+  }
+  return Date.now();
+}
+
 export function testRegex(pattern: string, flags: RegexFlags, testString: string): RegexResult {
-  const startTime = performance.now();
+  const startTime = getTime();
   
   if (!pattern) {
     return {
@@ -58,17 +77,10 @@ export function testRegex(pattern: string, flags: RegexFlags, testString: string
       let lastIndex = -1;
       
       while ((match = regex.exec(testString)) !== null) {
-        // Prevent infinite loop
-        if (regex.lastIndex === lastIndex) {
-          regex.lastIndex++;
-          continue;
-        }
-        lastIndex = regex.lastIndex;
-
         const { line, column } = getLineAndColumn(testString, match.index);
         
         matches.push({
-          id: crypto.randomUUID(),
+          id: generateId(),
           fullMatch: match[0],
           groups: match.slice(1),
           index: match.index,
@@ -78,6 +90,12 @@ export function testRegex(pattern: string, flags: RegexFlags, testString: string
         });
         
         matchIndex++;
+        
+        // Prevent infinite loop for zero-width matches
+        if (regex.lastIndex === lastIndex) {
+          regex.lastIndex++;
+        }
+        lastIndex = regex.lastIndex;
         
         // Safety limit to prevent performance issues
         if (matchIndex >= 1000) {
@@ -89,7 +107,7 @@ export function testRegex(pattern: string, flags: RegexFlags, testString: string
       if (match) {
         const { line, column } = getLineAndColumn(testString, match.index);
         matches.push({
-          id: crypto.randomUUID(),
+          id: generateId(),
           fullMatch: match[0],
           groups: match.slice(1),
           index: match.index,
@@ -104,14 +122,14 @@ export function testRegex(pattern: string, flags: RegexFlags, testString: string
       isValid: true,
       matches,
       error: null,
-      executionTime: performance.now() - startTime,
+      executionTime: getTime() - startTime,
     };
   } catch (error) {
     return {
       isValid: false,
       matches: [],
       error: error instanceof Error ? error.message : 'Invalid regular expression',
-      executionTime: performance.now() - startTime,
+      executionTime: getTime() - startTime,
     };
   }
 }

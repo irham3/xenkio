@@ -17,14 +17,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/contact',
     '/privacy',
     '/terms',
+    '/sign-up',
     '/tools',
     '/tools/image-compressor',
     '/tools/instagram-carousel',
+    '/tools/password-generator',
+    '/tools/qr-code-generator',
+    '/tools/hash-generator'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1 : 0.5,
+    priority: route === '' ? 1 : 0.9,
   }))
 
   return [...routes, ...tools]

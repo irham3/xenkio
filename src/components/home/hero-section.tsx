@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ShinyText from '@/components/reactbits/shiny-text';
@@ -25,6 +25,19 @@ const fuse = new Fuse(TOOLS, {
 export function HeroSection() {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsFocused(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // useEffect for placeholders rotation removed as it is handled in the component
   // useEffect(() => {
@@ -46,7 +59,7 @@ export function HeroSection() {
   const showResults = isFocused && results.length > 0;
 
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-primary-50/80 via-white to-white">
+    <section className="relative z-10 bg-linear-to-b from-primary-50/80 via-white to-white">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.015]" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
@@ -100,7 +113,8 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="relative max-w-2xl mx-auto z-20"
+            ref={containerRef}
+            className="relative max-w-xl mx-auto z-20"
           >
             <PlaceholdersAndVanishInput
               placeholders={placeholders}
@@ -110,7 +124,6 @@ export function HeroSection() {
                 console.log('Search submit', query);
               }}
               onFocus={() => setIsFocused(true)}
-              onBlur={() => setTimeout(() => setIsFocused(false), 200)}
             />
 
             {/* Search results dropdown */}
@@ -118,13 +131,13 @@ export function HeroSection() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden z-50"
+                className="absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50"
               >
                 {results.map((tool) => (
                   <a
                     key={tool.id}
                     href={tool.href}
-                    className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors z-50 max-w-2xl"
                   >
                     <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100">
                       <tool.icon className="w-5 h-5 text-gray-600" />

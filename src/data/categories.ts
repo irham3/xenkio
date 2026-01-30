@@ -23,7 +23,7 @@ export const CATEGORIES: CategoryData[] = [
         name: 'Data Processing',
         description: 'Transform, convert, and analyze data in various formats',
         icon: Database,
-        color: '#8B5CF6',
+        color: '#FFFFFF',
         toolCount: 7,
     },
     {
@@ -31,7 +31,7 @@ export const CATEGORIES: CategoryData[] = [
         name: 'Media & Images',
         description: 'Edit, convert, and optimize images and media files',
         icon: FileImage,
-        color: '#10B981',
+        color: '#FFFFFF',
         toolCount: 12,
     },
     {
@@ -39,7 +39,7 @@ export const CATEGORIES: CategoryData[] = [
         name: 'Developer Tools',
         description: 'Code formatting, debugging, and development utilities',
         icon: Code2,
-        color: '#3B82F6',
+        color: '#FFFFFF',
         toolCount: 10,
     },
     {
@@ -47,7 +47,7 @@ export const CATEGORIES: CategoryData[] = [
         name: 'Documents',
         description: 'Convert, merge, split, and edit PDF and document files',
         icon: FileText,
-        color: '#F97316',
+        color: '#FFFFFF',
         toolCount: 8,
     },
     {
@@ -55,7 +55,7 @@ export const CATEGORIES: CategoryData[] = [
         name: 'Security & Privacy',
         description: 'Password generation, encryption, and security tools',
         icon: Lock,
-        color: '#EF4444',
+        color: '#FFFFFF',
         toolCount: 6,
     },
     {
@@ -63,7 +63,7 @@ export const CATEGORIES: CategoryData[] = [
         name: 'Text Utilities',
         description: 'Text manipulation, conversion, and formatting tools',
         icon: Type,
-        color: '#EC4899',
+        color: '#FFFFFF',
         toolCount: 6,
     },
 ];

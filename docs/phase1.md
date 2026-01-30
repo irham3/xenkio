@@ -272,7 +272,7 @@ interface CategorySectionProps {
 ```
 ---
 ### 9. Stats Banner
-**Path:** `src/components/home/stats-banner.tsx`
+<!-- **Path:** `src/components/home/stats-banner.tsx`
 **Features:**
 - Gradient background (primary gradient reversed)
 - White text
@@ -282,7 +282,7 @@ interface CategorySectionProps {
   - "130+ Tools Available"
 - Large numbers (40px), labels (16px)
 - Height: 200px
-- **Aceternity Glowing Effect** on numbers
+- **Aceternity Glowing Effect** on numbers -->
 ---
 ### 10. Footer Component
 **Path:** `src/components/layout/footer.tsx`

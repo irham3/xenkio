@@ -1,4 +1,4 @@
-import { CarouselConfig, CarouselImage, INSTAGRAM_SIZES } from '../types';
+import { CarouselConfig, INSTAGRAM_SIZES } from '../types';
 
 
 // Helper to load image for canvas
@@ -98,7 +98,6 @@ export async function generateCarouselDownloads(config: CarouselConfig): Promise
 
 // Layout Calculation Logic
 export function recalculateLayout(config: CarouselConfig): CarouselConfig {
-    const { width, height } = INSTAGRAM_SIZES[config.size];
     const newImages = [...config.images];
     let slideCount = config.slideCount;
 

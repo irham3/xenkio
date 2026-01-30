@@ -5,9 +5,8 @@ import { useState } from 'react';
 import { QRConfig } from '../types';
 import { QR_ERROR_LEVELS } from '../constants';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Paintbrush, Frame, Settings2, Palette } from 'lucide-react';
+import { Frame, Settings2, Palette } from 'lucide-react';
 
 interface QrCustomizerProps {
   config: QRConfig;
@@ -364,7 +363,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
               </select>
               <p className="text-xs text-gray-500">
                 Higher levels allow for more damage to the QR code but produce complex patterns.
-                Choose 'High' if you plan to add a logo.
+                Choose &apos;High&apos; if you plan to add a logo.
               </p>
             </div>
 

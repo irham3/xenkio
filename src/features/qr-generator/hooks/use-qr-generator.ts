@@ -53,7 +53,6 @@ export function useQrGenerator() {
 
                 // Professional resolution (e.g., 2000px)
                 const targetSize = 2048;
-                const scale = targetSize / width;
 
                 canvas.width = targetSize;
                 canvas.height = targetSize;

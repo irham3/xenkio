@@ -6,7 +6,7 @@ import { useImageResizer } from '../hooks/use-image-resizer';
 import { ImageEditor } from './image-editor';
 import { ResizeControls } from './resize-controls';
 import { Button } from '@/components/ui/button';
-import { Download, ArrowRight } from 'lucide-react';
+import { Download } from 'lucide-react';
 
 export function ImageResizerClient() {
     const {

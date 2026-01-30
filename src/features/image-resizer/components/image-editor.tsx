@@ -5,7 +5,6 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { Button } from '@/components/ui/button';
 import { Upload, X, Crop as CropIcon } from 'lucide-react';
 import { ImageState } from '../types';
-import Image from 'next/image';
 
 interface ImageEditorProps {
     imageState: ImageState;
@@ -101,24 +100,24 @@ export function ImageEditor({
                         aspect={undefined} // Free crop by default
                         className="max-h-[600px]"
                     >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             ref={imgRef}
                             alt="Crop me"
                             src={imageState.src}
                             style={{ maxHeight: '600px', maxWidth: '100%', objectFit: 'contain' }}
-                            onLoad={(e) => {
-                                // You can capture natural dimensions here if needed
-                            }}
                         />
                     </ReactCrop>
                 ) : (
                     <div className="relative max-h-[600px] w-full flex items-center justify-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={previewUrl || imageState.src}
                             alt="Preview"
                             className="max-h-[600px] max-w-full object-contain rounded-md shadow-sm"
                         />
                         {/* Hidden img ref for resizing operations even when not cropping */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             ref={imgRef}
                             src={imageState.src}

@@ -1,24 +1,72 @@
 'use client';
 
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { QRConfig } from '../types';
 import { Button } from '@/components/ui/button';
 import { FileImage, FileCode } from 'lucide-react';
-import { QRCodeSVG, QRCodeCanvas } from 'qrcode.react';
+import { QRCodeCanvas } from 'qrcode.react';
 
 interface QrPreviewProps {
   config: QRConfig;
   onDownload: (format: 'png' | 'svg' | 'pdf', elementId: string) => void;
 }
 
+// FrameLayer component moved outside to avoid "creating components during render" error
+function FrameLayer({ config, SIZE }: { config: QRConfig; SIZE: number }) {
+  if (!config.frame || config.frame.style === 'none') return null;
+
+  const { style, text, color } = config.frame;
+  const CENTER = SIZE / 2;
+
+  if (style === 'simple') {
+    return (
+      <g>
+        <rect x="10" y="10" width={SIZE - 20} height={SIZE - 20} rx="24" ry="24" fill="none" stroke={color} strokeWidth="8" />
+        <rect x={CENTER - 80} y={SIZE - 55} width="160" height="40" rx="8" fill="white" stroke={color} strokeWidth="2" />
+        <text x={CENTER} y={SIZE - 28} textAnchor="middle" fill={color} fontSize="18" fontWeight="bold" style={{ textTransform: 'uppercase', letterSpacing: '1px' }}>
+          {text}
+        </text>
+      </g>
+    );
+  }
+
+  if (style === 'modern') {
+    return (
+      <g>
+        <rect x="0" y="0" width={SIZE} height={SIZE} rx="40" ry="40" fill={color} fillOpacity="0.08" />
+        <rect x={CENTER - 90} y="15" width="180" height="40" rx="20" fill={color} />
+        <text x={CENTER} y="41" textAnchor="middle" fill="#ffffff" fontSize="15" fontWeight="black" style={{ textTransform: 'uppercase', letterSpacing: '1px' }}>
+          {text}
+        </text>
+      </g>
+    );
+  }
+
+  if (style === 'badge') {
+    return (
+      <g>
+        <rect x="0" y="0" width={SIZE} height={SIZE} rx="20" ry="20" fill="white" stroke="#f3f4f6" strokeWidth="2" />
+        <path d={`M 0 20 A 20 20 0 0 1 20 0 L ${SIZE - 20} 0 A 20 20 0 0 1 ${SIZE} 20 L ${SIZE} 60 L 0 60 Z`} fill={color} />
+        <text x={CENTER} y="38" textAnchor="middle" fill="#ffffff" fontSize="20" fontWeight="bold" style={{ textTransform: 'uppercase', letterSpacing: '3px' }}>
+          {text}
+        </text>
+        <rect x="20" y="80" width={SIZE - 40} height={SIZE - 100} rx="12" fill={color} fillOpacity="0.03" />
+      </g>
+    );
+  }
+
+  return null;
+}
+
 export function QrPreview({ config, onDownload }: QrPreviewProps) {
-  const gradientId = useMemo(() => `qr-gradient-${Math.random().toString(36).substring(2, 11)}`, []);
+  // Use state lazy initializer for stable ID, which is pure
+  const [gradientId] = useState(() => `qr-gradient-${Math.random().toString(36).substring(2, 11)}`);
   const svgId = 'qr-preview-svg';
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [matrix, setMatrix] = useState<boolean[][]>([]);
 
-  // Capture the matrix from a hidden canvas
-  useEffect(() => {
+  // Memoized function to extract matrix from canvas
+  const extractMatrix = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -66,13 +114,24 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
       }
       newMatrix.push(row);
     }
-    setMatrix(newMatrix);
-  }, [config.value, config.level]);
+    return newMatrix;
+  }, []);
+
+  // Capture the matrix from a hidden canvas
+  useEffect(() => {
+    // Use requestAnimationFrame to defer state update
+    const rafId = requestAnimationFrame(() => {
+      const newMatrix = extractMatrix();
+      if (newMatrix) {
+        setMatrix(newMatrix);
+      }
+    });
+    return () => cancelAnimationFrame(rafId);
+  }, [config.value, config.level, extractMatrix]);
 
   // Fixed canvas size for display
   const SIZE = 350;
   const QR_SIZE = 220;
-  const CENTER = SIZE / 2;
   const OFFSET = (SIZE - QR_SIZE) / 2;
 
   const renderDots = () => {
@@ -172,7 +231,7 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
 
   const renderLogo = () => {
     if (!config.imageSettings?.src) return null;
-    const { src, width, height, opacity, borderRadius, borderSize, borderColor } = config.imageSettings;
+    const { src, width, opacity, borderRadius, borderSize, borderColor } = config.imageSettings;
     const size = width;
     const x = (QR_SIZE - size) / 2;
     const y = (QR_SIZE - size) / 2;
@@ -203,52 +262,6 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
         />
       </g>
     );
-  };
-
-  const FrameLayer = () => {
-    if (!config.frame || config.frame.style === 'none') return null;
-
-    const { style, text, color } = config.frame;
-    const CENTER = SIZE / 2;
-
-    if (style === 'simple') {
-      return (
-        <g>
-          <rect x="10" y="10" width={SIZE - 20} height={SIZE - 20} rx="24" ry="24" fill="none" stroke={color} strokeWidth="8" />
-          <rect x={CENTER - 80} y={SIZE - 55} width="160" height="40" rx="8" fill="white" stroke={color} strokeWidth="2" />
-          <text x={CENTER} y={SIZE - 28} textAnchor="middle" fill={color} fontSize="18" fontWeight="bold" style={{ textTransform: 'uppercase', letterSpacing: '1px' }}>
-            {text}
-          </text>
-        </g>
-      );
-    }
-
-    if (style === 'modern') {
-      return (
-        <g>
-          <rect x="0" y="0" width={SIZE} height={SIZE} rx="40" ry="40" fill={color} fillOpacity="0.08" />
-          <rect x={CENTER - 90} y="15" width="180" height="40" rx="20" fill={color} />
-          <text x={CENTER} y="41" textAnchor="middle" fill="#ffffff" fontSize="15" fontWeight="black" style={{ textTransform: 'uppercase', letterSpacing: '1px' }}>
-            {text}
-          </text>
-        </g>
-      );
-    }
-
-    if (style === 'badge') {
-      return (
-        <g>
-          <rect x="0" y="0" width={SIZE} height={SIZE} rx="20" ry="20" fill="white" stroke="#f3f4f6" strokeWidth="2" />
-          <path d={`M 0 20 A 20 20 0 0 1 20 0 L ${SIZE - 20} 0 A 20 20 0 0 1 ${SIZE} 20 L ${SIZE} 60 L 0 60 Z`} fill={color} />
-          <text x={CENTER} y="38" textAnchor="middle" fill="#ffffff" fontSize="20" fontWeight="bold" style={{ textTransform: 'uppercase', letterSpacing: '3px' }}>
-            {text}
-          </text>
-          <rect x="20" y="80" width={SIZE - 40} height={SIZE - 100} rx="12" fill={color} fillOpacity="0.03" />
-        </g>
-      );
-    }
-
-    return null;
   };
 
   return (
@@ -286,7 +299,7 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
           <rect x="0" y="0" width={SIZE} height={SIZE} fill={config.bgColor} rx="12" />
 
           {/* Frame Layer */}
-          <FrameLayer />
+          <FrameLayer config={config} SIZE={SIZE} />
 
           {/* QR Code and Logo */}
           <g

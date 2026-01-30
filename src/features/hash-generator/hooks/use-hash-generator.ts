@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { HashOptions, HashResult } from '../types';
 import { generateHash } from '../lib/hash-utils';
 import { DEFAULT_OPTIONS } from '../constants';

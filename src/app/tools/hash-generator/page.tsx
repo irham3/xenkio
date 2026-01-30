@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import HashGeneratorClient from './client';
+import { Shield } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Hash Generator | MD5, SHA256, Bcrypt, Argon2 Online Tool',
@@ -14,50 +15,60 @@ export const metadata: Metadata = {
 
 export default function HashGeneratorPage() {
   return (
-    <div className="container mx-auto px-4 py-12 max-w-5xl">
-      <div className="text-center mb-12 space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-900 to-gray-600 pb-2">
-          Advanced Hash Generator
-        </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Generate cryptographic hashes instantly. Support for all major algorithms including MD5, SHA family, Bcrypt, and Argon2. Secure, client-side execution.
-        </p>
-      </div>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="bg-white">
+        <div className="container mx-auto px-4 pt-16 pb-12 max-w-5xl">
+          <div className="text-center space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-600 mb-4">
+              <Shield className="w-3.5 h-3.5" />
+              100% Client-Side Processing
+            </div>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
+              Hash Generator
+            </h1>
+          </div>
+        </div>
+      </section>
 
-      <HashGeneratorClient />
+      {/* Tool Section */}
+      <section className="container mx-auto px-4 max-w-5xl">
+        <HashGeneratorClient />
+      </section>
 
       {/* SEO Content */}
-      <div className="mt-24 grid gap-12 max-w-4xl mx-auto text-gray-600">
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-900">Supported Hashing Algorithms</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-gray-50 p-6 rounded-xl">
-              <h3 className="font-semibold text-gray-900 mb-2">Modern Password Hashing</h3>
-              <ul className="list-disc list-inside space-y-2">
-                <li><strong>Argon2id:</strong> The winner of the Password Hashing Competition. Use this for new password storage. Memory-hard and resistant to GPU attacks.</li>
-                <li><strong>Bcrypt:</strong> The standard for many years. Adaptive and salt-aware. Still excellent for most use cases.</li>
-              </ul>
+      <section className="bg-white">
+        <div className="container mx-auto px-4 py-16 max-w-4xl">
+          <div className="grid lg:grid-cols-2 gap-12">
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-gray-900">Modern Password Hashing</h2>
+              <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
+                <p>
+                  <strong className="text-gray-800">Argon2id</strong> — Winner of the Password Hashing Competition.
+                  Memory-hard and resistant to GPU attacks. Use this for new password storage systems.
+                </p>
+                <p>
+                  <strong className="text-gray-800">Bcrypt</strong> — Industry standard for over a decade.
+                  Adaptive cost factor makes it future-proof. Excellent for most production use cases.
+                </p>
+              </div>
             </div>
-            <div className="bg-gray-50 p-6 rounded-xl">
-              <h3 className="font-semibold text-gray-900 mb-2">General Purpose & Checksums</h3>
-              <ul className="list-disc list-inside space-y-2">
-                <li><strong>SHA-256 & SHA-512:</strong> Secure standards for digital signatures, file integrity, and authentication.</li>
-                <li><strong>MD5 & SHA-1:</strong> Fast algorithms. broken collision resistance but useful for non-security checksums.</li>
-              </ul>
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-gray-900">General Purpose Hashing</h2>
+              <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
+                <p>
+                  <strong className="text-gray-800">SHA-256 & SHA-512</strong> — Secure standards for digital signatures,
+                  file integrity verification, and authentication protocols.
+                </p>
+                <p>
+                  <strong className="text-gray-800">MD5 & SHA-1</strong> — Fast algorithms with broken collision resistance.
+                  Only use for non-security checksums and legacy compatibility.
+                </p>
+              </div>
             </div>
           </div>
-        </section>
-
-        <section className="space-y-4 border-t pt-12">
-          <h2 className="text-2xl font-bold text-gray-900">Why Use This Tool?</h2>
-          <p>
-            This tool runs entirely in your browser using client-side JavaScript and WebAssembly.
-            <strong>Your input text never leaves your device</strong>, ensuring maximum privacy even for sensitive data checks.
-            We use <code className="bg-gray-100 px-1 py-0.5 rounded">crypto-js</code> for standard algorithms and
-            <code className="bg-gray-100 px-1 py-0.5 rounded">hash-wasm</code> for high-performance implementation of modern hashes like Argon2.
-          </p>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

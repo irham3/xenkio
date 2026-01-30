@@ -79,18 +79,7 @@ export function Navbar() {
     }
   };
 
-  const handleAllToolsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // If we are on home, scroll to top
-    if (pathname === '/') {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setActiveCategory('');
-      setMobileMenuOpen(false);
-    } else {
-      // Allow default navigation to /tools
-      setMobileMenuOpen(false);
-    }
-  };
+
 
   return (
     <header className="sticky top-0 z-50 w-full">

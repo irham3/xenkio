@@ -78,3 +78,43 @@ export async function generateHash(options: HashOptions): Promise<HashResult> {
     executionTime: performance.now() - startTime,
   };
 }
+
+export async function verifyHash(text: string, hashToVerify: string, algorithm: HashAlgorithm): Promise<boolean> {
+  try {
+    if (!text || !hashToVerify) return false;
+
+    switch (algorithm) {
+      case 'BCRYPT':
+        return await bcrypt.compare(text, hashToVerify);
+      
+      case 'ARGON2':
+        // Import dynamically if needed, or assume it's available from top-level import
+        // functionality of hash-wasm argon2Verify
+        const { argon2Verify } = await import('hash-wasm');
+        return await argon2Verify({
+          password: text,
+          hash: hashToVerify,
+        });
+
+      case 'MD5':
+      case 'SHA1':
+      case 'SHA256':
+      case 'SHA512':
+      case 'RIPEMD160':
+        // For standard hashes, verification is just checking if hash(text) == target_hash
+        // Note: This assumes no extra salt was manually added or the user included it in 'text'
+        const result = await generateHash({ 
+          algorithm, 
+          text, 
+          salt: '' // We assume raw text verification for simplicity in this mode
+        });
+        return result.hash.toLowerCase() === hashToVerify.toLowerCase();
+
+      default:
+        return false;
+    }
+  } catch (err) {
+    console.error('Verification failed:', err);
+    return false;
+  }
+}

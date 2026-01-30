@@ -61,7 +61,7 @@ export function CarouselGenerator() {
               {isExporting ? <Loader2 className="mr-2 h-6 w-6 animate-spin" /> : <Download className="mr-2 h-6 w-6" />}
               Export Carousel
             </Button>
-            <p className="text-[10px] text-center mt-3 text-muted-foreground font-medium uppercase tracking-tighter">
+            <p className="text-[12px] text-center mt-3 text-muted-foreground font-medium uppercase tracking-tighter">
               Ready for Instagram &bull; ZIP Format
             </p>
           </div>

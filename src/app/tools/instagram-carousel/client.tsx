@@ -85,7 +85,7 @@ export function InstagramCarouselClient() {
             {isExporting ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Download className="mr-2 h-5 w-5" />}
             Export Carousel
           </Button>
-          <p className="text-[11px] text-center mt-3 text-muted-foreground font-medium">
+          <p className="text-[12px] text-center mt-3 text-muted-foreground font-medium">
             Slices will be exported in a ZIP file.
           </p>
         </div>

@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 import bcrypt from 'bcryptjs';
 import { argon2id } from 'hash-wasm';
-import { HashOptions, HashResult } from '../types';
+import { HashOptions, HashResult, HashAlgorithm } from '../types';
 
 export async function generateHash(options: HashOptions): Promise<HashResult> {
   const startTime = performance.now();
@@ -63,12 +63,12 @@ export async function generateHash(options: HashOptions): Promise<HashResult> {
       default:
         throw new Error(`Algorithm ${algorithm} not supported`);
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       hash: '',
       algorithm: options.algorithm,
       executionTime: performance.now() - startTime,
-      error: err.message || 'Unknown error',
+      error: err instanceof Error ? err.message : 'Unknown error',
     };
   }
 

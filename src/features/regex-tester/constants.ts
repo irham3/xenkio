@@ -56,7 +56,7 @@ export const COMMON_PATTERNS: CommonPattern[] = [
   },
   {
     name: 'URL',
-    pattern: 'https?:\\/\\/[\\w\\-._~:/?#[\\]@!$&\'()*+,;=%]+',
+    pattern: 'https?:\\/\\/[\\w\\-._~:/?#\\[\\]@!$&\'()*+,;=%]+',
     description: 'Match HTTP/HTTPS URLs',
   },
   {

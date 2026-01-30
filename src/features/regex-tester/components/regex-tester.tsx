@@ -18,25 +18,31 @@ export function RegexTester() {
     updatePattern,
     updateTestText,
     updateFlag,
-    setPattern,
     clearAll,
   } = useRegexTester();
 
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
   const [showPatternDropdown, setShowPatternDropdown] = useState(false);
 
-  const handleCopy = useCallback(() => {
+  const handleCopy = useCallback(async () => {
     if (options.pattern) {
-      navigator.clipboard.writeText(`/${options.pattern}/${flagsString}`);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(`/${options.pattern}/${flagsString}`);
+        setCopied(true);
+        setCopyError(false);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        setCopyError(true);
+        setTimeout(() => setCopyError(false), 2000);
+      }
     }
   }, [options.pattern, flagsString]);
 
   const handleSelectPattern = useCallback((pattern: string) => {
-    setPattern(pattern);
+    updatePattern(pattern);
     setShowPatternDropdown(false);
-  }, [setPattern]);
+  }, [updatePattern]);
 
   // Highlighted text with matches
   const highlightedText = useMemo(() => {
@@ -80,7 +86,7 @@ export function RegexTester() {
     }
 
     return parts;
-  }, [result, options.testText]);
+  }, [result.isValid, result.matches, options.testText]);
 
   return (
     <div className="w-full">
@@ -138,12 +144,21 @@ export function RegexTester() {
 
               {/* Common Patterns Dropdown */}
               <div className="space-y-2 relative">
-                <Label className="text-sm font-semibold text-gray-800">Common Patterns</Label>
+                <Label htmlFor="common-patterns-btn" className="text-sm font-semibold text-gray-800">Common Patterns</Label>
                 <div className="relative">
                   <button
+                    id="common-patterns-btn"
                     type="button"
                     onClick={() => setShowPatternDropdown(!showPatternDropdown)}
-                    className="w-full flex items-center justify-between bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl p-3 outline-none transition-all hover:bg-gray-100 cursor-pointer"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Escape' && showPatternDropdown) {
+                        setShowPatternDropdown(false);
+                      }
+                    }}
+                    aria-haspopup="listbox"
+                    aria-expanded={showPatternDropdown}
+                    aria-controls="common-patterns-listbox"
+                    className="w-full flex items-center justify-between bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl p-3 outline-none transition-all hover:bg-gray-100 cursor-pointer focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400"
                   >
                     <span className="text-gray-500">Select a pattern...</span>
                     <ChevronDown className={cn(
@@ -154,6 +169,9 @@ export function RegexTester() {
                   <AnimatePresence>
                     {showPatternDropdown && (
                       <motion.div
+                        id="common-patterns-listbox"
+                        role="listbox"
+                        aria-label="Common regex patterns"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
@@ -163,8 +181,10 @@ export function RegexTester() {
                           <button
                             key={p.name}
                             type="button"
+                            role="option"
+                            aria-selected={options.pattern === p.pattern}
                             onClick={() => handleSelectPattern(p.pattern)}
-                            className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
+                            className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0 focus:bg-gray-50 focus:outline-none"
                           >
                             <div className="flex items-center gap-2">
                               <Sparkles className="w-3.5 h-3.5 text-primary-500" />
@@ -244,12 +264,22 @@ export function RegexTester() {
                 <Button
                   onClick={handleCopy}
                   disabled={!options.pattern}
-                  className="flex-1 bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-all"
+                  className={cn(
+                    "flex-1 shadow-sm transition-all",
+                    copyError 
+                      ? "bg-error-600 hover:bg-error-700 text-white" 
+                      : "bg-primary-600 hover:bg-primary-700 text-white"
+                  )}
                 >
                   {copied ? (
                     <>
                       <Check className="w-4 h-4 mr-2" />
                       Copied!
+                    </>
+                  ) : copyError ? (
+                    <>
+                      <AlertCircle className="w-4 h-4 mr-2" />
+                      Failed
                     </>
                   ) : (
                     <>

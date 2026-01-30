@@ -115,10 +115,3 @@ export function executeRegex(options: RegexOptions): RegexResult {
     };
   }
 }
-
-/**
- * Escapes special regex characters in a string
- */
-export function escapeRegex(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}

@@ -3,6 +3,19 @@ import { RegexOptions, RegexFlags } from '../types';
 import { executeRegex, buildFlagsString } from '../lib/regex-utils';
 import { DEFAULT_FLAGS } from '../constants';
 
+/**
+ * Hook for managing regex tester state and functionality.
+ * Provides live regex matching with pattern, test text, and flags management.
+ * 
+ * @returns Object containing:
+ * - options: Current regex options (pattern, testText, flags)
+ * - result: Computed regex result with matches and validity
+ * - flagsString: String representation of active flags (e.g., "gi")
+ * - updatePattern: Function to update the regex pattern
+ * - updateTestText: Function to update the test string
+ * - updateFlag: Function to toggle individual flags
+ * - clearAll: Function to reset all inputs to defaults
+ */
 export function useRegexTester() {
   const [options, setOptions] = useState<RegexOptions>({
     pattern: '',
@@ -31,18 +44,6 @@ export function useRegexTester() {
     }));
   }, []);
 
-  const setFlags = useCallback((flags: RegexFlags) => {
-    setOptions(prev => ({ ...prev, flags }));
-  }, []);
-
-  const resetFlags = useCallback(() => {
-    setOptions(prev => ({ ...prev, flags: { ...DEFAULT_FLAGS } }));
-  }, []);
-
-  const setPattern = useCallback((pattern: string) => {
-    setOptions(prev => ({ ...prev, pattern }));
-  }, []);
-
   const clearAll = useCallback(() => {
     setOptions({
       pattern: '',
@@ -58,9 +59,6 @@ export function useRegexTester() {
     updatePattern,
     updateTestText,
     updateFlag,
-    setFlags,
-    resetFlags,
-    setPattern,
     clearAll,
   };
 }

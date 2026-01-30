@@ -73,7 +73,7 @@ export function HtmlFormatter() {
   return (
     <div className="w-full">
       {/* Tab Switcher */}
-      <div className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl mb-6 max-w-xs border border-gray-200">
+      <div className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl mb-6 w-full border border-gray-200">
         <button
           onClick={() => setActiveTab('format')}
           className={cn(

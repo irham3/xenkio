@@ -817,7 +817,8 @@ xenkio/
 │   │       ├── 📁 lib/
 │   │       │   └── base64-utils.ts     # Encode/decode utilities
 │   │       ├── constants.ts            # Mode definitions
-│   │       └── types.ts                # Base64Mode, options, result types
+│   │       ├── types.ts                # Base64Mode, options, result types
+│   │       └── index.ts                # Public API (barrel export)
 │   ├── 📁 components/                  # Shared Components
 │   │   ├── 📁 ui/                      # ✅ Base UI Components (Shadcn)
 │   │   │   ├── button.tsx              # ✅

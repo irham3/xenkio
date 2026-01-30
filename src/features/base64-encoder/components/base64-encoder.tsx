@@ -16,21 +16,32 @@ export function Base64Encoder() {
 
   const currentMode = BASE64_MODES.find(m => m.id === options.mode);
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (result?.output) {
-      navigator.clipboard.writeText(result.output);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(result.output);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        // Fallback: clipboard access may fail in non-secure contexts
+        console.warn('Clipboard access denied');
+      }
     }
   };
 
   return (
     <div className="w-full">
       {/* Mode Switcher */}
-      <div className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl mb-6 w-full border border-gray-200">
+      <div 
+        className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl mb-6 w-full border border-gray-200"
+        role="tablist"
+        aria-label="Base64 mode selection"
+      >
         {BASE64_MODES.map((mode) => (
           <button
             key={mode.id}
+            role="tab"
+            aria-selected={options.mode === mode.id}
             onClick={() => updateOption('mode', mode.id as Base64Mode)}
             className={cn(
               "flex-1 flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
@@ -122,7 +133,7 @@ export function Base64Encoder() {
               </div>
 
               {/* Output Area */}
-              <div className="flex-1 relative group">
+              <div className="flex-1 relative group" aria-live="polite" aria-label="Conversion result">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={result?.error ? 'error' : result?.output ? 'output' : 'empty'}

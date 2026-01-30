@@ -47,6 +47,86 @@ export function formatHtml(options: HtmlFormatterOptions): HtmlFormatterResult {
   }
 }
 
+/**
+ * Format CSS content with proper indentation
+ */
+function formatCssContent(css: string, indent: string, baseIndentLevel: number): string {
+  if (!css.trim()) return '';
+
+  const baseIndent = indent.repeat(baseIndentLevel);
+  const propertyIndent = indent.repeat(baseIndentLevel + 1);
+  
+  // Normalize whitespace
+  let formatted = css.trim();
+  
+  // Add newlines after { and before }
+  formatted = formatted.replace(/\{/g, ' {\n');
+  formatted = formatted.replace(/\}/g, '\n}\n');
+  
+  // Add newlines after semicolons (but not in strings)
+  formatted = formatted.replace(/;(?![^(]*\))/g, ';\n');
+  
+  // Split into lines and process each
+  const lines = formatted.split('\n').map(line => line.trim()).filter(line => line);
+  
+  let result = '';
+  let insideBlock = false;
+  
+  for (const line of lines) {
+    if (line === '}') {
+      insideBlock = false;
+      result += baseIndent + line + '\n';
+    } else if (line.endsWith('{')) {
+      result += baseIndent + line + '\n';
+      insideBlock = true;
+    } else if (insideBlock) {
+      result += propertyIndent + line + '\n';
+    } else {
+      result += baseIndent + line + '\n';
+    }
+  }
+  
+  return result;
+}
+
+/**
+ * Format JavaScript content with proper indentation
+ */
+function formatJsContent(js: string, indent: string, baseIndentLevel: number): string {
+  if (!js.trim()) return '';
+
+  const baseIndent = indent.repeat(baseIndentLevel);
+  const lines = js.trim().split('\n');
+  
+  // Simple formatting: just indent each line
+  let result = '';
+  let currentIndent = 0;
+  
+  for (let line of lines) {
+    line = line.trim();
+    if (!line) continue;
+    
+    // Decrease indent for closing braces
+    if (line.startsWith('}') || line.startsWith(']') || line.startsWith(')')) {
+      currentIndent = Math.max(0, currentIndent - 1);
+    }
+    
+    result += baseIndent + indent.repeat(currentIndent) + line + '\n';
+    
+    // Increase indent after opening braces
+    if (line.endsWith('{') || line.endsWith('[') || line.endsWith('(')) {
+      currentIndent++;
+    }
+    // Handle single-line with both open and close
+    if ((line.includes('{') && line.includes('}')) || 
+        (line.includes('[') && line.includes(']'))) {
+      // Don't change indent if balanced on same line
+    }
+  }
+  
+  return result;
+}
+
 interface BeautifyOptions {
   indent: string;
   wrapLineLength: number;
@@ -75,11 +155,16 @@ function beautifyHtml(html: string, options: BeautifyOptions): string {
     'article', 'aside', 'div', 'p', 'ul', 'ol', 'li', 'table', 'thead',
     'tbody', 'tfoot', 'tr', 'th', 'td', 'form', 'fieldset', 'figure',
     'figcaption', 'blockquote', 'pre', 'address', 'details', 'summary',
-    'dialog', 'hgroup', 'menu', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+    'dialog', 'hgroup', 'menu', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    // Head elements should also be on new lines
+    'title', 'style', 'script', 'noscript', 'template'
   ]);
 
-  // Tags that preserve whitespace/formatting
-  const preserveContentTags = new Set(['pre', 'code', 'textarea', 'script', 'style', ...unformatted]);
+  // Void elements that should be on their own line (like meta, link in head)
+  const blockVoidElements = new Set(['meta', 'link', 'base']);
+
+  // Tags that preserve whitespace/formatting (but we'll format style/script separately)
+  const preserveContentTags = new Set(['pre', 'code', 'textarea', ...unformatted]);
 
   let result = '';
   let indentLevel = 0;
@@ -176,20 +261,25 @@ function beautifyHtml(html: string, options: BeautifyOptions): string {
       }
     }
 
+    // Handle preserved content tags (script, style, pre, etc.) - must check before any tag parsing
+    if (inPreservedContent) {
+      const closeTag = `</${preservedTag}>`;
+      const closePos = html.toLowerCase().indexOf(closeTag.toLowerCase(), position);
+      if (closePos !== -1) {
+        result += html.substring(position, closePos);
+        position = closePos;
+        inPreservedContent = false;
+        preservedTag = '';
+      } else {
+        // No closing tag found, output rest of content and finish
+        result += html.substring(position);
+        break;
+      }
+      continue;
+    }
+
     // Check for opening tag
     if (html[position] === '<' && html[position + 1] !== '/') {
-      // Handle preserved content tags (script, style, pre, etc.)
-      if (inPreservedContent) {
-        const closeTag = `</${preservedTag}>`;
-        const closePos = html.toLowerCase().indexOf(closeTag.toLowerCase(), position);
-        if (closePos !== -1) {
-          result += html.substring(position, closePos);
-          position = closePos;
-          inPreservedContent = false;
-          preservedTag = '';
-        }
-        continue;
-      }
 
       // Find end of tag
       const tagEnd = html.indexOf('>', position);
@@ -210,10 +300,11 @@ function beautifyHtml(html: string, options: BeautifyOptions): string {
       const attributes = tagMatch[2];
       const isVoid = voidElements.has(tagName);
       const isBlock = blockElements.has(tagName);
+      const isBlockVoid = blockVoidElements.has(tagName);
       const currentIndent = getIndent(indentLevel);
 
-      // Add newline before block elements
-      if (isBlock && result && !result.endsWith('\n')) {
+      // Add newline before block elements or block void elements (like meta, link)
+      if ((isBlock || isBlockVoid) && result && !result.endsWith('\n')) {
         result += '\n';
       }
 
@@ -226,14 +317,31 @@ function beautifyHtml(html: string, options: BeautifyOptions): string {
 
       // Handle content after opening tag
       if (!isVoid && !isSelfClosing) {
-        if (preserveContentTags.has(tagName)) {
+        if (tagName === 'style' || tagName === 'script') {
+          // For style/script, we'll format the content
+          const closeTag = `</${tagName}>`;
+          const closePos = html.toLowerCase().indexOf(closeTag.toLowerCase(), position + 1);
+          if (closePos !== -1) {
+            const content = html.substring(tagEnd + 1, closePos);
+            const formattedContent = tagName === 'style' 
+              ? formatCssContent(content, indent, indentLevel + 1)
+              : formatJsContent(content, indent, indentLevel + 1);
+            result += '\n' + formattedContent;
+            if (!result.endsWith('\n')) {
+              result += '\n';
+            }
+            result += currentIndent + closeTag + '\n';
+            position = closePos + closeTag.length;
+            continue;
+          }
+        } else if (preserveContentTags.has(tagName)) {
           inPreservedContent = true;
           preservedTag = tagName;
         } else if (isBlock) {
           result += '\n';
           indentLevel++;
         }
-      } else if (isBlock) {
+      } else if (isBlock || isBlockVoid) {
         result += '\n';
       }
 

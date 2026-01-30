@@ -809,6 +809,16 @@ xenkio/
 │   │       ├── constants.ts
 │   │       ├── types.ts                # ✅ (MOVED from components)
 │   │       └── index.ts
+│   │   └── 📁 base64-encoder/          # ✅ Base64 Encoder Feature
+│   │       ├── 📁 components/
+│   │       │   └── base64-encoder.tsx  # Main encoder/decoder component
+│   │       ├── 📁 hooks/
+│   │       │   └── use-base64.ts       # Base64 state management
+│   │       ├── 📁 lib/
+│   │       │   └── base64-utils.ts     # Encode/decode utilities
+│   │       ├── constants.ts            # Mode definitions
+│   │       ├── types.ts                # Base64Mode, options, result types
+│   │       └── index.ts                # Public API (barrel export)
 │   ├── 📁 components/                  # Shared Components
 │   │   ├── 📁 ui/                      # ✅ Base UI Components (Shadcn)
 │   │   │   ├── button.tsx              # ✅

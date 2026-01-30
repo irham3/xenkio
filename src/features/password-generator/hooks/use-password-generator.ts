@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { PasswordConfig, PasswordStrength, PasswordHistoryItem } from '../types';
 import { generatePassword, calculateStrength } from '../lib/password-utils';
 
@@ -18,12 +18,30 @@ const DEFAULT_CONFIG: PasswordConfig = {
 
 export function usePasswordGenerator() {
   const [config, setConfig] = useState<PasswordConfig>(DEFAULT_CONFIG);
-  const [password, setPassword] = useState('');
-  const [strength, setStrength] = useState<PasswordStrength>({ score: 0, level: 'weak', feedback: [] });
-  const [history, setHistory] = useState<PasswordHistoryItem[]>([]);
+  
+  // Initialize state with generated values to avoid cascading render on mount
+  const [initialData] = useState(() => {
+    const pwd = generatePassword(DEFAULT_CONFIG);
+    return {
+      password: pwd,
+      strength: calculateStrength(pwd),
+      historyItem: {
+        id: crypto.randomUUID(),
+        password: pwd,
+        generatedAt: Date.now(),
+        copied: false
+      } as PasswordHistoryItem
+    };
+  });
 
-  const generate = useCallback(() => {
-    const newPassword = generatePassword(config);
+  const [password, setPassword] = useState(initialData.password);
+  const [strength, setStrength] = useState<PasswordStrength>(initialData.strength);
+  const [history, setHistory] = useState<PasswordHistoryItem[]>([initialData.historyItem]);
+  
+
+
+  const generateWithConfig = useCallback((targetConfig: PasswordConfig) => {
+    const newPassword = generatePassword(targetConfig);
     setPassword(newPassword);
     setStrength(calculateStrength(newPassword));
     
@@ -37,15 +55,16 @@ export function usePasswordGenerator() {
       // Keep last 10 passwords
       return [newItem, ...prev].slice(0, 10);
     });
-  }, [config]);
+  }, []);
 
-  // Generate on initial load and when config changes
-  useEffect(() => {
-    generate();
-  }, [generate]);
+  const generate = useCallback(() => {
+    generateWithConfig(config);
+  }, [config, generateWithConfig]);
 
   const updateConfig = (updates: Partial<PasswordConfig>) => {
-    setConfig(prev => ({ ...prev, ...updates }));
+    const newConfig = { ...config, ...updates };
+    setConfig(newConfig);
+    generateWithConfig(newConfig);
   };
 
   return {

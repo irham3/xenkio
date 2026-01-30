@@ -32,15 +32,15 @@ export const mainNav: NavItem[] = [
 ];
 
 export const footerNav: NavGroup[] = [
-  {
-    title: 'Tools',
-    items: [
-      { title: 'QR Code Generator', href: '/tools/qr-code-generator' },
-      { title: 'Instagram Carousel', href: '/tools/instagram-carousel' },
-      { title: 'Image Compressor', href: '/tools/image-compressor' },
-      { title: 'All Tools', href: '/tools' },
-    ],
-  },
+  // {
+  //   title: 'Tools',
+  //   items: [
+  //     { title: 'QR Code Generator', href: '/tools/qr-code-generator' },
+  //     { title: 'Instagram Carousel', href: '/tools/instagram-carousel' },
+  //     { title: 'Image Compressor', href: '/tools/image-compressor' },
+  //     { title: 'All Tools', href: '/tools' },
+  //   ],
+  // },
   {
     title: 'Company',
     items: [

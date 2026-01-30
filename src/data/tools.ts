@@ -394,6 +394,7 @@ export const DUMMY_TOOLS: ToolData[] = [
         description: 'Test and debug regular expressions with live matching.',
         icon: Regex,
         href: '/tools/regex-tester',
+        slug: 'regex-tester',
         usageCount: '620K',
         categoryId: 'developer-tools',
     },

@@ -33,6 +33,7 @@ export function HtmlFormatter() {
     isFormatting,
     validationError,
     updateOption,
+    format,
     minify,
     reset,
     loadSample,
@@ -288,6 +289,23 @@ export function HtmlFormatter() {
 
               {/* Action Buttons */}
               <div className="flex gap-2 pt-2">
+                <Button
+                  onClick={format}
+                  disabled={isFormatting || !options.html.trim()}
+                  className="flex-1 bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-all"
+                >
+                  {isFormatting ? (
+                    <>
+                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      Formatting...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4 mr-2" />
+                      Format HTML
+                    </>
+                  )}
+                </Button>
                 <Button
                   variant="outline"
                   size="sm"

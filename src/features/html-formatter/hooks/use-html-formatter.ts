@@ -60,15 +60,6 @@ export function useHtmlFormatter() {
     }
   }, [options]);
 
-  // Debounced formatting
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      format();
-    }, 150);
-
-    return () => clearTimeout(timer);
-  }, [format]);
-
   const updateOption = <K extends keyof HtmlFormatterOptions>(key: K, value: HtmlFormatterOptions[K]) => {
     setOptions(prev => ({ ...prev, [key]: value }));
   };
@@ -104,6 +95,7 @@ export function useHtmlFormatter() {
     isFormatting,
     validationError,
     updateOption,
+    format,
     minify,
     reset,
     loadSample,

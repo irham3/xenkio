@@ -7,11 +7,12 @@ export function useDebounceEffect(
 ) {
     useEffect(() => {
         const t = setTimeout(() => {
-            fn.apply(undefined, deps as unknown as []);
+            fn();
         }, waitTime);
 
         return () => {
             clearTimeout(t);
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps);
 }

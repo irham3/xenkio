@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { ArrowLeft, Home, Search, Ghost } from 'lucide-react';
+import { Home, Search, Ghost } from 'lucide-react';
 
 export default function NotFound() {
   return (

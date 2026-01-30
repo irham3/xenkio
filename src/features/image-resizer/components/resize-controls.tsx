@@ -73,7 +73,7 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
             <div className="space-y-3 pt-4 border-t border-gray-100">
                 <div className="flex justify-between items-center">
                     <Label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Quick Resize</Label>
-                    <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md min-w-[3rem] text-center">
+                    <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md min-w-12 text-center">
                         {percentage}%
                     </span>
                 </div>
@@ -107,7 +107,7 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
                 <select
                     className="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     value={config.format}
-                    onChange={(e) => onChange({ format: e.target.value as any })}
+                    onChange={(e) => onChange({ format: e.target.value as 'png' | 'jpeg' | 'webp' })}
                     disabled={disabled}
                 >
                     <option value="png">PNG</option>

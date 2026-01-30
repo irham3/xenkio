@@ -3,8 +3,7 @@
 
 import { QRConfig } from '../types';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Upload, X, Sliders } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRef } from 'react';
 import Image from 'next/image';

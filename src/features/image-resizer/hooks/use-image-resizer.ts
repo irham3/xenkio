@@ -17,7 +17,7 @@ export function useImageResizer() {
 
     const [config, setConfig] = useState<ResizeConfig>(DEFAULT_RESIZE_CONFIG);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [isProcessing, setIsProcessing] = useState(false);
+    const [isProcessing] = useState(false);
 
     const imgRef = useRef<HTMLImageElement | null>(null);
     const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);

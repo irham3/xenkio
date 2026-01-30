@@ -7,7 +7,7 @@ const slug = 'qr-code-generator';
 
 export const metadata: Metadata = {
     title: 'QR Code Generator - Create Custom QR Codes for Free',
-    description: 'Create custom QR codes with logos, colors, and multiple export formats including PNG, SVG, and PDF. 100% free and secure.',
+    description: 'Create custom QR codes with logos, colors, and multiple export formats including PNG, and SVG. 100% free and secure.',
     openGraph: {
         title: 'QR Code Generator | Xenkio',
         description: 'Professional QR code generator with customization options.',

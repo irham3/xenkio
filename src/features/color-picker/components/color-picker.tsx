@@ -39,10 +39,12 @@ export function ColorPicker() {
   };
 
   const handleCopy = async (format: string, value: string) => {
-    await copyToClipboard(value);
-    addToRecent(color.hex);
-    setCopiedFormat(format);
-    setTimeout(() => setCopiedFormat(null), 2000);
+    const success = await copyToClipboard(value);
+    if (success) {
+      addToRecent(color.hex);
+      setCopiedFormat(format);
+      setTimeout(() => setCopiedFormat(null), 2000);
+    }
   };
 
   const handlePresetClick = (hex: string) => {
@@ -145,6 +147,7 @@ export function ColorPicker() {
                     <button
                       key={presetHex}
                       onClick={() => handlePresetClick(presetHex)}
+                      aria-label={`Select color ${presetHex}`}
                       className={cn(
                         "w-full aspect-square rounded-lg border-2 transition-all duration-200 hover:scale-105",
                         color.hex === presetHex
@@ -170,6 +173,7 @@ export function ColorPicker() {
                       <button
                         key={`${recentHex}-${index}`}
                         onClick={() => handleRecentClick(recentHex)}
+                        aria-label={`Select recent color ${recentHex}`}
                         className={cn(
                           "w-8 h-8 rounded-md border-2 transition-all duration-200 hover:scale-110",
                           color.hex === recentHex
@@ -243,6 +247,7 @@ export function ColorPicker() {
                       max={255}
                       value={color.rgb[channel]}
                       onChange={(e) => handleRgbChange(channel, parseInt(e.target.value))}
+                      aria-label={`${channel === 'r' ? 'Red' : channel === 'g' ? 'Green' : 'Blue'} channel slider`}
                       className={cn(
                         "w-full h-2 rounded-lg appearance-none cursor-pointer",
                         channel === 'r' && "accent-red-500",
@@ -320,6 +325,7 @@ export function ColorPicker() {
                     max={360}
                     value={color.hsl.h}
                     onChange={(e) => handleHslChange('h', parseInt(e.target.value))}
+                    aria-label="Hue slider"
                     className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                     style={{
                       background: 'linear-gradient(to right, hsl(0, 100%, 50%), hsl(60, 100%, 50%), hsl(120, 100%, 50%), hsl(180, 100%, 50%), hsl(240, 100%, 50%), hsl(300, 100%, 50%), hsl(360, 100%, 50%))'
@@ -331,6 +337,7 @@ export function ColorPicker() {
                     max={100}
                     value={color.hsl.s}
                     onChange={(e) => handleHslChange('s', parseInt(e.target.value))}
+                    aria-label="Saturation slider"
                     className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                     style={{
                       background: `linear-gradient(to right, hsl(${color.hsl.h}, 0%, ${color.hsl.l}%), hsl(${color.hsl.h}, 100%, ${color.hsl.l}%))`
@@ -342,6 +349,7 @@ export function ColorPicker() {
                     max={100}
                     value={color.hsl.l}
                     onChange={(e) => handleHslChange('l', parseInt(e.target.value))}
+                    aria-label="Lightness slider"
                     className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                     style={{
                       background: `linear-gradient(to right, hsl(${color.hsl.h}, ${color.hsl.s}%, 0%), hsl(${color.hsl.h}, ${color.hsl.s}%, 50%), hsl(${color.hsl.h}, ${color.hsl.s}%, 100%))`

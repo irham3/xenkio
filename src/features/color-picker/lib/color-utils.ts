@@ -1,7 +1,15 @@
 import { ColorValue } from '../types';
 
 export function hexToRgb(hex: string): { r: number; g: number; b: number } {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  // Remove # if present
+  let cleanHex = hex.replace('#', '');
+  
+  // Expand 3-digit hex to 6-digit
+  if (cleanHex.length === 3) {
+    cleanHex = cleanHex.split('').map(c => c + c).join('');
+  }
+  
+  const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleanHex);
   if (!result) {
     return { r: 0, g: 0, b: 0 };
   }
@@ -102,8 +110,13 @@ export function isValidHex(hex: string): boolean {
   return /^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
 }
 
+// ITU-R BT.601 luminance coefficients for RGB to perceived brightness conversion
+const LUMINANCE_R = 0.299;
+const LUMINANCE_G = 0.587;
+const LUMINANCE_B = 0.114;
+
 export function getContrastColor(hex: string): string {
   const rgb = hexToRgb(hex);
-  const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+  const luminance = (LUMINANCE_R * rgb.r + LUMINANCE_G * rgb.g + LUMINANCE_B * rgb.b) / 255;
   return luminance > 0.5 ? '#000000' : '#FFFFFF';
 }

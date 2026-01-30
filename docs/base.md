@@ -809,6 +809,15 @@ xenkio/
 │   │       ├── constants.ts
 │   │       ├── types.ts                # ✅ (MOVED from components)
 │   │       └── index.ts
+│   │   └── 📁 regex-tester/            # ✅ Regex Tester Feature
+│   │       ├── 📁 components/
+│   │       │   └── regex-tester.tsx    # ✅ Main regex tester component
+│   │       ├── 📁 hooks/
+│   │       │   └── use-regex-tester.ts # ✅ Regex testing logic
+│   │       ├── 📁 lib/
+│   │       │   └── regex-utils.ts      # ✅ Regex helper functions
+│   │       ├── constants.ts            # ✅ Common patterns & flags
+│   │       └── types.ts                # ✅ Feature types
 │   ├── 📁 components/                  # Shared Components
 │   │   ├── 📁 ui/                      # ✅ Base UI Components (Shadcn)
 │   │   │   ├── button.tsx              # ✅

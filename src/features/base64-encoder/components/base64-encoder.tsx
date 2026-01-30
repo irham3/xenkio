@@ -14,11 +14,16 @@ export function Base64Encoder() {
   const { options, result, updateOption, swapMode, clearInput } = useBase64Encoder();
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (result?.output) {
-      navigator.clipboard.writeText(result.output);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(result.output);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        // Clipboard access may fail due to permissions or security restrictions
+        // Fail silently - user will notice copy button didn't change state
+      }
     }
   };
 
@@ -32,6 +37,7 @@ export function Base64Encoder() {
           <button
             key={mode.id}
             onClick={() => updateOption('mode', mode.id as Base64Mode)}
+            aria-pressed={options.mode === mode.id}
             className={cn(
               "flex-1 flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
               options.mode === mode.id
@@ -74,8 +80,9 @@ export function Base64Encoder() {
 
               {/* Options */}
               <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label htmlFor="url-safe-checkbox" className="flex items-center gap-2 cursor-pointer">
                   <input
+                    id="url-safe-checkbox"
                     type="checkbox"
                     checked={options.urlSafe}
                     onChange={(e) => updateOption('urlSafe', e.target.checked)}

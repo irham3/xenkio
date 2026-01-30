@@ -8,8 +8,15 @@ function encodeToBase64(text: string, urlSafe: boolean): string {
   const encoder = new TextEncoder();
   const bytes = encoder.encode(text);
   
-  // Convert bytes to base64
-  let base64 = btoa(String.fromCharCode(...bytes));
+  // Convert bytes to base64 using chunked approach to avoid stack overflow
+  // with large arrays (spread operator has call stack limits)
+  let binaryString = '';
+  const chunkSize = 8192;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, i + chunkSize);
+    binaryString += String.fromCharCode.apply(null, Array.from(chunk));
+  }
+  let base64 = btoa(binaryString);
   
   if (urlSafe) {
     // Convert to URL-safe Base64 (RFC 4648)

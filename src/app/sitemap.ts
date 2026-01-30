@@ -23,7 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/tools/instagram-carousel',
     '/tools/password-generator',
     '/tools/qr-code-generator',
-    '/tools/hash-generator'
+    '/tools/hash-generator',
+    '/tools/html-formatter'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

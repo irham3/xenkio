@@ -1,19 +1,21 @@
-import { useState, useCallback, useMemo } from 'react';
-import { RegexOptions, RegexFlags } from '../types';
+import { useState, useCallback } from 'react';
+import { RegexOptions, RegexFlags, RegexResult } from '../types';
 import { executeRegex, buildFlagsString } from '../lib/regex-utils';
 import { DEFAULT_FLAGS } from '../constants';
 
 /**
  * Hook for managing regex tester state and functionality.
- * Provides live regex matching with pattern, test text, and flags management.
+ * Provides regex matching with pattern, test text, and flags management.
  * 
  * @returns Object containing:
  * - options: Current regex options (pattern, testText, flags)
  * - result: Computed regex result with matches and validity
  * - flagsString: String representation of active flags (e.g., "gi")
+ * - isProcessing: Boolean indicating if regex is being processed
  * - updatePattern: Function to update the regex pattern
  * - updateTestText: Function to update the test string
  * - updateFlag: Function to toggle individual flags
+ * - test: Function to execute the regex test
  * - clearAll: Function to reset all inputs to defaults
  */
 export function useRegexTester() {
@@ -23,11 +25,36 @@ export function useRegexTester() {
     flags: { ...DEFAULT_FLAGS },
   });
 
-  // Memoize the flags string for display
-  const flagsString = useMemo(() => buildFlagsString(options.flags), [options.flags]);
+  const [result, setResult] = useState<RegexResult | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  // Compute result directly from options using useMemo instead of useEffect + setState
-  const result = useMemo(() => executeRegex(options), [options]);
+  // Compute flags string
+  const flagsString = buildFlagsString(options.flags);
+
+  const test = useCallback(() => {
+    if (!options.pattern || !options.testText) {
+      setResult(null);
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      const res = executeRegex(options);
+      setResult(res);
+    } catch (error) {
+      console.error('Regex test failed', error);
+      setResult({
+        matches: [],
+        matchCount: 0,
+        groups: [],
+        isValid: false,
+        error: 'Processing failed',
+        executionTime: 0,
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  }, [options]);
 
   const updatePattern = useCallback((pattern: string) => {
     setOptions(prev => ({ ...prev, pattern }));
@@ -50,15 +77,18 @@ export function useRegexTester() {
       testText: '',
       flags: { ...DEFAULT_FLAGS },
     });
+    setResult(null);
   }, []);
 
   return {
     options,
     result,
     flagsString,
+    isProcessing,
     updatePattern,
     updateTestText,
     updateFlag,
+    test,
     clearAll,
   };
 }

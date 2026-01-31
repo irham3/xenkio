@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { Base64Options, Base64Result, Base64Mode } from '../types';
 import { processBase64 } from '../lib/base64-utils';
 import { DEFAULT_OPTIONS } from '../constants';
@@ -9,12 +9,31 @@ export function useBase64() {
     input: DEFAULT_OPTIONS.input,
   });
 
-  // Compute result synchronously based on options (no useEffect needed)
-  const result = useMemo<Base64Result | null>(() => {
+  const [result, setResult] = useState<Base64Result | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const process = useCallback(() => {
     if (!options.input) {
-      return null;
+      setResult(null);
+      return;
     }
-    return processBase64(options);
+
+    setIsProcessing(true);
+    try {
+      const res = processBase64(options);
+      setResult(res);
+    } catch (error) {
+      console.error('Base64 processing failed', error);
+      setResult({
+        output: '',
+        inputLength: options.input.length,
+        outputLength: 0,
+        executionTime: 0,
+        error: 'Processing failed',
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   }, [options]);
 
   const updateOption = useCallback(<K extends keyof Base64Options>(key: K, value: Base64Options[K]) => {
@@ -28,6 +47,7 @@ export function useBase64() {
         mode: newMode,
         input: result.output,
       });
+      setResult(null);
     }
   }, [options.mode, result]);
 
@@ -36,12 +56,15 @@ export function useBase64() {
       mode: options.mode,
       input: '',
     });
+    setResult(null);
   }, [options.mode]);
 
   return {
     options,
     result,
+    isProcessing,
     updateOption,
+    process,
     swapInputOutput,
     clear,
   };

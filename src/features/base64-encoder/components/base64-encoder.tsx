@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Base64Encoder() {
-  const { options, result, updateOption, swapInputOutput, clear } = useBase64();
+  const { options, result, isProcessing, updateOption, process, swapInputOutput, clear } = useBase64();
   const [copied, setCopied] = useState(false);
 
   const currentMode = BASE64_MODES.find(m => m.id === options.mode);
@@ -106,6 +106,27 @@ export function Base64Encoder() {
                 >
                   <Trash2 className="w-4 h-4" />
                   Clear
+                </Button>
+              </div>
+
+              {/* Process Button */}
+              <div className="pt-2">
+                <Button
+                  onClick={process}
+                  disabled={isProcessing || !options.input}
+                  className="w-full bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-all"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4 mr-2" />
+                      {options.mode === 'encode' ? 'Encode to Base64' : 'Decode from Base64'}
+                    </>
+                  )}
                 </Button>
               </div>
 

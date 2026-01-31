@@ -15,9 +15,11 @@ export function RegexTester() {
     options,
     result,
     flagsString,
+    isProcessing,
     updatePattern,
     updateTestText,
     updateFlag,
+    test,
     clearAll,
   } = useRegexTester();
 
@@ -46,7 +48,7 @@ export function RegexTester() {
 
   // Highlighted text with matches
   const highlightedText = useMemo(() => {
-    if (!result.isValid || result.matches.length === 0 || !options.testText) {
+    if (!result || !result.isValid || result.matches.length === 0 || !options.testText) {
       return null;
     }
 
@@ -86,7 +88,7 @@ export function RegexTester() {
     }
 
     return parts;
-  }, [result.isValid, result.matches, options.testText]);
+  }, [result?.isValid, result?.matches, options.testText]);
 
   return (
     <div className="w-full">
@@ -103,7 +105,7 @@ export function RegexTester() {
                   <Label htmlFor="regex-pattern" className="text-sm font-semibold text-gray-800">
                     Regular Expression
                   </Label>
-                  {result.isValid && options.pattern && (
+                  {result?.isValid && options.pattern && (
                     <span className="text-xs text-gray-400 font-medium">
                       /{flagsString}
                     </span>
@@ -120,7 +122,7 @@ export function RegexTester() {
                       placeholder="Enter regex pattern..."
                       className={cn(
                         "w-full pl-6 pr-16 py-3 text-[14px] font-mono bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all placeholder:text-gray-400",
-                        !result.isValid && options.pattern
+                        result && !result.isValid && options.pattern
                           ? "border-error-300 bg-error-50"
                           : "border-gray-200"
                       )}
@@ -130,7 +132,7 @@ export function RegexTester() {
                     </span>
                   </div>
                 </div>
-                {!result.isValid && result.error && (
+                {result && !result.isValid && result.error && (
                   <motion.div
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -252,6 +254,27 @@ export function RegexTester() {
                 />
               </div>
 
+              {/* Test Button */}
+              <div className="pt-2">
+                <Button
+                  onClick={test}
+                  disabled={isProcessing || !options.pattern || !options.testText}
+                  className="w-full bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-all"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      Testing...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4 mr-2" />
+                      Test Regex
+                    </>
+                  )}
+                </Button>
+              </div>
+
               {/* Actions */}
               <div className="flex gap-2 pt-2">
                 <Button
@@ -296,7 +319,7 @@ export function RegexTester() {
           <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[400px] border-l border-gray-100">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold text-gray-800">Results</h3>
-              {result.executionTime > 0 && (
+              {result && result.executionTime > 0 && (
                 <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
                   <Zap className="w-3 h-3" />
                   {result.executionTime.toFixed(2)}ms
@@ -305,7 +328,7 @@ export function RegexTester() {
             </div>
 
             {/* Match Count Badge */}
-            {result.isValid && options.pattern && (
+            {result?.isValid && options.pattern && (
               <div className="mb-4">
                 <div className={cn(
                   "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium",
@@ -322,10 +345,10 @@ export function RegexTester() {
             {/* Highlighted Text Preview */}
             <div className="flex-1 relative">
               <div className="w-full h-full min-h-[200px] p-4 rounded-xl border border-gray-200 bg-white overflow-auto">
-                {!options.pattern && !options.testText ? (
+                {!result ? (
                   <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
                     <Regex className="w-10 h-10 text-gray-300" />
-                    <p className="text-sm text-gray-400">Enter a pattern and test string</p>
+                    <p className="text-sm text-gray-400">Click "Test Regex" to see results</p>
                   </div>
                 ) : !result.isValid ? (
                   <div className="flex flex-col items-center justify-center h-full gap-2 text-error-500">
@@ -359,7 +382,7 @@ export function RegexTester() {
             </div>
 
             {/* Match List */}
-            {result.isValid && result.matches.length > 0 && (
+            {result?.isValid && result.matches.length > 0 && (
               <div className="mt-4 space-y-2">
                 <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                   Match Details

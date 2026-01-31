@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { useColorPicker } from '../hooks/use-color-picker';
 import { PRESET_COLORS } from '../constants';
-import { isValidHex, getContrastColor, rgbToHex, hslToRgb } from '../lib/color-utils';
+import { isValidHex, rgbToHex, hslToRgb } from '../lib/color-utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -193,19 +193,6 @@ export function ColorPicker() {
           {/* RIGHT PANEL: Color Values */}
           <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col border-l border-gray-100">
             <div className="space-y-6">
-              {/* Color Display Banner */}
-              <div
-                className="w-full h-20 rounded-xl flex items-center justify-center shadow-sm border border-gray-200"
-                style={{ backgroundColor: color.hex }}
-              >
-                <span
-                  className="text-lg font-semibold tracking-wide"
-                  style={{ color: getContrastColor(color.hex) }}
-                >
-                  {color.hex}
-                </span>
-              </div>
-
               {/* RGB Controls */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">

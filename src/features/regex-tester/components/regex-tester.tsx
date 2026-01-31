@@ -88,7 +88,7 @@ export function RegexTester() {
     }
 
     return parts;
-  }, [result?.isValid, result?.matches, options.testText]);
+  }, [result, options.testText]);
 
   return (
     <div className="w-full">
@@ -348,7 +348,7 @@ export function RegexTester() {
                 {!result ? (
                   <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
                     <Regex className="w-10 h-10 text-gray-300" />
-                    <p className="text-sm text-gray-400">Click "Test Regex" to see results</p>
+                    <p className="text-sm text-gray-400">Click &quot;Test Regex&quot; to see results</p>
                   </div>
                 ) : !result.isValid ? (
                   <div className="flex flex-col items-center justify-center h-full gap-2 text-error-500">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { HtmlFormatterOptions, HtmlFormatterResult, FormatStats } from '../types';
 import { formatHtml, minifyHtml, calculateStats, isValidHtml } from '../lib/html-utils';
 import { DEFAULT_OPTIONS } from '../constants';

@@ -26,6 +26,7 @@ export function useBase64() {
       console.error('Base64 processing failed', error);
       setResult({
         output: '',
+        mode: options.mode,
         inputLength: options.input.length,
         outputLength: 0,
         executionTime: 0,

@@ -46,7 +46,6 @@ export function useRegexTester() {
       setResult({
         matches: [],
         matchCount: 0,
-        groups: [],
         isValid: false,
         error: 'Processing failed',
         executionTime: 0,

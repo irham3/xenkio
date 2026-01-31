@@ -17,7 +17,7 @@ export function useHashGenerator() {
 
   const [result, setResult] = useState<HashResult | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  
+
   // Ref to track if the current generation request is still valid (avoid race conditions)
   const currentReqId = useRef(0);
 
@@ -32,7 +32,7 @@ export function useHashGenerator() {
 
     try {
       const res = await generateHash(options);
-      
+
       // Only update if this is the latest request
       if (reqId === currentReqId.current) {
         setResult(res);
@@ -40,12 +40,12 @@ export function useHashGenerator() {
     } catch (error) {
       console.error('Hash generation failed', error);
       if (reqId === currentReqId.current) {
-         setResult({
-             hash: '',
-             algorithm: options.algorithm,
-             executionTime: 0,
-             error: 'Generation failed'
-         });
+        setResult({
+          hash: '',
+          algorithm: options.algorithm,
+          executionTime: 0,
+          error: 'Generation failed'
+        });
       }
     } finally {
       if (reqId === currentReqId.current) {
@@ -58,12 +58,29 @@ export function useHashGenerator() {
     setOptions(prev => ({ ...prev, [key]: value }));
   };
 
+  const reset = useCallback(() => {
+    setOptions({
+      algorithm: 'SHA256',
+      text: '',
+      salt: '',
+      cost: DEFAULT_OPTIONS.bcryptCost,
+      memory: DEFAULT_OPTIONS.argonMemory,
+      iterations: DEFAULT_OPTIONS.argonIterations,
+      parallelism: DEFAULT_OPTIONS.argonParallelism,
+      hashLength: DEFAULT_OPTIONS.argonHashLength,
+    });
+    setResult(null);
+    setIsGenerating(false);
+    currentReqId.current = 0;
+  }, []);
+
   return {
     options,
     result,
     isGenerating,
     updateOption,
     generate,
+    reset,
   };
 }
 

@@ -83,7 +83,7 @@ export function ImageResizerClient() {
 
                             <div className="pt-6 mt-6 border-t border-gray-100">
                                 <Button
-                                    className="w-full h-12 text-base font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200 transition-all hover:scale-[1.02]"
+                                    className="w-full h-12 text-base font-semibold bg-primary-600 hover:bg-primary-700 text-white shadow-lg shadow-primary-200 transition-all hover:scale-[1.02]"
                                     onClick={handleDownload}
                                     disabled={isCropping}
                                 >
@@ -91,7 +91,7 @@ export function ImageResizerClient() {
                                     Download Image
                                 </Button>
                                 {isCropping && (
-                                    <p className="text-xs text-center text-amber-600 mt-2 bg-amber-50 py-1 px-2 rounded">
+                                    <p className="text-xs text-center text-accent-600 mt-2 bg-accent-50 py-1 px-2 rounded">
                                         Finish cropping to download
                                     </p>
                                 )}
@@ -105,9 +105,9 @@ export function ImageResizerClient() {
                 </div>
 
                 {/* Instructions or Info */}
-                <div className="bg-indigo-50 rounded-xl p-5 border border-indigo-100">
-                    <h3 className="font-medium text-indigo-900 mb-2">Pro Tip</h3>
-                    <p className="text-sm text-indigo-700 leading-relaxed">
+                <div className="bg-primary-50 rounded-xl p-5 border border-primary-100">
+                    <h3 className="font-medium text-primary-900 mb-2">Pro Tip</h3>
+                    <p className="text-sm text-primary-700 leading-relaxed">
                         Use the crop tool to focus on the most important part of your image before resizing.
                     </p>
                 </div>

@@ -569,6 +569,19 @@ export const DUMMY_TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'media-images',
     },
+    {
+        id: '52',
+        title: 'Event Timer & Countdown',
+        description: 'Professional countdown timer with custom deadlines, presets, and visual progress tracking.',
+        icon: Clock,
+        href: '/tools/timer',
+        slug: 'timer',
+        usageCount: '450K',
+        isNew: true,
+        categoryId: 'developer-tools',
+        gradientFrom: '#3B82F6',
+        gradientTo: '#8B5CF6',
+    },
 ];
 
 // Search suggestions for the search bar
@@ -578,6 +591,7 @@ export const SEARCH_SUGGESTIONS = [
     { type: 'tool' as const, name: 'Image Compressor', category: 'Media & Images' },
     { type: 'tool' as const, name: 'JSON Formatter', category: 'Developer Tools' },
     { type: 'tool' as const, name: 'Password Generator', category: 'Security & Privacy' },
+    { type: 'tool' as const, name: 'Event Timer & Countdown', category: 'Developer Tools' },
     { type: 'category' as const, name: 'Data Processing', count: 23 },
     { type: 'category' as const, name: 'Media & Images', count: 31 },
     { type: 'category' as const, name: 'Developer Tools', count: 27 },

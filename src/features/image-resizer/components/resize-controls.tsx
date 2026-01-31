@@ -25,7 +25,7 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
                         variant="ghost"
                         size="sm"
                         onClick={onReset}
-                        className="h-7 text-xs text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
+                        className="h-7 text-xs text-primary-600 hover:text-primary-700 hover:bg-primary-50"
                         disabled={disabled}
                     >
                         Reset
@@ -62,7 +62,7 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
                     disabled={disabled}
                 >
                     {config.maintainAspectRatio ? (
-                        <Lock className="w-3 h-3 mr-1 text-indigo-500" />
+                        <Lock className="w-3 h-3 mr-1 text-primary-500" />
                     ) : (
                         <Unlock className="w-3 h-3 mr-1 text-gray-400" />
                     )}
@@ -73,7 +73,7 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
             <div className="space-y-3 pt-4 border-t border-gray-100">
                 <div className="flex justify-between items-center">
                     <Label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Quick Resize</Label>
-                    <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md min-w-12 text-center">
+                    <span className="text-xs font-bold text-primary-600 bg-primary-50 px-2 py-0.5 rounded-md min-w-12 text-center">
                         {percentage}%
                     </span>
                 </div>
@@ -87,11 +87,11 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
                         const newScale = Number(e.target.value) / 100;
                         onChange({ width: Math.round(baseWidth * newScale) });
                     }}
-                    className="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-indigo-600 transition-all hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary-600 transition-all hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={disabled || !baseWidth || !config.maintainAspectRatio}
                 />
                 {!config.maintainAspectRatio && (
-                    <p className="text-[10px] text-amber-600 mt-1">
+                    <p className="text-[10px] text-accent-600 mt-1">
                         Lock aspect ratio to use quick resize
                     </p>
                 )}
@@ -105,7 +105,7 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
             <div className="space-y-3 pt-4 border-t border-gray-100">
                 <Label>Format</Label>
                 <select
-                    className="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     value={config.format}
                     onChange={(e) => onChange({ format: e.target.value as 'png' | 'jpeg' | 'webp' })}
                     disabled={disabled}
@@ -128,7 +128,7 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
                         max="100"
                         value={config.quality}
                         onChange={(e) => onChange({ quality: Number(e.target.value) })}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
                         disabled={disabled}
                     />
                 </div>

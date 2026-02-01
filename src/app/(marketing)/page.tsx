@@ -6,14 +6,14 @@ import { HeroSection } from "@/components/home/hero-section";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { StatsBanner } from "@/components/home/stats-banner";
 import { CATEGORIES } from "@/data/categories";
-import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/tools";
+import { TOOLS as TOOLS, type ToolData } from "@/data/tools";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Xenkio - All-in-One Online Productivity Tools",
-  description: "Access 130+ professional online tools for free. Process files, convert formats, and transform data instantly. No signup required.",
+  description: "Free online tools for PDF, image compression, QR codes, password generation, and developer utilities. No signup required.",
 };
 
 
@@ -152,7 +152,8 @@ export default function Home() {
                   href={`/tools?category=${category.id}`}
                   className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-primary-600 hover:text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors"
                 >
-                  View All {category.toolCount} Tools
+                  View All
+                  {/* {category.toolCount} Tools */}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -166,7 +167,6 @@ export default function Home() {
                     title={tool.title}
                     description={tool.description}
                     href={tool.href}
-                    usageCount={tool.usageCount}
                     isNew={tool.isNew}
                     isPremium={tool.isPremium}
                   />

@@ -1,10 +1,10 @@
 import { MetadataRoute } from 'next'
-import { DUMMY_TOOLS } from '@/data/tools'
+import { TOOLS } from '@/data/tools'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://xenkio.com'
 
-  const tools = DUMMY_TOOLS.map((tool) => ({
+  const tools = TOOLS.map((tool) => ({
     url: `${baseUrl}${tool.href}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,

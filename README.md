@@ -4,8 +4,6 @@
 
 A comprehensive collection of online utilities for developers, designers, and digital professionals.
 
----
-
 ## The Name Behind Xenkio
 
 ### XEN — *From Greek "xenos" (ξένος)*
@@ -30,8 +28,6 @@ A comprehensive collection of online utilities for developers, designers, and di
 - **Tools that work as smart as you do.**
 - **Professional tools. Zero complexity.**
 
----
-
 ## Overview
 
 Xenkio provides a suite of web-based tools designed to streamline common digital tasks. All tools run entirely in your browser, ensuring your data remains private and secure.
@@ -42,8 +38,6 @@ Xenkio provides a suite of web-based tools designed to streamline common digital
 - **Private** — All processing happens locally in your browser
 - **Modern** — Beautiful, intuitive interface
 - **Free** — No subscriptions, no hidden fees
-
----
 
 ## Browser Support
 
@@ -56,7 +50,6 @@ Xenkio supports the latest versions of:
 | Safari  | Yes |
 | Edge    | Yes |
 
----
 
 ## Acknowledgments
 
@@ -64,7 +57,6 @@ Built with modern web technologies and inspired by the need for fast, reliable, 
 
 Special thanks to all contributors who have helped improve Xenkio.
 
----
 
 <p align="center">
   <strong>Xenkio</strong> — Every tool you need. One platform.

@@ -1,6 +1,6 @@
 
 import { Metadata } from 'next';
-import { DUMMY_TOOLS } from '@/data/tools';
+import { TOOLS } from '@/data/tools';
 import { notFound } from 'next/navigation';
 import { ImageResizerClient } from '@/features/image-resizer';
 
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
 };
 
 export default function ImageResizerPage() {
-    const tool = DUMMY_TOOLS.find(t => t.slug === slug || t.href === `/tools/${slug}`);
+    const tool = TOOLS.find(t => t.slug === slug || t.href === `/tools/${slug}`);
 
     // If not found by slug, fallback check logic or just ensure tools.ts is correct.
     // In our case, tools.ts has href '/tools/image-resizer' for id 14, but no slug field explicitly set.
     // Let's rely on finding by href if slug is missing.
 
-    const targetTool = tool || DUMMY_TOOLS.find(t => t.href === `/tools/${slug}`);
+    const targetTool = tool || TOOLS.find(t => t.href === `/tools/${slug}`);
 
     if (!targetTool) {
         notFound();

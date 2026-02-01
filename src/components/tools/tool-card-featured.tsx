@@ -4,19 +4,15 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles, Crown } from 'lucide-react';
 import SpotlightCard from '@/components/reactbits/spotlight-card';
 
-import { DUMMY_TOOLS } from '@/data/tools';
+import { TOOLS } from '@/data/tools';
 
 interface ToolCardFeaturedProps {
-  id: string; // id is now required
+  id: string;
   title: string;
   description: string;
   href: string;
-  usageCount?: string;
-  stats?: string;
   isNew?: boolean;
   isPremium?: boolean;
-  gradientFrom?: string;
-  gradientTo?: string;
 }
 
 export function ToolCardFeatured({
@@ -24,14 +20,11 @@ export function ToolCardFeatured({
   title,
   description,
   href,
-  stats,
   isNew,
   isPremium,
-  gradientFrom = '#3B82F6',
-  gradientTo = '#1D4ED8',
 }: ToolCardFeaturedProps) {
-  const tool = DUMMY_TOOLS.find(t => t.id === id);
-  const Icon = tool?.icon || Sparkles; // Fallback
+  const tool = TOOLS.find(t => t.id === id);
+  const Icon = tool?.icon || Sparkles;
 
   return (
     <Link href={href} className="block h-full group">
@@ -56,32 +49,23 @@ export function ToolCardFeatured({
             )}
           </div>
 
-          {/* Icon */}
-          <div
-            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 shadow-lg transform group-hover:scale-105 transition-transform duration-300"
-            style={{
-              background: `linear-gradient(135deg, ${gradientFrom} 0%, ${gradientTo} 100%)`,
-              boxShadow: `0 8px 20px ${gradientFrom}30`
-            }}
-          >
-            <Icon className="w-8 h-8 text-white" strokeWidth={1.5} />
+          {/* Icon - Clean, no gradient background */}
+          <div className="inline-flex items-center justify-center w-14 h-14 mb-6">
+            <Icon className="w-8 h-8 text-gray-600 group-hover:text-primary-600 transition-colors" strokeWidth={1.5} />
           </div>
 
           {/* Content */}
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors">
+            <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors">
               {title}
             </h3>
-            <p className="text-[15px] text-gray-600 mb-6 leading-relaxed line-clamp-2">
+            <p className="text-sm text-gray-600 mb-6 leading-relaxed line-clamp-2">
               {description}
             </p>
           </div>
 
-          {/* Stats and CTA */}
-          <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
-            {stats && (
-              <span className="text-sm text-gray-500 font-medium">{stats}</span>
-            )}
+          {/* CTA */}
+          <div className="flex items-center justify-end mt-auto pt-4 border-t border-gray-100">
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 group-hover:translate-x-1 transition-transform duration-300">
               Try Now
               <ArrowRight className="w-4 h-4" />

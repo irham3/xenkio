@@ -5,15 +5,15 @@ import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
-import { DUMMY_TOOLS as TOOLS } from '@/data/tools';
+import { TOOLS, type ToolData } from '@/data/tools';
 import Fuse from 'fuse.js';
 
 const placeholders = [
-  'Search 130+ tools...',
-  'Convert PDF to Word...',
-  'Generate QR codes...',
-  'Compress images...',
-  'Format JSON data...',
+  'Merge PDF...',
+  'PDF to Word...',
+  'QR Code Generator...',
+  'Image Converter...',
+  'Password Generator...',
 ];
 
 const fuse = new Fuse(TOOLS, {
@@ -47,12 +47,13 @@ export function HeroSection() {
   //   return () => clearInterval(interval);
   // }, []);
 
-  const results = useMemo(() => {
+  const results = useMemo((): ToolData[] => {
     if (query.trim()) {
-      const searchResults = fuse.search(query).slice(0, 5);
+      const searchResults = fuse.search(query);
       return searchResults.map((r) => r.item);
     } else {
-      return [];
+      // Show all tools when no search query
+      return TOOLS;
     }
   }, [query]);
 
@@ -131,24 +132,26 @@ export function HeroSection() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50"
+                className="absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50 overflow-hidden"
               >
-                {results.map((tool) => (
-                  <a
-                    key={tool.id}
-                    href={tool.href}
-                    className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors z-50 max-w-2xl"
-                  >
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100">
-                      <tool.icon className="w-5 h-5 text-gray-600" />
-                    </div>
-                    <div className="flex-1 text-left">
-                      <div className="text-[15px] font-medium text-gray-900">{tool.title}</div>
-                      <div className="text-sm text-gray-500">{tool.description.slice(0, 60)}...</div>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-gray-400" />
-                  </a>
-                ))}
+                <div className="max-h-[400px] overflow-y-auto scrollbar-themed">
+                  {results.map((tool) => (
+                    <a
+                      key={tool.id}
+                      href={tool.href}
+                      className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100">
+                        <tool.icon className="w-5 h-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <div className="text-[15px] font-medium text-gray-900">{tool.title}</div>
+                        <div className="text-sm text-gray-500">{tool.description.slice(0, 60)}...</div>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-400" />
+                    </a>
+                  ))}
+                </div>
               </motion.div>
             )}
           </motion.div>

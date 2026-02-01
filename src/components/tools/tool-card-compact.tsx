@@ -4,14 +4,13 @@ import Link from 'next/link';
 import { ArrowUpRight, Sparkles, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-import { DUMMY_TOOLS } from '@/data/tools';
+import { TOOLS } from '@/data/tools';
 
 interface ToolCardCompactProps {
   id: string;
   title: string;
   description: string;
   href: string;
-  usageCount?: string;
   isNew?: boolean;
   isPremium?: boolean;
   categoryId?: string;
@@ -22,11 +21,10 @@ export function ToolCardCompact({
   title,
   description,
   href,
-  usageCount,
   isNew,
   isPremium,
 }: ToolCardCompactProps) {
-  const tool = DUMMY_TOOLS.find(t => t.id === id);
+  const tool = TOOLS.find(t => t.id === id);
   const Icon = tool?.icon || Sparkles;
 
   return (
@@ -52,25 +50,22 @@ export function ToolCardCompact({
           </div>
         )}
 
-        {/* Icon */}
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gray-50 group-hover:bg-primary-50 mb-4 transition-colors">
-          <Icon className="w-6 h-6 text-gray-600 group-hover:text-primary-600 transition-colors" strokeWidth={1.5} />
+        {/* Icon - No background */}
+        <div className="inline-flex items-center justify-center w-10 h-10 mb-4">
+          <Icon className="w-6 h-6 text-gray-500 group-hover:text-primary-600 transition-colors" strokeWidth={1.5} />
         </div>
 
         {/* Content */}
         <h3 className="text-[15px] font-semibold text-gray-900 mb-1.5 group-hover:text-primary-600 transition-colors line-clamp-1">
           {title}
         </h3>
-        <p className="text-sm text-gray-500 mb-3 line-clamp-1">
+        <p className="text-sm text-gray-500 mb-3 line-clamp-2">
           {description}
         </p>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between">
-          {usageCount && (
-            <span className="text-xs text-gray-400">{usageCount} uses</span>
-          )}
-          <ArrowUpRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 transition-colors ml-auto" />
+        {/* Footer - Arrow only */}
+        <div className="flex items-center justify-end">
+          <ArrowUpRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 transition-colors" />
         </div>
       </motion.div>
     </Link>

@@ -8,7 +8,7 @@ import ShinyText from '@/components/reactbits/shiny-text';
 import { cn } from '@/lib/utils';
 import { CATEGORIES } from '@/data/categories';
 
-import { DUMMY_TOOLS } from '@/data/tools';
+import { TOOLS } from '@/data/tools';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
@@ -147,7 +147,7 @@ export function Navbar() {
                           className="absolute top-full left-1/2 mt-2 w-[540px] p-3 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50"
                         >
                           <div className="grid grid-cols-2 gap-2">
-                            {DUMMY_TOOLS.filter(t => t.categoryId === category.id).map((tool) => (
+                            {TOOLS.filter(t => t.categoryId === category.id).map((tool) => (
                               <Link
                                 key={tool.id}
                                 href={tool.href}
@@ -169,7 +169,7 @@ export function Navbar() {
                                 </div>
                               </Link>
                             ))}
-                            {DUMMY_TOOLS.filter(t => t.categoryId === category.id).length === 0 && (
+                            {TOOLS.filter(t => t.categoryId === category.id).length === 0 && (
                               <p className="col-span-2 p-3 text-xs text-center text-gray-400">No tools available directly in this menu.</p>
                             )}
                           </div>
@@ -198,12 +198,12 @@ export function Navbar() {
               </button> */}
 
               {/* Get Started button */}
-              <Link
+              {/* <Link
                 href="/sign-up"
                 className="hidden sm:inline-flex items-center px-5 py-2.5 text-[14px] font-semibold text-white bg-linear-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-lg shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300"
               >
                 Get Started
-              </Link>
+              </Link> */}
 
               {/* Mobile menu button */}
               <button
@@ -260,7 +260,7 @@ export function Navbar() {
                 {category.name}
               </a>
             ))}
-            <div className="pt-3 mt-3 border-t border-gray-200 space-y-2">
+            {/* <div className="pt-3 mt-3 border-t border-gray-200 space-y-2">
               <Link
                 href="/sign-in"
                 className="block px-4 py-3 text-center text-[15px] font-medium text-gray-700 hover:text-gray-900 bg-gray-50 rounded-lg border border-gray-200"
@@ -275,7 +275,7 @@ export function Navbar() {
               >
                 Get Started
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>

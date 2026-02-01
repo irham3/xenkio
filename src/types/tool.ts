@@ -9,15 +9,11 @@ export interface Tool {
   description: string;
   icon: LucideIcon;
   href: string;
-  usageCount: string;
-  stats?: string;
   featured?: boolean;
   isNew?: boolean;
   isPremium?: boolean;
   categoryId: string;
   slug?: string;
-  gradientFrom?: string;
-  gradientTo?: string;
 }
 
 /**

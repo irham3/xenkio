@@ -44,7 +44,7 @@ export function PasswordGenerator() {
       <div className="md:col-span-2 space-y-6">
 
         {/* HERO: Password Display */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           {/* Progress bar top accent */}
           <div className="h-1.5 w-full bg-gray-50">
             <motion.div

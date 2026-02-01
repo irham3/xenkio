@@ -1,7 +1,7 @@
 export const runtime = 'edge';
 
 import { Metadata } from 'next';
-import { DUMMY_TOOLS } from '@/data/tools';
+import { TOOLS } from '@/data/tools';
 import { PasswordGeneratorClient } from './client';
 import { notFound } from 'next/navigation';
 
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default function PasswordGeneratorPage() {
-  const tool = DUMMY_TOOLS.find(t => t.slug === slug);
+  const tool = TOOLS.find(t => t.slug === slug);
 
   if (!tool) {
     notFound();

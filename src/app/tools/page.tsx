@@ -1,12 +1,12 @@
 export const runtime = 'edge';
 
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
-import { DUMMY_TOOLS as TOOLS, type ToolData } from "@/data/tools";
+import { TOOLS as TOOLS, type ToolData } from "@/data/tools";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Explore All Online Tools",
-  description: "Browse our comprehensive list of over 130+ online tools. Filter by category to find exactly what you need.",
+  description: "Browse our curated collection of free online tools for PDF, image editing, security, and development.",
 };
 
 interface Props {
@@ -34,7 +34,7 @@ export default async function ToolsPage({ searchParams }: Props) {
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">All Productivity Tools</h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Explore our collection of free online tools for developers, designers, and everyone.
+          Free online tools for developers, designers, and everyone.
         </p>
       </div>
 
@@ -46,7 +46,6 @@ export default async function ToolsPage({ searchParams }: Props) {
             title={tool.title}
             description={tool.description}
             href={tool.href}
-            usageCount={tool.usageCount}
             isNew={tool.isNew}
             isPremium={tool.isPremium}
           />

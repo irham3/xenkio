@@ -26,7 +26,6 @@ export default function NotFound() {
 
           <p className="text-gray-600 mb-10 text-lg leading-relaxed">
             The page you&apos;re looking for doesn&apos;t exist or has been moved.
-            Don&apos;t worry, there are 130+ other tools waiting for you!
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

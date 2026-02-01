@@ -29,7 +29,6 @@ export function XenkioLogo({ className }: { className?: string }) {
 
             {/* Bottom Segment */}
             <path
-                d="M15.5 13.5l1.918 1.918 2.946 2.946a2 2 0 0 0 2.828-2.828l-5.774-5.774-1.918 3.738z"
                 // Correcting path to be a simple segment
                 // Let's use simpler geometry: 
                 // 13.5,15.5 start -> 20.364,18.364 end

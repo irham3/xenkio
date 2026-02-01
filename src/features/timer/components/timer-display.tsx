@@ -4,11 +4,10 @@ import { cn } from '@/lib/utils';
 interface TimerDisplayProps {
     remainingTime: number;
     initialDuration: number;
-    isActive: boolean;
     isPaused: boolean;
 }
 
-export function TimerDisplay({ remainingTime, initialDuration, isActive, isPaused }: TimerDisplayProps) {
+export function TimerDisplay({ remainingTime, initialDuration, isPaused }: TimerDisplayProps) {
     const hours = Math.floor(remainingTime / 3600);
     const minutes = Math.floor((remainingTime % 3600) / 60);
     const seconds = remainingTime % 60;
@@ -59,7 +58,7 @@ export function TimerDisplay({ remainingTime, initialDuration, isActive, isPause
                     </div>
                     {remainingTime === 0 && (
                         <div className="mt-2 text-success-600 font-semibold animate-bounce">
-                            Time's up!
+                            Time&apos;s up!
                         </div>
                     )}
                 </div>

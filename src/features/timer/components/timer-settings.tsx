@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { TimerConfig, TimerMode } from '../types';
+import React, { useState, useMemo } from 'react';
+import { TimerConfig } from '../types';
 import { Clock, Calendar, Hash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -9,17 +9,35 @@ interface TimerSettingsProps {
 }
 
 export function TimerSettings({ config, onChange }: TimerSettingsProps) {
-    const [h, setH] = useState(0);
-    const [m, setM] = useState(5);
-    const [s, setS] = useState(0);
+    // Calculate initial values from config
+    const initialTime = useMemo(() => {
+        if (config.mode === 'countdown') {
+            return {
+                h: Math.floor(config.duration / 3600),
+                m: Math.floor((config.duration % 3600) / 60),
+                s: config.duration % 60,
+            };
+        }
+        return { h: 0, m: 5, s: 0 };
+    }, [config.duration, config.mode]);
 
-    useEffect(() => {
+    const [h, setH] = useState(initialTime.h);
+    const [m, setM] = useState(initialTime.m);
+    const [s, setS] = useState(initialTime.s);
+
+    // Sync local state when config changes externally (e.g., from presets)
+    // Using key prop pattern would be cleaner but this works for now
+    const configKey = `${config.mode}-${config.duration}`;
+    const [lastConfigKey, setLastConfigKey] = useState(configKey);
+
+    if (configKey !== lastConfigKey) {
+        setLastConfigKey(configKey);
         if (config.mode === 'countdown') {
             setH(Math.floor(config.duration / 3600));
             setM(Math.floor((config.duration % 3600) / 60));
             setS(config.duration % 60);
         }
-    }, [config.duration, config.mode]);
+    }
 
     const handleTimeChange = (type: 'h' | 'm' | 's', val: number) => {
         const newH = type === 'h' ? val : h;

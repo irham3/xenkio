@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { TimerConfig, TimerState, TimerMode } from '../types';
+import { TimerConfig, TimerState } from '../types';
 
 export function useTimer(initialConfig: Partial<TimerConfig> = {}) {
     const [config, setConfig] = useState<TimerConfig>({

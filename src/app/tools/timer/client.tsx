@@ -59,7 +59,7 @@ export function TimerClient() {
                     <div className="flex gap-3">
                         <Info className="w-5 h-5 text-primary-500 shrink-0" />
                         <p className="text-sm text-primary-700 leading-relaxed">
-                            <strong>Tip:</strong> You can set a target "Target Time" to end your work or meeting.
+                            <strong>Tip:</strong> You can set a target &quot;Target Time&quot; to end your work or meeting.
                             The timer will automatically calculate how much time you have left.
                         </p>
                     </div>
@@ -90,7 +90,6 @@ export function TimerClient() {
                         <TimerDisplay
                             remainingTime={state.remainingTime}
                             initialDuration={state.initialDuration}
-                            isActive={state.isActive}
                             isPaused={state.isPaused}
                         />
 
@@ -109,7 +108,7 @@ export function TimerClient() {
 
                 {/* Motivation Quote / Info */}
                 <div className="mt-8 text-center text-gray-500 max-w-lg mx-auto">
-                    <p className="italic">"Time is what we want most, but what we use worst."</p>
+                    <p className="italic">&quot;Time is what we want most, but what we use worst.&quot;</p>
                     <p className="text-xs mt-2 uppercase font-medium tracking-widest">— William Penn</p>
                 </div>
             </div>

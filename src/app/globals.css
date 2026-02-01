@@ -166,6 +166,16 @@
   .scrollbar-themed::-webkit-scrollbar-thumb:hover {
     background: var(--color-primary-400);
   }
+
+  /* Custom cursor for draggable items */
+  .cursor-drag-grab {
+    cursor: grab;
+  }
+
+  .cursor-drag-grab:active,
+  .cursor-drag-grabbing {
+    cursor: grabbing;
+  }
 }
 
 @utility no-scrollbar {

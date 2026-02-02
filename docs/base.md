@@ -1,5 +1,5 @@
 # Next.js 16 Development Standards & Best Practices
-## Optimized for Cloudflare Pages Deployment
+## Optimized for Cloudflare Workers with Opennext Deployment
 
 ## Core Requirements
 
@@ -140,7 +140,7 @@ Use size, color, spacing to guide attention
 - Leverage Server Components by default for optimal performance
 - Use Client Components only when necessary (wrap client-specific code in separate components within server pages)
 - Implement proper data fetching patterns (server-side by default)
-- **Cloudflare Pages Compatibility**: Ensure all features work with Cloudflare Pages runtime
+- **Cloudflare Workers with Opennext Compatibility**: Ensure all features work with Cloudflare Workers with Opennext runtime
 - Use Edge Runtime for API routes when possible for better Cloudflare performance
 - If a server page needs client-side features, create a separate client.tsx (combining client components and client-side logic from features folder) and import it in the server page
 - Use proper error handling and loading states
@@ -317,7 +317,7 @@ Use size, color, spacing to guide attention
 - Implement proper URL structure (descriptive, hierarchical)
 - Use breadcrumbs for navigation and SEO
 - Avoid duplicate content issues
-- Implement 301 redirects for moved content (use Cloudflare Pages redirects)
+- Implement 301 redirects for moved content (use Cloudflare Workers with Opennext redirects)
 - Use 404 pages that help users navigate
 
 ### Advanced SEO Techniques
@@ -405,7 +405,7 @@ Use size, color, spacing to guide attention
 - Avoid importing entire libraries (import only what's needed)
 - Use ES modules for better tree-shaking
 - Minimize polyfills (target modern browsers)
-- Keep total bundle size under Cloudflare Pages limits
+- Keep total bundle size under Cloudflare Workers with Opennext limits
 
 ### Caching Strategy with Cloudflare
 - Implement proper Cache-Control headers for Cloudflare edge
@@ -501,7 +501,7 @@ Use size, color, spacing to guide attention
 - Use HTTPS everywhere with HSTS (enabled by default in Cloudflare)
 - Sanitize all user inputs
 - Implement rate limiting on API routes using Cloudflare Workers
-- Use environment variables for secrets (Cloudflare Pages environment variables)
+- Use environment variables for secrets (Cloudflare Workers with Opennext environment variables)
 - Implement CSRF protection
 - Use secure headers (X-Frame-Options, X-Content-Type-Options, etc.) via Cloudflare
 - Implement proper authentication and authorization (prepare for Supabase Auth)
@@ -630,7 +630,7 @@ Use size, color, spacing to guide attention
 
 #### next.config.js Setup
 - Configure for static export and edge runtime compatibility
-- Disable features not supported by Cloudflare Pages
+- Disable features not supported by Cloudflare Workers with Opennext
 - Set up image optimization compatible with Cloudflare
 - Configure redirects and rewrites if needed
 - Set proper base path if deploying to subdirectory
@@ -648,7 +648,7 @@ Use size, color, spacing to guide attention
 ### Environment Variables Management
 
 #### Environment Variables Setup
-- Configure all environment variables in Cloudflare Pages dashboard
+- Configure all environment variables in Cloudflare Workers with Opennext dashboard
 - Use different variables for Production and Preview environments
 - Never commit secrets to repository
 - Use encrypted variables for sensitive data

@@ -50,6 +50,7 @@ import {
     Merge,
     Split,
     GalleryHorizontal,
+    FileImage,
     LucideIcon,
 } from 'lucide-react';
 
@@ -568,6 +569,17 @@ export const DUMMY_TOOLS: ToolData[] = [
         usageCount: '1.5k',
         isNew: true,
         categoryId: 'media-images',
+    },
+    {
+        id: '52',
+        title: 'Image to PDF',
+        description: 'Convert images to PDF documents. Choose page size options, combine multiple images into one PDF or create separate files.',
+        icon: FileImage,
+        href: '/tools/image-to-pdf',
+        slug: 'image-to-pdf',
+        usageCount: '780K',
+        isNew: true,
+        categoryId: 'documents',
     },
 ];
 

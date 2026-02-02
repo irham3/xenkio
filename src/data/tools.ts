@@ -15,6 +15,7 @@ import {
     Lock,
     Merge,
     GalleryHorizontal,
+    FileImage,
     LucideIcon,
     Key,
     Link,

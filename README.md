@@ -61,3 +61,32 @@ Special thanks to all contributors who have helped improve Xenkio.
 <p align="center">
   <strong>Xenkio</strong> — Every tool you need. One platform.
 </p>
+
+## Development & Deployment
+
+This project is configured for deployment on **Cloudflare Workers** using **OpenNext**.
+
+### Prerequisites
+
+- Node.js (Latest LTS recommended)
+- Cloudflare Account
+- Wrangler CLI (`npm install -g wrangler` or use `npx`)
+
+### Commands
+
+- **`npm run dev`**: Start the Next.js local development server.
+- **`npm run preview`**: Preview the Worker build locally using Wrangler (approximates the edge environment).
+- **`npm run build:worker`**: Build the application for Cloudflare Workers (generates `.open-next` output).
+- **`npm run deploy`**: Deploy the application to Cloudflare Workers.
+- **`npm run cf-typegen`**: Generate TypeScript types for Cloudflare bindings.
+
+### Deployment Configuration
+
+The deployment is managed via `wrangler.jsonc` and `open-next.config.ts`.
+
+- **`wrangler.jsonc`**: Contains Cloudflare Worker settings (name, compatibility, assets).
+- **`open-next.config.ts`**: Configuration for the OpenNext adapter.
+
+### Important Note on Caching
+
+The default OpenNext configuration uses Cloudflare R2 for incremental cache (ISR). Ensure you have an R2 bucket set up and bound in `wrangler.jsonc` if you plan to use ISR features, or modify `open-next.config.ts` to use a different cache store (like KV) if preferred.

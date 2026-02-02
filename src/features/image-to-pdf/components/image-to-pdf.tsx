@@ -76,7 +76,9 @@ export function ImageToPdf() {
       try {
         const imageInfo = await loadImageInfo(file)
         validImages.push(imageInfo)
-      } catch {
+      } catch (err) {
+        // Collect failed files to show in error message
+        console.warn(`Failed to load image: ${file.name}`, err)
         failedFiles.push(file.name)
       }
     }
@@ -173,8 +175,10 @@ export function ImageToPdf() {
           const pngBytes = Uint8Array.from(atob(pngBase64), c => c.charCodeAt(0))
           embeddedImage = await pdfDoc.embedPng(pngBytes)
         }
-      } catch {
-        // Fallback: try to convert any image via canvas
+      } catch (embedError) {
+        // Direct embedding failed (unsupported format or corrupted data)
+        // Fallback: convert image to JPEG via canvas for maximum compatibility
+        console.warn(`Direct image embedding failed, using canvas fallback:`, embedError)
         const canvas = document.createElement("canvas")
         const ctx = canvas.getContext("2d")
         if (!ctx) throw new Error("Could not get canvas context")

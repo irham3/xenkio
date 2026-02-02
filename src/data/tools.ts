@@ -86,9 +86,10 @@ export const TOOLS: ToolData[] = [
     {
         id: '3',
         title: 'PDF to Word',
-        description: 'Convert PDF documents to fully editable Word files while preserving formatting.',
+        description: 'Convert PDF to Word with preserved formatting: bold, italic, colors, fonts, and layout structure.',
         icon: FileText,
         href: '/tools/pdf-to-word',
+        slug: 'pdf-to-word',
         categoryId: 'documents',
     },
     {

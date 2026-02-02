@@ -44,23 +44,23 @@ export function ImageToPdfConverter() {
   const loadImageInfo = async (file: File): Promise<ImageFile> => {
     return new Promise((resolve, reject) => {
       const img = document.createElement("img")
+      const tempUrl = URL.createObjectURL(file)
       img.onload = () => {
-        URL.revokeObjectURL(img.src)
         resolve({
           id: crypto.randomUUID(),
           file,
           name: file.name,
           size: file.size,
-          preview: URL.createObjectURL(file),
+          preview: tempUrl,
           width: img.naturalWidth,
           height: img.naturalHeight,
         })
       }
       img.onerror = () => {
-        URL.revokeObjectURL(img.src)
+        URL.revokeObjectURL(tempUrl)
         reject(new Error("Failed to load image"))
       }
-      img.src = URL.createObjectURL(file)
+      img.src = tempUrl
     })
   }
 
@@ -138,10 +138,10 @@ export function ImageToPdfConverter() {
     const imageBytes = await imageFile.file.arrayBuffer()
     let image
     
-    const fileType = imageFile.file.type.toLowerCase()
+    const fileType = imageFile.file.type
     if (fileType === "image/png") {
       image = await pdfDoc.embedPng(imageBytes)
-    } else if (fileType === "image/jpeg" || fileType === "image/jpg") {
+    } else if (fileType === "image/jpeg") {
       image = await pdfDoc.embedJpg(imageBytes)
     } else {
       // For other formats (webp, gif, bmp), convert to PNG via canvas
@@ -160,7 +160,11 @@ export function ImageToPdfConverter() {
       ctx?.drawImage(img, 0, 0)
       
       const pngDataUrl = canvas.toDataURL("image/png")
-      const pngBase64 = pngDataUrl.split(",")[1]
+      const parts = pngDataUrl.split(",")
+      if (parts.length < 2 || !parts[1]) {
+        throw new Error("Failed to convert image to PNG format")
+      }
+      const pngBase64 = parts[1]
       const pngBytes = Uint8Array.from(atob(pngBase64), (c) => c.charCodeAt(0))
       image = await pdfDoc.embedPng(pngBytes)
     }

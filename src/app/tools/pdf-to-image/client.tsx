@@ -87,7 +87,7 @@ export default function PdfToImageClient() {
                                     variant="ghost"
                                     size="sm"
                                     onClick={handleRemoveFile}
-                                    className="text-gray-400 text-error-600 hover:bg-error-50 shrink-0"
+                                    className="text-gray-400 hover:text-error-600 hover:bg-error-50 shrink-0"
                                     disabled={status === 'processing'}
                                 >
                                     <X className="w-4 h-4" />

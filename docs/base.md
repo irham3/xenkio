@@ -72,65 +72,6 @@ User's eyes should flow naturally:
 Use size, color, spacing to guide attention
 ```
 
-## 🏆 Core UX Principles
-
-### 1. **Zero Learning Curve**
-```
-User should NEVER need to:
-- Read instructions
-- Watch tutorial
-- Ask "how do I...?"
-- Click more than 3 times to get result
-
-If user is confused for more than 3 seconds → YOU FAILED
-```
-
-### 2. **Instant Gratification**
-```
-Show results IMMEDIATELY:
-- Live preview as user types
-- Real-time updates
-- No "processing..." spinners unless absolutely necessary
-- Instant feedback on every action
-
-Speed is a feature. Fast = Professional.
-```
-
-### 3. **Smart Defaults**
-```
-Every setting should have THE BEST default value:
-- User shouldn't need to adjust anything for 80% of use cases
-- Advanced options hidden by default
-- "It just works" out of the box
-
-Example:
-QR Code size: Default 400px (perfect for most uses)
-NOT: Default 100px (too small) or ask user to choose
-```
-
-### 4. **Progressive Disclosure**
-```
-Show simple first, complexity only when needed:
-
-Basic View (Default):
-[Simple options everyone needs]
-
-Advanced (Collapsed):
-[Click to expand - expert options]
-
-NEVER overwhelm with all options at once
-```
-
-### 5. **Clear Visual Hierarchy**
-```
-User's eyes should flow naturally:
-1. Main action (biggest, brightest)
-2. Primary input (obvious where to start)
-3. Secondary options (visible but not distracting)
-4. Advanced options (hidden or muted)
-
-Use size, color, spacing to guide attention
-```
 
 ## Framework & Technology Stack
 
@@ -145,6 +86,7 @@ Use size, color, spacing to guide attention
 - If a server page needs client-side features, create a separate client.tsx (combining client components and client-side logic from features folder) and import it in the server page
 - Use proper error handling and loading states
 - Always add export const runtime = 'edge'; for server pages
+- Always use global.css as base style
 
 ### TypeScript Best Practices
 - Enable strict mode in `tsconfig.json`

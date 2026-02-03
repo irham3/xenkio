@@ -134,6 +134,16 @@ export const TOOLS: ToolData[] = [
         categoryId: 'documents',
         isNew: true,
     },
+    {
+        id: '59',
+        title: 'PDF to Image',
+        description: 'Convert PDF pages to high-quality JPG or PNG images.',
+        icon: FileImage,
+        href: '/tools/pdf-to-image',
+        slug: 'pdf-to-image',
+        categoryId: 'documents',
+        isNew: true,
+    },
 
     // =====================================================
     // IMAGE TOOLS (Tier 1 - High Traffic)

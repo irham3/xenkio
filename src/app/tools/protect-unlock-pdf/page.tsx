@@ -1,0 +1,35 @@
+export const runtime = 'edge';
+
+import { Metadata } from 'next';
+import { TOOLS } from '@/data/tools';
+import { notFound } from 'next/navigation';
+import { ProtectUnlockClient } from './client';
+
+const slug = 'protect-unlock-pdf';
+
+export const metadata: Metadata = {
+    title: 'Protect & Unlock PDF - Encrypt or Decrypt PDF Files Online 2025',
+    description: 'Secure your PDF with passwords or remove restrictions instantly. Free online tool to protect and unlock PDF documents. Fast, private, and secure.',
+    keywords: ['protect pdf', 'unlock pdf', 'encrypt pdf', 'decrypt pdf', 'pdf security', 'password protect pdf', 'remove pdf password', '2025'],
+    openGraph: {
+        title: 'Protect & Unlock PDF | Xenkio',
+        description: 'Secure your PDF documents or remove passwords instantly. Free, private, and preserves quality.',
+        type: 'website',
+    }
+};
+
+export default function ProtectUnlockPage() {
+    const tool = TOOLS.find(t => t.slug === slug);
+
+    if (!tool) {
+        notFound();
+    }
+
+    return (
+        <div className="container mx-auto px-4 py-12 max-w-6xl">
+            {/* Header removed: handled by component */}
+
+            <ProtectUnlockClient />
+        </div>
+    );
+}

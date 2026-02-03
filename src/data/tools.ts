@@ -124,6 +124,16 @@ export const TOOLS: ToolData[] = [
         href: '/tools/zip-extractor',
         categoryId: 'documents',
     },
+    {
+        id: '58',
+        title: 'Protect/Unlock PDF',
+        description: 'Encrypt PDF with password or remove password security permissions.',
+        icon: Lock,
+        href: '/tools/protect-unlock-pdf',
+        slug: 'protect-unlock-pdf',
+        categoryId: 'documents',
+        isNew: true,
+    },
 
     // =====================================================
     // IMAGE TOOLS (Tier 1 - High Traffic)

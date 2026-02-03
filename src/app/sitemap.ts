@@ -1,33 +1,30 @@
 import { MetadataRoute } from 'next'
-import { TOOLS } from '@/data/tools'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://xenkio.com'
 
-  const tools = TOOLS.map((tool) => ({
-    url: `${baseUrl}${tool.href}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: tool.featured ? 0.8 : 0.5,
-  }))
-
   const routes = [
     '',
-    '/about',
-    '/contact',
-    '/privacy',
-    '/terms',
-    '/sign-up',
     '/tools',
-    '/tools/image-compressor',
-    '/tools/instagram-carousel',
-    '/tools/password-generator',
-    '/tools/qr-code-generator',
+    '/tools/base64-encoder',
+    '/tools/color-picker',
+    '/tools/diff-checker',
     '/tools/hash-generator',
     '/tools/html-formatter',
-    '/tools/unix-timestamp',
+    '/tools/image-compressor',
+    '/tools/image-resizer',
+    '/tools/image-to-pdf',
+    '/tools/instagram-carousel',
+    '/tools/merge-pdf',
+    '/tools/password-generator',
+    '/tools/pdf-to-image',
     '/tools/pdf-to-word',
-    '/tools/image-to-pdf'
+    '/tools/protect-unlock-pdf',
+    '/tools/qr-code-generator',
+    '/tools/regex-tester',
+    '/tools/split-pdf',
+    '/tools/timer',
+    '/tools/unix-timestamp',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -35,5 +32,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.9,
   }))
 
-  return [...routes, ...tools]
+  return routes
 }

@@ -182,6 +182,7 @@ export const TOOLS: ToolData[] = [
         icon: Layers,
         href: '/tools/image-converter',
         categoryId: 'media-images',
+        slug: 'image-converter',
     },
     {
         id: '12',

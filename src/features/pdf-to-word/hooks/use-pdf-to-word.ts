@@ -7,8 +7,6 @@ import {
     ConversionStatus
 } from '../types'
 
-// Server API URL - will use server conversion for high quality
-const PDF_API_URL = process.env.NEXT_PUBLIC_PDF_API_URL || '';
 
 export function usePdfToWord() {
     const [status, setStatus] = useState<ConversionStatus>('idle')
@@ -16,28 +14,6 @@ export function usePdfToWord() {
     const [error, setError] = useState<string | null>(null)
     const [result, setResult] = useState<ConversionResult | null>(null)
 
-    // Check if server API is configured
-    const hasServerApi = !!PDF_API_URL;
-
-    // Server-side conversion (high quality with pdf2docx)
-    const convertWithServer = async (pdfFile: PdfFile): Promise<Blob> => {
-        const formData = new FormData();
-        formData.append('file', pdfFile.file);
-
-        const response = await fetch(`${PDF_API_URL}/convert`, {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ detail: 'Conversion failed' }));
-            throw new Error(errorData.detail || `Server error: ${response.status}`);
-        }
-
-        return await response.blob();
-    };
-
-    // Client-side fallback conversion (basic quality)
     const convertWithClient = async (pdfFile: PdfFile): Promise<Blob> => {
         // Dynamic imports for client-side conversion
         const { Document, Packer, Paragraph, TextRun, HeadingLevel, convertInchesToTwip } = await import('docx');
@@ -146,25 +122,8 @@ export function usePdfToWord() {
         setResult(null);
 
         try {
-            let blob: Blob;
-            let conversionMethod = 'client';
-
-            // Try server conversion first if available
-            if (hasServerApi) {
-                try {
-                    setProgress(10);
-                    blob = await convertWithServer(pdfFile);
-                    conversionMethod = 'server';
-                    setProgress(90);
-                } catch (serverError) {
-                    console.warn('Server conversion failed, falling back to client:', serverError);
-                    // Fallback to client-side conversion
-                    blob = await convertWithClient(pdfFile);
-                }
-            } else {
-                // Use client-side conversion
-                blob = await convertWithClient(pdfFile);
-            }
+            // Use client-side conversion
+            const blob = await convertWithClient(pdfFile);
 
             const fileName = pdfFile.name.replace(/\.pdf$/i, '') + '.docx';
 
@@ -199,13 +158,13 @@ export function usePdfToWord() {
             setProgress(100);
             setStatus('completed');
 
-            console.log(`Conversion completed using ${conversionMethod} method`);
+            console.log('Conversion completed using client method');
         } catch (err: unknown) {
             console.error('Conversion error:', err);
             setError(err instanceof Error ? err.message : 'Conversion failed');
             setStatus('error');
         }
-    }, [hasServerApi]);
+    }, []);
 
     const downloadResult = useCallback(async () => {
         if (!result) return;
@@ -236,7 +195,6 @@ export function usePdfToWord() {
         progress,
         error,
         result,
-        reset,
-        hasServerApi
+        reset
     };
 }

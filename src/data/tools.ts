@@ -106,6 +106,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert images (JPG, PNG, WebP) to PDF documents.',
         icon: FileImage,
         href: '/tools/image-to-pdf',
+        slug: 'image-to-pdf',
         categoryId: 'documents',
     },
     {

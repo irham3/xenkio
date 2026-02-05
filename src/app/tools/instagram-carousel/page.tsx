@@ -11,8 +11,32 @@ export const metadata: Metadata = {
 };
 
 export default function InstagramCarouselPage() {
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Instagram Carousel Generator",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": "Create seamless, swipeable Instagram carousels. Upload images, design layouts spanning multiple slides, and export automatically sliced images ready to post.",
+        "featureList": [
+            "Seamless panoramic split",
+            "Drag and drop editor",
+            "Auto-slicing",
+            "High quality export"
+        ]
+    };
+
     return (
         <div className="container mx-auto px-4 py-8 max-w-[1400px]">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* Header */}
             <div className="text-center mb-12 space-y-4">
                 <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-widest animate-in fade-in slide-in-from-bottom-2 duration-700">

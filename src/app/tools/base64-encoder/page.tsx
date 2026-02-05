@@ -13,8 +13,32 @@ export const metadata: Metadata = {
 };
 
 export default function Base64EncoderPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Base64 Encoder & Decoder",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Encode text to Base64 or decode Base64 strings instantly. Free online Base64 converter with UTF-8 support.",
+    "featureList": [
+      "Encode to Base64",
+      "Decode from Base64",
+      "UTF-8 support",
+      "Real-time conversion"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className="bg-white">
         <div className="container mx-auto px-4 py-12 max-w-5xl">

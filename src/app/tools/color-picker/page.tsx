@@ -13,8 +13,32 @@ export const metadata: Metadata = {
 };
 
 export default function ColorPickerPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Color Picker",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Pick colors and convert between HEX, RGB, and HSL formats instantly.",
+    "featureList": [
+      "Pick colors",
+      "Convert formats",
+      "HEX/RGB/HSL",
+      "History log"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className="bg-white">
         <div className="container mx-auto px-4 py-12 max-w-5xl">

@@ -25,8 +25,31 @@ export default function ProtectUnlockPage() {
         notFound();
     }
 
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Protect & Unlock PDF",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": tool.description,
+        "featureList": [
+            "Encrypt PDF",
+            "Remove PDF Password",
+            "Secure client-side processing"
+        ]
+    };
+
     return (
         <div className="container mx-auto px-4 py-12 max-w-6xl">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* Header removed: handled by component */}
 
             <ProtectUnlockClient />

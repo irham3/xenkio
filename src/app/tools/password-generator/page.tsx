@@ -25,8 +25,32 @@ export default function PasswordGeneratorPage() {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Password Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": tool.description,
+    "featureList": [
+      "Adjustable length",
+      "Include/exclude characters",
+      "Strong encryption",
+      "One-click copy"
+    ]
+  };
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Tool Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">{tool.title}</h1>

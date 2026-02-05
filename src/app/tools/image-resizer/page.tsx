@@ -28,8 +28,32 @@ export default function ImageResizerPage() {
         notFound();
     }
 
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Image Resizer",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": targetTool.description,
+        "featureList": [
+            "Resize by pixels or percentage",
+            "Crop images",
+            "Maintain aspect ratio",
+            "Download optimized images"
+        ]
+    };
+
     return (
         <div className="container mx-auto px-4 py-12 max-w-6xl">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* Tool Header */}
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-extrabold text-gray-900 mb-4">{targetTool.title}</h1>

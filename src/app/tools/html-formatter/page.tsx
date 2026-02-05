@@ -21,8 +21,32 @@ export const metadata: Metadata = {
 };
 
 export default function HtmlFormatterPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HTML Formatter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Format, beautify, and minify HTML code instantly. Free online tool with customizable indentation.",
+    "featureList": [
+      "Beautify HTML",
+      "Minify HTML",
+      "Custom indentation",
+      "Attribute wrapping"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className="bg-white">
         <div className="container mx-auto px-4 pt-16 pb-12 max-w-5xl">
@@ -54,15 +78,15 @@ export default function HtmlFormatterPage() {
               <h2 className="text-xl font-bold text-gray-900">Why Format HTML?</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Readability</strong> — Properly formatted HTML with consistent 
+                  <strong className="text-gray-800">Readability</strong> — Properly formatted HTML with consistent
                   indentation makes code easier to read, understand, and maintain. Essential for team collaboration.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Debugging</strong> — When HTML is well-structured with clear 
+                  <strong className="text-gray-800">Debugging</strong> — When HTML is well-structured with clear
                   hierarchy, finding and fixing issues becomes significantly faster.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Code Review</strong> — Clean, formatted code is easier to 
+                  <strong className="text-gray-800">Code Review</strong> — Clean, formatted code is easier to
                   review and reduces the chance of bugs slipping through.
                 </p>
               </div>
@@ -71,15 +95,15 @@ export default function HtmlFormatterPage() {
               <h2 className="text-xl font-bold text-gray-900">Features</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Customizable Indentation</strong> — Choose between spaces 
+                  <strong className="text-gray-800">Customizable Indentation</strong> — Choose between spaces
                   or tabs, and set your preferred indent size (2, 4, or 8 characters).
                 </p>
                 <p>
-                  <strong className="text-gray-800">Attribute Wrapping</strong> — Control how HTML attributes 
+                  <strong className="text-gray-800">Attribute Wrapping</strong> — Control how HTML attributes
                   are formatted with multiple wrapping options for long attribute lists.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Minification</strong> — Compress HTML by removing 
+                  <strong className="text-gray-800">Minification</strong> — Compress HTML by removing
                   unnecessary whitespace and comments for production-ready code.
                 </p>
               </div>

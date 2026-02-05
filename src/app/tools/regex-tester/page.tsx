@@ -13,8 +13,32 @@ export const metadata: Metadata = {
 };
 
 export default function RegexTesterPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Regex Tester",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Test and debug regular expressions with live matching and detailed match information.",
+    "featureList": [
+      "Live regex matching",
+      "Syntax highlighting",
+      "JavaScript regex flags",
+      "Cheatsheet included"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className="bg-white">
         <div className="container mx-auto px-4 py-12 max-w-5xl">

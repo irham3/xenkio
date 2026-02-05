@@ -25,10 +25,35 @@ export default function MergePdfPage() {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Merge PDF",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": tool.description,
+    "featureList": [
+      "Combine multiple PDFs",
+      "Drag and drop reordering",
+      "Secure client-side processing",
+      "Fast and free"
+    ]
+  };
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Tool Header */}
       <div className="text-center mb-12">
+
         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">{tool.title}</h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">{tool.description}</p>
       </div>

@@ -21,8 +21,32 @@ export default function TimerPage() {
         notFound();
     }
 
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Event Timer & Countdown",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": tool.description,
+        "featureList": [
+            "Countdown timer",
+            "Custom deadlines",
+            "Visual progress",
+            "Presets"
+        ]
+    };
+
     return (
         <div className="container mx-auto px-4 py-12 max-w-6xl">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* Tool Header */}
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">{tool.title}</h1>

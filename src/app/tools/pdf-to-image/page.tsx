@@ -13,8 +13,32 @@ export const metadata: Metadata = {
 };
 
 export default function PdfToImagePage() {
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "PDF to Image",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": "Convert PDF pages to high-quality JPG or PNG images.",
+        "featureList": [
+            "Convert PDF to JPG/PNG",
+            "High resolution output",
+            "Batch extraction",
+            "Privacy focused"
+        ]
+    };
+
     return (
         <div className="min-h-screen bg-[#F8FAFC]">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* Hero Section */}
             <section className="relative overflow-hidden border-b border-gray-100">
                 <div className="container mx-auto px-4 py-16 md:py-24 max-w-5xl relative z-10">

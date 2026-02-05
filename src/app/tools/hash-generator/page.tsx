@@ -13,8 +13,32 @@ export const metadata: Metadata = {
 };
 
 export default function HashGeneratorPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Hash Generator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Generate secure hashes instantly. Supports MD5, SHA-1, SHA-256, SHA-512, Bcrypt, Argon2id, and RIPEMD-160.",
+    "featureList": [
+      "Support for multiple algorithms",
+      "Salt support",
+      "Client-side processing",
+      "Instant verification"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className="bg-white">
         <div className="container mx-auto px-4 py-12 max-w-5xl">

@@ -1,51 +1,25 @@
 import Link from 'next/link';
 import { XenkioLogo } from '@/components/ui/xenkio-logo';
-
-const footerLinks = {
-  product: [
-    { name: 'All Tools', href: '/tools' },
-    { name: 'Pricing', href: '/pricing' },
-    { name: 'API Access', href: '/api-docs' },
-    { name: 'Integrations', href: '/integrations' },
-    { name: 'Changelog', href: '/changelog' },
-  ],
-  tools: [
-    { name: 'QR Code Generator', href: '/tools/qr-code-generator' },
-    { name: 'Image Compressor', href: '/tools/image-compressor' },
-    { name: 'PDF to Word', href: '/tools/pdf-to-word' },
-    { name: 'JSON Formatter', href: '/tools/json-formatter' },
-    { name: 'Password Generator', href: '/tools/password-generator' },
-  ],
-  company: [
-    { name: 'About', href: '/about' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Press Kit', href: '/press' },
-  ],
-  legal: [
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Terms of Service', href: '/terms' },
-    { name: 'Cookie Policy', href: '/cookies' },
-    { name: 'GDPR', href: '/gdpr' },
-  ],
-};
+import { TOOLS } from '@/data/tools';
 
 export function Footer() {
+  const featuredTools = TOOLS.filter(t => t.featured);
+  const newTools = TOOLS.filter(t => t.isNew);
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Main footer content */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand column */}
-          <div className="col-span-2 lg:col-span-2">
+          <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-5">
               <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-linear-to-br from-primary-400 to-primary-600">
                 <XenkioLogo className="w-4 h-4 text-white" />
               </div>
               <span className="text-xl font-bold text-white">Xenkio</span>
             </Link>
-            <p className="text-gray-400 text-[15px] leading-relaxed mb-6 max-w-sm">
+            <p className="text-gray-400 text-[15px] leading-relaxed mb-6">
               The all-in-one platform for file processing, data transformation, and developer utilities. Fast, secure, and free.
             </p>
 
@@ -87,79 +61,83 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Product column */}
-          <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Product
-            </h3>
-            <ul className="space-y-3">
-              {footerLinks.product.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-[15px] text-gray-400 hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Tools column */}
+          {/* Popular Tools */}
           <div>
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
               Popular Tools
             </h3>
             <ul className="space-y-3">
-              {footerLinks.tools.map((link) => (
-                <li key={link.name}>
+              {featuredTools.slice(0, 6).map((tool) => (
+                <li key={tool.id}>
                   <Link
-                    href={link.href}
-                    className="text-[15px] text-gray-400 hover:text-white transition-colors"
+                    href={tool.href}
+                    className="text-[15px] text-gray-400 hover:text-white transition-colors flex items-center gap-2"
                   >
-                    {link.name}
+                    <span>{tool.title}</span>
+                    {tool.isNew && (
+                      <span className="px-1.5 py-0.5 text-[10px] font-bold bg-primary-500/20 text-primary-400 rounded-full border border-primary-500/30">
+                        NEW
+                      </span>
+                    )}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Company column */}
+          {/* New Tools */}
           <div>
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Company
+              New & Trending
             </h3>
             <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
+              {newTools.slice(0, 6).map((tool) => (
+                <li key={tool.id}>
                   <Link
-                    href={link.href}
+                    href={tool.href}
                     className="text-[15px] text-gray-400 hover:text-white transition-colors"
                   >
-                    {link.name}
+                    {tool.title}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Legal column */}
+          {/* Categories */}
           <div>
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Legal
+              Explore
             </h3>
             <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-[15px] text-gray-400 hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/tools?category=documents" className="text-[15px] text-gray-400 hover:text-white transition-colors">
+                  PDF & Documents
+                </Link>
+              </li>
+              <li>
+                <Link href="/tools?category=media-images" className="text-[15px] text-gray-400 hover:text-white transition-colors">
+                  Image Tools
+                </Link>
+              </li>
+              <li>
+                <Link href="/tools?category=developer-tools" className="text-[15px] text-gray-400 hover:text-white transition-colors">
+                  Developer Tools
+                </Link>
+              </li>
+              <li>
+                <Link href="/tools?category=security-privacy" className="text-[15px] text-gray-400 hover:text-white transition-colors">
+                  Security & Privacy
+                </Link>
+              </li>
+              <li>
+                <Link href="/tools" className="text-[15px] text-primary-400 hover:text-primary-300 transition-colors font-medium flex items-center gap-1">
+                  View All Tools
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

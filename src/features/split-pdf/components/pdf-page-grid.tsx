@@ -64,7 +64,7 @@ function SortablePageItem({ pageNum, isSelected, onToggle, pdf }: SortablePageIt
                 onToggle(pageNum);
             }}
             className={cn(
-                "relative aspect-3/4 rounded-lg border-2 cursor-pointer transition-all group touch-none",
+                "relative aspect-3/4 rounded-lg border-2 cursor-move transition-all group touch-none",
                 isSelected
                     ? "border-primary-500 ring-2 ring-primary-200"
                     : "border-transparent hover:border-primary-300"

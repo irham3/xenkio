@@ -4,118 +4,55 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
-import { StatsBanner } from "@/components/home/stats-banner";
 import { CATEGORIES } from "@/data/categories";
-import { TOOLS as TOOLS, type ToolData } from "@/data/tools";
+import { TOOLS, type ToolData } from "@/data/tools";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Xenkio - All-in-One Online Productivity Tools",
-  description: "Free online tools for PDF, image compression, QR codes, password generation, and developer utilities. No signup required.",
+  title: "Xenkio - Free Online Productivity Tools & Converters",
+  description: "Your ultimate free toolkit for productivity. Merge PDFs, convert images, generate QR codes, and more. No sign-up required—just get it done instantly.",
+  keywords: ["online tools", "pdf converter", "image tools", "developer utilities", "qr code generator", "free tools", "no sign up", "xenkio"],
+  openGraph: {
+    title: "Xenkio - Free Online Productivity Tools",
+    description: "Your ultimate free toolkit for productivity. No sign-up required.",
+    url: "https://xenkio.com",
+    siteName: "Xenkio",
+    locale: "en_US",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://xenkio.com",
+  },
 };
 
-
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Xenkio Tools Directory",
+    "description": "A comprehensive collection of free online productivity tools including PDF converters, image editing tools, and developer utilities.",
+    "url": "https://xenkio.com",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": CATEGORIES.map((category, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": category.name,
+        "url": `https://xenkio.com/tools?category=${category.id}`
+      }))
+    }
+  };
+
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <HeroSection />
-
-      {/* Popular Tools - Featured Bento Grid */}
-      {/* <section className="py-16 lg:py-20"> */}
-      {/* <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> */}
-      {/* Section Header */}
-      {/* <div className="flex items-center justify-between mb-10">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                Most Popular Tools
-              </h2>
-              <p className="mt-2 text-gray-600">
-                Trusted by millions of users worldwide
-              </p>
-            </div>
-            <Link
-              href="/tools"
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 hover:bg-primary-50 rounded-lg transition-colors"
-            >
-              View all tools
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div> */}
-
-      {/* Bento Grid */}
-      {/* <div className="grid grid-cols-1 lg:grid-cols-12 gap-6"> */}
-      {/* Large featured card */}
-      {/* <div className="lg:col-span-6">
-              {featuredTools[0] && (
-                <ToolCardFeatured
-                  id={featuredTools[0].id}
-                  title={featuredTools[0].title}
-                  description={featuredTools[0].description}
-                  href={featuredTools[0].href}
-                  stats={featuredTools[0].stats}
-                  isNew={featuredTools[0].isNew}
-                  isPremium={featuredTools[0].isPremium}
-                  gradientFrom={featuredTools[0].gradientFrom}
-                  gradientTo={featuredTools[0].gradientTo}
-                />
-              )}
-            </div>
-            */}
-      {/* Right column - two compact cards stacked */}
-      {/* <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-              {featuredTools.slice(1, 3).map((tool: ToolData) => (
-                <ToolCardFeatured
-                  key={tool.id}
-                  id={tool.id}
-                  title={tool.title}
-                  description={tool.description}
-                  href={tool.href}
-                  stats={tool.stats}
-                  isNew={tool.isNew}
-                  isPremium={tool.isPremium}
-                  gradientFrom={tool.gradientFrom}
-                  gradientTo={tool.gradientTo}
-                />
-              ))}
-            </div>
-            </div>
-
-          {/* Second row */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            {featuredTools.slice(3, 4).map((tool: ToolData) => (
-              <ToolCardFeatured
-                key={tool.id}
-                id={tool.id}
-                title={tool.title}
-                description={tool.description}
-                href={tool.href}
-                stats={tool.stats}
-                isNew={tool.isNew}
-                isPremium={tool.isPremium}
-                gradientFrom={tool.gradientFrom}
-                gradientTo={tool.gradientTo}
-              />
-            ))}
-            */}
-      {/* Fill with compact cards */}
-      {/* {TOOLS.filter((t: ToolData) => !t.featured).slice(0, 3).map((tool: ToolData) => (
-              <ToolCardCompact
-                key={tool.id}
-                id={tool.id}
-                title={tool.title}
-                description={tool.description}
-                href={tool.href}
-                usageCount={tool.usageCount}
-                isNew={tool.isNew}
-                isPremium={tool.isPremium}
-              />
-            ))}
-          </div> */}
-      {/* </div> */}
-      {/* </section>  */}
 
       {/* Category Sections */}
       {CATEGORIES.map((category, index) => {
@@ -134,8 +71,8 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
                 <div className="flex items-center gap-4">
                   <div
-                    className="flex items-center justify-center w-14 h-14 rounded-2xl"
-                    style={{ backgroundColor: category.color + '20' }}
+                    className="flex items-center justify-center w-14 h-14 rounded-2xl border border-gray-100/50 shadow-sm"
+                    style={{ backgroundColor: category.color + '15' }}
                   >
                     <CategoryIcon className="w-7 h-7 text-gray-700" />
                   </div>
@@ -143,23 +80,23 @@ export default function Home() {
                     <h2 className="text-2xl font-bold text-gray-900">
                       {category.name}
                     </h2>
-                    <p className="text-gray-500 mt-0.5">
+                    <p className="text-gray-500 mt-1 max-w-xl">
                       {category.description}
                     </p>
                   </div>
                 </div>
                 <Link
                   href={`/tools?category=${category.id}`}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-primary-600 hover:text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-primary-600 hover:text-primary-700 bg-white border border-gray-200 hover:border-primary-200 hover:bg-primary-50 rounded-lg transition-all shadow-sm hover:shadow-md"
                 >
                   View All
                   {/* {category.toolCount} Tools */}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 ml-0.5" />
                 </Link>
               </div>
 
               {/* Tools Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
                 {categoryTools.slice(0, 10).map((tool: ToolData) => (
                   <ToolCardCompact
                     key={tool.id}
@@ -177,7 +114,6 @@ export default function Home() {
         );
       })}
 
-      <StatsBanner />
       <Footer />
     </main>
   );

@@ -126,7 +126,7 @@ export function Navbar() {
               <div className="flex items-center gap-1 pointer-events-auto">
 
 
-                {CATEGORIES.slice(0, 4).map((category) => {
+                {CATEGORIES.slice(0, 3).map((category) => {
                   const categoryTools = TOOLS.filter(t => t.categoryId === category.id);
                   const isTwoColumns = categoryTools.length > 7;
 
@@ -150,7 +150,7 @@ export function Navbar() {
                         {category.name}
                         <ChevronDown
                           className={cn(
-                            "w-3.5 h-3.5 transition-transform duration-200",
+                            "w-3.5 h-3.5 transition-transform duration-200 mt-px",
                             hoveredCategory === category.id ? "rotate-180" : ""
                           )}
                         />
@@ -217,7 +217,7 @@ export function Navbar() {
                   <button
                     className={cn(
                       "flex items-center gap-1.5 px-3.5 py-2 text-[14px] font-medium rounded-lg transition-all duration-200 whitespace-nowrap cursor-pointer",
-                      CATEGORIES.slice(4).some(c => c.id === effectiveActiveCategory) || hoveredCategory === 'more'
+                      CATEGORIES.slice(3).some(c => c.id === effectiveActiveCategory) || hoveredCategory === 'more'
                         ? "text-primary-600 bg-primary-50"
                         : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                     )}
@@ -225,7 +225,7 @@ export function Navbar() {
                     More
                     <ChevronDown
                       className={cn(
-                        "w-3.5 h-3.5 transition-transform duration-200",
+                        "w-3.5 h-3.5 transition-transform duration-200 mt-px",
                         hoveredCategory === 'more' ? "rotate-180" : ""
                       )}
                     />
@@ -242,7 +242,7 @@ export function Navbar() {
                         className="absolute top-full left-1/2 mt-2 w-[260px] p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left"
                       >
                         <div className="flex flex-col gap-1">
-                          {CATEGORIES.slice(4).map((category) => {
+                          {CATEGORIES.slice(3).map((category) => {
                             const categoryTools = TOOLS.filter(t => t.categoryId === category.id);
                             const isTwoColumns = categoryTools.length > 7;
 
@@ -278,7 +278,7 @@ export function Navbar() {
                                     </div>
                                     <span className="text-sm font-medium">{category.name}</span>
                                   </div>
-                                  <ChevronDown className="w-3 h-3 rotate-90 text-gray-400" />
+                                  <ChevronDown className="w-3 h-3 rotate-90 text-gray-400 mt-px" />
                                 </a>
 
                                 {/* Nested Tool Menu */}

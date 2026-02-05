@@ -7,18 +7,21 @@ import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
 import { TOOLS, type ToolData } from '@/data/tools';
 import Fuse from 'fuse.js';
+import Link from 'next/link';
 
 const placeholders = [
-  'Merge PDF...',
-  'PDF to Word...',
-  'QR Code Generator...',
-  'Image Converter...',
-  'Password Generator...',
+  'Merge PDF files...',
+  'Convert PDF to Word...',
+  'Generate QR Codes...',
+  'Compress Images...',
+  'Create Secure Passwords...',
 ];
 
+
+
 const fuse = new Fuse(TOOLS, {
-  keys: ['title', 'description'],
-  threshold: 0.4,
+  keys: ['title', 'description', 'category'],
+  threshold: 0.3, // Slightly stricter threshold for better relevance
   includeScore: true,
 });
 
@@ -39,143 +42,168 @@ export function HeroSection() {
     };
   }, []);
 
-  // useEffect for placeholders rotation removed as it is handled in the component
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
-  //   }, 3000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
   const results = useMemo((): ToolData[] => {
     if (query.trim()) {
       const searchResults = fuse.search(query);
-      return searchResults.map((r) => r.item);
+      return searchResults.slice(0, 5).map((r) => r.item); // Limit to top 5 results for cleaner UI
     } else {
-      // Show all tools when no search query
-      return TOOLS;
+      return [];
     }
   }, [query]);
 
-  const showResults = isFocused && results.length > 0;
+  const showResults = (isFocused || query.length > 0) && results.length > 0;
 
   return (
-    <section className="relative z-10 bg-linear-to-b from-primary-50/80 via-white to-white">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-[0.015]" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-      }} />
+    <section className="relative z-10 overflow-hidden bg-white pt-20 pb-32 lg:pt-32 lg:pb-40">
+      {/* Professional Grid Background with Mask */}
+      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]">
+        <div className="absolute inset-0 bg-radial-[circle_800px_at_50%_200px] from-white/0 via-white/50 to-white" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-        <div className="text-center max-w-2xl mx-auto">
-          {/* Badge */}
+      {/* Subtle Ambient Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 w-[800px] h-[500px] bg-primary-100/30 blur-[120px] rounded-full opacity-60 pointer-events-none" />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-4xl mx-auto">
+
+          {/* Badge: Pill shaped, subtle, high-end feel */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 mb-8 text-sm font-medium text-primary-700 bg-primary-50 border border-primary-200/60 rounded-full"
+            className="inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-default"
           >
-            <Zap className="w-4 h-4" />
-            Free tools for everyone
+            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-xs font-semibold text-gray-600 tracking-wide uppercase">Free & Unlimited</span>
           </motion.div>
 
-          {/* Main heading */}
+          {/* Main Heading: Strong hierarchy, clean topography */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 mb-6"
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1]"
           >
-            Every Tool You Need in {' '}
-            <span className="relative">
+            Your Toolkit for <br className="hidden sm:block" />
+            <span className="relative inline-block">
               <ShinyText
-                text="One Platform"
+                text="Better Productivity"
                 disabled={false}
                 speed={3}
-                className="block sm:inline"
+                className="inline-block py-2 leading-normal"
                 color="#0EA5E9"
-                shineColor="#ffffff"
+                shineColor="#E0F2FE"
               />
             </span>
           </motion.h1>
 
-          {/* Subheading */}
+          {/* Subheading: Readable, balanced */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed"
           >
-            Process files, convert formats, and transform data instantly. No signup required, completely free.
+            Explore a collection of powerful, free tools to convert, edit, and generate content.
+            No sign-up required, just get it done.
           </motion.p>
 
-          {/* Search bar */}
+          {/* Search Area: The focal point */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             ref={containerRef}
-            className="relative max-w-xl mx-auto z-20"
+            className="relative max-w-2xl mx-auto z-20 mb-12"
           >
-            <PlaceholdersAndVanishInput
-              placeholders={placeholders}
-              onChange={(e) => setQuery(e.target.value)}
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log('Search submit', query);
-              }}
-              onFocus={() => setIsFocused(true)}
-            />
+            {/* Search Input Container with Drop Shadow */}
+            <div className="relative group">
 
-            {/* Search results dropdown */}
+
+              <div className="relative">
+                <PlaceholdersAndVanishInput
+                  placeholders={placeholders}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // Could redirect to search results page
+                  }}
+                  onFocus={() => setIsFocused(true)}
+                />
+              </div>
+            </div>
+
+
+
+            {/* Search Results Dropdown - Progressive Disclosure */}
             {showResults && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50 overflow-hidden"
+                initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute top-full left-0 right-0 mt-3 bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-100 shadow-2xl shadow-gray-200/50 z-50 overflow-hidden text-left"
               >
-                <div className="max-h-[400px] overflow-y-auto scrollbar-themed">
+                <div className="px-4 py-2 bg-gray-50/50 text-[10px] uppercase font-semibold text-gray-400 tracking-wider">
+                  Tools matching &quot;{query}&quot;
+                </div>
+                <div className="max-h-[320px] overflow-y-auto scrollbar-themed py-2">
                   {results.map((tool) => (
-                    <a
+                    <Link
                       key={tool.id}
                       href={tool.href}
-                      className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors"
+                      className="flex items-start gap-4 px-4 py-3 mx-2 rounded-xl hover:bg-primary-50/50 transition-colors group"
+                      onClick={() => setIsFocused(false)}
                     >
-                      <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100">
-                        <tool.icon className="w-5 h-5 text-gray-600" />
+                      <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 text-gray-500 group-hover:bg-white group-hover:text-primary-600 shadow-sm transition-all border border-gray-100">
+                        <tool.icon className="w-5 h-5" />
                       </div>
-                      <div className="flex-1 text-left">
-                        <div className="text-[15px] font-medium text-gray-900">{tool.title}</div>
-                        <div className="text-sm text-gray-500">{tool.description.slice(0, 60)}...</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">{tool.title}</h4>
+                          <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-400 group-hover:-rotate-45 transition-transform duration-300" />
+                        </div>
+                        <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{tool.description}</p>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-gray-400" />
-                    </a>
+                    </Link>
                   ))}
                 </div>
+                {results.length > 0 && (
+                  <div className="px-4 py-2.5 bg-gray-50 text-center">
+                    <span className="text-xs text-gray-400">Press <kbd className="font-sans px-1 py-0.5 bg-white border border-gray-200 rounded text-[10px]">Enter</kbd> to see all results</span>
+                  </div>
+                )}
               </motion.div>
             )}
           </motion.div>
 
-          {/* Trust indicators */}
+          {/* Trust Indicators - Minimalist & Divider */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 mt-12 text-sm text-gray-500"
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-green-500" />
-              <span>100% Secure</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-primary-500" />
-              <span>Instant Processing</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-accent-500" />
-              <span>No Registration</span>
+            <div className="flex items-center justify-center gap-8 md:gap-16 max-w-3xl mx-auto">
+              <div className="flex flex-col items-center gap-2 group cursor-default">
+                <div className="p-2 rounded-full bg-green-50 text-green-600 group-hover:bg-green-100 transition-colors">
+                  <Shield className="w-5 h-5" />
+                </div>
+                <span className="text-sm font-medium text-gray-600">Secure & Private</span>
+              </div>
+              <div className="flex flex-col items-center gap-2 group cursor-default">
+                <div className="p-2 rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-100 transition-colors">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <span className="text-sm font-medium text-gray-600">Lightning Fast</span>
+              </div>
+              <div className="flex flex-col items-center gap-2 group cursor-default">
+                <div className="p-2 rounded-full bg-purple-50 text-purple-600 group-hover:bg-purple-100 transition-colors">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <span className="text-sm font-medium text-gray-600">Forever Free</span>
+              </div>
             </div>
           </motion.div>
+
         </div>
       </div>
     </section>

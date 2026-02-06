@@ -7,21 +7,23 @@ import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
 import { TOOLS, type ToolData } from '@/data/tools';
 import Fuse from 'fuse.js';
-import Link from 'next/link';
 
 const placeholders = [
-  'Merge PDF files...',
-  'Convert PDF to Word...',
-  'Generate QR Codes...',
-  'Compress Images...',
-  'Create Secure Passwords...',
+  'Merge PDF...',
+  'Split PDF...',
+  'Image Compressor...',
+  'QR Code Generator...',
+  'Image Converter...',
+  'Password Generator...',
+  'Hash Generator...',
+  'Image to PDF...',
+  'PDF to Image...',
+  'Color Picker...'
 ];
-
-
 
 const fuse = new Fuse(TOOLS, {
   keys: ['title', 'description', 'category'],
-  threshold: 0.3, // Slightly stricter threshold for better relevance
+  threshold: 0.3,
   includeScore: true,
 });
 
@@ -45,16 +47,17 @@ export function HeroSection() {
   const results = useMemo((): ToolData[] => {
     if (query.trim()) {
       const searchResults = fuse.search(query);
-      return searchResults.slice(0, 5).map((r) => r.item); // Limit to top 5 results for cleaner UI
+      return searchResults.map((r) => r.item);
     } else {
-      return [];
+      // Show all tools when no search query
+      return TOOLS;
     }
   }, [query]);
 
-  const showResults = (isFocused || query.length > 0) && results.length > 0;
+  const showResults = isFocused && results.length > 0;
 
   return (
-    <section className="relative z-10 overflow-hidden bg-white pt-20 pb-32 lg:pt-32 lg:pb-40">
+    <section className="relative z-10 bg-white pt-20 pb-32 lg:pt-32 lg:pb-40">
       {/* Professional Grid Background with Mask */}
       <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]">
         <div className="absolute inset-0 bg-radial-[circle_800px_at_50%_200px] from-white/0 via-white/50 to-white" />
@@ -66,7 +69,7 @@ export function HeroSection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
 
-          {/* Badge: Pill shaped, subtle, high-end feel */}
+          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -77,7 +80,7 @@ export function HeroSection() {
             <span className="text-xs font-semibold text-gray-600 tracking-wide uppercase">Free & Unlimited</span>
           </motion.div>
 
-          {/* Main Heading: Strong hierarchy, clean topography */}
+          {/* Main Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -97,7 +100,7 @@ export function HeroSection() {
             </span>
           </motion.h1>
 
-          {/* Subheading: Readable, balanced */}
+          {/* Subheading */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -108,75 +111,53 @@ export function HeroSection() {
             No sign-up required, just get it done.
           </motion.p>
 
-          {/* Search Area: The focal point */}
+          {/* Search Area: The focal point - using OLD width style max-w-xl */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             ref={containerRef}
-            className="relative max-w-2xl mx-auto z-20 mb-12"
+            className="relative max-w-xl mx-auto z-20 mb-12"
           >
-            {/* Search Input Container with Drop Shadow */}
-            <div className="relative group">
+            <PlaceholdersAndVanishInput
+              placeholders={placeholders}
+              onChange={(e) => setQuery(e.target.value)}
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+              onFocus={() => setIsFocused(true)}
+            />
 
-
-              <div className="relative">
-                <PlaceholdersAndVanishInput
-                  placeholders={placeholders}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    // Could redirect to search results page
-                  }}
-                  onFocus={() => setIsFocused(true)}
-                />
-              </div>
-            </div>
-
-
-
-            {/* Search Results Dropdown - Progressive Disclosure */}
+            {/* Search Results Dropdown - Simpler Version */}
             {showResults && (
               <motion.div
-                initial={{ opacity: 0, y: -10, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="absolute top-full left-0 right-0 mt-3 bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-100 shadow-2xl shadow-gray-200/50 z-50 overflow-hidden text-left"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50 overflow-hidden"
               >
-                <div className="px-4 py-2 bg-gray-50/50 text-[10px] uppercase font-semibold text-gray-400 tracking-wider">
-                  Tools matching &quot;{query}&quot;
-                </div>
-                <div className="max-h-[320px] overflow-y-auto scrollbar-themed py-2">
+                <div className="max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {results.map((tool) => (
-                    <Link
+                    <a
                       key={tool.id}
                       href={tool.href}
-                      className="flex items-start gap-4 px-4 py-3 mx-2 rounded-xl hover:bg-primary-50/50 transition-colors group"
-                      onClick={() => setIsFocused(false)}
+                      className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors"
                     >
-                      <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 text-gray-500 group-hover:bg-white group-hover:text-primary-600 shadow-sm transition-all border border-gray-100">
-                        <tool.icon className="w-5 h-5" />
+                      <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100">
+                        <tool.icon className="w-5 h-5 text-gray-600" />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <h4 className="text-sm font-semibold text-gray-900 group-hover:text-primary-700 truncate">{tool.title}</h4>
-                          <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-400 group-hover:-rotate-45 transition-transform duration-300" />
-                        </div>
-                        <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{tool.description}</p>
+                      <div className="flex-1 text-left">
+                        <div className="text-[15px] font-medium text-gray-900">{tool.title}</div>
+                        <div className="text-sm text-gray-500">{tool.description.slice(0, 60)}...</div>
                       </div>
-                    </Link>
+                      <ArrowRight className="w-4 h-4 text-gray-400" />
+                    </a>
                   ))}
                 </div>
-                {results.length > 0 && (
-                  <div className="px-4 py-2.5 bg-gray-50 text-center">
-                    <span className="text-xs text-gray-400">Press <kbd className="font-sans px-1 py-0.5 bg-white border border-gray-200 rounded text-[10px]">Enter</kbd> to see all results</span>
-                  </div>
-                )}
               </motion.div>
             )}
           </motion.div>
 
-          {/* Trust Indicators - Minimalist & Divider */}
+          {/* Trust Indicators */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -360,7 +360,9 @@ export const TOOLS: ToolData[] = [
         description: 'Edit and preview Markdown with live rendering.',
         icon: FileEdit,
         href: '/tools/markdown-editor',
+        slug: 'markdown-editor',
         categoryId: 'developer-tools',
+        isNew: true,
     },
     {
         id: '34',

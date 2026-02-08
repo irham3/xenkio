@@ -46,6 +46,7 @@ import {
     Activity,
     Coins,
     FilePlus,
+    Mic,
 } from 'lucide-react';
 
 export interface ToolData {
@@ -435,6 +436,16 @@ export const TOOLS: ToolData[] = [
     // =====================================================
     // TEXT & WRITING TOOLS
     // =====================================================
+    {
+        id: '60',
+        title: 'Speech to Text',
+        description: 'Convert your voice into text instantly with real-time transcription. Supports multiple languages.',
+        icon: Mic,
+        href: '/tools/speech-to-text',
+        slug: 'speech-to-text',
+        isNew: true,
+        categoryId: 'text-utilities',
+    },
     {
         id: '40',
         title: 'Lorem Ipsum Generator',

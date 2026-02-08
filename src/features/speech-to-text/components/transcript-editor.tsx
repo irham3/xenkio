@@ -35,7 +35,7 @@ export function TranscriptEditor({
             setCopied(true);
             toast.success("Transcript copied to clipboard");
             setTimeout(() => setCopied(false), 2000);
-        } catch (err) {
+        } catch {
             toast.error("Failed to copy transcript");
         }
     };

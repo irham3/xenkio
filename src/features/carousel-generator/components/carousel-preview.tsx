@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { CarouselConfig, INSTAGRAM_SIZES } from '../types';
+import { CarouselConfig, CarouselImage, INSTAGRAM_SIZES } from '../types';
 import { cn } from '@/lib/utils';
-import { Minus, Plus, Trash2, RotateCw, Maximize2 } from 'lucide-react';
+import { Minus, Plus, Trash2, RotateCw } from 'lucide-react';
 
 interface CarouselPreviewProps {
   config: CarouselConfig;
@@ -77,7 +77,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
     const dy = (clientY - dragStart.current.y) / zoom;
     const rawDx = clientX - dragStart.current.x;
 
-    let updates: any = {};
+    let updates: Partial<CarouselImage> = {};
 
     if (interactionMode === 'move') {
       updates = {

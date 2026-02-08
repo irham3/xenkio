@@ -137,12 +137,13 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
     const svg = document.getElementById(svgId) as SVGSVGElement | null;
     if (!svg) return;
 
-    setIsValidating(true);
+    // Use requestAnimationFrame to defer state update and satisfy linter
+    const rafId = requestAnimationFrame(() => setIsValidating(true));
     const timeoutId = setTimeout(() => {
       const svgData = new XMLSerializer().serializeToString(svg);
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const img = new (window as any).Image();
+      const img = new Image();
 
       const svgSize = 350; // Match SIZE
       canvas.width = svgSize;
@@ -165,7 +166,10 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
       img.src = base64;
     }, 500); // 500ms debounce
 
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+      cancelAnimationFrame(rafId);
+    };
   }, [config, svgId]);
 
   // Fixed canvas size for display

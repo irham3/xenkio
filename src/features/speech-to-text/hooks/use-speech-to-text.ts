@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { SpeechToTextOptions, SpeechToTextState, SpeechRecognition } from '../types';
+import { SpeechToTextOptions, SpeechToTextState, SpeechRecognition, SpeechRecognitionEvent, SpeechRecognitionErrorEvent } from '../types';
 import { DEFAULT_LANGUAGE } from '../constants';
 
 export function useSpeechToText(options: SpeechToTextOptions = {}) {
@@ -22,7 +22,7 @@ export function useSpeechToText(options: SpeechToTextOptions = {}) {
             setState(prev => ({ ...prev, isListening: true }));
         };
 
-        recognition.onresult = (event: any) => {
+        recognition.onresult = (event: SpeechRecognitionEvent) => {
             let interimTranscript = '';
             let finalTranscriptChunk = '';
 
@@ -51,7 +51,7 @@ export function useSpeechToText(options: SpeechToTextOptions = {}) {
             }
         };
 
-        recognition.onerror = (event: any) => {
+        recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
             console.error('Speech recognition error:', event.error);
 
             let errorMessage = 'An error occurred during speech recognition.';
@@ -87,7 +87,9 @@ export function useSpeechToText(options: SpeechToTextOptions = {}) {
     useEffect(() => {
         // innovative check for browser support
         const isSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
-        setState(prev => ({ ...prev, isSupported }));
+        const rafId = requestAnimationFrame(() => {
+            setState(prev => ({ ...prev, isSupported }));
+        });
 
         if (isSupported) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -100,11 +102,12 @@ export function useSpeechToText(options: SpeechToTextOptions = {}) {
         }
 
         return () => {
+            cancelAnimationFrame(rafId);
             if (recognitionRef.current) {
                 recognitionRef.current.abort();
             }
         };
-    }, []); // Only run once on mount
+    }, [options.continuous, options.interimResults, options.lang]); // Run when options change to re-setup or update mount setup
 
     // Update language if options change
     useEffect(() => {

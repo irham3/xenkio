@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { BarcodeConfig, BarcodeFormat } from '../types';
+import { BarcodeConfig } from '../types';
 
 const DEFAULT_CONFIG: BarcodeConfig = {
     value: '1234567890',

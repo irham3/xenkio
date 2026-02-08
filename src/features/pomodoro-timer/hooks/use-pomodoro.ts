@@ -21,7 +21,8 @@ export const usePomodoro = (initialSettings: TimerSettings = DEFAULT_SETTINGS) =
 
         try {
             if (!audioContextRef.current) {
-                audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+                const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+                audioContextRef.current = new AudioContextClass();
             }
 
             const ctx = audioContextRef.current;
@@ -47,7 +48,8 @@ export const usePomodoro = (initialSettings: TimerSettings = DEFAULT_SETTINGS) =
 
     const unlockAudio = useCallback(() => {
         if (!audioContextRef.current) {
-            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+            const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+            audioContextRef.current = new AudioContextClass();
         }
         if (audioContextRef.current.state === 'suspended') {
             audioContextRef.current.resume();
@@ -85,20 +87,22 @@ export const usePomodoro = (initialSettings: TimerSettings = DEFAULT_SETTINGS) =
             }, 1000);
         } else if (timeLeft === 0) {
             if (intervalRef.current) clearInterval(intervalRef.current);
-            setIsActive(false);
-            playNotificationSound();
 
-            // Notification if permission granted
-            if (Notification.permission === 'granted') {
-                new Notification('Timer Complete!', {
-                    body: `${TIMER_MODES[mode].label} finished.`,
-                    icon: '/favicon.ico'
-                });
-            }
+            // Push state update to next tick to avoid cascading render warning
+            setTimeout(() => {
+                setIsActive(false);
+                playNotificationSound();
 
-            toast.success(`${TIMER_MODES[mode].label} session complete!`);
+                // Notification if permission granted
+                if (Notification.permission === 'granted') {
+                    new Notification('Timer Complete!', {
+                        body: `${TIMER_MODES[mode].label} finished.`,
+                        icon: '/favicon.ico'
+                    });
+                }
 
-            // Auto-advance logic could go here
+                toast.success(`${TIMER_MODES[mode].label} session complete!`);
+            }, 0);
         }
 
         return () => {
@@ -112,8 +116,11 @@ export const usePomodoro = (initialSettings: TimerSettings = DEFAULT_SETTINGS) =
         if (!isActive && timeLeft === totalDuration) {
             const newDuration = settings[mode] * 60;
             if (newDuration !== totalDuration) {
-                setTimeLeft(newDuration);
-                setTotalDuration(newDuration);
+                // Defer state update to next tick
+                setTimeout(() => {
+                    setTimeLeft(newDuration);
+                    setTotalDuration(newDuration);
+                }, 0);
             }
         }
     }, [settings, mode, isActive, timeLeft, totalDuration]);

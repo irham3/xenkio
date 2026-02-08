@@ -9,6 +9,7 @@ import {
   CarouselImageControls,
   CarouselPreview
 } from '@/features/carousel-generator';
+import NextImage from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Download, Loader2, Settings, Layers, Image as ImageIcon, LayoutGrid, Share2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -70,7 +71,7 @@ export function InstagramCarouselClient() {
                         onClick={() => setSelectedImageId(img.id)}
                       >
                         <div className={`absolute inset-0 bg-primary-900/10 opacity-0 group-hover:opacity-100 transition-opacity ${selectedImageId === img.id ? 'opacity-0' : ''}`} />
-                        <img src={img.url} alt="" className="w-full h-full object-cover" />
+                        <NextImage src={img.url} alt="" fill className="object-cover" unoptimized />
                       </div>
                     ))}
                     {config.images.length === 0 && (
@@ -104,7 +105,7 @@ export function InstagramCarouselClient() {
                     <h3 className="text-sm font-bold text-gray-800">Export & Save</h3>
                   </div>
 
-                  <div className="p-5 bg-gradient-to-b from-primary-50/50 to-white rounded-2xl border border-primary-100/50 shadow-sm">
+                  <div className="p-5 bg-linear-to-b from-primary-50/50 to-white rounded-2xl border border-primary-100/50 shadow-sm">
                     <div className="mb-4 space-y-1">
                       <h4 className="text-sm font-semibold text-gray-900">Ready to post?</h4>
                       <p className="text-xs text-gray-500">

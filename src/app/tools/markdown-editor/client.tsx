@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useMarkdownEditor } from "@/features/markdown-editor/hooks/use-markdown-editor";
 import { downloadFile, copyToClipboard, getWordCount, getCharacterCount, getLineCount } from "@/features/markdown-editor/lib/markdown-utils";
 import { ViewMode } from "@/features/markdown-editor/types";
@@ -10,15 +10,15 @@ import {
     Copy,
     Check,
     Download,
-    FileText,
     Code,
     Eye,
     Columns2,
-    RotateCcw,
     Sparkles,
-    Zap,
-    FileCode,
+    Maximize2,
+    X,
 } from "lucide-react";
+import { Toolbar } from "@/features/markdown-editor/components/toolbar";
+import { MarkdownPreview } from "@/features/markdown-editor/components/markdown-preview";
 
 export function MarkdownEditorClient() {
     const {
@@ -27,11 +27,44 @@ export function MarkdownEditorClient() {
         viewMode,
         setViewMode,
         updateMarkdown,
+        clearMarkdown,
         resetToSample,
+        undo,
+        redo,
+        canUndo,
+        canRedo,
+        isMounted,
     } = useMarkdownEditor();
+
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const fsTextareaRef = useRef<HTMLTextAreaElement>(null);
 
     const [copiedMd, setCopiedMd] = useState(false);
     const [copiedHtml, setCopiedHtml] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
+    // Handle escape key to exit fullscreen
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isFullscreen) {
+                setIsFullscreen(false);
+            }
+        };
+        window.addEventListener('keydown', handleEsc);
+        return () => window.removeEventListener('keydown', handleEsc);
+    }, [isFullscreen]);
+
+    // Lock body scroll when fullscreen
+    useEffect(() => {
+        if (isFullscreen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isFullscreen]);
 
     const handleCopyMarkdown = async () => {
         const success = await copyToClipboard(markdown);
@@ -69,6 +102,7 @@ export function MarkdownEditorClient() {
     blockquote { border-left: 0.25em solid #d0d7de; padding-left: 1em; color: #656d76; margin: 0; }
     table { border-collapse: collapse; } th, td { border: 1px solid #d0d7de; padding: 6px 13px; }
     th { background: #f6f8fa; } a { color: #0969da; text-decoration: none; }
+    ul, ol { padding-left: 2em; }
   </style>
 </head>
 <body>${html}</body>
@@ -80,265 +114,502 @@ export function MarkdownEditorClient() {
     const chars = getCharacterCount(markdown);
     const lines = getLineCount(markdown);
 
+    // Use a stable locale-string for SSR to prevent hydration errors
+    const formattedChars = isMounted ? chars.toLocaleString() : chars.toString();
+    const formattedWords = isMounted ? words.toLocaleString() : words.toString();
+    const formattedLines = isMounted ? lines.toLocaleString() : lines.toString();
+
     const VIEW_MODES: { id: ViewMode; name: string; icon: typeof Code }[] = [
         { id: 'editor', name: 'Editor', icon: Code },
         { id: 'split', name: 'Split', icon: Columns2 },
         { id: 'preview', name: 'Preview', icon: Eye },
     ];
 
+    const editorHeight = isFullscreen
+        ? "h-full"
+        : "h-[calc(100vh-480px)] min-h-[250px]";
+
+    const applyFormatting = useCallback((prefix: string, suffix: string = '', defaultValue: string = '') => {
+        const textarea = isFullscreen ? fsTextareaRef.current : textareaRef.current;
+        if (!textarea) return;
+
+        const { selectionStart, selectionEnd, value } = textarea;
+        const selection = value.substring(selectionStart, selectionEnd);
+
+        const content = selection || defaultValue;
+        const before = value.substring(0, selectionStart);
+        const after = value.substring(selectionEnd);
+
+        const newValue = before + prefix + content + suffix + after;
+        updateMarkdown(newValue);
+
+        setTimeout(() => {
+            textarea.focus();
+            if (selection) {
+                textarea.selectionStart = selectionStart;
+                textarea.selectionEnd = selectionStart + prefix.length + content.length + suffix.length;
+            } else {
+                textarea.selectionStart = selectionStart + prefix.length;
+                textarea.selectionEnd = selectionStart + prefix.length + content.length;
+            }
+        }, 0);
+    }, [isFullscreen, updateMarkdown]);
+
+    const insertLinePrefix = useCallback((prefix: string) => {
+        const textarea = isFullscreen ? fsTextareaRef.current : textareaRef.current;
+        if (!textarea) return;
+
+        const { selectionStart, selectionEnd, value } = textarea;
+        const beforeSelection = value.substring(0, selectionStart);
+
+        const lineStart = beforeSelection.lastIndexOf('\n') + 1;
+        const newValue = value.substring(0, lineStart) + prefix + value.substring(lineStart);
+
+        updateMarkdown(newValue);
+        setTimeout(() => {
+            textarea.focus();
+            textarea.selectionStart = selectionStart + prefix.length;
+            textarea.selectionEnd = selectionEnd + prefix.length;
+        }, 0);
+    }, [isFullscreen, updateMarkdown]);
+
+    const transformText = useCallback((fn: (text: string) => string) => {
+        const textarea = isFullscreen ? fsTextareaRef.current : textareaRef.current;
+        if (!textarea) return;
+
+        const { selectionStart, selectionEnd, value } = textarea;
+        const selection = value.substring(selectionStart, selectionEnd);
+
+        if (selection) {
+            const before = value.substring(0, selectionStart);
+            const after = value.substring(selectionEnd);
+            const transformed = fn(selection);
+            updateMarkdown(before + transformed + after);
+
+            setTimeout(() => {
+                textarea.focus();
+                textarea.selectionStart = selectionStart;
+                textarea.selectionEnd = selectionStart + transformed.length;
+            }, 0);
+        } else {
+            updateMarkdown(fn(value));
+        }
+    }, [isFullscreen, updateMarkdown]);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        const textarea = e.currentTarget;
+        const { selectionStart, selectionEnd, value } = textarea;
+
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+            if (e.shiftKey) {
+                e.preventDefault();
+                redo();
+            } else {
+                e.preventDefault();
+                undo();
+            }
+            return;
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+            e.preventDefault();
+            redo();
+            return;
+        }
+
+        if (e.key === 'Tab' && !e.shiftKey) {
+            e.preventDefault();
+
+            if (selectionStart === selectionEnd) {
+                const newValue = value.substring(0, selectionStart) + '  ' + value.substring(selectionEnd);
+                updateMarkdown(newValue);
+                setTimeout(() => {
+                    textarea.selectionStart = textarea.selectionEnd = selectionStart + 2;
+                }, 0);
+            } else {
+                const beforeSelection = value.substring(0, selectionStart);
+                const selection = value.substring(selectionStart, selectionEnd);
+
+                const lineStart = beforeSelection.lastIndexOf('\n') + 1;
+                const prefix = beforeSelection.substring(lineStart);
+                const indentedSelection = ('  ' + prefix + selection).replace(/\n/g, '\n  ');
+                const newValue = beforeSelection.substring(0, lineStart) + indentedSelection + value.substring(selectionEnd);
+
+                updateMarkdown(newValue);
+            }
+            return;
+        }
+
+        if (e.key === 'Tab' && e.shiftKey) {
+            e.preventDefault();
+
+            const beforeSelection = value.substring(0, selectionStart);
+            const lineStart = beforeSelection.lastIndexOf('\n') + 1;
+            const currentLine = value.substring(lineStart);
+
+            if (currentLine.startsWith('  ')) {
+                const newValue = value.substring(0, lineStart) + currentLine.substring(2);
+                updateMarkdown(newValue);
+                setTimeout(() => {
+                    textarea.selectionStart = textarea.selectionEnd = Math.max(lineStart, selectionStart - 2);
+                }, 0);
+            }
+            return;
+        }
+
+        if (e.key === 'b' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            applyFormatting('**', '**', 'bold');
+            return;
+        }
+
+        if (e.key === 'i' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            applyFormatting('*', '*', 'italic');
+            return;
+        }
+
+        if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            applyFormatting('[', '](url)', 'text');
+            return;
+        }
+
+        if (e.key === 'Enter' && !e.shiftKey) {
+            const beforeCursor = value.substring(0, selectionStart);
+            const currentLineStart = beforeCursor.lastIndexOf('\n') + 1;
+            const currentLine = beforeCursor.substring(currentLineStart);
+            const indentMatch = currentLine.match(/^(\s*)/);
+            const indent = indentMatch ? indentMatch[1] : '';
+
+            const listMatch = currentLine.match(/^(\s*)([-*+]|\d+\.)\s/);
+            if (listMatch && currentLine.trim() !== listMatch[0].trim()) {
+                e.preventDefault();
+                const listPrefix = listMatch[1] + (listMatch[2].match(/\d+\./) ?
+                    (parseInt(listMatch[2]) + 1) + '. ' :
+                    listMatch[2] + ' ');
+                const newValue = value.substring(0, selectionStart) + '\n' + listPrefix + value.substring(selectionEnd);
+                updateMarkdown(newValue);
+                setTimeout(() => {
+                    textarea.selectionStart = textarea.selectionEnd = selectionStart + 1 + listPrefix.length;
+                }, 0);
+                return;
+            }
+
+            if (indent) {
+                e.preventDefault();
+                const newValue = value.substring(0, selectionStart) + '\n' + indent + value.substring(selectionEnd);
+                updateMarkdown(newValue);
+                setTimeout(() => {
+                    textarea.selectionStart = textarea.selectionEnd = selectionStart + 1 + indent.length;
+                }, 0);
+            }
+        }
+    };
+
     return (
-        <div className="w-full">
-            {/* Main Tool Area */}
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
-                {/* Toolbar */}
-                <div className="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-gray-100 bg-gray-50/50">
-                    <div className="flex flex-wrap items-center gap-2">
-                        {/* View Mode Toggle */}
-                        <div className="flex items-center gap-1 p-1 bg-white rounded-lg border border-gray-200">
-                            {VIEW_MODES.map(mode => (
-                                <button
-                                    key={mode.id}
-                                    onClick={() => setViewMode(mode.id)}
-                                    className={cn(
-                                        "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all",
-                                        viewMode === mode.id
-                                            ? "bg-primary-100 text-primary-700"
-                                            : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                                    )}
-                                >
-                                    <mode.icon className="w-3.5 h-3.5" />
-                                    {mode.name}
-                                </button>
-                            ))}
+        <>
+            {/* Fullscreen Overlay */}
+            {isFullscreen && (
+                <div className="fixed inset-0 z-50 bg-white flex flex-col">
+                    <div className="flex items-center justify-between gap-3 p-4 border-b border-gray-100 bg-gray-50/50 shrink-0">
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1 p-1 bg-white rounded-lg border border-gray-200">
+                                {VIEW_MODES.map(mode => (
+                                    <button
+                                        key={mode.id}
+                                        onClick={() => setViewMode(mode.id)}
+                                        className={cn(
+                                            "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all cursor-pointer",
+                                            viewMode === mode.id
+                                                ? "bg-primary-100 text-primary-700"
+                                                : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                                        )}
+                                    >
+                                        <mode.icon className="w-3.5 h-3.5" />
+                                        {mode.name}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="hidden sm:flex items-center gap-3 px-3 text-xs text-gray-500 font-medium tabular-nums">
+                                <span>{formattedWords} words</span>
+                                <span className="text-gray-300">•</span>
+                                <span>{formattedChars} chars</span>
+                                <span className="text-gray-300">•</span>
+                                <span>{formattedLines} lines</span>
+                            </div>
                         </div>
 
-                        {/* Stats */}
-                        <div className="hidden sm:flex items-center gap-3 px-3 text-xs text-gray-500 font-medium tabular-nums">
-                            <span>{words} words</span>
-                            <span className="text-gray-300">•</span>
-                            <span>{chars} chars</span>
-                            <span className="text-gray-300">•</span>
-                            <span>{lines} lines</span>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={resetToSample}
+                                className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all flex items-center gap-1 cursor-pointer"
+                            >
+                                <Sparkles className="w-3 h-3" />
+                                Load Sample
+                            </button>
+                            <button
+                                onClick={() => setIsFullscreen(false)}
+                                className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all cursor-pointer"
+                                title="Exit Fullscreen (Esc)"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
                         </div>
                     </div>
-
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={resetToSample}
-                            className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all flex items-center gap-1"
-                        >
-                            <Sparkles className="w-3 h-3" />
-                            Load Sample
-                        </button>
-                        <button
-                            onClick={resetToSample}
-                            className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all"
-                            title="Reset"
-                        >
-                            <RotateCcw className="w-4 h-4" />
-                        </button>
-                    </div>
-                </div>
-
-                {/* Editor Area with fixed height */}
-                <div className={cn(
-                    "grid gap-0",
-                    viewMode === 'split' ? "lg:grid-cols-2" : "grid-cols-1"
-                )}>
-                    {/* Editor Panel */}
+                    {/* Fullscreen Toolbar (Full Width) */}
                     {(viewMode === 'editor' || viewMode === 'split') && (
-                        <div className={cn(
-                            "p-5 border-b lg:border-b-0",
-                            viewMode === 'split' && "lg:border-r border-gray-100"
-                        )}>
-                            <div className="space-y-3">
-                                <div className="flex items-baseline justify-between">
-                                    <label htmlFor="markdown-input" className="text-sm font-semibold text-gray-800">
-                                        Markdown
-                                    </label>
-                                    <span className="text-xs text-gray-400 font-medium tabular-nums">
-                                        {chars.toLocaleString()} chars
-                                    </span>
-                                </div>
-                                {/* Viewport-fit scrollable textarea container */}
-                                <div className="h-[calc(100vh-480px)] min-h-[250px]">
+                        <Toolbar
+                            undo={undo}
+                            redo={redo}
+                            canUndo={canUndo}
+                            canRedo={canRedo}
+                            applyFormatting={applyFormatting}
+                            insertLinePrefix={insertLinePrefix}
+                            clearAll={clearMarkdown}
+                            transformText={transformText}
+                        />
+                    )}
+
+                    {/* Fullscreen Content Area */}
+                    <div className={cn(
+                        "grid gap-0 flex-1 overflow-hidden",
+                        viewMode === 'split' ? "lg:grid-cols-2" : "grid-cols-1"
+                    )}>
+                        {/* Editor Panel */}
+                        {(viewMode === 'editor' || viewMode === 'split') && (
+                            <div className={cn(
+                                "h-full flex flex-col overflow-hidden",
+                                viewMode === 'split' && "lg:border-r border-gray-100"
+                            )}>
+                                <div className="p-5 flex-1 flex flex-col overflow-hidden">
+                                    <div className="flex items-baseline justify-between mb-3 shrink-0">
+                                        <label htmlFor="markdown-input-fs" className="text-sm font-semibold text-gray-800">
+                                            Markdown
+                                        </label>
+                                        <span className="text-xs text-gray-400 font-medium tabular-nums">
+                                            {formattedChars} chars
+                                        </span>
+                                    </div>
                                     <textarea
-                                        id="markdown-input"
+                                        ref={fsTextareaRef}
+                                        id="markdown-input-fs"
                                         value={markdown}
                                         onChange={(e) => updateMarkdown(e.target.value)}
+                                        onKeyDown={handleKeyDown}
                                         placeholder="Start writing your markdown here..."
                                         spellCheck={false}
-                                        className="w-full h-full p-4 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                                        className="flex-1 w-full p-4 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 overflow-y-auto"
                                     />
-                                </div>
-                                <div className="flex gap-2">
-                                    <Button
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={handleDownloadMarkdown}
-                                        disabled={!markdown.trim()}
-                                        className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100"
-                                    >
-                                        <Download className="w-3.5 h-3.5" />
-                                        Download .md
-                                    </Button>
-                                    <Button
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={handleCopyMarkdown}
-                                        disabled={!markdown.trim()}
-                                        className={cn(
-                                            "h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all",
-                                            copiedMd && "text-success-600 border-success-500 bg-success-50"
-                                        )}
-                                    >
-                                        {copiedMd ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                        {copiedMd ? 'Copied' : 'Copy'}
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Preview Panel */}
-                    {(viewMode === 'preview' || viewMode === 'split') && (
-                        <div className="p-5 bg-gray-50/50">
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-sm font-semibold text-gray-800">
-                                        Preview
-                                    </h3>
-                                    <div className="flex items-center gap-2">
-                                        <span className="flex items-center gap-1.5 text-[11px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                                            <Zap className="w-3 h-3" />
-                                            Live
-                                        </span>
-                                        {markdown.trim() && (
-                                            <>
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline"
-                                                    onClick={handleDownloadHtml}
-                                                    className="h-7 gap-1 text-xs font-medium border-gray-200 bg-white hover:bg-gray-50"
-                                                >
-                                                    <Download className="w-3 h-3" />
-                                                    HTML
-                                                </Button>
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline"
-                                                    onClick={handleCopyHtml}
-                                                    className={cn(
-                                                        "h-7 gap-1 text-xs font-medium border-gray-200 bg-white hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700",
-                                                        copiedHtml && "text-success-600 border-success-500 bg-success-50"
-                                                    )}
-                                                >
-                                                    {copiedHtml ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                                                    {copiedHtml ? 'Copied' : 'Copy'}
-                                                </Button>
-                                            </>
-                                        )}
+                                    <div className="flex gap-2 mt-3 shrink-0">
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={handleDownloadMarkdown}
+                                            disabled={!markdown.trim()}
+                                            className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100 cursor-pointer"
+                                        >
+                                            <Download className="w-3.5 h-3.5" />
+                                            Download .md
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={handleCopyMarkdown}
+                                            disabled={!markdown.trim()}
+                                            className={cn(
+                                                "h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all cursor-pointer",
+                                                copiedMd && "text-success-600 border-success-500 bg-success-50"
+                                            )}
+                                        >
+                                            {copiedMd ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                            {copiedMd ? 'Copied' : 'Copy'}
+                                        </Button>
                                     </div>
                                 </div>
+                            </div>
+                        )}
 
-                                {/* Viewport-fit scrollable preview container */}
-                                <div className={cn(
-                                    "h-[calc(100vh-480px)] min-h-[250px] rounded-xl border overflow-y-auto",
-                                    markdown.trim()
-                                        ? "bg-white border-gray-200 shadow-sm"
-                                        : "bg-white/50 border-dashed border-gray-200"
-                                )}>
-                                    {markdown.trim() ? (
-                                        <div
-                                            className="markdown-body"
-                                            dangerouslySetInnerHTML={{ __html: html }}
-                                        />
-                                    ) : (
-                                        <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
-                                            <FileCode className="w-8 h-8 text-gray-300" />
-                                            <p className="text-sm text-gray-400">Start typing to see preview...</p>
-                                        </div>
-                                    )}
+                        {(viewMode === 'preview' || viewMode === 'split') && (
+                            <div className="bg-gray-50/50 h-full flex flex-col overflow-hidden">
+                                <div className="p-5 h-full flex flex-col overflow-hidden">
+                                    <div className="flex items-baseline justify-between mb-3 shrink-0">
+                                        <h3 className="text-sm font-semibold text-gray-800">Preview</h3>
+                                    </div>
+                                    <MarkdownPreview
+                                        html={html}
+                                        isEmpty={!markdown.trim()}
+                                        className="flex-1"
+                                    />
+                                    <div className="flex gap-2 mt-3 shrink-0">
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={handleDownloadHtml}
+                                            disabled={!markdown.trim()}
+                                            className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100"
+                                        >
+                                            <Download className="w-3.5 h-3.5" />
+                                            Download HTML
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={handleCopyHtml}
+                                            disabled={!markdown.trim()}
+                                            className={cn(
+                                                "h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all",
+                                                copiedHtml && "text-success-600 border-success-500 bg-success-50"
+                                            )}
+                                        >
+                                            {copiedHtml ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                            {copiedHtml ? 'Copied' : 'Copy'}
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
+            )}
 
-                {/* Empty State (when editor open but empty) */}
-                {!markdown.trim() && viewMode === 'editor' && (
-                    <div className="p-8 border-t border-gray-100 bg-gray-50/30">
-                        <div className="flex flex-col items-center justify-center text-center">
-                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                <FileText className="w-8 h-8 text-gray-400" />
+            {/* Normal View */}
+            <div className={cn("w-full pt-4 pb-12", isFullscreen && "invisible")}>
+                <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
+                    <div className="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-gray-100 bg-gray-50/50 shrink-0">
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1 p-1 bg-white rounded-lg border border-gray-200">
+                                {VIEW_MODES.map(mode => (
+                                    <button
+                                        key={mode.id}
+                                        onClick={() => setViewMode(mode.id)}
+                                        className={cn(
+                                            "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all cursor-pointer",
+                                            viewMode === mode.id
+                                                ? "bg-primary-100 text-primary-700"
+                                                : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                                        )}
+                                    >
+                                        <mode.icon className="w-3.5 h-3.5" />
+                                        {mode.name}
+                                    </button>
+                                ))}
                             </div>
-                            <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Write</h3>
-                            <p className="text-xs text-gray-500 max-w-[250px]">
-                                Start typing markdown or click &quot;Load Sample&quot; to see an example.
-                            </p>
+
+                            <div className="hidden sm:flex items-center gap-3 px-3 text-xs text-gray-500 font-medium tabular-nums">
+                                <span>{formattedWords} words</span>
+                                <span className="text-gray-300">•</span>
+                                <span>{formattedChars} chars</span>
+                                <span className="text-gray-300">•</span>
+                                <span>{formattedLines} lines</span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={resetToSample}
+                                className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all flex items-center gap-1 cursor-pointer"
+                            >
+                                <Sparkles className="w-3 h-3" />
+                                Load Sample
+                            </button>
+                            <button
+                                onClick={() => setIsFullscreen(true)}
+                                className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all cursor-pointer"
+                                title="Fullscreen"
+                            >
+                                <Maximize2 className="w-4 h-4" />
+                            </button>
                         </div>
                     </div>
-                )}
-            </div>
 
-            {/* GitHub Markdown Styles */}
-            <style jsx global>{`
-        .markdown-body {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-          font-size: 16px;
-          line-height: 1.6;
-          word-wrap: break-word;
-          padding: 24px 32px;
-          color: #1f2328;
-        }
-        .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
-          margin-top: 24px;
-          margin-bottom: 16px;
-          font-weight: 600;
-          line-height: 1.25;
-          color: #1f2328;
-        }
-        .markdown-body h1 { font-size: 2em; padding-bottom: 0.3em; border-bottom: 1px solid #d0d7de; margin-top: 0; }
-        .markdown-body h2 { font-size: 1.5em; padding-bottom: 0.3em; border-bottom: 1px solid #d0d7de; }
-        .markdown-body h3 { font-size: 1.25em; }
-        .markdown-body p { margin-top: 0; margin-bottom: 16px; }
-        .markdown-body a { color: #0969da; text-decoration: none; }
-        .markdown-body a:hover { text-decoration: underline; }
-        .markdown-body strong { font-weight: 600; }
-        .markdown-body code {
-          padding: 0.2em 0.4em;
-          font-size: 85%;
-          background-color: rgba(175, 184, 193, 0.2);
-          border-radius: 6px;
-          font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
-        }
-        .markdown-body pre {
-          padding: 16px;
-          overflow: auto;
-          font-size: 85%;
-          line-height: 1.45;
-          background-color: #f6f8fa;
-          border-radius: 6px;
-          margin-bottom: 16px;
-        }
-        .markdown-body pre code { background: transparent; padding: 0; font-size: 100%; }
-        .markdown-body ul, .markdown-body ol { margin-top: 0; margin-bottom: 16px; padding-left: 2em; }
-        .markdown-body li { margin-top: 0.25em; }
-        .markdown-body blockquote {
-          margin: 0 0 16px 0;
-          padding: 0 1em;
-          color: #656d76;
-          border-left: 0.25em solid #d0d7de;
-        }
-        .markdown-body table { border-spacing: 0; border-collapse: collapse; margin-bottom: 16px; }
-        .markdown-body table th, .markdown-body table td { padding: 6px 13px; border: 1px solid #d0d7de; }
-        .markdown-body table th { font-weight: 600; background-color: #f6f8fa; }
-        .markdown-body table tr:nth-child(2n) { background-color: #f6f8fa; }
-        .markdown-body hr { height: 0.25em; padding: 0; margin: 24px 0; background-color: #d0d7de; border: 0; }
-        .markdown-body img { max-width: 100%; height: auto; }
-        .markdown-body > *:first-child { margin-top: 0 !important; }
-        .markdown-body > *:last-child { margin-bottom: 0 !important; }
-      `}</style>
-        </div>
+                    {/* Toolbar (Full Width) */}
+                    {(viewMode === 'editor' || viewMode === 'split') && (
+                        <Toolbar
+                            undo={undo}
+                            redo={redo}
+                            canUndo={canUndo}
+                            canRedo={canRedo}
+                            applyFormatting={applyFormatting}
+                            insertLinePrefix={insertLinePrefix}
+                            clearAll={clearMarkdown}
+                            transformText={transformText}
+                        />
+                    )}
+
+                    <div className={cn(
+                        "grid gap-0 overflow-hidden",
+                        editorHeight,
+                        viewMode === 'split' ? "lg:grid-cols-2" : "grid-cols-1"
+                    )}>
+                        {/* Editor Panel */}
+                        {(viewMode === 'editor' || viewMode === 'split') && (
+                            <div className={cn(
+                                "h-full flex flex-col overflow-hidden",
+                                viewMode === 'split' && "lg:border-r border-gray-100"
+                            )}>
+                                <div className="p-5 flex-1 flex flex-col">
+                                    <div className="flex items-baseline justify-between mb-3 shrink-0">
+                                        <label htmlFor="markdown-input" className="text-sm font-semibold text-gray-800">
+                                            Markdown
+                                        </label>
+                                        <span className="text-xs text-gray-400 font-medium tabular-nums">
+                                            {formattedChars} chars
+                                        </span>
+                                    </div>
+                                    <div className={editorHeight}>
+                                        <textarea
+                                            ref={textareaRef}
+                                            id="markdown-input"
+                                            value={markdown}
+                                            onChange={(e) => updateMarkdown(e.target.value)}
+                                            onKeyDown={handleKeyDown}
+                                            placeholder="Start writing your markdown here..."
+                                            spellCheck={false}
+                                            className="w-full h-full p-4 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                                        />
+                                    </div>
+                                    <div className="flex gap-2 mt-3 shrink-0">
+                                        <Button size="sm" variant="outline" onClick={handleDownloadMarkdown} disabled={!markdown.trim()} className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100 cursor-pointer">
+                                            <Download className="w-3.5 h-3.5" />
+                                            Download .md
+                                        </Button>
+                                        <Button size="sm" variant="outline" onClick={handleCopyMarkdown} disabled={!markdown.trim()} className={cn("h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all cursor-pointer", copiedMd && "text-success-600 border-success-500 bg-success-50")}>
+                                            {copiedMd ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                            {copiedMd ? 'Copied' : 'Copy'}
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {(viewMode === 'preview' || viewMode === 'split') && (
+                            <div className="bg-gray-50/50 flex flex-col">
+                                <div className="p-5 flex-1 flex flex-col">
+                                    <div className="flex items-baseline justify-between mb-3 shrink-0">
+                                        <h3 className="text-sm font-semibold text-gray-800">Preview</h3>
+                                    </div>
+                                    <MarkdownPreview
+                                        html={html}
+                                        isEmpty={!markdown.trim()}
+                                        className={editorHeight}
+                                    />
+                                    <div className="flex gap-2 mt-3 shrink-0">
+                                        <Button size="sm" variant="outline" onClick={handleDownloadHtml} disabled={!markdown.trim()} className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100 cursor-pointer">
+                                            <Download className="w-3.5 h-3.5" />
+                                            Download HTML
+                                        </Button>
+                                        <Button size="sm" variant="outline" onClick={handleCopyHtml} disabled={!markdown.trim()} className={cn("h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all cursor-pointer", copiedHtml && "text-success-600 border-success-500 bg-success-50")}>
+                                            {copiedHtml ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                            {copiedHtml ? 'Copied' : 'Copy'}
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

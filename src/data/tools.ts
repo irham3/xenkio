@@ -211,8 +211,8 @@ export const TOOLS: ToolData[] = [
     },
     {
         id: '15',
-        title: 'Instagram Carousel',
-        description: 'Create seamless swipeable carousel posts for Instagram.',
+        title: 'Seamless Scroll Studio',
+        description: 'Create premium, seamless panoramic carousels for Instagram. SCRL-style editor.',
         icon: GalleryHorizontal,
         href: '/tools/instagram-carousel',
         isNew: true,

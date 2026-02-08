@@ -68,29 +68,29 @@ export default function Home() {
           >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               {/* Category Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
-                <div className="flex items-center gap-4">
+              <div className="flex items-start justify-between mb-8 sm:mb-10 gap-4">
+                <div className="flex items-start sm:items-center gap-3 sm:gap-4">
                   <div
-                    className="flex items-center justify-center w-14 h-14 rounded-2xl border border-gray-100/50 shadow-sm"
+                    className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl border border-gray-100/50 shadow-sm shrink-0"
                     style={{ backgroundColor: category.color + '15' }}
                   >
-                    <CategoryIcon className="w-7 h-7 text-gray-700" />
+                    <CategoryIcon className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight mt-0.5 sm:mt-0">
                       {category.name}
                     </h2>
-                    <p className="text-gray-500 mt-1 max-w-xl">
+                    <p className="text-sm sm:text-base text-gray-500 mt-1 sm:mt-1 max-w-xl line-clamp-2 sm:line-clamp-none">
                       {category.description}
                     </p>
                   </div>
                 </div>
                 <Link
                   href={`/tools?category=${category.id}`}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-primary-600 hover:text-primary-700 bg-white border border-gray-200 hover:border-primary-200 hover:bg-primary-50 rounded-lg transition-all shadow-sm hover:shadow-md"
+                  className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700 sm:px-4 sm:py-2.5 sm:bg-white sm:border sm:border-gray-200 sm:hover:border-primary-200 sm:hover:bg-primary-50 sm:rounded-lg sm:transition-all sm:shadow-sm sm:hover:shadow-md mt-1.5 sm:mt-0"
                 >
-                  View All
-                  {/* {category.toolCount} Tools */}
+                  <span className="hidden sm:inline">View All</span>
+                  <span className="sm:hidden">View All</span>
                   <ArrowRight className="w-4 h-4 ml-0.5" />
                 </Link>
               </div>

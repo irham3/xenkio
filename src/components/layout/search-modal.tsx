@@ -34,15 +34,25 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Initial setup: Focus and Body Scroll Lock
+    // Initial setup: Focus and Body Scroll Lock
     useEffect(() => {
-        // Lock body scroll
+        // Calculate scrollbar width
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+        // Store original styles
+        const originalStyle = window.getComputedStyle(document.body).overflow;
+        const originalPadding = window.getComputedStyle(document.body).paddingRight;
+
+        // Lock body scroll and add padding to prevent layout shift
         document.body.style.overflow = 'hidden';
+        document.body.style.paddingRight = `${parseInt(originalPadding || '0') + scrollbarWidth}px`;
 
         // Focus input after animation
         const timer = setTimeout(() => inputRef.current?.focus(), 100);
 
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = originalStyle;
+            document.body.style.paddingRight = originalPadding;
             clearTimeout(timer);
         };
     }, []);

@@ -73,13 +73,16 @@ export function Navbar() {
 
     const element = document.getElementById(`category-${categoryId}`);
     if (element) {
-      const offset = 80; // Navbar height + padding
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: 'smooth'
-      })
-      setActiveCategory(categoryId);
+      // Wait for mobile menu closing animation to finish (300ms) to ensure correct position
+      setTimeout(() => {
+        const offset = 50; // Navbar height + padding buffer
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: 'smooth'
+        });
+        setActiveCategory(categoryId);
+      }, 350);
     }
   };
 

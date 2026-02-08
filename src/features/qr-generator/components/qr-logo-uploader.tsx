@@ -75,10 +75,10 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
       {!config.imageSettings?.src ? (
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-200 group"
+          className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-all duration-200 group"
         >
-          <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mb-3 group-hover:bg-indigo-100 transition-colors">
-            <Upload className="w-6 h-6 text-gray-400 group-hover:text-indigo-600" />
+          <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mb-3 group-hover:bg-primary-100 transition-colors">
+            <Upload className="w-6 h-6 text-gray-400 group-hover:text-primary-600" />
           </div>
           <p className="text-sm font-medium text-gray-700">Drop your logo here</p>
           <p className="text-xs text-gray-500 mt-1">PNG, JPG or SVG up to 2MB</p>
@@ -119,13 +119,13 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
                 <input
                   type="range"
                   min="20"
-                  max="100"
+                  max="70"
                   value={config.imageSettings.width}
                   onChange={(e) => updateImageSettings({
                     width: Number(e.target.value),
                     height: Number(e.target.value),
                   })}
-                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
                 />
               </div>
 
@@ -140,7 +140,7 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
                   max="50"
                   value={config.imageSettings.borderRadius || 0}
                   onChange={(e) => updateImageSettings({ borderRadius: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
                 />
               </div>
 
@@ -155,7 +155,7 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
                   max="100"
                   value={(config.imageSettings.opacity || 1) * 100}
                   onChange={(e) => updateImageSettings({ opacity: Number(e.target.value) / 100 })}
-                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
                 />
               </div>
             </div>
@@ -172,7 +172,7 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
                   max="10"
                   value={config.imageSettings.borderSize || 0}
                   onChange={(e) => updateImageSettings({ borderSize: Number(e.target.value) })}
-                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
                 />
               </div>
 
@@ -200,7 +200,7 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
                   id="excavate"
                   checked={config.imageSettings.excavate}
                   onChange={(e) => updateImageSettings({ excavate: e.target.checked })}
-                  className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                 />
                 <Label htmlFor="excavate" className="text-xs cursor-pointer">Remove dots behind logo</Label>
               </div>

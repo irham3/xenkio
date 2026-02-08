@@ -13,7 +13,7 @@ export const DEFAULT_QR_CONFIG: QRConfig = {
     gradient: {
         enabled: false,
         startColor: '#000000',
-        endColor: '#4f46e5',
+        endColor: '#0EA5E9',
         rotation: 45,
     },
     frame: {

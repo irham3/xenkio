@@ -65,7 +65,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                         className={cn(
                           "px-2 py-1.5 text-xs rounded-md border transition-all",
                           config.dotStyle === style
-                            ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-medium"
+                            ? "border-primary-600 bg-primary-50 text-primary-700 font-medium"
                             : "border-gray-200 hover:border-gray-300"
                         )}
                       >
@@ -85,7 +85,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                         className={cn(
                           "px-2 py-1.5 text-xs rounded-md border transition-all",
                           config.cornerStyle === style
-                            ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-medium"
+                            ? "border-primary-600 bg-primary-50 text-primary-700 font-medium"
                             : "border-gray-200 hover:border-gray-300"
                         )}
                       >
@@ -112,17 +112,17 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                       onChange({
                         fgColor: isEnabled ? config.fgColor : '#000000',
                         gradient: {
-                          ...(config.gradient || { startColor: '#000000', endColor: '#4f46e5', rotation: 45 }),
+                          ...(config.gradient || { startColor: '#000000', endColor: '#0EA5E9', rotation: 45 }),
                           enabled: isEnabled
                         }
                       });
                     }}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                   />
                 </div>
 
                 {config.gradient?.enabled ? (
-                  <>
+                  <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label className="text-xs">Start Color</Label>
@@ -180,44 +180,62 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                         className="w-full"
                       />
                     </div>
-                  </>
+                    <div className="space-y-2">
+                      <Label className="text-xs">Background Color</Label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          value={config.bgColor}
+                          onChange={(e) => onChange({ bgColor: e.target.value })}
+                          className="h-8 w-8 rounded border p-0.5"
+                        />
+                        <input
+                          type="text"
+                          value={config.bgColor}
+                          onChange={(e) => onChange({ bgColor: e.target.value })}
+                          className="flex-1 rounded-md border border-gray-300 px-2 py-1 text-xs"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 ) : (
-                  <div className="space-y-2">
-                    <Label>Foreground Color</Label>
-                    <div className="flex gap-2">
-                      <input
-                        type="color"
-                        value={config.fgColor}
-                        onChange={(e) => onChange({ fgColor: e.target.value })}
-                        className="h-9 w-9 rounded border p-0.5"
-                      />
-                      <input
-                        type="text"
-                        value={config.fgColor}
-                        onChange={(e) => onChange({ fgColor: e.target.value })}
-                        className="flex-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm"
-                      />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label className="text-xs">Foreground</Label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          value={config.fgColor}
+                          onChange={(e) => onChange({ fgColor: e.target.value })}
+                          className="h-8 w-8 rounded border p-0.5"
+                        />
+                        <input
+                          type="text"
+                          value={config.fgColor}
+                          onChange={(e) => onChange({ fgColor: e.target.value })}
+                          className="flex-1 rounded-md border border-gray-300 px-2 py-1 text-xs text uppercase"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-xs">Background</Label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          value={config.bgColor}
+                          onChange={(e) => onChange({ bgColor: e.target.value })}
+                          className="h-8 w-8 rounded border p-0.5"
+                        />
+                        <input
+                          type="text"
+                          value={config.bgColor}
+                          onChange={(e) => onChange({ bgColor: e.target.value })}
+                          className="flex-1 rounded-md border border-gray-300 px-2 py-1 text-xs text uppercase"
+                        />
+                      </div>
                     </div>
                   </div>
                 )}
-
-                <div className="space-y-2 pt-2">
-                  <Label>Background Color</Label>
-                  <div className="flex gap-2">
-                    <input
-                      type="color"
-                      value={config.bgColor}
-                      onChange={(e) => onChange({ bgColor: e.target.value })}
-                      className="h-9 w-9 rounded border p-0.5"
-                    />
-                    <input
-                      type="text"
-                      value={config.bgColor}
-                      onChange={(e) => onChange({ bgColor: e.target.value })}
-                      className="flex-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm"
-                    />
-                  </div>
-                </div>
 
                 <div className="pt-4 border-t border-gray-100 space-y-4">
                   <div className="flex items-center justify-between">
@@ -232,7 +250,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                           onChange({ cornerColor: undefined, cornerDotColor: undefined });
                         }
                       }}
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                     />
                   </div>
 
@@ -295,7 +313,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                       className={cn(
                         "px-3 py-2 text-sm rounded-md border transition-all",
                         config.frame?.style === style
-                          ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-medium"
+                          ? "border-primary-600 bg-primary-50 text-primary-700 font-medium"
                           : "border-gray-200 hover:border-gray-300"
                       )}
                     >

@@ -42,6 +42,7 @@ import {
     Calendar,
     Activity,
     Coins,
+    Timer,
     FilePlus,
     Mic,
 } from 'lucide-react';
@@ -200,8 +201,8 @@ export const TOOLS: ToolData[] = [
     },
     {
         id: '15',
-        title: 'Instagram Carousel',
-        description: 'Create seamless swipeable carousel posts for Instagram.',
+        title: 'Seamless Scroll Studio',
+        description: 'Create premium, seamless panoramic carousels for Instagram. SCRL-style editor.',
         icon: GalleryHorizontal,
         href: '/tools/instagram-carousel',
         isNew: true,
@@ -569,6 +570,17 @@ export const TOOLS: ToolData[] = [
         href: '/tools/timer',
         slug: 'timer',
         isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '61',
+        title: 'Pomodoro Timer',
+        description: 'Boost focus and productivity with customizable work intervals and breaks.',
+        icon: Timer,
+        href: '/tools/pomodoro-timer',
+        slug: 'pomodoro-timer',
+        isNew: true,
+        featured: true,
         categoryId: 'developer-tools',
     },
 ];

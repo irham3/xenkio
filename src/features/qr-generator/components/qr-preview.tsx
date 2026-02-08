@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { QRConfig } from '../types';
 import { Button } from '@/components/ui/button';
-import { FileImage, FileCode } from 'lucide-react';
+import { FileImage, FileCode, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
+import jsQR from 'jsqr';
 
 interface QrPreviewProps {
   config: QRConfig;
@@ -45,7 +46,7 @@ function FrameLayer({ config, SIZE }: { config: QRConfig; SIZE: number }) {
   if (style === 'badge') {
     return (
       <g>
-        <rect x="0" y="0" width={SIZE} height={SIZE} rx="20" ry="20" fill="white" stroke="#f3f4f6" strokeWidth="2" />
+        <rect x="0" y="0" width={SIZE} height={SIZE} rx="20" ry="20" fill="white" stroke="var(--color-gray-200)" strokeWidth="2" />
         <path d={`M 0 20 A 20 20 0 0 1 20 0 L ${SIZE - 20} 0 A 20 20 0 0 1 ${SIZE} 20 L ${SIZE} 60 L 0 60 Z`} fill={color} />
         <text x={CENTER} y="38" textAnchor="middle" fill="#ffffff" fontSize="20" fontWeight="bold" style={{ textTransform: 'uppercase', letterSpacing: '3px' }}>
           {text}
@@ -64,6 +65,8 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
   const svgId = 'qr-preview-svg';
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [matrix, setMatrix] = useState<boolean[][]>([]);
+  const [isScannable, setIsScannable] = useState<boolean | null>(null);
+  const [isValidating, setIsValidating] = useState(false);
 
   // Memoized function to extract matrix from canvas
   const extractMatrix = useCallback(() => {
@@ -128,6 +131,42 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
     });
     return () => cancelAnimationFrame(rafId);
   }, [config.value, config.level, extractMatrix]);
+
+  // Scannability Check
+  useEffect(() => {
+    const svg = document.getElementById(svgId) as SVGSVGElement | null;
+    if (!svg) return;
+
+    setIsValidating(true);
+    const timeoutId = setTimeout(() => {
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new (window as any).Image();
+
+      const svgSize = 350; // Match SIZE
+      canvas.width = svgSize;
+      canvas.height = svgSize;
+
+      img.onload = () => {
+        if (!ctx) return;
+        ctx.fillStyle = config.bgColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+        setIsScannable(!!code);
+        setIsValidating(false);
+      };
+
+      const base64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgData)))}`;
+      img.src = base64;
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [config, svgId]);
 
   // Fixed canvas size for display
   const SIZE = 350;
@@ -278,7 +317,27 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
         />
       </div>
 
-      <div className="flex items-center justify-center bg-white p-4 rounded-xl shadow-sm overflow-hidden">
+      <div className="relative flex items-center justify-center bg-white p-4 rounded-xl shadow-sm overflow-hidden">
+        {/* Scannability Status Badge */}
+        <div className="absolute top-2 right-2 z-10">
+          {isValidating ? (
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold uppercase tracking-wider animate-pulse">
+              <Loader2 className="w-3 h-3 animate-spin" />
+              Validating...
+            </div>
+          ) : isScannable ? (
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-50 text-green-600 text-[10px] font-bold uppercase tracking-wider border border-green-100 shadow-sm">
+              <CheckCircle2 className="w-3 h-3" />
+              Safe to Scan
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-50 text-red-600 text-[10px] font-bold uppercase tracking-wider border border-red-100 shadow-sm">
+              <XCircle className="w-3 h-3" />
+              Unscannable
+            </div>
+          )}
+        </div>
+
         <svg
           id={svgId}
           width={SIZE}

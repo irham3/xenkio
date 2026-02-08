@@ -58,13 +58,15 @@ export function HeroSection() {
 
   return (
     <section className="relative z-10 bg-white pt-20 pb-32 lg:pt-32 lg:pb-40">
-      {/* Professional Grid Background with Mask */}
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]">
-        <div className="absolute inset-0 bg-radial-[circle_800px_at_50%_200px] from-white/0 via-white/50 to-white" />
-      </div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        {/* Professional Grid Background with Mask */}
+        <div className="absolute inset-0 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]">
+          <div className="absolute inset-0 bg-radial-[circle_800px_at_50%_200px] from-white/0 via-white/50 to-white" />
+        </div>
 
-      {/* Subtle Ambient Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 w-[800px] h-[500px] bg-primary-100/30 blur-[120px] rounded-full opacity-60 pointer-events-none" />
+        {/* Subtle Ambient Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary-100/30 blur-[120px] rounded-full opacity-60" />
+      </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">

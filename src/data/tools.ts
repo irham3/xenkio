@@ -27,10 +27,8 @@ import {
     Split,
     FileOutput,
     Calculator,
-    Wand2,
     FileImage,
     Archive,
-    ShieldCheck,
     ScanLine,
     Barcode,
     FileCode,
@@ -40,7 +38,6 @@ import {
     Globe,
     Map,
     Bot,
-    Camera,
     Percent,
     Calendar,
     Activity,
@@ -167,15 +164,7 @@ export const TOOLS: ToolData[] = [
         href: '/tools/image-resizer',
         categoryId: 'media-images',
     },
-    {
-        id: '10',
-        title: 'Background Remover',
-        description: 'Remove backgrounds from images automatically using AI.',
-        icon: Wand2,
-        href: '/tools/background-remover',
-        isPremium: true,
-        categoryId: 'media-images',
-    },
+
     {
         id: '11',
         title: 'Image Converter',
@@ -302,14 +291,7 @@ export const TOOLS: ToolData[] = [
         href: '/tools/jwt-decoder',
         categoryId: 'security-privacy',
     },
-    {
-        id: '25',
-        title: 'SSL Checker',
-        description: 'Check SSL certificate validity and security details.',
-        icon: ShieldCheck,
-        href: '/tools/ssl-checker',
-        categoryId: 'security-privacy',
-    },
+
 
     // =====================================================
     // DEVELOPER TOOLS
@@ -530,22 +512,7 @@ export const TOOLS: ToolData[] = [
         href: '/tools/robots-txt-generator',
         categoryId: 'web-seo',
     },
-    {
-        id: '50',
-        title: 'URL Shortener',
-        description: 'Shorten long URLs for easy sharing.',
-        icon: Link,
-        href: '/tools/url-shortener',
-        categoryId: 'web-seo',
-    },
-    {
-        id: '51',
-        title: 'Website Screenshot',
-        description: 'Capture full-page screenshots of any website.',
-        icon: Camera,
-        href: '/tools/website-screenshot',
-        categoryId: 'web-seo',
-    },
+
 
     // =====================================================
     // DATA & CALCULATION TOOLS

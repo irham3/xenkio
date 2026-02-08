@@ -45,6 +45,7 @@ import {
     Calendar,
     Activity,
     Coins,
+    Timer,
     FilePlus,
     Mic,
 } from 'lucide-react';
@@ -602,6 +603,17 @@ export const TOOLS: ToolData[] = [
         href: '/tools/timer',
         slug: 'timer',
         isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '61',
+        title: 'Pomodoro Timer',
+        description: 'Boost focus and productivity with customizable work intervals and breaks.',
+        icon: Timer,
+        href: '/tools/pomodoro-timer',
+        slug: 'pomodoro-timer',
+        isNew: true,
+        featured: true,
         categoryId: 'developer-tools',
     },
 ];

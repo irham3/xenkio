@@ -46,6 +46,7 @@ import {
     FilePlus,
     Mic,
     Receipt,
+    Wand2,
 } from 'lucide-react';
 
 export interface ToolData {
@@ -161,6 +162,17 @@ export const TOOLS: ToolData[] = [
     // =====================================================
     // IMAGE TOOLS (Tier 1 - High Traffic)
     // =====================================================
+    {
+        id: '63',
+        title: 'Remove Background',
+        description: 'Remove image backgrounds instantly with high-precision AI. Download transparent PNGs.',
+        icon: Wand2,
+        href: '/tools/background-remover',
+        slug: 'background-remover',
+        featured: true,
+        isNew: true,
+        categoryId: 'media-images',
+    },
     {
         id: '8',
         title: 'Image Compressor',

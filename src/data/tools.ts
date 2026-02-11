@@ -115,6 +115,8 @@ export const TOOLS: ToolData[] = [
         description: 'Reduce PDF file size while maintaining quality.',
         icon: FileOutput,
         href: '/tools/pdf-compressor',
+        slug: 'pdf-compressor',
+        isNew: true,
         categoryId: 'documents',
     },
     {

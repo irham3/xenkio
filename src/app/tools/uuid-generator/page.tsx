@@ -3,8 +3,8 @@ export const runtime = 'edge';
 
 import { Metadata } from 'next';
 import { TOOLS } from '@/data/tools';
-import { UUIDGeneratorClient } from './client';
 import { notFound } from 'next/navigation';
+import { UUIDGeneratorClient } from './client';
 
 const slug = 'uuid-generator';
 

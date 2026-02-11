@@ -206,6 +206,7 @@ export const TOOLS: ToolData[] = [
         description: 'Create favicon.ico files for your website from any image.',
         icon: FileImage,
         href: '/tools/favicon-generator',
+        slug: 'favicon-generator',
         categoryId: 'media-images',
     },
     {

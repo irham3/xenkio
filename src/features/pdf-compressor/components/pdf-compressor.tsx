@@ -142,7 +142,7 @@ export function PDFCompressor() {
                                             <FileIcon className="w-6 h-6" />
                                         </div>
                                         <div className="overflow-hidden">
-                                            <p className="font-medium text-gray-900 truncate max-w-[200px] sm:max-w-xs">
+                                            <p className="font-medium text-gray-900 truncate max-w-50 sm:max-w-xs">
                                                 {file.name}
                                             </p>
                                             <p className="text-sm text-gray-500">

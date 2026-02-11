@@ -45,6 +45,7 @@ import {
     Timer,
     FilePlus,
     Mic,
+    Receipt,
 } from 'lucide-react';
 
 export interface ToolData {
@@ -143,6 +144,16 @@ export const TOOLS: ToolData[] = [
         slug: 'pdf-to-image',
         categoryId: 'documents',
         isNew: true,
+    },
+    {
+        id: '62',
+        title: 'Invoice Generator',
+        description: 'Create professional invoices instantly. Add items, taxes, discounts, and download as PDF.',
+        icon: Receipt,
+        href: '/tools/invoice-generator',
+        slug: 'invoice-generator',
+        isNew: true,
+        categoryId: 'documents',
     },
 
     // =====================================================
@@ -263,9 +274,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '21',
         title: 'UUID Generator',
-        description: 'Generate unique UUIDs/GUIDs in v1, v4, and v5 formats.',
+        description: 'Generate unique UUIDs/GUIDs in v1 through v7 formats.',
         icon: Cpu,
         href: '/tools/uuid-generator',
+        slug: 'uuid-generator',
+        isNew: true,
         categoryId: 'security-privacy',
     },
     {
@@ -323,6 +336,37 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
+        id: '57',
+        title: 'Event Timer',
+        description: 'Professional countdown timer with custom deadlines and presets.',
+        icon: Clock,
+        href: '/tools/timer',
+        slug: 'timer',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '61',
+        title: 'Pomodoro Timer',
+        description: 'Boost focus and productivity with customizable work intervals and breaks.',
+        icon: Timer,
+        href: '/tools/pomodoro-timer',
+        slug: 'pomodoro-timer',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '33',
+        title: 'Markdown Editor',
+        description: 'Edit and preview Markdown with live rendering.',
+        icon: FileEdit,
+        href: '/tools/markdown-editor',
+        slug: 'markdown-editor',
+        categoryId: 'developer-tools',
+        isNew: true,
+    },
+    {
         id: '29',
         title: 'CSS Minifier',
         description: 'Minify CSS code to reduce file size.',
@@ -353,16 +397,6 @@ export const TOOLS: ToolData[] = [
         icon: Clock,
         href: '/tools/unix-timestamp',
         categoryId: 'developer-tools',
-    },
-    {
-        id: '33',
-        title: 'Markdown Editor',
-        description: 'Edit and preview Markdown with live rendering.',
-        icon: FileEdit,
-        href: '/tools/markdown-editor',
-        slug: 'markdown-editor',
-        categoryId: 'developer-tools',
-        isNew: true,
     },
     {
         id: '34',
@@ -561,30 +595,6 @@ export const TOOLS: ToolData[] = [
         categoryId: 'calculators',
     },
 
-    // =====================================================
-    // EXTRA TOOLS (Already Built)
-    // =====================================================
-    {
-        id: '57',
-        title: 'Event Timer',
-        description: 'Professional countdown timer with custom deadlines and presets.',
-        icon: Clock,
-        href: '/tools/timer',
-        slug: 'timer',
-        isNew: true,
-        categoryId: 'developer-tools',
-    },
-    {
-        id: '61',
-        title: 'Pomodoro Timer',
-        description: 'Boost focus and productivity with customizable work intervals and breaks.',
-        icon: Timer,
-        href: '/tools/pomodoro-timer',
-        slug: 'pomodoro-timer',
-        isNew: true,
-        featured: true,
-        categoryId: 'developer-tools',
-    },
 ];
 
 // Search suggestions for the search bar

@@ -148,9 +148,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '7',
         title: 'ZIP Extractor',
-        description: 'Extract ZIP and RAR archive files online.',
+        description: 'Extract ZIP archive files online. View contents, download individual files, or save everything instantly.',
         icon: Archive,
         href: '/tools/zip-extractor',
+        slug: 'zip-extractor',
+        isNew: true,
         categoryId: 'documents',
     },
     {

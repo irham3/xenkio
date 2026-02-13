@@ -49,8 +49,6 @@ import {
     Wand2,
     GraduationCap,
     ArrowLeftRight,
-    RotateCw,
-    Trash2,
     Crop,
     Shield,
     Shuffle,
@@ -638,50 +636,18 @@ export const TOOLS: ToolData[] = [
     },
 
     // =====================================================
-    // PDF & DOCUMENT TOOLS - Tambahan
-    // =====================================================
-    {
-        id: '64',
-        title: 'PDF Rotate',
-        description: 'Rotate PDF pages 90, 180, or 270 degrees. Select specific pages or rotate all.',
-        icon: RotateCw,
-        href: '/tools/pdf-rotate',
-        slug: 'pdf-rotate',
-        categoryId: 'documents',
-    },
-    {
-        id: '65',
-        title: 'PDF Page Remover',
-        description: 'Remove unwanted pages from PDF documents. Select and delete multiple pages.',
-        icon: Trash2,
-        href: '/tools/pdf-page-remover',
-        slug: 'pdf-page-remover',
-        categoryId: 'documents',
-    },
-
-    // =====================================================
     // IMAGE TOOLS - Tambahan
     // =====================================================
     {
         id: '66',
-        title: 'Image Cropper',
-        description: 'Crop images with custom aspect ratios or freehand selection.',
+        title: 'Image Crop & Rotate',
+        description: 'Crop, rotate, and resize images with custom aspect ratios or freehand selection.',
         icon: Crop,
         href: '/tools/image-cropper',
         slug: 'image-cropper',
         categoryId: 'media-images',
         isNew: true,
     },
-    {
-        id: '67',
-        title: 'Image Rotator',
-        description: 'Rotate and flip images by any angle. Perfect for fixing orientation.',
-        icon: RotateCw,
-        href: '/tools/image-rotator',
-        slug: 'image-rotator',
-        categoryId: 'media-images',
-    },
-
     // =====================================================
     // SECURITY & PRIVACY - Tambahan
     // =====================================================
@@ -818,6 +784,16 @@ export const TOOLS: ToolData[] = [
     // =====================================================
     // WEB & SEO - Tambahan
     // =====================================================
+    {
+        id: '93',
+        title: 'URL Encoder / Decoder',
+        description: 'Encode or decode URLs. Convert special characters to safer URL formats.',
+        icon: Link2,
+        href: '/tools/url-encoder',
+        slug: 'url-encoder',
+        categoryId: 'web-seo',
+        isNew: true,
+    },
     {
         id: '81',
         title: 'Open Graph Generator',

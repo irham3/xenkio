@@ -15,11 +15,11 @@ export function useContrastChecker() {
   );
 
   const swapColors = useCallback(() => {
-    setForeground(prev => {
-      setBackground(prev);
-      return background;
-    });
-  }, [background]);
+    const prevFg = foreground;
+    const prevBg = background;
+    setForeground(prevBg);
+    setBackground(prevFg);
+  }, [foreground, background]);
 
   const updateForeground = useCallback((hex: string) => {
     setForeground(hex.toUpperCase());

@@ -705,7 +705,7 @@ export const TOOLS: ToolData[] = [
     {
         id: '70',
         title: 'Text Encryptor',
-        description: 'Encrypt and decrypt text using AES-256 encryption.',
+        description: 'Securely encrypt and decrypt text using AES, DES, Rabbit, RC4, and customized RC4Drop algorithms.',
         icon: LockKeyhole,
         href: '/tools/text-encryptor',
         slug: 'text-encryptor',

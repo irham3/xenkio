@@ -245,6 +245,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate barcodes in various formats (EAN, UPC, Code128).',
         icon: Barcode,
         href: '/tools/barcode-generator',
+        slug: 'barcode-generator',
         categoryId: 'media-images',
     },
 

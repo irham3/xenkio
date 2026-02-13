@@ -129,12 +129,8 @@ export function useSvgToPng() {
   }, [updateConfig]);
 
   const setSvgFromCode = useCallback((code: string) => {
-    if (code && !isValidSvg(code)) {
-      updateConfig({ svgContent: code });
-      return;
-    }
     updateConfig({ svgContent: code });
-    if (code) {
+    if (code && isValidSvg(code)) {
       setFileName('svg-export');
     }
   }, [updateConfig]);

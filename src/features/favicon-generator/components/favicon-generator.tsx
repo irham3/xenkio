@@ -2,8 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { useFaviconGenerator } from '../hooks/use-favicon-generator';
-import { FAVICON_SIZES, ICO_SIZES } from '../constants';
-import { ACCEPTED_EXTENSIONS } from '../constants';
+import { FAVICON_SIZES, ICO_SIZES, ACCEPTED_EXTENSIONS } from '../constants';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';

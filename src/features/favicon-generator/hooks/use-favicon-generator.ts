@@ -40,6 +40,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
+/** Builds an ICO file from PNG blobs. Each entry embeds the raw PNG data. */
 function createIcoBlob(images: { size: number; blob: Blob }[]): Promise<Blob> {
   return new Promise((resolve, reject) => {
     const count = images.length;

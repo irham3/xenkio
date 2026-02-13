@@ -135,6 +135,18 @@
       opacity: 0.5;
     }
   }
+
+  @keyframes scan-line {
+    0% {
+      top: 0%;
+    }
+
+    100% {
+      top: 100%;
+    }
+  }
+
+  --animate-scan-line: scan-line 2s linear infinite;
 }
 
 @layer base {

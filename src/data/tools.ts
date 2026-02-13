@@ -207,6 +207,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert SVG vector graphics to PNG raster images.',
         icon: Layers,
         href: '/tools/svg-to-png',
+        slug: 'svg-to-png',
         categoryId: 'media-images',
     },
     {

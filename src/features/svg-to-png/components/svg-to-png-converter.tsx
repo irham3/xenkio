@@ -440,15 +440,21 @@ function sanitizeSvg(svgContent: string): string {
   const svgEl = doc.querySelector('svg');
   if (!svgEl) return '';
 
-  // Remove script elements and event handlers
-  const scripts = svgEl.querySelectorAll('script');
-  scripts.forEach((s) => s.remove());
+  // Remove dangerous elements
+  const dangerousTags = svgEl.querySelectorAll('script, foreignObject, iframe, embed, object');
+  dangerousTags.forEach((el) => el.remove());
 
   const allElements = svgEl.querySelectorAll('*');
   allElements.forEach((el) => {
     const attrs = Array.from(el.attributes);
     attrs.forEach((attr) => {
+      // Remove event handlers
       if (attr.name.startsWith('on')) {
+        el.removeAttribute(attr.name);
+      }
+      // Remove javascript: URLs in href/xlink:href
+      if ((attr.name === 'href' || attr.name === 'xlink:href') &&
+          attr.value.trim().toLowerCase().startsWith('javascript:')) {
         el.removeAttribute(attr.name);
       }
     });

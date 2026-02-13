@@ -244,14 +244,14 @@ export const TOOLS: ToolData[] = [
         href: '/tools/image-to-base64',
         categoryId: 'media-images',
     },
-    {
-        id: '14',
-        title: 'SVG to PNG',
-        description: 'Convert SVG vector graphics to PNG raster images.',
-        icon: Layers,
-        href: '/tools/svg-to-png',
-        categoryId: 'media-images',
-    },
+    // {
+    //     id: '14',
+    //     title: 'SVG to PNG',
+    //     description: 'Convert SVG vector graphics to PNG raster images.',
+    //     icon: Layers,
+    //     href: '/tools/svg-to-png',
+    //     categoryId: 'media-images',
+    // },
     {
         id: '15',
         title: 'Seamless Scroll Studio',
@@ -670,6 +670,7 @@ export const TOOLS: ToolData[] = [
         href: '/tools/image-cropper',
         slug: 'image-cropper',
         categoryId: 'media-images',
+        isNew: true,
     },
     {
         id: '67',

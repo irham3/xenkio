@@ -426,6 +426,7 @@ export const TOOLS: ToolData[] = [
         description: 'Create beautiful CSS gradients with visual editor.',
         icon: Layers,
         href: '/tools/gradient-generator',
+        slug: 'gradient-generator',
         categoryId: 'design-tools',
     },
     {

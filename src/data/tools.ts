@@ -436,6 +436,7 @@ export const TOOLS: ToolData[] = [
         icon: Contrast,
         href: '/tools/contrast-checker',
         categoryId: 'design-tools',
+        slug: 'contrast-checker',
     },
 
     // =====================================================

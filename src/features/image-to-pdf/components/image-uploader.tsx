@@ -9,9 +9,10 @@ interface ImageUploaderProps {
     isDragActive: boolean
     getRootProps: <T extends DropzoneRootProps>(props?: T) => T
     getInputProps: <T extends DropzoneInputProps>(props?: T) => T
+    description?: string
 }
 
-export function ImageUploader({ isDragActive, getRootProps, getInputProps }: ImageUploaderProps) {
+export function ImageUploader({ isDragActive, getRootProps, getInputProps, description }: ImageUploaderProps) {
     return (
         <div className="w-full max-w-4xl mx-auto">
             <div
@@ -39,7 +40,7 @@ export function ImageUploader({ isDragActive, getRootProps, getInputProps }: Ima
                             {isDragActive ? "Drop your images here" : "Select image files"}
                         </p>
                         <p className="text-gray-500">
-                            or drag and drop images (JPG, PNG, GIF, BMP, WebP) here
+                            {description || "or drag and drop images (JPG, PNG, GIF, BMP, WebP) here"}
                         </p>
 
                     </div>

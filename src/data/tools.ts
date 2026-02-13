@@ -47,6 +47,31 @@ import {
     Mic,
     Receipt,
     Wand2,
+    GraduationCap,
+    ArrowLeftRight,
+    RotateCw,
+    Trash2,
+    Crop,
+    Shield,
+    Shuffle,
+    LockKeyhole,
+    KeyRound,
+    Database,
+    Box,
+    Square,
+    Triangle,
+    Type,
+    Eye,
+    LayoutGrid,
+    ListFilter,
+    Share2,
+    Twitter,
+    Link2,
+    Globe2,
+    Server,
+    DollarSign,
+    CalendarDays,
+    TrendingUp,
 } from 'lucide-react';
 
 export interface ToolData {
@@ -610,6 +635,298 @@ export const TOOLS: ToolData[] = [
         categoryId: 'calculators',
     },
 
+    // =====================================================
+    // PDF & DOCUMENT TOOLS - Tambahan
+    // =====================================================
+    {
+        id: '64',
+        title: 'PDF Rotate',
+        description: 'Rotate PDF pages 90, 180, or 270 degrees. Select specific pages or rotate all.',
+        icon: RotateCw,
+        href: '/tools/pdf-rotate',
+        slug: 'pdf-rotate',
+        categoryId: 'documents',
+    },
+    {
+        id: '65',
+        title: 'PDF Page Remover',
+        description: 'Remove unwanted pages from PDF documents. Select and delete multiple pages.',
+        icon: Trash2,
+        href: '/tools/pdf-page-remover',
+        slug: 'pdf-page-remover',
+        categoryId: 'documents',
+    },
+
+    // =====================================================
+    // IMAGE TOOLS - Tambahan
+    // =====================================================
+    {
+        id: '66',
+        title: 'Image Cropper',
+        description: 'Crop images with custom aspect ratios or freehand selection.',
+        icon: Crop,
+        href: '/tools/image-cropper',
+        slug: 'image-cropper',
+        categoryId: 'media-images',
+    },
+    {
+        id: '67',
+        title: 'Image Rotator',
+        description: 'Rotate and flip images by any angle. Perfect for fixing orientation.',
+        icon: RotateCw,
+        href: '/tools/image-rotator',
+        slug: 'image-rotator',
+        categoryId: 'media-images',
+    },
+
+    // =====================================================
+    // SECURITY & PRIVACY - Tambahan
+    // =====================================================
+    {
+        id: '68',
+        title: 'Password Strength Checker',
+        description: 'Analyze password security and get improvement suggestions.',
+        icon: Shield,
+        href: '/tools/password-strength',
+        slug: 'password-strength',
+        categoryId: 'security-privacy',
+    },
+    {
+        id: '69',
+        title: 'Random String Generator',
+        description: 'Generate random strings for tokens, IDs, or testing.',
+        icon: Shuffle,
+        href: '/tools/random-string',
+        slug: 'random-string',
+        categoryId: 'security-privacy',
+    },
+    {
+        id: '70',
+        title: 'Text Encryptor',
+        description: 'Encrypt and decrypt text using AES-256 encryption.',
+        icon: LockKeyhole,
+        href: '/tools/text-encryptor',
+        slug: 'text-encryptor',
+        categoryId: 'security-privacy',
+    },
+    {
+        id: '71',
+        title: 'HMAC Generator',
+        description: 'Generate HMAC signatures for API authentication and data verification.',
+        icon: KeyRound,
+        href: '/tools/hmac-generator',
+        slug: 'hmac-generator',
+        categoryId: 'security-privacy',
+    },
+
+    // =====================================================
+    // DEVELOPER TOOLS - Tambahan
+    // =====================================================
+    {
+        id: '72',
+        title: 'SQL Formatter',
+        description: 'Format and beautify SQL queries with syntax highlighting.',
+        icon: Database,
+        href: '/tools/sql-formatter',
+        slug: 'sql-formatter',
+        categoryId: 'developer-tools',
+    },
+
+    // =====================================================
+    // DESIGN TOOLS - Tambahan
+    // =====================================================
+    {
+        id: '73',
+        title: 'Box Shadow Generator',
+        description: 'Create CSS box shadows with visual editor and copy code.',
+        icon: Box,
+        href: '/tools/box-shadow',
+        slug: 'box-shadow',
+        categoryId: 'design-tools',
+    },
+    {
+        id: '74',
+        title: 'Border Radius Generator',
+        description: 'Generate custom CSS border radius with live preview.',
+        icon: Square,
+        href: '/tools/border-radius',
+        slug: 'border-radius',
+        categoryId: 'design-tools',
+    },
+    {
+        id: '75',
+        title: 'CSS Triangle Generator',
+        description: 'Create CSS triangles and arrows without images.',
+        icon: Triangle,
+        href: '/tools/css-triangle',
+        slug: 'css-triangle',
+        categoryId: 'design-tools',
+    },
+    {
+        id: '76',
+        title: 'Font Pairing Tool',
+        description: 'Find perfect Google Font combinations for your designs.',
+        icon: Type,
+        href: '/tools/font-pairing',
+        slug: 'font-pairing',
+        categoryId: 'design-tools',
+    },
+    {
+        id: '77',
+        title: 'Color Blindness Simulator',
+        description: 'Test your designs for different types of color blindness.',
+        icon: Eye,
+        href: '/tools/color-blindness',
+        slug: 'color-blindness',
+        categoryId: 'design-tools',
+    },
+    {
+        id: '78',
+        title: 'CSS Flexbox Generator',
+        description: 'Visual flexbox layout generator with code export.',
+        icon: LayoutGrid,
+        href: '/tools/flexbox-generator',
+        slug: 'flexbox-generator',
+        categoryId: 'design-tools',
+    },
+
+    // =====================================================
+    // TEXT UTILITIES - Tambahan
+    // =====================================================
+    {
+        id: '79',
+        title: 'Text Reverser',
+        description: 'Reverse text, words, or letters. Perfect for creating mirror text.',
+        icon: ArrowLeftRight,
+        href: '/tools/text-reverser',
+        slug: 'text-reverser',
+        categoryId: 'text-utilities',
+    },
+    {
+        id: '80',
+        title: 'Duplicate Line Remover',
+        description: 'Remove duplicate lines from text while preserving order.',
+        icon: ListFilter,
+        href: '/tools/duplicate-remover',
+        slug: 'duplicate-remover',
+        categoryId: 'text-utilities',
+    },
+
+    // =====================================================
+    // WEB & SEO - Tambahan
+    // =====================================================
+    {
+        id: '81',
+        title: 'Open Graph Generator',
+        description: 'Generate Open Graph tags for social media sharing.',
+        icon: Share2,
+        href: '/tools/og-generator',
+        slug: 'og-generator',
+        categoryId: 'web-seo',
+    },
+    {
+        id: '82',
+        title: 'Schema Markup Generator',
+        description: 'Create JSON-LD structured data for rich search results.',
+        icon: Code2,
+        href: '/tools/schema-generator',
+        slug: 'schema-generator',
+        categoryId: 'web-seo',
+    },
+    {
+        id: '83',
+        title: 'Twitter Card Generator',
+        description: 'Generate Twitter Card meta tags for better link previews.',
+        icon: Twitter,
+        href: '/tools/twitter-card',
+        slug: 'twitter-card',
+        categoryId: 'web-seo',
+    },
+    {
+        id: '84',
+        title: 'UTM Builder',
+        description: 'Create UTM tracking parameters for campaign URLs.',
+        icon: Link2,
+        href: '/tools/utm-builder',
+        slug: 'utm-builder',
+        categoryId: 'web-seo',
+    },
+    {
+        id: '85',
+        title: 'Link Shortener',
+        description: 'Create short, memorable URLs with custom aliases.',
+        icon: Link,
+        href: '/tools/link-shortener',
+        slug: 'link-shortener',
+        categoryId: 'web-seo',
+    },
+    {
+        id: '86',
+        title: 'HTTP Status Code Checker',
+        description: 'Check HTTP response codes and headers for any URL.',
+        icon: Globe2,
+        href: '/tools/http-status',
+        slug: 'http-status',
+        categoryId: 'web-seo',
+    },
+    {
+        id: '87',
+        title: 'DNS Lookup',
+        description: 'Query DNS records (A, AAAA, MX, TXT, CNAME) for any domain.',
+        icon: Server,
+        href: '/tools/dns-lookup',
+        slug: 'dns-lookup',
+        categoryId: 'web-seo',
+    },
+
+    // =====================================================
+    // CALCULATORS - Tambahan
+    // =====================================================
+    {
+        id: '88',
+        title: 'Tip Calculator',
+        description: 'Calculate tips and split bills among multiple people.',
+        icon: DollarSign,
+        href: '/tools/tip-calculator',
+        slug: 'tip-calculator',
+        categoryId: 'calculators',
+    },
+    {
+        id: '89',
+        title: 'Date Calculator',
+        description: 'Calculate differences between dates or add/subtract days.',
+        icon: CalendarDays,
+        href: '/tools/date-calculator',
+        slug: 'date-calculator',
+        categoryId: 'calculators',
+    },
+    {
+        id: '90',
+        title: 'Compound Interest Calculator',
+        description: 'Calculate compound interest and investment growth over time.',
+        icon: TrendingUp,
+        href: '/tools/compound-interest',
+        slug: 'compound-interest',
+        categoryId: 'calculators',
+    },
+    {
+        id: '91',
+        title: 'Time Zone Converter',
+        description: 'Convert time between different time zones worldwide.',
+        icon: Clock,
+        href: '/tools/timezone-converter',
+        slug: 'timezone-converter',
+        categoryId: 'calculators',
+    },
+    {
+        id: '92',
+        title: 'Grade Calculator',
+        description: 'Calculate weighted grades, GPA, and final scores.',
+        icon: GraduationCap,
+        href: '/tools/grade-calculator',
+        slug: 'grade-calculator',
+        categoryId: 'calculators',
+    },
 ];
 
 // Search suggestions for the search bar

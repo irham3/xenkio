@@ -230,10 +230,12 @@ export function FaviconGenerator() {
                                                     }}
                                                 >
                                                     {previewUrl && (
-                                                        <img
+                                                        <Image
                                                             src={previewUrl}
                                                             alt="Preview"
-                                                            className="w-full h-full object-contain transition-transform duration-500 hover:scale-105"
+                                                            fill
+                                                            unoptimized
+                                                            className="object-contain transition-transform duration-500 hover:scale-105"
                                                         />
                                                     )}
                                                 </div>

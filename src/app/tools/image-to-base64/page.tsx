@@ -1,7 +1,7 @@
 
 import { Metadata } from 'next';
 import ImageToBase64Client from './client';
-import { ImageIcon, Zap, Shield, Code2 } from 'lucide-react';
+import { ImageIcon, Shield, Code2 } from 'lucide-react';
 
 export const runtime = 'edge';
 

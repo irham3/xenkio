@@ -8,7 +8,6 @@ import { QrScanner } from "./qr-scanner"
 import { QrResult } from "./qr-result"
 import { Button } from "@/components/ui/button"
 import { Camera, Upload, AlertCircle } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 export function QrReader() {
     const { result, isScanning, error, scanImage, clearResult, setResult } = useQrReader();

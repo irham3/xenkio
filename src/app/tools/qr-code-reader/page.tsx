@@ -1,7 +1,7 @@
 
 import { Metadata } from 'next';
 import QrReaderClient from './client';
-import { ScanLine, Smartphone, Shield, Zap } from 'lucide-react';
+import { Smartphone, Shield, Zap } from 'lucide-react';
 
 export const runtime = 'edge';
 

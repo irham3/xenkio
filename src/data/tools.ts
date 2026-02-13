@@ -237,6 +237,7 @@ export const TOOLS: ToolData[] = [
         description: 'Scan and decode QR codes from images or camera.',
         icon: ScanLine,
         href: '/tools/qr-code-reader',
+        slug: 'qr-code-reader',
         categoryId: 'media-images',
     },
     {

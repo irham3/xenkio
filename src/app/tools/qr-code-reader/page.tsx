@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import QrReaderClient from './client';
 import { Smartphone, Shield, Zap } from 'lucide-react';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
     title: 'Free QR Code Reader Online | Scan QR from Image or Camera',

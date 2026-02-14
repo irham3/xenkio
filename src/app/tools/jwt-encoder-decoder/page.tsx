@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { JwtTool } from '../../../features/jwt-decoder/components/jwt-decoder';
 import { Shield, Code, Lock } from 'lucide-react';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
     title: 'JWT Encoder & Decoder | Free Online Tool',

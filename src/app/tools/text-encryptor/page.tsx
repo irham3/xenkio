@@ -3,7 +3,7 @@ import { TOOLS } from '@/data/tools';
 import { TextEncryptor } from '@/features/text-encryptor/components/text-encryptor';
 import { notFound } from 'next/navigation';
 
-export const runtime = 'edge';
+
 
 const slug = 'text-encryptor';
 

@@ -85,7 +85,7 @@ Use size, color, spacing to guide attention
 - Use Edge Runtime for API routes when possible for better Cloudflare performance
 - If a server page needs client-side features, create a separate client.tsx (combining client components and client-side logic from features folder) and import it in the server page
 - Use proper error handling and loading states
-- Always add export const runtime = 'edge'; for server pages
+- Always add  for server pages
 - Always use global.css as base style
 
 ### TypeScript Best Practices

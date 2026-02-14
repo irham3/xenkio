@@ -1,4 +1,4 @@
-export const runtime = 'edge';
+
 
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { TOOLS as TOOLS, type ToolData } from "@/data/tools";

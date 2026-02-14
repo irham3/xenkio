@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import ZipExtractorClient from './client';
 import { Shield, Zap, HardDrive } from 'lucide-react';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
     title: 'Free Zip Extractor Online | Unzip Files in Your Browser',

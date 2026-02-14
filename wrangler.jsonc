@@ -1,32 +1,40 @@
 {
-    "$schema": "node_modules/wrangler/config-schema.json",
-    "name": "xenkio",
-    "main": ".open-next/worker.js",
-    "compatibility_date": "2024-12-30",
-    "compatibility_flags": [
-        "nodejs_compat"
-    ],
-    // Use the new Assets feature to host static assets
-    "assets": {
-        "directory": ".open-next/assets",
-        "binding": "ASSETS"
-    },
-    // R2 Bucket for Incremental Static Regeneration (ISR)
-    // Uncomment and configure if you are using ISR features
-    /*
-    "r2_buckets": [
-        {
-        "binding": "NEXT_CACHE_WORKERS_KV",
-        "bucket_name": "xenkio-cache"
-        }
-    ],
-    */
-    // Smart placement for optimal performance
-    "placement": {
-        "mode": "smart"
-    },
-    // Observability settings
-    "observability": {
-        "enabled": true
-    }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "xenkio",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2024-12-30",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	// Use the new Assets feature to host static assets
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	// R2 Bucket for Incremental Static Regeneration (ISR)
+	// Uncomment and configure if you are using ISR features
+	"r2_buckets": [
+		// Create a R2 binding with the binding name "NEXT_INC_CACHE_R2_BUCKET"
+		{
+			"binding": "NEXT_INC_CACHE_R2_BUCKET",
+			"bucket_name": "xenkio-cache"
+		},
+		{
+			"bucket_name": "xenkio-cache",
+			"binding": "xenkio_cache",
+			"remote": true
+		}
+	],
+	"images": {
+		"binding": "IMAGES"
+	},
+	// Smart placement for optimal performance
+	"placement": {
+		"mode": "smart"
+	},
+	// Observability settings
+	"observability": {
+		"enabled": true
+	}
 }

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import HtmlFormatterClient from './client';
 import { Code2 } from 'lucide-react';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
   title: 'HTML Formatter & Beautifier | Free Online HTML Prettifier',

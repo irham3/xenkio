@@ -2,7 +2,7 @@
 import { Metadata } from 'next';
 import ImageCropperClient from './client';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
     title: 'Image Crop & Rotate | Free Online Photo Tool',

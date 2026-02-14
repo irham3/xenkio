@@ -1,4 +1,4 @@
-export const runtime = 'edge';
+
 
 import { ImageCompressorClient } from "./client"
 import { Metadata } from "next"

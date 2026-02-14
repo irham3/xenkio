@@ -3,7 +3,7 @@ import { UrlEncoder } from '../../../features/url-encoder/components/url-encoder
 
 import { Link, Shield, Globe } from 'lucide-react';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
     title: 'URL Encoder / Decoder | Free Online Tool',

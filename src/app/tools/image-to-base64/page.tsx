@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import ImageToBase64Client from './client';
 import { ImageIcon, Shield, Code2 } from 'lucide-react';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
     title: 'Image to Base64 Converter | Free Online Tool',

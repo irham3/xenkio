@@ -5,7 +5,7 @@ import { PDFCompressorClient } from './client';
 
 const slug = 'pdf-compressor';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
     title: 'PDF Compressor - Reduce File Size Online | Xenkio',

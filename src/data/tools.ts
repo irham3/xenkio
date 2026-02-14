@@ -339,11 +339,12 @@ export const TOOLS: ToolData[] = [
     },
     {
         id: '24',
-        title: 'JWT Decoder',
-        description: 'Decode and inspect JWT tokens without verification.',
+        title: 'JWT Encoder & Decoder',
+        description: 'Decode, verify, and generate JSON Web Tokens (JWT) directly in your browser.',
         icon: Key,
-        href: '/tools/jwt-decoder',
+        href: '/tools/jwt-encoder-decoder',
         categoryId: 'security-privacy',
+        isNew: true,
     },
 
 

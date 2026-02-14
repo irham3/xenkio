@@ -106,6 +106,7 @@ export default function Home() {
                     href={tool.href}
                     isNew={tool.isNew}
                     isPremium={tool.isPremium}
+                    isComingSoon={tool.isComingSoon}
                   />
                 ))}
               </div>

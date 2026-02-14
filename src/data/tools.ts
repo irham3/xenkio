@@ -80,6 +80,7 @@ export interface ToolData {
     href: string;
     featured?: boolean;
     isNew?: boolean;
+    isComingSoon?: boolean;
     isPremium?: boolean;
     categoryId: string;
     slug?: string;
@@ -358,6 +359,7 @@ export const TOOLS: ToolData[] = [
         icon: Braces,
         href: '/tools/json-formatter',
         featured: true,
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -366,6 +368,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert JSON data to CSV format for spreadsheets.',
         icon: FileJson,
         href: '/tools/json-to-csv',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -413,6 +416,7 @@ export const TOOLS: ToolData[] = [
         description: 'Minify CSS code to reduce file size.',
         icon: FileCode,
         href: '/tools/css-minifier',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -421,6 +425,7 @@ export const TOOLS: ToolData[] = [
         description: 'Minify JavaScript code to reduce file size.',
         icon: FileCode,
         href: '/tools/js-minifier',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -453,6 +458,7 @@ export const TOOLS: ToolData[] = [
         description: 'Encode and decode HTML entities.',
         icon: Code2,
         href: '/tools/html-entity-encoder',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
 
@@ -474,6 +480,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate harmonious color palettes for your designs.',
         icon: Paintbrush,
         href: '/tools/color-palette',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -482,6 +489,7 @@ export const TOOLS: ToolData[] = [
         description: 'Create beautiful CSS gradients with visual editor.',
         icon: Layers,
         href: '/tools/gradient-generator',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -490,6 +498,7 @@ export const TOOLS: ToolData[] = [
         description: 'Check color contrast ratio for accessibility (WCAG).',
         icon: Contrast,
         href: '/tools/contrast-checker',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
 
@@ -512,6 +521,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate placeholder text in various formats and lengths.',
         icon: FileEdit,
         href: '/tools/lorem-ipsum',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -520,6 +530,7 @@ export const TOOLS: ToolData[] = [
         description: 'Count words, characters, sentences, and paragraphs.',
         icon: Calculator,
         href: '/tools/word-counter',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -528,6 +539,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert text between uppercase, lowercase, title case, and more.',
         icon: TextCursor,
         href: '/tools/case-converter',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -536,6 +548,7 @@ export const TOOLS: ToolData[] = [
         description: 'Compare two texts and highlight the differences.',
         icon: Diff,
         href: '/tools/text-diff',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -544,6 +557,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate URL-friendly slugs from text.',
         icon: Link,
         href: '/tools/slug-generator',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -552,6 +566,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert text to audio speech.',
         icon: Volume2,
         href: '/tools/text-to-speech',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -560,6 +575,7 @@ export const TOOLS: ToolData[] = [
         description: 'Format and beautify text with custom spacing and indentation.',
         icon: AlignLeft,
         href: '/tools/text-formatter',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
 
@@ -572,6 +588,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate SEO-optimized meta tags for your website.',
         icon: Globe,
         href: '/tools/meta-tag-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -580,6 +597,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate XML sitemaps for search engines.',
         icon: Map,
         href: '/tools/sitemap-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -588,6 +606,7 @@ export const TOOLS: ToolData[] = [
         description: 'Create robots.txt files for search engine crawlers.',
         icon: Bot,
         href: '/tools/robots-txt-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
 
@@ -601,6 +620,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert between different units of measurement.',
         icon: Calculator,
         href: '/tools/unit-converter',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -609,6 +629,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate percentages, increases, and decreases.',
         icon: Percent,
         href: '/tools/percentage-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -617,6 +638,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate exact age from birth date.',
         icon: Calendar,
         href: '/tools/age-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -625,6 +647,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate Body Mass Index and health status.',
         icon: Activity,
         href: '/tools/bmi-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -633,6 +656,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate loan payments, interest, and amortization.',
         icon: Coins,
         href: '/tools/loan-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
 
@@ -659,6 +683,7 @@ export const TOOLS: ToolData[] = [
         icon: Shield,
         href: '/tools/password-strength',
         slug: 'password-strength',
+        isComingSoon: true,
         categoryId: 'security-privacy',
     },
     {
@@ -668,6 +693,7 @@ export const TOOLS: ToolData[] = [
         icon: Shuffle,
         href: '/tools/random-string',
         slug: 'random-string',
+        isComingSoon: true,
         categoryId: 'security-privacy',
     },
     {
@@ -686,6 +712,7 @@ export const TOOLS: ToolData[] = [
         icon: KeyRound,
         href: '/tools/hmac-generator',
         slug: 'hmac-generator',
+        isComingSoon: true,
         categoryId: 'security-privacy',
     },
 
@@ -699,6 +726,7 @@ export const TOOLS: ToolData[] = [
         icon: Database,
         href: '/tools/sql-formatter',
         slug: 'sql-formatter',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
 
@@ -712,6 +740,7 @@ export const TOOLS: ToolData[] = [
         icon: Box,
         href: '/tools/box-shadow',
         slug: 'box-shadow',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -721,6 +750,7 @@ export const TOOLS: ToolData[] = [
         icon: Square,
         href: '/tools/border-radius',
         slug: 'border-radius',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -730,6 +760,7 @@ export const TOOLS: ToolData[] = [
         icon: Triangle,
         href: '/tools/css-triangle',
         slug: 'css-triangle',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -739,6 +770,7 @@ export const TOOLS: ToolData[] = [
         icon: Type,
         href: '/tools/font-pairing',
         slug: 'font-pairing',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -748,6 +780,7 @@ export const TOOLS: ToolData[] = [
         icon: Eye,
         href: '/tools/color-blindness',
         slug: 'color-blindness',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -757,6 +790,7 @@ export const TOOLS: ToolData[] = [
         icon: LayoutGrid,
         href: '/tools/flexbox-generator',
         slug: 'flexbox-generator',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
 
@@ -770,6 +804,7 @@ export const TOOLS: ToolData[] = [
         icon: ArrowLeftRight,
         href: '/tools/text-reverser',
         slug: 'text-reverser',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -779,6 +814,7 @@ export const TOOLS: ToolData[] = [
         icon: ListFilter,
         href: '/tools/duplicate-remover',
         slug: 'duplicate-remover',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
 
@@ -802,6 +838,7 @@ export const TOOLS: ToolData[] = [
         icon: Share2,
         href: '/tools/og-generator',
         slug: 'og-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -811,6 +848,7 @@ export const TOOLS: ToolData[] = [
         icon: Code2,
         href: '/tools/schema-generator',
         slug: 'schema-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -820,6 +858,7 @@ export const TOOLS: ToolData[] = [
         icon: Twitter,
         href: '/tools/twitter-card',
         slug: 'twitter-card',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -829,6 +868,7 @@ export const TOOLS: ToolData[] = [
         icon: Link2,
         href: '/tools/utm-builder',
         slug: 'utm-builder',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -838,6 +878,7 @@ export const TOOLS: ToolData[] = [
         icon: Link,
         href: '/tools/link-shortener',
         slug: 'link-shortener',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -847,6 +888,7 @@ export const TOOLS: ToolData[] = [
         icon: Globe2,
         href: '/tools/http-status',
         slug: 'http-status',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -856,6 +898,7 @@ export const TOOLS: ToolData[] = [
         icon: Server,
         href: '/tools/dns-lookup',
         slug: 'dns-lookup',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
 
@@ -869,6 +912,7 @@ export const TOOLS: ToolData[] = [
         icon: DollarSign,
         href: '/tools/tip-calculator',
         slug: 'tip-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -878,6 +922,7 @@ export const TOOLS: ToolData[] = [
         icon: CalendarDays,
         href: '/tools/date-calculator',
         slug: 'date-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -887,6 +932,7 @@ export const TOOLS: ToolData[] = [
         icon: TrendingUp,
         href: '/tools/compound-interest',
         slug: 'compound-interest',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -896,6 +942,7 @@ export const TOOLS: ToolData[] = [
         icon: Clock,
         href: '/tools/timezone-converter',
         slug: 'timezone-converter',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -905,6 +952,7 @@ export const TOOLS: ToolData[] = [
         icon: GraduationCap,
         href: '/tools/grade-calculator',
         slug: 'grade-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
 ];

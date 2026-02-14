@@ -48,6 +48,7 @@ export default async function ToolsPage({ searchParams }: Props) {
             href={tool.href}
             isNew={tool.isNew}
             isPremium={tool.isPremium}
+            isComingSoon={tool.isComingSoon}
           />
         ))}
       </div>

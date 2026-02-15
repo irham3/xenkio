@@ -201,7 +201,7 @@ export function UUIDGenerator() {
                                         type="text"
                                         value={config.name}
                                         onChange={(e) => updateConfig({ name: e.target.value })}
-                                        placeholder="e.g. xenkio.com"
+                                        placeholder="e.g. xenkio.pages.dev"
                                         className="w-full h-12 bg-white rounded-xl border border-gray-200 px-4 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all font-mono"
                                     />
                                 </div>

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://xenkio.com",
+    url: "https://xenkio.pages.dev",
     title: "Xenkio - All-in-One Online Productivity Tools",
     description: "Access 130+ professional tools for free. Fast, secure, and no registration needed.",
     siteName: "Xenkio",
@@ -47,11 +47,11 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "Xenkio",
-              "url": "https://xenkio.com",
+              "url": "https://xenkio.pages.dev",
               "description": "Free online tools for everyone.",
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://xenkio.com/tools?q={search_term_string}",
+                "target": "https://xenkio.pages.dev/tools?q={search_term_string}",
                 "query-input": "required name=search_term_string"
               }
             })

@@ -2,7 +2,7 @@
 export const siteConfig = {
   name: 'Xenkio',
   description: 'Collection of free online tools for developers and creators',
-  url: 'https://xenkio.com',
+  url: 'https://xenkio.pages.dev',
   ogImage: '/images/og/og-default.png',
   links: {
     twitter: 'https://twitter.com/xenkio',

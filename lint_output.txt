@@ -1,6 +1,0 @@
-
-> xenkio@0.1.0 lint
-> eslint
-
-[BABEL] Note: The code generator has deoptimised the styling of D:\Work\00\xenkio\.open-next\server-functions\default\.next\server\chunks\ssr\[root-of-the-server]__8a070dc2._.js as it exceeds the max of 500KB.
-Terminate batch job (Y/N)? 

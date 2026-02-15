@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next'
 import { TOOLS } from '@/data/tools'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://xenkio.com'
+export const dynamic = "force-static";
 
+const baseUrl = "https://xenkio.com";
+
+export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     '',
     '/tools',

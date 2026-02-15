@@ -1,19 +1,19 @@
 import CryptoJS from 'crypto-js';
 import bcrypt from 'bcryptjs';
-import { argon2id } from 'hash-wasm';
+// import { argon2id } from 'hash-wasm'; // Removed in favor of dynamic import
 import { HashOptions, HashResult, HashAlgorithm } from '../types';
 
 export async function generateHash(options: HashOptions): Promise<HashResult> {
   const startTime = performance.now();
   let hash = '';
-  
+
   try {
     const { algorithm, text, salt = '' } = options;
-    
+
     // For general purpose hashes, we just prepend the salt if it exists (simple concatenation)
     // This is a common "layman" understanding of salting for MD5/SHA
-    const textToHash = (['MD5', 'SHA1', 'SHA256', 'SHA512', 'RIPEMD160'].includes(algorithm) && salt) 
-      ? `${salt}${text}` 
+    const textToHash = (['MD5', 'SHA1', 'SHA256', 'SHA512', 'RIPEMD160'].includes(algorithm) && salt)
+      ? `${salt}${text}`
       : text;
 
     switch (algorithm) {
@@ -36,21 +36,22 @@ export async function generateHash(options: HashOptions): Promise<HashResult> {
         // Bcrypt handles salt internaly. We use the cost factor.
         // We do typically not allow "manual" string salt in bcrypt as it requires specific format.
         const cost = options.cost || 10;
-        hash = await bcrypt.hash(text, cost); 
+        hash = await bcrypt.hash(text, cost);
         break;
       case 'ARGON2':
         // Argon2 requires a salt. If user provided one, we use it (hashed/converted), else random.
         let saltArray: Uint8Array;
         if (salt) {
-           // Basic string to bytes
-           const encoder = new TextEncoder();
-           saltArray = encoder.encode(salt);
-           // Argon2 expects at least 8 bytes salt usually, but hash-wasm handles it.
+          // Basic string to bytes
+          const encoder = new TextEncoder();
+          saltArray = encoder.encode(salt);
+          // Argon2 expects at least 8 bytes salt usually, but hash-wasm handles it.
         } else {
-           saltArray = crypto.getRandomValues(new Uint8Array(16));
+          saltArray = crypto.getRandomValues(new Uint8Array(16));
         }
 
-         hash = await argon2id({
+        const { argon2id } = await import('hash-wasm');
+        hash = await argon2id({
           password: text,
           salt: saltArray,
           parallelism: options.parallelism || 1,
@@ -86,7 +87,7 @@ export async function verifyHash(text: string, hashToVerify: string, algorithm: 
     switch (algorithm) {
       case 'BCRYPT':
         return await bcrypt.compare(text, hashToVerify);
-      
+
       case 'ARGON2':
         // Import dynamically if needed, or assume it's available from top-level import
         // functionality of hash-wasm argon2Verify
@@ -103,9 +104,9 @@ export async function verifyHash(text: string, hashToVerify: string, algorithm: 
       case 'RIPEMD160':
         // For standard hashes, verification is just checking if hash(text) == target_hash
         // Note: This assumes no extra salt was manually added or the user included it in 'text'
-        const result = await generateHash({ 
-          algorithm, 
-          text, 
+        const result = await generateHash({
+          algorithm,
+          text,
           salt: '' // We assume raw text verification for simplicity in this mode
         });
         return result.hash.toLowerCase() === hashToVerify.toLowerCase();

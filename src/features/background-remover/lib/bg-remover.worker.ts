@@ -1,9 +1,4 @@
 
-import { pipeline, env } from '@huggingface/transformers';
-
-// Skip local model checks for browser environment
-env.allowLocalModels = false;
-
 // Singleton pipeline instance
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let segmenter: any = null;
@@ -13,6 +8,12 @@ self.addEventListener('message', async (event) => {
 
     if (type === 'init') {
         try {
+            // Dynamically import transformers to avoid build-time WASM bundling issues
+            const { pipeline, env } = await import('@huggingface/transformers');
+
+            // Skip local model checks for browser environment
+            env.allowLocalModels = false;
+
             if (!segmenter) {
                 segmenter = await pipeline('image-segmentation', 'briaai/RMBG-1.4', {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any

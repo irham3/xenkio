@@ -1,5 +1,5 @@
 
-import { PixelCrop, type Crop } from 'react-image-crop';
+import { PixelCrop } from 'react-image-crop';
 
 export const TO_RADIANS = Math.PI / 180;
 

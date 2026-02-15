@@ -19,11 +19,6 @@ import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-    encryptText,
-    decryptText,
-    generateKeyPair,
-    encryptWithOpenPGP,
-    decryptWithOpenPGP,
     type SymmetricAlgorithm,
     type AsymmetricAlgorithm
 } from '../utils/encryption-utils';
@@ -81,6 +76,7 @@ export function TextEncryptor() {
         setIsSymLoading(true);
         // Add small delay to allow UI to update (loading spinner)
         setTimeout(async () => {
+            const { encryptText, decryptText } = await import('../utils/encryption-utils');
             const result = symMode === 'encrypt'
                 ? await encryptText(symInput, symAlgorithm, symKey, { drop: rc4Drop })
                 : await decryptText(symInput, symAlgorithm, symKey, { drop: rc4Drop });
@@ -101,6 +97,7 @@ export function TextEncryptor() {
         if (!asymName.trim() || !asymEmail.trim()) return toast.error('Name and Email are required');
         setIsAsymLoading(true);
         try {
+            const { generateKeyPair } = await import('../utils/encryption-utils');
             const keys = await generateKeyPair(asymAlgo as 'RSA' | 'ECC', { name: asymName, email: asymEmail }, asymPassphrase);
             setGeneratedKeys({ pub: keys.publicKey, priv: keys.privateKey });
             toast.success('Key Pair Generated Successfully!');
@@ -116,6 +113,7 @@ export function TextEncryptor() {
 
         setIsAsymLoading(true);
         try {
+            const { encryptWithOpenPGP, decryptWithOpenPGP } = await import('../utils/encryption-utils');
             let result;
             if (asymAction === 'encrypt') {
                 // Encrypt message using Public Key

@@ -65,11 +65,6 @@ export function useLocalStorage<T>(
     }
   }, [key, initialValue]);
 
-  // Listen for changes in other tabs/windows
-  useEffect(() => {
-    setStoredValue(readValue());
-  }, [readValue]);
-
   useEffect(() => {
     const handleStorageChange = () => {
       setStoredValue(readValue());

@@ -620,7 +620,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert between different units of measurement.',
         icon: Calculator,
         href: '/tools/unit-converter',
-        isComingSoon: true,
+        slug: 'unit-converter',
         categoryId: 'calculators',
     },
     {

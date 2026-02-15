@@ -4,7 +4,6 @@ import { TextEncryptor } from '@/features/text-encryptor/components/text-encrypt
 import { notFound } from 'next/navigation';
 
 
-
 const slug = 'text-encryptor';
 
 export const metadata: Metadata = {

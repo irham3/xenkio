@@ -17,6 +17,12 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "5mb",
     },
   },
+  // Fix for Windows: Alias node:crypto to crypto for Turbopack
+  turbopack: {
+    resolveAlias: {
+      'node:crypto': 'crypto',
+    }
+  },
 
   async headers() {
     return [
@@ -50,6 +56,14 @@ const nextConfig: NextConfig = {
         ]
       }
     ]
+  },
+  webpack: (config) => {
+    // Fix for Windows: Alias node:crypto to crypto to avoid invalid filenames with colons
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'node:crypto': 'crypto',
+    };
+    return config;
   }
 };
 

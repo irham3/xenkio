@@ -8,7 +8,7 @@
     "build:worker": "opennextjs-cloudflare build",
     "build": "next build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "deploy": "opennextjs-cloudflare build && node scripts/patch-worker.js && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "start": "next start",
@@ -94,7 +94,7 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "5.9.3",
-    "wrangler": "^4.61.1"
+    "wrangler": "^4.65.0"
   },
   "overrides": {
     "@types/react": "19.2.10",

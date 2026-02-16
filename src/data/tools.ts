@@ -21,7 +21,6 @@ import {
     Cpu,
     FileJson,
     TextCursor,
-    AlignLeft,
     FileEdit,
     Layers,
     Split,
@@ -51,7 +50,6 @@ import {
     ArrowLeftRight,
     Crop,
     Shield,
-    Shuffle,
     LockKeyhole,
     KeyRound,
     Database,
@@ -70,6 +68,8 @@ import {
     DollarSign,
     CalendarDays,
     TrendingUp,
+    Film,
+    Wifi,
 } from 'lucide-react';
 
 export interface ToolData {
@@ -184,6 +184,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'documents',
     },
+    {
+        id: '67',
+        title: 'Sign PDF',
+        description: 'Add your digital signature to PDF documents securely in your browser.',
+        icon: FilePlus,
+        href: '/tools/sign-pdf',
+        slug: 'sign-pdf',
+        isComingSoon: true,
+        categoryId: 'documents',
+    },
 
     // =====================================================
     // IMAGE TOOLS (Tier 1 - High Traffic)
@@ -206,6 +216,16 @@ export const TOOLS: ToolData[] = [
         icon: ImageDown,
         href: '/tools/image-compressor',
         featured: true,
+        categoryId: 'media-images',
+    },
+    {
+        id: '100',
+        title: 'Video Compressor',
+        description: 'Compress MP4, WebM, MOV videos in browser. Reduce file size with adjustable quality.',
+        icon: Film,
+        href: '/tools/video-compressor',
+        slug: 'video-compressor',
+        isNew: true,
         categoryId: 'media-images',
     },
     {
@@ -381,8 +401,8 @@ export const TOOLS: ToolData[] = [
     },
     {
         id: '57',
-        title: 'Event Timer',
-        description: 'Professional countdown timer with custom deadlines and presets.',
+        title: 'Countdown Timer',
+        description: 'Create a countdown timer for any date or event.',
         icon: Clock,
         href: '/tools/timer',
         slug: 'timer',
@@ -542,12 +562,13 @@ export const TOOLS: ToolData[] = [
         isComingSoon: true,
         categoryId: 'text-utilities',
     },
+    // Text Diff removed - redundant with Diff Checker
     {
         id: '43',
-        title: 'Text Diff',
-        description: 'Compare two texts and highlight the differences.',
-        icon: Diff,
-        href: '/tools/text-diff',
+        title: 'Text Cleaner',
+        description: 'Remove extra spaces, duplicate lines, and clean up messy text.',
+        icon: FileEdit,
+        href: '/tools/text-cleaner',
         isComingSoon: true,
         categoryId: 'text-utilities',
     },
@@ -563,21 +584,13 @@ export const TOOLS: ToolData[] = [
     {
         id: '45',
         title: 'Text to Speech',
-        description: 'Convert text to audio speech.',
+        description: 'Convert text to natural-sounding speech audio.',
         icon: Volume2,
         href: '/tools/text-to-speech',
         isComingSoon: true,
         categoryId: 'text-utilities',
     },
-    {
-        id: '46',
-        title: 'Text Formatter',
-        description: 'Format and beautify text with custom spacing and indentation.',
-        icon: AlignLeft,
-        href: '/tools/text-formatter',
-        isComingSoon: true,
-        categoryId: 'text-utilities',
-    },
+    // Text Formatter removed - redundant with specific formatters
 
     // =====================================================
     // WEB & SEO TOOLS
@@ -686,16 +699,7 @@ export const TOOLS: ToolData[] = [
         isComingSoon: true,
         categoryId: 'security-privacy',
     },
-    {
-        id: '69',
-        title: 'Random String Generator',
-        description: 'Generate random strings for tokens, IDs, or testing.',
-        icon: Shuffle,
-        href: '/tools/random-string',
-        slug: 'random-string',
-        isComingSoon: true,
-        categoryId: 'security-privacy',
-    },
+    // Random String merged into Password Generator (similar intent)
     {
         id: '70',
         title: 'Text Encryptor',
@@ -714,6 +718,50 @@ export const TOOLS: ToolData[] = [
         slug: 'hmac-generator',
         isComingSoon: true,
         categoryId: 'security-privacy',
+    },
+    {
+        id: '93',
+        title: 'Image Steganography',
+        description: 'Hide secret text messages inside images invisibly.',
+        icon: Lock,
+        href: '/tools/image-steganography',
+        slug: 'image-steganography',
+        isComingSoon: true,
+        categoryId: 'security-privacy',
+    },
+
+    // =====================================================
+    // NETWORK & UTILITY (High Traffic)
+    // =====================================================
+    {
+        id: '94',
+        title: 'My IP Address',
+        description: 'Check your public IP address, location, and ISP details.',
+        icon: Globe2,
+        href: '/tools/my-ip',
+        slug: 'my-ip',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '95',
+        title: 'Internet Speed Test',
+        description: 'Test your internet connection speed (download, upload, ping).',
+        icon: Activity,
+        href: '/tools/speed-test',
+        slug: 'speed-test',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '96',
+        title: 'WiFi QR Code Generator',
+        description: 'Create QR codes to share WiFi access without typing passwords.',
+        icon: Wifi,
+        href: '/tools/wifi-qr-code',
+        slug: 'wifi-qr-code',
+        isComingSoon: true,
+        categoryId: 'media-images',
     },
 
     // =====================================================

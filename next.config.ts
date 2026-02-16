@@ -16,14 +16,41 @@ const nextConfig: NextConfig = {
     }
   },
 
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     // Fix for Windows: Alias node:crypto to crypto to avoid invalid filenames with colons
     config.resolve.alias = {
       ...config.resolve.alias,
       'node:crypto': 'crypto',
     };
+
+    // Handle @ffmpeg/ffmpeg worker creation (uses import.meta.url)
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+      };
+    }
+
     return config;
-  }
+  },
+  async headers() {
+    return [
+      {
+        source: '/tools/video-compressor',
+        headers: [
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'require-corp',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

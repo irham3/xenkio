@@ -1,6 +1,8 @@
 
 import { MetadataRoute } from 'next';
 
+export const dynamic = 'force-static';
+
 export default function manifest(): MetadataRoute.Manifest {
     return {
         name: 'Xenkio - All-in-One Online Productivity Tools',
@@ -12,14 +14,19 @@ export default function manifest(): MetadataRoute.Manifest {
         theme_color: '#000000',
         icons: [
             {
-                src: '/android-chrome-192x192.png',
+                src: '/icon.svg',
                 sizes: '192x192',
-                type: 'image/png',
+                type: 'image/svg+xml',
             },
             {
-                src: '/android-chrome-512x512.png',
+                src: '/icon.svg',
                 sizes: '512x512',
-                type: 'image/png',
+                type: 'image/svg+xml',
+            },
+            {
+                src: '/icon.svg',
+                sizes: 'any',
+                type: 'image/svg+xml',
             },
         ],
     };

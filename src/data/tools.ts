@@ -717,7 +717,8 @@ export const TOOLS: ToolData[] = [
         icon: KeyRound,
         href: '/tools/hmac-generator',
         slug: 'hmac-generator',
-        isComingSoon: true,
+        featured: true,
+        isNew: true,
         categoryId: 'security-privacy',
     },
     {

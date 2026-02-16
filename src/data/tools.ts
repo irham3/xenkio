@@ -728,7 +728,7 @@ export const TOOLS: ToolData[] = [
         icon: Lock,
         href: '/tools/image-steganography',
         slug: 'image-steganography',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'security-privacy',
     },
 

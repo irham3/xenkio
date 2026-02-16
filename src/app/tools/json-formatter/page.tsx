@@ -23,7 +23,7 @@ export default function JsonFormatterPage() {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "JSON Formatter",
-        "applicationCategory": "UtilitiesApplication",
+        "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Any",
         "offers": {
             "@type": "Offer",

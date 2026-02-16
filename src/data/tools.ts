@@ -379,7 +379,6 @@ export const TOOLS: ToolData[] = [
         icon: Braces,
         href: '/tools/json-formatter',
         featured: true,
-        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -717,7 +716,8 @@ export const TOOLS: ToolData[] = [
         icon: KeyRound,
         href: '/tools/hmac-generator',
         slug: 'hmac-generator',
-        isComingSoon: true,
+        featured: true,
+        isNew: true,
         categoryId: 'security-privacy',
     },
     {
@@ -727,7 +727,7 @@ export const TOOLS: ToolData[] = [
         icon: Lock,
         href: '/tools/image-steganography',
         slug: 'image-steganography',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'security-privacy',
     },
 
@@ -770,12 +770,12 @@ export const TOOLS: ToolData[] = [
     // =====================================================
     {
         id: '72',
-        title: 'SQL Formatter',
-        description: 'Format and beautify SQL queries with syntax highlighting.',
+        title: 'JSON Formatter',
+        description: 'Format and beautify JSON data with syntax highlighting and validation.',
         icon: Database,
-        href: '/tools/sql-formatter',
-        slug: 'sql-formatter',
-        isComingSoon: true,
+        href: '/tools/json-formatter',
+        slug: 'json-formatter',
+        isNew: true,
         categoryId: 'developer-tools',
     },
 

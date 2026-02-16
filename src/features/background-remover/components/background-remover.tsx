@@ -298,7 +298,7 @@ export function BackgroundRemover() {
                                     />
 
                                     {activeImage.status === 'done' && activeImage.resultUrl ? (
-                                        <div className="relative w-full h-full z-10 flex items-center justify-center p-4">
+                                        <div className="relative w-full h-full z-10 flex items-center justify-center">
                                             <CompareSlider
                                                 original={activeImage.originalUrl}
                                                 modified={activeImage.resultUrl}

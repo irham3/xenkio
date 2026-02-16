@@ -169,9 +169,12 @@ export function ImageConverterClient() {
     }
 
     const convertImage = async (image: ImageFile): Promise<{ blob: Blob, extension: string }> => {
+        // Dynamically import conversion utils to keep initial bundle small
+        const { convertToBmp, convertToIco, convertToTiff, convertToGif, convertToSvg } = await import('@/features/image-converter/utils/conversion-utils');
+
         return new Promise((resolve, reject) => {
             const img = document.createElement('img');
-            img.onload = () => {
+            img.onload = async () => {
                 const canvas = document.createElement("canvas");
                 canvas.width = img.naturalWidth;
                 canvas.height = img.naturalHeight;
@@ -184,60 +187,116 @@ export function ImageConverterClient() {
 
                 let mimeType = "image/jpeg";
                 let extension = "jpg";
+                let blob: Blob | null = null;
 
-                switch (options.targetFormat) {
-                    case "png":
-                        mimeType = "image/png";
-                        extension = "png";
-                        break;
-                    case "webp":
-                        mimeType = "image/webp";
-                        extension = "webp";
-                        break;
-                    case "bmp":
-                        mimeType = "image/bmp"; // Not widely supported in toBlob but might work in safe environments or default to png
-                        extension = "bmp";
-                        break;
-                    case "ico":
-                        mimeType = "image/x-icon"; // Pseudo-support, browsers often save as PNG with .ico extension or similar
-                        extension = "ico";
-                        break;
-                    case "svg":
-                        // Naive SVG export/conversion not directly supported by canvas toBlob for raster images.
-                        // Ideally we'd just pass through if source is SVG, or warn. 
-                        // But if we drew a raster to canvas, we can't really make it a vector SVG easily without a tracer.
-                        // For this tool, we might fallback or skip if target is SVG but source is raster.
-                        // HOWEVER, often 'image converter' implies raster-to-raster. 
-                        // Let's assume user wants to convert valid input TO these formats if browser supports.
-                        // SVG target from Canvas is tricky. 
-                        // For now let's default to jpeg if browser doesn't support specific mime request or if logic requires library.
-                        // NOTE: To properly support HEIC/TIFF/SVG export we need libraries or server-side.
-                        // Canvas toBlob usually only supports png, jpeg, webp.
-                        // We will implement what we can natively.
-                        mimeType = "image/jpeg";
-                        extension = "jpg";
-                        break;
-                    case "gif":
-                        mimeType = "image/gif";
-                        extension = "gif";
-                        break;
-                    default:
-                        mimeType = "image/jpeg";
-                        extension = "jpg";
-                        break;
-                }
+                try {
+                    switch (options.targetFormat) {
+                        case "jpeg":
+                            mimeType = "image/jpeg";
+                            extension = "jpg";
+                            // Standard canvas conversion
+                            canvas.toBlob((b) => {
+                                if (b) resolve({ blob: b, extension });
+                                else reject(new Error("Conversion failed"));
+                            }, mimeType, options.quality);
+                            return;
+                        case "png":
+                            mimeType = "image/png";
+                            extension = "png";
+                            // Standard canvas conversion
+                            canvas.toBlob((b) => {
+                                if (b) resolve({ blob: b, extension });
+                                else reject(new Error("Conversion failed"));
+                            }, mimeType);
+                            return;
+                        case "webp":
+                            mimeType = "image/webp";
+                            extension = "webp";
+                            // Standard canvas conversion
+                            canvas.toBlob((b) => {
+                                if (b) resolve({ blob: b, extension });
+                                else reject(new Error("Conversion failed"));
+                            }, mimeType, options.quality);
+                            return;
+                        case "bmp":
+                            blob = await convertToBmp(ctx.getImageData(0, 0, canvas.width, canvas.height));
+                            extension = "bmp";
+                            resolve({ blob, extension });
+                            return;
+                        case "ico":
+                            blob = await convertToIco(canvas);
+                            extension = "ico";
+                            resolve({ blob, extension });
+                            return;
+                        case "svg":
+                            // Use imagetracerjs for true vectorization
+                            {
+                                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-                // NOTE: Canvas API only guarantees PNG, JPEG, and usually WebP. 
-                // GIF, BMP, TIFF, HEIC write support is very limited/non-existent in standard toBlob.
-                // We'll proceed with basic implementation. If the browser supports it, it works.
-                // Otherwise it typically falls back to PNG (or fails). 
-                canvas.toBlob((blob) => {
-                    if (blob) {
-                        resolve({ blob, extension });
-                    } else {
-                        reject(new Error("Conversion failed"));
+                                // Map quality (0.1 - 1.0) to color count (8 - 128)
+                                const colorCount = Math.max(8, Math.ceil(options.quality * 128));
+
+                                const tracingOptions: Record<string, unknown> = {
+                                    // Tracing - smooth curves
+                                    ltres: 1,
+                                    qtres: 1,
+                                    pathomit: 0, // Do NOT remove any paths — prevents white spots/gaps in solid areas
+                                    rightangleenhance: true,
+
+                                    // Color quantization
+                                    numberofcolors: colorCount,
+                                    colorsampling: 2, // Deterministic sampling
+                                    mincolorratio: 0,
+                                    colorquantcycles: 6, // More cycles = better color convergence, fewer stray colors
+
+                                    // SVG rendering
+                                    scale: 1,
+                                    roundcoords: 2,
+                                    viewbox: true,
+                                    desc: false,
+                                    lcpr: 0,
+                                    qcpr: 0,
+
+                                    // Blur preprocessing — slight blur helps merge anti-aliased edge pixels
+                                    blurradius: 1,
+                                    blurdelta: 20
+                                };
+
+                                blob = await convertToSvg(imageData, tracingOptions);
+                            }
+                            extension = "svg";
+                            resolve({ blob, extension });
+                            return;
+                        case "gif":
+                            // Use gif.js
+                            blob = await convertToGif(canvas, options.quality);
+                            extension = "gif";
+                            resolve({ blob, extension });
+                            return;
+                        case "tiff":
+                            // Use UTIF
+                            blob = await convertToTiff(ctx.getImageData(0, 0, canvas.width, canvas.height));
+                            extension = "tiff";
+                            resolve({ blob, extension });
+                            return;
+                        case "avif":
+                            mimeType = "image/avif";
+                            extension = "avif";
+                            // Standard canvas conversion
+                            canvas.toBlob((b) => {
+                                if (b) resolve({ blob: b, extension });
+                                else reject(new Error("Conversion failed"));
+                            }, mimeType, options.quality);
+                            return;
+                        case "heic":
+                            // Fallback or error since we can't write HEIC easily
+                            reject(new Error("HEIC output conversion is not supported in this browser version."));
+                            return;
                     }
-                }, mimeType, (options.targetFormat === 'jpeg' || options.targetFormat === 'webp') ? options.quality : undefined);
+
+                } catch (e) {
+                    reject(e);
+                }
             };
             img.onerror = () => reject(new Error("Failed to load image for conversion"));
             img.src = image.preview;
@@ -300,6 +359,7 @@ export function ImageConverterClient() {
                     isDragActive={isDragActive}
                     getRootProps={getRootProps}
                     getInputProps={getInputProps}
+                    description="Support JPG, PNG, WebP, GIF, BMP, ICO, SVG, HEIC, AVIF, TIFF"
                 />
 
                 {/* Features Section */}

@@ -1,56 +1,40 @@
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import type { NextConfig } from "next";
 
-initOpenNextCloudflareForDev();
-
 const nextConfig: NextConfig = {
-  // Cloudflare Workers optimization
-  // Disable image optimization (use Cloudflare Images in production)
+  // Static export for Cloudflare Pages deployment
+  output: "export",
+
+  // Disable image optimization (required for static export)
   images: {
     unoptimized: true,
   },
 
-  // Enable experimental features for better Cloudflare compatibility
-  experimental: {
-    // Enable server actions
-    serverActions: {
-      bodySizeLimit: "5mb",
-    },
+  // Fix for Windows: Alias node:crypto to crypto for Turbopack
+  turbopack: {
+    resolveAlias: {
+      'node:crypto': 'crypto',
+    }
   },
 
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(self), geolocation=()'
-          }
-        ]
-      }
-    ]
-  }
+  webpack: (config, { isServer }) => {
+    // Fix for Windows: Alias node:crypto to crypto to avoid invalid filenames with colons
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'node:crypto': 'crypto',
+    };
+
+    // Handle @ffmpeg/ffmpeg worker creation (uses import.meta.url)
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+      };
+    }
+
+    return config;
+  },
+
 };
 
 export default nextConfig;

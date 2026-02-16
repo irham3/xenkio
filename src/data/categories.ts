@@ -26,7 +26,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Merge, split, compress, and convert PDF and document files',
         icon: FileText,
         color: '#FFFFFF',
-        toolCount: 7,
+        toolCount: 8,
     },
     {
         id: 'media-images',

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import UnixTimestampClient from './client';
 import { Clock } from 'lucide-react';
 
-export const runtime = 'edge';
+
 
 export const metadata: Metadata = {
   title: 'Unix Timestamp Converter | Epoch Time to Date Online Tool',

@@ -1,4 +1,4 @@
-export const runtime = 'edge';
+
 
 import { ImageToPdfClient } from "./client"
 import { Metadata } from "next"

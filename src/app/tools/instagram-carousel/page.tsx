@@ -1,15 +1,15 @@
-export const runtime = 'edge';
+
 
 import type { Metadata } from 'next';
 import { InstagramCarouselClient } from './client';
 
 
 export const metadata: Metadata = {
-    title: 'Seamless Scroll Studio | Instagram Carousel Maker',
+    title: 'Collage Maker | Instagram Carousel Maker',
     description: 'Design stunning, seamless panoramic carousels for Instagram. The ultimate free tool to create continuous, swipeable layouts that wow your audience.',
     keywords: ['instagram carousel', 'seamless scroll', 'panorama maker', 'scrl alternative', 'instagram design', 'content creator tools'],
     openGraph: {
-        title: 'Seamless Scroll Studio',
+        title: 'Collage Maker',
         description: 'Create premium seamless carousels for Instagram. Free, pro-level design tool.',
         type: 'website',
     }
@@ -19,7 +19,7 @@ export default function InstagramCarouselPage() {
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "Seamless Scroll Studio",
+        "name": "Collage Maker",
         "applicationCategory": "DesignApplication",
         "operatingSystem": "Any",
         "offers": {

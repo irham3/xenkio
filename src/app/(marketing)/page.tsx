@@ -1,4 +1,4 @@
-export const runtime = 'edge';
+
 
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -17,13 +17,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Xenkio - Free Online Productivity Tools",
     description: "Your ultimate free toolkit for productivity. No sign-up required.",
-    url: "https://xenkio.com",
+    url: "https://xenkio.pages.dev",
     siteName: "Xenkio",
     locale: "en_US",
     type: "website",
   },
   alternates: {
-    canonical: "https://xenkio.com",
+    canonical: "https://xenkio.pages.dev",
   },
 };
 
@@ -33,14 +33,14 @@ export default function Home() {
     "@type": "CollectionPage",
     "name": "Xenkio Tools Directory",
     "description": "A comprehensive collection of free online productivity tools including PDF converters, image editing tools, and developer utilities.",
-    "url": "https://xenkio.com",
+    "url": "https://xenkio.pages.dev",
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": CATEGORIES.map((category, index) => ({
         "@type": "ListItem",
         "position": index + 1,
         "name": category.name,
-        "url": `https://xenkio.com/tools?category=${category.id}`
+        "url": `https://xenkio.pages.dev/tools?category=${category.id}`
       }))
     }
   };
@@ -106,6 +106,7 @@ export default function Home() {
                     href={tool.href}
                     isNew={tool.isNew}
                     isPremium={tool.isPremium}
+                    isComingSoon={tool.isComingSoon}
                   />
                 ))}
               </div>

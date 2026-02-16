@@ -67,7 +67,7 @@ export function useSpeechToText(options: SpeechToTextOptions = {}) {
             } else if (event.error === 'aborted') {
                 return;
             } else if (event.error === 'network') {
-                errorMessage = 'Network error. Please check your internet connection.';
+                errorMessage = 'Unable to connect to the speech recognition service. Please check your internet connection and try again. If you are on a corporate network or VPN, speech recognition may be blocked.';
             } else {
                 errorMessage = `Error: ${event.error}`;
             }

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { PasswordConfig, PasswordStrength, PasswordHistoryItem } from '../types';
 import { generatePassword, calculateStrength } from '../lib/password-utils';
 
@@ -18,33 +18,37 @@ const DEFAULT_CONFIG: PasswordConfig = {
 
 export function usePasswordGenerator() {
   const [config, setConfig] = useState<PasswordConfig>(DEFAULT_CONFIG);
-  
-  // Initialize state with generated values to avoid cascading render on mount
-  const [initialData] = useState(() => {
-    const pwd = generatePassword(DEFAULT_CONFIG);
-    return {
-      password: pwd,
-      strength: calculateStrength(pwd),
-      historyItem: {
+
+  // Initialize with empty/default values to prevent hydration mismatch
+  const [password, setPassword] = useState('');
+  const [strength, setStrength] = useState<PasswordStrength>({ score: 0, level: 'weak', feedback: [] });
+  const [history, setHistory] = useState<PasswordHistoryItem[]>([]);
+
+  // Generate initial password on client-side only
+  useEffect(() => {
+    // Generate initial password
+    // Generate initial password
+    // Use setTimeout to avoid synchronous state update warning during effect execution
+    setTimeout(() => {
+      const pwd = generatePassword(DEFAULT_CONFIG);
+      setPassword(pwd);
+      setStrength(calculateStrength(pwd));
+
+      // Initial history item
+      setHistory([{
         id: crypto.randomUUID(),
         password: pwd,
         generatedAt: Date.now(),
         copied: false
-      } as PasswordHistoryItem
-    };
-  });
-
-  const [password, setPassword] = useState(initialData.password);
-  const [strength, setStrength] = useState<PasswordStrength>(initialData.strength);
-  const [history, setHistory] = useState<PasswordHistoryItem[]>([initialData.historyItem]);
-  
-
+      }]);
+    }, 0);
+  }, []); // Run once on mount
 
   const generateWithConfig = useCallback((targetConfig: PasswordConfig) => {
     const newPassword = generatePassword(targetConfig);
     setPassword(newPassword);
     setStrength(calculateStrength(newPassword));
-    
+
     setHistory(prev => {
       const newItem: PasswordHistoryItem = {
         id: crypto.randomUUID(),

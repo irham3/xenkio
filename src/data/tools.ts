@@ -21,7 +21,6 @@ import {
     Cpu,
     FileJson,
     TextCursor,
-    AlignLeft,
     FileEdit,
     Layers,
     Split,
@@ -45,6 +44,32 @@ import {
     Timer,
     FilePlus,
     Mic,
+    Receipt,
+    Wand2,
+    GraduationCap,
+    ArrowLeftRight,
+    Crop,
+    Shield,
+    LockKeyhole,
+    KeyRound,
+    Database,
+    Box,
+    Square,
+    Triangle,
+    Type,
+    Eye,
+    LayoutGrid,
+    ListFilter,
+    Share2,
+    Twitter,
+    Link2,
+    Globe2,
+    Server,
+    DollarSign,
+    CalendarDays,
+    TrendingUp,
+    Film,
+    Wifi,
 } from 'lucide-react';
 
 export interface ToolData {
@@ -55,6 +80,7 @@ export interface ToolData {
     href: string;
     featured?: boolean;
     isNew?: boolean;
+    isComingSoon?: boolean;
     isPremium?: boolean;
     categoryId: string;
     slug?: string;
@@ -114,14 +140,18 @@ export const TOOLS: ToolData[] = [
         description: 'Reduce PDF file size while maintaining quality.',
         icon: FileOutput,
         href: '/tools/pdf-compressor',
+        slug: 'pdf-compressor',
+        isNew: true,
         categoryId: 'documents',
     },
     {
         id: '7',
         title: 'ZIP Extractor',
-        description: 'Extract ZIP and RAR archive files online.',
+        description: 'Extract ZIP archive files online. View contents, download individual files, or save everything instantly.',
         icon: Archive,
         href: '/tools/zip-extractor',
+        slug: 'zip-extractor',
+        isNew: true,
         categoryId: 'documents',
     },
     {
@@ -144,10 +174,41 @@ export const TOOLS: ToolData[] = [
         categoryId: 'documents',
         isNew: true,
     },
+    {
+        id: '62',
+        title: 'Invoice Generator',
+        description: 'Create professional invoices instantly. Add items, taxes, discounts, and download as PDF.',
+        icon: Receipt,
+        href: '/tools/invoice-generator',
+        slug: 'invoice-generator',
+        isNew: true,
+        categoryId: 'documents',
+    },
+    {
+        id: '67',
+        title: 'Sign PDF',
+        description: 'Add your digital signature to PDF documents securely in your browser.',
+        icon: FilePlus,
+        href: '/tools/sign-pdf',
+        slug: 'sign-pdf',
+        isComingSoon: true,
+        categoryId: 'documents',
+    },
 
     // =====================================================
     // IMAGE TOOLS (Tier 1 - High Traffic)
     // =====================================================
+    {
+        id: '63',
+        title: 'Remove Background',
+        description: 'Remove image backgrounds instantly with high-precision AI. Download transparent PNGs.',
+        icon: Wand2,
+        href: '/tools/background-remover',
+        slug: 'background-remover',
+        featured: true,
+        isNew: true,
+        categoryId: 'media-images',
+    },
     {
         id: '8',
         title: 'Image Compressor',
@@ -155,6 +216,16 @@ export const TOOLS: ToolData[] = [
         icon: ImageDown,
         href: '/tools/image-compressor',
         featured: true,
+        categoryId: 'media-images',
+    },
+    {
+        id: '100',
+        title: 'Video Compressor',
+        description: 'Compress MP4, WebM, MOV videos in browser. Reduce file size with adjustable quality.',
+        icon: Film,
+        href: '/tools/video-compressor',
+        slug: 'video-compressor',
+        isNew: true,
         categoryId: 'media-images',
     },
     {
@@ -181,6 +252,7 @@ export const TOOLS: ToolData[] = [
         description: 'Create favicon.ico files for your website from any image.',
         icon: FileImage,
         href: '/tools/favicon-generator',
+        slug: 'favicon-generator',
         categoryId: 'media-images',
     },
     {
@@ -191,17 +263,17 @@ export const TOOLS: ToolData[] = [
         href: '/tools/image-to-base64',
         categoryId: 'media-images',
     },
-    {
-        id: '14',
-        title: 'SVG to PNG',
-        description: 'Convert SVG vector graphics to PNG raster images.',
-        icon: Layers,
-        href: '/tools/svg-to-png',
-        categoryId: 'media-images',
-    },
+    // {
+    //     id: '14',
+    //     title: 'SVG to PNG',
+    //     description: 'Convert SVG vector graphics to PNG raster images.',
+    //     icon: Layers,
+    //     href: '/tools/svg-to-png',
+    //     categoryId: 'media-images',
+    // },
     {
         id: '15',
-        title: 'Seamless Scroll Studio',
+        title: 'Collage Maker',
         description: 'Create premium, seamless panoramic carousels for Instagram. SCRL-style editor.',
         icon: GalleryHorizontal,
         href: '/tools/instagram-carousel',
@@ -263,9 +335,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '21',
         title: 'UUID Generator',
-        description: 'Generate unique UUIDs/GUIDs in v1, v4, and v5 formats.',
+        description: 'Generate unique UUIDs/GUIDs in v1 through v7 formats.',
         icon: Cpu,
         href: '/tools/uuid-generator',
+        slug: 'uuid-generator',
+        isNew: true,
         categoryId: 'security-privacy',
     },
     {
@@ -286,11 +360,12 @@ export const TOOLS: ToolData[] = [
     },
     {
         id: '24',
-        title: 'JWT Decoder',
-        description: 'Decode and inspect JWT tokens without verification.',
+        title: 'JWT Encoder & Decoder',
+        description: 'Decode, verify, and generate JSON Web Tokens (JWT) directly in your browser.',
         icon: Key,
-        href: '/tools/jwt-decoder',
+        href: '/tools/jwt-encoder-decoder',
         categoryId: 'security-privacy',
+        isNew: true,
     },
 
 
@@ -304,6 +379,7 @@ export const TOOLS: ToolData[] = [
         icon: Braces,
         href: '/tools/json-formatter',
         featured: true,
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -312,6 +388,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert JSON data to CSV format for spreadsheets.',
         icon: FileJson,
         href: '/tools/json-to-csv',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -323,11 +400,43 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
+        id: '57',
+        title: 'Countdown Timer',
+        description: 'Create a countdown timer for any date or event.',
+        icon: Clock,
+        href: '/tools/timer',
+        slug: 'timer',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '61',
+        title: 'Pomodoro Timer',
+        description: 'Boost focus and productivity with customizable work intervals and breaks.',
+        icon: Timer,
+        href: '/tools/pomodoro-timer',
+        slug: 'pomodoro-timer',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '33',
+        title: 'Markdown Editor',
+        description: 'Edit and preview Markdown with live rendering.',
+        icon: FileEdit,
+        href: '/tools/markdown-editor',
+        slug: 'markdown-editor',
+        categoryId: 'developer-tools',
+        isNew: true,
+    },
+    {
         id: '29',
         title: 'CSS Minifier',
         description: 'Minify CSS code to reduce file size.',
         icon: FileCode,
         href: '/tools/css-minifier',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -336,6 +445,7 @@ export const TOOLS: ToolData[] = [
         description: 'Minify JavaScript code to reduce file size.',
         icon: FileCode,
         href: '/tools/js-minifier',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
     {
@@ -355,14 +465,6 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
-        id: '33',
-        title: 'Markdown Editor',
-        description: 'Edit and preview Markdown with live rendering.',
-        icon: FileEdit,
-        href: '/tools/markdown-editor',
-        categoryId: 'developer-tools',
-    },
-    {
         id: '34',
         title: 'Diff Checker',
         description: 'Compare two texts or code snippets and highlight differences.',
@@ -376,6 +478,7 @@ export const TOOLS: ToolData[] = [
         description: 'Encode and decode HTML entities.',
         icon: Code2,
         href: '/tools/html-entity-encoder',
+        isComingSoon: true,
         categoryId: 'developer-tools',
     },
 
@@ -397,6 +500,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate harmonious color palettes for your designs.',
         icon: Paintbrush,
         href: '/tools/color-palette',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -405,6 +509,7 @@ export const TOOLS: ToolData[] = [
         description: 'Create beautiful CSS gradients with visual editor.',
         icon: Layers,
         href: '/tools/gradient-generator',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
     {
@@ -413,6 +518,7 @@ export const TOOLS: ToolData[] = [
         description: 'Check color contrast ratio for accessibility (WCAG).',
         icon: Contrast,
         href: '/tools/contrast-checker',
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
 
@@ -435,6 +541,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate placeholder text in various formats and lengths.',
         icon: FileEdit,
         href: '/tools/lorem-ipsum',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -443,6 +550,7 @@ export const TOOLS: ToolData[] = [
         description: 'Count words, characters, sentences, and paragraphs.',
         icon: Calculator,
         href: '/tools/word-counter',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -451,14 +559,17 @@ export const TOOLS: ToolData[] = [
         description: 'Convert text between uppercase, lowercase, title case, and more.',
         icon: TextCursor,
         href: '/tools/case-converter',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
+    // Text Diff removed - redundant with Diff Checker
     {
         id: '43',
-        title: 'Text Diff',
-        description: 'Compare two texts and highlight the differences.',
-        icon: Diff,
-        href: '/tools/text-diff',
+        title: 'Text Cleaner',
+        description: 'Remove extra spaces, duplicate lines, and clean up messy text.',
+        icon: FileEdit,
+        href: '/tools/text-cleaner',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -467,24 +578,19 @@ export const TOOLS: ToolData[] = [
         description: 'Generate URL-friendly slugs from text.',
         icon: Link,
         href: '/tools/slug-generator',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
         id: '45',
         title: 'Text to Speech',
-        description: 'Convert text to audio speech.',
+        description: 'Convert text to natural-sounding speech audio.',
         icon: Volume2,
         href: '/tools/text-to-speech',
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
-    {
-        id: '46',
-        title: 'Text Formatter',
-        description: 'Format and beautify text with custom spacing and indentation.',
-        icon: AlignLeft,
-        href: '/tools/text-formatter',
-        categoryId: 'text-utilities',
-    },
+    // Text Formatter removed - redundant with specific formatters
 
     // =====================================================
     // WEB & SEO TOOLS
@@ -495,6 +601,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate SEO-optimized meta tags for your website.',
         icon: Globe,
         href: '/tools/meta-tag-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -503,6 +610,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate XML sitemaps for search engines.',
         icon: Map,
         href: '/tools/sitemap-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -511,6 +619,7 @@ export const TOOLS: ToolData[] = [
         description: 'Create robots.txt files for search engine crawlers.',
         icon: Bot,
         href: '/tools/robots-txt-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
 
@@ -524,6 +633,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert between different units of measurement.',
         icon: Calculator,
         href: '/tools/unit-converter',
+        slug: 'unit-converter',
         categoryId: 'calculators',
     },
     {
@@ -532,6 +642,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate percentages, increases, and decreases.',
         icon: Percent,
         href: '/tools/percentage-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -540,6 +651,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate exact age from birth date.',
         icon: Calendar,
         href: '/tools/age-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -548,6 +660,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate Body Mass Index and health status.',
         icon: Activity,
         href: '/tools/bmi-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -556,32 +669,340 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate loan payments, interest, and amortization.',
         icon: Coins,
         href: '/tools/loan-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
 
     // =====================================================
-    // EXTRA TOOLS (Already Built)
+    // IMAGE TOOLS - Tambahan
     // =====================================================
     {
-        id: '57',
-        title: 'Event Timer',
-        description: 'Professional countdown timer with custom deadlines and presets.',
-        icon: Clock,
-        href: '/tools/timer',
-        slug: 'timer',
+        id: '66',
+        title: 'Image Crop & Rotate',
+        description: 'Crop, rotate, and resize images with custom aspect ratios or freehand selection.',
+        icon: Crop,
+        href: '/tools/image-cropper',
+        slug: 'image-cropper',
+        categoryId: 'media-images',
         isNew: true,
-        categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // SECURITY & PRIVACY - Tambahan
+    // =====================================================
+    {
+        id: '68',
+        title: 'Password Strength Checker',
+        description: 'Analyze password security and get improvement suggestions.',
+        icon: Shield,
+        href: '/tools/password-strength',
+        slug: 'password-strength',
+        featured: true,
+        isNew: true,
+        categoryId: 'security-privacy',
+    },
+    // Random String merged into Password Generator (similar intent)
+    {
+        id: '70',
+        title: 'Text Encryptor',
+        description: 'Securely encrypt and decrypt text using AES, DES, Rabbit, RC4, and customized RC4Drop algorithms.',
+        icon: LockKeyhole,
+        href: '/tools/text-encryptor',
+        slug: 'text-encryptor',
+        categoryId: 'security-privacy',
     },
     {
-        id: '61',
-        title: 'Pomodoro Timer',
-        description: 'Boost focus and productivity with customizable work intervals and breaks.',
-        icon: Timer,
-        href: '/tools/pomodoro-timer',
-        slug: 'pomodoro-timer',
-        isNew: true,
-        featured: true,
+        id: '71',
+        title: 'HMAC Generator',
+        description: 'Generate HMAC signatures for API authentication and data verification.',
+        icon: KeyRound,
+        href: '/tools/hmac-generator',
+        slug: 'hmac-generator',
+        isComingSoon: true,
+        categoryId: 'security-privacy',
+    },
+    {
+        id: '46',
+        title: 'Image Steganography',
+        description: 'Hide secret text messages inside images invisibly.',
+        icon: Lock,
+        href: '/tools/image-steganography',
+        slug: 'image-steganography',
+        isComingSoon: true,
+        categoryId: 'security-privacy',
+    },
+
+    // =====================================================
+    // NETWORK & UTILITY (High Traffic)
+    // =====================================================
+    {
+        id: '94',
+        title: 'My IP Address',
+        description: 'Check your public IP address, location, and ISP details.',
+        icon: Globe2,
+        href: '/tools/my-ip',
+        slug: 'my-ip',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '95',
+        title: 'Internet Speed Test',
+        description: 'Test your internet connection speed (download, upload, ping).',
+        icon: Activity,
+        href: '/tools/speed-test',
+        slug: 'speed-test',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '96',
+        title: 'WiFi QR Code Generator',
+        description: 'Create QR codes to share WiFi access without typing passwords.',
+        icon: Wifi,
+        href: '/tools/wifi-qr-code',
+        slug: 'wifi-qr-code',
+        isComingSoon: true,
+        categoryId: 'media-images',
+    },
+
+    // =====================================================
+    // DEVELOPER TOOLS - Tambahan
+    // =====================================================
+    {
+        id: '72',
+        title: 'SQL Formatter',
+        description: 'Format and beautify SQL queries with syntax highlighting.',
+        icon: Database,
+        href: '/tools/sql-formatter',
+        slug: 'sql-formatter',
+        isComingSoon: true,
         categoryId: 'developer-tools',
+    },
+
+    // =====================================================
+    // DESIGN TOOLS - Tambahan
+    // =====================================================
+    {
+        id: '73',
+        title: 'Box Shadow Generator',
+        description: 'Create CSS box shadows with visual editor and copy code.',
+        icon: Box,
+        href: '/tools/box-shadow',
+        slug: 'box-shadow',
+        isComingSoon: true,
+        categoryId: 'design-tools',
+    },
+    {
+        id: '74',
+        title: 'Border Radius Generator',
+        description: 'Generate custom CSS border radius with live preview.',
+        icon: Square,
+        href: '/tools/border-radius',
+        slug: 'border-radius',
+        isComingSoon: true,
+        categoryId: 'design-tools',
+    },
+    {
+        id: '75',
+        title: 'CSS Triangle Generator',
+        description: 'Create CSS triangles and arrows without images.',
+        icon: Triangle,
+        href: '/tools/css-triangle',
+        slug: 'css-triangle',
+        isComingSoon: true,
+        categoryId: 'design-tools',
+    },
+    {
+        id: '76',
+        title: 'Font Pairing Tool',
+        description: 'Find perfect Google Font combinations for your designs.',
+        icon: Type,
+        href: '/tools/font-pairing',
+        slug: 'font-pairing',
+        isComingSoon: true,
+        categoryId: 'design-tools',
+    },
+    {
+        id: '77',
+        title: 'Color Blindness Simulator',
+        description: 'Test your designs for different types of color blindness.',
+        icon: Eye,
+        href: '/tools/color-blindness',
+        slug: 'color-blindness',
+        isComingSoon: true,
+        categoryId: 'design-tools',
+    },
+    {
+        id: '78',
+        title: 'CSS Flexbox Generator',
+        description: 'Visual flexbox layout generator with code export.',
+        icon: LayoutGrid,
+        href: '/tools/flexbox-generator',
+        slug: 'flexbox-generator',
+        isComingSoon: true,
+        categoryId: 'design-tools',
+    },
+
+    // =====================================================
+    // TEXT UTILITIES - Tambahan
+    // =====================================================
+    {
+        id: '79',
+        title: 'Text Reverser',
+        description: 'Reverse text, words, or letters. Perfect for creating mirror text.',
+        icon: ArrowLeftRight,
+        href: '/tools/text-reverser',
+        slug: 'text-reverser',
+        isComingSoon: true,
+        categoryId: 'text-utilities',
+    },
+    {
+        id: '80',
+        title: 'Duplicate Line Remover',
+        description: 'Remove duplicate lines from text while preserving order.',
+        icon: ListFilter,
+        href: '/tools/duplicate-remover',
+        slug: 'duplicate-remover',
+        isComingSoon: true,
+        categoryId: 'text-utilities',
+    },
+
+    // =====================================================
+    // WEB & SEO - Tambahan
+    // =====================================================
+    {
+        id: '93',
+        title: 'URL Encoder / Decoder',
+        description: 'Encode or decode URLs. Convert special characters to safer URL formats.',
+        icon: Link2,
+        href: '/tools/url-encoder',
+        slug: 'url-encoder',
+        categoryId: 'web-seo',
+        isNew: true,
+    },
+    {
+        id: '81',
+        title: 'Open Graph Generator',
+        description: 'Generate Open Graph tags for social media sharing.',
+        icon: Share2,
+        href: '/tools/og-generator',
+        slug: 'og-generator',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '82',
+        title: 'Schema Markup Generator',
+        description: 'Create JSON-LD structured data for rich search results.',
+        icon: Code2,
+        href: '/tools/schema-generator',
+        slug: 'schema-generator',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '83',
+        title: 'Twitter Card Generator',
+        description: 'Generate Twitter Card meta tags for better link previews.',
+        icon: Twitter,
+        href: '/tools/twitter-card',
+        slug: 'twitter-card',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '84',
+        title: 'UTM Builder',
+        description: 'Create UTM tracking parameters for campaign URLs.',
+        icon: Link2,
+        href: '/tools/utm-builder',
+        slug: 'utm-builder',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '85',
+        title: 'Link Shortener',
+        description: 'Create short, memorable URLs with custom aliases.',
+        icon: Link,
+        href: '/tools/link-shortener',
+        slug: 'link-shortener',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '86',
+        title: 'HTTP Status Code Checker',
+        description: 'Check HTTP response codes and headers for any URL.',
+        icon: Globe2,
+        href: '/tools/http-status',
+        slug: 'http-status',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+    {
+        id: '87',
+        title: 'DNS Lookup',
+        description: 'Query DNS records (A, AAAA, MX, TXT, CNAME) for any domain.',
+        icon: Server,
+        href: '/tools/dns-lookup',
+        slug: 'dns-lookup',
+        isComingSoon: true,
+        categoryId: 'web-seo',
+    },
+
+    // =====================================================
+    // CALCULATORS - Tambahan
+    // =====================================================
+    {
+        id: '88',
+        title: 'Tip Calculator',
+        description: 'Calculate tips and split bills among multiple people.',
+        icon: DollarSign,
+        href: '/tools/tip-calculator',
+        slug: 'tip-calculator',
+        isComingSoon: true,
+        categoryId: 'calculators',
+    },
+    {
+        id: '89',
+        title: 'Date Calculator',
+        description: 'Calculate differences between dates or add/subtract days.',
+        icon: CalendarDays,
+        href: '/tools/date-calculator',
+        slug: 'date-calculator',
+        isComingSoon: true,
+        categoryId: 'calculators',
+    },
+    {
+        id: '90',
+        title: 'Compound Interest Calculator',
+        description: 'Calculate compound interest and investment growth over time.',
+        icon: TrendingUp,
+        href: '/tools/compound-interest',
+        slug: 'compound-interest',
+        isComingSoon: true,
+        categoryId: 'calculators',
+    },
+    {
+        id: '91',
+        title: 'Time Zone Converter',
+        description: 'Convert time between different time zones worldwide.',
+        icon: Clock,
+        href: '/tools/timezone-converter',
+        slug: 'timezone-converter',
+        isComingSoon: true,
+        categoryId: 'calculators',
+    },
+    {
+        id: '92',
+        title: 'Grade Calculator',
+        description: 'Calculate weighted grades, GPA, and final scores.',
+        icon: GraduationCap,
+        href: '/tools/grade-calculator',
+        slug: 'grade-calculator',
+        isComingSoon: true,
+        categoryId: 'calculators',
     },
 ];
 

@@ -44,11 +44,11 @@ export function ImageSettings({
                         <option value="webp">WebP</option>
                         <option value="bmp">BMP</option>
                         <option value="ico">ICO</option>
-                        <option value="svg">SVG (from vectors)</option>
+                        <option value="svg">SVG (Vector Trace)</option>
                         <option value="gif">GIF</option>
                         <option value="tiff">TIFF</option>
                         <option value="avif">AVIF</option>
-                        <option value="heic">HEIC</option>
+
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
@@ -57,10 +57,10 @@ export function ImageSettings({
             </div>
 
             {
-                (options.targetFormat === 'jpeg' || options.targetFormat === 'webp') && (
+                (options.targetFormat === 'jpeg' || options.targetFormat === 'webp' || options.targetFormat === 'avif' || options.targetFormat === 'gif' || options.targetFormat === 'svg') && (
                     <div className="space-y-4 pt-2">
                         <div className="flex justify-between">
-                            <Label>Quality</Label>
+                            <Label>{options.targetFormat === 'svg' ? 'Detail Level' : 'Quality'}</Label>
                             <span className="text-xs text-gray-500 font-medium">
                                 {Math.round(options.quality * 100)}%
                             </span>
@@ -75,7 +75,9 @@ export function ImageSettings({
                             className="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary-600"
                         />
                         <p className="text-xs text-gray-400">
-                            Lower quality reduces file size significantly.
+                            {options.targetFormat === 'svg'
+                                ? 'Higher detail increases color count for richer vectors.'
+                                : 'Lower quality reduces file size significantly.'}
                         </p>
                     </div>
                 )

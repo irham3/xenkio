@@ -1,7 +1,10 @@
 import { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
+const baseUrl = "https://xenkio.pages.dev";
+
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://xenkio.com";
   return {
     rules: {
       userAgent: "*",

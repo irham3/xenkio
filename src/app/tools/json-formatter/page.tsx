@@ -54,11 +54,11 @@ export default function JsonFormatterPage() {
                         100% Client-Side Private Processing
                     </div>
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tighter mb-6">
-                        JSON Formatter <span className="text-primary-600">&</span> Validator
+                        JSON Formatter
                     </h1>
                     <p className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed">
-                        Merapikan dan memvalidasi struktur data JSON Anda secara instan dengan standar industri.
-                        <span className="text-gray-900"> Gratis dan aman.</span>
+                        Instantly format, validate, and minify your JSON data with industry standards.
+                        <span className="text-gray-900"> Free, secure, and 100% client-side.</span>
                     </p>
                 </div>
             </section>
@@ -73,24 +73,24 @@ export default function JsonFormatterPage() {
                 <div className="container mx-auto px-4 py-20 max-w-5xl">
                     <div className="grid md:grid-cols-2 gap-16">
                         <div className="space-y-6">
-                            <h2 className="text-2xl font-black text-gray-900 tracking-tight">Apa itu JSON Formatter?</h2>
+                            <h2 className="text-2xl font-black text-gray-900 tracking-tight">What is a JSON Formatter?</h2>
                             <div className="space-y-4 text-gray-600 leading-relaxed font-medium">
                                 <p>
-                                    <strong className="text-gray-900">JSON Formatter</strong> adalah alat yang digunakan untuk mengubah format data JSON (JavaScript Object Notation) yang padat dan sulit dibaca menjadi lebih terstruktur dengan spasi dan baris baru yang tepat.
+                                    A <strong className="text-gray-900">JSON Formatter</strong> is an essential developer tool that transforms compact, raw JSON (JavaScript Object Notation) data into a readable, structured format with proper indentation and nesting.
                                 </p>
                                 <p>
-                                    Format JSON sangat populer dalam integrasi API dan konfigurasi aplikasi modern. Dengan menggunakan alat ini, Anda dapat menemukan kesalahan sintaks dan memahami hubungan data dengan jauh lebih cepat.
+                                    JSON is widely used in API integrations and modern web applications. This tool helps you instantly identify syntax errors, validate structure, and debug data relationships efficiently.
                                 </p>
                             </div>
                         </div>
                         <div className="space-y-6">
-                            <h2 className="text-2xl font-black text-gray-900 tracking-tight">Fitur Unggulan</h2>
+                            <h2 className="text-2xl font-black text-gray-900 tracking-tight">Key Features</h2>
                             <div className="grid sm:grid-cols-2 gap-4">
                                 {[
-                                    { title: 'Live Validation', desc: 'Validasi otomatis saat Anda mengetik.' },
-                                    { title: 'Custom Spacing', desc: 'Pilihan indentasi 2, 4, atau 8 spasi.' },
-                                    { title: 'Auto-Sort', desc: 'Urutkan kunci JSON secara alfabetis.' },
-                                    { title: 'One-Click Copy', desc: 'Salin hasil ke clipboard instan.' }
+                                    { title: 'Live Validation', desc: 'Automatic syntax checking as you type.' },
+                                    { title: 'Custom Spacing', desc: 'Adjust indentation (2, 4, or 8 spaces).' },
+                                    { title: 'Auto-Sort Keys', desc: 'Alphabetically sort JSON keys.' },
+                                    { title: 'One-Click Copy', desc: 'Instantly copy result to clipboard.' }
                                 ].map((f, i) => (
                                     <div key={i} className="p-4 bg-white rounded-2xl border border-gray-100 shadow-sm">
                                         <h3 className="font-bold text-gray-900 mb-1">{f.title}</h3>

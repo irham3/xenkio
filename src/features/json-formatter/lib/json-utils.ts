@@ -1,196 +1,105 @@
-import { JsonFormatterOptions, JsonFormatterResult, FormatStats } from '../types';
 
-/**
- * Sorts object keys recursively
- */
-export function sortObjectKeys(obj: unknown): unknown {
-    if (obj === null || typeof obj !== 'object' || Array.isArray(obj)) {
+import { IndentType, IndentSize } from '../types';
+
+type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+
+export function formatJson(
+    json: string,
+    indentType: IndentType,
+    indentSize: IndentSize,
+    sortKeys: boolean
+): string {
+    const space = indentType === 'TAB' ? '\t' : ' '.repeat(indentSize);
+    let parsed: JsonValue = JSON.parse(json);
+
+    if (sortKeys) {
+        parsed = sortObjectKeys(parsed) as JsonValue;
+    }
+
+    return JSON.stringify(parsed, null, space);
+}
+
+export function minifyJson(json: string): string {
+    const parsed = JSON.parse(json);
+    return JSON.stringify(parsed);
+}
+
+function sortObjectKeys(obj: unknown): unknown {
+    if (typeof obj !== 'object' || obj === null) {
         return obj;
     }
 
-    return Object.keys(obj as object)
+    if (Array.isArray(obj)) {
+        return obj.map(sortObjectKeys);
+    }
+
+    const objectVal = obj as Record<string, unknown>;
+    return Object.keys(objectVal)
         .sort()
         .reduce((acc: Record<string, unknown>, key) => {
-            acc[key] = sortObjectKeys((obj as Record<string, unknown>)[key]);
+            acc[key] = sortObjectKeys(objectVal[key]);
             return acc;
-        }, {} as Record<string, unknown>);
+        }, {});
 }
 
-export function formatJson(options: JsonFormatterOptions): JsonFormatterResult {
-    const startTime = performance.now();
-    const { json, indentType, indentSize, sortKeys } = options;
-
-    if (!json.trim()) {
-        return {
-            formatted: '',
-            originalSize: 0,
-            formattedSize: 0,
-            executionTime: 0,
-            isValid: true,
-        };
-    }
-
+export function jsonToTypeScript(json: string, interfaceName: string = 'RootObject'): string {
     try {
-        let parsed = JSON.parse(json);
-
-        if (sortKeys) {
-            parsed = sortObjectKeys(parsed);
-        }
-
-        const indent = indentType === 'spaces' ? indentSize : '\t';
-        const formatted = JSON.stringify(parsed, null, indent);
-        const endTime = performance.now();
-
-        return {
-            formatted,
-            originalSize: json.length,
-            formattedSize: formatted.length,
-            executionTime: endTime - startTime,
-            isValid: true,
-        };
-    } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        return {
-            formatted: json,
-            originalSize: json.length,
-            formattedSize: json.length,
-            executionTime: performance.now() - startTime,
-            error: errorMessage,
-            isValid: false,
-        };
-    }
-}
-
-export function minifyJson(json: string): JsonFormatterResult {
-    const startTime = performance.now();
-    if (!json.trim()) {
-        return {
-            formatted: '',
-            originalSize: 0,
-            formattedSize: 0,
-            executionTime: 0,
-            isValid: true,
-        };
-    }
-
-    try {
-        const parsed = JSON.parse(json);
-        const formatted = JSON.stringify(parsed);
-        const endTime = performance.now();
-
-        return {
-            formatted,
-            originalSize: json.length,
-            formattedSize: formatted.length,
-            executionTime: endTime - startTime,
-            isValid: true,
-        };
-    } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        return {
-            formatted: json,
-            originalSize: json.length,
-            formattedSize: json.length,
-            executionTime: performance.now() - startTime,
-            error: errorMessage,
-            isValid: false,
-        };
-    }
-}
-
-export function calculateStats(original: string, formatted: string): FormatStats {
-    return {
-        originalSize: original.length,
-        formattedSize: formatted.length,
-        compressionRatio: original.length > 0 ? (formatted.length / original.length) : 1,
-    };
-}
-
-export function isValidJson(json: string): { valid: boolean; error?: string } {
-    if (!json.trim()) return { valid: true };
-    try {
-        JSON.parse(json);
-        return { valid: true };
-    } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        return { valid: false, error: errorMessage };
-    }
-}
-
-/**
- * Converts JSON string to TypeScript Interfaces
- */
-export function jsonToTypeScript(json: string, rootName: string = 'RootObject'): string {
-    try {
-        const parsed = JSON.parse(json);
-        const interfaces: string[] = [];
-        const seenInterfaces = new Set<string>();
-
-        function toPascalCase(str: string): string {
-            return str
-                .replace(/[^a-z0-9]/gi, ' ')
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                .join('');
-        }
-
-        function generateInterface(obj: Record<string, unknown>, name: string): string {
-            const interfaceName = toPascalCase(name);
-            if (seenInterfaces.has(interfaceName)) return interfaceName;
-
-            seenInterfaces.add(interfaceName);
-
-            let result = `export interface ${interfaceName} {\n`;
-
-            for (const key in obj) {
-                const value = obj[key];
-                const type = typeof value;
-                let tsType = '';
-
-                if (value === null) {
-                    tsType = 'null | any';
-                } else if (Array.isArray(value)) {
-                    if (value.length > 0) {
-                        const firstItem = value[0];
-                        if (typeof firstItem === 'object' && firstItem !== null) {
-                            const subName = interfaceName + toPascalCase(key.replace(/s$/, ''));
-                            generateInterface(firstItem as Record<string, unknown>, subName);
-                            tsType = `${toPascalCase(subName)}[]`;
-                        } else {
-                            tsType = `${typeof firstItem}[]`;
-                        }
-                    } else {
-                        tsType = 'any[]';
-                    }
-                } else if (type === 'object') {
-                    const subName = interfaceName + toPascalCase(key);
-                    generateInterface(value as Record<string, unknown>, subName);
-                    tsType = toPascalCase(subName);
-                } else {
-                    tsType = type;
-                }
-
-                result += `    ${key}: ${tsType};\n`;
-            }
-
-            result += `}\n`;
-            interfaces.unshift(result);
-            return interfaceName;
-        }
-
-        if (Array.isArray(parsed)) {
-            if (parsed.length > 0) {
-                generateInterface(parsed[0] as Record<string, unknown>, rootName);
-                return interfaces.join('\n');
-            }
-            return `export type ${rootName} = any[];`;
-        } else if (typeof parsed === 'object' && parsed !== null) {
-            generateInterface(parsed as Record<string, unknown>, rootName);
-            return interfaces.join('\n');
-        } else {
-            return `export type ${rootName} = ${typeof parsed};`;
-        }
+        const obj = JSON.parse(json);
+        return JsonToTs(obj, interfaceName);
     } catch {
-        return '// Invalid JSON provided';
+        return '// Invalid JSON';
     }
+}
+
+function JsonToTs(obj: unknown, name: string): string {
+    if (obj === null) return `export interface ${name} { [key: string]: any; }`;
+
+    const output: string[] = [];
+    const nestedInterfaces: string[] = [];
+
+    if (Array.isArray(obj)) {
+        if (obj.length > 0) {
+            return `export type ${name} = ${getType(obj[0])}[];\n`;
+        }
+        return `export type ${name} = any[];\n`;
+    }
+
+    if (typeof obj === 'object') {
+        output.push(`export interface ${name} {`);
+
+        const objectVal = obj as Record<string, unknown>;
+        for (const key in objectVal) {
+            const value = objectVal[key];
+            const type = getType(value);
+
+            if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                const nestedName = capitalize(key);
+                nestedInterfaces.push(JsonToTs(value, nestedName));
+                output.push(`  ${key}: ${nestedName};`);
+            } else if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'object') {
+                const nestedName = capitalize(key.replace(/s$/, '')) || 'Item';
+                nestedInterfaces.push(JsonToTs(value[0], nestedName));
+                output.push(`  ${key}: ${nestedName}[];`);
+            }
+            else {
+                output.push(`  ${key}: ${type};`);
+            }
+        }
+        output.push('}');
+    }
+
+    return nestedInterfaces.join('\n\n') + (nestedInterfaces.length > 0 ? '\n\n' : '') + output.join('\n');
+}
+
+function getType(value: unknown): string {
+    if (value === null) return 'any';
+    if (Array.isArray(value)) {
+        if (value.length > 0) return `${getType(value[0])}[]`;
+        return 'any[]';
+    }
+    return typeof value;
+}
+
+function capitalize(s: string): string {
+    return s.charAt(0).toUpperCase() + s.slice(1);
 }

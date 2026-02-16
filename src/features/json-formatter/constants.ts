@@ -1,41 +1,39 @@
-import { JsonFormatterOptions, IndentType, IndentSize } from './types';
+
+import { IndentType, IndentSize } from './types';
 
 export const INDENT_TYPES: { id: IndentType; label: string }[] = [
-    { id: 'spaces', label: 'Spaces' },
-    { id: 'tabs', label: 'Tabs' },
+  { id: 'SPACE', label: 'Spaces' },
+  { id: 'TAB', label: 'Tabs' },
 ];
 
 export const INDENT_SIZES: { id: IndentSize; label: string }[] = [
-    { id: 2, label: '2' },
-    { id: 4, label: '4' },
-    { id: 8, label: '8' },
+  { id: 2, label: '2 Spaces' },
+  { id: 4, label: '4 Spaces' },
+  { id: 8, label: '8 Spaces' },
 ];
 
-export const DEFAULT_OPTIONS: JsonFormatterOptions = {
-    json: '',
-    indentType: 'spaces',
-    indentSize: 2,
-    sortKeys: false,
-};
-
 export const SAMPLE_JSON = `{
-  "projectName": "Xenkio",
+  "name": "Xenkio",
   "version": "1.0.0",
-  "features": [
-    "JSON Formatter",
-    "Image Compressor",
-    "PDF Tools"
+  "description": "All-in-One Productivity Tools",
+  "tools": [
+    {
+      "id": "json-formatter",
+      "name": "JSON Formatter",
+      "tags": ["developer", "data", "format"]
+    },
+    {
+      "id": "pdf-tools",
+      "name": "PDF Convert",
+      "tags": ["document", "pdf"]
+    }
   ],
   "author": {
-    "name": "Xenkio Team",
-    "website": "https://xenkio.com"
+    "name": "Altruis",
+    "url": "https://xenkio.pages.dev"
   },
   "settings": {
-    "darkMode": true,
-    "notifications": {
-      "email": true,
-      "push": false
-    }
-  },
-  "stats": [42, 13, 7]
+    "theme": "light",
+    "notifications": true
+  }
 }`;

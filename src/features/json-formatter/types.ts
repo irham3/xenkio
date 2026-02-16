@@ -1,4 +1,5 @@
-export type IndentType = 'spaces' | 'tabs';
+
+export type IndentType = 'SPACE' | 'TAB';
 export type IndentSize = 2 | 4 | 8;
 
 export interface JsonFormatterOptions {
@@ -10,15 +11,12 @@ export interface JsonFormatterOptions {
 
 export interface JsonFormatterResult {
     formatted: string;
-    originalSize: number;
-    formattedSize: number;
-    executionTime: number;
-    error?: string;
     isValid: boolean;
+    error?: string;
+    executionTime?: number;
 }
 
-export interface FormatStats {
+export interface JsonFormatterStats {
     originalSize: number;
     formattedSize: number;
-    compressionRatio: number;
 }

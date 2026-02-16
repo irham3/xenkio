@@ -188,7 +188,7 @@ export function JsonFormatter() {
                                             exit={{ opacity: 0, y: -10 }}
                                             className="flex items-start gap-2.5 p-3 bg-red-50 rounded-xl border border-red-100"
                                         >
-                                            <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+                                            <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                                             <p className="text-xs text-red-700 leading-normal font-medium">{validationError}</p>
                                         </motion.div>
                                     )}

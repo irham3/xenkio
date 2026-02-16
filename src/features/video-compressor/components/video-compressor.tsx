@@ -96,7 +96,7 @@ export function VideoCompressor() {
                     Video Compressor
                 </h1>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                    Compress MP4, WebM, MOV videos directly in your browser. No upload needed — your files stay private.
+                    Compress MP4, WebM, MOV videos directly in your browser. <br /> No upload needed, your files stay private.
                 </p>
             </div>
 
@@ -143,7 +143,7 @@ export function VideoCompressor() {
                 <div
                     {...getRootProps()}
                     className={cn(
-                        'relative group border-2 border-dashed rounded-2xl p-12 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden',
+                        "relative group border-2 border-dashed rounded-2xl px-12 py-32 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden bg-white shadow-sm hover:shadow-md",
                         isDragActive
                             ? 'border-primary-600 bg-primary-50 scale-[1.01]'
                             : 'border-gray-200 hover:border-primary-600/50 hover:bg-gray-50'

@@ -176,6 +176,21 @@ export function useBackgroundRemover() {
         URL.revokeObjectURL(url);
     }, []);
 
+    const updateImageResult = useCallback((id: string, resultBlob: Blob) => {
+        const resultUrl = URL.createObjectURL(resultBlob);
+        setImages((prev) => {
+            const index = prev.findIndex((img) => img.id === id);
+            if (index === -1) return prev;
+
+            const oldUrl = prev[index].resultUrl;
+            if (oldUrl) URL.revokeObjectURL(oldUrl);
+
+            const newImages = [...prev];
+            newImages[index] = { ...newImages[index], resultBlob, resultUrl };
+            return newImages;
+        });
+    }, []);
+
     return {
         images,
         modelStatus,
@@ -185,6 +200,7 @@ export function useBackgroundRemover() {
         processAll,
         removeImage,
         reset,
-        downloadResult
+        downloadResult,
+        updateImageResult
     };
 }

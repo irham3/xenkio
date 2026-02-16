@@ -1,12 +1,13 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Eraser, Brush, Undo, Redo, Save, X, ZoomIn, ZoomOut, Check, MousePointer2, Image as ImageIcon, Palette, PaintBucket, Upload } from 'lucide-react'
+import { Eraser, Brush, Undo, Redo, X, ZoomIn, ZoomOut, Check, MousePointer2, Image as ImageIcon, Palette, PaintBucket, Upload } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
 import { cn } from '@/lib/utils'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import { SOLID_COLORS, GRADIENTS, IMAGE_TEMPLATES, Gradient } from '../constants'
+import { SOLID_COLORS, GRADIENTS, IMAGE_TEMPLATES } from '../constants'
 
 interface BackgroundEditorProps {
     originalUrl: string
@@ -59,11 +60,11 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
-        const imgResult = new Image()
+        const imgResult = new window.Image()
         imgResult.setAttribute('crossOrigin', 'anonymous')
         imgResult.src = resultUrl
 
-        const imgOriginal = new Image()
+        const imgOriginal = new window.Image()
         imgOriginal.setAttribute('crossOrigin', 'anonymous')
         imgOriginal.src = originalUrl
 
@@ -99,12 +100,10 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
     // Load Background Image if selected
     useEffect(() => {
         if (bgType === 'image' && bgValue) {
-            const img = new Image()
+            const img = new window.Image()
             img.crossOrigin = 'anonymous'
             img.src = bgValue
             img.onload = () => setBgImageFile(img)
-        } else {
-            setBgImageFile(null)
         }
     }, [bgType, bgValue])
 
@@ -360,7 +359,7 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
             <div className="h-14 shrink-0 flex items-center justify-between px-6 bg-black/40 border-b border-white/10 backdrop-blur text-white z-40">
                 <div className="flex items-center gap-4">
                     <h3 className="text-lg font-bold mr-4">Edit Result</h3>
-                    <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="w-[400px]">
+                    <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'manual' | 'background')} className="w-[400px]">
                         <TabsList className="grid w-full grid-cols-2 bg-white/10 text-white">
                             <TabsTrigger value="manual" className="data-[state=active]:bg-white/20 data-[state=active]:text-white">Manual Edit</TabsTrigger>
                             <TabsTrigger value="background" className="data-[state=active]:bg-white/20 data-[state=active]:text-white">Backround</TabsTrigger>
@@ -588,8 +587,8 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                                                 onClick={() => { setBgType('image'); setBgValue(img.url) }}
                                                 className={cn("shrink-0 w-24 h-24 rounded-lg border-2 overflow-hidden relative transition-all", bgValue === img.url && bgType === 'image' ? "border-white ring-2 ring-white/50" : "border-white/10")}
                                             >
-                                                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
-                                                <div className="absolute inset-0 flex items-end p-1 bg-gradient-to-t from-black/60 to-transparent">
+                                                <Image src={img.url} alt={img.label} fill sizes="96px" className="object-cover" />
+                                                <div className="absolute inset-0 flex items-end p-1 bg-linear-to-t from-black/60 to-transparent z-10">
                                                     <span className="text-[10px] text-white font-medium">{img.label}</span>
                                                 </div>
                                             </button>

@@ -273,7 +273,7 @@ export const TOOLS: ToolData[] = [
     // },
     {
         id: '15',
-        title: 'Seamless Scroll Studio',
+        title: 'Collage Maker',
         description: 'Create premium, seamless panoramic carousels for Instagram. SCRL-style editor.',
         icon: GalleryHorizontal,
         href: '/tools/instagram-carousel',

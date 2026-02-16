@@ -20,10 +20,18 @@ export interface DownloadProgress {
 }
 
 // Global types for window.FFmpeg
+interface FFmpegInstance {
+    load: () => Promise<void>
+    FS: (method: string, ...args: unknown[]) => unknown
+    run: (...args: string[]) => Promise<void>
+    setProgress: (callback: (p: { ratio: number }) => void) => void
+    exit: () => void
+}
+
 declare global {
     interface Window {
         FFmpeg: {
-            createFFmpeg: (options: any) => any
+            createFFmpeg: (options: Record<string, unknown>) => FFmpegInstance
             fetchFile: (file: File | Blob | string) => Promise<Uint8Array>
         }
     }
@@ -32,7 +40,7 @@ declare global {
 export function useVideoCompressor() {
     const [loaded, setLoaded] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const ffmpegRef = useRef<any>(null)
+    const ffmpegRef = useRef<FFmpegInstance | null>(null)
     const [progress, setProgress] = useState(0)
     const [isCompressing, setIsCompressing] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -98,7 +106,7 @@ export function useVideoCompressor() {
 
             setDownloadProgress({ label: 'Ready', loaded: 100, total: 100, overallPercent: 100 })
             setLoaded(true)
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Failed to load FFmpeg', err)
             setError('Failed to load video engine. Please refresh or try a different browser.')
         } finally {
@@ -156,10 +164,10 @@ export function useVideoCompressor() {
             await ffmpeg.run(...args)
 
             // Read output
-            const data = ffmpeg.FS('readFile', outputFileName)
+            const data = ffmpeg.FS('readFile', outputFileName) as Uint8Array
 
             // Create Blob
-            const blob = new Blob([data.buffer], { type: 'video/mp4' })
+            const blob = new Blob([data.buffer as ArrayBuffer], { type: 'video/mp4' })
             const url = URL.createObjectURL(blob)
 
             // Cleanup
@@ -175,7 +183,7 @@ export function useVideoCompressor() {
                 fileName: `compressed_${file.name.replace(/\.[^/.]+$/, '')}.mp4`,
                 timeTaken: Date.now() - startTime,
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Compression failed', err)
             setError('Compression failed. Please try different quality settings.')
             return null

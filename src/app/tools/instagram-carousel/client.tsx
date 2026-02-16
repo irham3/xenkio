@@ -171,7 +171,7 @@ export function InstagramCarouselClient() {
             </span>
           </div>
           <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold opacity-60">
-            Seamless Scroll Studio
+            Collage Maker
           </p>
         </div>
       </div>

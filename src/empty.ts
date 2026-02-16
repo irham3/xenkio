@@ -1,2 +1,2 @@
-// src/empty.ts
-export default {};
+const empty = {};
+export default empty;

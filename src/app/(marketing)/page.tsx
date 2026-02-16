@@ -13,7 +13,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Xenkio - Free Online Productivity Tools & Converters",
   description: "Your ultimate free toolkit for productivity. Merge PDFs, convert images, generate QR codes, and more. No sign-up required—just get it done instantly.",
-  keywords: ["online tools", "pdf converter", "image tools", "developer utilities", "qr code generator", "free tools", "no sign up", "xenkio"],
+  keywords: ["merge pdf", "split pdf", "background remover", "image compressor", "json formatter", "video compressor", "instagram carousel generator", "password strength checker", "image steganography", "hmac generator", "text encryptor"],
   openGraph: {
     title: "Xenkio - Free Online Productivity Tools",
     description: "Your ultimate free toolkit for productivity. No sign-up required.",

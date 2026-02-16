@@ -696,7 +696,8 @@ export const TOOLS: ToolData[] = [
         icon: Shield,
         href: '/tools/password-strength',
         slug: 'password-strength',
-        isComingSoon: true,
+        featured: true,
+        isNew: true,
         categoryId: 'security-privacy',
     },
     // Random String merged into Password Generator (similar intent)
@@ -720,7 +721,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'security-privacy',
     },
     {
-        id: '93',
+        id: '46',
         title: 'Image Steganography',
         description: 'Hide secret text messages inside images invisibly.',
         icon: Lock,

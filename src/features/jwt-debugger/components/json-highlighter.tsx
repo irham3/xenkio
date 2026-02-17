@@ -15,22 +15,37 @@ export const STANDARD_CLAIMS: Record<string, string> = {
 };
 
 export function JsonHighlighter({ json }: { json: string }) {
-    // Improved tokenizer that captures string contents, primitives, structural chars, and whitespace separately
-    const tokens = json.match(/(".*?"|true|false|null|-?\d+\.?\d*|[:,{}\[\]]|\s+)/g) || [];
+    // Split using capturing group so that delimiters (tokens) are included
+    // The parts between tokens (even indices) are "unknown" or "invalid" text
+    const parts = json.split(/(".*?"|true|false|null|-?\d+\.?\d*|[:,{}\[\]]|\s+)/g);
 
     return (
         <>
-            {tokens.map((token, i) => {
-                // Determine if this token is a key
-                // A string followed by a colon is likely a key, but we need to track braces context properly for robustness.
-                // Simplified heuristic: If token is a string and next non-whitespace token is ':', treat as key.
+            {parts.map((token, i) => {
+                if (!token) return null;
 
+                // Even indices are "unmatched" parts -> invalid text
+                if (i % 2 === 0) {
+                    return <span key={i} className="text-red-500 font-bold bg-red-50">{token}</span>;
+                }
+
+                // Odd indices are matched tokens -> apply syntax highlighting
+
+                // Determine if this token is a key
                 let isKey = false;
                 if (token.startsWith('"')) {
                     // Check ahead for next significant token
-                    for (let j = i + 1; j < tokens.length; j++) {
-                        const t = tokens[j].trim();
-                        if (!t) continue;
+                    // parts is [unmatched, matched, unmatched, matched...]
+                    // We are at `i` (matched). Next matched token is at `i + 2`.
+                    // We need to skip whitespace tokens to find if next is ':'
+                    for (let j = i + 2; j < parts.length; j += 2) {
+                        const t = parts[j];
+                        // If it's pure whitespace, continue
+                        if (/^\s+$/.test(t)) continue;
+                        // If it's unmatched text (even index), it breaks the key:value structure, so stop
+                        // But wait, parts[j] IS matched (odd index) in this loop stepping by 2?
+                        // No. `j` starts at `i + 2` (odd).
+                        // If we encounter matched token that is ':', then it is a key.
                         if (t === ':') isKey = true;
                         break;
                     }
@@ -62,6 +77,7 @@ export function JsonHighlighter({ json }: { json: string }) {
                 if (/^-?\d+\.?\d*$/.test(token)) return <span key={i} className="text-orange-600 font-medium">{token}</span>;
                 if (token === 'null') return <span key={i} className="text-gray-500 italic">{token}</span>;
 
+                // Structural characters
                 return <span key={i} className="text-gray-500">{token}</span>;
             })}
         </>

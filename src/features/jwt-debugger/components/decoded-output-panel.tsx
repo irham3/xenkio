@@ -23,7 +23,7 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
             <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                     {isDecode ? 'Decoded Result' : 'Generated Token'}
-                    {isDecode && <VerificationBadge isVerified={result.isVerified} hasToken={hasToken} />}
+                    {isDecode && <VerificationBadge isVerified={result.isVerified} hasToken={hasToken} verificationError={result.verificationError} />}
                 </h3>
             </div>
 

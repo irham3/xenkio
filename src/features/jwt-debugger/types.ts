@@ -16,6 +16,7 @@ export interface JwtResult {
     encodedToken: string;
     isValid: boolean;
     isVerified: boolean | null;
+    verificationError: string | null;
     error: string | null;
 }
 

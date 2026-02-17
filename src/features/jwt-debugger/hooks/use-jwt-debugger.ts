@@ -21,6 +21,7 @@ export function useJwtDebugger() {
         encodedToken: '',
         isValid: false,
         isVerified: null,
+        verificationError: null,
         error: null
     });
 
@@ -38,6 +39,7 @@ export function useJwtDebugger() {
                 encodedToken: '',
                 isValid: false,
                 isVerified: null,
+                verificationError: null,
                 error: null
             });
             return;
@@ -48,18 +50,19 @@ export function useJwtDebugger() {
             const payload = jose.decodeJwt(options.token);
 
             let isVerified = null;
+            let verificationError = null;
+
             if (options.secret) {
                 try {
                     const secretKey = new TextEncoder().encode(options.secret);
-                    console.log('Verifying token:', options.token);
-                    console.log('Using secret:', options.secret);
                     await jose.jwtVerify(options.token.trim(), secretKey, {
-                        clockTolerance: 999999999 // Effectively ignore exp/nbf by allowing huge clock skew
+                        clockTolerance: 999999999, // Effectively ignore exp/nbf by allowing huge clock skew
+                        algorithms: ['HS256', 'HS384', 'HS512']
                     });
                     isVerified = true;
                 } catch (e) {
-                    console.error('Verification failed:', e);
                     isVerified = false;
+                    verificationError = e instanceof Error ? e.message : 'Signature verification failed';
                 }
             }
 
@@ -69,6 +72,7 @@ export function useJwtDebugger() {
                 encodedToken: '',
                 isValid: true,
                 isVerified,
+                verificationError,
                 error: null
             });
         } catch {
@@ -76,6 +80,7 @@ export function useJwtDebugger() {
                 ...prev,
                 isValid: false,
                 isVerified: false,
+                verificationError: 'Invalid JWT format',
                 error: 'Invalid JWT format'
             }));
         }
@@ -97,6 +102,7 @@ export function useJwtDebugger() {
                 encodedToken: jwt,
                 isValid: true,
                 isVerified: true,
+                verificationError: null,
                 error: null
             });
         } catch (err) {

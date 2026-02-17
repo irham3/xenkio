@@ -2,23 +2,12 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useMarkdownEditor } from "@/features/markdown-editor/hooks/use-markdown-editor";
-import { downloadFile, copyToClipboard, getWordCount, getCharacterCount, getLineCount } from "@/features/markdown-editor/lib/markdown-utils";
-import { ViewMode } from "@/features/markdown-editor/types";
-import { Button } from "@/components/ui/button";
+import { downloadFile, getWordCount, getCharacterCount, getLineCount } from "@/features/markdown-editor/lib/markdown-utils";
 import { cn } from "@/lib/utils";
-import {
-    Copy,
-    Check,
-    Download,
-    Code,
-    Eye,
-    Columns2,
-    Sparkles,
-    Maximize2,
-    X,
-} from "lucide-react";
 import { Toolbar } from "@/features/markdown-editor/components/toolbar";
-import { MarkdownPreview } from "@/features/markdown-editor/components/markdown-preview";
+import { MarkdownHeader } from "@/features/markdown-editor/components/markdown-header";
+import { EditorPanel } from "@/features/markdown-editor/components/editor-panel";
+import { PreviewPanel } from "@/features/markdown-editor/components/preview-panel";
 
 export function MarkdownEditorClient() {
     const {
@@ -39,8 +28,6 @@ export function MarkdownEditorClient() {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const fsTextareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const [copiedMd, setCopiedMd] = useState(false);
-    const [copiedHtml, setCopiedHtml] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
 
     // Handle escape key to exit fullscreen
@@ -65,22 +52,6 @@ export function MarkdownEditorClient() {
             document.body.style.overflow = '';
         };
     }, [isFullscreen]);
-
-    const handleCopyMarkdown = async () => {
-        const success = await copyToClipboard(markdown);
-        if (success) {
-            setCopiedMd(true);
-            setTimeout(() => setCopiedMd(false), 2000);
-        }
-    };
-
-    const handleCopyHtml = async () => {
-        const success = await copyToClipboard(html);
-        if (success) {
-            setCopiedHtml(true);
-            setTimeout(() => setCopiedHtml(false), 2000);
-        }
-    };
 
     const handleDownloadMarkdown = () => {
         downloadFile(markdown, 'document.md', 'text/markdown');
@@ -114,20 +85,9 @@ export function MarkdownEditorClient() {
     const chars = getCharacterCount(markdown);
     const lines = getLineCount(markdown);
 
-    // Use a stable locale-string for SSR to prevent hydration errors
     const formattedChars = isMounted ? chars.toLocaleString() : chars.toString();
     const formattedWords = isMounted ? words.toLocaleString() : words.toString();
     const formattedLines = isMounted ? lines.toLocaleString() : lines.toString();
-
-    const VIEW_MODES: { id: ViewMode; name: string; icon: typeof Code }[] = [
-        { id: 'editor', name: 'Editor', icon: Code },
-        { id: 'split', name: 'Split', icon: Columns2 },
-        { id: 'preview', name: 'Preview', icon: Eye },
-    ];
-
-    const editorHeight = isFullscreen
-        ? "h-full"
-        : "h-[calc(100vh-480px)] min-h-[250px]";
 
     const applyFormatting = useCallback((prefix: string, suffix: string = '', defaultValue: string = '') => {
         const textarea = isFullscreen ? fsTextareaRef.current : textareaRef.current;
@@ -308,56 +268,18 @@ export function MarkdownEditorClient() {
 
     return (
         <>
-            {/* Fullscreen Overlay */}
             {isFullscreen && (
                 <div className="fixed inset-0 z-50 bg-white flex flex-col">
-                    <div className="flex items-center justify-between gap-3 p-4 border-b border-gray-100 bg-gray-50/50 shrink-0">
-                        <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1 p-1 bg-white rounded-lg border border-gray-200">
-                                {VIEW_MODES.map(mode => (
-                                    <button
-                                        key={mode.id}
-                                        onClick={() => setViewMode(mode.id)}
-                                        className={cn(
-                                            "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all cursor-pointer",
-                                            viewMode === mode.id
-                                                ? "bg-primary-100 text-primary-700"
-                                                : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                                        )}
-                                    >
-                                        <mode.icon className="w-3.5 h-3.5" />
-                                        {mode.name}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="hidden sm:flex items-center gap-3 px-3 text-xs text-gray-500 font-medium tabular-nums">
-                                <span>{formattedWords} words</span>
-                                <span className="text-gray-300">•</span>
-                                <span>{formattedChars} chars</span>
-                                <span className="text-gray-300">•</span>
-                                <span>{formattedLines} lines</span>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={resetToSample}
-                                className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all flex items-center gap-1 cursor-pointer"
-                            >
-                                <Sparkles className="w-3 h-3" />
-                                Load Sample
-                            </button>
-                            <button
-                                onClick={() => setIsFullscreen(false)}
-                                className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all cursor-pointer"
-                                title="Exit Fullscreen (Esc)"
-                            >
-                                <X className="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
-                    {/* Fullscreen Toolbar (Full Width) */}
+                    <MarkdownHeader
+                        viewMode={viewMode}
+                        setViewMode={setViewMode}
+                        formattedWords={formattedWords}
+                        formattedChars={formattedChars}
+                        formattedLines={formattedLines}
+                        onLoadSample={resetToSample}
+                        isFullscreen={true}
+                        setIsFullscreen={setIsFullscreen}
+                    />
                     {(viewMode === 'editor' || viewMode === 'split') && (
                         <Toolbar
                             undo={undo}
@@ -370,160 +292,46 @@ export function MarkdownEditorClient() {
                             transformText={transformText}
                         />
                     )}
-
-                    {/* Fullscreen Content Area */}
                     <div className={cn(
                         "grid gap-0 flex-1 overflow-hidden",
                         viewMode === 'split' ? "lg:grid-cols-2" : "grid-cols-1"
                     )}>
-                        {/* Editor Panel */}
                         {(viewMode === 'editor' || viewMode === 'split') && (
-                            <div className={cn(
-                                "h-full flex flex-col overflow-hidden",
-                                viewMode === 'split' && "lg:border-r border-gray-100"
-                            )}>
-                                <div className="p-5 flex-1 flex flex-col overflow-hidden">
-                                    <div className="flex items-baseline justify-between mb-3 shrink-0">
-                                        <label htmlFor="markdown-input-fs" className="text-sm font-semibold text-gray-800">
-                                            Markdown
-                                        </label>
-                                        <span className="text-xs text-gray-400 font-medium tabular-nums">
-                                            {formattedChars} chars
-                                        </span>
-                                    </div>
-                                    <textarea
-                                        ref={fsTextareaRef}
-                                        id="markdown-input-fs"
-                                        value={markdown}
-                                        onChange={(e) => updateMarkdown(e.target.value)}
-                                        onKeyDown={handleKeyDown}
-                                        placeholder="Start writing your markdown here..."
-                                        spellCheck={false}
-                                        className="flex-1 w-full p-4 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 overflow-y-auto"
-                                    />
-                                    <div className="flex gap-2 mt-3 shrink-0">
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={handleDownloadMarkdown}
-                                            disabled={!markdown.trim()}
-                                            className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100 cursor-pointer"
-                                        >
-                                            <Download className="w-3.5 h-3.5" />
-                                            Download .md
-                                        </Button>
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={handleCopyMarkdown}
-                                            disabled={!markdown.trim()}
-                                            className={cn(
-                                                "h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all cursor-pointer",
-                                                copiedMd && "text-success-600 border-success-500 bg-success-50"
-                                            )}
-                                        >
-                                            {copiedMd ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                            {copiedMd ? 'Copied' : 'Copy'}
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
+                            <EditorPanel
+                                id="markdown-input-fs"
+                                markdown={markdown}
+                                onUpdate={updateMarkdown}
+                                onKeyDown={handleKeyDown}
+                                formattedChars={formattedChars}
+                                onDownload={handleDownloadMarkdown}
+                                heightClass="h-full"
+                                textareaRef={fsTextareaRef}
+                            />
                         )}
-
                         {(viewMode === 'preview' || viewMode === 'split') && (
-                            <div className="bg-gray-50/50 h-full flex flex-col overflow-hidden">
-                                <div className="p-5 h-full flex flex-col overflow-hidden">
-                                    <div className="flex items-baseline justify-between mb-3 shrink-0">
-                                        <h3 className="text-sm font-semibold text-gray-800">Preview</h3>
-                                    </div>
-                                    <MarkdownPreview
-                                        html={html}
-                                        isEmpty={!markdown.trim()}
-                                        className="flex-1"
-                                    />
-                                    <div className="flex gap-2 mt-3 shrink-0">
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={handleDownloadHtml}
-                                            disabled={!markdown.trim()}
-                                            className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100"
-                                        >
-                                            <Download className="w-3.5 h-3.5" />
-                                            Download HTML
-                                        </Button>
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={handleCopyHtml}
-                                            disabled={!markdown.trim()}
-                                            className={cn(
-                                                "h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all",
-                                                copiedHtml && "text-success-600 border-success-500 bg-success-50"
-                                            )}
-                                        >
-                                            {copiedHtml ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                            {copiedHtml ? 'Copied' : 'Copy'}
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
+                            <PreviewPanel
+                                html={html}
+                                markdown={markdown}
+                                onDownload={handleDownloadHtml}
+                                heightClass="h-full"
+                            />
                         )}
                     </div>
                 </div>
             )}
 
-            {/* Normal View */}
             <div className={cn("w-full pt-4 pb-12", isFullscreen && "invisible")}>
-                <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
-                    <div className="flex flex-wrap items-center justify-between gap-3 p-4 border-b border-gray-100 bg-gray-50/50 shrink-0">
-                        <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1 p-1 bg-white rounded-lg border border-gray-200">
-                                {VIEW_MODES.map(mode => (
-                                    <button
-                                        key={mode.id}
-                                        onClick={() => setViewMode(mode.id)}
-                                        className={cn(
-                                            "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all cursor-pointer",
-                                            viewMode === mode.id
-                                                ? "bg-primary-100 text-primary-700"
-                                                : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                                        )}
-                                    >
-                                        <mode.icon className="w-3.5 h-3.5" />
-                                        {mode.name}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div className="hidden sm:flex items-center gap-3 px-3 text-xs text-gray-500 font-medium tabular-nums">
-                                <span>{formattedWords} words</span>
-                                <span className="text-gray-300">•</span>
-                                <span>{formattedChars} chars</span>
-                                <span className="text-gray-300">•</span>
-                                <span>{formattedLines} lines</span>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={resetToSample}
-                                className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all flex items-center gap-1 cursor-pointer"
-                            >
-                                <Sparkles className="w-3 h-3" />
-                                Load Sample
-                            </button>
-                            <button
-                                onClick={() => setIsFullscreen(true)}
-                                className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all cursor-pointer"
-                                title="Fullscreen"
-                            >
-                                <Maximize2 className="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Toolbar (Full Width) */}
+                <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft flex flex-col h-[70vh]">
+                    <MarkdownHeader
+                        viewMode={viewMode}
+                        setViewMode={setViewMode}
+                        formattedWords={formattedWords}
+                        formattedChars={formattedChars}
+                        formattedLines={formattedLines}
+                        onLoadSample={resetToSample}
+                        isFullscreen={false}
+                        setIsFullscreen={setIsFullscreen}
+                    />
                     {(viewMode === 'editor' || viewMode === 'split') && (
                         <Toolbar
                             undo={undo}
@@ -536,76 +344,29 @@ export function MarkdownEditorClient() {
                             transformText={transformText}
                         />
                     )}
-
                     <div className={cn(
-                        "grid gap-0 overflow-hidden",
-                        editorHeight,
+                        "grid gap-0 flex-1 overflow-hidden",
                         viewMode === 'split' ? "lg:grid-cols-2" : "grid-cols-1"
                     )}>
-                        {/* Editor Panel */}
                         {(viewMode === 'editor' || viewMode === 'split') && (
-                            <div className={cn(
-                                "h-full flex flex-col overflow-hidden",
-                                viewMode === 'split' && "lg:border-r border-gray-100"
-                            )}>
-                                <div className="p-5 flex-1 flex flex-col">
-                                    <div className="flex items-baseline justify-between mb-3 shrink-0">
-                                        <label htmlFor="markdown-input" className="text-sm font-semibold text-gray-800">
-                                            Markdown
-                                        </label>
-                                        <span className="text-xs text-gray-400 font-medium tabular-nums">
-                                            {formattedChars} chars
-                                        </span>
-                                    </div>
-                                    <div className={editorHeight}>
-                                        <textarea
-                                            ref={textareaRef}
-                                            id="markdown-input"
-                                            value={markdown}
-                                            onChange={(e) => updateMarkdown(e.target.value)}
-                                            onKeyDown={handleKeyDown}
-                                            placeholder="Start writing your markdown here..."
-                                            spellCheck={false}
-                                            className="w-full h-full p-4 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
-                                        />
-                                    </div>
-                                    <div className="flex gap-2 mt-3 shrink-0">
-                                        <Button size="sm" variant="outline" onClick={handleDownloadMarkdown} disabled={!markdown.trim()} className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100 cursor-pointer">
-                                            <Download className="w-3.5 h-3.5" />
-                                            Download .md
-                                        </Button>
-                                        <Button size="sm" variant="outline" onClick={handleCopyMarkdown} disabled={!markdown.trim()} className={cn("h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all cursor-pointer", copiedMd && "text-success-600 border-success-500 bg-success-50")}>
-                                            {copiedMd ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                            {copiedMd ? 'Copied' : 'Copy'}
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
+                            <EditorPanel
+                                id="markdown-input"
+                                markdown={markdown}
+                                onUpdate={updateMarkdown}
+                                onKeyDown={handleKeyDown}
+                                formattedChars={formattedChars}
+                                onDownload={handleDownloadMarkdown}
+                                heightClass="h-[calc(100vh-480px)] min-h-[250px]"
+                                textareaRef={textareaRef}
+                            />
                         )}
-
                         {(viewMode === 'preview' || viewMode === 'split') && (
-                            <div className="bg-gray-50/50 flex flex-col">
-                                <div className="p-5 flex-1 flex flex-col">
-                                    <div className="flex items-baseline justify-between mb-3 shrink-0">
-                                        <h3 className="text-sm font-semibold text-gray-800">Preview</h3>
-                                    </div>
-                                    <MarkdownPreview
-                                        html={html}
-                                        isEmpty={!markdown.trim()}
-                                        className={editorHeight}
-                                    />
-                                    <div className="flex gap-2 mt-3 shrink-0">
-                                        <Button size="sm" variant="outline" onClick={handleDownloadHtml} disabled={!markdown.trim()} className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100 cursor-pointer">
-                                            <Download className="w-3.5 h-3.5" />
-                                            Download HTML
-                                        </Button>
-                                        <Button size="sm" variant="outline" onClick={handleCopyHtml} disabled={!markdown.trim()} className={cn("h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all cursor-pointer", copiedHtml && "text-success-600 border-success-500 bg-success-50")}>
-                                            {copiedHtml ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                            {copiedHtml ? 'Copied' : 'Copy'}
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
+                            <PreviewPanel
+                                html={html}
+                                markdown={markdown}
+                                onDownload={handleDownloadHtml}
+                                heightClass="h-[calc(100vh-480px)] min-h-[250px]"
+                            />
                         )}
                     </div>
                 </div>

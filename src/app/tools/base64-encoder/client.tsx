@@ -1,33 +1,20 @@
 'use client';
 
-import { useState } from 'react';
 import { useBase64 } from '@/features/base64-encoder/hooks/use-base64';
 import { BASE64_MODES } from '@/features/base64-encoder/constants';
-import { Base64Mode } from '@/features/base64-encoder/types';
+import { type Base64Mode } from '@/features/base64-encoder/types';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Copy, Check, ArrowRightLeft, Trash2, FileCode, FileText, Zap, AlertCircle } from 'lucide-react';
+import { Label } from "@/components/ui/label";
+import { ArrowRightLeft, FileCode, FileText, Zap, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CopyButton, ClearButton } from '@/components/shared';
 
 export default function Base64EncoderClient() {
   const { options, result, isProcessing, updateOption, process, swapInputOutput, clear } = useBase64();
-  const [copied, setCopied] = useState(false);
 
   const currentMode = BASE64_MODES.find(m => m.id === options.mode);
 
-  const handleCopy = async () => {
-    if (result?.output) {
-      try {
-        await navigator.clipboard.writeText(result.output);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      } catch {
-        // Fallback: clipboard access may fail in non-secure contexts
-        console.warn('Clipboard access denied');
-      }
-    }
-  };
 
   return (
     <div className="w-full">
@@ -85,28 +72,18 @@ export default function Base64EncoderClient() {
                 className="w-full min-h-[200px] p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
               />
 
-              {/* Action Buttons */}
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={swapInputOutput}
                   disabled={!result?.output || !!result.error}
-                  className="flex-1 gap-2"
+                  className="flex-1 gap-2 cursor-pointer"
                 >
                   <ArrowRightLeft className="w-4 h-4" />
                   Swap
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={clear}
-                  disabled={!options.input}
-                  className="flex-1 gap-2 hover:text-error-600 hover:border-error-300"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  Clear
-                </Button>
+                <ClearButton onClick={clear} disabled={!options.input} className="flex-1" />
               </div>
 
               {/* Process Button */}
@@ -197,21 +174,9 @@ export default function Base64EncoderClient() {
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Copy Button */}
                 {result?.output && !result.error && (
                   <div className="absolute top-3 right-3">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={handleCopy}
-                      className={cn(
-                        "h-8 gap-1.5 text-xs font-medium border-gray-200 bg-white hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all",
-                        copied && "text-success-600 border-success-500 bg-green-50"
-                      )}
-                    >
-                      {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                      {copied ? 'Copied' : 'Copy'}
-                    </Button>
+                    <CopyButton value={result.output} size="sm" />
                   </div>
                 )}
               </div>

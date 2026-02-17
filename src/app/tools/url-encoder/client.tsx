@@ -1,19 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
-    Copy,
     AlertCircle,
     FileCode,
-    FileText,
-    Check,
-    Trash2
+    FileText
 } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from 'framer-motion';
+import { CopyButton, ClearButton } from '@/components/shared';
 
 const URL_MODES = [
     { id: 'encode', name: 'Encoder', description: 'Convert text to URL-encoded format' },
@@ -25,7 +21,6 @@ export default function UrlEncoderClient() {
     const [output, setOutput] = useState("");
     const [mode, setMode] = useState<"encode" | "decode">("encode");
     const [error, setError] = useState<string | null>(null);
-    const [copied, setCopied] = useState(false);
 
     const processConversion = (text: string, currentMode: "encode" | "decode") => {
         if (!text) {
@@ -53,14 +48,6 @@ export default function UrlEncoderClient() {
         processConversion(value, mode);
     };
 
-    const handleCopy = () => {
-        if (!output) return;
-        navigator.clipboard.writeText(output);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-        toast.success("Copied to clipboard!");
-    };
-
     const handleClear = () => {
         setInput("");
         setOutput("");
@@ -76,11 +63,9 @@ export default function UrlEncoderClient() {
 
     return (
         <div className="w-full">
-            {/* Mode Switcher Tabs */}
             <div
                 className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl mb-6 w-full border border-gray-200"
                 role="tablist"
-                aria-label="URL Encoder mode selection"
             >
                 {URL_MODES.map((m) => (
                     <button
@@ -89,7 +74,7 @@ export default function UrlEncoderClient() {
                         aria-selected={mode === m.id}
                         onClick={() => setModeAndProcess(m.id)}
                         className={cn(
-                            "flex-1 flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+                            "flex-1 flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer",
                             mode === m.id
                                 ? "bg-white text-primary-600 shadow-sm border border-gray-100"
                                 : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
@@ -101,14 +86,10 @@ export default function UrlEncoderClient() {
                 ))}
             </div>
 
-            {/* Main Tool Area */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
                 <div className="grid lg:grid-cols-2 gap-0">
-
-                    {/* LEFT PANEL: Input */}
                     <div className="p-5 lg:p-6 border-b lg:border-b-0 lg:border-r border-gray-100 bg-white">
                         <div className="space-y-4">
-                            {/* Input Header */}
                             <div className="flex items-baseline justify-between">
                                 <Label htmlFor="input-text" className="text-sm font-semibold text-gray-800">
                                     {mode === 'encode' ? 'Text to Encode' : 'URL to Decode'}
@@ -118,7 +99,6 @@ export default function UrlEncoderClient() {
                                 </span>
                             </div>
 
-                            {/* Input Textarea */}
                             <textarea
                                 id="input-text"
                                 value={input}
@@ -130,31 +110,18 @@ export default function UrlEncoderClient() {
                                 className="w-full min-h-[300px] p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
                             />
 
-                            {/* Action Buttons */}
                             <div className="flex items-center gap-2">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={handleClear}
-                                    disabled={!input}
-                                    className="flex-1 gap-2 hover:text-red-600 hover:border-red-300 hover:bg-red-50 cursor-pointer"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                    Clear
-                                </Button>
+                                <ClearButton onClick={handleClear} disabled={!input} className="flex-1" />
                             </div>
 
-                            {/* Mode Description */}
                             <p className="text-xs text-gray-500 leading-relaxed pt-2">
                                 {currentModeInfo?.description}
                             </p>
                         </div>
                     </div>
 
-                    {/* RIGHT PANEL: Output */}
                     <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px]">
                         <div className="flex flex-col h-full">
-                            {/* Output Header */}
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-sm font-semibold text-gray-800">
                                     {mode === 'encode' ? 'Encoded Output' : 'Decoded Text'}
@@ -166,7 +133,6 @@ export default function UrlEncoderClient() {
                                 )}
                             </div>
 
-                            {/* Output Area */}
                             <div className="flex-1 relative group h-full">
                                 <AnimatePresence mode="wait">
                                     <motion.div
@@ -180,7 +146,7 @@ export default function UrlEncoderClient() {
                                             error
                                                 ? "bg-red-50 border-red-200 text-red-600"
                                                 : output
-                                                    ? "bg-white border-gray-200 text-gray-700 shadow-sm"
+                                                    ? "bg-white border-gray-200 text-gray-700 shadow-sm font-mono"
                                                     : "bg-white/50 border-dashed border-gray-200 text-gray-400 is-empty"
                                         )}
                                     >
@@ -199,7 +165,7 @@ export default function UrlEncoderClient() {
                                                 ) : (
                                                     <FileText className="w-10 h-10 text-gray-300" />
                                                 )}
-                                                <p className="text-sm">
+                                                <p className="text-sm text-center">
                                                     {mode === 'encode'
                                                         ? 'Enter text to see URL encoded output...'
                                                         : 'Enter URL to see decoded text...'
@@ -210,21 +176,9 @@ export default function UrlEncoderClient() {
                                     </motion.div>
                                 </AnimatePresence>
 
-                                {/* Copy Button */}
                                 {output && !error && (
                                     <div className="absolute top-3 right-3">
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={handleCopy}
-                                            className={cn(
-                                                "h-8 gap-1.5 text-xs font-medium border-gray-200 bg-white hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 transition-all cursor-pointer",
-                                                copied && "text-green-600 border-green-500 bg-green-50"
-                                            )}
-                                        >
-                                            {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                            {copied ? 'Copied' : 'Copy'}
-                                        </Button>
+                                        <CopyButton value={output} size="sm" />
                                     </div>
                                 )}
                             </div>

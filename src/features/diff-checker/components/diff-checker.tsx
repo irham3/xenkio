@@ -344,7 +344,7 @@ export function DiffChecker() {
 function UnifiedDiffView({ changes }: { changes: DiffChange[] }) {
   return (
     <div className="font-mono text-[13px] leading-relaxed bg-gray-50 rounded-xl border border-gray-200 p-4 overflow-x-auto">
-      <div className="whitespace-pre-wrap break-words">
+      <div className="whitespace-pre-wrap wrap-break-word">
         {changes.map((change, index) => (
           <span
             key={index}
@@ -388,7 +388,7 @@ function SplitDiffView({ changes }: { changes: DiffChange[] }) {
           Original
         </div>
         <div className="font-mono text-[13px] leading-relaxed bg-gray-50 rounded-xl border border-gray-200 p-4 overflow-x-auto min-h-[100px]">
-          <div className="whitespace-pre-wrap break-words">
+          <div className="whitespace-pre-wrap wrap-break-word">
             {leftContent.map((item, index) => (
               <span
                 key={index}
@@ -411,7 +411,7 @@ function SplitDiffView({ changes }: { changes: DiffChange[] }) {
           Modified
         </div>
         <div className="font-mono text-[13px] leading-relaxed bg-gray-50 rounded-xl border border-gray-200 p-4 overflow-x-auto min-h-[100px]">
-          <div className="whitespace-pre-wrap break-words">
+          <div className="whitespace-pre-wrap wrap-break-word">
             {rightContent.map((item, index) => (
               <span
                 key={index}

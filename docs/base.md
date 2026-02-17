@@ -10,6 +10,9 @@
 - **Code quality**: Implement all TypeScript, Tailwind CSS, Shadcn UI, and Next.js 16 best practices
 - **The Best**: Every tool you build must be THE BEST version of that tool on the internet. Not "good enough" - THE BEST.
 - **Zero Error**: No errors & warning in code whatsoever. Always review and fix after finish
+- always run `npm run lint` after finish and fix all errors & warnings
+- always run `npm run dev` after finish and fix all errors & warnings
+- always run `npm run build` after finish and fix all errors & warnings
 
 
 ## 🏆 Core UX Principles

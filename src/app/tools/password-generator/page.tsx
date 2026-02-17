@@ -2,7 +2,7 @@
 
 import { Metadata } from 'next';
 import { TOOLS } from '@/data/tools';
-import { PasswordGeneratorClient } from './client';
+import PasswordGeneratorClient from './client';
 import { notFound } from 'next/navigation';
 
 const slug = 'password-generator';

@@ -20,7 +20,7 @@ const URL_MODES = [
     { id: 'decode', name: 'Decoder', description: 'Convert URL-encoded text back to standard text' }
 ] as const;
 
-export function UrlEncoder() {
+export default function UrlEncoderClient() {
     const [input, setInput] = useState("");
     const [output, setOutput] = useState("");
     const [mode, setMode] = useState<"encode" | "decode">("encode");

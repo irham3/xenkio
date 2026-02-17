@@ -26,7 +26,8 @@ import {
 } from "@dnd-kit/sortable"
 import { PageSizeMode, PdfFile, StandardPageSize } from "@/features/merge-pdf/types"
 import { PdfUploader } from "@/features/merge-pdf/components/pdf-uploader"
-import { PdfCard, SortablePdfCard } from "@/features/merge-pdf/components/pdf-card"
+import { PdfCard } from "@/features/merge-pdf/components/pdf-card"
+import { SortablePdfCard } from "@/features/merge-pdf/components/sortable-pdf-card"
 import { MergeSettings } from "@/features/merge-pdf/components/merge-settings"
 
 

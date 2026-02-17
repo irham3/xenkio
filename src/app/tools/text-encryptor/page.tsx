@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import { TOOLS } from '@/data/tools';
-import { TextEncryptor } from '@/features/text-encryptor/components/text-encryptor';
+import TextEncryptorClient from './client';
 import { notFound } from 'next/navigation';
-
 
 const slug = 'text-encryptor';
 
@@ -57,7 +56,7 @@ export default async function TextEncryptorPage() {
             </div>
 
             {/* Feature Component */}
-            <TextEncryptor />
+            <TextEncryptorClient />
         </div>
     );
 }

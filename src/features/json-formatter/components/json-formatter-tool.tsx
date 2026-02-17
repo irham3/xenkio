@@ -1,6 +1,4 @@
-
 'use client';
-
 
 import { useJsonFormatter } from '../hooks/use-json-formatter';
 import { Button } from '@/components/ui/button';

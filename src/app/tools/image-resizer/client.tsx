@@ -1,14 +1,13 @@
-
 'use client';
 
 import { useState } from 'react';
-import { useImageResizer } from '../hooks/use-image-resizer';
-import { ImageEditor } from './image-editor';
-import { ResizeControls } from './resize-controls';
+import { useImageResizer } from '@/features/image-resizer/hooks/use-image-resizer';
+import { ImageEditor } from '@/features/image-resizer/components/image-editor';
+import { ResizeControls } from '@/features/image-resizer/components/resize-controls';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 
-export function ImageResizerClient() {
+export default function ImageResizerClient() {
     const {
         imageState,
         config,

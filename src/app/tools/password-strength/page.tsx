@@ -2,7 +2,7 @@
 import { Metadata } from 'next';
 import { TOOLS } from '@/data/tools';
 import { notFound } from 'next/navigation';
-import { PasswordStrengthClient } from './client';
+import PasswordStrengthClient from './client';
 
 export const metadata: Metadata = {
     title: 'Password Strength Checker - Test Security & Crack Time',

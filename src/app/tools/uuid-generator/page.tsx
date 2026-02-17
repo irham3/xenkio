@@ -4,7 +4,7 @@
 import { Metadata } from 'next';
 import { TOOLS } from '@/data/tools';
 import { notFound } from 'next/navigation';
-import { UUIDGeneratorClient } from './client';
+import UUIDGeneratorClient from './client';
 
 const slug = 'uuid-generator';
 

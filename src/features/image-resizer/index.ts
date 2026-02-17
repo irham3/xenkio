@@ -1,1 +1,2 @@
-export { ImageResizerClient } from './components/image-resizer-client';
+export * from './hooks/use-image-resizer';
+export * from './types';

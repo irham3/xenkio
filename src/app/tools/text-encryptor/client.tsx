@@ -21,7 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
     type SymmetricAlgorithm,
     type AsymmetricAlgorithm
-} from '../utils/encryption-utils';
+} from '@/features/text-encryptor/utils/encryption-utils';
 import { cn } from '@/lib/utils';
 
 const SYMMETRIC_ALGORITHMS: { value: SymmetricAlgorithm; label: string; description: string }[] = [
@@ -42,7 +42,7 @@ const ASYMMETRIC_ALGORITHMS: { value: AsymmetricAlgorithm; label: string; descri
     { value: 'ECC', label: 'ECC (Curve25519)', description: 'Efficient, modern elliptic curve cryptography.' },
 ];
 
-export function TextEncryptor() {
+export default function TextEncryptorClient() {
     const [activeTab, setActiveTab] = useState<'symmetric' | 'asymmetric'>('symmetric');
 
     // Symmetric State
@@ -76,7 +76,7 @@ export function TextEncryptor() {
         setIsSymLoading(true);
         // Add small delay to allow UI to update (loading spinner)
         setTimeout(async () => {
-            const { encryptText, decryptText } = await import('../utils/encryption-utils');
+            const { encryptText, decryptText } = await import('@/features/text-encryptor/utils/encryption-utils');
             const result = symMode === 'encrypt'
                 ? await encryptText(symInput, symAlgorithm, symKey, { drop: rc4Drop })
                 : await decryptText(symInput, symAlgorithm, symKey, { drop: rc4Drop });
@@ -97,7 +97,7 @@ export function TextEncryptor() {
         if (!asymName.trim() || !asymEmail.trim()) return toast.error('Name and Email are required');
         setIsAsymLoading(true);
         try {
-            const { generateKeyPair } = await import('../utils/encryption-utils');
+            const { generateKeyPair } = await import('@/features/text-encryptor/utils/encryption-utils');
             const keys = await generateKeyPair(asymAlgo as 'RSA' | 'ECC', { name: asymName, email: asymEmail }, asymPassphrase);
             setGeneratedKeys({ pub: keys.publicKey, priv: keys.privateKey });
             toast.success('Key Pair Generated Successfully!');
@@ -113,7 +113,7 @@ export function TextEncryptor() {
 
         setIsAsymLoading(true);
         try {
-            const { encryptWithOpenPGP, decryptWithOpenPGP } = await import('../utils/encryption-utils');
+            const { encryptWithOpenPGP, decryptWithOpenPGP } = await import('@/features/text-encryptor/utils/encryption-utils');
             let result;
             if (asymAction === 'encrypt') {
                 // Encrypt message using Public Key
@@ -219,7 +219,7 @@ export function TextEncryptor() {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
                                     <Label className="text-sm font-medium text-gray-700">Message Input</Label>
-                                    <Button variant="ghost" size="sm" onClick={() => setSymInput('')} className="h-8 text-red-500 hover:text-red-600 hover:bg-red-50">
+                                    <Button variant="ghost" size="sm" onClick={() => setSymInput('')} className="h-8 text-red-500 hover:text-red-600 hover:bg-red-50 cursor-pointer">
                                         <Trash2 className="w-3 h-3 mr-1" /> Clear
                                     </Button>
                                 </div>
@@ -284,7 +284,7 @@ export function TextEncryptor() {
                         <div className="space-y-3 pt-4 border-t border-gray-100">
                             <div className="flex justify-between items-center">
                                 <Label className="text-sm font-semibold text-gray-900">Result Output</Label>
-                                <Button variant="outline" size="sm" onClick={() => copyToClipboard(symOutput)} disabled={!symOutput}>
+                                <Button variant="outline" size="sm" onClick={() => copyToClipboard(symOutput)} disabled={!symOutput} className="cursor-pointer">
                                     <Copy className="w-3 h-3 mr-2" /> Copy Result
                                 </Button>
                             </div>
@@ -365,7 +365,7 @@ export function TextEncryptor() {
                                             <Button
                                                 onClick={handleGenerateKeys}
                                                 disabled={isAsymLoading}
-                                                className="w-full h-11 bg-primary-600 hover:bg-primary-700 font-semibold text-white shadow-md mt-4"
+                                                className="w-full h-11 bg-primary-600 hover:bg-primary-700 font-semibold text-white shadow-md mt-4 cursor-pointer"
                                             >
                                                 {isAsymLoading ? <RefreshCw className="w-4 h-4 animate-spin mr-2" /> : <Zap className="w-4 h-4 mr-2" />}
                                                 Generate Key Pair
@@ -378,7 +378,7 @@ export function TextEncryptor() {
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-center">
                                             <Label className="flex items-center gap-2"><Lock className="w-3 h-3" /> Public Key</Label>
-                                            <Button variant="ghost" size="sm" onClick={() => copyToClipboard(generatedKeys?.pub || '')} disabled={!generatedKeys}>
+                                            <Button variant="ghost" size="sm" onClick={() => copyToClipboard(generatedKeys?.pub || '')} disabled={!generatedKeys} className="cursor-pointer">
                                                 <Copy className="w-3 h-3 mr-2" /> Copy
                                             </Button>
                                         </div>
@@ -389,7 +389,7 @@ export function TextEncryptor() {
                                     <div className="space-y-4 pt-2 border-t border-gray-100">
                                         <div className="flex justify-between items-center">
                                             <Label className="flex items-center gap-2"><Key className="w-3 h-3" /> Private Key</Label>
-                                            <Button variant="ghost" size="sm" onClick={() => copyToClipboard(generatedKeys?.priv || '')} disabled={!generatedKeys}>
+                                            <Button variant="ghost" size="sm" onClick={() => copyToClipboard(generatedKeys?.priv || '')} disabled={!generatedKeys} className="cursor-pointer">
                                                 <Copy className="w-3 h-3 mr-2" /> Copy
                                             </Button>
                                         </div>
@@ -407,7 +407,7 @@ export function TextEncryptor() {
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-center">
                                             <Label className="text-base font-semibold">Message Content</Label>
-                                            <Button variant="ghost" size="sm" onClick={() => setAsymInputText('')} className="text-red-500 hover:bg-red-50 hover:text-red-600 h-8">
+                                            <Button variant="ghost" size="sm" onClick={() => setAsymInputText('')} className="text-red-500 hover:bg-red-50 hover:text-red-600 h-8 cursor-pointer">
                                                 <Trash2 className="w-3 h-3 mr-1" /> Clear
                                             </Button>
                                         </div>
@@ -466,7 +466,7 @@ export function TextEncryptor() {
                                 <div className="space-y-4">
                                     <div className="flex justify-between items-center">
                                         <Label className="text-base font-semibold">Processed Output</Label>
-                                        <Button variant="outline" size="sm" onClick={() => copyToClipboard(asymOutputText)} disabled={!asymOutputText}>
+                                        <Button variant="outline" size="sm" onClick={() => copyToClipboard(asymOutputText)} disabled={!asymOutputText} className="cursor-pointer">
                                             <Copy className="w-3 h-3 mr-2" /> Copy Result
                                         </Button>
                                     </div>

@@ -2,7 +2,7 @@
 import { Metadata } from 'next';
 import { TOOLS } from '@/data/tools';
 import { notFound } from 'next/navigation';
-import { ImageResizerClient } from '@/features/image-resizer';
+import ImageResizerClient from './client';
 
 const slug = 'image-resizer';
 

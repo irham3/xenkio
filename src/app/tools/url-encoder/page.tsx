@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { UrlEncoder } from '../../../features/url-encoder/components/url-encoder';
+import UrlEncoder from './client';
 
 import { Link, Shield, Globe } from 'lucide-react';
 

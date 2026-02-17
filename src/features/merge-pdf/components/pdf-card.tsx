@@ -2,15 +2,12 @@
 
 import { RotateCw, X, Loader2, GripVertical } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useSortable } from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
 import { PdfFile } from "../types"
 import { PdfThumbnail } from "./pdf-thumbnail"
 
 // Define types for dnd-kit attributes/listeners safely
-type SortableResult = ReturnType<typeof useSortable>
-type SortableAttributes = SortableResult["attributes"]
-type SortableListeners = SortableResult["listeners"]
+type SortableAttributes = any
+type SortableListeners = any
 
 interface PdfCardProps {
     pdf: PdfFile
@@ -152,51 +149,5 @@ export function PdfCard({
                 </p>
             </div>
         </div>
-    )
-}
-
-interface SortablePdfCardProps {
-    pdf: PdfFile
-    index: number
-    onRotate: (id: string) => void
-    onRemove: (id: string) => void
-    updateThumbnail: (id: string, url: string) => void
-}
-
-export function SortablePdfCard({
-    pdf,
-    index,
-    onRotate,
-    onRemove,
-    updateThumbnail
-}: SortablePdfCardProps) {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-    } = useSortable({ id: pdf.id })
-
-    const style = {
-        transform: CSS.Translate.toString(transform),
-        transition,
-        opacity: isDragging ? 0 : 1, // Invisible placeholder, overlay is visible
-        zIndex: isDragging ? 50 : "auto",
-    }
-
-    return (
-        <PdfCard
-            pdf={pdf}
-            index={index}
-            onRotate={onRotate}
-            onRemove={onRemove}
-            updateThumbnail={updateThumbnail}
-            setNodeRef={setNodeRef}
-            style={style}
-            attributes={attributes}
-            listeners={listeners}
-        />
     )
 }

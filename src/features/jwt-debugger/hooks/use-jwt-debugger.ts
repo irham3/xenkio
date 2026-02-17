@@ -2,14 +2,15 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import * as jose from 'jose';
-import { JwtOptions, JwtResult, DEFAULT_PAYLOAD, DEFAULT_HEADER } from '../types';
+import { JwtOptions, JwtResult, DEFAULT_HEADER, createDefaultPayload } from '../types';
 
 export function useJwtDebugger() {
     const [options, setOptions] = useState<JwtOptions>({
-        mode: 'decode',
+        mode: 'encode',
         token: '',
         secret: 'your-256-bit-secret',
-        payload: DEFAULT_PAYLOAD,
+        // Use a static date (2024-01-01) for initial render to avoid hydration mismatch
+        payload: createDefaultPayload(1704067200),
         header: DEFAULT_HEADER,
         algorithm: 'HS256'
     });
@@ -50,9 +51,14 @@ export function useJwtDebugger() {
             if (options.secret) {
                 try {
                     const secretKey = new TextEncoder().encode(options.secret);
-                    await jose.jwtVerify(options.token, secretKey);
+                    console.log('Verifying token:', options.token);
+                    console.log('Using secret:', options.secret);
+                    await jose.jwtVerify(options.token.trim(), secretKey, {
+                        clockTolerance: 999999999 // Effectively ignore exp/nbf by allowing huge clock skew
+                    });
                     isVerified = true;
-                } catch {
+                } catch (e) {
+                    console.error('Verification failed:', e);
                     isVerified = false;
                 }
             }
@@ -103,29 +109,6 @@ export function useJwtDebugger() {
         }
     }, [options.payload, options.secret, options.algorithm]);
 
-    const reset = useCallback(() => {
-        setOptions(prev => {
-            const next = { ...prev };
-            // Reset relevant fields based on current mode, but keep mode itself
-            if (prev.mode === 'decode') {
-                next.token = '';
-            } else {
-                next.payload = DEFAULT_PAYLOAD;
-            }
-            return next;
-        });
-
-        // Clear result
-        setResult({
-            decodedHeader: null,
-            decodedPayload: null,
-            encodedToken: '',
-            isValid: false,
-            isVerified: null,
-            error: null
-        });
-    }, []);
-
     useEffect(() => {
         if (options.mode === 'decode') {
             decode();
@@ -147,7 +130,6 @@ export function useJwtDebugger() {
         result,
         isProcessing,
         updateOption,
-        reset,
         trigger
     };
 }

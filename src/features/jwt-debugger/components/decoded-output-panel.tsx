@@ -6,6 +6,9 @@ import { JwtResult } from '../types';
 import { CopyButton } from '@/components/shared';
 import { VerificationBadge } from './verification-badge';
 
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { JsonHighlighter } from './json-highlighter';
+
 interface DecodedOutputPanelProps {
     mode: 'decode' | 'encode';
     result: JwtResult;
@@ -16,7 +19,7 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
     const isDecode = mode === 'decode';
 
     return (
-        <div className="p-5 lg:p-6 bg-gray-50/30 space-y-6 flex flex-col h-full">
+        <div className="p-5 lg:p-6 space-y-6 flex flex-col h-full">
             <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                     {isDecode ? 'Decoded Result' : 'Generated Token'}
@@ -42,7 +45,7 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
                             </div>
                             <CodeBlock
                                 content={result.decodedHeader}
-                                colorClass="text-gray-600 border-gray-200 bg-white"
+                                colorClass="text-gray-600 border-gray-200 bg-gray-50"
                                 placeholder="Header data will appear here"
                             />
                         </div>
@@ -62,7 +65,7 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
                             </div>
                             <CodeBlock
                                 content={result.decodedPayload}
-                                colorClass="text-gray-600 border-gray-200 bg-white"
+                                colorClass="text-gray-600 border-gray-200 bg-gray-50"
                                 placeholder="Payload claims will appear here"
                                 className="min-h-[250px]"
                             />
@@ -83,7 +86,7 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
                         </div>
                         <div className={cn(
                             "w-full flex-1 p-5 rounded-xl border font-mono text-sm leading-relaxed break-all transition-all duration-300 overflow-auto",
-                            result.error ? "border-red-200 bg-red-50 text-red-600" : "bg-white border-gray-200 text-gray-700"
+                            result.error ? "border-red-200 bg-red-50 text-red-600" : "bg-gray-50 border-gray-200 text-gray-700"
                         )}>
                             {result.error ? (
                                 <div className="h-full flex flex-col items-center justify-center gap-2">
@@ -91,8 +94,12 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
                                     <p className="text-xs font-semibold">{result.error}</p>
                                 </div>
                             ) : result.encodedToken ? (
-                                <div className="space-y-1">
-                                    <span className="text-gray-900 break-all">{result.encodedToken}</span>
+                                <div className="space-y-1 break-all">
+                                    <span className="text-red-500 font-medium">{result.encodedToken.split('.')[0]}</span>
+                                    <span className="text-gray-400 font-bold mx-px">.</span>
+                                    <span className="text-purple-500 font-medium">{result.encodedToken.split('.')[1]}</span>
+                                    <span className="text-gray-400 font-bold mx-px">.</span>
+                                    <span className="text-blue-500 font-medium">{result.encodedToken.split('.')[2] || ''}</span>
                                 </div>
                             ) : (
                                 <div className="h-full flex flex-col items-center justify-center gap-3 text-gray-400">
@@ -119,12 +126,14 @@ function LabelSm({ text, color }: { text: string, color: string }) {
 function CodeBlock({ content, colorClass, placeholder, className }: { content: Record<string, unknown> | null, colorClass: string, placeholder: string, className?: string }) {
     return (
         <div className={cn(
-            "w-full p-4 rounded-xl border font-mono text-[13px] leading-relaxed transition-all duration-300 overflow-auto min-h-[120px] shadow-sm",
-            content ? colorClass : "bg-white border-gray-200 text-gray-300 flex items-center justify-center italic",
+            "w-full p-4 rounded-xl border font-mono text-[13px] leading-relaxed transition-all duration-300 overflow-auto min-h-[120px] shadow-sm whitespace-pre-wrap",
+            content ? colorClass : "bg-gray-50 border-gray-200 text-gray-300 flex items-center justify-center italic",
             className
         )}>
             {content ? (
-                <pre>{JSON.stringify(content, null, 2)}</pre>
+                <TooltipProvider delayDuration={0}>
+                    <JsonHighlighter json={JSON.stringify(content, null, 2)} />
+                </TooltipProvider>
             ) : (
                 <div className="flex items-center gap-2 opacity-30">
                     <Terminal className="w-4 h-4" />

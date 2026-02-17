@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Fragment } from 'react';
+import { useState } from 'react';
 import { useDiffChecker } from '../hooks/use-diff-checker';
 import { DIFF_TYPES, VIEW_MODES, SAMPLE_ORIGINAL, SAMPLE_MODIFIED } from '../constants';
 import { DiffType, DiffChange } from '../types';
@@ -47,7 +47,7 @@ export function DiffChecker() {
 
   const handleCopyDiff = () => {
     if (!result) return;
-    
+
     const diffText = result.changes
       .map(change => {
         if (change.added) return `+ ${change.value}`;
@@ -55,7 +55,7 @@ export function DiffChecker() {
         return `  ${change.value}`;
       })
       .join('');
-    
+
     navigator.clipboard.writeText(diffText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);

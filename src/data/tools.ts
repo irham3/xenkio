@@ -52,7 +52,6 @@ import {
     Shield,
     LockKeyhole,
     KeyRound,
-    Database,
     Box,
     Square,
     Triangle,
@@ -768,16 +767,7 @@ export const TOOLS: ToolData[] = [
     // =====================================================
     // DEVELOPER TOOLS - Tambahan
     // =====================================================
-    {
-        id: '72',
-        title: 'JSON Formatter',
-        description: 'Format and beautify JSON data with syntax highlighting and validation.',
-        icon: Database,
-        href: '/tools/json-formatter',
-        slug: 'json-formatter',
-        isNew: true,
-        categoryId: 'developer-tools',
-    },
+
 
     // =====================================================
     // DESIGN TOOLS - Tambahan

@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+
 import { usePasswordStrength } from '../hooks/use-password-strength';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';

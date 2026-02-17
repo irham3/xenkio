@@ -1,38 +1,39 @@
 
 'use client';
 
-import React from 'react';
-import { useJsonFormatter, Indentation } from '../hooks/use-json-formatter';
+
+import { useJsonFormatter } from '../hooks/use-json-formatter';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Copy, Trash2, Code2, Download, Braces, FileJson } from 'lucide-react';
 import { toast } from 'sonner';
+import { IndentSize } from '../types';
 
 export function JsonFormatterTool() {
     const {
-        input,
-        setInput,
-        output,
-        error,
-        indentation,
-        setIndentation,
-        formatJson,
-        minifyJson,
-        clear,
+        options,
+        updateOption,
+        result,
+        validationError,
+        format,
+        minify,
+        reset,
         loadSample
     } = useJsonFormatter();
 
     const handleCopy = () => {
-        if (!output && !input) return;
-        navigator.clipboard.writeText(output || input);
+        const content = result?.formatted || options.json;
+        if (!content) return;
+        navigator.clipboard.writeText(content);
         toast.success('JSON copied to clipboard');
     };
 
     const handleDownload = () => {
-        if (!output && !input) return;
-        const blob = new Blob([output || input], { type: 'application/json' });
+        const content = result?.formatted || options.json;
+        if (!content) return;
+        const blob = new Blob([content], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
@@ -44,9 +45,21 @@ export function JsonFormatterTool() {
     };
 
     const handleCreateNew = () => {
-        clear();
+        reset();
         toast.info('New Empty JSON created');
     };
+
+    const handleIndentationChange = (value: string) => {
+        if (value === 'tab') {
+            updateOption('indentType', 'TAB');
+            // Size doesn't matter for tab but maybe keep it
+        } else {
+            updateOption('indentType', 'SPACE');
+            updateOption('indentSize', parseInt(value) as IndentSize);
+        }
+    };
+
+    const currentIndentValue = options.indentType === 'TAB' ? 'tab' : String(options.indentSize);
 
     return (
         <div className="max-w-6xl mx-auto space-y-6">
@@ -57,13 +70,13 @@ export function JsonFormatterTool() {
                     <Button variant="outline" size="sm" onClick={handleCreateNew} className="text-gray-600">
                         <FileJson size={16} className="mr-2 text-primary-500" /> New
                     </Button>
-                    <Button variant="outline" size="sm" onClick={loadSample} className="text-gray-600 hidden sm:flex">
+                    <Button variant="outline" size="sm" onClick={() => loadSample('{"sample": "data"}')} className="text-gray-600 hidden sm:flex">
                         Load Sample
                     </Button>
                     <span className="w-px h-6 bg-gray-200 mx-1 hidden sm:block" />
                     <div className="flex items-center gap-2">
                         <Label className="text-xs font-medium text-gray-500 hidden sm:block">Indent:</Label>
-                        <Select value={String(indentation)} onValueChange={(v) => setIndentation(v === 'tab' ? 'tab' : Number(v) as Indentation)}>
+                        <Select value={currentIndentValue} onValueChange={handleIndentationChange}>
                             <SelectTrigger className="h-8 w-[100px] text-xs">
                                 <SelectValue placeholder="2 Spaces" />
                             </SelectTrigger>
@@ -77,13 +90,13 @@ export function JsonFormatterTool() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <Button size="sm" onClick={formatJson} className="bg-primary-600 hover:bg-primary-700 text-white shadow-primary">
+                    <Button size="sm" onClick={format} className="bg-primary-600 hover:bg-primary-700 text-white shadow-primary">
                         <Braces size={16} className="mr-2" /> Format
                     </Button>
-                    <Button size="sm" variant="secondary" onClick={minifyJson} className="bg-gray-100 hover:bg-gray-200 text-gray-700">
+                    <Button size="sm" variant="secondary" onClick={minify} className="bg-gray-100 hover:bg-gray-200 text-gray-700">
                         <Code2 size={16} className="mr-2" /> Minify
                     </Button>
-                    <Button size="icon" variant="ghost" onClick={clear} title="Clear All" className="text-gray-400 hover:text-red-500 hover:bg-red-50">
+                    <Button size="icon" variant="ghost" onClick={reset} title="Clear All" className="text-gray-400 hover:text-red-500 hover:bg-red-50">
                         <Trash2 size={16} />
                     </Button>
                 </div>
@@ -101,16 +114,16 @@ export function JsonFormatterTool() {
                         </div>
                     </div>
                     <Textarea
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
+                        value={options.json}
+                        onChange={(e) => updateOption('json', e.target.value)}
                         placeholder="Paste your JSON here..."
                         className="flex-1 w-full h-full resize-none border-none focus-visible:ring-0 p-4 font-mono text-sm leading-relaxed text-gray-800 bg-transparent"
                         spellCheck={false}
                     />
                     {/* Error Overlay */}
-                    {error && (
+                    {validationError && (
                         <div className="absolute bottom-4 left-4 right-4 bg-red-50 text-red-600 text-xs p-3 rounded-lg border border-red-100 shadow-sm animate-in fade-in slide-in-from-bottom-2">
-                            <span className="font-bold">Error:</span> {error}
+                            <span className="font-bold">Error:</span> {validationError}
                         </div>
                     )}
                 </div>
@@ -130,7 +143,7 @@ export function JsonFormatterTool() {
                         </div>
                     </div>
                     <Textarea
-                        value={output}
+                        value={result?.formatted || ''}
                         readOnly
                         placeholder="Formatted JSON will appear here..."
                         className="flex-1 w-full h-full resize-none border-none focus-visible:ring-0 p-4 font-mono text-sm leading-relaxed text-green-400 bg-transparent placeholder-gray-600 selection:bg-primary-900 selection:text-white"

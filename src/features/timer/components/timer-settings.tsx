@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { TimerConfig } from '../types';
 import { Clock, Calendar, Hash } from 'lucide-react';
 import { cn } from '@/lib/utils';

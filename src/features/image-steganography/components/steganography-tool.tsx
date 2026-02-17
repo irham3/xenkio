@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useSteganography } from '../hooks/use-steganography';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';

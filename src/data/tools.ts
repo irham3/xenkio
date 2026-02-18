@@ -499,7 +499,8 @@ export const TOOLS: ToolData[] = [
         description: 'Generate harmonious color palettes for your designs.',
         icon: Paintbrush,
         href: '/tools/color-palette',
-        isComingSoon: true,
+        slug: 'color-palette',
+        isNew: true,
         categoryId: 'design-tools',
     },
     {

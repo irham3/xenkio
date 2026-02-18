@@ -74,6 +74,25 @@ export function ColorPaletteGeneratorContent() {
                             Download your palette as JSON or copy-paste CSS variables directly into your stylesheet.
                         </p>
                     </div>
+                    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center mb-4">
+                            <Zap className="w-6 h-6 text-orange-600" />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">Accessibility First</h3>
+                        <p className="text-gray-600 text-sm">
+                            Real-time WCAG contrast ratio analysis for both black and white text on every color.
+                        </p>
+                    </div>
+
+                    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div className="w-12 h-12 bg-pink-50 rounded-lg flex items-center justify-center mb-4">
+                            <Zap className="w-6 h-6 text-pink-600" />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">Curated Collection</h3>
+                        <p className="text-gray-600 text-sm">
+                            Access our library of professionally designed color palettes to jump-start your project.
+                        </p>
+                    </div>
                 </div>
             </section>
         </div>

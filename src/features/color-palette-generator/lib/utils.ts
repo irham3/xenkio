@@ -20,30 +20,45 @@ export function hexToRgb(hex: string): { r: number, g: number, b: number } | nul
 }
 
 /**
+ * Calculate relative luminance of a color
+ * Formula: 0.2126 * R + 0.7152 * G + 0.0722 * B
+ */
+export function getLuminance(hex: string): number {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return 0;
+
+    const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(v => {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/**
+ * Calculate contrast ratio between two colors
+ * Formula: (L1 + 0.05) / (L2 + 0.05)
+ */
+export function getContrastRatio(c1: string, c2: string): number {
+    const l1 = getLuminance(c1);
+    const l2 = getLuminance(c2);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+}
+
+/**
  * Determine if text should be black or white based on background brightness
  * Returns 'black' or 'white'
  */
 export function getContrastColor(hex: string): 'black' | 'white' {
-    const rgb = hexToRgb(hex);
-    if (!rgb) return 'black';
-    // Calculate brightness (YIQ)
-    const yiq = ((rgb.r * 299) + (rgb.g * 587) + (rgb.b * 114)) / 1000;
-    return (yiq >= 128) ? 'black' : 'white';
+    const luminance = getLuminance(hex);
+    return luminance > 0.179 ? 'black' : 'white';
 }
 
 /**
  * Generate a harmonious palette based on a base hue or completely random
- * For simplicity, we'll start with random robust colors using HSL logic
  */
 export function generatePalette(count: number = 5, existingPalette: Color[] = []): Color[] {
     const newPalette: Color[] = [];
-
-    // Simple strategy: If existing palette has locked colors, keep them.
-    // If empty or no locks, generate completely random.
-    // Enhanced strategy: Use HSL to pick colors that look somewhat good together (same saturation/lightness with different hues)
-
-    // Pick a random base hue
-    const baseHue = Math.floor(Math.random() * 360);
 
     for (let i = 0; i < count; i++) {
         // If index exists and is locked, keep it
@@ -53,11 +68,10 @@ export function generatePalette(count: number = 5, existingPalette: Color[] = []
         }
 
         // Generate new color
-        // Simple random for now, can be improved with HSL math
         const hex = generateRandomHex();
 
         newPalette.push({
-            id: crypto.randomUUID(), // Unique ID for keys
+            id: crypto.randomUUID(),
             hex: hex,
             locked: false
         });

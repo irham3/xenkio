@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
-import { ColorPaletteGeneratorContent } from '@/features/color-palette-generator';
 import ColorPaletteClient from './client';
+import { TOOLS } from '@/data/tools';
+import { notFound } from 'next/navigation';
+
+const slug = 'color-palette';
 
 export const metadata: Metadata = {
     title: 'Color Palette Generator | Create Beautiful Color Schemes',
@@ -14,10 +17,23 @@ export const metadata: Metadata = {
 };
 
 export default function ColorPalettePage() {
+    const tool = TOOLS.find(t => t.slug === slug);
+
+    if (!tool) {
+        notFound();
+    }
+
     return (
-        <div className="container py-12 space-y-16">
-            <ColorPaletteClient />
-            <ColorPaletteGeneratorContent />
+        <div className="container mx-auto px-4 py-12 max-w-7xl">
+            {/* Tool Header */}
+            <div className="text-center mb-12">
+                <h1 className="text-4xl font-extrabold text-gray-900 mb-4">{tool.title}</h1>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">{tool.description}</p>
+            </div>
+
+            <div className="space-y-16">
+                <ColorPaletteClient />
+            </div>
         </div>
     );
 }

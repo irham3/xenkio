@@ -190,8 +190,8 @@ export const TOOLS: ToolData[] = [
         icon: FilePlus,
         href: '/tools/sign-pdf',
         slug: 'sign-pdf',
-        isComingSoon: true,
         categoryId: 'documents',
+        isNew: true,
     },
 
     // =====================================================

@@ -18,7 +18,8 @@ export function usePdfToWord() {
         // Dynamic imports for client-side conversion
         const { Document, Packer, Paragraph, TextRun, HeadingLevel, convertInchesToTwip } = await import('docx');
         const pdfjsLib = await import('pdfjs-dist');
-        pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+        const version = pdfjsLib.version || '5.4.624';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
 
         const loadingTask = pdfjsLib.getDocument({ data: pdfFile.arrayBuffer });
         const pdf = await loadingTask.promise;
@@ -131,7 +132,8 @@ export function usePdfToWord() {
             let wordCount = 0;
             try {
                 const pdfjsLib = await import('pdfjs-dist');
-                pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+                const version = pdfjsLib.version || '5.4.624';
+                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
                 const loadingTask = pdfjsLib.getDocument({ data: pdfFile.arrayBuffer });
                 const pdf = await loadingTask.promise;
 

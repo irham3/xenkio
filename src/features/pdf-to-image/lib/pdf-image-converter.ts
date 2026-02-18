@@ -4,9 +4,8 @@ import { ConversionOptions, ConversionResult, PagePreview } from '../types';
 // Initialize worker
 const initPdfWorker = async () => {
     const pdfjsLib = await import('pdfjs-dist');
-    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
-    }
+    const version = pdfjsLib.version || '5.4.624';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
     return pdfjsLib;
 };
 

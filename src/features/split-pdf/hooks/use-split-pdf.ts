@@ -16,7 +16,8 @@ export function useSplitPdf() {
         let pdfjsDoc;
         try {
             const pdfjsLib = await import("pdfjs-dist");
-            pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+            const version = pdfjsLib.version || '5.4.624';
+            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
             const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer.slice(0) });
             pdfjsDoc = await loadingTask.promise;
         } catch (error) {

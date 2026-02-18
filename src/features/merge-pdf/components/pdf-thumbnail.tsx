@@ -36,7 +36,8 @@ export function PdfThumbnail({ arrayBuffer, onLoad, rotation }: PdfThumbnailProp
 
             try {
                 const pdfjsLib = await import("pdfjs-dist")
-                pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs"
+                const version = pdfjsLib.version || '5.4.624';
+                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
 
                 const bufferCopy = arrayBuffer.slice(0)
                 const pdf = await pdfjsLib.getDocument({ data: bufferCopy }).promise

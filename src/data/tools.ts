@@ -386,7 +386,8 @@ export const TOOLS: ToolData[] = [
         description: 'Convert JSON data to CSV format for spreadsheets.',
         icon: FileJson,
         href: '/tools/json-to-csv',
-        isComingSoon: true,
+        slug: 'json-to-csv',
+        isNew: true,
         categoryId: 'developer-tools',
     },
     {

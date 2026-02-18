@@ -37,7 +37,7 @@ export function JsonToCsvContent() {
                         <div className="w-10 h-10 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center font-bold text-lg border border-primary-100">3</div>
                         <h3 className="font-semibold text-gray-900">Download CSV</h3>
                         <p className="text-gray-600 text-sm leading-relaxed">
-                            Click "Download" to save your file or copy the CSV data directly to your clipboard for immediate use.
+                            Click &quot;Download&quot; to save your file or copy the CSV data directly to your clipboard for immediate use.
                         </p>
                     </div>
                 </div>
@@ -131,14 +131,14 @@ export function JsonToCsvContent() {
                         <div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">How do I handle nested JSON objects?</h3>
                             <p className="text-gray-600 text-sm">
-                                By default, our tool enables "Flatten Object" mode. This converts nested structures (like <code>{`{"user": {"name": "John"}}`}</code>) into dot-notation columns (e.g., <code>user.name</code>). You can convert complex API responses directly into flat spreadsheets.
+                                By default, our tool enables &quot;Flatten Object&quot; mode. This converts nested structures (like <code>{`{"user": {"name": "John"}}`}</code>) into dot-notation columns (e.g., <code>user.name</code>). You can convert complex API responses directly into flat spreadsheets.
                             </p>
                         </div>
 
                         <div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">Can I convert large JSON files?</h3>
                             <p className="text-gray-600 text-sm">
-                                Yes. Since the processing is done locally on your device, the limit depends primarily on your computer's memory (RAM). Most modern browsers can easily handle files up to 100MB+ instantly.
+                                Yes. Since the processing is done locally on your device, the limit depends primarily on your computer&apos;s memory (RAM). Most modern browsers can easily handle files up to 100MB+ instantly.
                             </p>
                         </div>
                     </div>

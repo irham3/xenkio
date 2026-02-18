@@ -52,6 +52,10 @@ export function ColorPaletteGeneratorTool() {
         setColors(prev => prev.map(c => c.id === id ? { ...c, locked: !c.locked } : c));
     }, []);
 
+    const handleColorUpdate = (id: string, newHex: string) => {
+        setColors(prev => prev.map(c => c.id === id ? { ...c, hex: newHex } : c));
+    };
+
     const handleCopyCSS = () => {
         const css = `:root {\n${colors.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join('\n')}\n}`;
         navigator.clipboard.writeText(css);
@@ -160,6 +164,7 @@ export function ColorPaletteGeneratorTool() {
                             key={color.id}
                             color={color}
                             onToggleLock={toggleLock}
+                            onChange={handleColorUpdate}
                         />
                     ))}
                 </div>

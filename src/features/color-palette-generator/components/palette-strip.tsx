@@ -10,9 +10,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 interface PaletteStripProps {
     color: Color;
     onToggleLock: (id: string) => void;
+    onChange: (id: string, newHex: string) => void;
 }
 
-export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock }) => {
+export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock, onChange }) => {
     // Determine text colors based on contrast
     const isWhite = getContrastColor(color.hex) === 'white';
 
@@ -27,6 +28,10 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock 
     const handleCopy = () => {
         navigator.clipboard.writeText(color.hex);
         toast.success(`HEX ${color.hex.toUpperCase()} copied!`);
+    };
+
+    const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange(color.id, e.target.value.toUpperCase());
     };
 
     const handleCopyRGB = () => {
@@ -96,15 +101,21 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock 
                     </TooltipProvider>
                 </div>
 
-                {/* Hex Code Area */}
-                <div className="flex flex-col items-center gap-1 group/hex">
-                    <button
-                        onClick={handleCopy}
-                        className="text-2xl md:text-3xl font-black uppercase tracking-tighter font-mono hover:scale-105 transition-transform active:scale-95"
-                    >
-                        {color.hex.replace('#', '')}
-                    </button>
+                {/* Hex Code Area & Input */}
+                <div className="flex flex-col items-center gap-1 group/hex relative">
+                    <label className="cursor-pointer">
+                        <input
+                            type="color"
+                            value={color.hex}
+                            onChange={handleColorChange}
+                            className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                        />
+                        <span className="text-2xl md:text-3xl font-black uppercase tracking-tighter font-mono hover:scale-105 transition-transform block">
+                            {color.hex.replace('#', '')}
+                        </span>
+                    </label>
                     <div className={cn("h-1 w-0 group-hover/hex:w-full transition-all duration-300 rounded-full", isWhite ? "bg-white" : "bg-black")} />
+                    <span className="text-[8px] font-bold opacity-0 group-hover/hex:opacity-60 transition-opacity uppercase tracking-widest mt-1">Change</span>
                 </div>
 
                 {/* Accessibility Indicators (WCAG Contrast) */}

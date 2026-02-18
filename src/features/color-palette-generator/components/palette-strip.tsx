@@ -14,6 +14,13 @@ interface PaletteStripProps {
 }
 
 export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock, onChange }) => {
+    const [localHex, setLocalHex] = React.useState(color.hex.replace('#', ''));
+
+    // Sync local hex when color.hex changes externally
+    React.useEffect(() => {
+        setLocalHex(color.hex.replace('#', ''));
+    }, [color.hex]);
+
     // Determine text colors based on contrast
     const isWhite = getContrastColor(color.hex) === 'white';
 
@@ -103,19 +110,43 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock,
 
                 {/* Hex Code Area & Input */}
                 <div className="flex flex-col items-center gap-1 group/hex relative">
-                    <label className="cursor-pointer">
+                    <div className="flex items-center gap-1.5 relative px-2 py-1 rounded-lg bg-black/5 backdrop-blur-sm border border-black/5">
+                        <span className="text-xl md:text-2xl font-black opacity-30 pointer-events-none pr-1">#</span>
                         <input
-                            type="color"
-                            value={color.hex}
-                            onChange={handleColorChange}
-                            className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                            type="text"
+                            value={localHex}
+                            maxLength={6}
+                            onChange={(e) => {
+                                const val = e.target.value.toUpperCase();
+                                if (/^[0-9A-F]{0,6}$/.test(val)) {
+                                    setLocalHex(val);
+                                    if (val.length === 6) {
+                                        onChange(color.id, `#${val}`);
+                                    } else if (val.length === 3) {
+                                        const expanded = val.split('').map(char => char + char).join('');
+                                        onChange(color.id, `#${expanded}`);
+                                    }
+                                }
+                            }}
+                            onBlur={() => {
+                                if (localHex.length !== 3 && localHex.length !== 6) {
+                                    setLocalHex(color.hex.replace('#', ''));
+                                }
+                            }}
+                            className="text-2xl md:text-3xl font-black uppercase tracking-tighter font-mono bg-transparent border-none focus:outline-none focus:ring-0 w-[6ch] text-center transition-transform hover:scale-105"
                         />
-                        <span className="text-2xl md:text-3xl font-black uppercase tracking-tighter font-mono hover:scale-105 transition-transform block">
-                            {color.hex.replace('#', '')}
-                        </span>
-                    </label>
+                        <label className="cursor-pointer ml-1 p-1 hover:bg-black/10 rounded-full transition-colors relative flex items-center justify-center w-6 h-6 border border-black/10">
+                            <input
+                                type="color"
+                                value={color.hex}
+                                onChange={handleColorChange}
+                                className="absolute inset-0 opacity-0 cursor-pointer w-0 h-0"
+                            />
+                            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: color.hex }} />
+                        </label>
+                    </div>
                     <div className={cn("h-1 w-0 group-hover/hex:w-full transition-all duration-300 rounded-full", isWhite ? "bg-white" : "bg-black")} />
-                    <span className="text-[8px] font-bold opacity-0 group-hover/hex:opacity-60 transition-opacity uppercase tracking-widest mt-1">Change</span>
+                    <span className="text-[8px] font-bold opacity-0 group-hover/hex:opacity-60 transition-opacity uppercase tracking-[0.2em] mt-2">Manual Input</span>
                 </div>
 
                 {/* Accessibility Indicators (WCAG Contrast) */}

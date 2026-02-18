@@ -119,7 +119,7 @@ export function hslToHex(h: number, s: number, l: number): string {
 /**
  * Generate a harmonious palette based on a base hue or completely random
  */
-export function generatePalette(count: number = 5, existingPalette: Color[] = []): Color[] {
+export function generatePalette(count: number = 5, existingPalette: Color[] = [], hMode: string = 'random'): Color[] {
     const lockedColors = existingPalette.filter(c => c.locked);
     let baseHsl = { h: Math.random() * 360, s: 40 + Math.random() * 40, l: 30 + Math.random() * 40 };
 
@@ -129,7 +129,7 @@ export function generatePalette(count: number = 5, existingPalette: Color[] = []
     }
 
     const harmonies = ['analogous', 'monochromatic', 'triadic', 'complementary', 'split-complementary', 'shades'];
-    const selectedHarmony = harmonies[Math.floor(Math.random() * harmonies.length)];
+    const selectedHarmony = hMode === 'random' ? harmonies[Math.floor(Math.random() * harmonies.length)] : hMode;
 
     const result: Color[] = [];
 

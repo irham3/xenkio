@@ -509,7 +509,8 @@ export const TOOLS: ToolData[] = [
         description: 'Create beautiful CSS gradients with visual editor.',
         icon: Layers,
         href: '/tools/gradient-generator',
-        isComingSoon: true,
+        slug: 'gradient-generator',
+        isNew: true,
         categoryId: 'design-tools',
     },
     {
@@ -518,7 +519,8 @@ export const TOOLS: ToolData[] = [
         description: 'Check color contrast ratio for accessibility (WCAG).',
         icon: Contrast,
         href: '/tools/contrast-checker',
-        isComingSoon: true,
+        slug: 'contrast-checker',
+        isNew: true,
         categoryId: 'design-tools',
     },
 
@@ -550,7 +552,8 @@ export const TOOLS: ToolData[] = [
         description: 'Count words, characters, sentences, and paragraphs.',
         icon: Calculator,
         href: '/tools/word-counter',
-        isComingSoon: true,
+        slug: 'word-counter',
+        isNew: true,
         categoryId: 'text-utilities',
     },
     {
@@ -559,7 +562,8 @@ export const TOOLS: ToolData[] = [
         description: 'Convert text between uppercase, lowercase, title case, and more.',
         icon: TextCursor,
         href: '/tools/case-converter',
-        isComingSoon: true,
+        slug: 'case-converter',
+        isNew: true,
         categoryId: 'text-utilities',
     },
     // Text Diff removed - redundant with Diff Checker
@@ -821,7 +825,7 @@ export const TOOLS: ToolData[] = [
         icon: Eye,
         href: '/tools/color-blindness',
         slug: 'color-blindness',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'design-tools',
     },
     {
@@ -845,7 +849,7 @@ export const TOOLS: ToolData[] = [
         icon: ArrowLeftRight,
         href: '/tools/text-reverser',
         slug: 'text-reverser',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'text-utilities',
     },
     {
@@ -855,7 +859,7 @@ export const TOOLS: ToolData[] = [
         icon: ListFilter,
         href: '/tools/duplicate-remover',
         slug: 'duplicate-remover',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'text-utilities',
     },
 

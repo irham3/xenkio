@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
+import { fontDancing, fontGreatVibes, fontAlexBrush, fontPacifico, fontSatisfy } from '../fonts';
 
 const FONTS = [
     { name: 'Dancing Script', family: "var(--font-dancing), cursive" },
@@ -41,7 +41,14 @@ export function TextSignature({ onSave, color }: TextSignatureProps) {
     };
 
     return (
-        <div className="space-y-6">
+        <div className={cn(
+            "space-y-6",
+            fontDancing.variable,
+            fontGreatVibes.variable,
+            fontAlexBrush.variable,
+            fontPacifico.variable,
+            fontSatisfy.variable
+        )}>
             <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">Type your name</label>
                 <input

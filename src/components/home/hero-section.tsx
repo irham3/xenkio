@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
-import { motion } from 'framer-motion';
 import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
 import { TOOLS, type ToolData } from '@/data/tools';
@@ -72,6 +71,27 @@ export function HeroSection() {
 
   return (
     <section className="relative z-10 bg-white pt-20 pb-32 lg:pt-32 lg:pb-40">
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-scale-in { animation: scaleIn 0.5s ease-out forwards; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+      `}</style>
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
         {/* Professional Grid Background with Mask */}
         <div className="absolute inset-0 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]">
@@ -86,23 +106,13 @@ export function HeroSection() {
         <div className="text-center max-w-4xl mx-auto">
 
           {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-default"
-          >
+          <div className="opacity-0 animate-fade-in-up inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-default">
             <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span className="text-xs font-semibold text-gray-600 tracking-wide uppercase">Free & Unlimited</span>
-          </motion.div>
+          </div>
 
           {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1]"
-          >
+          <h1 className="opacity-0 animate-fade-in-up delay-1 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1]">
             Your Toolkit for <br className="hidden sm:block" />
             <span className="relative inline-block">
               <ShinyText
@@ -114,26 +124,18 @@ export function HeroSection() {
                 shineColor="#E0F2FE"
               />
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg sm:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed"
-          >
+          <p className="opacity-0 animate-fade-in-up delay-2 text-lg sm:text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
             Explore a collection of powerful, free tools to convert, edit, and generate content.
             No sign-up required, just get it done.
-          </motion.p>
+          </p>
 
-          {/* Search Area: The focal point - using OLD width style max-w-xl */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+          {/* Search Area */}
+          <div
             ref={containerRef}
-            className="relative max-w-xl mx-auto z-20 mb-12"
+            className="opacity-0 animate-scale-in delay-3 relative max-w-xl mx-auto z-20 mb-12"
           >
             <PlaceholdersAndVanishInput
               placeholders={placeholders}
@@ -144,13 +146,9 @@ export function HeroSection() {
               onFocus={() => setIsFocused(true)}
             />
 
-            {/* Search Results Dropdown - Simpler Version */}
+            {/* Search Results Dropdown */}
             {showResults && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50 overflow-hidden"
-              >
+              <div className="animate-fade-in-up absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50 overflow-hidden">
                 <div className="max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {results.map((tool) => (
                     <a
@@ -163,22 +161,18 @@ export function HeroSection() {
                       </div>
                       <div className="flex-1 text-left">
                         <div className="text-[15px] font-medium text-gray-900">{tool.title}</div>
-                        <div className="text-sm text-gray-500">{tool.description.slice(0, 60)}...</div>
+                        <div className="text-sm text-gray-700">{tool.description.slice(0, 60)}...</div>
                       </div>
                       <ArrowRight className="w-4 h-4 text-gray-400" />
                     </a>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             )}
-          </motion.div>
+          </div>
 
           {/* Trust Indicators */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
+          <div className="opacity-0 animate-fade-in delay-4">
             <div className="flex items-center justify-center gap-8 md:gap-16 max-w-3xl mx-auto">
               <div className="flex flex-col items-center gap-2 group cursor-default">
                 <div className="p-2 rounded-full bg-green-50 text-green-600 group-hover:bg-green-100 transition-colors">
@@ -199,7 +193,7 @@ export function HeroSection() {
                 <span className="text-sm font-medium text-gray-600">Forever Free</span>
               </div>
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

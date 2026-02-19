@@ -15,7 +15,6 @@ import { cn } from '@/lib/utils';
 import { CATEGORIES } from '@/data/categories';
 
 import { TOOLS } from '@/data/tools';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 export function Navbar() {
@@ -163,51 +162,43 @@ export function Navbar() {
                         />
                       </a>
 
-                      <AnimatePresence>
-                        {hoveredCategory === category.id && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95, x: '-50%' }}
-                            animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }}
-                            exit={{ opacity: 0, y: 5, scale: 0.95, x: '-50%' }}
-                            transition={{ duration: 0.15, ease: "easeOut" }}
-                            style={{ transformOrigin: '50% 0' }}
-                            className={cn(
-                              "absolute top-full left-1/2 mt-2 p-3 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left",
-                              isTwoColumns ? "w-[540px]" : "w-[290px]"
-                            )}
-                          >
-                            <div className={cn("grid gap-2", isTwoColumns ? "grid-cols-2" : "grid-cols-1")}>
-                              {categoryTools.map((tool) => (
-                                <Link
-                                  key={tool.id}
-                                  href={tool.href}
-                                  className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors"
-                                >
-                                  <div className={cn(
-                                    "flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 group-hover:bg-white group-hover:shadow-sm transition-all",
-                                    "text-gray-500 group-hover:text-primary-600"
-                                  )}>
-                                    <tool.icon className="w-4 h-4" />
-                                  </div>
-                                  <div>
-                                    <div className="text-sm font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
-                                      {tool.title}
-                                    </div>
-                                    <p className="text-[12px] text-gray-500 line-clamp-1 mt-0.5">
-                                      {tool.description}
-                                    </p>
-                                  </div>
-                                </Link>
-                              ))}
-                              {categoryTools.length === 0 && (
-                                <p className={cn("p-3 text-xs text-center text-gray-400", isTwoColumns ? "col-span-2" : "col-span-1")}>
-                                  No tools available directly in this menu.
-                                </p>
-                              )}
-                            </div>
-                          </motion.div>
+                      <div
+                        className={cn(
+                          "absolute top-full left-1/2 mt-2 p-3 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left transition-all duration-200 origin-top -translate-x-1/2",
+                          hoveredCategory === category.id ? "opacity-100 visible translate-y-0 scale-100" : "opacity-0 invisible translate-y-2 scale-95",
+                          isTwoColumns ? "w-[540px]" : "w-[290px]"
                         )}
-                      </AnimatePresence>
+                      >
+                        <div className={cn("grid gap-2", isTwoColumns ? "grid-cols-2" : "grid-cols-1")}>
+                          {categoryTools.map((tool) => (
+                            <Link
+                              key={tool.id}
+                              href={tool.href}
+                              className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors"
+                            >
+                              <div className={cn(
+                                "flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 group-hover:bg-white group-hover:shadow-sm transition-all",
+                                "text-gray-500 group-hover:text-primary-600"
+                              )}>
+                                <tool.icon className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="text-sm font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+                                  {tool.title}
+                                </div>
+                                <p className="text-[12px] text-gray-700 line-clamp-1 mt-0.5">
+                                  {tool.description}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                          {categoryTools.length === 0 && (
+                            <p className={cn("p-3 text-xs text-center text-gray-400", isTwoColumns ? "col-span-2" : "col-span-1")}>
+                              No tools available directly in this menu.
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
@@ -238,108 +229,95 @@ export function Navbar() {
                     />
                   </button>
 
-                  <AnimatePresence>
-                    {hoveredCategory === 'more' && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95, x: '-50%' }}
-                        animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }}
-                        exit={{ opacity: 0, y: 5, scale: 0.95, x: '-50%' }}
-                        transition={{ duration: 0.15, ease: "easeOut" }}
-                        style={{ transformOrigin: '50% 0' }}
-                        className="absolute top-full left-1/2 mt-2 w-[260px] p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left"
-                      >
-                        <div className="flex flex-col gap-1">
-                          {CATEGORIES.slice(3).map((category) => {
-                            const categoryTools = TOOLS.filter(t => t.categoryId === category.id);
-                            const isTwoColumns = categoryTools.length > 7;
-
-                            return (
-                              <div
-                                key={category.id}
-                                className="relative group/item"
-                                onMouseEnter={() => setActiveSubCategory(category.id)}
-                                onMouseLeave={() => setActiveSubCategory(null)} // Reset sub-category when leaving this item
-                              >
-                                <a
-                                  href={`#category-${category.id}`}
-                                  onClick={(e) => {
-                                    handleCategoryClick(e, category.id);
-                                    setHoveredCategory(null);
-                                    setActiveSubCategory(null); // Close sub-menu on click
-                                  }}
-                                  className={cn(
-                                    "flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors w-full",
-                                    effectiveActiveCategory === category.id || activeSubCategory === category.id
-                                      ? "bg-primary-50 text-primary-700"
-                                      : "hover:bg-gray-50 text-gray-700"
-                                  )}
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <div className={cn(
-                                      "flex items-center justify-center w-8 h-8 rounded-lg shrink-0 transition-colors",
-                                      effectiveActiveCategory === category.id || activeSubCategory === category.id
-                                        ? "bg-white text-primary-600"
-                                        : "bg-gray-100 text-gray-500 group-hover/item:bg-white group-hover/item:text-primary-600"
-                                    )}>
-                                      <category.icon className="w-4 h-4" />
-                                    </div>
-                                    <span className="text-sm font-medium">{category.name}</span>
-                                  </div>
-                                  <ChevronDown className="w-3 h-3 rotate-90 text-gray-400 mt-px" />
-                                </a>
-
-                                {/* Nested Tool Menu */}
-                                <AnimatePresence>
-                                  {activeSubCategory === category.id && (
-                                    <motion.div
-                                      initial={{ opacity: 0, x: 10 }}
-                                      animate={{ opacity: 1, x: 0 }}
-                                      exit={{ opacity: 0, x: 10 }}
-                                      transition={{ duration: 0.15, ease: "easeOut" }}
-                                      className={cn(
-                                        "absolute top-0 right-full mr-2 p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50",
-                                        isTwoColumns ? "w-[540px]" : "w-[290px]"
-                                      )}
-                                    >
-                                      <div className={cn(
-                                        "grid gap-2 max-h-[600px] overflow-y-auto scrollbar-themed",
-                                        isTwoColumns ? "grid-cols-2" : "grid-cols-1"
-                                      )}>
-                                        {categoryTools.map((tool) => (
-                                          <Link
-                                            key={tool.id}
-                                            href={tool.href}
-                                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
-                                          >
-                                            <div className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 text-gray-500">
-                                              <tool.icon className="w-4 h-4" />
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                              <div className="text-sm font-medium text-gray-800 line-clamp-1">
-                                                {tool.title}
-                                              </div>
-                                              <div className="text-[11px] text-gray-500 line-clamp-1">
-                                                {tool.description}
-                                              </div>
-                                            </div>
-                                          </Link>
-                                        ))}
-                                        {categoryTools.length === 0 && (
-                                          <p className={cn("p-3 text-xs text-center text-gray-400", isTwoColumns ? "col-span-2" : "col-span-1")}>
-                                            No tools available.
-                                          </p>
-                                        )}
-                                      </div>
-                                    </motion.div>
-                                  )}
-                                </AnimatePresence>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
+                  <div
+                    className={cn(
+                      "absolute top-full left-1/2 mt-2 w-[260px] p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left transition-all duration-200 origin-top -translate-x-1/2",
+                      hoveredCategory === 'more' ? "opacity-100 visible translate-y-0 scale-100" : "opacity-0 invisible translate-y-2 scale-95"
                     )}
-                  </AnimatePresence>
+                  >
+                    <div className="flex flex-col gap-1">
+                      {CATEGORIES.slice(3).map((category) => {
+                        const categoryTools = TOOLS.filter(t => t.categoryId === category.id);
+                        const isTwoColumns = categoryTools.length > 7;
+
+                        return (
+                          <div
+                            key={category.id}
+                            className="relative group/item"
+                            onMouseEnter={() => setActiveSubCategory(category.id)}
+                            onMouseLeave={() => setActiveSubCategory(null)}
+                          >
+                            <a
+                              href={`#category-${category.id}`}
+                              onClick={(e) => {
+                                handleCategoryClick(e, category.id);
+                                setHoveredCategory(null);
+                                setActiveSubCategory(null);
+                              }}
+                              className={cn(
+                                "flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors w-full",
+                                effectiveActiveCategory === category.id || activeSubCategory === category.id
+                                  ? "bg-primary-50 text-primary-700"
+                                  : "hover:bg-gray-50 text-gray-700"
+                              )}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={cn(
+                                  "flex items-center justify-center w-8 h-8 rounded-lg shrink-0 transition-colors",
+                                  effectiveActiveCategory === category.id || activeSubCategory === category.id
+                                    ? "bg-white text-primary-600"
+                                    : "bg-gray-100 text-gray-500 group-hover/item:bg-white group-hover/item:text-primary-600"
+                                )}>
+                                  <category.icon className="w-4 h-4" />
+                                </div>
+                                <span className="text-sm font-medium">{category.name}</span>
+                              </div>
+                              <ChevronDown className="w-3 h-3 rotate-90 text-gray-400 mt-px" />
+                            </a>
+
+                            {/* Nested Tool Menu */}
+                            <div
+                              className={cn(
+                                "absolute top-0 right-full mr-2 p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 transition-all duration-200",
+                                activeSubCategory === category.id ? "opacity-100 visible translate-x-0" : "opacity-0 invisible translate-x-2",
+                                isTwoColumns ? "w-[540px]" : "w-[290px]"
+                              )}
+                            >
+                              <div className={cn(
+                                "grid gap-2 max-h-[600px] overflow-y-auto scrollbar-themed",
+                                isTwoColumns ? "grid-cols-2" : "grid-cols-1"
+                              )}>
+                                {categoryTools.map((tool) => (
+                                  <Link
+                                    key={tool.id}
+                                    href={tool.href}
+                                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                                  >
+                                    <div className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 text-gray-500">
+                                      <tool.icon className="w-4 h-4" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <div className="text-sm font-medium text-gray-800 line-clamp-1">
+                                        {tool.title}
+                                      </div>
+                                      <div className="text-[11px] text-gray-700 line-clamp-1">
+                                        {tool.description}
+                                      </div>
+                                    </div>
+                                  </Link>
+                                ))}
+                                {categoryTools.length === 0 && (
+                                  <p className={cn("p-3 text-xs text-center text-gray-400", isTwoColumns ? "col-span-2" : "col-span-1")}>
+                                    No tools available.
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

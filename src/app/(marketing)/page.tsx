@@ -1,7 +1,6 @@
 
 
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
 import { CATEGORIES } from "@/data/categories";
@@ -9,6 +8,11 @@ import { TOOLS, type ToolData } from "@/data/tools";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const Footer = dynamic(() => import("@/components/layout/footer").then(mod => mod.Footer), {
+  ssr: true,
+});
 
 export const metadata: Metadata = {
   title: "Xenkio - Free Online Productivity Tools & Converters",
@@ -80,7 +84,7 @@ export default function Home() {
                     <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight mt-0.5 sm:mt-0">
                       {category.name}
                     </h2>
-                    <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-1 max-w-xl line-clamp-2 sm:line-clamp-none leading-relaxed">
+                    <p className="text-sm sm:text-base text-gray-700 mt-1 sm:mt-1 max-w-xl line-clamp-2 sm:line-clamp-none leading-relaxed">
                       {category.description}
                     </p>
                   </div>

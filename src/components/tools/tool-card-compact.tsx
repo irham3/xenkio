@@ -25,9 +25,9 @@ export function ToolCardCompact({
 
   const CardContent = (
     <div
-      className={`relative h-full p-5 rounded-xl bg-white border border-gray-200 transition-all duration-300 ${isComingSoon
-        ? 'opacity-75 cursor-not-allowed bg-gray-50/50'
-        : 'hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/5 hover:-translate-y-1'
+      className={`relative h-full p-5 rounded-xl border transition-all duration-300 ${isComingSoon
+        ? 'cursor-not-allowed bg-gray-100/50 border-gray-200'
+        : 'bg-white border-gray-200 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/5 hover:-translate-y-1'
         }`}
     >
       {/* Badges */}
@@ -60,7 +60,7 @@ export function ToolCardCompact({
       <h3 className={`text-[15px] font-semibold text-gray-900 mb-1.5 transition-colors line-clamp-1 ${!isComingSoon && 'group-hover:text-primary-600'}`}>
         {title}
       </h3>
-      <p className="text-sm text-gray-600 mb-3 line-clamp-2 leading-relaxed">
+      <p className="text-sm text-gray-700 mb-3 line-clamp-2 leading-relaxed">
         {description}
       </p>
 

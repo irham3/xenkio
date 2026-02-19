@@ -8,11 +8,11 @@ import { notFound } from 'next/navigation';
 const slug = 'password-generator';
 
 export const metadata: Metadata = {
-  title: 'Strong Password Generator 2025 - Create Secure & Random Passwords',
+  title: 'Strong Password Generator - Create Secure & Random Passwords',
   description: 'Generate customizable, cryptographically secure passwords instantly. Features include adjustable length, symbols, numbers, and ambiguous character exclusion. Best free random password generator.',
-  keywords: ['password generator', 'random password generator', 'secure password', 'password strength checker', 'strong password', 'google password generator', 'password security', '2025'],
+  keywords: ['password generator', 'random password generator', 'secure password', 'password strength checker', 'strong password', 'google password generator', 'password security'],
   openGraph: {
-    title: 'Strong Password Generator 2025 | Xenkio',
+    title: 'Strong Password Generator | Xenkio',
     description: 'Create customizable, secure passwords instantly with our advanced generator tool.',
     type: 'website',
   }

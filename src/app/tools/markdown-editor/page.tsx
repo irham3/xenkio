@@ -10,7 +10,7 @@ const slug = 'markdown-editor';
 export const metadata: Metadata = {
     title: 'Markdown Editor Online Free - Live Preview & Export | Xenkio',
     description: 'Edit and preview Markdown with live rendering. GitHub Flavored Markdown support, export to HTML or MD. Free online markdown editor with split view.',
-    keywords: ['markdown editor', 'markdown preview', 'markdown to html', 'gfm', 'github flavored markdown', 'online markdown', 'markdown converter', 'free markdown editor', '2025'],
+    keywords: ['markdown editor', 'markdown preview', 'markdown to html', 'gfm', 'github flavored markdown', 'online markdown', 'markdown converter', 'free markdown editor'],
     openGraph: {
         title: 'Markdown Editor Online Free | Xenkio',
         description: 'Edit and preview Markdown with live rendering. Export to HTML or MD instantly.',

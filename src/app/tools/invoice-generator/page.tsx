@@ -8,11 +8,11 @@ import { notFound } from 'next/navigation';
 const slug = 'invoice-generator';
 
 export const metadata: Metadata = {
-    title: 'Free Invoice Generator 2025 - Create Professional PDF Invoices Online',
+    title: 'Free Invoice Generator - Create Professional PDF Invoices Online',
     description: 'Generate professional invoices instantly with our free invoice generator. Add items, taxes, discounts, and download as PDF. No sign-up required.',
-    keywords: ['invoice generator', 'free invoice maker', 'online invoice', 'pdf invoice generator', 'invoice template', 'create invoice online', 'professional invoice', '2025'],
+    keywords: ['invoice generator', 'free invoice maker', 'online invoice', 'pdf invoice generator', 'invoice template', 'create invoice online', 'professional invoice'],
     openGraph: {
-        title: 'Free Invoice Generator 2025 | Xenkio',
+        title: 'Free Invoice Generator | Xenkio',
         description: 'Create professional PDF invoices instantly with our free online invoice generator.',
         type: 'website',
     }

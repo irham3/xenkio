@@ -8,9 +8,9 @@ import { notFound } from 'next/navigation';
 const slug = 'merge-pdf';
 
 export const metadata: Metadata = {
-  title: 'Merge PDF Online Free 2025 - Combine Multiple PDFs Instantly',
+  title: 'Merge PDF Online Free - Combine Multiple PDFs Instantly',
   description: 'Combine multiple PDF files into one document. Drag to reorder, rotate pages, customize output. Fast, free, and secure PDF merger tool.',
-  keywords: ['merge pdf', 'combine pdf', 'pdf merger', 'join pdf', 'merge pdf online', 'pdf combiner', 'free pdf merger', '2025'],
+  keywords: ['merge pdf', 'combine pdf', 'pdf merger', 'join pdf', 'merge pdf online', 'pdf combiner', 'free pdf merger'],
   openGraph: {
     title: 'Merge PDF Online Free | Xenkio',
     description: 'Combine multiple PDF files into one document instantly with our free PDF merger tool.',

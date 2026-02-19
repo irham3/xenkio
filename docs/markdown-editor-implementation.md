@@ -77,7 +77,7 @@ src/
 
 ### Metadata
 - Optimized title and description
-- Trending keywords for 2025
+- Trending keywords for 2026
 - Open Graph tags
 - JSON-LD structured data
 

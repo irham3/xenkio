@@ -7,13 +7,13 @@ import { parseDateString, formatTimestampDisplay } from '../lib/timestamp-utils'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { 
-  Copy, 
-  Check, 
-  ChevronDown, 
-  Clock, 
-  Calendar, 
-  ArrowRightLeft, 
+import {
+  Copy,
+  Check,
+  ChevronDown,
+  Clock,
+  Calendar,
+  ArrowRightLeft,
   Zap,
   RefreshCw,
   Globe,
@@ -59,7 +59,7 @@ export function TimestampConverter() {
 
   const [activeTab, setActiveTab] = useState<TabMode>('timestamp-to-date');
   const [copiedField, setCopiedField] = useState<string | null>(null);
-  
+
   // Date to timestamp state
   const [dateInput, setDateInput] = useState('');
 
@@ -290,7 +290,7 @@ export function TimestampConverter() {
                       type="text"
                       value={dateInput}
                       onChange={(e) => setDateInput(e.target.value)}
-                      placeholder="2025-01-30T14:30:00Z"
+                      placeholder="2026-01-30T14:30:00Z"
                       className="font-mono text-sm bg-gray-50 focus:bg-white"
                     />
                   </div>
@@ -523,7 +523,7 @@ export function TimestampConverter() {
                       {/* Quick Reference */}
                       <div className="p-4 bg-gray-100/50 rounded-lg border border-gray-200">
                         <p className="text-xs text-gray-600">
-                          <strong>Tip:</strong> Most programming languages use milliseconds (JavaScript, Java), 
+                          <strong>Tip:</strong> Most programming languages use milliseconds (JavaScript, Java),
                           while Unix systems and databases often use seconds (MySQL, PostgreSQL).
                         </p>
                       </div>

@@ -8,9 +8,9 @@ import { PdfToWordClient } from './client';
 const slug = 'pdf-to-word';
 
 export const metadata: Metadata = {
-    title: 'PDF to Word Converter Online Free 2025 - Convert PDF to Editable DOCX',
+    title: 'PDF to Word Converter Online Free - Convert PDF to Editable DOCX',
     description: 'Convert PDF to Word documents online for free. Preserve text formatting, headings, and paragraph structure. Fast, private, browser-based conversion.',
-    keywords: ['pdf to word', 'convert pdf to docx', 'pdf converter', 'pdf to word online', 'free pdf converter', 'pdf to editable word', '2025'],
+    keywords: ['pdf to word', 'convert pdf to docx', 'pdf converter', 'pdf to word online', 'free pdf converter', 'pdf to editable word'],
     openGraph: {
         title: 'PDF to Word Converter | Xenkio',
         description: 'Convert PDF documents to editable Microsoft Word files instantly. Free, private, and preserves formatting.',

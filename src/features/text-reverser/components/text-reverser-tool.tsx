@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
-import { Copy, Check, Trash2, Type, ArrowLeftRight, ArrowUpDown, LetterText, ListOrdered } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Copy, Check, Trash2, Type, ArrowLeftRight, ArrowUpDown, LetterText, ListOrdered, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -56,7 +56,15 @@ export function TextReverserTool() {
   const [mode, setMode] = useState<ReversalMode>('characters');
   const [copied, setCopied] = useState(false);
 
-  const output = useMemo(() => applyReversal(input, mode), [input, mode]);
+  const [output, setOutput] = useState('');
+
+  const handleReverse = useCallback(() => {
+    if (!input.trim()) {
+      toast.error('Please enter some text first');
+      return;
+    }
+    setOutput(applyReversal(input, mode));
+  }, [input, mode]);
 
   const charCount = input.length;
   const wordCount = input.trim() ? input.trim().split(/\s+/).length : 0;
@@ -76,6 +84,7 @@ export function TextReverserTool() {
 
   const handleClear = useCallback(() => {
     setInput('');
+    setOutput('');
   }, []);
 
   return (
@@ -138,6 +147,19 @@ export function TextReverserTool() {
                 <span className="w-px h-3 bg-gray-200" />
                 <span>{lineCount} {lineCount === 1 ? 'line' : 'lines'}</span>
               </div>
+              <button
+                onClick={handleReverse}
+                disabled={!input.trim()}
+                className={cn(
+                  'w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200',
+                  input.trim()
+                    ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-sm'
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                )}
+              >
+                <Play className="w-4 h-4" />
+                Reverse
+              </button>
             </div>
           </div>
 

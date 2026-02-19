@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
-import { Copy, Check, Trash2, Type, FileText, Clock, BarChart3 } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Copy, Check, Trash2, Type, FileText, Clock, BarChart3, Play } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface TextStats {
@@ -80,12 +80,30 @@ function computeTopWords(text: string, limit: number): WordFrequency[] {
     }));
 }
 
+const DEFAULT_STATS: TextStats = {
+  words: 0,
+  characters: 0,
+  charactersNoSpaces: 0,
+  sentences: 0,
+  paragraphs: 0,
+  lines: 0,
+  readingTime: '0 sec',
+  speakingTime: '0 sec',
+};
+
 export function WordCounterTool() {
   const [text, setText] = useState('');
   const [copied, setCopied] = useState(false);
+  const [stats, setStats] = useState<TextStats>(DEFAULT_STATS);
+  const [topWords, setTopWords] = useState<WordFrequency[]>([]);
 
-  const stats = useMemo(() => computeStats(text), [text]);
-  const topWords = useMemo(() => computeTopWords(text, 10), [text]);
+  const handleAnalyze = useCallback(() => {
+    if (!text.trim()) {
+      return;
+    }
+    setStats(computeStats(text));
+    setTopWords(computeTopWords(text, 10));
+  }, [text]);
 
   const handleCopy = useCallback(async () => {
     if (!text) {
@@ -104,6 +122,8 @@ export function WordCounterTool() {
 
   const handleClear = useCallback(() => {
     setText('');
+    setStats(DEFAULT_STATS);
+    setTopWords([]);
     toast.success('Text cleared');
   }, []);
 
@@ -146,9 +166,21 @@ export function WordCounterTool() {
           id="word-counter-input"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Start typing or paste your text here to see live word and character counts..."
+          placeholder="Paste your text here then click Analyze..."
           className="w-full h-64 p-4 text-gray-900 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-y text-sm leading-relaxed placeholder:text-gray-400"
         />
+        <button
+          onClick={handleAnalyze}
+          disabled={!text.trim()}
+          className={`w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 ${
+            text.trim()
+              ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-sm'
+              : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+          }`}
+        >
+          <Play className="w-4 h-4" />
+          Analyze
+        </button>
       </div>
 
       {/* Time Estimates + Top Words */}

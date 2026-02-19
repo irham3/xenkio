@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Copy, Check, Trash2, Type } from 'lucide-react';
+import { Copy, Check, Trash2, Type, Play } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -136,8 +136,15 @@ export function CaseConverterTool() {
   const [input, setInput] = useState<string>('');
   const [selectedCase, setSelectedCase] = useState<CaseType>('uppercase');
   const [copied, setCopied] = useState<boolean>(false);
+  const [output, setOutput] = useState<string>('');
 
-  const output = convertCase(input, selectedCase);
+  const handleConvert = useCallback((): void => {
+    if (!input.trim()) {
+      toast.error('Please enter some text first');
+      return;
+    }
+    setOutput(convertCase(input, selectedCase));
+  }, [input, selectedCase]);
 
   const handleCopy = useCallback(async (): Promise<void> => {
     if (!output) return;
@@ -153,6 +160,7 @@ export function CaseConverterTool() {
 
   const handleClear = useCallback((): void => {
     setInput('');
+    setOutput('');
   }, []);
 
   return (
@@ -220,6 +228,19 @@ export function CaseConverterTool() {
               <span>{input.length} characters</span>
               <span>{countWords(input)} words</span>
             </div>
+            <button
+              onClick={handleConvert}
+              disabled={!input.trim()}
+              className={cn(
+                'w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200',
+                input.trim()
+                  ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-sm'
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              )}
+            >
+              <Play className="w-4 h-4" />
+              Convert
+            </button>
           </div>
 
           {/* Output Panel */}

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
-import { Copy, Check, Trash2, Type, AlignLeft, ListFilter, ArrowDownAZ } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Copy, Check, Trash2, Type, AlignLeft, ListFilter, ArrowDownAZ, Play } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -60,7 +60,15 @@ export function DuplicateRemoverTool() {
     sortOutput: false,
   });
 
-  const result = useMemo(() => removeDuplicates(input, options), [input, options]);
+  const [result, setResult] = useState({ output: '', totalLines: 0, uniqueLines: 0, duplicatesRemoved: 0 });
+
+  const handleRemove = useCallback(() => {
+    if (!input.trim()) {
+      toast.error('Please enter some text first');
+      return;
+    }
+    setResult(removeDuplicates(input, options));
+  }, [input, options]);
 
   const toggleOption = useCallback((key: keyof Options) => {
     setOptions((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -80,6 +88,7 @@ export function DuplicateRemoverTool() {
 
   const handleClear = useCallback(() => {
     setInput('');
+    setResult({ output: '', totalLines: 0, uniqueLines: 0, duplicatesRemoved: 0 });
   }, []);
 
   const optionItems: { key: keyof Options; label: string; icon: React.ReactNode }[] = [
@@ -126,6 +135,19 @@ export function DuplicateRemoverTool() {
                 placeholder="Paste your text here..."
                 className="w-full h-64 lg:h-80 p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-primary-300 focus:ring-2 focus:ring-primary-100 text-sm font-mono text-gray-900 placeholder:text-gray-400 resize-none outline-none transition-all"
               />
+              <button
+                onClick={handleRemove}
+                disabled={!input.trim()}
+                className={cn(
+                  'w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200',
+                  input.trim()
+                    ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-sm'
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                )}
+              >
+                <Play className="w-4 h-4" />
+                Remove Duplicates
+              </button>
             </div>
           </div>
 

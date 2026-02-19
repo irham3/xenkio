@@ -121,7 +121,7 @@ export function VideoCompressor() {
                         <Progress value={downloadProgress.overallPercent} className="h-2" />
                         <div className="flex justify-between text-xs text-gray-400">
                             <span>First time only (~31MB)</span>
-                            <span>{downloadProgress.overallPercent}%</span>
+                            <span>{Math.round(downloadProgress.overallPercent)}%</span>
                         </div>
                     </div>
                 </div>

@@ -69,8 +69,7 @@ function getWcagResults(ratio: number): WcagResult[] {
 function suggestColor(
   fixedHex: string,
   adjustableHex: string,
-  targetRatio: number,
-  adjustForeground: boolean
+  targetRatio: number
 ): string | null {
   const { r, g, b } = hexToRgb(adjustableHex);
   const fixedLum = relativeLuminance(fixedHex);
@@ -87,8 +86,7 @@ function suggestColor(
       ? (fixedLum + 0.05) / (darkerLum + 0.05)
       : (darkerLum + 0.05) / (fixedLum + 0.05);
     if (darkerRatio >= targetRatio) {
-      // Verify it still looks reasonable for the role
-      if (adjustForeground || darkerRatio >= targetRatio) return darkerHex;
+      return darkerHex;
     }
 
     // Try lighter
@@ -119,11 +117,11 @@ export function ContrastCheckerTool() {
   const suggestions = useMemo(() => {
     if (allPass) return [];
     const results: { label: string; fg: string; bg: string }[] = [];
-    const suggestedFg = suggestColor(background, foreground, 7, true);
+    const suggestedFg = suggestColor(background, foreground, 7);
     if (suggestedFg && suggestedFg !== foreground) {
       results.push({ label: 'Adjusted foreground for AAA', fg: suggestedFg, bg: background });
     }
-    const suggestedBg = suggestColor(foreground, background, 7, false);
+    const suggestedBg = suggestColor(foreground, background, 7);
     if (suggestedBg && suggestedBg !== background) {
       results.push({ label: 'Adjusted background for AAA', fg: foreground, bg: suggestedBg });
     }

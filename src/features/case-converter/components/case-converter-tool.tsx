@@ -132,7 +132,7 @@ function countWords(text: string): number {
   return text.trim().split(/\s+/).length;
 }
 
-export function CaseConverterTool(): React.JSX.Element {
+export function CaseConverterTool() {
   const [input, setInput] = useState<string>('');
   const [selectedCase, setSelectedCase] = useState<CaseType>('uppercase');
   const [copied, setCopied] = useState<boolean>(false);

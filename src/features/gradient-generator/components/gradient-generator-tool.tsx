@@ -156,7 +156,7 @@ const DEFAULT_STATE: GradientState = {
   colorStops: [createStop('#6366f1', 0), createStop('#ec4899', 100)],
 };
 
-export function GradientGeneratorTool(): React.ReactElement {
+export function GradientGeneratorTool() {
   const [state, setState] = useState<GradientState>(DEFAULT_STATE);
   const [copied, setCopied] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);

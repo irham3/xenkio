@@ -121,7 +121,7 @@ function applyColorMatrix(
   targetCtx.putImageData(output, 0, 0);
 }
 
-export function ColorBlindnessTool(): React.JSX.Element {
+export function ColorBlindnessTool() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<ColorBlindnessType>('deuteranopia');
   const [fileName, setFileName] = useState<string>('');

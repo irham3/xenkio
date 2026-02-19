@@ -4,8 +4,8 @@ import { Metadata } from "next";
 import { ToolsPageClient } from "./tools-client";
 
 export const metadata: Metadata = {
-  title: "Explore All Online Tools",
-  description: "Browse our curated collection of free online tools for PDF, image editing, security, and development.",
+  title: "All Tools — Free & Browser-Based | Xenkio",
+  description: "Browse all free tools for PDFs, images, security, and development. Everything runs locally in your browser — no uploads, no limits.",
 };
 
 export default function ToolsPage() {

@@ -20,7 +20,7 @@ export function Footer() {
               <span className="text-xl font-bold text-white">Xenkio</span>
             </Link>
             <p className="text-gray-400 text-[15px] leading-relaxed mb-6">
-              The all-in-one platform for file processing, data transformation, and developer utilities. Fast, secure, and free.
+              Free browser-based tools that process everything locally. Your files never leave your device.
             </p>
           </div>
 
@@ -93,6 +93,11 @@ export function Footer() {
                 <li>
                   <Link href="/tools?category=security-privacy" className="text-[15px] text-gray-400 hover:text-white transition-colors">
                     Security & Privacy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/how-it-works" className="text-[15px] text-gray-400 hover:text-white transition-colors">
+                    How It Works
                   </Link>
                 </li>
                 <li>

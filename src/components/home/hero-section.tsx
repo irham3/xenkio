@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
 import { TOOLS, type ToolData } from '@/data/tools';
@@ -84,9 +85,9 @@ export function HeroSection() {
           from { opacity: 0; transform: scale(0.95); }
           to { opacity: 1; transform: scale(1); }
         }
-        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        .animate-scale-in { animation: scaleIn 0.5s ease-out forwards; }
+        .animate-fade-in-up { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .animate-scale-in { opacity: 0; animation: scaleIn 0.5s ease-out forwards; }
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
@@ -106,17 +107,18 @@ export function HeroSection() {
         <div className="text-center max-w-4xl mx-auto">
 
           {/* Badge */}
-          <div className="opacity-0 animate-fade-in-up inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-default">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-xs font-semibold text-gray-600 tracking-wide uppercase">Free & Unlimited</span>
-          </div>
+          <Link href="/how-it-works" className="animate-fade-in-up inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-primary-50 border border-primary-200 shadow-sm hover:shadow-md hover:bg-primary-100 transition-all duration-200">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-primary-500"></span>
+            <span className="text-xs font-semibold text-primary-700 tracking-wide">100% processed in your browser</span>
+            <span className="text-xs text-primary-500">Learn more →</span>
+          </Link>
 
           {/* Main Heading */}
-          <h1 className="opacity-0 animate-fade-in-up delay-1 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1]">
-            Your Toolkit for <br className="hidden sm:block" />
+          <h1 className="animate-fade-in-up delay-1 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1]">
+            Your files never leave<br className="hidden sm:block" />
             <span className="relative inline-block">
               <ShinyText
-                text="Better Productivity"
+                text="your device"
                 disabled={false}
                 speed={3}
                 className="inline-block py-2 leading-normal"
@@ -127,15 +129,15 @@ export function HeroSection() {
           </h1>
 
           {/* Subheading */}
-          <p className="opacity-0 animate-fade-in-up delay-2 text-lg sm:text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Explore a collection of powerful, free tools to convert, edit, and generate content.
-            No sign-up required, just get it done.
+          <p className="animate-fade-in-up delay-2 text-lg sm:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
+            Free tools for PDFs, images, videos, and more.
+            No uploads to servers, no file size limits, no sign-up.
           </p>
 
           {/* Search Area */}
           <div
             ref={containerRef}
-            className="opacity-0 animate-scale-in delay-3 relative max-w-xl mx-auto z-20 mb-12"
+            className="animate-scale-in delay-3 relative max-w-xl mx-auto z-20 mb-10"
           >
             <PlaceholdersAndVanishInput
               placeholders={placeholders}
@@ -193,28 +195,15 @@ export function HeroSection() {
           </div>
 
           {/* Trust Indicators */}
-          <div className="opacity-0 animate-fade-in delay-4">
-            <div className="flex items-center justify-center gap-8 md:gap-16 max-w-3xl mx-auto">
-              <div className="flex flex-col items-center gap-2 group cursor-default">
-                <div className="p-2 rounded-full bg-green-50 text-green-600 group-hover:bg-green-100 transition-colors">
-                  <Shield className="w-5 h-5" />
-                </div>
-                <span className="text-sm font-medium text-gray-600">Secure & Private</span>
-              </div>
-              <div className="flex flex-col items-center gap-2 group cursor-default">
-                <div className="p-2 rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-100 transition-colors">
-                  <Zap className="w-5 h-5" />
-                </div>
-                <span className="text-sm font-medium text-gray-600">Lightning Fast</span>
-              </div>
-              <div className="flex flex-col items-center gap-2 group cursor-default">
-                <div className="p-2 rounded-full bg-purple-50 text-purple-600 group-hover:bg-purple-100 transition-colors">
-                  <Clock className="w-5 h-5" />
-                </div>
-                <span className="text-sm font-medium text-gray-600">Forever Free</span>
-              </div>
-            </div>
-          </div>
+          <p className="animate-fade-in delay-4 text-sm text-gray-500 font-medium tracking-wide">
+            Private
+            <span className="mx-2.5 text-gray-300">·</span>
+            No Limits
+            <span className="mx-2.5 text-gray-300">·</span>
+            Instant
+            <span className="mx-2.5 text-gray-300">·</span>
+            Free Forever
+          </p>
 
         </div>
       </div>

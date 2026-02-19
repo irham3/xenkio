@@ -109,10 +109,10 @@ export function ToolsPageClient() {
         <div className="container mx-auto px-4 py-12 max-w-7xl">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-                    All Productivity Tools
+                    All Tools
                 </h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Free online tools for developers, designers, and everyone.
+                <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+                    Every tool runs in your browser. No uploads, no limits, no sign-up.
                 </p>
             </div>
 

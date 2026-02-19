@@ -1,7 +1,7 @@
 // Site configuration and metadata
 export const siteConfig = {
   name: 'Xenkio',
-  description: 'Collection of free online tools for developers and creators',
+  description: 'Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally — your files never leave your device.',
   url: 'https://xenkio.com',
   ogImage: '/images/og/og-default.png',
   links: {
@@ -10,12 +10,15 @@ export const siteConfig = {
   },
   creator: 'Xenkio Team',
   keywords: [
-    'online tools',
+    'browser-based tools',
+    'local processing',
+    'privacy tools',
+    'free online tools',
+    'pdf tools',
+    'image compressor',
     'developer tools',
-    'free tools',
-    'QR generator',
-    'carousel generator',
-    'image tools',
+    'no upload',
+    'offline tools',
   ],
 };
 

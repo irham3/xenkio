@@ -15,12 +15,12 @@ const Footer = dynamic(() => import("@/components/layout/footer").then(mod => mo
 });
 
 export const metadata: Metadata = {
-  title: "Xenkio - Free Online Productivity Tools & Converters",
-  description: "Your ultimate free toolkit for productivity. Merge PDFs, convert images, generate QR codes, and more. No sign-up required—just get it done instantly.",
-  keywords: ["merge pdf", "split pdf", "background remover", "image compressor", "json formatter", "video compressor", "instagram carousel generator", "password strength checker", "image steganography", "hmac generator", "text encryptor"],
+  title: "Xenkio — Free Online Tools for PDFs, Images & More",
+  description: "Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally — your files never leave your device. No sign-up, no limits.",
+  keywords: ["merge pdf", "split pdf", "background remover", "image compressor", "json formatter", "video compressor", "instagram carousel generator", "password strength checker", "image steganography", "hmac generator", "text encryptor", "browser-based tools", "local processing", "no upload"],
   openGraph: {
-    title: "Xenkio - Free Online Productivity Tools",
-    description: "Your ultimate free toolkit for productivity. No sign-up required.",
+    title: "Xenkio — Free Browser-Based Tools. No Uploads, No Limits.",
+    description: "Process files locally in your browser. No uploads, no file size limits, no sign-up required.",
     url: "https://xenkio.com",
     siteName: "Xenkio",
     locale: "en_US",
@@ -75,10 +75,9 @@ export default function Home() {
               <div className="flex items-start justify-between mb-8 sm:mb-10 gap-4">
                 <div className="flex items-start sm:items-center gap-3 sm:gap-4">
                   <div
-                    className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl border border-gray-100/50 shadow-sm shrink-0"
-                    style={{ backgroundColor: category.color + '15' }}
+                    className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gray-100 border border-gray-200/50 shrink-0"
                   >
-                    <CategoryIcon className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700" />
+                    <CategoryIcon className="w-6 h-6 sm:w-7 sm:h-7 text-gray-600" />
                   </div>
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight mt-0.5 sm:mt-0">

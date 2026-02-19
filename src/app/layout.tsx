@@ -2,29 +2,30 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { PwaRegister } from "@/components/pwa-register";
 
 const fontSans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800'], variable: '--font-sans', display: 'swap' });
 
 export const metadata: Metadata = {
   title: {
-    default: "Xenkio - All-in-One Online Productivity Tools",
+    default: "Xenkio — Free Browser-Based Tools. No Uploads, No Limits.",
     template: "%s | Xenkio"
   },
-  description: "Xenkio offers a comprehensive collection of free, instant online tools for PDF processing, image compression, data format conversion, and more. No signup required, zero cost, 100% secure.",
-  keywords: ["online tools", "productivity tools", "developer utilities", "pdf tools", "image tools", "free online utilities", "xenkio", "no signup tools"],
+  description: "Free online tools for PDFs, images, and developer utilities — everything runs locally in your browser. Your files never leave your device. No sign-up, no limits.",
+  keywords: ["browser-based tools", "local processing", "privacy tools", "pdf tools", "image compressor", "no upload", "free online tools", "offline tools", "xenkio"],
   authors: [{ name: "Altruis" }],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://xenkio.com",
-    title: "Xenkio - All-in-One Online Productivity Tools",
-    description: "Access professional tools for free. Fast, secure, and no registration needed.",
+    title: "Xenkio — Free Browser-Based Tools. No Uploads, No Limits.",
+    description: "Process files locally in your browser. No uploads to servers, no file size limits, no sign-up. Privacy of a desktop app, convenience of a web app.",
     siteName: "Xenkio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Xenkio - All-in-One Online Productivity Tools",
-    description: "Fast, free, and secure online tools for everyone.",
+    title: "Xenkio — Free Browser-Based Tools",
+    description: "Your files never leave your device. Free tools for PDFs, images, and more — processed 100% in your browser.",
   },
   robots: {
     index: true,
@@ -42,9 +43,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
     apple: "/apple-touch-icon.png",
-  },
-  verification: {
-    google: "your-google-verification-code", // Optional: Add your code if you have it
   },
 };
 
@@ -74,7 +72,7 @@ export default function RootLayout({
               "name": "Xenkio",
               "alternateName": ["Xenkio Tools", "Xenkio Online"],
               "url": "https://xenkio.com",
-              "description": "Free online tools for everyone.",
+              "description": "Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally — your files never leave your device.",
               "potentialAction": {
                 "@type": "SearchAction",
                 "target": "https://xenkio.com/tools?q={search_term_string}",
@@ -85,6 +83,7 @@ export default function RootLayout({
         />
         <Providers>
           {children}
+          <PwaRegister />
         </Providers>
       </body>
     </html>

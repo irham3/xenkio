@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     '',
     '/tools',
+    '/how-it-works',
   ]
 
   const toolRoutes = TOOLS.map((tool) => tool.href)

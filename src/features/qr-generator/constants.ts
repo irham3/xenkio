@@ -2,7 +2,7 @@
 import { QRConfig } from './types';
 
 export const DEFAULT_QR_CONFIG: QRConfig = {
-    value: 'https://xenkio.pages.dev',
+    value: 'https://xenkio.com',
     size: 256,
     fgColor: '#000000',
     bgColor: '#ffffff',

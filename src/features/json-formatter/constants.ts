@@ -30,7 +30,7 @@ export const SAMPLE_JSON = `{
   ],
   "author": {
     "name": "Altruis",
-    "url": "https://xenkio.pages.dev"
+    "url": "https://xenkio.com"
   },
   "settings": {
     "theme": "light",

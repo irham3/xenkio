@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://xenkio.pages.dev",
+    url: "https://xenkio.com",
     title: "Xenkio - All-in-One Online Productivity Tools",
     description: "Access professional tools for free. Fast, secure, and no registration needed.",
     siteName: "Xenkio",
@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: "https://xenkio.com",
   },
   applicationName: "Xenkio",
   appleWebApp: {
@@ -58,11 +61,11 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "Xenkio",
               "alternateName": ["Xenkio Tools", "Xenkio Online"],
-              "url": "https://xenkio.pages.dev",
+              "url": "https://xenkio.com",
               "description": "Free online tools for everyone.",
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://xenkio.pages.dev/tools?q={search_term_string}",
+                "target": "https://xenkio.com/tools?q={search_term_string}",
                 "query-input": "required name=search_term_string"
               }
             })

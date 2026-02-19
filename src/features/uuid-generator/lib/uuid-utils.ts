@@ -27,9 +27,9 @@ export function generateUUID(config: UUIDConfig): string[] {
         try {
             switch (version) {
                 case 'v1': val = uuidv1(); break;
-                case 'v3': val = uuidv3(name || 'xenkio.pages.dev', namespace || NAMESPACES.DNS); break;
+                case 'v3': val = uuidv3(name || 'xenkio.com', namespace || NAMESPACES.DNS); break;
                 case 'v4': val = uuidv4(); break;
-                case 'v5': val = uuidv5(name || 'xenkio.pages.dev', namespace || NAMESPACES.DNS); break;
+                case 'v5': val = uuidv5(name || 'xenkio.com', namespace || NAMESPACES.DNS); break;
                 case 'v6': val = uuidv6(); break;
                 case 'v7': val = uuidv7(); break;
                 default: val = uuidv4();

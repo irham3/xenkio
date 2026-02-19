@@ -314,7 +314,7 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
       <div className="hidden">
         <QRCodeCanvas
           ref={canvasRef}
-          value={config.value || 'https://xenkio.pages.dev'}
+          value={config.value || 'https://xenkio.com'}
           size={128} // Use fixed small size for matrix extraction
           level={config.level}
           marginSize={0}

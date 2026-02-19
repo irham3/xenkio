@@ -3,7 +3,7 @@ import { TOOLS } from '@/data/tools'
 
 export const dynamic = "force-static";
 
-const baseUrl = "https://xenkio.pages.dev";
+const baseUrl = "https://xenkio.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

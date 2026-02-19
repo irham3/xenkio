@@ -15,7 +15,7 @@ export function useUUIDGenerator() {
         uppercase: false,
         hyphens: true,
         namespace: '6ba7b810-9dad-11d1-80b4-00c04fd430c8', // DNS
-        name: 'xenkio.pages.dev'
+        name: 'xenkio.com'
     });
 
     const [uuids, setUuids] = useState<string[]>([]);

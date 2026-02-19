@@ -34,6 +34,23 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'require-corp',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
+          },
+        ],
+      },
+    ];
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },

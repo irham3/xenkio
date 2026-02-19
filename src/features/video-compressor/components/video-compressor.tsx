@@ -29,7 +29,7 @@ function formatSize(bytes: number): string {
 }
 
 export function VideoCompressor() {
-    const { loaded, isLoading, isCompressing, progress, error: hookError, compressVideo, downloadProgress } = useVideoCompressor()
+    const { loaded, isLoading, isCompressing, progress, error: hookError, compressVideo, downloadProgress, reset } = useVideoCompressor()
     const [file, setFile] = useState<VideoFileState | null>(null)
     const [result, setResult] = useState<ReturnType<typeof compressVideo> extends Promise<infer T> ? T : never>(null)
     const [settings, setSettings] = useState<CompressionSettings>(DEFAULT_SETTINGS)
@@ -127,14 +127,23 @@ export function VideoCompressor() {
                 </div>
             )}
 
-            {/* Engine Error */}
             {hookError && !isLoading && (
-                <div className="bg-red-50 border border-red-200 rounded-2xl p-6 flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
-                    <div>
-                        <p className="font-medium text-red-700">Engine Error</p>
-                        <p className="text-sm text-red-600 mt-1">{hookError}</p>
+                <div className="bg-red-50 border border-red-200 rounded-2xl p-6 flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3">
+                        <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                        <div>
+                            <p className="font-medium text-red-700">Engine Error</p>
+                            <p className="text-sm text-red-600 mt-1">{hookError}</p>
+                        </div>
                     </div>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={reset}
+                        className="bg-white hover:bg-red-50 text-red-700 border-red-200 hover:border-red-300"
+                    >
+                        Retry
+                    </Button>
                 </div>
             )}
 

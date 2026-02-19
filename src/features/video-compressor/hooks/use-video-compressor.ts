@@ -64,7 +64,7 @@ export function useVideoCompressor() {
     }, [])
 
     const load = useCallback(async () => {
-        if (loaded || isLoading) return
+        if (loaded || isLoading || error) return
         setIsLoading(true)
         setError(null)
 
@@ -113,7 +113,12 @@ export function useVideoCompressor() {
             clearInterval(progressInterval)
             setIsLoading(false)
         }
-    }, [loaded, isLoading, loadScript])
+    }, [loaded, isLoading, loadScript, error])
+
+    const reset = useCallback(() => {
+        setError(null)
+        setLoaded(false)
+    }, [])
 
     // Auto-load
     useEffect(() => {
@@ -201,5 +206,6 @@ export function useVideoCompressor() {
         compressVideo,
         logs,
         downloadProgress,
+        reset,
     }
 }

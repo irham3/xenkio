@@ -20,7 +20,7 @@ function removeDuplicates(input: string, options: Options) {
   const uniqueLines: string[] = [];
 
   for (const line of lines) {
-    let processedLine = options.trimWhitespace ? line.trim() : line;
+    const processedLine = options.trimWhitespace ? line.trim() : line;
 
     if (options.removeEmptyLines && processedLine === '') {
       continue;

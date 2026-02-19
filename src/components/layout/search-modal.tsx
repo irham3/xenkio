@@ -4,20 +4,14 @@ import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Fuse from 'fuse.js';
 import { TOOLS } from '@/data/tools';
 import { cn } from '@/lib/utils';
+import type Fuse from 'fuse.js';
 
 interface SearchModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
-
-const fuse = new Fuse(TOOLS, {
-    keys: ['title', 'description', 'category'],
-    threshold: 0.4,
-    includeScore: true,
-});
 
 export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     return (
@@ -30,12 +24,22 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 function SearchModalContent({ onClose }: { onClose: () => void }) {
     const [query, setQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [fuse, setFuse] = useState<Fuse<typeof TOOLS[0]> | null>(null);
     const router = useRouter();
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Initial setup: Focus and Body Scroll Lock
-    // Initial setup: Focus and Body Scroll Lock
     useEffect(() => {
+        // Load Fuse.js
+        import('fuse.js').then((mod) => {
+            const FuseConstructor = mod.default;
+            setFuse(new FuseConstructor(TOOLS, {
+                keys: ['title', 'description', 'categoryId'],
+                threshold: 0.4,
+                includeScore: true,
+            }));
+        });
+
         // Calculate scrollbar width
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
@@ -60,8 +64,17 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
     // Derived results
     const results = useMemo(() => {
         if (!query.trim()) return TOOLS.filter(tool => ['1', '8', '16', '19', '36'].includes(tool.id)) // Default to first few or popular tools
-        return fuse.search(query).map(r => r.item).slice(0, 5);
-    }, [query]);
+        if (!fuse) {
+            // Simple fallback filter
+            return TOOLS.filter(t =>
+                t.title.toLowerCase().includes(query.toLowerCase())
+            ).slice(0, 5);
+        }
+        if (fuse) {
+            return fuse.search(query).map(r => r.item).slice(0, 5);
+        }
+        return [];
+    }, [query, fuse]);
 
     const handleSelect = useCallback((tool: typeof TOOLS[0]) => {
         router.push(tool.href);
@@ -113,12 +126,15 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                 <div className="bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col">
                     {/* Search Header */}
                     <div className="flex items-center px-4 py-4 border-b border-gray-100">
-                        <Search className="w-5 h-5 text-gray-400 mr-3" />
+                        <Search className="w-5 h-5 text-gray-500 mr-3" />
+                        <label htmlFor="modal-search" className="sr-only">Search tools</label>
                         <input
+                            id="modal-search"
                             ref={inputRef}
                             type="text"
                             placeholder="Search tools (e.g., 'PDF', 'Compress', 'Color')..."
-                            className="flex-1 text-lg outline-none placeholder:text-gray-400 text-gray-900"
+                            className="flex-1 text-lg outline-none placeholder:text-gray-500 text-gray-900"
+                            aria-label="Search tools"
                             value={query}
                             onChange={(e) => {
                                 setQuery(e.target.value);
@@ -127,9 +143,10 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                         />
                         <button
                             onClick={onClose}
+                            aria-label="Close search"
                             className="p-1 hover:bg-gray-100 rounded-md transition-colors"
                         >
-                            <X className="w-5 h-5 text-gray-500" />
+                            <X className="w-5 h-5 text-gray-600" />
                         </button>
                     </div>
 
@@ -138,7 +155,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                         {results.length > 0 ? (
                             <div className="space-y-1">
                                 {query.trim() === '' && (
-                                    <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <div className="px-3 py-2 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                         Popular Tools
                                     </div>
                                 )}
@@ -167,7 +184,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                                             </div>
                                             <div className={cn(
                                                 "text-sm truncate",
-                                                selectedIndex === index ? "text-primary-600/80" : "text-gray-500"
+                                                selectedIndex === index ? "text-primary-600/90" : "text-gray-600"
                                             )}>
                                                 {tool.description}
                                             </div>
@@ -187,7 +204,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                     </div>
 
                     {/* Footer */}
-                    <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                    <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-600">
                         <div className="flex gap-4">
                             <span className="flex items-center gap-1">
                                 <kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-sans">↑↓</kbd>

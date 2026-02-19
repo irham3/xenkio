@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Dancing_Script, Great_Vibes, Alex_Brush, Pacifico, Satisfy } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 
 const fontSans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800'], variable: '--font-sans' });
+const fontDancing = Dancing_Script({ subsets: ["latin"], variable: '--font-dancing' });
+const fontGreatVibes = Great_Vibes({ subsets: ["latin"], weight: '400', variable: '--font-great-vibes' });
+const fontAlexBrush = Alex_Brush({ subsets: ["latin"], weight: '400', variable: '--font-alex-brush' });
+const fontPacifico = Pacifico({ subsets: ["latin"], weight: '400', variable: '--font-pacifico' });
+const fontSatisfy = Satisfy({ subsets: ["latin"], weight: '400', variable: '--font-satisfy' });
 
 export const metadata: Metadata = {
   title: {
@@ -43,6 +48,15 @@ export const metadata: Metadata = {
     icon: "/icon.svg",
     apple: "/apple-touch-icon.png",
   },
+  verification: {
+    google: "your-google-verification-code", // Optional: Add your code if you have it
+  },
+};
+
+export const viewport = {
+  themeColor: '#000000',
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -52,7 +66,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fontSans.variable} font-sans`} suppressHydrationWarning>
+      <body className={`${fontSans.variable} ${fontDancing.variable} ${fontGreatVibes.variable} ${fontAlexBrush.variable} ${fontPacifico.variable} ${fontSatisfy.variable} font-sans`} suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -97,5 +97,11 @@
     "@types/react-dom": "19.2.3",
     "@smithy/config-resolver": "^4.4.6",
     "@smithy/util-defaults-mode-node": "^4.2.32"
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "> 0.5%",
+    "not ie 11"
+  ]
 }

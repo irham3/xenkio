@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
 import { TOOLS, type ToolData } from '@/data/tools';
-import Fuse from 'fuse.js';
+import type Fuse from 'fuse.js';
 
 const placeholders = [
   'Merge PDF...',
@@ -20,17 +20,26 @@ const placeholders = [
   'PDF to Image...',
   'Color Picker...'
 ];
-
-const fuse = new Fuse(TOOLS, {
-  keys: ['title', 'description', 'category'],
-  threshold: 0.3,
-  includeScore: true,
-});
-
 export function HeroSection() {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [fuse, setFuse] = useState<Fuse<ToolData> | null>(null);
+
+  // Load Fuse.js only when needed (on focus)
+  useEffect(() => {
+    if (isFocused && !fuse) {
+      import('fuse.js').then((FuseModule) => {
+        const FuseConstructor = FuseModule.default;
+        const fuseInstance = new FuseConstructor(TOOLS, {
+          keys: ['title', 'description', 'categoryId'],
+          threshold: 0.3,
+          includeScore: true,
+        });
+        setFuse(fuseInstance);
+      });
+    }
+  }, [isFocused, fuse]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,14 +54,19 @@ export function HeroSection() {
   }, []);
 
   const results = useMemo((): ToolData[] => {
-    if (query.trim()) {
+    if (query.trim() && fuse) {
       const searchResults = fuse.search(query);
       return searchResults.map((r) => r.item);
+    } else if (query.trim()) {
+      // Fallback simple search while fuse loads
+      return TOOLS.filter(t =>
+        t.title.toLowerCase().includes(query.toLowerCase()) ||
+        t.description.toLowerCase().includes(query.toLowerCase())
+      );
     } else {
-      // Show all tools when no search query
       return TOOLS;
     }
-  }, [query]);
+  }, [query, fuse]);
 
   const showResults = isFocused && results.length > 0;
 

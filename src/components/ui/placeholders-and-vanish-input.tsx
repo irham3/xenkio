@@ -142,8 +142,10 @@ export function PlaceholdersAndVanishInput({
         )}
         ref={canvasRef}
       />
+      <label htmlFor="hero-search" className="sr-only">Search for tools</label>
       <input
         ref={inputRef}
+        id="hero-search"
         onChange={(e) => {
           if (!animating) {
             setValue(e.target.value);
@@ -156,6 +158,7 @@ export function PlaceholdersAndVanishInput({
         onBlur={onBlur}
         value={value}
         type="text"
+        aria-label="Search tools"
         className={cn(
           "w-full relative z-50 border-none bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 data-[animating=true]:text-transparent text-sm sm:text-base",
         )}
@@ -183,7 +186,7 @@ export function PlaceholdersAndVanishInput({
                 duration: 0.3,
                 ease: "linear",
               }}
-              className="dark:text-zinc-500 text-zinc-500 text-sm sm:text-base pl-4 sm:pl-10 text-left w-[calc(100%-2rem)] truncate"
+              className="dark:text-zinc-600 text-zinc-600 text-sm sm:text-base pl-4 sm:pl-10 text-left w-[calc(100%-2rem)] truncate"
             >
               {placeholders[currentPlaceholder]}
             </motion.p>
@@ -193,7 +196,8 @@ export function PlaceholdersAndVanishInput({
       <button
         disabled={!value}
         type="submit"
-        className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full bg-gray-100 transition duration-200 flex items-center justify-center"
+        aria-label="Submit search"
+        className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full bg-gray-100 transition duration-200 flex items-center justify-center hover:bg-gray-200"
       >
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"

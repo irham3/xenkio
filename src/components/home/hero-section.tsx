@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Zap, UserX } from 'lucide-react';
 import Link from 'next/link';
 import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
@@ -131,7 +131,7 @@ export function HeroSection() {
           {/* Subheading */}
           <p className="animate-fade-in-up delay-2 text-lg sm:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
             Free tools for PDFs, images, videos, and more.
-            No uploads to servers, no file size limits, no sign-up.
+            No uploads to servers, no file size limits, no sign-up required.
           </p>
 
           {/* Search Area */}
@@ -194,16 +194,23 @@ export function HeroSection() {
             )}
           </div>
 
-          {/* Trust Indicators */}
-          <p className="animate-fade-in delay-4 text-sm text-gray-500 font-medium tracking-wide">
-            Private
-            <span className="mx-2.5 text-gray-300">·</span>
-            No Limits
-            <span className="mx-2.5 text-gray-300">·</span>
-            Instant
-            <span className="mx-2.5 text-gray-300">·</span>
-            Free Forever
-          </p>
+          {/* Trust Indicators - 3 UVP Pillars */}
+          <div className="animate-fade-in delay-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-gray-500">
+            <div className="flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              <span className="font-medium">Private by design</span>
+            </div>
+            <span className="hidden sm:block text-gray-300">·</span>
+            <div className="flex items-center gap-1.5">
+              <Zap className="w-4 h-4 text-amber-500" />
+              <span className="font-medium">Instant, no queue</span>
+            </div>
+            <span className="hidden sm:block text-gray-300">·</span>
+            <div className="flex items-center gap-1.5">
+              <UserX className="w-4 h-4 text-primary-500" />
+              <span className="font-medium">No account needed</span>
+            </div>
+          </div>
 
         </div>
       </div>

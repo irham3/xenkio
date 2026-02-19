@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { ShieldCheck, Infinity, WifiOff, ArrowRight, Upload, Server, Download, MonitorSmartphone } from 'lucide-react';
+import {
+    ShieldCheck, Infinity, WifiOff, ArrowRight, Upload, Server, Download,
+    MonitorSmartphone, Cpu, Lock, Globe, Zap, UserX, Scale, Briefcase,
+    FileText, Code, Search
+} from 'lucide-react';
 
 // Hook: observe elements and add 'is-visible' class on scroll
 function useScrollReveal() {
@@ -56,17 +60,6 @@ export function HowItWorksClient() {
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
-
-        .flow-line {
-          background: repeating-linear-gradient(
-            to right,
-            currentColor 0,
-            currentColor 6px,
-            transparent 6px,
-            transparent 12px
-          );
-          height: 2px;
-        }
       `}</style>
 
             {/* ─── Section 1: Opening Statement ─── */}
@@ -118,6 +111,7 @@ export function HowItWorksClient() {
                                     <Pill text="Privacy risk" variant="red" />
                                     <Pill text="Slow on large files" variant="red" />
                                     <Pill text="Daily quotas" variant="red" />
+                                    <Pill text="Account required" variant="red" />
                                 </div>
                             </div>
                         </div>
@@ -136,7 +130,7 @@ export function HowItWorksClient() {
                             <div className="space-y-6">
                                 <FlowStep icon={MonitorSmartphone} label="Open in browser" sublabel="No upload needed" tone="green" />
                                 <FlowArrow color="emerald" />
-                                <FlowStep icon={MonitorSmartphone} label="Browser processes it" sublabel="Stays on your device" tone="green" />
+                                <FlowStep icon={Cpu} label="Browser processes it" sublabel="Stays on your device" tone="green" />
                                 <FlowArrow color="emerald" />
                                 <FlowStep icon={Download} label="Done" sublabel="Instant, save directly" tone="green" />
                             </div>
@@ -146,6 +140,7 @@ export function HowItWorksClient() {
                                     <Pill text="100% private" variant="green" />
                                     <Pill text="Instant" variant="green" />
                                     <Pill text="Free forever" variant="green" />
+                                    <Pill text="No account needed" variant="green" />
                                 </div>
                             </div>
                         </div>
@@ -160,48 +155,238 @@ export function HowItWorksClient() {
                         <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
                             What this means for you
                         </h2>
+                        <p className="text-lg text-gray-500 max-w-2xl mx-auto mt-4">
+                            Three pillars that make Xenkio fundamentally different from every other online tool.
+                        </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                         <PillarCard
                             icon={ShieldCheck}
                             title="Private by design"
-                            description="Your files never leave your browser. No tracking, no server logs, no third-party access. Handle confidential documents without worry."
+                            description="Your files never leave your browser. No tracking, no server logs, no third-party access. Handle confidential documents without worry. Inherently GDPR, HIPAA, and SOC 2 compliant."
                             delay={1}
                         />
                         <PillarCard
-                            icon={Infinity}
-                            title="No limits, ever"
-                            description="Other tools cap you at 100MB or 3 files per day. Since we don&apos;t pay for server processing, there are no limits and no paywalls."
+                            icon={Zap}
+                            title="Instant, no waiting"
+                            description="No upload queue, no server processing time. Files are processed at the speed of your device. On slow WiFi? Doesn't matter — everything happens locally."
                             delay={2}
                         />
                         <PillarCard
-                            icon={WifiOff}
-                            title="Works offline"
-                            description="Load Xenkio once and use it anywhere — on a plane, in a cafe with bad wifi, or on a restricted network. No connection required."
+                            icon={UserX}
+                            title="No account, no friction"
+                            description="No sign-up, no email capture, no paywall after 3 uses. Just open a tool and get results. We don't need your data because we never see your files."
                             delay={3}
+                        />
+                    </div>
+
+                    {/* Offline capability sub-card */}
+                    <div className="reveal reveal-delay-4 mt-8 rounded-2xl border border-gray-100 bg-white p-8 lg:p-10 flex flex-col md:flex-row items-start gap-6">
+                        <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 shrink-0">
+                            <WifiOff className="w-7 h-7" />
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">Works offline — that&apos;s the proof</h3>
+                            <p className="text-sm text-gray-500 leading-relaxed">
+                                Load Xenkio once and use it anywhere — on a plane, in a café with bad WiFi, or on a restricted corporate network.
+                                If the tools work with no internet connection, that&apos;s the strongest possible proof that nothing is being sent to any server.
+                                Try it: turn off your WiFi and keep using any tool.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── Section 4: Technical Explanation ─── */}
+            <section className="py-20 lg:py-28 bg-gray-50 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-5xl mx-auto">
+                    <div className="reveal text-center mb-16">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+                            Under the hood
+                        </h2>
+                        <p className="text-lg text-gray-500 max-w-2xl mx-auto mt-4">
+                            A technical but accessible look at how local processing actually works.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                        <TechCard
+                            icon={Cpu}
+                            title="JavaScript & WebAssembly"
+                            description="Your browser is more powerful than you think. Modern JavaScript and WebAssembly (WASM) can handle PDF parsing, image manipulation, video compression, and encryption — all without a server."
+                            delay={1}
+                        />
+                        <TechCard
+                            icon={Lock}
+                            title="File API, not uploads"
+                            description="When you 'select a file,' Xenkio reads it through the browser's File API. The file stays in your device memory and is never transmitted anywhere. After processing, the result is saved directly to your downloads."
+                            delay={2}
+                        />
+                        <TechCard
+                            icon={Globe}
+                            title="Progressive Web App"
+                            description="Xenkio is a PWA — it installs on your device and works offline. The service worker caches all the tool code so processing happens entirely on your machine, even without internet."
+                            delay={3}
+                        />
+                        <TechCard
+                            icon={Infinity}
+                            title="No server costs = no limits"
+                            description="Since we don't run processing servers, we don't pay per file. That means no file size limits, no daily quotas, no premium tiers. Your device's RAM is the only limit."
+                            delay={4}
+                        />
+                    </div>
+
+                    {/* Network monitor explanation */}
+                    <div className="reveal reveal-delay-4 mt-10 rounded-2xl border border-gray-200 bg-white p-8">
+                        <div className="flex flex-col md:flex-row items-start gap-6">
+                            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 shrink-0">
+                                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                    Don&apos;t take our word for it — verify it yourself
+                                </h3>
+                                <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                                    Open your browser&apos;s Developer Tools (F12 → Network tab) while using any Xenkio tool.
+                                    You&apos;ll see zero outgoing requests containing your file data. What you will see is only the initial page load and optional analytics.
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                                        Chrome: F12 → Network
+                                    </span>
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                                        Firefox: F12 → Network
+                                    </span>
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                                        Safari: Develop → Network
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── Section 5: GDPR & Compliance ─── */}
+            <section className="py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-5xl mx-auto">
+                    <div className="reveal text-center mb-16">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+                            Inherently compliant
+                        </h2>
+                        <p className="text-lg text-gray-500 max-w-2xl mx-auto mt-4">
+                            Because your files never leave your browser, Xenkio is compliant by architecture, not by policy.
+                        </p>
+                    </div>
+
+                    <div className="reveal rounded-2xl border border-gray-200 bg-white overflow-hidden">
+                        <div className="p-8 lg:p-10 bg-linear-to-br from-primary-50/60 to-white border-b border-gray-100">
+                            <div className="flex items-start gap-5">
+                                <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-100 text-primary-700 shrink-0">
+                                    <Scale className="w-7 h-7" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                        GDPR, HIPAA, SOC 2 — by design
+                                    </h3>
+                                    <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
+                                        Traditional tools must build complex data handling pipelines, write privacy policies, and undergo security audits to prove compliance.
+                                        Xenkio sidesteps all of that: <strong className="text-gray-800">we never receive, process, or store your data</strong>, so there&apos;s nothing to protect on our end.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+                            <ComplianceItem
+                                title="GDPR Compliant"
+                                description="No personal data is collected, transmitted, or processed by Xenkio servers. Article 25 'Data Protection by Design' satisfied by architecture."
+                            />
+                            <ComplianceItem
+                                title="No Data Retention"
+                                description="Files exist only in your browser's memory during processing. When you close the tab, everything is gone. Nothing persists."
+                            />
+                            <ComplianceItem
+                                title="Enterprise Ready"
+                                description="Safe for use on corporate networks with strict DLP policies. IT departments can verify by auditing network traffic — zero file data leaves the browser."
+                            />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── Section 6: Who It's For ─── */}
+            <section className="py-20 lg:py-28 bg-gray-50 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-5xl mx-auto">
+                    <div className="reveal text-center mb-16">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+                            Built for people who care about their files
+                        </h2>
+                        <p className="text-lg text-gray-500 max-w-2xl mx-auto mt-4">
+                            If your work involves sensitive documents, Xenkio is the only tool you can trust completely.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                        <SegmentCard
+                            icon={Scale}
+                            title="Lawyers & Notaries"
+                            description="Client contracts, NDAs, legal briefs — documents that must never be uploaded to a third-party server. Attorney-client privilege is maintained because files never leave your device."
+                            delay={1}
+                        />
+                        <SegmentCard
+                            icon={Briefcase}
+                            title="Finance & Accounting"
+                            description="Tax returns, financial statements, audit reports — handle the most sensitive financial documents without violating internal data policies or compliance requirements."
+                            delay={2}
+                        />
+                        <SegmentCard
+                            icon={Code}
+                            title="Developers & IT Teams"
+                            description="You understand the risks of uploading files to unknown servers. Verify our claims yourself — check the network tab, read the source, or use the tools fully offline."
+                            delay={3}
+                        />
+                        <SegmentCard
+                            icon={FileText}
+                            title="Journalists & Researchers"
+                            description="Source documents, whistleblower files, research data — protect your sources by ensuring their documents never touch anyone else's infrastructure."
+                            delay={4}
                         />
                     </div>
                 </div>
             </section>
 
-            {/* ─── Section 4: CTA ─── */}
-            <section className="py-20 lg:py-28 bg-gray-50 px-4 sm:px-6 lg:px-8">
+            {/* ─── Section 7: CTA ─── */}
+            <section className="py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
                 <div className="reveal max-w-2xl mx-auto text-center">
                     <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight mb-6">
-                        Ready to try it?
+                        Ready to try?
                     </h2>
-                    <p className="text-lg text-gray-500 mb-10 leading-relaxed">
+                    <p className="text-lg text-gray-500 mb-4 leading-relaxed">
                         No account needed, no software to install.
                         Just open a tool and go.
                     </p>
-                    <Link
-                        href="/"
-                        className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300"
-                    >
-                        Explore tools
-                        <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    <p className="text-sm text-gray-400 mb-10">
+                        Tip: Open DevTools (F12) while using any tool to confirm zero file uploads.
+                    </p>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link
+                            href="/"
+                            className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300"
+                        >
+                            Explore tools
+                            <ArrowRight className="w-4 h-4" />
+                        </Link>
+                        <Link
+                            href="/tools"
+                            className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-gray-700 bg-white border border-gray-200 hover:border-gray-300 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+                        >
+                            <Search className="w-4 h-4" />
+                            Browse all tools
+                        </Link>
+                    </div>
                 </div>
             </section>
         </div>
@@ -262,6 +447,51 @@ function PillarCard({ icon: Icon, title, description, delay }: {
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-3">{title}</h3>
             <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
+        </div>
+    );
+}
+
+function TechCard({ icon: Icon, title, description, delay }: {
+    icon: React.ComponentType<{ className?: string }>;
+    title: string;
+    description: string;
+    delay: number;
+}) {
+    return (
+        <div className={`reveal reveal-delay-${delay} group bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-md transition-all duration-200`}>
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 text-gray-600 mb-5 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
+                <Icon className="w-5 h-5" />
+            </div>
+            <h3 className="text-base font-semibold text-gray-900 mb-2">{title}</h3>
+            <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
+        </div>
+    );
+}
+
+function ComplianceItem({ title, description }: { title: string; description: string }) {
+    return (
+        <div className="p-6 lg:p-8">
+            <h4 className="text-sm font-semibold text-gray-900 mb-2">{title}</h4>
+            <p className="text-xs text-gray-500 leading-relaxed">{description}</p>
+        </div>
+    );
+}
+
+function SegmentCard({ icon: Icon, title, description, delay }: {
+    icon: React.ComponentType<{ className?: string }>;
+    title: string;
+    description: string;
+    delay: number;
+}) {
+    return (
+        <div className={`reveal reveal-delay-${delay} flex items-start gap-5 bg-white border border-gray-100 rounded-2xl p-8 hover:border-gray-200 hover:shadow-sm transition-all duration-200`}>
+            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gray-50 text-gray-500 shrink-0">
+                <Icon className="w-6 h-6" />
+            </div>
+            <div>
+                <h3 className="text-base font-semibold text-gray-900 mb-2">{title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
+            </div>
         </div>
     );
 }

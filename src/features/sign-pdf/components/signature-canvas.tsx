@@ -34,15 +34,13 @@ export function SignatureCanvas({
 
     // Initialize canvas
     useEffect(() => {
+        // Initialize
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         if (!ctx) return;
 
-        // Reset state
-        setHistory([]);
-        setHistoryStep(-1);
-        setHasContent(false);
+        // Clear canvas synchronously (DOM operation)
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         if (initialImage) {
@@ -51,19 +49,19 @@ export function SignatureCanvas({
             img.onload = () => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, 0, 0);
-                // Manually set history to avoid async race conditions with saveState dependency
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 setHistory([imageData]);
                 setHistoryStep(0);
                 setHasContent(true);
             };
         } else {
-            // Save blank state
+            // Save blank initial state
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             setHistory([imageData]);
             setHistoryStep(0);
+            setHasContent(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [initialImage]);
 
     // Update Brush/Eraser Settings

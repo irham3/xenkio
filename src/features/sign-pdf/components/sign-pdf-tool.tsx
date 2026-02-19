@@ -200,6 +200,7 @@ export function SignPdfTool() {
 
                         <TabsContent value="draw" className="mt-4 outline-none animate-in fade-in slide-in-from-bottom-2 duration-300">
                             <SignatureCanvas
+                                key={state.editingSignatureId || 'new-draw'}
                                 onSave={(url) => handleSignatureCreated(url, 'draw')}
                                 color={signatureColor}
                                 initialImage={editingSignature?.type === 'draw' ? editingSignature.dataUrl : undefined}

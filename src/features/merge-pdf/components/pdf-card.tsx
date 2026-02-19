@@ -4,10 +4,11 @@ import { RotateCw, X, Loader2, GripVertical } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { PdfFile } from "../types"
 import { PdfThumbnail } from "./pdf-thumbnail"
+import { useSortable } from "@dnd-kit/sortable"
 
 // Define types for dnd-kit attributes/listeners safely
-type SortableAttributes = any
-type SortableListeners = any
+type SortableAttributes = ReturnType<typeof useSortable>["attributes"]
+type SortableListeners = ReturnType<typeof useSortable>["listeners"]
 
 interface PdfCardProps {
     pdf: PdfFile

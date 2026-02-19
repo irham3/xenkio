@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { RefreshCw, ShieldAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

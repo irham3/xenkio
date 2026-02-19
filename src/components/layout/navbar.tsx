@@ -170,28 +170,52 @@ export function Navbar() {
                         )}
                       >
                         <div className={cn("grid gap-2", isTwoColumns ? "grid-cols-2" : "grid-cols-1")}>
-                          {categoryTools.map((tool) => (
-                            <Link
-                              key={tool.id}
-                              href={tool.href}
-                              className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors"
-                            >
-                              <div className={cn(
-                                "flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 group-hover:bg-white group-hover:shadow-sm transition-all",
-                                "text-gray-500 group-hover:text-primary-600"
-                              )}>
-                                <tool.icon className="w-4 h-4" />
-                              </div>
-                              <div>
-                                <div className="text-sm font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
-                                  {tool.title}
+                          {categoryTools.map((tool) => {
+                            const content = (
+                              <>
+                                <div className={cn(
+                                  "flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 group-hover:bg-white group-hover:shadow-sm transition-all",
+                                  "text-gray-500 group-hover:text-primary-600"
+                                )}>
+                                  <tool.icon className="w-4 h-4" />
                                 </div>
-                                <p className="text-[12px] text-gray-700 line-clamp-1 mt-0.5">
-                                  {tool.description}
-                                </p>
-                              </div>
-                            </Link>
-                          ))}
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-1.5 min-w-0">
+                                    <div className="text-sm font-medium text-gray-800 group-hover:text-primary-600 transition-colors truncate">
+                                      {tool.title}
+                                    </div>
+                                    {tool.isComingSoon && (
+                                      <span className="shrink-0 px-1 py-0.5 text-[8px] font-bold uppercase text-gray-400 bg-gray-50 rounded border border-gray-100">Soon</span>
+                                    )}
+                                  </div>
+                                  <p className="text-[12px] text-gray-700 line-clamp-1 mt-0.5">
+                                    {tool.description}
+                                  </p>
+                                </div>
+                              </>
+                            );
+
+                            if (tool.isComingSoon) {
+                              return (
+                                <div
+                                  key={tool.id}
+                                  className="flex items-start gap-3 p-2.5 rounded-lg opacity-60 cursor-not-allowed"
+                                >
+                                  {content}
+                                </div>
+                              );
+                            }
+
+                            return (
+                              <Link
+                                key={tool.id}
+                                href={tool.href}
+                                className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors"
+                              >
+                                {content}
+                              </Link>
+                            );
+                          })}
                           {categoryTools.length === 0 && (
                             <p className={cn("p-3 text-xs text-center text-gray-400", isTwoColumns ? "col-span-2" : "col-span-1")}>
                               No tools available directly in this menu.
@@ -287,25 +311,49 @@ export function Navbar() {
                                 "grid gap-2 max-h-[600px] overflow-y-auto scrollbar-themed",
                                 isTwoColumns ? "grid-cols-2" : "grid-cols-1"
                               )}>
-                                {categoryTools.map((tool) => (
-                                  <Link
-                                    key={tool.id}
-                                    href={tool.href}
-                                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
-                                  >
-                                    <div className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 text-gray-500">
-                                      <tool.icon className="w-4 h-4" />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                      <div className="text-sm font-medium text-gray-800 line-clamp-1">
-                                        {tool.title}
+                                {categoryTools.map((tool) => {
+                                  const content = (
+                                    <>
+                                      <div className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 text-gray-500">
+                                        <tool.icon className="w-4 h-4" />
                                       </div>
-                                      <div className="text-[11px] text-gray-700 line-clamp-1">
-                                        {tool.description}
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-1.5">
+                                          <div className="text-sm font-medium text-gray-800 line-clamp-1">
+                                            {tool.title}
+                                          </div>
+                                          {tool.isComingSoon && (
+                                            <span className="shrink-0 px-1 py-0.5 text-[8px] font-bold uppercase text-gray-400 bg-gray-50 rounded border border-gray-100">Soon</span>
+                                          )}
+                                        </div>
+                                        <div className="text-[11px] text-gray-700 line-clamp-1">
+                                          {tool.description}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </Link>
-                                ))}
+                                    </>
+                                  );
+
+                                  if (tool.isComingSoon) {
+                                    return (
+                                      <div
+                                        key={tool.id}
+                                        className="flex items-center gap-3 p-2 rounded-lg opacity-60 cursor-not-allowed"
+                                      >
+                                        {content}
+                                      </div>
+                                    );
+                                  }
+
+                                  return (
+                                    <Link
+                                      key={tool.id}
+                                      href={tool.href}
+                                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                                    >
+                                      {content}
+                                    </Link>
+                                  );
+                                })}
                                 {categoryTools.length === 0 && (
                                   <p className={cn("p-3 text-xs text-center text-gray-400", isTwoColumns ? "col-span-2" : "col-span-1")}>
                                     No tools available.

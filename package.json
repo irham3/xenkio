@@ -41,7 +41,7 @@
     "docx": "^9.5.1",
     "docx-preview": "^0.3.7",
     "file-saver": "^2.0.5",
-    "framer-motion": "^12.29.0",
+    "framer-motion": "^12.34.2",
     "fuse.js": "^7.1.0",
     "gif.js": "^0.2.0",
     "hash-wasm": "^4.12.0",
@@ -99,9 +99,12 @@
     "@smithy/util-defaults-mode-node": "^4.2.32"
   },
   "browserslist": [
-    "last 1 versions",
+    "chrome >= 95",
+    "firefox >= 95",
+    "edge >= 95",
+    "safari >= 15.4",
+    "ios >= 15.4",
     "not dead",
-    "> 1%",
     "not ie 11"
   ]
 }

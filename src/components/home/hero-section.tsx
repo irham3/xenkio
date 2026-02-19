@@ -150,22 +150,43 @@ export function HeroSection() {
             {showResults && (
               <div className="animate-fade-in-up absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50 overflow-hidden">
                 <div className="max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                  {results.map((tool) => (
-                    <a
-                      key={tool.id}
-                      href={tool.href}
-                      className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100">
-                        <tool.icon className="w-5 h-5 text-gray-600" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <div className="text-[15px] font-medium text-gray-900">{tool.title}</div>
-                        <div className="text-sm text-gray-700">{tool.description.slice(0, 60)}...</div>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-gray-400" />
-                    </a>
-                  ))}
+                  {results.map((tool) => {
+                    const content = (
+                      <>
+                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 shrink-0">
+                          <tool.icon className="w-5 h-5 text-gray-600" />
+                        </div>
+                        <div className="flex-1 text-left min-w-0">
+                          <div className="flex items-center gap-2">
+                            <div className="text-[15px] font-medium text-gray-900 truncate">{tool.title}</div>
+                            {tool.isComingSoon && (
+                              <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase text-gray-500 bg-gray-100 rounded border border-gray-200">Soon</span>
+                            )}
+                          </div>
+                          <div className="text-sm text-gray-700 truncate">{tool.description}</div>
+                        </div>
+                        {!tool.isComingSoon && <ArrowRight className="w-4 h-4 text-gray-400" />}
+                      </>
+                    );
+
+                    if (tool.isComingSoon) {
+                      return (
+                        <div key={tool.id} className="flex items-center gap-4 px-5 py-3.5 opacity-60 cursor-not-allowed border-b border-gray-50 last:border-0">
+                          {content}
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <a
+                        key={tool.id}
+                        href={tool.href}
+                        className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0"
+                      >
+                        {content}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
             )}

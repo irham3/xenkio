@@ -35,7 +35,7 @@ const ShinyText: React.FC<ShinyTextProps> = ({
       {text}
       <style jsx>{`
         .animate-shine-text {
-          animation: shine var(--duration, 5s) linear infinite;
+          animation: shine var(--duration, ${animationDuration}) linear infinite;
         }
         @keyframes shine {
           0% { background-position: 200% center; }

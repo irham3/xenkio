@@ -68,7 +68,7 @@ export default function Home() {
           <section
             key={category.id}
             id={`category-${category.id}`}
-            className={`py-16 lg:py-20 ${!isEven ? 'bg-white' : 'bg-gray-50'}`}
+            className={`py-16 lg:py-20 ${!isEven ? 'bg-white' : 'bg-gray-50'} ${index > 0 ? 'content-auto' : ''}`}
           >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               {/* Category Header */}

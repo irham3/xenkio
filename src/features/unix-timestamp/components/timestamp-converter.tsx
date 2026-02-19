@@ -100,7 +100,7 @@ export function TimestampConverter() {
   return (
     <div className="w-full">
       {/* Live Timestamp Display */}
-      <div className="mb-6 p-4 bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl border border-gray-200">
+      <div className="mb-6 p-4 bg-linear-to-r from-gray-50 to-gray-100/50 rounded-xl border border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm border border-gray-100">

@@ -182,6 +182,11 @@
   scrollbar-width: none;
 }
 
+@utility content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 500px;
+}
+
 
 /* Line clamp utilities */
 .line-clamp-1 {

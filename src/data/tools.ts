@@ -631,6 +631,15 @@ export const TOOLS: ToolData[] = [
     // DATA & CALCULATION TOOLS
     // =====================================================
     {
+        id: '70',
+        title: 'Scientific Calculator',
+        description: 'Full-featured calculator with trigonometric, logarithmic, and exponential functions.',
+        icon: Calculator,
+        href: '/tools/scientific-calculator',
+        slug: 'scientific-calculator',
+        categoryId: 'calculators',
+    },
+    {
         id: '52',
         title: 'Unit Converter',
         description: 'Convert between different units of measurement.',

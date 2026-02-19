@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import HtmlFormatterClient from './client';
-import { Code2 } from 'lucide-react';
 
 
 
@@ -51,10 +50,6 @@ export default function HtmlFormatterPage() {
       <section className="bg-white">
         <div className="container mx-auto px-4 pt-16 pb-12 max-w-5xl">
           <div className="text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-600 mb-4">
-              <Code2 className="w-3.5 h-3.5" />
-              100% Client-Side Processing
-            </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
               HTML Formatter
             </h1>

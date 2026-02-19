@@ -34,8 +34,8 @@ function ToolsGrid() {
                 <a
                     href="/tools"
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${!category
-                            ? "bg-primary-600 text-white shadow-sm"
-                            : "bg-white text-gray-600 border border-gray-200 hover:border-primary-200 hover:bg-primary-50"
+                        ? "bg-primary-600 text-white shadow-sm"
+                        : "bg-white text-gray-600 border border-gray-200 hover:border-primary-200 hover:bg-primary-50"
                         }`}
                 >
                     All Tools
@@ -45,8 +45,8 @@ function ToolsGrid() {
                         key={cat.id}
                         href={`/tools?category=${cat.id}`}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${category === cat.id
-                                ? "bg-primary-600 text-white shadow-sm"
-                                : "bg-white text-gray-600 border border-gray-200 hover:border-primary-200 hover:bg-primary-50"
+                            ? "bg-primary-600 text-white shadow-sm"
+                            : "bg-white text-gray-600 border border-gray-200 hover:border-primary-200 hover:bg-primary-50"
                             }`}
                     >
                         {cat.name}
@@ -69,6 +69,7 @@ function ToolsGrid() {
                         title={tool.title}
                         description={tool.description}
                         href={tool.href}
+                        icon={tool.icon}
                         isNew={tool.isNew}
                         isPremium={tool.isPremium}
                         isComingSoon={tool.isComingSoon}

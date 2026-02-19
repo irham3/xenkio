@@ -80,14 +80,14 @@ export default function Home() {
                     <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight mt-0.5 sm:mt-0">
                       {category.name}
                     </h2>
-                    <p className="text-sm sm:text-base text-gray-500 mt-1 sm:mt-1 max-w-xl line-clamp-2 sm:line-clamp-none">
+                    <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-1 max-w-xl line-clamp-2 sm:line-clamp-none leading-relaxed">
                       {category.description}
                     </p>
                   </div>
                 </div>
                 <Link
                   href={`/tools?category=${category.id}`}
-                  className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700 sm:px-4 sm:py-2.5 sm:bg-white sm:border sm:border-gray-200 sm:hover:border-primary-200 sm:hover:bg-primary-50 sm:rounded-lg sm:transition-all sm:shadow-sm sm:hover:shadow-md mt-1.5 sm:mt-0"
+                  className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-800 sm:px-4 sm:py-2.5 sm:bg-white sm:border sm:border-gray-200 sm:hover:border-primary-200 sm:hover:bg-primary-50 sm:rounded-lg sm:transition-all sm:shadow-sm sm:hover:shadow-md mt-1.5 sm:mt-0"
                 >
                   <span className="hidden sm:inline">View All</span>
                   <span className="sm:hidden">View All</span>
@@ -104,6 +104,7 @@ export default function Home() {
                     title={tool.title}
                     description={tool.description}
                     href={tool.href}
+                    icon={tool.icon}
                     isNew={tool.isNew}
                     isPremium={tool.isPremium}
                     isComingSoon={tool.isComingSoon}

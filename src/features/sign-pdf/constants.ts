@@ -8,6 +8,7 @@ export const FONTS = [
     'Dancing Script',
     'Great Vibes',
     'Pacifico',
+    'Alex Brush',
     'Inter',
 ]; // We need to ensure these are available if using HTML Canvas text drawing.
 

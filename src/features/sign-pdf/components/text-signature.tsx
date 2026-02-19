@@ -5,10 +5,11 @@ import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 
 const FONTS = [
-    { name: 'Dancing Script', family: "'Dancing Script', cursive" },
-    { name: 'Great Vibes', family: "'Great Vibes', cursive" },
-    { name: 'Alex Brush', family: "'Alex Brush', cursive" },
-    { name: 'Pacifico', family: "'Pacifico', cursive" },
+    { name: 'Dancing Script', family: "var(--font-dancing), cursive" },
+    { name: 'Great Vibes', family: "var(--font-great-vibes), cursive" },
+    { name: 'Alex Brush', family: "var(--font-alex-brush), cursive" },
+    { name: 'Pacifico', family: "var(--font-pacifico), cursive" },
+    { name: 'Satisfy', family: "var(--font-satisfy), cursive" },
 ];
 
 interface TextSignatureProps {

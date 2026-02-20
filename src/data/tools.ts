@@ -107,23 +107,6 @@ export const TOOLS: ToolData[] = [
         categoryId: 'documents',
     },
     {
-        id: '3',
-        title: 'PDF to Word',
-        description: 'Convert PDF to Word with preserved formatting: bold, italic, colors, fonts, and layout structure.',
-        icon: FileText,
-        href: '/tools/pdf-to-word',
-        slug: 'pdf-to-word',
-        categoryId: 'documents',
-    },
-    {
-        id: '4',
-        title: 'Word to PDF',
-        description: 'Convert Word documents to PDF with preserved formatting and layout.',
-        icon: FilePlus,
-        href: '/tools/word-to-pdf',
-        categoryId: 'documents',
-    },
-    {
         id: '5',
         title: 'Image to PDF',
         description: 'Convert images (JPG, PNG, WebP) to PDF documents.',
@@ -139,16 +122,6 @@ export const TOOLS: ToolData[] = [
         icon: FileOutput,
         href: '/tools/pdf-compressor',
         slug: 'pdf-compressor',
-        isNew: true,
-        categoryId: 'documents',
-    },
-    {
-        id: '7',
-        title: 'ZIP Extractor',
-        description: 'Extract ZIP archive files online. View contents, download individual files, or save everything instantly.',
-        icon: Archive,
-        href: '/tools/zip-extractor',
-        slug: 'zip-extractor',
         isNew: true,
         categoryId: 'documents',
     },
@@ -192,6 +165,34 @@ export const TOOLS: ToolData[] = [
         categoryId: 'documents',
         isNew: true,
     },
+    {
+        id: '3',
+        title: 'PDF to Word',
+        description: 'Convert PDF to Word with preserved formatting: bold, italic, colors, fonts, and layout structure.',
+        icon: FileText,
+        href: '/tools/pdf-to-word',
+        slug: 'pdf-to-word',
+        categoryId: 'documents',
+    },
+    {
+        id: '4',
+        title: 'Word to PDF',
+        description: 'Convert Word documents to PDF with preserved formatting and layout.',
+        icon: FilePlus,
+        href: '/tools/word-to-pdf',
+        categoryId: 'documents',
+    },
+
+    {
+        id: '7',
+        title: 'ZIP Extractor',
+        description: 'Extract ZIP archive files online. View contents, download individual files, or save everything instantly.',
+        icon: Archive,
+        href: '/tools/zip-extractor',
+        slug: 'zip-extractor',
+        isNew: true,
+        categoryId: 'documents',
+    },
 
     // =====================================================
     // IMAGE TOOLS (Tier 1 - High Traffic)
@@ -226,15 +227,6 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'media-images',
     },
-    {
-        id: '9',
-        title: 'Image Resizer',
-        description: 'Resize images to exact dimensions or by percentage.',
-        icon: Maximize2,
-        href: '/tools/image-resizer',
-        categoryId: 'media-images',
-    },
-
     {
         id: '11',
         title: 'Image Converter',
@@ -292,6 +284,38 @@ export const TOOLS: ToolData[] = [
         featured: true,
         categoryId: 'media-images',
     },
+
+    {
+        id: '18',
+        title: 'Barcode Generator',
+        description: 'Generate barcodes in various formats (EAN, UPC, Code128).',
+        icon: Barcode,
+        href: '/tools/barcode-generator',
+        categoryId: 'media-images',
+    },
+    // =====================================================
+    // IMAGE TOOLS - Tambahan
+    // =====================================================
+    {
+        id: '66',
+        title: 'Image Crop & Rotate',
+        description: 'Crop, rotate, and resize images with custom aspect ratios or freehand selection.',
+        icon: Crop,
+        href: '/tools/image-cropper',
+        slug: 'image-cropper',
+        categoryId: 'media-images',
+        isNew: true,
+    },
+    {
+        id: '72',
+        title: 'Video to GIF Converter',
+        description: 'Convert video files to animated GIFs in your browser. Trim clips, adjust FPS and resolution. No upload needed.',
+        icon: Film,
+        href: '/tools/video-to-gif',
+        slug: 'video-to-gif',
+        categoryId: 'media-images',
+        isNew: true,
+    },
     {
         id: '17',
         title: 'QR Code Reader',
@@ -301,14 +325,13 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
     },
     {
-        id: '18',
-        title: 'Barcode Generator',
-        description: 'Generate barcodes in various formats (EAN, UPC, Code128).',
-        icon: Barcode,
-        href: '/tools/barcode-generator',
+        id: '9',
+        title: 'Image Resizer',
+        description: 'Resize images to exact dimensions or by percentage.',
+        icon: Maximize2,
+        href: '/tools/image-resizer',
         categoryId: 'media-images',
     },
-
     // =====================================================
     // SECURITY & PRIVACY TOOLS
     // =====================================================
@@ -683,30 +706,6 @@ export const TOOLS: ToolData[] = [
         href: '/tools/loan-calculator',
         isComingSoon: true,
         categoryId: 'calculators',
-    },
-
-    // =====================================================
-    // IMAGE TOOLS - Tambahan
-    // =====================================================
-    {
-        id: '66',
-        title: 'Image Crop & Rotate',
-        description: 'Crop, rotate, and resize images with custom aspect ratios or freehand selection.',
-        icon: Crop,
-        href: '/tools/image-cropper',
-        slug: 'image-cropper',
-        categoryId: 'media-images',
-        isNew: true,
-    },
-    {
-        id: '72',
-        title: 'Video to GIF Converter',
-        description: 'Convert video files to animated GIFs in your browser. Trim clips, adjust FPS and resolution. No upload needed.',
-        icon: Film,
-        href: '/tools/video-to-gif',
-        slug: 'video-to-gif',
-        categoryId: 'media-images',
-        isNew: true,
     },
     // =====================================================
     // SECURITY & PRIVACY - Tambahan

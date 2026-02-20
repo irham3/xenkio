@@ -12,7 +12,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { MessageSquarePlus, X } from 'lucide-react';
+import { MessageSquarePlus } from 'lucide-react';
 import { FeedbackForm } from './feedback-form';
 
 export function FeedbackPopover() {
@@ -39,7 +39,7 @@ export function FeedbackPopover() {
             </Tooltip>
             <PopoverContent className="w-[360px] p-0 overflow-hidden shadow-xl border-border/50" align="end">
                 <div className="relative p-6 bg-card">
-                    <Button
+                    {/* <Button
                         variant="ghost"
                         size="icon"
                         className="absolute right-2 top-2 h-8 w-8 text-muted-foreground hover:text-foreground rounded-sm"
@@ -47,12 +47,12 @@ export function FeedbackPopover() {
                     >
                         <X className="h-4 w-4" />
                         <span className="sr-only">Close</span>
-                    </Button>
+                    </Button> */}
 
-                    <div className="space-y-1 mb-6">
+                    {/* <div className="space-y-1 mb-6">
                         <h4 className="font-semibold text-lg tracking-tight">Send Feedback</h4>
                         <p className="text-sm text-muted-foreground/80 leading-snug">Help us improve our service</p>
-                    </div>
+                    </div> */}
                     <FeedbackForm onSuccess={() => setOpen(false)} />
                 </div>
             </PopoverContent>

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Upload, Download, FileVideo, Settings2, Image, AlertCircle, RefreshCw, Play, Pause, Scissors, Loader2 } from 'lucide-react'
+import { Upload, Download, FileVideo, Settings2, Image as ImageIcon, AlertCircle, RefreshCw, Play, Pause, Scissors, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { useVideoToGif, GifSettings, DEFAULT_GIF_SETTINGS, GifResult } from '../hooks/use-video-to-gif'
@@ -486,7 +486,7 @@ export function VideoToGif() {
                                 </>
                             ) : (
                                 <>
-                                    <Image className="w-4 h-4" />
+                                    <ImageIcon className="w-4 h-4" />
                                     Convert to GIF
                                 </>
                             )}
@@ -533,7 +533,7 @@ export function VideoToGif() {
                 <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
                     <div className="px-5 py-3 border-b border-gray-100 bg-gray-50/80 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Image className="w-4 h-4 text-emerald-500" />
+                            <ImageIcon className="w-4 h-4 text-emerald-500" />
                             <span className="text-sm font-semibold text-gray-800">Result</span>
                         </div>
                         <div className="flex items-center gap-3 text-xs text-gray-500">

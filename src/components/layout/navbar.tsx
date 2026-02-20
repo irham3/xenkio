@@ -381,9 +381,9 @@ export function Navbar() {
               >
                 <Search className="w-4 h-4 shrink-0" />
                 <span className="text-gray-600">Search tools...</span>
-                {/* <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[12px] font-medium text-gray-500 bg-white border border-gray-200 rounded">
+                <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[12px] font-medium text-gray-500 bg-white border border-gray-200 rounded">
                   <span className="text-xs">⌘</span>K
-                </kbd> */}
+                </kbd>
               </button>
 
               <FeedbackPopover />

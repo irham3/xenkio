@@ -3,8 +3,9 @@
 import { z } from 'zod';
 
 const FeedbackSchema = z.object({
-    email: z.string().email({ message: 'Invalid email address' }).optional().or(z.literal('')),
-    feedback: z.string().min(1, { message: 'Feedback cannot be empty' }),
+    email: z.string().trim().email({ message: 'Invalid email address' }).optional().or(z.literal('')),
+    feedback: z.string().trim().min(2, { message: 'Feedback is too short' }).max(2000, { message: 'Feedback is too long (max 2000 characters)' }),
+    honeypot: z.string().max(0).optional(), // Must be empty
 });
 
 export type FeedbackState = {
@@ -13,31 +14,44 @@ export type FeedbackState = {
     errors?: {
         email?: string[];
         feedback?: string[];
+        honeypot?: string[];
     };
 };
 
 export async function submitFeedback(prevState: FeedbackState, formData: FormData): Promise<FeedbackState> {
+    // Basic rate limit check could go here if using a KV store, 
+    // for now we stick to schema and honeypot.
+
     const validatedFields = FeedbackSchema.safeParse({
         email: formData.get('email'),
         feedback: formData.get('feedback'),
+        honeypot: formData.get('hp_field'), // Check the honeypot field
     });
 
     if (!validatedFields.success) {
+        // If honeypot is filled, we just pretend it succeeded or return a generic error without helping the bot
+        if (validatedFields.error.flatten().fieldErrors.honeypot) {
+            return {
+                success: true,
+                message: 'Thank you for your feedback!',
+            };
+        }
+
         return {
             success: false,
-            message: 'Invalid fields. Failed to submit feedback.',
+            message: 'Please check your inputs and try again.',
             errors: validatedFields.error.flatten().fieldErrors,
         };
     }
 
     const { email, feedback } = validatedFields.data;
-    const feedbackApiUrl = process.env.NEXT_PUBLIC_FEEDBACK_API_URL || "https://script.google.com/macros/s/AKfycbzdmM5hqbYkIJGCZWSrZJ6iQE-rDguR4RZdfPetELEUzSZYVVtVS-d0lKPqKob1FMI9/exec";
+    const feedbackApiUrl = process.env.FEEDBACK_API_URL || process.env.NEXT_PUBLIC_FEEDBACK_API_URL;
 
     if (!feedbackApiUrl) {
-        console.error('NEXT_PUBLIC_FEEDBACK_API_URL is not defined');
+        console.error('Feedback API URL is not defined');
         return {
             success: false,
-            message: 'System configuration error. Please try again later.',
+            message: 'Service is temporarily unavailable.',
         };
     }
 
@@ -45,31 +59,29 @@ export async function submitFeedback(prevState: FeedbackState, formData: FormDat
         const response = await fetch(feedbackApiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'text/plain;charset=utf-8', // Google Apps Script requires text/plain to avoid CORS preflight issues sometimes, or to handle it simply
+                'Content-Type': 'text/plain;charset=utf-8',
             },
-            body: JSON.stringify({ email, feedback }),
+            body: JSON.stringify({
+                email,
+                feedback,
+                timestamp: new Date().toISOString(),
+                source: 'xenkio_web'
+            }),
         });
 
         if (!response.ok) {
-            // sometimes GAS returns 302 redirect which fetch follows, but if it returns 200 it's fine.
-            // If it fails with CORS it might throw.
-            // Let's assume standard fetch behavior.
-            // Actually, for creating a robust request to GAS, ensuring no-cors might be needed if we don't care about response, 
-            // but we want to know if it succeeded.
-            // The GAS script returns JSON, so we should be able to parse it if CORS is set up correctly (which the simple script usually handles).
-            // However, standard `fetch` from Server Action (Node.js environment) doesn't have CORS issues like browser.
-            // So standard POST is fine.
+            throw new Error(`API responded with status: ${response.status}`);
         }
 
         return {
             success: true,
-            message: 'Thank you for your feedback!',
+            message: 'Thank you! Your feedback has been sent.',
         };
     } catch (error) {
         console.error('Error submitting feedback:', error);
         return {
             success: false,
-            message: 'Failed to submit feedback. Please try again later.',
+            message: 'Failed to send feedback. Please try again later.',
         };
     }
 }

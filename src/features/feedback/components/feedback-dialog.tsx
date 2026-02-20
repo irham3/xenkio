@@ -27,7 +27,9 @@ export function FeedbackDialog() {
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Send Feedback</DialogTitle>
-
+                    <DialogDescription>
+                        Help us improve our service
+                    </DialogDescription>
                 </DialogHeader>
                 <FeedbackForm onSuccess={() => setOpen(false)} />
             </DialogContent>

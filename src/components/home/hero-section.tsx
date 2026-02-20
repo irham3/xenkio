@@ -114,14 +114,14 @@ export function HeroSection() {
           </Link>
 
           {/* Main Heading */}
-          <h1 className="animate-fade-in-up delay-1 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1]">
-            Your files never leave<br className="hidden sm:block" />
+          <h1 className="animate-fade-in-up delay-1 text-[2.1rem] sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.15] sm:leading-[1.1]">
+            <span className="inline-block sm:inline whitespace-nowrap">Your files never leave</span> <br className="sm:hidden" />
             <span className="relative inline-block">
               <ShinyText
                 text="your device"
                 disabled={false}
                 speed={3}
-                className="inline-block py-2 leading-normal"
+                className="inline-block py-1.5 leading-[1.1] overflow-visible"
                 color="#0EA5E9"
                 shineColor="#E0F2FE"
               />
@@ -129,7 +129,7 @@ export function HeroSection() {
           </h1>
 
           {/* Subheading */}
-          <p className="animate-fade-in-up delay-2 text-lg sm:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="animate-fade-in-up delay-2 text-base sm:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
             Free tools for PDFs, images, videos, and more.
             No uploads to servers, no file size limits, no sign-up required.
           </p>

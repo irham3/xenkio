@@ -698,6 +698,16 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
         isNew: true,
     },
+    {
+        id: '72',
+        title: 'Video to GIF Converter',
+        description: 'Convert video files to animated GIFs in your browser. Trim clips, adjust FPS and resolution. No upload needed.',
+        icon: Film,
+        href: '/tools/video-to-gif',
+        slug: 'video-to-gif',
+        categoryId: 'media-images',
+        isNew: true,
+    },
     // =====================================================
     // SECURITY & PRIVACY - Tambahan
     // =====================================================
@@ -714,7 +724,7 @@ export const TOOLS: ToolData[] = [
     },
     // Random String merged into Password Generator (similar intent)
     {
-        id: '70',
+        id: '97',
         title: 'Text Encryptor',
         description: 'Securely encrypt and decrypt text using AES, DES, Rabbit, RC4, and customized RC4Drop algorithms.',
         icon: LockKeyhole,

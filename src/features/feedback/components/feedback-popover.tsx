@@ -36,9 +36,7 @@ export function FeedbackPopover() {
 
                     <div className="space-y-1 mb-6">
                         <h4 className="font-semibold text-lg tracking-tight">Send Feedback</h4>
-                        <p className="text-sm text-foreground/70 text-balance">
-                            Help us improve Xenkio. We read every message.
-                        </p>
+                        <p className="text-sm text-muted-foreground/80 leading-snug">Help us improve our service</p>
                     </div>
                     <FeedbackForm onSuccess={() => setOpen(false)} />
                 </div>

@@ -13,6 +13,7 @@ const SearchModal = dynamic(() => import('./search-modal').then(mod => mod.Searc
 });
 import { cn } from '@/lib/utils';
 import { CATEGORIES } from '@/data/categories';
+import { FeedbackPopover } from '@/features/feedback/components/feedback-popover';
 
 import { TOOLS } from '@/data/tools';
 import { ChevronDown } from 'lucide-react';
@@ -385,16 +386,10 @@ export function Navbar() {
                 </kbd>
               </button>
 
-              {/* Mobile search */}
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                aria-label="Search tools"
-                className="sm:hidden p-2 text-gray-600 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <Search className="w-5 h-5" />
-              </button>
+              <FeedbackPopover />
 
-              {/* Get Started button */}
+              {/* Mobile search */}
+
               {/* <Link
                 href="/sign-up"
                 className="hidden sm:inline-flex items-center px-5 py-2.5 text-[14px] font-semibold text-white bg-linear-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-lg shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300"

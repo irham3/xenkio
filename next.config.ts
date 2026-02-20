@@ -4,7 +4,7 @@ import { PHASE_PRODUCTION_BUILD } from 'next/constants';
 const nextConfig = (phase: string): NextConfig => {
   const isExport = phase === PHASE_PRODUCTION_BUILD;
 
-  return {
+  const config: NextConfig = {
     // Static export for Cloudflare Pages deployment (only during build)
     output: isExport ? "export" : undefined,
 
@@ -38,10 +38,13 @@ const nextConfig = (phase: string): NextConfig => {
 
       return config;
     },
-    async headers() {
-      // Headers only work in dev mode when output is not 'export'
-      if (isExport) return [];
+    compiler: {
+      removeConsole: process.env.NODE_ENV === "production",
+    },
+  };
 
+  if (!isExport) {
+    config.headers = async () => {
       return [
         {
           source: '/(.*)',
@@ -57,11 +60,10 @@ const nextConfig = (phase: string): NextConfig => {
           ],
         },
       ];
-    },
-    compiler: {
-      removeConsole: process.env.NODE_ENV === "production",
-    },
-  };
+    };
+  }
+
+  return config;
 };
 
 export default nextConfig;

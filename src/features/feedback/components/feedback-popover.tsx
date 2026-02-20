@@ -7,6 +7,11 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { MessageSquarePlus, X } from 'lucide-react';
 import { FeedbackForm } from './feedback-form';
 
@@ -15,13 +20,23 @@ export function FeedbackPopover() {
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-9 w-9 sm:w-auto px-0 sm:px-3 flex gap-2 text-gray-600 hover:text-gray-900">
-                    <MessageSquarePlus className="h-5 w-5 sm:h-4 sm:w-4" />
-                    <span className="hidden sm:inline font-medium">Feedback</span>
-                    <span className="sr-only">Feedback</span>
-                </Button>
-            </PopoverTrigger>
+            <Tooltip delayDuration={300}>
+                <TooltipTrigger asChild>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-10 w-10 text-gray-600 hover:text-gray-900 transition-colors"
+                        >
+                            <MessageSquarePlus className="h-[1.2rem] w-[1.2rem]" />
+                            <span className="sr-only">Feedback</span>
+                        </Button>
+                    </PopoverTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="text-xs font-medium">
+                    Feedback
+                </TooltipContent>
+            </Tooltip>
             <PopoverContent className="w-[360px] p-0 overflow-hidden shadow-xl border-border/50" align="end">
                 <div className="relative p-6 bg-card">
                     <Button

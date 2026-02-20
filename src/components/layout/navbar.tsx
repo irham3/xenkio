@@ -377,13 +377,13 @@ export function Navbar() {
               <button
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Search tools"
-                className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-[180px] cursor-pointer"
+                className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-[160px] cursor-pointer"
               >
                 <Search className="w-4 h-4 shrink-0" />
                 <span className="text-gray-600">Search tools...</span>
-                <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[12px] font-medium text-gray-500 bg-white border border-gray-200 rounded">
+                {/* <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[12px] font-medium text-gray-500 bg-white border border-gray-200 rounded">
                   <span className="text-xs">⌘</span>K
-                </kbd>
+                </kbd> */}
               </button>
 
               <FeedbackPopover />

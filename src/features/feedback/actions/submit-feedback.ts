@@ -44,7 +44,7 @@ export async function submitFeedback(prevState: FeedbackState, formData: FormDat
     }
 
     const { email, feedback } = validatedFields.data;
-    const feedbackApiUrl = process.env.FEEDBACK_API_URL || process.env.NEXT_PUBLIC_FEEDBACK_API_URL;
+    const feedbackApiUrl = process.env.NEXT_PUBLIC_FEEDBACK_API_URL || "https://script.google.com/macros/s/AKfycbzdmM5hqbYkIJGCZWSrZJ6iQE-rDguR4RZdfPetELEUzSZYVVtVS-d0lKPqKob1FMI9/exec";
 
     if (!feedbackApiUrl) {
         console.error('Feedback API URL is not defined');

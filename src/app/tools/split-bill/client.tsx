@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { SimpleSplitCalculator } from '@/features/split-bill/components/simple-split-calculator';
+const SimpleSplitCalculator = dynamic(
+    () => import('@/features/split-bill/components/simple-split-calculator').then(mod => mod.SimpleSplitCalculator),
+    { ssr: false }
+);
 
 const SplitBillCalculator = dynamic(
     () => import('@/features/split-bill/components/split-bill-calculator').then(mod => mod.SplitBillCalculator),

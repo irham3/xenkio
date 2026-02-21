@@ -3,7 +3,7 @@ import SplitBillClient from './client';
 
 export const metadata: Metadata = {
     title: 'Advanced Split Bill Calculator | Xenkio',
-    description: 'Split bills unfairly but accurately. Calculate individual shares including tax, service charge, and discounts. Export to PDF and generate payment QR codes. 100% Client-Side Private Processing.',
+    description: 'Split bills unfairly but accurately. Calculate individual shares including tax, service charge, and discounts. Export to PDF and share receipts. 100% Client-Side Private Processing.',
 };
 
 export default function SplitBillPage() {
@@ -15,7 +15,7 @@ export default function SplitBillPage() {
                 </h1>
 
                 <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-base">
-                    Not just a simple divider. Assign items to specific people, calculate proportional tax and service charges, export receipts to PDF, and generate payment QR codes instantly.
+                    Not just a simple divider. Assign items to specific people, calculate proportional tax and service charges, and export receipts to PDF instantly.
                 </p>
             </div>
 

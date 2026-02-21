@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { Person, SplitItem, SplitBillState, BillSummary, PersonSummary } from '../types';
+import { Person, SplitItem, SplitBillState, BillSummary } from '../types';
 import { DEFAULT_CURRENCY, AVATAR_COLORS } from '../constants';
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -102,11 +102,9 @@ export function useSplitBill() {
         const subtotal = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
         let subtotalAfterDiscount = subtotal;
-        let discountMultiplier = 1;
 
         if (state.discountAmount > 0 && subtotal > 0) {
             subtotalAfterDiscount = Math.max(0, subtotal - state.discountAmount);
-            discountMultiplier = subtotalAfterDiscount / subtotal;
         }
 
         const serviceChargeTotal = subtotalAfterDiscount * (state.serviceChargePercentage / 100);

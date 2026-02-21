@@ -1,16 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { CompressionSettings, CompressionResult } from '../types'
-
-// ============================================================
-// FFmpeg v0.10.1 Implementation (Single Threaded - Stable)
-// ============================================================
-// We use v0.10.1 because v0.12.x (Multi-Threaded) requires
-// SharedArrayBuffer and COOP/COEP headers which cause 92% stuck
-// issues in many environments. v0.10.1 is robust and works everywhere.
-// ============================================================
-
-const FFMPEG_SCRIPT_URL = 'https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js'
-const FFMPEG_CORE_URL = 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+import { getFFmpeg, ffmpegFetchFile, FFmpegInstance } from '@/lib/ffmpeg-engine'
 
 export interface DownloadProgress {
     label: string
@@ -19,23 +9,7 @@ export interface DownloadProgress {
     overallPercent: number
 }
 
-// Global types for window.FFmpeg
-interface FFmpegInstance {
-    load: () => Promise<void>
-    FS: (method: string, ...args: unknown[]) => unknown
-    run: (...args: string[]) => Promise<void>
-    setProgress: (callback: (p: { ratio: number }) => void) => void
-    exit: () => void
-}
-
-declare global {
-    interface Window {
-        FFmpeg: {
-            createFFmpeg: (options: Record<string, unknown>) => FFmpegInstance
-            fetchFile: (file: File | Blob | string) => Promise<Uint8Array>
-        }
-    }
-}
+// (Simplified types moved to ffmpeg-engine.ts)
 
 export function useVideoCompressor() {
     const [loaded, setLoaded] = useState(false)
@@ -44,66 +18,37 @@ export function useVideoCompressor() {
     const [progress, setProgress] = useState(0)
     const [isCompressing, setIsCompressing] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const [logs, setLogs] = useState<string[]>([])
     const [downloadProgress, setDownloadProgress] = useState<DownloadProgress | null>(null)
 
-    // Helper to load script
-    const loadScript = useCallback((): Promise<void> => {
-        return new Promise((resolve, reject) => {
-            if (window.FFmpeg) {
-                resolve()
-                return
-            }
-            const script = document.createElement('script')
-            script.src = FFMPEG_SCRIPT_URL
-            script.async = true
-            script.onload = () => resolve()
-            script.onerror = () => reject(new Error('Failed to load FFmpeg script'))
-            document.body.appendChild(script)
-        })
-    }, [])
+    // Helper removed, using centralized manager
 
     const load = useCallback(async () => {
-        if (loaded || isLoading || error) return
+        if (loaded || isLoading) return
         setIsLoading(true)
         setError(null)
 
-        // Start simulated progress (since v0.10 doesn't support download hooks)
+        // Simulated progress
         setDownloadProgress({ label: 'Connecting...', loaded: 0, total: 100, overallPercent: 5 })
         const progressInterval = setInterval(() => {
             setDownloadProgress(prev => {
                 if (!prev || prev.overallPercent >= 90) return prev
-                // Increment by random amount (1-5%) every 500ms
                 return {
                     ...prev,
                     overallPercent: Math.min(90, prev.overallPercent + Math.random() * 5),
                     label: 'Downloading Engine...'
                 }
             })
-        }, 500)
+        }, 300)
 
         try {
-            await loadScript()
+            const ffmpeg = await getFFmpeg()
 
-            if (!window.FFmpeg) throw new Error('FFmpeg script failed to load')
-
-            // Create instance
-            const ffmpeg = window.FFmpeg.createFFmpeg({
-                corePath: FFMPEG_CORE_URL,
-                log: true,
-                logger: ({ message }: { message: string }) => {
-                    setLogs(prev => [...prev.slice(-4), message])
-                }
-            })
-
-            // Set progress handler
+            // Set progress handler whenever we get instance
             ffmpeg.setProgress(({ ratio }: { ratio: number }) => {
                 setProgress(Math.round(ratio * 100))
             })
 
             ffmpegRef.current = ffmpeg
-            await ffmpeg.load()
-
             setDownloadProgress({ label: 'Ready', loaded: 100, total: 100, overallPercent: 100 })
             setLoaded(true)
         } catch (err: unknown) {
@@ -113,7 +58,7 @@ export function useVideoCompressor() {
             clearInterval(progressInterval)
             setIsLoading(false)
         }
-    }, [loaded, isLoading, loadScript, error])
+    }, [loaded, isLoading])
 
     const reset = useCallback(() => {
         setError(null)
@@ -138,13 +83,15 @@ export function useVideoCompressor() {
         const startTime = Date.now()
 
         try {
-            const { fetchFile } = window.FFmpeg
-            // Use time-based input name to avoid cache/conflict
+            // Write file using shared fetch utility
+            const ffmpegFile = await ffmpegFetchFile(file)
+
+            // Re-define filenames
             const inputFileName = `input_${Date.now()}${file.name.substring(file.name.lastIndexOf('.'))}`
             const outputFileName = `output_${Date.now()}.mp4`
 
             // Write file
-            ffmpeg.FS('writeFile', inputFileName, await fetchFile(file))
+            ffmpeg.FS('writeFile', inputFileName, ffmpegFile)
 
             // Build args
             const args = ['-i', inputFileName]
@@ -204,7 +151,6 @@ export function useVideoCompressor() {
         progress,
         error,
         compressVideo,
-        logs,
         downloadProgress,
         reset,
     }

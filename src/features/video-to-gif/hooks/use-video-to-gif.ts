@@ -1,13 +1,5 @@
-'use client'
-
 import { useState, useRef, useEffect, useCallback } from 'react'
-
-// ============================================================
-// FFmpeg v0.10.1 — same stable implementation as video-compressor
-// ============================================================
-
-const FFMPEG_SCRIPT_URL = 'https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js'
-const FFMPEG_CORE_URL = 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+import { getFFmpeg, ffmpegFetchFile, FFmpegInstance } from '@/lib/ffmpeg-engine'
 
 export interface GifSettings {
     fps: number
@@ -31,13 +23,7 @@ export interface DownloadProgress {
     overallPercent: number
 }
 
-interface FFmpegInstance {
-    load: () => Promise<void>
-    FS: (method: string, ...args: unknown[]) => unknown
-    run: (...args: string[]) => Promise<void>
-    setProgress: (callback: (p: { ratio: number }) => void) => void
-    exit: () => void
-}
+// (Simplified types moved to ffmpeg-engine.ts)
 
 
 export const DEFAULT_GIF_SETTINGS: GifSettings = {
@@ -56,23 +42,10 @@ export function useVideoToGif() {
     const [error, setError] = useState<string | null>(null)
     const [downloadProgress, setDownloadProgress] = useState<DownloadProgress | null>(null)
 
-    const loadScript = useCallback((): Promise<void> => {
-        return new Promise((resolve, reject) => {
-            if (window.FFmpeg) {
-                resolve()
-                return
-            }
-            const script = document.createElement('script')
-            script.src = FFMPEG_SCRIPT_URL
-            script.async = true
-            script.onload = () => resolve()
-            script.onerror = () => reject(new Error('Failed to load FFmpeg script'))
-            document.body.appendChild(script)
-        })
-    }, [])
+    // Helper removed, using centralized manager
 
     const load = useCallback(async () => {
-        if (loaded || isLoading || error) return
+        if (loaded || isLoading) return
         setIsLoading(true)
         setError(null)
 
@@ -86,24 +59,16 @@ export function useVideoToGif() {
                     label: 'Downloading Engine...'
                 }
             })
-        }, 500)
+        }, 300)
 
         try {
-            await loadScript()
-            if (!window.FFmpeg) throw new Error('FFmpeg script failed to load')
-
-            const ffmpeg = window.FFmpeg.createFFmpeg({
-                corePath: FFMPEG_CORE_URL,
-                log: false,
-            })
+            const ffmpeg = await getFFmpeg()
 
             ffmpeg.setProgress(({ ratio }: { ratio: number }) => {
                 setProgress(Math.round(Math.max(0, Math.min(100, ratio * 100))))
             })
 
             ffmpegRef.current = ffmpeg
-            await ffmpeg.load()
-
             setDownloadProgress({ label: 'Ready', overallPercent: 100 })
             setLoaded(true)
         } catch (err: unknown) {
@@ -113,7 +78,7 @@ export function useVideoToGif() {
             clearInterval(progressInterval)
             setIsLoading(false)
         }
-    }, [loaded, isLoading, loadScript, error])
+    }, [loaded, isLoading])
 
     const reset = useCallback(() => {
         setError(null)
@@ -137,14 +102,14 @@ export function useVideoToGif() {
         const startTime = Date.now()
 
         try {
-            const { fetchFile } = window.FFmpeg!
             const ext = file.name.substring(file.name.lastIndexOf('.'))
             const inputFileName = `input_${Date.now()}${ext}`
             const paletteFileName = `palette_${Date.now()}.png`
             const outputFileName = `output_${Date.now()}.gif`
 
-            // Write input
-            ffmpeg.FS('writeFile', inputFileName, await fetchFile(file))
+            // Write input using shared fetch utility
+            const ffmpegFile = await ffmpegFetchFile(file)
+            ffmpeg.FS('writeFile', inputFileName, ffmpegFile)
 
             // Build filter string
             const scaleFilter = `scale=${settings.width}:-1:flags=lanczos`

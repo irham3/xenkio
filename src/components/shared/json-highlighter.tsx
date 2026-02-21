@@ -4,17 +4,12 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-export const STANDARD_CLAIMS: Record<string, string> = {
-    iss: 'Issuer: Identifies the principal that issued the JWT.',
-    sub: 'Subject: Identifies the principal that is the subject of the JWT.',
-    aud: 'Audience: Identifies the recipients that the JWT is intended for.',
-    exp: 'Expiration Time: Identifies the expiration time on or after which the JWT must not be accepted.',
-    nbf: 'Not Before: Identifies the time before which the JWT must not be accepted.',
-    iat: 'Issued At: Identifies the time at which the JWT was issued.',
-    jti: 'JWT ID: Provides a unique identifier for the JWT.'
-};
+interface JsonHighlighterProps {
+    json: string;
+    keyTooltips?: Record<string, string>;
+}
 
-export function JsonHighlighter({ json }: { json: string }) {
+export function JsonHighlighter({ json, keyTooltips = {} }: JsonHighlighterProps) {
     // Split using capturing group so that delimiters (tokens) are included
     // The parts between tokens (even indices) are "unknown" or "invalid" text
     const parts = json.split(/(".*?"|true|false|null|-?\d+\.?\d*|[:,{}\[\]]|\s+)/g);
@@ -53,7 +48,7 @@ export function JsonHighlighter({ json }: { json: string }) {
 
                 if (isKey) {
                     const keyName = token.slice(1, -1);
-                    const claimInfo = STANDARD_CLAIMS[keyName];
+                    const claimInfo = keyTooltips[keyName];
 
                     if (claimInfo) {
                         return (

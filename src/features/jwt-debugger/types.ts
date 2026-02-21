@@ -46,3 +46,13 @@ export const DEFAULT_HEADER = JSON.stringify({
 }, null, 2);
 
 export const DEFAULT_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZSI6ImFkbWluIiwiaXNzIjoiaHR0cHM6Ly95b3VyLWRvbWFpbi5jb20iLCJhdWQiOiJodHRwczovL2FwaS55b3VyLWRvbWFpbi5jb20iLCJpYXQiOjE3MDQwNjcyMDAsImV4cCI6MTcwNDA3MDgwMH0.R_Z78gOc3S0n3khnr5R-G6dlKuGPGuUiVgi9Ek8Hc00";
+
+export const STANDARD_CLAIMS: Record<string, string> = {
+    iss: 'Issuer: Identifies the principal that issued the JWT.',
+    sub: 'Subject: Identifies the principal that is the subject of the JWT.',
+    aud: 'Audience: Identifies the recipients that the JWT is intended for.',
+    exp: 'Expiration Time: Identifies the expiration time on or after which the JWT must not be accepted.',
+    nbf: 'Not Before: Identifies the time before which the JWT must not be accepted.',
+    iat: 'Issued At: Identifies the time at which the JWT was issued.',
+    jti: 'JWT ID: Provides a unique identifier for the JWT.'
+};

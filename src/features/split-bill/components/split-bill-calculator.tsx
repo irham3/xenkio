@@ -4,11 +4,9 @@ import { useSplitBill } from '../hooks/use-split-bill';
 import { PeopleManager } from './people-manager';
 import { ItemManager } from './item-manager';
 import { BillSummary } from './bill-summary';
-import { PaymentQr } from './payment-qr';
 import { PdfReceipt } from './pdf-receipt';
 import { POPULAR_CURRENCIES } from '../constants';
-import { Person } from '../types';
-import { Settings2, Percent } from 'lucide-react';
+import { Settings2, Percent, CreditCard, User, Hash } from 'lucide-react';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useState, useRef } from 'react';
 
@@ -28,12 +26,6 @@ export function SplitBillCalculator() {
 
     const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
     const printRef = useRef<HTMLDivElement>(null);
-
-    const [qrState, setQrState] = useState<{
-        isOpen: boolean;
-        person: Person | null;
-        amount: number;
-    }>({ isOpen: false, person: null, amount: 0 });
 
     const handleExportPdf = async () => {
         if (!printRef.current || isGeneratingPdf) return;
@@ -56,17 +48,6 @@ export function SplitBillCalculator() {
             console.error("Failed to generate PDF:", error);
         } finally {
             setIsGeneratingPdf(false);
-        }
-    };
-
-    const handleShowQr = (personId: string) => {
-        const personSummary = summary.peopleSummaries.find(p => p.person.id === personId);
-        if (personSummary) {
-            setQrState({
-                isOpen: true,
-                person: personSummary.person,
-                amount: personSummary.total
-            });
         }
     };
 
@@ -137,7 +118,7 @@ export function SplitBillCalculator() {
                             </div>
 
                             <div>
-                                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">Global Discount</label>
+                                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 block">Global Discount</label>
                                 <div className="relative">
                                     <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">
                                         {state.currency.symbol}
@@ -149,6 +130,52 @@ export function SplitBillCalculator() {
                                         placeholder="0"
                                         onChange={(e) => updateGlobalSettings({ discountAmount: parseInt(e.target.value) || 0 })}
                                         className="w-full h-10 pl-8 pr-3 text-sm font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Payment Destination Settings */}
+                        <div className="mt-6 pt-6 border-t border-gray-50">
+                            <h4 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <CreditCard className="w-3.5 h-3.5" />
+                                Payment Instructions (Optional)
+                            </h4>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-semibold text-gray-500 uppercase flex items-center gap-1.5">
+                                        <CreditCard className="w-3 h-3 text-gray-400" />
+                                        Bank / Method
+                                    </label>
+                                    <input
+                                        placeholder="e.g. BCA, GoPay"
+                                        value={state.paymentMethod}
+                                        onChange={(e) => updateGlobalSettings({ paymentMethod: e.target.value })}
+                                        className="w-full h-9 px-3 text-xs font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-semibold text-gray-500 uppercase flex items-center gap-1.5">
+                                        <User className="w-3 h-3 text-gray-400" />
+                                        Account Name
+                                    </label>
+                                    <input
+                                        placeholder="e.g. John Doe"
+                                        value={state.paymentAccountName}
+                                        onChange={(e) => updateGlobalSettings({ paymentAccountName: e.target.value })}
+                                        className="w-full h-9 px-3 text-xs font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-semibold text-gray-500 uppercase flex items-center gap-1.5">
+                                        <Hash className="w-3 h-3 text-gray-400" />
+                                        Account Number
+                                    </label>
+                                    <input
+                                        placeholder="e.g. 12345678"
+                                        value={state.paymentAccountNumber}
+                                        onChange={(e) => updateGlobalSettings({ paymentAccountNumber: e.target.value })}
+                                        className="w-full h-9 px-3 text-xs font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
                                     />
                                 </div>
                             </div>
@@ -179,7 +206,11 @@ export function SplitBillCalculator() {
                         summary={summary}
                         currency={state.currency}
                         onExportPdf={handleExportPdf}
-                        onShowQr={handleShowQr}
+                        paymentInfo={{
+                            method: state.paymentMethod,
+                            accountName: state.paymentAccountName,
+                            accountNumber: state.paymentAccountNumber
+                        }}
                     />
                 </div>
             </div>
@@ -189,14 +220,11 @@ export function SplitBillCalculator() {
                 summary={summary}
                 currency={state.currency}
                 printRef={printRef}
-            />
-
-            <PaymentQr
-                isOpen={qrState.isOpen}
-                onClose={() => setQrState(prev => ({ ...prev, isOpen: false }))}
-                person={qrState.person}
-                amount={qrState.amount}
-                currency={state.currency}
+                paymentInfo={{
+                    method: state.paymentMethod,
+                    accountName: state.paymentAccountName,
+                    accountNumber: state.paymentAccountNumber
+                }}
             />
         </TooltipProvider>
     );

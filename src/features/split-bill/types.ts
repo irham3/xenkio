@@ -25,6 +25,9 @@ export interface SplitBillState {
     taxPercentage: number;
     serviceChargePercentage: number;
     discountAmount: number;
+    paymentMethod: string;
+    paymentAccountName: string;
+    paymentAccountNumber: string;
 }
 
 export interface PersonSummary {

@@ -5,9 +5,14 @@ interface PdfReceiptProps {
     summary: BillSummaryType;
     currency: Currency;
     printRef: React.RefObject<HTMLDivElement | null>;
+    paymentInfo?: {
+        method: string;
+        accountName: string;
+        accountNumber: string;
+    };
 }
 
-export function PdfReceipt({ summary, currency, printRef }: PdfReceiptProps) {
+export function PdfReceipt({ summary, currency, printRef, paymentInfo }: PdfReceiptProps) {
     const formatMoney = (amount: number) => {
         return `${currency.symbol}${amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
     };
@@ -102,6 +107,34 @@ export function PdfReceipt({ summary, currency, printRef }: PdfReceiptProps) {
                                 <span className="font-mono">+{formatMoney(summary.taxTotal)}</span>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Payment Info Section in PDF */}
+                    {paymentInfo && (paymentInfo.method || paymentInfo.accountName || paymentInfo.accountNumber) && (
+                        <div className="mt-8 pt-8 border-t-2 border-gray-100">
+                            <h2 className="text-lg font-bold text-gray-800 uppercase tracking-widest mb-4">Payment Instructions</h2>
+                            <div className="grid grid-cols-3 gap-8">
+                                <div>
+                                    <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Method / Bank</p>
+                                    <p className="text-sm font-bold text-gray-900">{paymentInfo.method || '-'}</p>
+                                </div>
+                                <div>
+                                    <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Account Name</p>
+                                    <p className="text-sm font-bold text-gray-900">{paymentInfo.accountName || '-'}</p>
+                                </div>
+                                <div>
+                                    <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Account Number</p>
+                                    <p className="text-lg font-mono font-bold text-primary-600 tracking-wider">
+                                        {paymentInfo.accountNumber || '-'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Footer Info */}
+                    <div className="mt-12 text-center text-gray-400 text-[10px] font-medium border-t border-gray-100 pt-4">
+                        Thank you for using Xenkio. This is a computer-generated receipt.
                     </div>
 
                 </div>

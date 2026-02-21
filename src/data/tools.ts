@@ -68,6 +68,7 @@ import {
     TrendingUp,
     Film,
     Wifi,
+    Percent,
 } from 'lucide-react';
 
 export interface ToolData {
@@ -675,7 +676,7 @@ export const TOOLS: ToolData[] = [
         id: '53',
         title: 'Discount Calculator',
         description: 'Calculate the final price after discount. Supports stacked discounts and tax.',
-        icon: Receipt,
+        icon: Percent,
         href: '/tools/discount-calculator',
         slug: 'discount-calculator',
         categoryId: 'calculators',

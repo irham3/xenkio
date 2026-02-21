@@ -1,5 +1,5 @@
 import { BillSummary as BillSummaryType, Currency } from '../types';
-import { Download, Receipt, Users, Calculator, Info } from 'lucide-react';
+import { Download, Users, Calculator, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -7,12 +7,28 @@ interface BillSummaryProps {
     summary: BillSummaryType;
     currency: Currency;
     onExportPdf: () => void;
-    onShowQr: (personId: string) => void;
+    paymentInfo?: {
+        method: string;
+        accountName: string;
+        accountNumber: string;
+    };
 }
 
-export function BillSummary({ summary, currency, onExportPdf, onShowQr }: BillSummaryProps) {
+export function BillSummary({ summary, currency, onExportPdf, paymentInfo }: BillSummaryProps) {
     if (summary.peopleSummaries.length === 0 && summary.subtotal === 0) {
-        return null;
+        return (
+            <div className="bg-white rounded-xl border-2 border-dashed border-gray-100 p-12 text-center h-full flex flex-col items-center justify-center space-y-4">
+                <div className="p-4 bg-gray-50 rounded-full">
+                    <Users className="w-10 h-10 text-gray-300" />
+                </div>
+                <div className="max-w-xs mx-auto">
+                    <h4 className="font-bold text-gray-900 text-lg">No Results Yet</h4>
+                    <p className="text-sm text-gray-500 mt-2">
+                        Add people and items to see the magic happen. Your final breakdown will appear here.
+                    </p>
+                </div>
+            </div>
+        );
     }
 
     const formatMoney = (amount: number) => {
@@ -61,13 +77,6 @@ export function BillSummary({ summary, currency, onExportPdf, onShowQr }: BillSu
                                     <div className="text-xl font-black text-primary-600 tracking-tight">
                                         {formatMoney(ps.total)}
                                     </div>
-                                    <button
-                                        onClick={() => onShowQr(ps.person.id)}
-                                        disabled={ps.total <= 0}
-                                        className="text-[10px] font-bold text-gray-500 hover:text-primary-600 uppercase tracking-widest mt-1 disabled:opacity-50"
-                                    >
-                                        Share QR →
-                                    </button>
                                 </div>
                             </div>
 
@@ -126,7 +135,7 @@ export function BillSummary({ summary, currency, onExportPdf, onShowQr }: BillSu
             {/* Global Bill Footer */}
             {summary.grandTotal > 0 && (
                 <div className="bg-gray-900 text-white p-5">
-                    <div className="flex justify-between items-end">
+                    <div className="flex justify-between items-end border-b border-gray-800 pb-4 mb-4">
                         <div>
                             <p className="text-xs text-gray-400 font-medium mb-1 uppercase tracking-widest">Grand Total</p>
                             <div className="flex items-center gap-2">
@@ -146,10 +155,33 @@ export function BillSummary({ summary, currency, onExportPdf, onShowQr }: BillSu
                             </div>
                         </div>
                         <div className="text-right">
-                            <p className="text-[10px] text-gray-500 font-medium">Total Items</p>
-                            <p className="text-sm font-bold text-gray-300">{summary.peopleSummaries.reduce((a, b) => a + b.items.length, 0)} Pcs</p>
+                            <p className="text-[10px] text-gray-500 font-medium uppercase">Total Items</p>
+                            <p className="text-lg font-bold text-gray-100">{summary.peopleSummaries.reduce((a, b) => a + b.items.length, 0)} Pcs</p>
                         </div>
                     </div>
+
+                    {/* Payment Info */}
+                    {paymentInfo && (paymentInfo.method || paymentInfo.accountName || paymentInfo.accountNumber) && (
+                        <div className="pt-2">
+                            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-2">Payment Instruction</p>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="text-[10px] text-gray-600 uppercase">Transfer to</p>
+                                    <p className="text-sm font-bold text-primary-400">{paymentInfo.method || 'Not Specified'}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-[10px] text-gray-600 uppercase">Account Name</p>
+                                    <p className="text-sm font-bold text-gray-100">{paymentInfo.accountName || '-'}</p>
+                                </div>
+                                <div className="col-span-2">
+                                    <p className="text-[10px] text-gray-600 uppercase">Account Number</p>
+                                    <p className="text-base font-mono font-bold text-gray-100 tracking-wider">
+                                        {paymentInfo.accountNumber || '-'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

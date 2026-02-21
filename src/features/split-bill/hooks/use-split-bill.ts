@@ -12,6 +12,9 @@ export function useSplitBill() {
         taxPercentage: 0,
         serviceChargePercentage: 0,
         discountAmount: 0,
+        paymentMethod: '',
+        paymentAccountName: '',
+        paymentAccountNumber: '',
     });
 
     const addPerson = useCallback((name: string) => {

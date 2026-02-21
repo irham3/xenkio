@@ -131,45 +131,58 @@ export function SimpleSplitCalculator() {
                 </div>
             </div>
 
-            <div className="bg-gray-900 text-white rounded-2xl p-8 shadow-xl sticky top-6">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-6">Result</h3>
+            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm sticky top-6">
+                <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-50">
+                    <span className="w-2 h-6 bg-primary-600 rounded-full" />
+                    <h3 className="text-lg font-bold text-gray-900 tracking-tight">Summary Breakdown</h3>
+                </div>
 
                 <div className="space-y-4 mb-8">
-                    <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-400">Subtotal</span>
-                        <span className="font-medium">{currency.symbol}{safeSubtotal.toLocaleString()}</span>
+                    <div className="flex justify-between items-center">
+                        <span className="text-gray-500 font-medium">Subtotal</span>
+                        <span className="text-gray-900 font-semibold">{currency.symbol}{safeSubtotal.toLocaleString()}</span>
                     </div>
                     {safeDiscount > 0 && (
-                        <div className="flex justify-between items-center text-sm text-green-400">
-                            <span>Discount</span>
-                            <span className="font-medium">-{currency.symbol}{safeDiscount.toLocaleString()}</span>
+                        <div className="flex justify-between items-center text-amber-600 font-medium bg-amber-50/50 px-3 py-2 rounded-lg border border-amber-100/50">
+                            <span>Discount Applied</span>
+                            <span>-{currency.symbol}{safeDiscount.toLocaleString()}</span>
                         </div>
                     )}
-                    {safeService > 0 && (
-                        <div className="flex justify-between items-center text-sm text-gray-300">
-                            <span>Service Charge ({safeService}%)</span>
-                            <span className="font-medium">+{currency.symbol}{serviceAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                        </div>
-                    )}
-                    {safeTax > 0 && (
-                        <div className="flex justify-between items-center text-sm text-gray-300">
-                            <span>Tax ({safeTax}%)</span>
-                            <span className="font-medium">+{currency.symbol}{taxAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                    {(safeService > 0 || safeTax > 0) && (
+                        <div className="space-y-3 pt-2">
+                            {safeService > 0 && (
+                                <div className="flex justify-between items-center text-sm">
+                                    <span className="text-gray-500">Service Charge ({safeService}%)</span>
+                                    <span className="text-gray-700 font-medium">+{currency.symbol}{serviceAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+                                </div>
+                            )}
+                            {safeTax > 0 && (
+                                <div className="flex justify-between items-center text-sm">
+                                    <span className="text-gray-500">Tax ({safeTax}%)</span>
+                                    <span className="text-gray-700 font-medium">+{currency.symbol}{taxAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+                                </div>
+                            )}
                         </div>
                     )}
 
-                    <div className="pt-4 border-t border-gray-800 flex justify-between items-end">
-                        <span className="text-gray-400 font-medium">Grand Total</span>
-                        <span className="text-2xl font-bold">{currency.symbol}{grandTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                    <div className="pt-6 border-t border-gray-100 flex justify-between items-end">
+                        <span className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Grand Total</span>
+                        <span className="text-3xl font-black text-gray-900 tracking-tighter">
+                            {currency.symbol}{grandTotal.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                        </span>
                     </div>
                 </div>
 
-                <div className="bg-gray-800/80 rounded-xl p-6 border border-gray-700/50">
-                    <div className="text-center mb-2 text-sm font-medium text-gray-400">
-                        Each person pays ({safePeople} {safePeople === 1 ? 'person' : 'people'})
-                    </div>
-                    <div className="text-center text-4xl sm:text-5xl font-black text-primary-400 overflow-hidden text-ellipsis px-2 pb-2">
-                        {currency.symbol}{perPerson.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                <div className="bg-primary-50/50 rounded-2xl p-8 border border-primary-100/50 text-center relative overflow-hidden group">
+
+                    <div className="relative z-10">
+                        <div className="inline-block px-3 py-1 bg-white rounded-full text-[10px] font-bold text-primary-600 uppercase tracking-widest border border-primary-100 mb-4">
+                            Each person pays ({safePeople} {safePeople === 1 ? 'person' : 'people'})
+                        </div>
+                        <div className="text-5xl font-black text-primary-600 tracking-tighter truncate px-2">
+                            {currency.symbol}{perPerson.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                        </div>
+                        <p className="text-xs text-primary-400 mt-2 font-medium">Split evenly among all participants</p>
                     </div>
                 </div>
             </div>

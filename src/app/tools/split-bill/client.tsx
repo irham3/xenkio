@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { SimpleSplitCalculator } from '@/features/split-bill/components/simple-split-calculator';
 
 const SplitBillCalculator = dynamic(
     () => import('@/features/split-bill/components/split-bill-calculator').then(mod => mod.SplitBillCalculator),
@@ -20,5 +22,30 @@ const SplitBillCalculator = dynamic(
 );
 
 export default function SplitBillClient() {
-    return <SplitBillCalculator />;
+    const [mode, setMode] = useState<'advanced' | 'simple'>('advanced');
+
+    return (
+        <div className="w-full max-w-[1400px] mx-auto space-y-6">
+            <div className="flex justify-center mb-6">
+                <div className="flex bg-gray-100 p-1.5 rounded-xl border border-gray-200 shadow-sm backdrop-blur-sm">
+                    <button
+                        onClick={() => setMode('advanced')}
+                        className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 ${mode === 'advanced' ? 'bg-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.1)] text-primary-600 ring-1 ring-gray-900/5' : 'text-gray-500 hover:text-gray-900'}`}
+                    >
+                        Advanced Split
+                    </button>
+                    <button
+                        onClick={() => setMode('simple')}
+                        className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 ${mode === 'simple' ? 'bg-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.1)] text-primary-600 ring-1 ring-gray-900/5' : 'text-gray-500 hover:text-gray-900'}`}
+                    >
+                        Simple Split
+                    </button>
+                </div>
+            </div>
+
+            <div className="transition-all duration-500">
+                {mode === 'advanced' ? <SplitBillCalculator /> : <SimpleSplitCalculator />}
+            </div>
+        </div>
+    );
 }

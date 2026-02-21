@@ -100,48 +100,57 @@ export function SplitBillCalculator() {
                                 </select>
                             </div>
 
-                            <div className="relative">
+                            <div>
                                 <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">Tax %</label>
-                                <div className="absolute right-3 top-[26px] text-gray-400">
-                                    <Percent className="w-4 h-4" />
+                                <div className="relative">
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <Percent className="w-4 h-4" />
+                                    </div>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="0.1"
+                                        value={state.taxPercentage === 0 ? '' : state.taxPercentage}
+                                        placeholder="0"
+                                        onChange={(e) => updateGlobalSettings({ taxPercentage: parseFloat(e.target.value) || 0 })}
+                                        className="w-full h-10 px-3 pr-8 text-sm font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
+                                    />
                                 </div>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    step="0.1"
-                                    value={state.taxPercentage}
-                                    onChange={(e) => updateGlobalSettings({ taxPercentage: parseFloat(e.target.value) || 0 })}
-                                    className="w-full h-10 px-3 pr-8 text-sm font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
-                                />
                             </div>
 
-                            <div className="relative">
+                            <div>
                                 <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">Service Charge %</label>
-                                <div className="absolute right-3 top-[26px] text-gray-400">
-                                    <Percent className="w-4 h-4" />
+                                <div className="relative">
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <Percent className="w-4 h-4" />
+                                    </div>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="0.1"
+                                        value={state.serviceChargePercentage === 0 ? '' : state.serviceChargePercentage}
+                                        placeholder="0"
+                                        onChange={(e) => updateGlobalSettings({ serviceChargePercentage: parseFloat(e.target.value) || 0 })}
+                                        className="w-full h-10 px-3 pr-8 text-sm font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
+                                    />
                                 </div>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    step="0.1"
-                                    value={state.serviceChargePercentage}
-                                    onChange={(e) => updateGlobalSettings({ serviceChargePercentage: parseFloat(e.target.value) || 0 })}
-                                    className="w-full h-10 px-3 pr-8 text-sm font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
-                                />
                             </div>
 
-                            <div className="relative">
+                            <div>
                                 <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">Global Discount</label>
-                                <div className="absolute left-3 top-[26px] text-gray-400 text-sm font-medium">
-                                    {state.currency.symbol}
+                                <div className="relative">
+                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">
+                                        {state.currency.symbol}
+                                    </div>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={state.discountAmount === 0 ? '' : state.discountAmount}
+                                        placeholder="0"
+                                        onChange={(e) => updateGlobalSettings({ discountAmount: parseInt(e.target.value) || 0 })}
+                                        className="w-full h-10 pl-8 pr-3 text-sm font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
+                                    />
                                 </div>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    value={state.discountAmount}
-                                    onChange={(e) => updateGlobalSettings({ discountAmount: parseInt(e.target.value) || 0 })}
-                                    className="w-full h-10 pl-8 pr-3 text-sm font-medium bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
-                                />
                             </div>
                         </div>
                     </div>

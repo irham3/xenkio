@@ -89,25 +89,27 @@ export function ItemManager({
                                 type="number"
                                 min="1"
                                 placeholder="1"
-                                value={newItem.quantity}
-                                onChange={e => setNewItem({ ...newItem, quantity: parseInt(e.target.value) || 1 })}
+                                value={newItem.quantity === 0 ? '' : newItem.quantity}
+                                onChange={e => setNewItem({ ...newItem, quantity: parseInt(e.target.value) || 0 })}
                                 onKeyDown={handleKeyDown}
                                 className="w-full h-10 px-2 text-center text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
                             />
                         </div>
-                        <div className="flex-1 relative">
+                        <div className="flex-1">
                             <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Price</label>
-                            <div className="absolute left-3 top-[26px] text-gray-400 text-sm font-medium">{currency.symbol}</div>
-                            <input
-                                type="number"
-                                min="0"
-                                step="any"
-                                placeholder="0.00"
-                                value={newItem.price}
-                                onChange={e => setNewItem({ ...newItem, price: e.target.value })}
-                                onKeyDown={handleKeyDown}
-                                className="w-full h-10 pl-8 pr-3 text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
-                            />
+                            <div className="relative">
+                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">{currency.symbol}</div>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="any"
+                                    placeholder="0.00"
+                                    value={newItem.price || ''}
+                                    onChange={e => setNewItem({ ...newItem, price: e.target.value })}
+                                    onKeyDown={handleKeyDown}
+                                    className="w-full h-10 pl-8 pr-3 text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all"
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -147,16 +149,17 @@ export function ItemManager({
                                     <input
                                         type="number"
                                         min="1"
-                                        value={item.quantity}
+                                        value={item.quantity === 0 ? '' : item.quantity}
                                         onChange={(e) => handleQuantityChange(item.id, e.target.value)}
                                         className="w-12 h-8 px-1 text-center text-sm font-medium bg-transparent border border-transparent hover:bg-white hover:border-gray-200 focus:bg-white focus:border-primary-300 focus:ring-2 focus:ring-primary-500/10 rounded transition-all outline-none"
                                     />
                                     <span className="text-gray-400 text-xs font-bold mx-1">×</span>
                                     <div className="relative flex items-center">
-                                        <span className="text-xs font-medium text-gray-500 absolute left-2 z-10">{currency.symbol}</span>
+                                        <span className="text-xs font-medium text-gray-500 absolute left-2 top-1/2 -translate-y-1/2 z-10">{currency.symbol}</span>
                                         <input
                                             type="number"
-                                            value={item.price}
+                                            value={item.price === 0 ? '' : item.price}
+                                            placeholder="0"
                                             onChange={(e) => handlePriceChange(item.id, e.target.value)}
                                             className="w-24 h-8 pl-6 pr-2 text-right text-sm font-bold text-gray-800 bg-transparent border border-transparent hover:bg-white hover:border-gray-200 focus:bg-white focus:border-primary-300 focus:ring-2 focus:ring-primary-500/10 rounded transition-all outline-none"
                                         />

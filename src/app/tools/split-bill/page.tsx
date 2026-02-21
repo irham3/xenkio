@@ -19,7 +19,7 @@ export default function SplitBillPage() {
                 </div>
 
                 <h1 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
-                    Advanced <span className="text-primary-600">Split Bill</span>
+                    Advanced Split Bill
                 </h1>
 
                 <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-base">

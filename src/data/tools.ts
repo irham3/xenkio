@@ -699,6 +699,17 @@ export const TOOLS: ToolData[] = [
         categoryId: 'calculators',
     },
     {
+        id: '101',
+        title: 'Split Bill Calculator',
+        description: 'Advanced bill splitting with custom shares, tax calculation, multi-currency support, PDF export, and QR code generation.',
+        icon: Receipt,
+        href: '/tools/split-bill',
+        slug: 'split-bill',
+        isNew: true,
+        featured: true,
+        categoryId: 'calculators',
+    },
+    {
         id: '56',
         title: 'Loan Calculator',
         description: 'Calculate loan payments, interest, and amortization.',

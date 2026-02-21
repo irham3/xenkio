@@ -67,15 +67,15 @@ export default function TextReverserPage() {
               <h2 className="text-xl font-bold text-gray-900">Text Reversal Modes</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Reverse Characters</strong> — Flip every character in your
+                  <strong className="text-gray-800">Reverse Characters</strong> | Flip every character in your
                   text to create mirror text. Great for fun messages and encoding.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Reverse Each Word</strong> — Reverse the letters within
+                  <strong className="text-gray-800">Reverse Each Word</strong> | Reverse the letters within
                   each word while keeping the word order intact.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Reverse Word Order</strong> — Rearrange words in reverse
+                  <strong className="text-gray-800">Reverse Word Order</strong> | Rearrange words in reverse
                   order while keeping each word&apos;s characters unchanged.
                 </p>
               </div>
@@ -84,11 +84,11 @@ export default function TextReverserPage() {
               <h2 className="text-xl font-bold text-gray-900">Line Reversal Options</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Reverse Each Line</strong> — Reverse the characters in
+                  <strong className="text-gray-800">Reverse Each Line</strong> | Reverse the characters in
                   each line independently while keeping the line order.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Reverse Line Order</strong> — Flip the order of lines
+                  <strong className="text-gray-800">Reverse Line Order</strong> | Flip the order of lines
                   so the last line appears first and vice versa.
                 </p>
               </div>

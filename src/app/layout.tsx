@@ -8,24 +8,24 @@ const fontSans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ['400', '500', 
 
 export const metadata: Metadata = {
   title: {
-    default: "Xenkio — Free Browser-Based Tools. No Uploads, No Limits.",
+    default: "Xenkio | Free Browser-Based Tools. No Uploads, No Limits.",
     template: "%s | Xenkio"
   },
-  description: "Free online tools for PDFs, images, and developer utilities — everything runs locally in your browser. Your files never leave your device. No sign-up, no limits. GDPR compliant by design.",
+  description: "Free online tools for PDFs, images, and developer utilities | everything runs locally in your browser. Your files never leave your device. No sign-up, no limits. GDPR compliant by design.",
   keywords: ["browser-based tools", "local processing", "privacy tools", "pdf tools", "image compressor", "no upload", "free online tools", "offline tools", "xenkio", "GDPR compliant tools", "client-side processing", "no server upload", "data protection"],
   authors: [{ name: "Altruis" }],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://xenkio.com",
-    title: "Xenkio — Free Browser-Based Tools. No Uploads, No Limits.",
-    description: "Process files locally in your browser. No uploads to servers, no file size limits, no sign-up. GDPR compliant by design — your files never leave your device.",
+    title: "Xenkio | Free Browser-Based Tools. No Uploads, No Limits.",
+    description: "Process files locally in your browser. No uploads to servers, no file size limits, no sign-up. GDPR compliant by design | your files never leave your device.",
     siteName: "Xenkio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Xenkio — Free Browser-Based Tools",
-    description: "Your files never leave your device. Free tools for PDFs, images, and more — processed 100% in your browser.",
+    title: "Xenkio | Free Browser-Based Tools",
+    description: "Your files never leave your device. Free tools for PDFs, images, and more | processed 100% in your browser.",
   },
   robots: {
     index: true,
@@ -72,7 +72,7 @@ export default function RootLayout({
               "name": "Xenkio",
               "alternateName": ["Xenkio Tools", "Xenkio Online"],
               "url": "https://xenkio.com",
-              "description": "Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally — your files never leave your device.",
+              "description": "Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally | your files never leave your device.",
               "potentialAction": {
                 "@type": "SearchAction",
                 "target": "https://xenkio.com/tools?q={search_term_string}",

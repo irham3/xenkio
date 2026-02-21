@@ -5,9 +5,9 @@ export const dynamic = 'force-static';
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: 'Xenkio — Free Browser-Based Tools',
+        name: 'Xenkio | Free Browser-Based Tools',
         short_name: 'Xenkio',
-        description: 'Free tools for PDFs, images, and developer utilities. Everything runs locally in your browser — your files never leave your device.',
+        description: 'Free tools for PDFs, images, and developer utilities. Everything runs locally in your browser | your files never leave your device.',
         start_url: '/',
         display: 'standalone',
         background_color: '#ffffff',

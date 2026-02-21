@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 const slug = 'video-to-gif';
 
 export const metadata: Metadata = {
-    title: 'Video to GIF Converter — Free Online, No Upload Required',
+    title: 'Video to GIF Converter | Free Online, No Upload Required',
     description: 'Convert video files (MP4, WebM, MOV) to animated GIFs directly in your browser. Trim clips, adjust FPS and resolution. No upload, no watermark, 100% private.',
     keywords: [
         'video to gif',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Video to GIF Converter — Free Online Tool',
+        title: 'Video to GIF Converter | Free Online Tool',
         description: 'Convert MP4, WebM, MOV to GIF in your browser. No upload needed.',
     },
 };
@@ -58,7 +58,7 @@ export default function VideoToGifPage() {
             'Adjustable width (160-1280px)',
             'Quality presets (Low, Medium, High, Ultra)',
             'Two-pass palette generation for high quality',
-            'No server upload — 100% client-side',
+            'No server upload | 100% client-side',
             'Instant download, no watermarks',
         ],
     };

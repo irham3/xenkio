@@ -63,15 +63,15 @@ export default function DiffCheckerPage() {
               <h2 className="text-xl font-bold text-gray-900">Powerful Text Comparison</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Character Mode</strong> — Compare texts character by character
+                  <strong className="text-gray-800">Character Mode</strong> | Compare texts character by character
                   for the most detailed analysis. Perfect for finding subtle changes.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Word Mode</strong> — Compare word by word to quickly identify
+                  <strong className="text-gray-800">Word Mode</strong> | Compare word by word to quickly identify
                   changed, added, or removed words. Ideal for document revisions.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Line Mode</strong> — Compare line by line for code comparison
+                  <strong className="text-gray-800">Line Mode</strong> | Compare line by line for code comparison
                   or structured text. Great for config files and source code.
                 </p>
               </div>
@@ -80,15 +80,15 @@ export default function DiffCheckerPage() {
               <h2 className="text-xl font-bold text-gray-900">View Options</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Unified View</strong> — See all changes in a single view
+                  <strong className="text-gray-800">Unified View</strong> | See all changes in a single view
                   with additions highlighted in green and deletions in red.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Split View</strong> — View original and modified texts
+                  <strong className="text-gray-800">Split View</strong> | View original and modified texts
                   side by side for easy comparison.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Advanced Options</strong> — Ignore case differences or
+                  <strong className="text-gray-800">Advanced Options</strong> | Ignore case differences or
                   whitespace changes to focus on meaningful content changes.
                 </p>
               </div>

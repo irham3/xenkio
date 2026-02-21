@@ -68,17 +68,17 @@ export default function GradientGeneratorPage() {
               <h2 className="text-xl font-bold text-gray-900">CSS Gradient Types</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Linear Gradient</strong> — Creates a smooth
+                  <strong className="text-gray-800">Linear Gradient</strong> | Creates a smooth
                   transition between colors along a straight line. Control the direction with angle
                   presets or a custom degree value.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Radial Gradient</strong> — Colors radiate
+                  <strong className="text-gray-800">Radial Gradient</strong> | Colors radiate
                   outward from a center point. Choose between circle and ellipse shapes with
                   adjustable position.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Conic Gradient</strong> — Colors transition
+                  <strong className="text-gray-800">Conic Gradient</strong> | Colors transition
                   around a center point, creating pie-chart-like effects. Great for color wheels and
                   decorative backgrounds.
                 </p>
@@ -88,12 +88,12 @@ export default function GradientGeneratorPage() {
               <h2 className="text-xl font-bold text-gray-900">How to Use</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Color Stops</strong> — Add multiple color stops
+                  <strong className="text-gray-800">Color Stops</strong> | Add multiple color stops
                   to create complex gradients. Each stop has a color and position percentage that
                   you can adjust.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Instant Export</strong> — Copy the generated CSS
+                  <strong className="text-gray-800">Instant Export</strong> | Copy the generated CSS
                   code with one click. The live preview updates in real-time as you adjust the
                   gradient parameters.
                 </p>

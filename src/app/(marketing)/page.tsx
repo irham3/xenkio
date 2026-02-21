@@ -15,11 +15,11 @@ const Footer = dynamic(() => import("@/components/layout/footer").then(mod => mo
 });
 
 export const metadata: Metadata = {
-  title: "Xenkio — Free Online Tools for PDFs, Images & More",
-  description: "Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally — your files never leave your device. No sign-up, no limits.",
+  title: "Xenkio | Free Online Tools for PDFs, Images & More",
+  description: "Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally | your files never leave your device. No sign-up, no limits.",
   keywords: ["merge pdf", "split pdf", "background remover", "image compressor", "json formatter", "video compressor", "instagram carousel generator", "password strength checker", "image steganography", "hmac generator", "text encryptor", "browser-based tools", "local processing", "no upload"],
   openGraph: {
-    title: "Xenkio — Free Browser-Based Tools. No Uploads, No Limits.",
+    title: "Xenkio | Free Browser-Based Tools. No Uploads, No Limits.",
     description: "Process files locally in your browser. No uploads, no file size limits, no sign-up required.",
     url: "https://xenkio.com",
     siteName: "Xenkio",

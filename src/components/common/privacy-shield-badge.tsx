@@ -89,7 +89,7 @@ export function PrivacyShieldBadge({
         return (
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-200 rounded-full text-xs font-medium text-emerald-700">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Processed locally — your files never leave this device</span>
+                <span>Processed locally | your files never leave this device</span>
                 {isOfflineCapable && (
                     <>
                         <span className="text-emerald-300">·</span>

@@ -1,7 +1,7 @@
 // Site configuration and metadata
 export const siteConfig = {
   name: 'Xenkio',
-  description: 'Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally — your files never leave your device.',
+  description: 'Free browser-based tools for PDFs, images, and developer utilities. Everything runs locally | your files never leave your device.',
   url: 'https://xenkio.com',
   ogImage: '/images/og/og-default.png',
   links: {

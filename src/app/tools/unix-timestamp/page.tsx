@@ -85,7 +85,7 @@ export default function UnixTimestampPage() {
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
                   <strong className="text-gray-800">Unix timestamp</strong> (also known as Epoch time or POSIX time)
-                  is a system for tracking time as a running total of seconds since the Unix Epoch —
+                  is a system for tracking time as a running total of seconds since the Unix Epoch |
                   January 1, 1970, at 00:00:00 UTC.
                 </p>
                 <p>
@@ -98,11 +98,11 @@ export default function UnixTimestampPage() {
               <h2 className="text-xl font-bold text-gray-900">Seconds vs Milliseconds</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Seconds (10 digits)</strong> — Standard Unix timestamp used
+                  <strong className="text-gray-800">Seconds (10 digits)</strong> | Standard Unix timestamp used
                   by most Unix systems, databases like MySQL and PostgreSQL, and backend systems.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Milliseconds (13 digits)</strong> — Used by JavaScript
+                  <strong className="text-gray-800">Milliseconds (13 digits)</strong> | Used by JavaScript
                   (<code className="bg-gray-100 px-1 rounded">Date.now()</code>), Java, and many modern APIs
                   for higher precision.
                 </p>

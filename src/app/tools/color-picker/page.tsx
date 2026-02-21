@@ -66,11 +66,11 @@ export default function ColorPickerPage() {
               <h2 className="text-xl font-bold text-gray-900">Color Format Conversion</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">HEX</strong> — The standard format for web colors.
+                  <strong className="text-gray-800">HEX</strong> | The standard format for web colors.
                   Uses hexadecimal notation like #FF5733 to represent RGB values.
                 </p>
                 <p>
-                  <strong className="text-gray-800">RGB</strong> — Red, Green, Blue values from 0-255.
+                  <strong className="text-gray-800">RGB</strong> | Red, Green, Blue values from 0-255.
                   Perfect for CSS and programmatic color manipulation.
                 </p>
               </div>
@@ -79,11 +79,11 @@ export default function ColorPickerPage() {
               <h2 className="text-xl font-bold text-gray-900">Advanced Color Models</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">HSL</strong> — Hue, Saturation, Lightness model.
+                  <strong className="text-gray-800">HSL</strong> | Hue, Saturation, Lightness model.
                   More intuitive for creating color variations and palettes.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Instant Copy</strong> — Click to copy any format.
+                  <strong className="text-gray-800">Instant Copy</strong> | Click to copy any format.
                   All conversions happen in real-time as you adjust colors.
                 </p>
               </div>

@@ -6,12 +6,12 @@ A comprehensive collection of online utilities for developers, designers, and di
 
 ## The Name Behind Xenkio
 
-### XEN — *From Greek "xenos" (ξένος)*
+### XEN | *From Greek "xenos" (ξένος)*
 
 - **Meaning:** Foreign, new, innovative, different
 - **In tech context:** Cutting-edge, modern, forward-thinking
 
-### KIO — *From Japanese "器" (utsuwa/ki)*
+### KIO | *From Japanese "器" (utsuwa/ki)*
 
 - **Meaning:** Tool, vessel, container, instrument
 - **Modern interpretation:** "Key" in pronunciation
@@ -34,10 +34,10 @@ Xenkio provides a suite of web-based tools designed to streamline common digital
 
 ### Why Choose Xenkio?
 
-- **Fast** — Instant results without waiting
-- **Private** — All processing happens locally in your browser
-- **Modern** — Beautiful, intuitive interface
-- **Free** — No subscriptions, no hidden fees
+- **Fast** | Instant results without waiting
+- **Private** | All processing happens locally in your browser
+- **Modern** | Beautiful, intuitive interface
+- **Free** | No subscriptions, no hidden fees
 
 ## Browser Support
 
@@ -59,7 +59,7 @@ Special thanks to all contributors who have helped improve Xenkio.
 
 
 <p align="center">
-  <strong>Xenkio</strong> — Every tool you need. One platform.
+  <strong>Xenkio</strong> | Every tool you need. One platform.
 </p>
 
 ## Development & Deployment

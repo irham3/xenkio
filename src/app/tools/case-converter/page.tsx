@@ -57,11 +57,11 @@ export default function CaseConverterPage() {
               <h2 className="text-xl font-bold text-gray-900">Text Case Formats</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Title Case</strong> — Capitalize the first letter of each word.
+                  <strong className="text-gray-800">Title Case</strong> | Capitalize the first letter of each word.
                   Ideal for headings and titles.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Sentence case</strong> — Capitalize only the first letter of
+                  <strong className="text-gray-800">Sentence case</strong> | Capitalize only the first letter of
                   the sentence. Standard for body text.
                 </p>
               </div>
@@ -70,11 +70,11 @@ export default function CaseConverterPage() {
               <h2 className="text-xl font-bold text-gray-900">Developer Cases</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">camelCase</strong> — Common in JavaScript, Java.
+                  <strong className="text-gray-800">camelCase</strong> | Common in JavaScript, Java.
                   Join words with first letter lowercase.
                 </p>
                 <p>
-                  <strong className="text-gray-800">snake_case</strong> — Common in Python, Ruby.
+                  <strong className="text-gray-800">snake_case</strong> | Common in Python, Ruby.
                   Words separated by underscores.
                 </p>
               </div>

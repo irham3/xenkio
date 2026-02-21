@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 const slug = 'discount-calculator';
 
 export const metadata: Metadata = {
-    title: 'Discount Calculator — How Much After Discount?',
+    title: 'Discount Calculator | How Much After Discount?',
     description: 'Calculate the final price after discount instantly. Supports stacked discounts, tax calculation, and price breakdown. Free, no sign-up required.',
     keywords: [
         'discount calculator',
@@ -106,7 +106,7 @@ export default function DiscountCalculatorPage() {
                                     </strong>{' '}
                                     When two discounts are applied sequentially (e.g. 20% + 10%),
                                     the second discount is applied to the already-reduced price, not the original.
-                                    This means 20% + 10% off ≠ 30% off — the effective discount is 28%.
+                                    This means 20% + 10% off ≠ 30% off | the effective discount is 28%.
                                 </p>
                             </div>
                         </div>

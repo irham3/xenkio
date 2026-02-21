@@ -74,10 +74,10 @@ export default function Base64EncoderPage() {
               <h2 className="text-xl font-bold text-gray-900">How to Use</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Encode</strong> — Enter any text in the input field and get the Base64 encoded version instantly. Supports full UTF-8 characters including emojis.
+                  <strong className="text-gray-800">Encode</strong> | Enter any text in the input field and get the Base64 encoded version instantly. Supports full UTF-8 characters including emojis.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Decode</strong> — Paste a Base64 string to convert it back to the original text. Invalid Base64 strings will show an error message.
+                  <strong className="text-gray-800">Decode</strong> | Paste a Base64 string to convert it back to the original text. Invalid Base64 strings will show an error message.
                 </p>
               </div>
             </div>

@@ -67,11 +67,11 @@ export default function WordCounterPage() {
               <h2 className="text-xl font-bold text-gray-900">Text Analysis Features</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Word & Character Count</strong> — Get instant counts
+                  <strong className="text-gray-800">Word & Character Count</strong> | Get instant counts
                   of words and characters as you type. Track characters with and without spaces for precise formatting.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Reading & Speaking Time</strong> — Estimate how long it
+                  <strong className="text-gray-800">Reading & Speaking Time</strong> | Estimate how long it
                   takes to read or speak your text based on average speeds of 200 and 130 words per minute.
                 </p>
               </div>
@@ -80,11 +80,11 @@ export default function WordCounterPage() {
               <h2 className="text-xl font-bold text-gray-900">Advanced Insights</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Keyword Density</strong> — Discover the most frequent
+                  <strong className="text-gray-800">Keyword Density</strong> | Discover the most frequent
                   words in your text. Useful for SEO optimization and content analysis.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Sentence & Paragraph Count</strong> — Analyze the
+                  <strong className="text-gray-800">Sentence & Paragraph Count</strong> | Analyze the
                   structure of your text with sentence and paragraph breakdowns for better readability.
                 </p>
               </div>

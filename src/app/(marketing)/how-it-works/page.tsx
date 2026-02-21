@@ -8,8 +8,8 @@ const Footer = dynamic(() => import("@/components/layout/footer").then(mod => mo
 });
 
 export const metadata: Metadata = {
-    title: "How Xenkio Works — 100% Browser-Based, Zero Uploads, GDPR Compliant",
-    description: "Unlike other tools, Xenkio processes everything in your browser using JavaScript and WebAssembly. Your files never leave your device — no uploads, no servers, no limits. Inherently GDPR compliant by design.",
+    title: "How Xenkio Works | 100% Browser-Based, Zero Uploads, GDPR Compliant",
+    description: "Unlike other tools, Xenkio processes everything in your browser using JavaScript and WebAssembly. Your files never leave your device | no uploads, no servers, no limits. Inherently GDPR compliant by design.",
     keywords: [
         "browser-based tools",
         "local file processing",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         "enterprise file tools",
     ],
     openGraph: {
-        title: "How Xenkio Works — Your Files Never Leave Your Device",
+        title: "How Xenkio Works | Your Files Never Leave Your Device",
         description: "Process files locally in your browser with JavaScript and WebAssembly. No uploads, no server processing, no limits. Inherently GDPR compliant.",
         url: "https://xenkio.com/how-it-works",
         siteName: "Xenkio",
@@ -46,7 +46,7 @@ export default function HowItWorksPage() {
                 "name": "How does Xenkio process files without uploading them?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Xenkio uses modern browser technologies like JavaScript and WebAssembly (WASM) to process files entirely on your device. When you select a file, it's read through the browser's File API and processed in memory — the data never leaves your browser."
+                    "text": "Xenkio uses modern browser technologies like JavaScript and WebAssembly (WASM) to process files entirely on your device. When you select a file, it's read through the browser's File API and processed in memory | the data never leaves your browser."
                 }
             },
             {
@@ -62,7 +62,7 @@ export default function HowItWorksPage() {
                 "name": "Can I use Xenkio offline?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. Once you load Xenkio, the Progressive Web App caches the tool code on your device. You can continue using tools even without an internet connection — the strongest possible proof that no data is sent to any server."
+                    "text": "Yes. Once you load Xenkio, the Progressive Web App caches the tool code on your device. You can continue using tools even without an internet connection | the strongest possible proof that no data is sent to any server."
                 }
             },
             {

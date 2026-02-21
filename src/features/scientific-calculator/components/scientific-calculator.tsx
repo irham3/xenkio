@@ -175,7 +175,7 @@ function parseUnary(tokens: Token[], pos: number, angleUnit: AngleUnit): ParseRe
             const funcResult = evalFunc(t.value, v, angleUnit);
             return { value: funcResult, pos: nextPos };
         }
-        // Function without parens — treat as error, return 0
+        // Function without parens | treat as error, return 0
         return { value: 0, pos: pos + 1 };
     }
 
@@ -452,7 +452,7 @@ export function ScientificCalculator() {
                     setHasError(true);
                 }
             } else {
-                // Display contains an expression or is empty — insert function text
+                // Display contains an expression or is empty | insert function text
                 if (currentDisplay === '0' || hasError) {
                     setDisplay(func + '(');
                 } else {
@@ -584,7 +584,7 @@ export function ScientificCalculator() {
                                         ))}
                                     </div>
                                 )}
-                                {/* History Toggle — always visible */}
+                                {/* History Toggle | always visible */}
                                 <button
                                     onClick={() => setShowHistory(!showHistory)}
                                     className={cn(
@@ -672,7 +672,7 @@ export function ScientificCalculator() {
                     </p>
                 </div>
 
-                {/* History Sidebar — Desktop */}
+                {/* History Sidebar | Desktop */}
                 <div
                     className={cn(
                         'hidden lg:block transition-all duration-300 ease-in-out overflow-hidden shrink-0',
@@ -692,7 +692,7 @@ export function ScientificCalculator() {
                 </div>
             </div>
 
-            {/* History Sidebar — Mobile overlay */}
+            {/* History Sidebar | Mobile overlay */}
             {showHistory && (
                 <div className="lg:hidden fixed inset-0 z-50">
                     <div

@@ -112,7 +112,7 @@ export function VideoCompressor() {
                             <p className="text-sm text-gray-500">
                                 {downloadProgress.label}
                                 {downloadProgress.total > 0 && (
-                                    <> — {formatSize(downloadProgress.loaded)} / {formatSize(downloadProgress.total)}</>
+                                    <> | {formatSize(downloadProgress.loaded)} / {formatSize(downloadProgress.total)}</>
                                 )}
                             </p>
                         </div>
@@ -178,7 +178,7 @@ export function VideoCompressor() {
                 </div>
             )}
 
-            {/* File Selected — Settings & Compress */}
+            {/* File Selected | Settings & Compress */}
             {file && !result && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* File Info + Compress Button */}

@@ -23,7 +23,7 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'documents',
         name: 'PDF & Documents',
-        description: 'Merge, split, compress, and convert PDFs — processed locally, no uploads required',
+        description: 'Merge, split, compress, and convert PDFs | processed locally, no uploads required',
         icon: FileText,
         color: '#E4E4E7',
         toolCount: 8,
@@ -31,7 +31,7 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'media-images',
         name: 'Media & Images',
-        description: 'Compress, resize, and convert images in your browser — no file size limits',
+        description: 'Compress, resize, and convert images in your browser | no file size limits',
         icon: FileImage,
         color: '#E4E4E7',
         toolCount: 11,
@@ -39,7 +39,7 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'security-privacy',
         name: 'Security & Privacy',
-        description: 'Password generation, hashing, encryption, and JWT tools — everything stays on your device',
+        description: 'Password generation, hashing, encryption, and JWT tools | everything stays on your device',
         icon: Lock,
         color: '#E4E4E7',
         toolCount: 7,
@@ -47,7 +47,7 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'developer-tools',
         name: 'Developer Tools',
-        description: 'JSON formatter, regex tester, diff checker, and code utilities — instant, no server needed',
+        description: 'JSON formatter, regex tester, diff checker, and code utilities | instant, no server needed',
         icon: Code2,
         color: '#E4E4E7',
         toolCount: 11,
@@ -55,7 +55,7 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'design-tools',
         name: 'Design Tools',
-        description: 'Color picker, palette generator, gradients, and contrast checker — all browser-based',
+        description: 'Color picker, palette generator, gradients, and contrast checker | all browser-based',
         icon: Palette,
         color: '#E4E4E7',
         toolCount: 4,
@@ -63,7 +63,7 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'text-utilities',
         name: 'Text Utilities',
-        description: 'Word counter, case converter, slug generator, and text formatting — fast and private',
+        description: 'Word counter, case converter, slug generator, and text formatting | fast and private',
         icon: Type,
         color: '#E4E4E7',
         toolCount: 7,
@@ -71,7 +71,7 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'web-seo',
         name: 'Web & SEO',
-        description: 'Meta tags, sitemap, robots.txt, and URL tools — generate locally, no data sent',
+        description: 'Meta tags, sitemap, robots.txt, and URL tools | generate locally, no data sent',
         icon: Globe,
         color: '#E4E4E7',
         toolCount: 5,
@@ -79,7 +79,7 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'calculators',
         name: 'Calculators',
-        description: 'Unit converter, percentage, age, BMI, and loan calculators — instant results offline',
+        description: 'Unit converter, percentage, age, BMI, and loan calculators | instant results offline',
         icon: Calculator,
         color: '#E4E4E7',
         toolCount: 5,

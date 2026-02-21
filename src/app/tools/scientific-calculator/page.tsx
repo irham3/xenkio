@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 const slug = 'scientific-calculator';
 
 export const metadata: Metadata = {
-    title: 'Scientific Calculator — Free Online Calculator with Advanced Functions',
+    title: 'Scientific Calculator | Free Online Calculator with Advanced Functions',
     description: 'Free scientific calculator with trigonometric, logarithmic, exponential, and factorial functions. Supports DEG/RAD mode, expression history, and keyboard input. No sign-up required.',
     keywords: [
         'scientific calculator',

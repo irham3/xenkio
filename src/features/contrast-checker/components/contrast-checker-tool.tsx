@@ -303,7 +303,7 @@ export function ContrastCheckerTool() {
                       )}
                       <div className="min-w-0">
                         <p className="font-medium text-xs leading-tight">{result.label}</p>
-                        <p className="text-xs opacity-75">{result.threshold}:1 — {result.pass ? 'Pass' : 'Fail'}</p>
+                        <p className="text-xs opacity-75">{result.threshold}:1 | {result.pass ? 'Pass' : 'Fail'}</p>
                       </div>
                     </div>
                   ))}
@@ -343,7 +343,7 @@ export function ContrastCheckerTool() {
                     This paragraph demonstrates how your text will appear at regular size.
                   </p>
                   <p style={{ color: foreground, fontSize: '12px', fontWeight: 400, lineHeight: 1.5 }}>
-                    Small text — captions, footnotes, and fine print appear at this size.
+                    Small text | captions, footnotes, and fine print appear at this size.
                   </p>
                 </div>
               </div>
@@ -372,7 +372,7 @@ export function ContrastCheckerTool() {
                             Sample Text Preview
                           </div>
                           <p className="text-xs text-gray-400 mt-1.5 group-hover:text-gray-600 transition-colors">
-                            Click to apply — FG: {suggestion.fg} / BG: {suggestion.bg}
+                            Click to apply | FG: {suggestion.fg} / BG: {suggestion.bg}
                           </p>
                         </button>
                       );

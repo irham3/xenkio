@@ -270,7 +270,7 @@ export function DiscountCalculator() {
                                     Price Breakdown
                                 </h3>
 
-                                {/* Final Price — Highlight */}
+                                {/* Final Price | Highlight */}
                                 <div className="p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
                                     <div className="text-center">
                                         <span className="text-[11px] text-gray-400 uppercase tracking-wider font-semibold block mb-1">

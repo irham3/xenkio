@@ -273,7 +273,7 @@ export function VideoToGif() {
         <div className="w-full max-w-4xl mx-auto space-y-5">
             {/* Top Row: Video Preview + Settings */}
             <div className="grid lg:grid-cols-5 gap-5">
-                {/* Video Preview — 3 cols */}
+                {/* Video Preview | 3 cols */}
                 <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
                     {/* Video */}
                     <div className="relative bg-gray-950 aspect-video">
@@ -370,7 +370,7 @@ export function VideoToGif() {
                     </div>
                 </div>
 
-                {/* Settings Panel — 2 cols */}
+                {/* Settings Panel | 2 cols */}
                 <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                     <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/80 flex items-center gap-2">
                         <Settings2 className="w-4 h-4 text-gray-500" />

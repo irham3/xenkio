@@ -67,11 +67,11 @@ export default function HashGeneratorPage() {
               <h2 className="text-xl font-bold text-gray-900">Modern Password Hashing</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Argon2id</strong> — Winner of the Password Hashing Competition.
+                  <strong className="text-gray-800">Argon2id</strong> | Winner of the Password Hashing Competition.
                   Memory-hard and resistant to GPU attacks. Use this for new password storage systems.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Bcrypt</strong> — Industry standard for over a decade.
+                  <strong className="text-gray-800">Bcrypt</strong> | Industry standard for over a decade.
                   Adaptive cost factor makes it future-proof. Excellent for most production use cases.
                 </p>
               </div>
@@ -80,11 +80,11 @@ export default function HashGeneratorPage() {
               <h2 className="text-xl font-bold text-gray-900">General Purpose Hashing</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">SHA-256 & SHA-512</strong> — Secure standards for digital signatures,
+                  <strong className="text-gray-800">SHA-256 & SHA-512</strong> | Secure standards for digital signatures,
                   file integrity verification, and authentication protocols.
                 </p>
                 <p>
-                  <strong className="text-gray-800">MD5 & SHA-1</strong> — Fast algorithms with broken collision resistance.
+                  <strong className="text-gray-800">MD5 & SHA-1</strong> | Fast algorithms with broken collision resistance.
                   Only use for non-security checksums and legacy compatibility.
                 </p>
               </div>

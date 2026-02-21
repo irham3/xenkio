@@ -77,12 +77,12 @@ export default function ColorBlindnessPage() {
               <h2 className="text-xl font-bold text-gray-900">Red-Green Color Blindness</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Protanopia &amp; Protanomaly</strong> — Affects
+                  <strong className="text-gray-800">Protanopia &amp; Protanomaly</strong> | Affects
                   perception of red light. People with protanopia cannot see red at all, while
                   protanomaly causes reduced red sensitivity. Affects roughly 1% of men.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Deuteranopia &amp; Deuteranomaly</strong> —
+                  <strong className="text-gray-800">Deuteranopia &amp; Deuteranomaly</strong> |
                   Affects perception of green light. Deuteranomaly is the most common form of color
                   blindness, affecting about 5% of men worldwide.
                 </p>
@@ -92,12 +92,12 @@ export default function ColorBlindnessPage() {
               <h2 className="text-xl font-bold text-gray-900">Blue &amp; Total Color Blindness</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Tritanopia &amp; Tritanomaly</strong> — Affects
+                  <strong className="text-gray-800">Tritanopia &amp; Tritanomaly</strong> | Affects
                   blue-yellow perception. Much rarer than red-green deficiency, affecting about
                   0.003–0.01% of the population regardless of gender.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Achromatopsia &amp; Achromatomaly</strong> —
+                  <strong className="text-gray-800">Achromatopsia &amp; Achromatomaly</strong> |
                   Complete or partial inability to see color. Very rare conditions where the world
                   appears in shades of gray or heavily desaturated.
                 </p>

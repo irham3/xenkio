@@ -240,7 +240,7 @@ export function ImageConverterClient() {
                                     // Tracing - smooth curves
                                     ltres: 1,
                                     qtres: 1,
-                                    pathomit: 0, // Do NOT remove any paths — prevents white spots/gaps in solid areas
+                                    pathomit: 0, // Do NOT remove any paths | prevents white spots/gaps in solid areas
                                     rightangleenhance: true,
 
                                     // Color quantization
@@ -257,7 +257,7 @@ export function ImageConverterClient() {
                                     lcpr: 0,
                                     qcpr: 0,
 
-                                    // Blur preprocessing — slight blur helps merge anti-aliased edge pixels
+                                    // Blur preprocessing | slight blur helps merge anti-aliased edge pixels
                                     blurradius: 1,
                                     blurdelta: 20
                                 };

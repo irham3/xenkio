@@ -170,7 +170,7 @@ export function HowItWorksClient() {
                         <PillarCard
                             icon={Zap}
                             title="Instant, no waiting"
-                            description="No upload queue, no server processing time. Files are processed at the speed of your device. On slow WiFi? Doesn't matter — everything happens locally."
+                            description="No upload queue, no server processing time. Files are processed at the speed of your device. On slow WiFi? Doesn't matter | everything happens locally."
                             delay={2}
                         />
                         <PillarCard
@@ -187,9 +187,9 @@ export function HowItWorksClient() {
                             <WifiOff className="w-7 h-7" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">Works offline — that&apos;s the proof</h3>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">Works offline | that&apos;s the proof</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">
-                                Load Xenkio once and use it anywhere — on a plane, in a café with bad WiFi, or on a restricted corporate network.
+                                Load Xenkio once and use it anywhere | on a plane, in a café with bad WiFi, or on a restricted corporate network.
                                 If the tools work with no internet connection, that&apos;s the strongest possible proof that nothing is being sent to any server.
                                 Try it: turn off your WiFi and keep using any tool.
                             </p>
@@ -214,7 +214,7 @@ export function HowItWorksClient() {
                         <TechCard
                             icon={Cpu}
                             title="JavaScript & WebAssembly"
-                            description="Your browser is more powerful than you think. Modern JavaScript and WebAssembly (WASM) can handle PDF parsing, image manipulation, video compression, and encryption — all without a server."
+                            description="Your browser is more powerful than you think. Modern JavaScript and WebAssembly (WASM) can handle PDF parsing, image manipulation, video compression, and encryption | all without a server."
                             delay={1}
                         />
                         <TechCard
@@ -226,7 +226,7 @@ export function HowItWorksClient() {
                         <TechCard
                             icon={Globe}
                             title="Progressive Web App"
-                            description="Xenkio is a PWA — it installs on your device and works offline. The service worker caches all the tool code so processing happens entirely on your machine, even without internet."
+                            description="Xenkio is a PWA | it installs on your device and works offline. The service worker caches all the tool code so processing happens entirely on your machine, even without internet."
                             delay={3}
                         />
                         <TechCard
@@ -247,7 +247,7 @@ export function HowItWorksClient() {
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                                    Don&apos;t take our word for it — verify it yourself
+                                    Don&apos;t take our word for it | verify it yourself
                                 </h3>
                                 <p className="text-sm text-gray-500 leading-relaxed mb-4">
                                     Open your browser&apos;s Developer Tools (F12 → Network tab) while using any Xenkio tool.
@@ -290,7 +290,7 @@ export function HowItWorksClient() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                        GDPR, HIPAA, SOC 2 — by design
+                                        GDPR, HIPAA, SOC 2 | by design
                                     </h3>
                                     <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
                                         Traditional tools must build complex data handling pipelines, write privacy policies, and undergo security audits to prove compliance.
@@ -310,7 +310,7 @@ export function HowItWorksClient() {
                             />
                             <ComplianceItem
                                 title="Enterprise Ready"
-                                description="Safe for use on corporate networks with strict DLP policies. IT departments can verify by auditing network traffic — zero file data leaves the browser."
+                                description="Safe for use on corporate networks with strict DLP policies. IT departments can verify by auditing network traffic | zero file data leaves the browser."
                             />
                         </div>
                     </div>
@@ -333,25 +333,25 @@ export function HowItWorksClient() {
                         <SegmentCard
                             icon={Scale}
                             title="Lawyers & Notaries"
-                            description="Client contracts, NDAs, legal briefs — documents that must never be uploaded to a third-party server. Attorney-client privilege is maintained because files never leave your device."
+                            description="Client contracts, NDAs, legal briefs | documents that must never be uploaded to a third-party server. Attorney-client privilege is maintained because files never leave your device."
                             delay={1}
                         />
                         <SegmentCard
                             icon={Briefcase}
                             title="Finance & Accounting"
-                            description="Tax returns, financial statements, audit reports — handle the most sensitive financial documents without violating internal data policies or compliance requirements."
+                            description="Tax returns, financial statements, audit reports | handle the most sensitive financial documents without violating internal data policies or compliance requirements."
                             delay={2}
                         />
                         <SegmentCard
                             icon={Code}
                             title="Developers & IT Teams"
-                            description="You understand the risks of uploading files to unknown servers. Verify our claims yourself — check the network tab, read the source, or use the tools fully offline."
+                            description="You understand the risks of uploading files to unknown servers. Verify our claims yourself | check the network tab, read the source, or use the tools fully offline."
                             delay={3}
                         />
                         <SegmentCard
                             icon={FileText}
                             title="Journalists & Researchers"
-                            description="Source documents, whistleblower files, research data — protect your sources by ensuring their documents never touch anyone else's infrastructure."
+                            description="Source documents, whistleblower files, research data | protect your sources by ensuring their documents never touch anyone else's infrastructure."
                             delay={4}
                         />
                     </div>

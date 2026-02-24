@@ -113,6 +113,116 @@ Use size, color, spacing to guide attention
 - Use semantic color naming conventions
 - Implement consistent spacing scale
 
+## Project Architecture: Domain-Driven Feature Structure
+
+Untuk aplikasi web tunggal yang kompleks, kita menggunakan **Domain-Driven Feature Architecture**. Arsitektur ini membagi aplikasi berdasarkan area bisnis/domain (misalnya: *Auth, Dashboard, User, Payments*) untuk menjaga skalabilitas dan keterbacaan kode.
+
+### 📂 Directory Template (Single Web App)
+
+```text
+src/
+├── app/                  # Routing & Layouts (Next.js App Router)
+│   ├── (auth)/           # Route Group: Auth flows (login, register)
+│   ├── (dashboard)/      # Route Group: Main app logic
+│   └── api/              # Route Handlers (Serverless Functions)
+├── features/             # Business Domains (The Core)
+│   └── [feature-domain]/ # e.g., 'auth', 'billing', 'notifications'
+│       ├── components/   # UI khusus domain tersebut
+│       ├── hooks/        # Logic khusus (misal: use-auth-session.ts)
+│       ├── services/     # API calls/Fetchers khusus domain
+│       ├── types/        # TypeScript interfaces/schemas
+│       └── store/        # State management lokal (Zustand/Atom)
+├── components/           # Global Shared UI
+│   ├── ui/               # Atomic components (Shadcn/UI primitives)
+│   └── shared/           # Cross-domain components (Layout, Feed, Table)
+├── services/             # Global API Clients & SDKs (Supabase, Firebase, S3)
+├── lib/                  # Shared Business Logic & Utils (validators, formatters)
+├── hooks/                # Global Utilities (use-debounce, use-local-storage)
+├── store/                # Global State Management (App-wide settings/theme)
+├── types/                # Global Type Definitions & API Schemas
+└── config/               # Application Config (Env, Site Metadata, Constants)
+```
+
+### 🚀 Standard Workflow: Building a Feature
+
+1.  **Define Domain**: Tentukan di mana fungsionalitas ini berada (misal: *Profile*).
+2.  **Domain Logic**: Buat `services` (data fetching) dan `hooks` (state logic) di dalam fitur tersebut.
+3.  **Encapsulated Components**: Bangun UI di dalam `features/[feature]/components`.
+4.  **Integration**: Hubungkan fitur tersebut ke halaman di `src/app/`.
+5.  **Global Refinement**: Jika ada komponen yang bisa digunakan di fitur lain, pindahkan ke `src/components/shared`.
+
+### 🧠 Server vs Client Component Strategy (The "Server-First" Approach)
+
+Apakah selalu lebih baik memisahkan struktur Server Page dan Client Component? **Ya, hampir selalu.** Di Next.js App Router (versi 13+), pendekatan yang diwajibkan adalah **Server-First**.
+
+Kita menggunakan pola **"Leave leaves to the client"** (Jadikan komponen terkecil/paling ujung sebagai client).
+
+#### Aturan Emas (Golden Rules):
+1. **`src/app/` (Pages/Layouts) SELALU Server Component secara default.**
+   - **Tugasnya**: Mengambil data (Data Fetching), verifikasi keamanan/auth di server, menyiapkan SEO metadata, dan mengirim data dasar ke Client Component.
+   - **Contoh**: `src/app/(dashboard)/profile/page.tsx` mengambil data profil user langsung dari database (Supabase/API) tanpa terekspos ke browser.
+2. **`src/features/[feature]/components/` ADALAH kombinasi Server & Client Components.**
+   - Jika butuh interaksi user (onClick, useState, form submissions), **wajib** tambahkan `"use client"` di baris paling atas.
+   - Jika hanya untuk menampilkan data statis (UI semata, misal: Card design, Header standar), tidak perlu `"use client"`.
+
+#### Contoh Penerapan (Fitur: User Profile)
+
+**1. Halaman (Server Component) -> `src/app/(dashboard)/profile/page.tsx`**
+Halaman ini berjalan 100% di server. Aman untuk memanggil API langsung.
+```tsx
+import { getUserProfile } from "@/features/user/services/profile.service";
+import { ProfileForm } from "@/features/user/components/profile-form";
+
+export default async function ProfilePage() {
+  // Fetch data di server (aman, cepat, SEO friendly)
+  const userData = await getUserProfile(); 
+
+  return (
+    <main className="container mx-auto py-10">
+      <h1 className="text-2xl font-bold">Pengaturan Profil</h1>
+      {/* Passing data server ke komponen interaktif (client) */}
+      <ProfileForm initialData={userData} />
+    </main>
+  );
+}
+```
+
+**2. Komponen Antarmuka (Client Component) -> `src/features/user/components/profile-form.tsx`**
+Komponen ini berjalan di browser karena butuh interaksi (Form submit, state).
+```tsx
+"use client"; // Wajib karena komponen ini butuh interaksi!
+
+import { useState } from "react";
+import { UserData } from "@/features/user/types";
+import { updateUserProfile } from "@/features/user/services/profile.service";
+
+export function ProfileForm({ initialData }: { initialData: UserData }) {
+  // Boleh pakai state karena ini Client Component
+  const [name, setName] = useState(initialData.name);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    await updateUserProfile({ name }); // Panggil API dari client
+    setIsLoading(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      <button type="submit" disabled={isLoading}>{isLoading ? "Menyimpan" : "Simpan"}</button>
+    </form>
+  );
+}
+```
+
+#### Kenapa harus memisahkan begini?
+- **Performa (Kecepatan)**: Client tidak perlu mengunduh Javascript berlebih. Komponen server dikirim sebagai HTML statis yang langsung tampil di layar pengguna secara instan (*Zero JS sent to client for that part*).
+- **Keamanan (Security)**: Kunci API rahasia (secrets) dan query database tetap rahasia di server (`page.tsx`) dan tidak bocor ke browser (`Inspect Elements -> Network`).
+- **SEO Sempurna**: Robot Google/Crawler membaca HTML utuh berisi konten data (Data Fetching di page), tanpa perlu menunggu Javascript React dijalankan.
+- **Hindari Waterfall**: Mengurangi "Loading Spinner" berantai.
+
 ## Design & UI/UX Requirements
 
 ### Professional, Non-AI Aesthetic

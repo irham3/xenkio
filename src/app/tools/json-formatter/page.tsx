@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import JsonFormatterClient from './client';
-import { Braces } from 'lucide-react';
 
 export const metadata: Metadata = {
     title: 'JSON Formatter & Validator | Free Online JSON Beautifier',

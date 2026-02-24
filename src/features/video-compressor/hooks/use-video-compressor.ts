@@ -18,14 +18,16 @@ export function useVideoCompressor() {
     const [progress, setProgress] = useState(0)
     const [isCompressing, setIsCompressing] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [hasFailed, setHasFailed] = useState(false)
     const [downloadProgress, setDownloadProgress] = useState<DownloadProgress | null>(null)
 
     // Helper removed, using centralized manager
 
     const load = useCallback(async () => {
-        if (loaded || isLoading) return
+        if (loaded || isLoading || hasFailed) return
         setIsLoading(true)
         setError(null)
+        setHasFailed(false)
 
         // Simulated progress
         setDownloadProgress({ label: 'Connecting...', loaded: 0, total: 100, overallPercent: 5 })
@@ -54,15 +56,17 @@ export function useVideoCompressor() {
         } catch (err: unknown) {
             console.error('Failed to load FFmpeg', err)
             setError('Failed to load video engine. Please refresh or try a different browser.')
+            setHasFailed(true)
         } finally {
             clearInterval(progressInterval)
             setIsLoading(false)
         }
-    }, [loaded, isLoading])
+    }, [loaded, isLoading, hasFailed])
 
     const reset = useCallback(() => {
         setError(null)
         setLoaded(false)
+        setHasFailed(false)
     }, [])
 
     // Auto-load

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import "./globals.css";
 import { Providers } from "./providers";
 import { PwaRegister } from "@/components/pwa-register";
 
 const fontSans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800'], variable: '--font-sans', display: 'swap' });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://xenkio.com"),
   title: {
     default: "Xenkio | Free Browser-Based Tools. No Uploads, No Limits.",
     template: "%s | Xenkio"
@@ -21,20 +21,39 @@ export const metadata: Metadata = {
     title: "Xenkio | Free Browser-Based Tools. No Uploads, No Limits.",
     description: "Process files locally in your browser. No uploads to servers, no file size limits, no sign-up. GDPR compliant by design | your files never leave your device.",
     siteName: "Xenkio",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Xenkio | Free Browser-Based Tools",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Xenkio | Free Browser-Based Tools",
     description: "Your files never leave your device. Free tools for PDFs, images, and more | processed 100% in your browser.",
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   alternates: {
     canonical: "https://xenkio.com",
   },
   applicationName: "Xenkio",
+  category: "technology",
+  creator: "Altruis",
+  publisher: "Altruis",
   appleWebApp: {
     title: "Xenkio",
     statusBarStyle: "default",
@@ -43,6 +62,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
     apple: "/apple-touch-icon.png",
+  },
+  verification: {
+    google: "6c523b0480756dda",
   },
 };
 

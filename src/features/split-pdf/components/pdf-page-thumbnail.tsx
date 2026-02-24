@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { FileText, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import { setupPdfWorker, pdfjsLib } from "@/lib/pdf-worker"
 
 interface PdfPageThumbnailProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,9 +75,7 @@ function PdfCanvas({ pdfDocument, arrayBuffer, pageNumber, scale }: PdfCanvasPro
                 let pdf = pdfDocument;
 
                 if (!pdf) {
-                    const pdfjsLib = await import("pdfjs-dist")
-                    const version = pdfjsLib.version || '5.4.624';
-                    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+                    setupPdfWorker();
                     const bufferCopy = arrayBuffer.slice(0) // Fallback: slow copy
                     pdf = await pdfjsLib.getDocument({ data: bufferCopy }).promise
                 }

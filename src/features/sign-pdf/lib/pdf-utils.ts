@@ -1,17 +1,15 @@
 
 import { PDFDocument } from 'pdf-lib';
+import { setupPdfWorker, pdfjsLib } from '@/lib/pdf-worker';
 import { PDFSignature } from '../types';
 
-export const initPdfWorker = async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pdfjsLib: any = await import('pdfjs-dist');
-    const version = pdfjsLib.version || '5.4.624';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+export const initPdfWorker = () => {
+    setupPdfWorker();
     return pdfjsLib;
 };
 
 export async function renderPdfPages(file: File): Promise<string[]> {
-    const pdfjsLib = await initPdfWorker();
+    initPdfWorker();
     const arrayBuffer = await file.arrayBuffer();
     const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
     const pdf = await loadingTask.promise;

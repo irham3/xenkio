@@ -1,11 +1,10 @@
 import JSZip from 'jszip';
+import { setupPdfWorker, pdfjsLib } from '@/lib/pdf-worker';
 import { ConversionOptions, ConversionResult, PagePreview } from '../types';
 
 // Initialize worker
-const initPdfWorker = async () => {
-    const pdfjsLib = await import('pdfjs-dist');
-    const version = pdfjsLib.version || '5.4.624';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+const initPdfWorker = () => {
+    setupPdfWorker();
     return pdfjsLib;
 };
 
@@ -14,7 +13,7 @@ export async function convertPdfToImages(
     options: ConversionOptions,
     onProgress: (progress: number) => void
 ): Promise<ConversionResult> {
-    const pdfjsLib = await initPdfWorker();
+    initPdfWorker();
     const arrayBuffer = await file.arrayBuffer();
     const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
     const pdf = await loadingTask.promise;

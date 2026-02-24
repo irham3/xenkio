@@ -1,6 +1,5 @@
-"use client"
-
 import { useState, useCallback } from 'react'
+import { setupPdfWorker, pdfjsLib } from '@/lib/pdf-worker'
 import {
     PdfFile,
     ConversionResult,
@@ -17,9 +16,7 @@ export function usePdfToWord() {
     const convertWithClient = async (pdfFile: PdfFile): Promise<Blob> => {
         // Dynamic imports for client-side conversion
         const { Document, Packer, Paragraph, TextRun, HeadingLevel, convertInchesToTwip } = await import('docx');
-        const pdfjsLib = await import('pdfjs-dist');
-        const version = pdfjsLib.version || '5.4.624';
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+        setupPdfWorker();
 
         const loadingTask = pdfjsLib.getDocument({ data: pdfFile.arrayBuffer });
         const pdf = await loadingTask.promise;
@@ -131,9 +128,7 @@ export function usePdfToWord() {
             // Count words (approximate)
             let wordCount = 0;
             try {
-                const pdfjsLib = await import('pdfjs-dist');
-                const version = pdfjsLib.version || '5.4.624';
-                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+                setupPdfWorker();
                 const loadingTask = pdfjsLib.getDocument({ data: pdfFile.arrayBuffer });
                 const pdf = await loadingTask.promise;
 

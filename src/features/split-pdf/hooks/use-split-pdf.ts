@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
-import { setupPdfWorker, pdfjsLib } from '@/lib/pdf-worker';
+import { getPdfjs } from '@/lib/pdf-worker';
 import { PdfFile, SplitMode, SplitOptions } from '../types';
 
 export function useSplitPdf() {
@@ -16,7 +16,7 @@ export function useSplitPdf() {
         // Load with pdf.js for rendering (Performance optimization)
         let pdfjsDoc;
         try {
-            setupPdfWorker();
+            const pdfjsLib = await getPdfjs();
             const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer.slice(0) });
             pdfjsDoc = await loadingTask.promise;
         } catch (error) {

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { FileText } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { setupPdfWorker, pdfjsLib } from "@/lib/pdf-worker"
+import { getPdfjs } from "@/lib/pdf-worker"
 
 interface PdfThumbnailProps {
     arrayBuffer: ArrayBuffer
@@ -36,7 +36,7 @@ export function PdfThumbnail({ arrayBuffer, onLoad, rotation }: PdfThumbnailProp
             }
 
             try {
-                setupPdfWorker();
+                const pdfjsLib = await getPdfjs();
 
                 const bufferCopy = arrayBuffer.slice(0)
                 const pdf = await pdfjsLib.getDocument({ data: bufferCopy }).promise

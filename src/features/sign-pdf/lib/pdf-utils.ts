@@ -1,15 +1,10 @@
 
 import { PDFDocument } from 'pdf-lib';
-import { setupPdfWorker, pdfjsLib } from '@/lib/pdf-worker';
+import { getPdfjs } from '@/lib/pdf-worker';
 import { PDFSignature } from '../types';
 
-export const initPdfWorker = () => {
-    setupPdfWorker();
-    return pdfjsLib;
-};
-
 export async function renderPdfPages(file: File): Promise<string[]> {
-    initPdfWorker();
+    const pdfjsLib = await getPdfjs();
     const arrayBuffer = await file.arrayBuffer();
     const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
     const pdf = await loadingTask.promise;

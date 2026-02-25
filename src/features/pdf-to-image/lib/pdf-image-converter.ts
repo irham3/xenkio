@@ -1,19 +1,13 @@
 import JSZip from 'jszip';
-import { setupPdfWorker, pdfjsLib } from '@/lib/pdf-worker';
+import { getPdfjs } from '@/lib/pdf-worker';
 import { ConversionOptions, ConversionResult, PagePreview } from '../types';
-
-// Initialize worker
-const initPdfWorker = () => {
-    setupPdfWorker();
-    return pdfjsLib;
-};
 
 export async function convertPdfToImages(
     file: File,
     options: ConversionOptions,
     onProgress: (progress: number) => void
 ): Promise<ConversionResult> {
-    initPdfWorker();
+    const pdfjsLib = await getPdfjs();
     const arrayBuffer = await file.arrayBuffer();
     const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
     const pdf = await loadingTask.promise;

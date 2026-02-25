@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { setupPdfWorker, pdfjsLib } from '@/lib/pdf-worker'
+import { getPdfjs } from '@/lib/pdf-worker'
 import {
     PdfFile,
     ConversionResult,
@@ -16,7 +16,7 @@ export function usePdfToWord() {
     const convertWithClient = async (pdfFile: PdfFile): Promise<Blob> => {
         // Dynamic imports for client-side conversion
         const { Document, Packer, Paragraph, TextRun, HeadingLevel, convertInchesToTwip } = await import('docx');
-        setupPdfWorker();
+        const pdfjsLib = await getPdfjs();
 
         const loadingTask = pdfjsLib.getDocument({ data: pdfFile.arrayBuffer });
         const pdf = await loadingTask.promise;
@@ -128,7 +128,7 @@ export function usePdfToWord() {
             // Count words (approximate)
             let wordCount = 0;
             try {
-                setupPdfWorker();
+                const pdfjsLib = await getPdfjs();
                 const loadingTask = pdfjsLib.getDocument({ data: pdfFile.arrayBuffer });
                 const pdf = await loadingTask.promise;
 
@@ -136,10 +136,10 @@ export function usePdfToWord() {
                     const page = await pdf.getPage(i);
                     const textContent = await page.getTextContent();
                     const text = textContent.items
-                        .filter(item => 'str' in item && typeof (item as { str: unknown }).str === 'string')
-                        .map(item => (item as { str: string }).str)
+                        .filter((item: Record<string, unknown>) => 'str' in item && typeof item.str === 'string')
+                        .map((item: Record<string, unknown>) => (item as { str: string }).str)
                         .join(' ');
-                    wordCount += text.split(/\s+/).filter(w => w.length > 0).length;
+                    wordCount += text.split(/\s+/).filter((w: string) => w.length > 0).length;
                 }
             } catch {
                 wordCount = 0;

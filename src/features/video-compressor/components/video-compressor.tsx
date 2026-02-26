@@ -29,7 +29,7 @@ function formatSize(bytes: number): string {
 }
 
 export function VideoCompressor() {
-    const { loaded, isLoading, isCompressing, progress, error: hookError, compressVideo, downloadProgress, reset } = useVideoCompressor()
+    const { loaded, isLoading, isCompressing, progress, error: hookError, compressVideo, downloadProgress } = useVideoCompressor()
     const [file, setFile] = useState<VideoFileState | null>(null)
     const [result, setResult] = useState<ReturnType<typeof compressVideo> extends Promise<infer T> ? T : never>(null)
     const [settings, setSettings] = useState<CompressionSettings>(DEFAULT_SETTINGS)
@@ -139,10 +139,10 @@ export function VideoCompressor() {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={reset}
+                        onClick={() => window.location.reload()}
                         className="bg-white hover:bg-red-50 text-red-700 border-red-200 hover:border-red-300"
                     >
-                        Retry
+                        Reload Page
                     </Button>
                 </div>
             )}

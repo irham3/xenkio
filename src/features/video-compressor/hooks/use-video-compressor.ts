@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { CompressionSettings, CompressionResult } from '../types'
-import { getFFmpeg, ffmpegFetchFile, FFmpegInstance } from '@/lib/ffmpeg-engine'
+import { getFFmpeg, ffmpegFetchFile, FFmpegInstance, isFFmpegLoaded } from '@/lib/ffmpeg-engine'
 
 export interface DownloadProgress {
     label: string
@@ -29,18 +29,22 @@ export function useVideoCompressor() {
         setError(null)
         setHasFailed(false)
 
-        // Simulated progress
-        setDownloadProgress({ label: 'Connecting...', loaded: 0, total: 100, overallPercent: 5 })
-        const progressInterval = setInterval(() => {
-            setDownloadProgress(prev => {
-                if (!prev || prev.overallPercent >= 90) return prev
-                return {
-                    ...prev,
-                    overallPercent: Math.min(90, prev.overallPercent + Math.random() * 5),
-                    label: 'Downloading Engine...'
-                }
-            })
-        }, 300)
+        let progressInterval: NodeJS.Timeout | undefined;
+
+        if (!isFFmpegLoaded()) {
+            // Simulated progress
+            setDownloadProgress({ label: 'Connecting...', loaded: 0, total: 100, overallPercent: 5 })
+            progressInterval = setInterval(() => {
+                setDownloadProgress(prev => {
+                    if (!prev || prev.overallPercent >= 90) return prev
+                    return {
+                        ...prev,
+                        overallPercent: Math.min(90, prev.overallPercent + Math.random() * 5),
+                        label: 'Downloading Engine...'
+                    }
+                })
+            }, 300)
+        }
 
         try {
             const ffmpeg = await getFFmpeg()
@@ -57,6 +61,7 @@ export function useVideoCompressor() {
             console.error('Failed to load FFmpeg', err)
             setError('Failed to load video engine. Please refresh or try a different browser.')
             setHasFailed(true)
+            setDownloadProgress(null)
         } finally {
             clearInterval(progressInterval)
             setIsLoading(false)
@@ -67,6 +72,7 @@ export function useVideoCompressor() {
         setError(null)
         setLoaded(false)
         setHasFailed(false)
+        setDownloadProgress(null)
     }, [])
 
     // Auto-load

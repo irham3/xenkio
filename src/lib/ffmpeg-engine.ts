@@ -7,12 +7,12 @@
 
 const FFMPEG_SOURCES = [
     {
-        script: 'https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js',
-        core: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
-    },
-    {
         script: 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js',
         core: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
+    },
+    {
+        script: 'https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js',
+        core: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
     },
 ] as const;
 
@@ -30,11 +30,16 @@ declare global {
             createFFmpeg: (options: Record<string, unknown>) => FFmpegInstance;
             fetchFile: (file: File | Blob | string) => Promise<Uint8Array>;
         };
+        createFFmpegCore?: unknown;
     }
 }
 
 let loadPromise: Promise<FFmpegInstance> | null = null;
 let ffmpegInstance: FFmpegInstance | null = null;
+
+export function isFFmpegLoaded(): boolean {
+    return !!ffmpegInstance;
+}
 
 async function injectScript(url: string, timeoutMs = 15000): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -82,9 +87,13 @@ export async function getFFmpeg(retries = 2): Promise<FFmpegInstance> {
         for (let i = 0; i <= retries; i++) {
             for (const source of FFMPEG_SOURCES) {
                 try {
-                    const cacheBust = i > 0 ? `?v=${Date.now()}` : '';
-                    const scriptUrl = `${source.script}${cacheBust}`;
-                    const coreUrl = `${source.core}${cacheBust}`;
+                    // Clean up poisoned global from previous failures
+                    if ('createFFmpegCore' in window) {
+                        delete window.createFFmpegCore;
+                    }
+
+                    const scriptUrl = source.script;
+                    const coreUrl = source.core;
 
                     await injectScript(scriptUrl);
 

@@ -13,6 +13,16 @@ export const metadata: Metadata = {
         title: 'Online Zip Extractor | Secure & Private Unzipping',
         description: 'Extract your zip archives instantly in the browser. High security, no server uploads.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
 };
 

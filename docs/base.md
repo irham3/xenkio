@@ -117,31 +117,6 @@ Use size, color, spacing to guide attention
 
 Untuk aplikasi web tunggal yang kompleks, kita menggunakan **Domain-Driven Feature Architecture**. Arsitektur ini membagi aplikasi berdasarkan area bisnis/domain (misalnya: *Auth, Dashboard, User, Payments*) untuk menjaga skalabilitas dan keterbacaan kode.
 
-### 📂 Directory Template (Single Web App)
-
-```text
-src/
-├── app/                  # Routing & Layouts (Next.js App Router)
-│   ├── (auth)/           # Route Group: Auth flows (login, register)
-│   ├── (dashboard)/      # Route Group: Main app logic
-│   └── api/              # Route Handlers (Serverless Functions)
-├── features/             # Business Domains (The Core)
-│   └── [feature-domain]/ # e.g., 'auth', 'billing', 'notifications'
-│       ├── components/   # UI khusus domain tersebut
-│       ├── hooks/        # Logic khusus (misal: use-auth-session.ts)
-│       ├── services/     # API calls/Fetchers khusus domain
-│       ├── types/        # TypeScript interfaces/schemas
-│       └── store/        # State management lokal (Zustand/Atom)
-├── components/           # Global Shared UI
-│   ├── ui/               # Atomic components (Shadcn/UI primitives)
-│   └── shared/           # Cross-domain components (Layout, Feed, Table)
-├── services/             # Global API Clients & SDKs (Supabase, Firebase, S3)
-├── lib/                  # Shared Business Logic & Utils (validators, formatters)
-├── hooks/                # Global Utilities (use-debounce, use-local-storage)
-├── store/                # Global State Management (App-wide settings/theme)
-├── types/                # Global Type Definitions & API Schemas
-└── config/               # Application Config (Env, Site Metadata, Constants)
-```
 
 ### 🚀 Standard Workflow: Building a Feature
 

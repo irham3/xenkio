@@ -15,6 +15,16 @@ export const metadata: Metadata = {
         title: 'PDF Compressor - Reduce File Size Online',
         description: 'Compress PDF files online for free. Reduce file size while maintaining quality. Secure, fast, and easy to use.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
 };
 

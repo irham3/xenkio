@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'CSS Gradient Generator | Free Online Gradient Maker',
     description: 'Create beautiful CSS gradients with visual editor. Copy CSS code instantly.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

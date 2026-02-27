@@ -15,6 +15,16 @@ export const metadata: Metadata = {
     title: 'Strong Password Generator | Xenkio',
     description: 'Create customizable, secure passwords instantly with our advanced generator tool.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   }
 };
 

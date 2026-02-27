@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Hash Generator | Secure Online Hashing Tool',
     description: 'Generate and verify hashes instantly. Supports modern algorithms like Bcrypt and Argon2 along with classics like MD5 and SHA.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

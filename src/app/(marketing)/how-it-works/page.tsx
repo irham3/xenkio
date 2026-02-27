@@ -30,6 +30,21 @@ export const metadata: Metadata = {
         siteName: "Xenkio",
         locale: "en_US",
         type: "website",
+        images: [
+            {
+                url: "/og-image.jpg",
+                width: 1200,
+                height: 630,
+                alt: "How Xenkio Works | Your Files Never Leave Your Device",
+                type: "image/jpeg",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "How Xenkio Works | Your Files Never Leave Your Device",
+        description: "Process files locally in your browser with JavaScript and WebAssembly. No uploads, no server processing, no limits.",
+        images: ["/og-image.jpg"],
     },
     alternates: {
         canonical: "https://xenkio.com/how-it-works",

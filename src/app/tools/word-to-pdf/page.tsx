@@ -12,6 +12,16 @@ export const metadata: Metadata = {
         title: 'Word to PDF Converter - Professional & Free | Xenkio',
         description: 'Convert Word files to PDF instantly. No file upload required - secure local processing.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

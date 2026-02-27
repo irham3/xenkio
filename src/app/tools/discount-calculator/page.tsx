@@ -24,6 +24,16 @@ export const metadata: Metadata = {
         title: 'Discount Calculator | Xenkio Tools',
         description: 'Find out the final price after discount. Supports stacked discounts and tax. Instant results, no sign-up.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
 };
 

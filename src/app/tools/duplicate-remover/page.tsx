@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Duplicate Line Remover | Free Online Text Deduplication Tool',
     description: 'Remove duplicate lines from text with customizable options. Instant results.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

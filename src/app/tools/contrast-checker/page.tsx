@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Contrast Checker | WCAG Color Contrast Tool',
     description: 'Check color contrast ratios for WCAG 2.1 compliance. Ensure accessible color combinations.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Base64 Encoder & Decoder | Free Online Tool',
     description: 'Convert text to Base64 and decode Base64 strings instantly. Free online tool with real-time conversion.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

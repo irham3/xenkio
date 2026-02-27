@@ -22,11 +22,23 @@ export const metadata: Metadata = {
     title: 'Unix Timestamp Converter | Free Online Epoch Time Tool',
     description: 'Convert between Unix timestamps and human-readable dates instantly. Supports multiple timezones and formats.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Unix Timestamp Converter',
     description: 'Convert Unix timestamps to dates and dates to timestamps online.',
+    images: ['/og-image.jpg'],
+
   },
 };
 

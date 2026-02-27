@@ -12,6 +12,16 @@ export const metadata: Metadata = {
         title: 'HMAC Generator | Xenkio',
         description: 'Secure, instant HMAC generation for developers.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

@@ -4,6 +4,28 @@ import SplitBillClient from './client';
 export const metadata: Metadata = {
     title: 'Advanced Split Bill Calculator | Xenkio',
     description: 'Split bills unfairly but accurately. Calculate individual shares including tax, service charge, and discounts. Export to PDF and share receipts. 100% Client-Side Private Processing.',
+
+    openGraph: {
+      title: 'Advanced Split Bill Calculator | Xenkio',
+      description: 'Split bills unfairly but accurately. Calculate individual shares including tax, service charge, and discounts. Export to PDF and share receipts. 100% Client-Side Private Processing.',
+      type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Advanced Split Bill Calculator | Xenkio',
+          type: 'image/jpeg',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Advanced Split Bill Calculator | Xenkio',
+      description: 'Split bills unfairly but accurately. Calculate individual shares including tax, service charge, and discounts. Export to PDF and share receipts. 100% Client-Side Private Processing.',
+      images: ['/og-image.jpg'],
+    },
+
 };
 
 export default function SplitBillPage() {

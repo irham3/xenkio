@@ -12,6 +12,16 @@ export const metadata: Metadata = {
         title: 'Collage Maker',
         description: 'Create premium seamless carousels for Instagram. Free, pro-level design tool.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

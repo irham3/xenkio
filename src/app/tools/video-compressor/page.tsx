@@ -9,11 +9,23 @@ export const metadata: Metadata = {
         title: 'Video Compressor - Reduce Video File Size Online',
         description: 'Compress videos directly in your browser. No upload needed, 100% private.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Video Compressor - Free Online Tool',
         description: 'Compress MP4, WebM, MOV videos in your browser. No upload, no watermarks.',
+      images: ['/og-image.jpg'],
+
     },
 }
 

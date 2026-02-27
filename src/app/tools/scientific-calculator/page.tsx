@@ -24,6 +24,16 @@ export const metadata: Metadata = {
         title: 'Scientific Calculator | Xenkio Tools',
         description: 'Full-featured scientific calculator with trig, log, power, and factorial functions. Free, instant, no sign-up.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
 };
 

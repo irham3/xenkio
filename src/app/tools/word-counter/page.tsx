@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Word Counter | Free Online Word & Character Counter',
     description: 'Count words, characters, sentences, and paragraphs. Get reading time and keyword density.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

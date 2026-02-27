@@ -10,6 +10,16 @@ export const metadata: Metadata = {
         title: 'JWT Debugger | Free Online Developer Tool',
         description: 'Instantly decode, verify signature, and sign JWTs in your browser.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

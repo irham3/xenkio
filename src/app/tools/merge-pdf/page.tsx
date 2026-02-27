@@ -15,6 +15,16 @@ export const metadata: Metadata = {
     title: 'Merge PDF Online Free | Xenkio',
     description: 'Combine multiple PDF files into one document instantly with our free PDF merger tool.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   }
 };
 

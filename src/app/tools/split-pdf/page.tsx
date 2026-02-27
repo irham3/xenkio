@@ -13,6 +13,16 @@ export const metadata: Metadata = {
         title: 'Split PDF Online Free - Extract Pages | Xenkio',
         description: 'Split PDF documents instantly. Extract pages or separate by range. No file upload required - secure local processing.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

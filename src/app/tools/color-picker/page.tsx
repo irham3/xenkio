@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Color Picker | Free Online Color Converter Tool',
     description: 'Pick colors and convert between HEX, RGB, and HSL formats. Copy color values instantly.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

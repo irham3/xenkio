@@ -15,6 +15,16 @@ export const metadata: Metadata = {
         title: 'PDF to Word Converter | Xenkio',
         description: 'Convert PDF documents to editable Microsoft Word files instantly. Free, private, and preserves formatting.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

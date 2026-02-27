@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Regex Tester | Online Regular Expression Tester',
     description: 'Test and debug regular expressions instantly with live matching and detailed results. Free online regex tester.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

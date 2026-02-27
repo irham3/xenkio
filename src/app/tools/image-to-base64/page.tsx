@@ -13,6 +13,16 @@ export const metadata: Metadata = {
         title: 'Image to Base64 Converter | Free Online Tool',
         description: 'Convert images to Base64 instantly. Perfect for web developers and designers.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
 };
 

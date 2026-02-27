@@ -25,6 +25,21 @@ export const metadata: Metadata = {
     siteName: "Xenkio",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Xenkio | Free Browser-Based Tools",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Xenkio | Free Browser-Based Tools. No Uploads, No Limits.",
+    description: "Process files locally in your browser. No uploads, no file size limits, no sign-up required.",
+    images: ["/og-image.jpg"],
   },
   alternates: {
     canonical: "https://xenkio.com",

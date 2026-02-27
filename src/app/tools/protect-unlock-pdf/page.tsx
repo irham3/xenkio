@@ -15,6 +15,16 @@ export const metadata: Metadata = {
         title: 'Protect & Unlock PDF | Xenkio',
         description: 'Secure your PDF documents or remove passwords instantly. Free, private, and preserves quality.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

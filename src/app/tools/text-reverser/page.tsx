@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Text Reverser | Free Online Text Reversal Tool',
     description: 'Reverse text characters, words, or lines with multiple modes. Instant results.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

@@ -28,6 +28,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "Xenkio | Free Browser-Based Tools",
+        type: "image/jpeg",
       },
     ],
   },

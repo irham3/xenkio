@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Case Converter | Free Online Text Case Converter',
     description: 'Convert text between uppercase, lowercase, title case, camelCase, snake_case, and more formats instantly.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 

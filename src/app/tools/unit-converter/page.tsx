@@ -24,6 +24,16 @@ export const metadata: Metadata = {
         title: 'Unit Converter | Xenkio Tools',
         description: 'Convert any unit instantly. Length, weight, temperature, volume, speed, and more.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
 };
 

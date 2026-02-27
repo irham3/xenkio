@@ -12,6 +12,16 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Image Resizer | Xenkio',
         description: 'Professional image resizing and cropping tool.',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

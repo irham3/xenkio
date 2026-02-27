@@ -167,6 +167,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
     },
     {
+        id: '102',
+        title: 'Crop PDF',
+        description: 'Visually crop and trim PDF pages. Remove margins, headers, or resize page area with precision.',
+        icon: Crop,
+        href: '/tools/crop-pdf',
+        slug: 'crop-pdf',
+        categoryId: 'documents',
+        isNew: true,
+    },
+    {
         id: '3',
         title: 'PDF to Word',
         description: 'Convert PDF to Word with preserved formatting: bold, italic, colors, fonts, and layout structure.',

@@ -652,10 +652,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '54',
         title: 'Age Calculator',
-        description: 'Calculate exact age from birth date.',
+        description: 'Calculate your exact age in years, months, and days. See total days lived and countdown to your next birthday.',
         icon: Calendar,
         href: '/tools/age-calculator',
-        isComingSoon: true,
+        slug: 'age-calculator',
+        isNew: true,
         categoryId: 'calculators',
     },
     {

@@ -869,7 +869,7 @@ export const TOOLS: ToolData[] = [
         icon: Type,
         href: '/tools/font-pairing',
         slug: 'font-pairing',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'design-tools',
     },
     {

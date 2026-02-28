@@ -55,10 +55,10 @@ export const CATEGORIES: CategoryData[] = [
     {
         id: 'design-tools',
         name: 'Design Tools',
-        description: 'Color picker, palette generator, gradients, and contrast checker | all browser-based',
+        description: 'Color picker, palette generator, gradients, font pairing, and contrast checker | all browser-based',
         icon: Palette,
         color: '#E4E4E7',
-        toolCount: 4,
+        toolCount: 5,
     },
     {
         id: 'text-utilities',

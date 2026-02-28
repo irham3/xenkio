@@ -859,7 +859,7 @@ export const TOOLS: ToolData[] = [
         icon: Triangle,
         href: '/tools/css-triangle',
         slug: 'css-triangle',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'design-tools',
     },
     {

@@ -151,119 +151,132 @@ export function minifyJs(js: string): string {
 }
 
 /**
- * Beautify/format JavaScript with proper indentation
+ * Beautify/format JavaScript with proper indentation.
+ *
+ * The tokeniser is intentionally kept simple – it only needs to
+ * recognise string / template / regex / comment boundaries so that we
+ * never reformat code that lives inside them.  Every other character
+ * is either a formatting‐significant punctuation token (`{ } ; ,`)
+ * or an "other" chunk that we preserve as‑is.
  */
 export function beautifyJs(js: string, indentSize: number): string {
   if (!js.trim()) return '';
 
   const indent = ' '.repeat(indentSize);
+
+  /* ------------------------------------------------------------------ */
+  /*  Tokenise                                                          */
+  /* ------------------------------------------------------------------ */
   const tokens: string[] = [];
+  const len = js.length;
   let i = 0;
 
-  // Tokenize while preserving strings, comments, regex
-  while (i < js.length) {
-    // Single-line comment
-    if (js[i] === '/' && js[i + 1] === '/') {
-      let comment = '';
-      while (i < js.length && js[i] !== '\n') {
-        comment += js[i];
-        i++;
-      }
-      tokens.push(comment);
+  while (i < len) {
+    const ch = js[i];
+    const ch2 = js[i + 1]; // may be undefined – that's fine
+
+    // ---- single‑line comment ----
+    if (ch === '/' && ch2 === '/') {
+      const start = i;
+      while (i < len && js[i] !== '\n') i++;
+      tokens.push(js.substring(start, i));
       continue;
     }
 
-    // Multi-line comment
-    if (js[i] === '/' && js[i + 1] === '*') {
-      let comment = '';
-      while (i < js.length && !(js[i] === '*' && js[i + 1] === '/')) {
-        comment += js[i];
-        i++;
-      }
-      comment += '*/';
+    // ---- multi‑line comment ----
+    if (ch === '/' && ch2 === '*') {
+      const start = i;
       i += 2;
-      tokens.push(comment);
+      while (i < len && !(js[i] === '*' && js[i + 1] === '/')) i++;
+      i += 2; // skip */
+      tokens.push(js.substring(start, i));
       continue;
     }
 
-    // Template literal
-    if (js[i] === '`') {
-      let str = '`';
+    // ---- template literal ----
+    if (ch === '`') {
+      const start = i;
       i++;
-      while (i < js.length && js[i] !== '`') {
-        if (js[i] === '\\') {
-          str += js[i] + (js[i + 1] || '');
-          i += 2;
-          continue;
-        }
-        str += js[i];
+      while (i < len && js[i] !== '`') {
+        if (js[i] === '\\') { i += 2; continue; }
         i++;
       }
-      str += '`';
-      i++;
-      tokens.push(str);
+      i++; // closing `
+      tokens.push(js.substring(start, i));
       continue;
     }
 
-    // String literals
-    if (js[i] === '"' || js[i] === "'") {
-      const quote = js[i];
-      let str = quote;
+    // ---- string literal ----
+    if (ch === '"' || ch === "'") {
+      const start = i;
+      const quote = ch;
       i++;
-      while (i < js.length && js[i] !== quote) {
-        if (js[i] === '\\') {
-          str += js[i] + (js[i + 1] || '');
-          i += 2;
-          continue;
-        }
+      while (i < len && js[i] !== quote) {
+        if (js[i] === '\\') { i += 2; continue; }
         if (js[i] === '\n') break;
-        str += js[i];
         i++;
       }
-      str += quote;
-      i++;
-      tokens.push(str);
+      i++; // closing quote
+      tokens.push(js.substring(start, i));
       continue;
     }
 
-    // Whitespace
-    if (/\s/.test(js[i])) {
-      while (i < js.length && /\s/.test(js[i])) i++;
+    // ---- whitespace ----
+    if (ch === ' ' || ch === '\t' || ch === '\n' || ch === '\r' || ch === '\f') {
+      while (i < len) {
+        const c = js[i];
+        if (c === ' ' || c === '\t' || c === '\n' || c === '\r' || c === '\f') { i++; } else { break; }
+      }
       tokens.push(' ');
       continue;
     }
 
-    // Punctuation that affects formatting
-    if ('{};,'.includes(js[i])) {
-      tokens.push(js[i]);
+    // ---- formatting punctuation (each char is its own token) ----
+    if (ch === '{' || ch === '}' || ch === ';' || ch === ',') {
+      tokens.push(ch);
       i++;
       continue;
     }
 
-    // Other characters
-    let chunk = '';
-    while (i < js.length && !/[\s{};,`"'/]/.test(js[i])) {
-      chunk += js[i];
-      i++;
-    }
-    if (chunk) {
-      tokens.push(chunk);
+    // ---- everything else (identifiers, operators, `/`, etc.) ----
+    // Grab as many chars as possible that are NOT whitespace / formatting‐punct / string‐start / comment‐start.
+    {
+      const start = i;
+      i++; // always advance at least 1 character to avoid infinite loops
+      while (i < len) {
+        const c = js[i];
+        // Stop at chars that should start their own token
+        if (
+          c === ' ' || c === '\t' || c === '\n' || c === '\r' || c === '\f' ||
+          c === '{' || c === '}' || c === ';' || c === ',' ||
+          c === '"' || c === "'" || c === '`'
+        ) break;
+        // Stop before comment starts
+        if (c === '/' && (js[i + 1] === '/' || js[i + 1] === '*')) break;
+        i++;
+      }
+      tokens.push(js.substring(start, i));
+      continue;
     }
   }
 
-  // Build formatted output
+  /* ------------------------------------------------------------------ */
+  /*  Build formatted output                                            */
+  /* ------------------------------------------------------------------ */
   const lines: string[] = [];
   let currentLine = '';
   let indentLevel = 0;
 
   const pushLine = () => {
-    if (currentLine.trim()) {
-      lines.push(indent.repeat(indentLevel) + currentLine.trim());
+    const trimmed = currentLine.trim();
+    if (trimmed) {
+      lines.push(indent.repeat(indentLevel) + trimmed);
     }
     currentLine = '';
   };
 
-  for (let t = 0; t < tokens.length; t++) {
+  const tokenCount = tokens.length;
+  for (let t = 0; t < tokenCount; t++) {
     const token = tokens[t];
 
     if (token === '{') {
@@ -274,8 +287,11 @@ export function beautifyJs(js: string, indentSize: number): string {
       pushLine();
       indentLevel = Math.max(0, indentLevel - 1);
       lines.push(indent.repeat(indentLevel) + '}');
-      // Add blank line after closing brace unless next is } or else/catch/finally
-      const next = tokens.slice(t + 1).find(tk => tk.trim() !== '');
+      // Add blank line after closing brace unless next is } ; or else/catch/finally
+      let next: string | undefined;
+      for (let j = t + 1; j < tokenCount; j++) {
+        if (tokens[j].trim() !== '') { next = tokens[j]; break; }
+      }
       if (next && next !== '}' && next !== ';' && !/^(else|catch|finally)/.test(next.trim())) {
         lines.push('');
       }
@@ -288,14 +304,16 @@ export function beautifyJs(js: string, indentSize: number): string {
       if (currentLine && !currentLine.endsWith(' ')) {
         currentLine += ' ';
       }
-    } else if (token.startsWith('//')) {
+    } else if (token[0] === '/' && token[1] === '/') {
+      // single-line comment
       if (currentLine.trim()) {
         currentLine += ' ' + token;
         pushLine();
       } else {
         lines.push(indent.repeat(indentLevel) + token);
       }
-    } else if (token.startsWith('/*')) {
+    } else if (token[0] === '/' && token[1] === '*') {
+      // multi-line comment
       pushLine();
       const commentLines = token.split('\n');
       for (const cl of commentLines) {

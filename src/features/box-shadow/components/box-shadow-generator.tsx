@@ -291,7 +291,7 @@ export function BoxShadowGenerator() {
               {/* Presets */}
               <div className="space-y-2 pt-4 border-t border-gray-200">
                 <Label className="text-sm font-semibold text-gray-800">Presets</Label>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                   {PRESET_SHADOWS.map((preset) => (
                     <button
                       key={preset.name}

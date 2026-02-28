@@ -512,7 +512,8 @@ export const TOOLS: ToolData[] = [
         description: 'Encode and decode HTML entities.',
         icon: Code2,
         href: '/tools/html-entity-encoder',
-        isComingSoon: true,
+        slug: 'html-entity-encoder',
+        isNew: true,
         categoryId: 'developer-tools',
     },
 

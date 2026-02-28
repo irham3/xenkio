@@ -478,7 +478,8 @@ export const TOOLS: ToolData[] = [
         description: 'Minify JavaScript code to reduce file size.',
         icon: FileCode,
         href: '/tools/js-minifier',
-        isComingSoon: true,
+        slug: 'js-minifier',
+        isNew: true,
         categoryId: 'developer-tools',
     },
     {

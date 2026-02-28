@@ -839,7 +839,7 @@ export const TOOLS: ToolData[] = [
         icon: Box,
         href: '/tools/box-shadow',
         slug: 'box-shadow',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'design-tools',
     },
     {

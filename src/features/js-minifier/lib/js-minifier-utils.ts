@@ -70,8 +70,11 @@ export function minifyJs(js: string): string {
     if (js[i] === '/') {
       const prev = tokens.length > 0 ? tokens[tokens.length - 1].trim() : '';
       const lastChar = prev[prev.length - 1];
-      const isRegex = !lastChar || /[=(:,;!&|?{}\[+\-~^%<>]/.test(lastChar) ||
-        /^(return|typeof|instanceof|in|delete|void|throw|new|case)$/.test(prev);
+      // Division follows: identifiers, numbers, ), ], ++, --
+      // Regex follows: operators, keywords, opening brackets, commas, semicolons
+      const isDivision = lastChar && (/[a-zA-Z_$0-9)\]]/.test(lastChar) || prev === '++' || prev === '--');
+      const isRegex = !isDivision && (!lastChar || /[=(:,;!&|?{}\[+\-~^%<>]/.test(lastChar) ||
+        /^(return|typeof|instanceof|in|delete|void|throw|new|case)$/.test(prev));
 
       if (isRegex) {
         let regex = '/';

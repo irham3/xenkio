@@ -36,8 +36,8 @@ const NAMED_ENTITIES: Record<string, string> = {
 export function encodeHtmlEntities(text: string): string {
   let result = '';
   for (let i = 0; i < text.length; i++) {
+    const code = text.codePointAt(i)!;
     const char = text[i];
-    const code = text.charCodeAt(i);
 
     switch (char) {
       case '&':
@@ -58,6 +58,8 @@ export function encodeHtmlEntities(text: string): string {
       default:
         if (code > 127) {
           result += `&#${code};`;
+          // Skip the low surrogate for characters beyond BMP
+          if (code > 0xFFFF) i++;
         } else {
           result += char;
         }
@@ -76,12 +78,12 @@ export function decodeHtmlEntities(text: string): string {
 
   // Decode hex numeric entities (&#xHH;)
   result = result.replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => {
-    return String.fromCharCode(parseInt(hex, 16));
+    return String.fromCodePoint(parseInt(hex, 16));
   });
 
   // Decode decimal numeric entities (&#DDD;)
   result = result.replace(/&#(\d+);/g, (_, dec) => {
-    return String.fromCharCode(parseInt(dec, 10));
+    return String.fromCodePoint(parseInt(dec, 10));
   });
 
   return result;

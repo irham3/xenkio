@@ -468,7 +468,8 @@ export const TOOLS: ToolData[] = [
         description: 'Minify CSS code to reduce file size.',
         icon: FileCode,
         href: '/tools/css-minifier',
-        isComingSoon: true,
+        slug: 'css-minifier',
+        isNew: true,
         categoryId: 'developer-tools',
     },
     {
@@ -477,7 +478,8 @@ export const TOOLS: ToolData[] = [
         description: 'Minify JavaScript code to reduce file size.',
         icon: FileCode,
         href: '/tools/js-minifier',
-        isComingSoon: true,
+        slug: 'js-minifier',
+        isNew: true,
         categoryId: 'developer-tools',
     },
     {
@@ -510,7 +512,8 @@ export const TOOLS: ToolData[] = [
         description: 'Encode and decode HTML entities.',
         icon: Code2,
         href: '/tools/html-entity-encoder',
-        isComingSoon: true,
+        slug: 'html-entity-encoder',
+        isNew: true,
         categoryId: 'developer-tools',
     },
 

@@ -107,40 +107,53 @@ export function useSplitPdf() {
             } else if (mode === 'fixed_size') {
                 const limitBytes = (options.limitSize || 5) * 1024 * 1024;
 
-                let currentDoc = await PDFDocument.create();
-                let currentPagesCount = 0;
+                // Phase 1 (0–40%): Pre-compute estimated size for each individual page.
+                // We save a single-page doc per page — O(N) small saves instead of
+                // the old O(N²) approach of re-serializing a growing document every iteration.
+                const pageSizes: number[] = [];
+                for (let i = 0; i < order.length; i++) {
+                    const actualIdx = order[i] - 1;
+                    const singlePageDoc = await PDFDocument.create();
+                    const [p] = await singlePageDoc.copyPages(srcDoc, [actualIdx]);
+                    singlePageDoc.addPage(p);
+                    const singleBytes = await singlePageDoc.save();
+                    pageSizes.push(singleBytes.byteLength);
+                    setProgress(Math.round(((i + 1) / order.length) * 40));
+                }
+
+                // Phase 2 (40–100%): Build chunks by accumulating estimated sizes.
+                // Only call .save() once per finalized chunk, not on every page.
+                let chunkIndices: number[] = [];
+                let chunkEstimatedSize = 0;
+
+                const finalizeChunk = async (indices: number[]) => {
+                    const chunkDoc = await PDFDocument.create();
+                    const pages = await chunkDoc.copyPages(srcDoc, indices);
+                    pages.forEach(page => chunkDoc.addPage(page));
+                    const pdfBytes = await chunkDoc.save();
+                    blobs.push(new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' }));
+                };
 
                 for (let i = 0; i < order.length; i++) {
                     const actualIdx = order[i] - 1;
-                    const [copiedPage] = await currentDoc.copyPages(srcDoc, [actualIdx]);
-                    currentDoc.addPage(copiedPage);
-                    currentPagesCount++;
+                    const pageEstimate = pageSizes[i];
 
-                    const currentBytes = await currentDoc.save();
-
-                    if (currentBytes.byteLength > limitBytes) {
-                        if (currentPagesCount === 1) {
-                            blobs.push(new Blob([currentBytes as unknown as BlobPart], { type: 'application/pdf' }));
-                            currentDoc = await PDFDocument.create();
-                            currentPagesCount = 0;
-                        } else {
-                            currentDoc.removePage(currentPagesCount - 1);
-                            const safeBytes = await currentDoc.save();
-                            blobs.push(new Blob([safeBytes as unknown as BlobPart], { type: 'application/pdf' }));
-
-                            currentDoc = await PDFDocument.create();
-                            const [retryPage] = await currentDoc.copyPages(srcDoc, [actualIdx]);
-                            currentDoc.addPage(retryPage);
-                            currentPagesCount = 1;
-                        }
+                    // If adding this page would exceed the limit, flush current chunk first.
+                    // A single oversized page is kept as its own chunk.
+                    if (chunkIndices.length > 0 && chunkEstimatedSize + pageEstimate > limitBytes) {
+                        await finalizeChunk(chunkIndices);
+                        chunkIndices = [];
+                        chunkEstimatedSize = 0;
                     }
 
-                    setProgress(Math.round(((i + 1) / order.length) * 100));
+                    chunkIndices.push(actualIdx);
+                    chunkEstimatedSize += pageEstimate;
+                    setProgress(40 + Math.round(((i + 1) / order.length) * 60));
                 }
 
-                if (currentPagesCount > 0) {
-                    const finalBytes = await currentDoc.save();
-                    blobs.push(new Blob([finalBytes as unknown as BlobPart], { type: 'application/pdf' }));
+                // Flush the last remaining chunk
+                if (chunkIndices.length > 0) {
+                    await finalizeChunk(chunkIndices);
                 }
             }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import {
     Upload,
@@ -38,6 +38,20 @@ export function PDFCompressor() {
     const [, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
 
+    // Track the active Object URL so we can revoke it when no longer needed,
+    // preventing the underlying Blob from being pinned in memory indefinitely.
+    const objectUrlRef = useRef<string | null>(null);
+
+    const revokeCurrentUrl = useCallback(() => {
+        if (objectUrlRef.current) {
+            URL.revokeObjectURL(objectUrlRef.current);
+            objectUrlRef.current = null;
+        }
+    }, []);
+
+    // Revoke on unmount
+    useEffect(() => revokeCurrentUrl, [revokeCurrentUrl]);
+
     const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
             const selectedFile = acceptedFiles[0];
@@ -65,11 +79,16 @@ export function PDFCompressor() {
             const compressedBlob = await compressPdf(file, settings, (p) => setProgress(p));
             const compressedFile = new File([compressedBlob], file.name, { type: 'application/pdf' });
 
+            // Revoke the previous URL before creating a new one to free the old Blob from memory
+            revokeCurrentUrl();
+            const newUrl = URL.createObjectURL(compressedBlob);
+            objectUrlRef.current = newUrl;
+
             setResult({
                 originalSize: file.size,
                 compressedSize: compressedFile.size,
                 savings: Math.max(0, Math.round(((file.size - compressedFile.size) / file.size) * 100)),
-                url: URL.createObjectURL(compressedBlob)
+                url: newUrl
             });
 
             toast.success('PDF compressed successfully');
@@ -153,7 +172,7 @@ export function PDFCompressor() {
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        onClick={reset}
+                                        onClick={() => { revokeCurrentUrl(); reset(); }}
                                         className="text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg h-9 w-9"
                                     >
                                         <X className="w-5 h-5" />

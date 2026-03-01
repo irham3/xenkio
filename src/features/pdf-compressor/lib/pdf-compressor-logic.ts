@@ -52,11 +52,14 @@ async function renderPageToJpeg(
         canvas.toBlob((b) => resolve(b), 'image/jpeg', quality);
     });
 
-    if (!blob) throw new Error(`Failed to render page ${pageNum}`);
+    // Release pdfjs page resources (fonts, streams, rendering pipeline)
+    page.cleanup();
 
-    // Clean up
+    // Release canvas backing store from GPU/RAM immediately after blob capture
     canvas.width = 0;
     canvas.height = 0;
+
+    if (!blob) throw new Error(`Failed to render page ${pageNum}`);
 
     return { blob, width: viewport.width, height: viewport.height };
 }
@@ -82,30 +85,35 @@ export async function compressPdf(
     // 2. Create a new PDF document
     const newPdfDoc = await PDFDocument.create();
 
-    // 3. Render each page → JPEG → embed in new PDF
-    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-        const { blob, width, height } = await renderPageToJpeg(
-            pdfJsDoc, pageNum, scale, quality
-        );
+    try {
+        // 3. Render each page → JPEG → embed in new PDF
+        for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+            const { blob, width, height } = await renderPageToJpeg(
+                pdfJsDoc, pageNum, scale, quality
+            );
 
-        // Convert blob to Uint8Array
-        const jpegBytes = new Uint8Array(await blob.arrayBuffer());
+            // Convert blob to Uint8Array
+            const jpegBytes = new Uint8Array(await blob.arrayBuffer());
 
-        // Embed in the new PDF
-        const jpegImage = await newPdfDoc.embedJpg(jpegBytes);
+            // Embed in the new PDF
+            const jpegImage = await newPdfDoc.embedJpg(jpegBytes);
 
-        // Add a page with the same dimensions as the rendered page
-        // Convert from px (at 72 DPI equivalent) to PDF points
-        const page = newPdfDoc.addPage([width, height]);
-        page.drawImage(jpegImage, {
-            x: 0,
-            y: 0,
-            width: width,
-            height: height,
-        });
+            // Add a page with the same dimensions as the rendered page
+            // Convert from px (at 72 DPI equivalent) to PDF points
+            const page = newPdfDoc.addPage([width, height]);
+            page.drawImage(jpegImage, {
+                x: 0,
+                y: 0,
+                width: width,
+                height: height,
+            });
 
-        // Report progress
-        onProgress?.(Math.round((pageNum / numPages) * 100));
+            // Report progress
+            onProgress?.(Math.round((pageNum / numPages) * 100));
+        }
+    } finally {
+        // Always destroy the pdfjs document to terminate Web Workers and release RAM
+        pdfJsDoc.destroy();
     }
 
     // 4. Set minimal metadata if removing metadata

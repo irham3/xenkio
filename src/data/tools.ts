@@ -834,7 +834,7 @@ export const TOOLS: ToolData[] = [
         icon: Square,
         href: '/tools/border-radius',
         slug: 'border-radius',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'design-tools',
     },
     {

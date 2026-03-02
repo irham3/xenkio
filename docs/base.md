@@ -113,6 +113,91 @@ Use size, color, spacing to guide attention
 - Use semantic color naming conventions
 - Implement consistent spacing scale
 
+## Project Architecture: Domain-Driven Feature Structure
+
+Untuk aplikasi web tunggal yang kompleks, kita menggunakan **Domain-Driven Feature Architecture**. Arsitektur ini membagi aplikasi berdasarkan area bisnis/domain (misalnya: *Auth, Dashboard, User, Payments*) untuk menjaga skalabilitas dan keterbacaan kode.
+
+
+### 🚀 Standard Workflow: Building a Feature
+
+1.  **Define Domain**: Tentukan di mana fungsionalitas ini berada (misal: *Profile*).
+2.  **Domain Logic**: Buat `services` (data fetching) dan `hooks` (state logic) di dalam fitur tersebut.
+3.  **Encapsulated Components**: Bangun UI di dalam `features/[feature]/components`.
+4.  **Integration**: Hubungkan fitur tersebut ke halaman di `src/app/`.
+5.  **Global Refinement**: Jika ada komponen yang bisa digunakan di fitur lain, pindahkan ke `src/components/shared`.
+
+### 🧠 Server vs Client Component Strategy (The "Server-First" Approach)
+
+Apakah selalu lebih baik memisahkan struktur Server Page dan Client Component? **Ya, hampir selalu.** Di Next.js App Router (versi 13+), pendekatan yang diwajibkan adalah **Server-First**.
+
+Kita menggunakan pola **"Leave leaves to the client"** (Jadikan komponen terkecil/paling ujung sebagai client).
+
+#### Aturan Emas (Golden Rules):
+1. **`src/app/` (Pages/Layouts) SELALU Server Component secara default.**
+   - **Tugasnya**: Mengambil data (Data Fetching), verifikasi keamanan/auth di server, menyiapkan SEO metadata, dan mengirim data dasar ke Client Component.
+   - **Contoh**: `src/app/(dashboard)/profile/page.tsx` mengambil data profil user langsung dari database (Supabase/API) tanpa terekspos ke browser.
+2. **`src/features/[feature]/components/` ADALAH kombinasi Server & Client Components.**
+   - Jika butuh interaksi user (onClick, useState, form submissions), **wajib** tambahkan `"use client"` di baris paling atas.
+   - Jika hanya untuk menampilkan data statis (UI semata, misal: Card design, Header standar), tidak perlu `"use client"`.
+
+#### Contoh Penerapan (Fitur: User Profile)
+
+**1. Halaman (Server Component) -> `src/app/(dashboard)/profile/page.tsx`**
+Halaman ini berjalan 100% di server. Aman untuk memanggil API langsung.
+```tsx
+import { getUserProfile } from "@/features/user/services/profile.service";
+import { ProfileForm } from "@/features/user/components/profile-form";
+
+export default async function ProfilePage() {
+  // Fetch data di server (aman, cepat, SEO friendly)
+  const userData = await getUserProfile(); 
+
+  return (
+    <main className="container mx-auto py-10">
+      <h1 className="text-2xl font-bold">Pengaturan Profil</h1>
+      {/* Passing data server ke komponen interaktif (client) */}
+      <ProfileForm initialData={userData} />
+    </main>
+  );
+}
+```
+
+**2. Komponen Antarmuka (Client Component) -> `src/features/user/components/profile-form.tsx`**
+Komponen ini berjalan di browser karena butuh interaksi (Form submit, state).
+```tsx
+"use client"; // Wajib karena komponen ini butuh interaksi!
+
+import { useState } from "react";
+import { UserData } from "@/features/user/types";
+import { updateUserProfile } from "@/features/user/services/profile.service";
+
+export function ProfileForm({ initialData }: { initialData: UserData }) {
+  // Boleh pakai state karena ini Client Component
+  const [name, setName] = useState(initialData.name);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    await updateUserProfile({ name }); // Panggil API dari client
+    setIsLoading(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      <button type="submit" disabled={isLoading}>{isLoading ? "Menyimpan" : "Simpan"}</button>
+    </form>
+  );
+}
+```
+
+#### Kenapa harus memisahkan begini?
+- **Performa (Kecepatan)**: Client tidak perlu mengunduh Javascript berlebih. Komponen server dikirim sebagai HTML statis yang langsung tampil di layar pengguna secara instan (*Zero JS sent to client for that part*).
+- **Keamanan (Security)**: Kunci API rahasia (secrets) dan query database tetap rahasia di server (`page.tsx`) dan tidak bocor ke browser (`Inspect Elements -> Network`).
+- **SEO Sempurna**: Robot Google/Crawler membaca HTML utuh berisi konten data (Data Fetching di page), tanpa perlu menunggu Javascript React dijalankan.
+- **Hindari Waterfall**: Mengurangi "Loading Spinner" berantai.
+
 ## Design & UI/UX Requirements
 
 ### Professional, Non-AI Aesthetic
@@ -638,241 +723,6 @@ Use size, color, spacing to guide attention
 - API response time: < 200ms (p95)
 - Edge function execution time: < 50ms
 
-
-xenkio/
-├── 📁 .next/                           # Next.js Build Output
-├── 📁 .vscode/                         # VSCode Settings (Optional)
-│   ├── settings.json                   # Editor config
-│   └── extensions.json                 # Recommended extensions
-├── 📁 docs/                            # Dokumentasi Proyek
-│   ├── base.md                         # ✅ Prinsip dasar & aturan main (system prompt)
-│   ├── phase1.md                       # ✅ Dokumentasi fase 1
-│   ├── architecture.md                 # Arsitektur sistem
-│   └── contributing.md                 # Panduan kontribusi
-├── 📁 public/                          # Aset Statis
-│   ├── 📁 icons/                       # Icon files
-│   │   ├── file.svg                    # ✅
-│   │   ├── globe.svg                   # ✅
-│   │   ├── next.svg                    # ✅
-│   │   ├── vercel.svg                  # ✅
-│   │   └── window.svg                  # ✅
-│   ├── 📁 images/                      # Static images
-│   │   ├── 📁 og/                      # Open Graph images
-│   │   │   ├── og-default.png
-│   │   │   ├── og-qr.png
-│   │   │   └── og-carousel.png
-│   │   └── 📁 tools/                   # Tool preview images
-│   │       ├── qr-preview.png
-│   │       └── carousel-preview.png
-│   └── favicon.ico                     # Favicon (di root public)
-├── 📁 src/                             # Source Code Utama
-│   ├── 📁 app/                         # App Router (Routing & Pages)
-│   │   ├── 📁 (marketing)/             # ✅ Route Group: Marketing
-│   │   │   ├── page.tsx                # ✅ Homepage Utama (/)
-│   │   │   ├── layout.tsx              # Marketing layout
-│   │   │   ├── 📁 about/               # About page
-│   │   │   │   └── page.tsx
-│   │   │   ├── 📁 pricing/             # Pricing page
-│   │   │   │   └── page.tsx
-│   │   │   └── 📁 blog/                # Blog section
-│   │   │       ├── page.tsx            # Blog list
-│   │   │       └── [slug]/
-│   │   │           └── page.tsx        # Blog detail
-│   │   ├── 📁 tools/                   # ✅ Directory Fitur Tools
-│   │   │   ├── page.tsx                # ✅ Tools directory listing
-│   │   │   ├── layout.tsx              # ✅ Layout khusus tools
-│   │   │   ├── 📁 qr-code-generator/   # ✅
-│   │   │   │   ├── page.tsx            # ✅ Server Component (SEO)
-│   │   │   │   ├── client.tsx # ✅ Client wrapper (KEEP THIS)
-│   │   │   │   ├── loading.tsx         # Loading state
-│   │   │   │   ├── error.tsx           # Error boundary
-│   │   │   │   └── opengraph-image.tsx # Dynamic OG image
-│   │   │   └── 📁 instagram-carousel/  # ✅
-│   │   │       ├── page.tsx            # ✅ Server Component (SEO)
-│   │   │       ├── client.tsx # Client wrapper (NEW - mirror qr structure)
-│   │   │       ├── loading.tsx
-│   │   │       ├── error.tsx
-│   │   │       └── opengraph-image.tsx
-│   │   ├── favicon.ico                 # ✅ Favicon (in app dir)
-│   │   ├── globals.css                 # ✅ Global styles
-│   │   ├── layout.tsx                  # ✅ Root Layout
-│   │   ├── providers.tsx               # ✅ Root Providers
-│   │   ├── error.tsx                   # Global error boundary
-│   │   ├── not-found.tsx               # 404 page
-│   │   ├── robots.ts                   # ✅ SEO: Robots exclusion
-│   │   ├── sitemap.ts                  # ✅ SEO: XML Sitemap
-│   │   └── manifest.ts                 # PWA manifest generator
-│   ├── 📁 features/                    # Feature Modules (Business Logic)
-│   │   ├── 📁 qr-generator/            # ✅ QR Generator Feature
-│   │   │   ├── 📁 components/          # Feature-specific components
-│   │   │   │   ├── qr-generator-form.tsx   # ✅ (MOVED from components/features)
-│   │   │   │   ├── qr-preview.tsx          # ✅ (MOVED from components/features)
-│   │   │   │   ├── qr-customizer.tsx       # ✅ (MOVED from components/features)
-│   │   │   │   ├── qr-logo-uploader.tsx    # ✅ (MOVED from components/features)
-│   │   │   │   ├── qr-download-button.tsx  # Download handler
-│   │   │   │   └── qr-seo-content.tsx      # SEO content (server)
-│   │   │   ├── 📁 hooks/               # Feature-specific hooks
-│   │   │   │   ├── use-qr-generator.ts # QR generation logic
-│   │   │   │   ├── use-qr-download.ts  # Download handler
-│   │   │   │   └── use-qr-history.ts   # History tracking
-│   │   │   ├── 📁 lib/                 # Feature utilities
-│   │   │   │   ├── qr-utils.ts         # QR helper functions
-│   │   │   │   ├── qr-validator.ts     # Input validation
-│   │   │   │   └── qr-encoder.ts       # QR encoding logic
-│   │   │   ├── 📁 schemas/             # Validation schemas
-│   │   │   │   └── qr-schema.ts        # Zod schema
-│   │   │   ├── 📁 actions/             # ✨ Server Actions (Feature-specific)
-│   │   │   │   ├── generate-qr.ts      # Generate QR code
-│   │   │   │   ├── save-qr-history.ts  # Save to history
-│   │   │   │   └── track-qr-usage.ts   # Analytics tracking
-│   │   │   ├── constants.ts            # ✅ Feature constants
-│   │   │   ├── types.ts                # ✅ Feature types
-│   │   │   └── index.ts                # Public API (barrel export)
-│   │   └── 📁 carousel-generator/      # ✅ Carousel Feature
-│   │       ├── 📁 components/
-│   │       │   ├── carousel-generator.tsx      # ✅ (MOVED)
-│   │       │   ├── carousel-generator-form.tsx # ✅ (MOVED)
-│   │       │   ├── carousel-preview.tsx        # ✅ (MOVED)
-│   │       │   ├── carousel-uploader.tsx       # ✅ (MOVED)
-│   │       │   ├── carousel-image-controls.tsx # ✅ (MOVED)
-│   │       │   ├── carousel-export-options.tsx # Export settings
-│   │       │   └── carousel-seo-content.tsx    # SEO content
-│   │       ├── 📁 hooks/
-│   │       │   ├── use-carousel-generator.ts
-│   │       │   ├── use-image-processor.ts
-│   │       │   └── use-canvas-renderer.ts
-│   │       ├── 📁 lib/
-│   │       │   ├── carousel-utils.ts   # ✅ (MOVED from components)
-│   │       │   ├── image-processor.ts
-│   │       │   └── canvas-renderer.ts
-│   │       ├── 📁 schemas/
-│   │       │   └── carousel-schema.ts
-│   │       ├── 📁 actions/             # ✨ Server Actions
-│   │       │   ├── process-images.ts   # Process uploaded images
-│   │       │   ├── generate-carousel.ts # Generate carousel
-│   │       │   └── optimize-output.ts  # Optimize final output
-│   │       ├── constants.ts
-│   │       ├── types.ts                # ✅ (MOVED from components)
-│   │       └── index.ts
-│   ├── 📁 components/                  # Shared Components
-│   │   ├── 📁 ui/                      # ✅ Base UI Components (Shadcn)
-│   │   │   ├── button.tsx              # ✅
-│   │   │   ├── input.tsx               # ✅
-│   │   │   ├── label.tsx               # ✅
-│   │   │   ├── tooltip.tsx             # ✅
-│   │   │   ├── card.tsx
-│   │   │   ├── dialog.tsx
-│   │   │   ├── dropdown-menu.tsx
-│   │   │   ├── tabs.tsx
-│   │   │   ├── toast.tsx
-│   │   │   ├── toaster.tsx             # Toast container
-│   │   │   ├── select.tsx
-│   │   │   ├── slider.tsx
-│   │   │   ├── switch.tsx
-│   │   │   ├── badge.tsx
-│   │   │   ├── separator.tsx
-│   │   │   ├── skeleton.tsx
-│   │   │   └── placeholders-and-vanish-input.tsx # ✅
-│   │   ├── 📁 layout/                  # ✅ Layout Components
-│   │   │   ├── navbar.tsx              # ✅ Main navigation
-│   │   │   ├── footer.tsx              # ✅ Footer
-│   │   │   ├── sidebar.tsx             # Sidebar (if needed)
-│   │   │   ├── breadcrumb.tsx          # Breadcrumb navigation
-│   │   │   └── container.tsx           # Container wrapper
-│   │   ├── 📁 shared/                  # Shared Business Components
-│   │   │   ├── tool-card.tsx           # Tool card component
-│   │   │   ├── tool-grid.tsx           # Tool grid layout
-│   │   │   ├── category-filter.tsx     # Category filtering
-│   │   │   ├── search-tools.tsx        # Search functionality
-│   │   │   ├── hero-section.tsx        # Reusable hero
-│   │   │   ├── feature-section.tsx     # Feature showcase
-│   │   │   └── cta-section.tsx         # Call-to-action
-│   │   ├── 📁 reactbits/               # ✅ Premium Animation Components
-│   │   │   ├── count-up.tsx            # ✅ (rename from CountUp.tsx)
-│   │   │   ├── shiny-text.tsx          # ✅ (rename from ShinyText.tsx)
-│   │   │   ├── spotlight-card.tsx      # ✅ (rename from SpotlightCard.tsx)
-│   │   │   ├── animated-gradient.tsx   # Gradient animation
-│   │   │   ├── particle-background.tsx # Particle effect
-│   │   │   └── typewriter.tsx          # Typewriter effect
-│   │   └── 📁 icons/                   # Custom icon components
-│   │       ├── logo.tsx                # Brand logo
-│   │       └── social-icons.tsx        # Social media icons
-│   ├── 📁 server/                      # Server-only Code
-│   │   ├── 📁 actions/                 # ✨ Global Server Actions
-│   │   │   ├── analytics.ts            # Analytics tracking
-│   │   │   ├── feedback.ts             # User feedback
-│   │   │   └── newsletter.ts           # Newsletter subscription
-│   │   ├── 📁 services/                # Business logic services
-│   │   │   ├── email-service.ts        # Email sending (Resend, etc)
-│   │   │   ├── storage-service.ts      # File storage (if needed)
-│   │   │   └── analytics-service.ts    # Analytics processing
-│   │   └── 📁 db/                      # Database (if needed later)
-│   │       ├── index.ts                # DB client (Prisma/Drizzle)
-│   │       ├── schema.ts               # DB schema
-│   │       └── queries.ts              # DB queries
-│   ├── 📁 lib/                         # ✅ Shared Utilities
-│   │   ├── utils.ts                    # ✅ General utilities (cn, etc)
-│   │   ├── error-handler.ts            # Error handling
-│   │   ├── logger.ts                   # Logging utility
-│   │   ├── analytics.ts                # Analytics helpers
-│   │   └── validators.ts               # Common validators
-│   ├── 📁 hooks/                       # ✅ Shared React Hooks
-│   │   ├── use-media-query.ts          # Responsive breakpoints
-│   │   ├── use-local-storage.ts        # LocalStorage hook
-│   │   ├── use-debounce.ts             # Debounce hook
-│   │   ├── use-clipboard.ts            # Clipboard operations
-│   │   ├── use-toast.ts                # Toast notifications hook
-│   │   └── use-server-action.ts        # Server action wrapper hook
-│   ├── 📁 config/                      # ✅ Configuration
-│   │   ├── site.ts                     # Site metadata & SEO
-│   │   ├── env.ts                      # Environment variables
-│   │   ├── navigation.ts               # Navigation structure
-│   │   └── features.ts                 # Feature flags
-│   ├── 📁 data/                        # ✅ Static Data
-│   │   ├── categories.ts               # ✅ Tool categories
-│   │   ├── tools.ts                    # Tool definitions (rename from dummy-tools.ts)
-│   │   ├── testimonials.ts             # User testimonials
-│   │   └── faqs.ts                     # FAQ data
-│   ├── 📁 types/                       # ✅ Global TypeScript Types
-│   │   ├── tool.ts                     # ✅ Tool interface
-│   │   ├── action.ts                   # Server action types
-│   │   ├── common.ts                   # Common types
-│   │   └── index.ts                    # Type exports
-│   ├── 📁 styles/                      # ✅ Additional Styles
-│   │   ├── themes/                     # Theme definitions
-│   │   │   ├── light.css
-│   │   │   └── dark.css
-│   │   └── animations.css              # Custom animations
-│   └── middleware.ts                   # Edge Middleware (root of src)
-├── 📁 tests/                           # ✅ Testing
-│   ├── 📁 unit/                        # Unit tests
-│   │   ├── qr-generator.test.ts
-│   │   └── carousel-generator.test.ts
-│   ├── 📁 integration/                 # Integration tests
-│   │   └── server-actions.test.ts
-│   ├── 📁 e2e/                         # E2E tests (Playwright)
-│   │   ├── qr-flow.spec.ts
-│   │   └── carousel-flow.spec.ts
-│   └── setup.ts                        # Test setup
-├── 📁 scripts/                         # Build & Utility Scripts
-│   ├── generate-sitemap.ts             # Sitemap generator
-│   ├── optimize-images.ts              # Image optimization
-│   └── seed-data.ts                    # Seed dummy data
-├── .env                                # Environment variables (local)
-├── .env.example                        # Environment template
-├── .env.production                     # Production variables
-├── .gitignore                          # Git ignore rules
-├── .prettierrc                         # Prettier config
-├── .prettierignore                     # Prettier ignore
-├── eslint.config.mjs                   # ✅ ESLint configuration
-├── next-env.d.ts                       # ✅ Next.js TypeScript types
-├── next.config.ts                      # ✅ Next.js configuration
-├── package.json                        # ✅ Dependencies & scripts
-├── pnpm-lock.yaml                      # Lock file (or yarn.lock/package-lock.json)
-├── postcss.config.mjs                  # ✅ PostCSS config
-├── tailwind.config.ts                  # ✅ Tailwind configuration
-├── tsconfig.json                       # ✅ TypeScript config
-└── README.md                           # ✅ Project documentation
 
 ```
 

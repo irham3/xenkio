@@ -9,6 +9,16 @@ export const metadata: Metadata = {
         title: 'PDF to Image Converter | Free Online Tool',
         description: 'Convert PDF files to high-resolution images instantly in your browser.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

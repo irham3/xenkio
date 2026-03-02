@@ -12,6 +12,16 @@ export const metadata: Metadata = {
         title: 'Collage Maker',
         description: 'Create premium seamless carousels for Instagram. Free, pro-level design tool.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 
@@ -55,7 +65,7 @@ export default function InstagramCarouselPage() {
                     Seamless <span className="text-transparent bg-clip-text bg-linear-to-r from-primary via-purple-500 to-primary/60">Scroll</span> Studio
                 </h1>
                 <p className="text-xl text-muted-foreground/80 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 font-medium">
-                    Craft immersive, continuous visual stories for Instagram. Drag, drop, and design on an infinite canvas—we handle the seamless slicing.
+                    Craft immersive, continuous visual stories for Instagram. Drag, drop, and design on an infinite canvas|we handle the seamless slicing.
                 </p>
             </div>
 

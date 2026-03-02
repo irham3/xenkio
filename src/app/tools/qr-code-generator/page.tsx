@@ -11,6 +11,16 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'QR Code Generator | Xenkio',
         description: 'Professional QR code generator with customization options.',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

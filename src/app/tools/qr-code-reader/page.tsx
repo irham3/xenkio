@@ -13,6 +13,16 @@ export const metadata: Metadata = {
         title: 'Online QR Code Reader | Secure & Fast',
         description: 'Scan QR codes instantly. No download needed. Private and secure processing in-browser.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
 };
 

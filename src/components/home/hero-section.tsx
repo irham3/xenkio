@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Zap, UserX } from 'lucide-react';
 import Link from 'next/link';
 import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
@@ -114,14 +114,14 @@ export function HeroSection() {
           </Link>
 
           {/* Main Heading */}
-          <h1 className="animate-fade-in-up delay-1 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1]">
-            Your files never leave<br className="hidden sm:block" />
+          <h1 className="animate-fade-in-up delay-1 text-[2.1rem] sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.15] sm:leading-[1.1]">
+            <span className="inline-block sm:inline whitespace-nowrap">Your files never leave</span> <br className="sm:hidden" />
             <span className="relative inline-block">
               <ShinyText
                 text="your device"
                 disabled={false}
                 speed={3}
-                className="inline-block py-2 leading-normal"
+                className="inline-block py-1.5 leading-[1.1] overflow-visible"
                 color="#0EA5E9"
                 shineColor="#E0F2FE"
               />
@@ -129,9 +129,9 @@ export function HeroSection() {
           </h1>
 
           {/* Subheading */}
-          <p className="animate-fade-in-up delay-2 text-lg sm:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="animate-fade-in-up delay-2 text-base sm:text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
             Free tools for PDFs, images, videos, and more.
-            No uploads to servers, no file size limits, no sign-up.
+            No uploads to servers, no file size limits, no sign-up required.
           </p>
 
           {/* Search Area */}
@@ -194,16 +194,23 @@ export function HeroSection() {
             )}
           </div>
 
-          {/* Trust Indicators */}
-          <p className="animate-fade-in delay-4 text-sm text-gray-500 font-medium tracking-wide">
-            Private
-            <span className="mx-2.5 text-gray-300">·</span>
-            No Limits
-            <span className="mx-2.5 text-gray-300">·</span>
-            Instant
-            <span className="mx-2.5 text-gray-300">·</span>
-            Free Forever
-          </p>
+          {/* Trust Indicators - 3 UVP Pillars */}
+          <div className="animate-fade-in delay-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-gray-500">
+            <div className="flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              <span className="font-medium">Private by design</span>
+            </div>
+            <span className="hidden sm:block text-gray-300">·</span>
+            <div className="flex items-center gap-1.5">
+              <Zap className="w-4 h-4 text-amber-500" />
+              <span className="font-medium">Instant, no queue</span>
+            </div>
+            <span className="hidden sm:block text-gray-300">·</span>
+            <div className="flex items-center gap-1.5">
+              <UserX className="w-4 h-4 text-primary-500" />
+              <span className="font-medium">No account needed</span>
+            </div>
+          </div>
 
         </div>
       </div>

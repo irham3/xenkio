@@ -10,6 +10,16 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Password Strength Checker | Xenkio',
         description: 'Test your password security with our advanced strength analyzer.',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import JsonFormatterClient from './client';
-import { Braces } from 'lucide-react';
 
 export const metadata: Metadata = {
     title: 'JSON Formatter & Validator | Free Online JSON Beautifier',
@@ -10,11 +9,23 @@ export const metadata: Metadata = {
         title: 'JSON Formatter & Validator | Free Online Tool',
         description: 'Format, beautify, and validate JSON data instantly with customizable options. 100% secure client-side processing.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
     twitter: {
         card: 'summary_large_image',
         title: 'JSON Formatter & Validator',
         description: 'Format and beautify JSON data instantly with customizable indentation options.',
+      images: ['/og-image.jpg'],
+
     },
 };
 
@@ -48,11 +59,7 @@ export default function JsonFormatterPage() {
             />
             {/* Hero Section */}
             <section className="bg-white">
-                <div className="container mx-auto px-4 pt-20 pb-16 max-w-5xl text-center">
-                    <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-gray-100 rounded-full text-[11px] font-bold text-gray-600 uppercase tracking-widest mb-6">
-                        <Braces className="w-3.5 h-3.5" />
-                        100% Client-Side Private Processing
-                    </div>
+                <div className="container mx-auto px-4 pt-20 pb-10 max-w-5xl text-center">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tighter mb-6">
                         JSON Formatter
                     </h1>
@@ -64,7 +71,7 @@ export default function JsonFormatterPage() {
             </section>
 
             {/* Tool Section */}
-            <section className="container mx-auto px-4 pb-20 max-w-5xl">
+            <section className="container mx-auto px-4 pb-10 max-w-5xl">
                 <JsonFormatterClient />
             </section>
 

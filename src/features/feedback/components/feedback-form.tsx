@@ -34,6 +34,16 @@ export function FeedbackForm({ onSuccess }: FeedbackFormProps) {
 
     return (
         <form action={formAction} className="space-y-5">
+            {/* Honeypot field - Keep it hidden from humans */}
+            <div className="absolute opacity-0 -z-50 pointer-events-none h-0 w-0 overflow-hidden">
+                <Input
+                    name="hp_field"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    placeholder="Should be empty"
+                />
+            </div>
+
             <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-foreground/80">
                     Email Address <span className="text-muted-foreground/60 text-xs font-normal ml-1">(optional)</span>
@@ -52,7 +62,10 @@ export function FeedbackForm({ onSuccess }: FeedbackFormProps) {
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="feedback" className="text-sm font-medium text-foreground/80">Your feedback</Label>
+                <div className="flex justify-between items-center">
+                    <Label htmlFor="feedback" className="text-sm font-medium text-foreground/80">Your feedback</Label>
+                    <span className="text-[10px] text-muted-foreground/60 uppercase font-medium tracking-wider">Max 2000 chars</span>
+                </div>
                 <Textarea
                     id="feedback"
                     name="feedback"
@@ -60,6 +73,7 @@ export function FeedbackForm({ onSuccess }: FeedbackFormProps) {
                     className="min-h-[120px] bg-muted/50 border-transparent focus-visible:bg-background transition-all duration-200 resize-none rounded-md"
                     required
                     disabled={isPending}
+                    maxLength={2000}
                 />
                 {state.errors?.feedback && (
                     <p className="text-xs font-medium text-destructive mt-1 animate-in slide-in-from-top-1">{state.errors.feedback[0]}</p>
@@ -78,7 +92,7 @@ export function FeedbackForm({ onSuccess }: FeedbackFormProps) {
                             Sending...
                         </>
                     ) : (
-                        'Send'
+                        'Send Feedback'
                     )}
                 </Button>
             </div>

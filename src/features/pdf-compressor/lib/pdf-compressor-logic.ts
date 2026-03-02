@@ -1,4 +1,5 @@
 import { PDFDocument } from 'pdf-lib';
+import { getPdfjs } from '@/lib/pdf-worker';
 import { CompressionSettings } from '../types';
 
 // Scale factor for rendering PDF pages (affects resolution)
@@ -16,13 +17,10 @@ const QUALITY_MAP: Record<string, number> = {
 };
 
 /**
- * Initialize the pdfjs-dist library with the worker
+ * Initialize the pdfjs-dist library with the local worker
  */
 async function initPdfWorker() {
-    const pdfjsLib = await import('pdfjs-dist');
-    const version = pdfjsLib.version || '5.4.624';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
-    return pdfjsLib;
+    return await getPdfjs();
 }
 
 /**

@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Regex Tester | Online Regular Expression Tester',
     description: 'Test and debug regular expressions instantly with live matching and detailed results. Free online regex tester.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 
@@ -63,13 +73,13 @@ export default function RegexTesterPage() {
               <h2 className="text-xl font-bold text-gray-900">JavaScript Regex Flags</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Global (g)</strong> — Find all matches in the string, not just the first one. Essential for replacing or counting all occurrences.
+                  <strong className="text-gray-800">Global (g)</strong> | Find all matches in the string, not just the first one. Essential for replacing or counting all occurrences.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Case Insensitive (i)</strong> — Match regardless of letter case. Makes [a-z] also match uppercase letters.
+                  <strong className="text-gray-800">Case Insensitive (i)</strong> | Match regardless of letter case. Makes [a-z] also match uppercase letters.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Multiline (m)</strong> — Changes behavior of ^ and $ to match start/end of each line instead of the whole string.
+                  <strong className="text-gray-800">Multiline (m)</strong> | Changes behavior of ^ and $ to match start/end of each line instead of the whole string.
                 </p>
               </div>
             </div>
@@ -77,13 +87,13 @@ export default function RegexTesterPage() {
               <h2 className="text-xl font-bold text-gray-900">Common Use Cases</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Input Validation</strong> — Validate email addresses, phone numbers, URLs, and other structured data formats.
+                  <strong className="text-gray-800">Input Validation</strong> | Validate email addresses, phone numbers, URLs, and other structured data formats.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Text Extraction</strong> — Extract specific patterns from text like dates, prices, or identifiers.
+                  <strong className="text-gray-800">Text Extraction</strong> | Extract specific patterns from text like dates, prices, or identifiers.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Search & Replace</strong> — Find and transform text patterns in documents or code.
+                  <strong className="text-gray-800">Search & Replace</strong> | Find and transform text patterns in documents or code.
                 </p>
               </div>
             </div>

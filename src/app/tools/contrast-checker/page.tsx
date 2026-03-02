@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Contrast Checker | WCAG Color Contrast Tool',
     description: 'Check color contrast ratios for WCAG 2.1 compliance. Ensure accessible color combinations.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 
@@ -66,12 +76,12 @@ export default function ContrastCheckerPage() {
               <h2 className="text-xl font-bold text-gray-900">Understanding Color Contrast</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">WCAG 2.1 Guidelines</strong> — The Web Content Accessibility
+                  <strong className="text-gray-800">WCAG 2.1 Guidelines</strong> | The Web Content Accessibility
                   Guidelines define minimum contrast ratios to ensure text is readable for users with low vision
                   or color deficiencies.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Contrast Ratio</strong> — Calculated using relative luminance
+                  <strong className="text-gray-800">Contrast Ratio</strong> | Calculated using relative luminance
                   of foreground and background colors. Ranges from 1:1 (no contrast) to 21:1 (maximum contrast).
                 </p>
               </div>
@@ -80,11 +90,11 @@ export default function ContrastCheckerPage() {
               <h2 className="text-xl font-bold text-gray-900">Compliance Levels</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">AA Level</strong> — Requires 4.5:1 for normal text and 3:1
+                  <strong className="text-gray-800">AA Level</strong> | Requires 4.5:1 for normal text and 3:1
                   for large text (18pt+ or 14pt bold). This is the minimum recommended standard.
                 </p>
                 <p>
-                  <strong className="text-gray-800">AAA Level</strong> — Requires 7:1 for normal text and 4.5:1
+                  <strong className="text-gray-800">AAA Level</strong> | Requires 7:1 for normal text and 4.5:1
                   for large text. This is the enhanced standard for optimal accessibility.
                 </p>
               </div>

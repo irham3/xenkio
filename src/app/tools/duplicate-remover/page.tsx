@@ -9,6 +9,16 @@ export const metadata: Metadata = {
     title: 'Duplicate Line Remover | Free Online Text Deduplication Tool',
     description: 'Remove duplicate lines from text with customizable options. Instant results.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
 };
 
@@ -67,11 +77,11 @@ export default function DuplicateRemoverPage() {
               <h2 className="text-xl font-bold text-gray-900">Text Deduplication</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Case Sensitive</strong> — Control whether uppercase
+                  <strong className="text-gray-800">Case Sensitive</strong> | Control whether uppercase
                   and lowercase variations are treated as duplicates or unique lines.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Trim Whitespace</strong> — Automatically remove
+                  <strong className="text-gray-800">Trim Whitespace</strong> | Automatically remove
                   leading and trailing spaces before comparing lines for duplicates.
                 </p>
               </div>
@@ -80,11 +90,11 @@ export default function DuplicateRemoverPage() {
               <h2 className="text-xl font-bold text-gray-900">Advanced Options</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Empty Line Removal</strong> — Strip out blank lines
+                  <strong className="text-gray-800">Empty Line Removal</strong> | Strip out blank lines
                   from your output for cleaner, more compact results.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Sort Output</strong> — Alphabetically sort the
+                  <strong className="text-gray-800">Sort Output</strong> | Alphabetically sort the
                   unique lines for easy scanning and organized output.
                 </p>
               </div>

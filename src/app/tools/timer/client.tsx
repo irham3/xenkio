@@ -109,7 +109,7 @@ export function TimerClient() {
                 {/* Motivation Quote / Info */}
                 <div className="mt-8 text-center text-gray-500 max-w-lg mx-auto">
                     <p className="italic">&quot;Time is what we want most, but what we use worst.&quot;</p>
-                    <p className="text-xs mt-2 uppercase font-medium tracking-widest">— William Penn</p>
+                    <p className="text-xs mt-2 uppercase font-medium tracking-widest">| William Penn</p>
                 </div>
             </div>
         </div>

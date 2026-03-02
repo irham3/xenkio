@@ -10,11 +10,23 @@ export const metadata: Metadata = {
     title: "Image to PDF Converter | Xenkio Tools",
     description: "Convert images to PDF documents. Choose page size options, combine multiple images into one PDF or create separate files.",
     type: "website",
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
   twitter: {
     card: "summary_large_image",
     title: "Image to PDF Converter | Xenkio Tools",
     description: "Convert images to PDF documents. Choose page size options, combine multiple images into one PDF or create separate files.",
+    images: ['/og-image.jpg'],
+
   },
 }
 

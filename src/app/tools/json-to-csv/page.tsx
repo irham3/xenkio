@@ -13,6 +13,16 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'JSON to CSV Converter | Xenkio',
         description: 'Professional JSON to CSV converter with support for flattening nested objects and table preview.',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
     keywords: ['json to csv', 'json converter', 'csv converter', 'json formatter', 'developer tools', 'json table preview'],
 };

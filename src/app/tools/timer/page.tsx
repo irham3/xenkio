@@ -11,6 +11,16 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Event Timer & Countdown | Xenkio',
         description: 'Professional time management tool with countdown and deadline tracking.',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

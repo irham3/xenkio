@@ -25,6 +25,16 @@ export const metadata: Metadata = {
         title: 'UUID/GUID Generator (v1-v7) | Xenkio',
         description: 'Generate RFC-compliant UUIDs from v1 to v7 in various formats. Secure and fast.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

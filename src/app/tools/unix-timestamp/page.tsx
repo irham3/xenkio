@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import UnixTimestampClient from './client';
-import { Clock } from 'lucide-react';
 
 
 
@@ -23,11 +22,23 @@ export const metadata: Metadata = {
     title: 'Unix Timestamp Converter | Free Online Epoch Time Tool',
     description: 'Convert between Unix timestamps and human-readable dates instantly. Supports multiple timezones and formats.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Xenkio | Free Browser-Based Tools',
+        type: 'image/jpeg',
+      },
+    ],
+
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Unix Timestamp Converter',
     description: 'Convert Unix timestamps to dates and dates to timestamps online.',
+    images: ['/og-image.jpg'],
+
   },
 };
 
@@ -62,10 +73,6 @@ export default function UnixTimestampPage() {
       <section className="bg-white">
         <div className="container mx-auto px-4 pt-16 pb-12 max-w-5xl">
           <div className="text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-600 mb-4">
-              <Clock className="w-3.5 h-3.5" />
-              100% Client-Side Processing
-            </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
               Unix Timestamp Converter
             </h1>
@@ -90,7 +97,7 @@ export default function UnixTimestampPage() {
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
                   <strong className="text-gray-800">Unix timestamp</strong> (also known as Epoch time or POSIX time)
-                  is a system for tracking time as a running total of seconds since the Unix Epoch —
+                  is a system for tracking time as a running total of seconds since the Unix Epoch |
                   January 1, 1970, at 00:00:00 UTC.
                 </p>
                 <p>
@@ -103,11 +110,11 @@ export default function UnixTimestampPage() {
               <h2 className="text-xl font-bold text-gray-900">Seconds vs Milliseconds</h2>
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
-                  <strong className="text-gray-800">Seconds (10 digits)</strong> — Standard Unix timestamp used
+                  <strong className="text-gray-800">Seconds (10 digits)</strong> | Standard Unix timestamp used
                   by most Unix systems, databases like MySQL and PostgreSQL, and backend systems.
                 </p>
                 <p>
-                  <strong className="text-gray-800">Milliseconds (13 digits)</strong> — Used by JavaScript
+                  <strong className="text-gray-800">Milliseconds (13 digits)</strong> | Used by JavaScript
                   (<code className="bg-gray-100 px-1 rounded">Date.now()</code>), Java, and many modern APIs
                   for higher precision.
                 </p>

@@ -3,7 +3,8 @@ const STATIC_ASSETS = [
     '/',
     '/icon.svg',
     '/manifest.json',
-    '/offline.html', // We should create this
+    '/offline.html',
+    '/pdf.worker.min.mjs',
 ];
 
 self.addEventListener('install', (event) => {
@@ -50,6 +51,7 @@ self.addEventListener('fetch', (event) => {
     if (
         event.request.destination === 'style' ||
         event.request.destination === 'script' ||
+        event.request.destination === 'worker' ||
         event.request.destination === 'image'
     ) {
         event.respondWith(

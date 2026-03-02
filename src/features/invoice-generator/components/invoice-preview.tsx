@@ -82,7 +82,7 @@ type TemplateProps = {
 };
 
 // ═══════════════════════════════════════════════════════════════════
-// 1. MODERN BLUE — Left accent bar, side-by-side header, rounded table
+// 1. MODERN BLUE | Left accent bar, side-by-side header, rounded table
 // ═══════════════════════════════════════════════════════════════════
 function ModernBlue({ company, client, items, settings, invoiceNumber, issueDate, dueDate, notes, totals, c, currencySymbol }: TemplateProps) {
     return (
@@ -161,7 +161,7 @@ function ModernBlue({ company, client, items, settings, invoiceNumber, issueDate
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 2. EXECUTIVE DARK — Full dark bg, large centered title, card-style items
+// 2. EXECUTIVE DARK | Full dark bg, large centered title, card-style items
 // ═══════════════════════════════════════════════════════════════════
 function ExecutiveDark({ company, client, items, settings, invoiceNumber, issueDate, dueDate, notes, totals, c, currencySymbol }: TemplateProps) {
     return (
@@ -235,7 +235,7 @@ function ExecutiveDark({ company, client, items, settings, invoiceNumber, issueD
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 3. MINIMAL CLEAN — Ultra-sparse, no backgrounds, fine lines only
+// 3. MINIMAL CLEAN | Ultra-sparse, no backgrounds, fine lines only
 // ═══════════════════════════════════════════════════════════════════
 function MinimalClean({ company, client, items, settings, invoiceNumber, issueDate, dueDate, notes, totals, c, currencySymbol }: TemplateProps) {
     return (
@@ -325,7 +325,7 @@ function MinimalClean({ company, client, items, settings, invoiceNumber, issueDa
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 4. CORPORATE GREEN — Boxed header with invoice detail card, striped table
+// 4. CORPORATE GREEN | Boxed header with invoice detail card, striped table
 // ═══════════════════════════════════════════════════════════════════
 function CorporateGreen({ company, client, items, settings, invoiceNumber, issueDate, dueDate, notes, totals, c, currencySymbol }: TemplateProps) {
     return (
@@ -423,7 +423,7 @@ function CorporateGreen({ company, client, items, settings, invoiceNumber, issue
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 5. CREATIVE PURPLE — Asymmetric sidebar layout, items as cards
+// 5. CREATIVE PURPLE | Asymmetric sidebar layout, items as cards
 // ═══════════════════════════════════════════════════════════════════
 function CreativePurple({ company, client, items, settings, invoiceNumber, issueDate, dueDate, notes, totals, c, currencySymbol }: TemplateProps) {
     return (
@@ -490,7 +490,7 @@ function CreativePurple({ company, client, items, settings, invoiceNumber, issue
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 6. ELEGANT GOLD — Centered header, ornamental lines, refined typography
+// 6. ELEGANT GOLD | Centered header, ornamental lines, refined typography
 // ═══════════════════════════════════════════════════════════════════
 function ElegantGold({ company, client, items, settings, invoiceNumber, issueDate, dueDate, notes, totals, c, currencySymbol }: TemplateProps) {
     return (
@@ -572,7 +572,7 @@ function ElegantGold({ company, client, items, settings, invoiceNumber, issueDat
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 7. TECH GRADIENT — Gradient banner, monospace number, modern grid
+// 7. TECH GRADIENT | Gradient banner, monospace number, modern grid
 // ═══════════════════════════════════════════════════════════════════
 function TechGradient({ company, client, items, settings, invoiceNumber, issueDate, dueDate, notes, totals, c, currencySymbol }: TemplateProps) {
     return (
@@ -648,7 +648,7 @@ function TechGradient({ company, client, items, settings, invoiceNumber, issueDa
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 8. CLASSIC FORMAL — Double-bordered, traditional structure, serif feel
+// 8. CLASSIC FORMAL | Double-bordered, traditional structure, serif feel
 // ═══════════════════════════════════════════════════════════════════
 function ClassicFormal({ company, client, items, settings, invoiceNumber, issueDate, dueDate, notes, totals, c, currencySymbol }: TemplateProps) {
     return (

@@ -11,6 +11,16 @@ export const metadata: Metadata = {
         title: 'Free Barcode Generator - Custom Design & Formats',
         description: 'Create professional barcodes instantly. Support for all major formats. No signup required.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

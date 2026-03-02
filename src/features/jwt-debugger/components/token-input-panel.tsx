@@ -13,13 +13,14 @@ import {
     TooltipProvider,
 } from '@/components/ui/tooltip';
 
+import { JsonHighlighter } from '@/components/shared/json-highlighter';
+import { STANDARD_CLAIMS } from '../types';
+
 interface TokenInputPanelProps {
     options: JwtOptions;
     updateOption: <K extends keyof JwtOptions>(key: K, value: JwtOptions[K]) => void;
     onTrigger: () => void;
 }
-
-import { JsonHighlighter } from './json-highlighter';
 
 export function TokenInputPanel({ options, updateOption, onTrigger }: TokenInputPanelProps) {
     const isDecode = options.mode === 'decode';
@@ -102,7 +103,7 @@ export function TokenInputPanel({ options, updateOption, onTrigger }: TokenInput
                                     </span>
                                 ))
                             ) : !isDecode && options.payload ? (
-                                <JsonHighlighter json={options.payload} />
+                                <JsonHighlighter json={options.payload} keyTooltips={STANDARD_CLAIMS} />
                             ) : null}
                         </div>
 

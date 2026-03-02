@@ -13,6 +13,16 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Favicon Generator | Xenkio',
         description: 'Create professional favicons for your website from any image instantly.',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     }
 };
 

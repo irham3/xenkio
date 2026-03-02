@@ -6,6 +6,28 @@ import { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Image Compressor | Xenkio Tools",
   description: "Compress your images securely in the browser. Reduce file size without losing quality for better web performance and SEO.",
+
+  openGraph: {
+    title: 'Image Compressor | Xenkio Tools',
+    description: 'Compress your images securely in the browser. Reduce file size without losing quality for better web performance and SEO.',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Image Compressor | Xenkio Tools',
+        type: 'image/jpeg',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Image Compressor | Xenkio Tools',
+    description: 'Compress your images securely in the browser. Reduce file size without losing quality for better web performance and SEO.',
+    images: ['/og-image.jpg'],
+  },
+
 }
 
 export default function ImageCompressorPage() {

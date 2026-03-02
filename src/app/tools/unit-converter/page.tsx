@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { TOOLS } from '@/data/tools';
 import { UnitConverterClient } from './client';
 import { notFound } from 'next/navigation';
-import { Calculator } from 'lucide-react';
 
 const slug = 'unit-converter';
 
@@ -25,6 +24,16 @@ export const metadata: Metadata = {
         title: 'Unit Converter | Xenkio Tools',
         description: 'Convert any unit instantly. Length, weight, temperature, volume, speed, and more.',
         type: 'website',
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Xenkio | Free Browser-Based Tools',
+          type: 'image/jpeg',
+        },
+      ],
+
     },
 };
 
@@ -74,10 +83,6 @@ export default function UnitConverterPage() {
             <section className="bg-white">
                 <div className="container mx-auto px-4 pt-16 pb-12 max-w-5xl">
                     <div className="text-center space-y-4">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-600 mb-4">
-                            <Calculator className="w-3.5 h-3.5" />
-                            Instant Conversions
-                        </div>
                         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
                             {tool.title}
                         </h1>

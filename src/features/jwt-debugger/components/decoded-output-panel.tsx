@@ -7,7 +7,8 @@ import { CopyButton } from '@/components/shared';
 import { VerificationBadge } from './verification-badge';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { JsonHighlighter } from './json-highlighter';
+import { JsonHighlighter } from '@/components/shared/json-highlighter';
+import { STANDARD_CLAIMS } from '../types';
 
 interface DecodedOutputPanelProps {
     mode: 'decode' | 'encode';
@@ -132,7 +133,7 @@ function CodeBlock({ content, colorClass, placeholder, className }: { content: R
         )}>
             {content ? (
                 <TooltipProvider delayDuration={0}>
-                    <JsonHighlighter json={JSON.stringify(content, null, 2)} />
+                    <JsonHighlighter json={JSON.stringify(content, null, 2)} keyTooltips={STANDARD_CLAIMS} />
                 </TooltipProvider>
             ) : (
                 <div className="flex items-center gap-2 opacity-30">

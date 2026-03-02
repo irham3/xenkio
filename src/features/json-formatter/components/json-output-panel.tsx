@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { JsonGraphView } from './json-graph-view';
 import { jsonToTypeScript } from '../lib/json-utils';
 import { CopyButton } from '@/components/shared';
+import { JsonHighlighter } from '@/components/shared/json-highlighter';
 
 interface JsonOutputPanelProps {
     options: { json: string };
@@ -67,7 +68,9 @@ export function JsonOutputPanel({
                             </span>
                         </div>
                     ) : result?.isValid && result?.formatted ? (
-                        <pre className="whitespace-pre font-mono">{result.formatted}</pre>
+                        <div className="w-full whitespace-pre-wrap break-all">
+                            <JsonHighlighter json={result.formatted} />
+                        </div>
                     ) : (
                         <>
                             <FileCode className="w-12 h-12 text-gray-200" />

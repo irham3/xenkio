@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
-// Dynamic import with SSR disabled — FFmpeg.wasm only works in browser
+// Dynamic import with SSR disabled | FFmpeg.wasm only works in browser
 const VideoCompressor = dynamic(
     () => import("@/features/video-compressor/components/video-compressor").then(mod => mod.VideoCompressor),
     {

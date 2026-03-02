@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { INDENT_SIZES, INDENT_TYPES, SAMPLE_JSON } from '../constants';
 import { type IndentType, type IndentSize, type JsonFormatterOptions } from '../types';
 import { ClearButton } from '@/components/shared';
+import { useRef } from 'react';
+import { JsonHighlighter } from '@/components/shared/json-highlighter';
 
 interface JsonInputPanelProps {
     options: JsonFormatterOptions;
@@ -30,6 +32,18 @@ export function JsonInputPanel({
     onReset,
     onLoadSample
 }: JsonInputPanelProps) {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const highlightRef = useRef<HTMLDivElement>(null);
+
+    const handleScroll = () => {
+        if (textareaRef.current && highlightRef.current) {
+            highlightRef.current.scrollTop = textareaRef.current.scrollTop;
+            highlightRef.current.scrollLeft = textareaRef.current.scrollLeft;
+        }
+    };
+
+    const sharedClass = "w-full min-h-[350px] p-4 text-[13px] font-mono leading-relaxed bg-transparent border-0 outline-none resize-none whitespace-pre-wrap break-all";
+
     return (
         <div className="p-5 lg:p-6 border-b lg:border-b-0 lg:border-r border-gray-100 bg-white">
             <div className="space-y-5">
@@ -46,16 +60,34 @@ export function JsonInputPanel({
                             Load Sample Data
                         </button>
                     </div>
-                    <div className="relative">
+                    <div className={cn(
+                        "relative w-full h-[350px] bg-gray-50 border rounded-xl overflow-hidden focus-within:ring-4 focus-within:ring-primary-500/10 focus-within:border-primary-500 focus-within:bg-white transition-all",
+                        validationError ? "border-red-200 focus-within:border-red-400 focus-within:ring-red-500/10" : "border-gray-200"
+                    )}>
+                        {/* Highlight Layer (Visual) */}
+                        <div
+                            ref={highlightRef}
+                            className={cn(sharedClass, "absolute inset-0 z-20 text-transparent overflow-hidden pointer-events-none select-none")}
+                            aria-hidden="true"
+                        >
+                            <JsonHighlighter json={options.json} />
+                        </div>
+
+                        {/* Editor Layer (Input) */}
                         <textarea
+                            ref={textareaRef}
                             id="json-input"
                             value={options.json}
+                            onScroll={handleScroll}
                             onChange={(e) => updateOption('json', e.target.value)}
                             placeholder='Paste your JSON content here... (e.g. {"name": "Xenkio"})'
                             spellCheck={false}
                             className={cn(
-                                "w-full min-h-[350px] p-4 text-[13px] font-mono leading-relaxed bg-gray-50 border rounded-xl focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400",
-                                validationError ? "border-red-200 focus:border-red-400 focus:ring-red-500/10" : "border-gray-200"
+                                sharedClass,
+                                "absolute inset-0 z-10 caret-gray-900 focus:ring-0",
+                                options.json
+                                    ? "text-transparent placeholder:text-gray-400"
+                                    : "text-gray-900 placeholder:text-gray-400"
                             )}
                         />
                     </div>

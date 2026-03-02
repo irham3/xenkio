@@ -4,9 +4,9 @@ import { useState } from 'react';
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
+    // DialogDescription,
     DialogHeader,
-    DialogTitle,
+    // DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -26,10 +26,10 @@ export function FeedbackDialog() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Send Feedback</DialogTitle>
-                    <DialogDescription>
+                    {/* <DialogTitle>Send Feedback</DialogTitle> */}
+                    {/* <DialogDescription>
                         Help us improve our service
-                    </DialogDescription>
+                    </DialogDescription> */}
                 </DialogHeader>
                 <FeedbackForm onSuccess={() => setOpen(false)} />
             </DialogContent>

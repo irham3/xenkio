@@ -259,6 +259,33 @@ export function BorderRadiusGeneratorTool() {
               {/* Preview Color */}
               <div className="space-y-2">
                 <Label className="text-sm font-semibold text-gray-800">Preview Color</Label>
+                <div className="flex items-center gap-2">
+                  <div className="relative shrink-0">
+                    <div
+                      className="w-9 h-9 rounded-md border border-gray-200 cursor-pointer"
+                      style={{ backgroundColor: state.previewColor }}
+                    />
+                    <input
+                      type="color"
+                      value={state.previewColor}
+                      onChange={(e) => setState((prev) => ({ ...prev, previewColor: e.target.value }))}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      aria-label="Custom preview color"
+                    />
+                  </div>
+                  <Input
+                    value={state.previewColor.toUpperCase()}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^#[0-9A-Fa-f]{0,6}$/.test(value)) {
+                        setState((prev) => ({ ...prev, previewColor: value }));
+                      }
+                    }}
+                    className="h-9 w-28 font-mono text-xs uppercase bg-white"
+                    maxLength={7}
+                    aria-label="Preview color hex"
+                  />
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {PREVIEW_COLORS.map((color) => (
                     <button

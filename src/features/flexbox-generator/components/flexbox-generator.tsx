@@ -663,16 +663,21 @@ export function FlexboxGenerator() {
                 <div className="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm leading-relaxed overflow-x-auto whitespace-pre">
                   <span className="text-purple-400">.container</span>
                   <span className="text-gray-400">{' {\n'}</span>
-                  {containerCssPreview.split('\n').map((line, i) => (
-                    <span key={i}>
-                      <span className="text-gray-400">{'  '}</span>
-                      <span className="text-blue-400">{line.split(':')[0]}</span>
-                      <span className="text-gray-400">: </span>
-                      <span className="text-green-400">{line.split(': ').slice(1).join(': ').replace(';', '')}</span>
-                      <span className="text-gray-400">;</span>
-                      {'\n'}
-                    </span>
-                  ))}
+                  {containerCssPreview.split('\n').map((line, i) => {
+                    const colonIdx = line.indexOf(':');
+                    const prop = line.substring(0, colonIdx);
+                    const val = line.substring(colonIdx + 2).replace(';', '');
+                    return (
+                      <span key={i}>
+                        <span className="text-gray-400">{'  '}</span>
+                        <span className="text-blue-400">{prop}</span>
+                        <span className="text-gray-400">: </span>
+                        <span className="text-green-400">{val}</span>
+                        <span className="text-gray-400">;</span>
+                        {'\n'}
+                      </span>
+                    );
+                  })}
                   <span className="text-gray-400">{'}'}</span>
                   {items.map((item, index) => {
                     const itemCss = buildItemCss(item);
@@ -682,16 +687,21 @@ export function FlexboxGenerator() {
                         {'\n\n'}
                         <span className="text-purple-400">{`.item-${index + 1}`}</span>
                         <span className="text-gray-400">{' {\n'}</span>
-                        {itemCss.split('\n').map((line, i) => (
-                          <span key={i}>
-                            <span className="text-gray-400">{'  '}</span>
-                            <span className="text-blue-400">{line.split(':')[0]}</span>
-                            <span className="text-gray-400">: </span>
-                            <span className="text-green-400">{line.split(': ').slice(1).join(': ').replace(';', '')}</span>
-                            <span className="text-gray-400">;</span>
-                            {'\n'}
-                          </span>
-                        ))}
+                        {itemCss.split('\n').map((line, i) => {
+                          const colonIdx = line.indexOf(':');
+                          const prop = line.substring(0, colonIdx);
+                          const val = line.substring(colonIdx + 2).replace(';', '');
+                          return (
+                            <span key={i}>
+                              <span className="text-gray-400">{'  '}</span>
+                              <span className="text-blue-400">{prop}</span>
+                              <span className="text-gray-400">: </span>
+                              <span className="text-green-400">{val}</span>
+                              <span className="text-gray-400">;</span>
+                              {'\n'}
+                            </span>
+                          );
+                        })}
                         <span className="text-gray-400">{'}'}</span>
                       </span>
                     );

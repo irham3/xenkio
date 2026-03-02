@@ -901,7 +901,7 @@ export const TOOLS: ToolData[] = [
         icon: LayoutGrid,
         href: '/tools/flexbox-generator',
         slug: 'flexbox-generator',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'design-tools',
     },
 

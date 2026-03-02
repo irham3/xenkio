@@ -1,10 +1,12 @@
 export interface CompressionSettings {
-    /** CRF value (0-51). Lower = better quality, bigger file. Default 28. */
-    crf: number;
-    /** Encoding preset. Affects speed vs compression ratio. */
-    preset: string;
-    /** Output resolution: 'original' | '1080' | '720' | '480' | '360' */
+    /** Compression ratio: 0.3 = 30% of original size, 0.7 = 70%. */
+    ratio: number;
+    /** Output resolution: 'original' | '1080' | '720' | '480' | '360' | '240' | '144' */
     resolution: string;
+    /** Audio handling: 'copy' = keep original, 'compress' = re-encode, 'remove' = strip audio */
+    audioMode: 'copy' | 'compress' | 'remove';
+    /** Audio bitrate in kbps (when re-encoding). */
+    audioBitrate: number;
 }
 
 export interface CompressionResult {

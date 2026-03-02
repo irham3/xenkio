@@ -28,11 +28,20 @@ function formatSize(bytes: number): string {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
+function formatTime(ms: number): string {
+    const seconds = Math.round(ms / 1000)
+    if (seconds < 60) return `${seconds}s`
+    const min = Math.floor(seconds / 60)
+    const sec = seconds % 60
+    return `${min}m ${sec}s`
+}
+
 export function VideoCompressor() {
     const { loaded, isLoading, isCompressing, progress, error: hookError, compressVideo, downloadProgress } = useVideoCompressor()
     const [file, setFile] = useState<VideoFileState | null>(null)
     const [result, setResult] = useState<ReturnType<typeof compressVideo> extends Promise<infer T> ? T : never>(null)
     const [settings, setSettings] = useState<CompressionSettings>(DEFAULT_SETTINGS)
+    const [activeQualityPreset, setActiveQualityPreset] = useState<number>(1) // 0=high, 1=balanced, 2=small, 3=tiny
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const video = acceptedFiles[0]
@@ -66,7 +75,12 @@ export function VideoCompressor() {
             const res = await compressVideo(file.file, settings)
             if (res) {
                 setResult(res)
-                toast.success('Video compressed successfully!')
+                const pctSaved = Math.round(((file.size - res.size) / file.size) * 100)
+                if (pctSaved > 0) {
+                    toast.success(`Compressed! ${pctSaved}% smaller in ${formatTime(res.timeTaken)}`)
+                } else {
+                    toast.info('Compression complete.')
+                }
             }
         } catch {
             toast.error('Compression failed. Please try again.')
@@ -74,11 +88,25 @@ export function VideoCompressor() {
     }
 
     const handleDownload = () => {
-        if (!result) return
+        if (!result || !result.url || !result.blob || result.blob.size === 0) {
+            toast.error('Download not available — file may be corrupted.')
+            return
+        }
+
+        // Re-create blob URL fresh to avoid stale/revoked URL issues
+        const freshUrl = URL.createObjectURL(result.blob)
         const a = document.createElement('a')
-        a.href = result.url
+        a.href = freshUrl
         a.download = result.fileName
+        a.style.display = 'none'
+        document.body.appendChild(a)
         a.click()
+
+        // Cleanup after a short delay so the browser has time to start the download
+        setTimeout(() => {
+            document.body.removeChild(a)
+            URL.revokeObjectURL(freshUrl)
+        }, 1000)
     }
 
     const handleReset = () => {
@@ -86,7 +114,24 @@ export function VideoCompressor() {
         setFile(null)
         setResult(null)
         setSettings(DEFAULT_SETTINGS)
+        setActiveQualityPreset(1)
     }
+
+    const handlePresetClick = (presetIndex: number) => {
+        const preset = QUALITY_PRESETS[presetIndex]
+        setActiveQualityPreset(presetIndex)
+        setSettings(s => ({
+            ...s,
+            ratio: preset.ratio,
+            resolution: preset.resolution,
+        }))
+    }
+
+    // Compute stats
+    const savedPct = result && file ? Math.round(((file.size - result.size) / file.size) * 100) : 0
+
+    // Estimated target size for display
+    const estimatedSize = file ? file.size * settings.ratio : 0
 
     return (
         <div className="w-full max-w-5xl mx-auto space-y-8">
@@ -100,7 +145,7 @@ export function VideoCompressor() {
                 </p>
             </div>
 
-            {/* Engine Loading State with Progress Bar */}
+            {/* Engine Loading State */}
             {isLoading && downloadProgress && (
                 <div className="bg-white border border-gray-200 rounded-2xl p-8 space-y-5">
                     <div className="flex items-center gap-3">
@@ -197,6 +242,17 @@ export function VideoCompressor() {
                             </Button>
                         </div>
 
+                        {/* Estimated size indicator */}
+                        <div className="bg-primary-50 border border-primary-100 rounded-xl px-5 py-3 flex items-center justify-between">
+                            <span className="text-sm text-primary-700">
+                                Target: ~{formatSize(estimatedSize)} ({Math.round(settings.ratio * 100)}% of original)
+                            </span>
+                            <span className="text-xs text-primary-500">
+                                {settings.resolution !== 'original' && `${settings.resolution}p • `}
+                                {settings.audioMode === 'remove' ? 'No audio' : settings.audioMode === 'copy' ? 'Audio copied' : `Audio ${settings.audioBitrate}k`}
+                            </span>
+                        </div>
+
                         {/* Progress or Compress Button */}
                         {isCompressing ? (
                             <div className="bg-white border border-gray-200 rounded-2xl p-8 space-y-4">
@@ -220,7 +276,7 @@ export function VideoCompressor() {
                                 className="w-full"
                             >
                                 <Zap className="mr-2 h-4 w-4" />
-                                Compress Video
+                                Compress to ~{formatSize(estimatedSize)}
                             </Button>
                         )}
                     </div>
@@ -239,13 +295,13 @@ export function VideoCompressor() {
                             </TabsList>
 
                             <TabsContent value="simple" className="space-y-3">
-                                {QUALITY_PRESETS.map((preset) => (
+                                {QUALITY_PRESETS.map((preset, idx) => (
                                     <button
-                                        key={preset.crf}
-                                        onClick={() => setSettings((s) => ({ ...s, crf: preset.crf }))}
+                                        key={preset.ratio}
+                                        onClick={() => handlePresetClick(idx)}
                                         className={cn(
                                             'w-full flex items-center justify-between p-3 rounded-xl border text-left transition-all',
-                                            settings.crf === preset.crf
+                                            activeQualityPreset === idx
                                                 ? 'border-primary-600 bg-primary-50'
                                                 : 'border-gray-200 hover:border-primary-600/50 hover:bg-gray-50'
                                         )}
@@ -254,31 +310,39 @@ export function VideoCompressor() {
                                             <p className="font-medium text-sm text-gray-900">{preset.label}</p>
                                             <p className="text-xs text-gray-500">{preset.description}</p>
                                         </div>
-                                        {settings.crf === preset.crf && (
-                                            <CheckCircle2 className="w-4 h-4 text-primary-600 shrink-0" />
-                                        )}
+                                        <div className="text-right shrink-0 ml-2">
+                                            <p className="text-sm font-semibold text-primary-600">
+                                                ~{formatSize(file.size * preset.ratio)}
+                                            </p>
+                                            <p className="text-xs text-gray-400">
+                                                {Math.round((1 - preset.ratio) * 100)}% smaller
+                                            </p>
+                                        </div>
                                     </button>
                                 ))}
                             </TabsContent>
 
                             <TabsContent value="advanced" className="space-y-5">
-                                {/* CRF Slider */}
+                                {/* Compression Ratio Slider */}
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-sm">
-                                        <span className="font-medium text-gray-900">Quality (CRF)</span>
-                                        <span className="text-gray-500">{settings.crf}</span>
+                                        <span className="font-medium text-gray-900">Compression</span>
+                                        <span className="text-gray-500">{Math.round(settings.ratio * 100)}% of original</span>
                                     </div>
                                     <Slider
-                                        value={[settings.crf]}
-                                        onValueChange={([v]) => setSettings((s) => ({ ...s, crf: v }))}
-                                        min={18}
-                                        max={40}
-                                        step={1}
+                                        value={[settings.ratio * 100]}
+                                        onValueChange={([v]) => setSettings((s) => ({ ...s, ratio: v / 100 }))}
+                                        min={5}
+                                        max={90}
+                                        step={5}
                                     />
                                     <div className="flex justify-between text-xs text-gray-400">
-                                        <span>Better Quality</span>
-                                        <span>Smaller File</span>
+                                        <span>Smallest (5%)</span>
+                                        <span>Largest (90%)</span>
                                     </div>
+                                    <p className="text-xs text-primary-600 font-medium text-center">
+                                        Target: ~{formatSize(file.size * settings.ratio)}
+                                    </p>
                                 </div>
 
                                 {/* Resolution */}
@@ -299,6 +363,40 @@ export function VideoCompressor() {
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                </div>
+
+                                {/* Audio Settings */}
+                                <div className="space-y-3 pt-3 border-t border-gray-100">
+                                    <span className="text-sm font-medium text-gray-900">Audio</span>
+                                    <Select
+                                        value={settings.audioMode}
+                                        onValueChange={(v: 'copy' | 'compress' | 'remove') => setSettings(s => ({ ...s, audioMode: v }))}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="copy">Copy audio (fastest)</SelectItem>
+                                            <SelectItem value="compress">Re-encode audio</SelectItem>
+                                            <SelectItem value="remove">Remove audio</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    {settings.audioMode === 'compress' && (
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between text-sm">
+                                                <span className="text-gray-600">Audio Bitrate</span>
+                                                <span className="text-gray-500">{settings.audioBitrate} kbps</span>
+                                            </div>
+                                            <Slider
+                                                value={[settings.audioBitrate]}
+                                                onValueChange={([v]) => setSettings(s => ({ ...s, audioBitrate: v }))}
+                                                min={32}
+                                                max={192}
+                                                step={16}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </TabsContent>
                         </Tabs>
@@ -325,18 +423,24 @@ export function VideoCompressor() {
                             <p className="text-sm text-gray-500">Compressed</p>
                             <p className="text-lg font-bold text-primary-600 mt-1">{formatSize(result.size)}</p>
                         </div>
-                        <div className="text-center p-4 rounded-xl bg-gray-50 border border-gray-100">
+                        <div className="text-center p-4 rounded-xl bg-green-50 border border-green-100">
                             <p className="text-sm text-gray-500">Saved</p>
                             <p className="text-lg font-bold text-green-600 mt-1">
-                                {Math.round(((file!.size - result.size) / file!.size) * 100)}%
+                                {savedPct > 0 ? `${savedPct}%` : '<1%'}
                             </p>
                         </div>
                     </div>
 
+                    {result.timeTaken > 0 && (
+                        <p className="text-xs text-gray-400 text-center">
+                            Processed in {formatTime(result.timeTaken)}
+                        </p>
+                    )}
+
                     <div className="flex gap-3 pt-2 border-t border-gray-100">
                         <Button onClick={handleDownload} size="lg" className="flex-1 gap-2">
                             <Download className="w-4 h-4" />
-                            Download Compressed Video
+                            Download ({formatSize(result.size)})
                         </Button>
                         <Button variant="outline" size="lg" onClick={handleReset}>
                             New Video
@@ -358,8 +462,8 @@ export function VideoCompressor() {
                     <div className="flex items-start gap-3 p-4 bg-white border border-gray-200 rounded-xl">
                         <Settings2 className="w-5 h-5 text-primary-600 shrink-0 mt-0.5" />
                         <div>
-                            <p className="font-medium text-sm text-gray-900">Custom Quality</p>
-                            <p className="text-xs text-gray-500 mt-0.5">Fine-tune compression with CRF and resolution controls.</p>
+                            <p className="font-medium text-sm text-gray-900">Target Size Control</p>
+                            <p className="text-xs text-gray-500 mt-0.5">Set your desired output size — guaranteed smaller every time.</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-3 p-4 bg-white border border-gray-200 rounded-xl">

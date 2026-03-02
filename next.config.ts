@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 import { PHASE_PRODUCTION_BUILD } from 'next/constants';
+import path from 'path';
 
 const nextConfig = (phase: string): NextConfig => {
   const isExport = phase === PHASE_PRODUCTION_BUILD;
@@ -13,10 +14,13 @@ const nextConfig = (phase: string): NextConfig => {
       unoptimized: true,
     },
 
+    transpilePackages: ['@tensorflow-models/hand-pose-detection', '@mediapipe/hands'],
+
     // Fix for Windows: Alias node:crypto to crypto for Turbopack
     turbopack: {
       resolveAlias: {
         'node:crypto': 'crypto',
+        '@mediapipe/hands': './src/lib/mediapipe-hands-shim.ts',
       }
     },
 
@@ -25,6 +29,7 @@ const nextConfig = (phase: string): NextConfig => {
       config.resolve.alias = {
         ...config.resolve.alias,
         'node:crypto': 'crypto',
+        '@mediapipe/hands': path.resolve(process.cwd(), 'src/lib/mediapipe-hands-shim.ts'),
       };
 
       // Handle @ffmpeg/ffmpeg worker creation (uses import.meta.url)

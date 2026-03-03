@@ -18,6 +18,9 @@ const UNIT_OPTIONS: UnitOption[] = [
   { key: 'words', label: 'Words' },
 ];
 
+const MIN_COUNT = 1;
+const MAX_COUNT = 100;
+
 const LOREM_WORDS = [
   'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
   'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',
@@ -34,7 +37,7 @@ const LOREM_WORDS = [
   'fugit', 'consequuntur', 'magni', 'dolores', 'eos', 'ratione', 'sequi',
   'nesciunt', 'neque', 'porro', 'quisquam', 'nihil', 'impedit', 'quo', 'minus',
   'placeat', 'facere', 'possimus', 'assumenda', 'repellendus', 'temporibus',
-  'quibusdam', 'illum', 'fugiat', 'quo', 'voluptas', 'nulla', 'pariatur',
+  'quibusdam', 'illum',
   'at', 'vero', 'accusamus', 'iusto', 'odio', 'dignissimos', 'ducimus',
   'blanditiis', 'praesentium', 'voluptatum', 'deleniti', 'atque', 'corrupti',
   'quos', 'quas', 'molestias', 'excepturi', 'occaecati', 'cupiditate',
@@ -175,10 +178,10 @@ export function LoremIpsumTool() {
               <input
                 id="lorem-count"
                 type="number"
-                min={1}
-                max={100}
+                min={MIN_COUNT}
+                max={MAX_COUNT}
                 value={count}
-                onChange={(e) => setCount(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
+                onChange={(e) => setCount(Math.max(MIN_COUNT, Math.min(MAX_COUNT, parseInt(e.target.value) || MIN_COUNT)))}
                 className="w-20 px-3 py-1.5 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all"
               />
             </div>

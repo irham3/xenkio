@@ -280,7 +280,8 @@ export function getNextExecutions(expression: string, count: number = 5): Date[]
     candidate.setSeconds(0, 0);
     candidate.setMinutes(candidate.getMinutes() + 1);
 
-    const maxIterations = 525960; // ~1 year of minutes
+    const MINUTES_IN_YEAR = 525960; // ~365.25 days × 24 hours × 60 minutes
+    const maxIterations = MINUTES_IN_YEAR;
 
     for (let i = 0; i < maxIterations && results.length < count; i++) {
         if (matchesCronField(candidate.getMonth() + 1, monthPart) &&

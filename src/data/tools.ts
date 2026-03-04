@@ -1067,6 +1067,20 @@ export const TOOLS: ToolData[] = [
         isComingSoon: true,
         categoryId: 'calculators',
     },
+
+    // =====================================================
+    // DEVELOPER TOOLS - Crontab Generator
+    // =====================================================
+    {
+        id: '103',
+        title: 'Crontab Generator',
+        description: 'Build cron expressions visually or parse existing ones into human-readable schedules.',
+        icon: Timer,
+        href: '/tools/crontab-generator',
+        slug: 'crontab-generator',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
 ];
 
 // Search suggestions for the search bar

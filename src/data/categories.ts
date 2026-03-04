@@ -50,7 +50,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'JSON formatter, regex tester, diff checker, and code utilities | instant, no server needed',
         icon: Code2,
         color: '#E4E4E7',
-        toolCount: 11,
+        toolCount: 12,
     },
     {
         id: 'design-tools',

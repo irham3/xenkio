@@ -42,8 +42,12 @@ export function PdfReader() {
             // Check localStorage to see if user has seen it before
             const seen = typeof window !== 'undefined' && localStorage.getItem('xenkio-gesture-guide-seen');
             if (!seen) {
-                setShowGestureGuide(true);
+                // Defer to avoid cascading render lint error
+                const timer = setTimeout(() => {
+                    setShowGestureGuide(true);
+                }, 0);
                 hasSeenGuideRef.current = true;
+                return () => clearTimeout(timer);
             } else {
                 hasSeenGuideRef.current = true;
             }

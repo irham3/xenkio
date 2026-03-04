@@ -592,7 +592,8 @@ export const TOOLS: ToolData[] = [
         description: 'Generate placeholder text in various formats and lengths.',
         icon: FileEdit,
         href: '/tools/lorem-ipsum',
-        isComingSoon: true,
+        slug: 'lorem-ipsum',
+        isNew: true,
         categoryId: 'text-utilities',
     },
     {

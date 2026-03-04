@@ -2,16 +2,20 @@
 
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FileUp, FileText, Maximize } from 'lucide-react';
+import { FileUp, FileText, Maximize, ShieldCheck } from 'lucide-react';
+
 import { usePdfReader } from '../hooks/use-pdf-reader';
 import { useGestureControl } from '../hooks/use-gesture-control';
 import { PdfViewer } from './pdf-viewer';
 import { PdfControls } from './pdf-controls';
 import { GestureOverlay } from './gesture-overlay';
+import { GestureGuide } from './gesture-guide';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export function PdfReader() {
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [showGestureGuide, setShowGestureGuide] = useState(false);
+    const hasSeenGuideRef = useRef(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const {
@@ -31,6 +35,27 @@ export function PdfReader() {
     } = usePdfReader();
 
     const gesture = useGestureControl(nextPage, prevPage);
+
+    // Show gesture guide on first activation
+    useEffect(() => {
+        if (gesture.isActive && !hasSeenGuideRef.current) {
+            // Check localStorage to see if user has seen it before
+            const seen = typeof window !== 'undefined' && localStorage.getItem('xenkio-gesture-guide-seen');
+            if (!seen) {
+                setShowGestureGuide(true);
+                hasSeenGuideRef.current = true;
+            } else {
+                hasSeenGuideRef.current = true;
+            }
+        }
+    }, [gesture.isActive]);
+
+    const dismissGuide = useCallback(() => {
+        setShowGestureGuide(false);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('xenkio-gesture-guide-seen', '1');
+        }
+    }, []);
 
     const toggleFullscreen = useCallback(() => {
         if (!containerRef.current) return;
@@ -114,17 +139,17 @@ export function PdfReader() {
                 {/* Feature highlight */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <FeatureCard
-                        icon="📖"
+                        icon={<FileText className="w-5 h-5 text-blue-500" />}
                         title="Read PDF"
                         description="Render crystal-clear PDF pages right in your browser"
                     />
                     <FeatureCard
-                        icon="🖐️"
+                        icon={<Maximize className="w-5 h-5 text-purple-500" />}
                         title="Gesture Navigation"
                         description="Swipe in the air to flip pages. Hands-free reading."
                     />
                     <FeatureCard
-                        icon="🤖"
+                        icon={<ShieldCheck className="w-5 h-5 text-emerald-500" />}
                         title="Private AI"
                         description="Edge-based hand detection — camera stays in your browser"
                     />
@@ -226,21 +251,49 @@ export function PdfReader() {
                 />
             </div>
 
-            {/* Gesture error */}
+            {/* Gesture error with detailed instructions */}
             {gesture.error && (
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-red-50 border border-red-100">
-                    <span className="text-sm text-red-700">{gesture.error}</span>
+                <div className="flex flex-col gap-2 p-4 rounded-xl bg-red-50 border border-red-100">
+                    <div className="flex items-center gap-3">
+                        <span className="text-sm font-semibold text-red-800">
+                            {gesture.error.includes('Permission denied') || gesture.error.includes('NotAllowedError')
+                                ? 'Camera Access Denied'
+                                : 'Gesture Control Error'}
+                        </span>
+                    </div>
+                    {(gesture.error.includes('Permission denied') || gesture.error.includes('NotAllowedError')) ? (
+                        <div className="text-sm text-red-700 space-y-2">
+                            <p>Hand gesture control requires camera access to detect your movements.</p>
+                            <div className="bg-white/50 p-3 rounded-lg border border-red-200/50">
+                                <p className="font-medium mb-1">To enable camera access:</p>
+                                <ul className="list-disc list-inside space-y-1 text-xs">
+                                    <li>Click the <span className="font-bold underline">Lock icon</span> (🔒) in your browser address bar</li>
+                                    <li>Toggle the <span className="font-bold">Camera</span> switch to <span className="font-bold">On</span></li>
+                                    <li>Reload this page to apply changes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    ) : (
+                        <span className="text-sm text-red-700">{gesture.error}</span>
+                    )}
                 </div>
             )}
 
-            {/* Gesture Overlay (Webcam is now hidden in this component) */}
+            {/* Gesture Overlay with detection feedback */}
             <GestureOverlay
                 videoRef={gesture.videoRef}
                 isActive={gesture.isActive}
+                isHandDetected={gesture.isHandDetected}
+                lowLightWarning={gesture.lowLightWarning}
                 isModelLoading={gesture.isModelLoading}
                 gestureDirection={gesture.gestureDirection}
                 error={gesture.error}
             />
+
+            {/* Gesture Guide Modal (first-time onboarding) */}
+            {showGestureGuide && (
+                <GestureGuide onClose={dismissGuide} />
+            )}
         </div>
     );
 }
@@ -250,13 +303,13 @@ function FeatureCard({
     title,
     description,
 }: {
-    icon: string;
+    icon: React.ReactNode;
     title: string;
     description: string;
 }) {
     return (
-        <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-gray-100">
-            <span className="text-2xl leading-none mt-0.5">{icon}</span>
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-gray-100 transition-all hover:border-primary-100 hover:shadow-sm">
+            <div className="flex-shrink-0 mt-0.5">{icon}</div>
             <div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-0.5">{title}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed">{description}</p>

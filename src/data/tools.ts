@@ -72,12 +72,14 @@ import {
     Wifi,
     Percent,
 } from 'lucide-react';
+import { PdfReaderIcon } from '@/components/icons';
+
 
 export interface ToolData {
     id: string;
     title: string;
     description: string;
-    icon: LucideIcon;
+    icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
     href: string;
     featured?: boolean;
     isNew?: boolean;
@@ -162,7 +164,7 @@ export const TOOLS: ToolData[] = [
         id: '102',
         title: 'PDF Reader',
         description: 'Read PDF documents in your browser with AI-powered hand gesture page navigation. Swipe to flip pages.',
-        icon: BookOpen,
+        icon: PdfReaderIcon,
         href: '/tools/pdf-reader',
         slug: 'pdf-reader',
         isNew: true,
@@ -180,7 +182,7 @@ export const TOOLS: ToolData[] = [
         isNew: true,
     },
     {
-        id: '102',
+        id: '103',
         title: 'Crop PDF',
         description: 'Visually crop and trim PDF pages. Remove margins, headers, or resize page area with precision.',
         icon: Crop,

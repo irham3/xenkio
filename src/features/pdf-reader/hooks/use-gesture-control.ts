@@ -7,6 +7,8 @@ import type { GestureDirection, HandLandmark } from '../types';
 
 interface UseGestureControlReturn {
     isActive: boolean;
+    isHandDetected: boolean;
+    lowLightWarning: boolean;
     isModelLoading: boolean;
     gestureDirection: GestureDirection;
     landmarks: HandLandmark[] | null;
@@ -20,6 +22,8 @@ export function useGestureControl(
     onSwipeRight: () => void
 ): UseGestureControlReturn {
     const [isActive, setIsActive] = useState(false);
+    const [isHandDetected, setIsHandDetected] = useState(false);
+    const [lowLightWarning, setLowLightWarning] = useState(false);
     const [isModelLoading, setIsModelLoading] = useState(false);
     const [gestureDirection, setGestureDirection] = useState<GestureDirection>('none');
     const [landmarks, setLandmarks] = useState<HandLandmark[] | null>(null);
@@ -31,6 +35,7 @@ export function useGestureControl(
     const animFrameRef = useRef<number>(0);
     const prevWristXRef = useRef<number | null>(null);
     const lastTriggerTimeRef = useRef<number>(0);
+    const lastDetectedTimeRef = useRef<number>(0);
     const isRunningRef = useRef(false);
 
     const onSwipeLeftRef = useRef(onSwipeLeft);
@@ -60,6 +65,8 @@ export function useGestureControl(
 
         prevWristXRef.current = null;
         setLandmarks(null);
+        setIsHandDetected(false);
+        setLowLightWarning(false);
         setGestureDirection('none');
         setIsActive(false);
     }, []);
@@ -68,6 +75,7 @@ export function useGestureControl(
         try {
             setIsModelLoading(true);
             setError(null);
+            setLowLightWarning(false);
 
             // Request camera
             const stream = await navigator.mediaDevices.getUserMedia({
@@ -87,6 +95,7 @@ export function useGestureControl(
             setIsActive(true);
             setIsModelLoading(false);
             isRunningRef.current = true;
+            lastDetectedTimeRef.current = Date.now();
 
             // Detection loop
             const detect = async (): Promise<void> => {
@@ -94,9 +103,13 @@ export function useGestureControl(
 
                 try {
                     const handLandmarks = await detectHands(detectorRef.current, videoRef.current);
-                    setLandmarks(handLandmarks);
 
                     if (handLandmarks) {
+                        setLandmarks(handLandmarks);
+                        setIsHandDetected(true);
+                        setLowLightWarning(false);
+                        lastDetectedTimeRef.current = Date.now();
+
                         const { direction, wristX } = detectSwipe(
                             handLandmarks,
                             prevWristXRef.current,
@@ -121,7 +134,14 @@ export function useGestureControl(
                             }, 400);
                         }
                     } else {
+                        setLandmarks(null);
+                        setIsHandDetected(false);
                         prevWristXRef.current = null;
+
+                        // Check for low light or poor visibility if no hand detected for 3 seconds
+                        if (Date.now() - lastDetectedTimeRef.current > 3000) {
+                            setLowLightWarning(true);
+                        }
                     }
                 } catch (err) {
                     // Log detection errors occasionally
@@ -173,6 +193,8 @@ export function useGestureControl(
 
     return {
         isActive,
+        isHandDetected,
+        lowLightWarning,
         isModelLoading,
         gestureDirection,
         landmarks,

@@ -1,11 +1,14 @@
 'use client';
 
-import { ChevronLeft, ChevronRight, Video, VideoOff, Wifi } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight, Video, VideoOff, Wifi, Eye, EyeOff } from 'lucide-react';
 import type { GestureDirection } from '../types';
 
 interface GestureOverlayProps {
     videoRef: React.RefObject<HTMLVideoElement | null>;
     isActive: boolean;
+    isHandDetected: boolean;
+    lowLightWarning: boolean;
     isModelLoading: boolean;
     gestureDirection: GestureDirection;
     error: string | null;
@@ -14,28 +17,86 @@ interface GestureOverlayProps {
 export function GestureOverlay({
     videoRef,
     isActive,
+    isHandDetected,
+    lowLightWarning,
     isModelLoading,
     gestureDirection,
     error,
 }: GestureOverlayProps) {
+    const [showCamera, setShowCamera] = useState(false);
+
     if (!isActive && !isModelLoading) return null;
 
     return (
         <>
-            {/* Hidden video element (must be in DOM for AI to work) */}
-            <div className="fixed opacity-0 pointer-events-none w-0 h-0 overflow-hidden">
-                <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                />
+            {/* Video element — visible when showCamera is true, hidden otherwise */}
+            <div
+                className={
+                    showCamera && isActive && !error
+                        ? 'fixed bottom-28 left-6 z-50 animate-in fade-in slide-in-from-left-4 duration-300'
+                        : 'fixed opacity-0 pointer-events-none w-0 h-0 overflow-hidden'
+                }
+            >
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-white/80 bg-black">
+                    {/* Camera Feed */}
+                    <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        muted
+                        className="w-48 h-36 object-cover rounded-2xl transform scale-x-[-1]"
+                    />
+
+                    {/* Hand Detection Overlay on Camera */}
+                    <div className="absolute top-2 left-2 right-2 flex items-center justify-between">
+                        <div className={`
+                            flex items-center gap-1.5 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider
+                            ${isHandDetected
+                                ? 'bg-primary-500/80 text-white'
+                                : 'bg-black/50 text-white/70'
+                            }
+                            backdrop-blur-sm transition-all duration-300
+                        `}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${isHandDetected ? 'bg-white animate-pulse' : 'bg-white/40'}`} />
+                            {isHandDetected ? '✋ Detected' : 'No hand'}
+                        </div>
+
+                        {/* Hide camera button */}
+                        <button
+                            onClick={() => setShowCamera(false)}
+                            className="p-1 rounded-lg bg-black/50 text-white/70 hover:bg-black/70 hover:text-white backdrop-blur-sm transition-colors"
+                            aria-label="Hide camera"
+                        >
+                            <EyeOff className="w-3 h-3" />
+                        </button>
+                    </div>
+
+                    {/* Low light warning banner on camera */}
+                    {lowLightWarning && !isHandDetected && (
+                        <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-amber-500/90 backdrop-blur-sm">
+                            <p className="text-[9px] font-bold text-white text-center uppercase tracking-wider">
+                                💡 Improve lighting for better detection
+                            </p>
+                        </div>
+                    )}
+                </div>
             </div>
 
-            {/* Subtle Status Indicator (Bottom right) */}
+            {/* Status Indicator (Bottom right) */}
             {!error && (
-                <div className="fixed bottom-24 right-6 z-50">
-                    <div className="flex items-center gap-2.5 px-3 py-2 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 transition-all duration-300">
+                <div className="fixed bottom-24 right-6 z-50 flex flex-col items-end gap-2">
+                    {/* Low Light Warning */}
+                    {isActive && lowLightWarning && !isHandDetected && !showCamera && (
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 rounded-xl border border-amber-100 shadow-sm animate-in fade-in slide-in-from-right-4 duration-300">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                            </span>
+                            <span className="text-[10px] font-bold text-amber-800 uppercase tracking-tight">Poor visibility? Check lighting</span>
+                        </div>
+                    )}
+
+                    <div className="flex items-center gap-2 px-3 py-2 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 transition-all duration-300">
                         {isModelLoading ? (
                             <>
                                 <div className="w-5 h-5 rounded-lg bg-amber-50 flex items-center justify-center animate-spin">
@@ -46,12 +107,32 @@ export function GestureOverlay({
                         ) : (
                             <>
                                 <div className="relative">
-                                    <div className="w-5 h-5 rounded-lg bg-green-50 flex items-center justify-center">
-                                        <Video className="w-3 h-3 text-green-600" />
+                                    <div className={`w-5 h-5 rounded-lg flex items-center justify-center transition-colors duration-300 ${isHandDetected ? 'bg-primary-100' : 'bg-gray-100'}`}>
+                                        <Video className={`w-3 h-3 transition-colors ${isHandDetected ? 'text-primary-600' : 'text-gray-400'}`} />
                                     </div>
-                                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-green-500 border-2 border-white animate-pulse" />
+                                    {isHandDetected && (
+                                        <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-primary-500 border-2 border-white" />
+                                    )}
                                 </div>
-                                <span className="text-xs font-semibold text-gray-700">Gesture Ready</span>
+                                <span className={`text-xs font-semibold transition-colors ${isHandDetected ? 'text-primary-900' : 'text-gray-500'}`}>
+                                    {isHandDetected ? 'Hand Detected' : 'Gesture Ready'}
+                                </span>
+
+                                {/* Toggle camera preview button */}
+                                <button
+                                    onClick={() => setShowCamera(!showCamera)}
+                                    className={`
+                                        ml-1 p-1.5 rounded-lg transition-colors
+                                        ${showCamera
+                                            ? 'bg-primary-100 text-primary-600 hover:bg-primary-200'
+                                            : 'bg-gray-100 text-gray-400 hover:bg-gray-200 hover:text-gray-600'
+                                        }
+                                    `}
+                                    aria-label={showCamera ? 'Hide camera preview' : 'Show camera preview'}
+                                    title={showCamera ? 'Hide camera' : 'Show camera'}
+                                >
+                                    {showCamera ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                                </button>
                             </>
                         )}
                     </div>

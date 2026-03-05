@@ -58,7 +58,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Color picker, palette generator, gradients, font pairing, and contrast checker | all browser-based',
         icon: Palette,
         color: '#E4E4E7',
-        toolCount: 5,
+        toolCount: 11,
     },
     {
         id: 'text-utilities',

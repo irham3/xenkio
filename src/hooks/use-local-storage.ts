@@ -33,22 +33,23 @@ export function useLocalStorage<T>(
       }
 
       try {
-        // Allow value to be a function so we have the same API as useState
-        const newValue = value instanceof Function ? value(storedValue) : value;
+        setStoredValue((prevValue) => {
+          // Allow value to be a function so we have the same API as useState
+          const newValue = value instanceof Function ? value(prevValue) : value;
 
-        // Save to local storage
-        window.localStorage.setItem(key, JSON.stringify(newValue));
+          // Save to local storage
+          window.localStorage.setItem(key, JSON.stringify(newValue));
 
-        // Save state
-        setStoredValue(newValue);
+          // Dispatch storage event for other hooks
+          window.dispatchEvent(new Event('local-storage'));
 
-        // Dispatch storage event for other hooks
-        window.dispatchEvent(new Event('local-storage'));
+          return newValue;
+        });
       } catch (error) {
         console.warn(`Error setting localStorage key "${key}":`, error);
       }
     },
-    [key, storedValue]
+    [key]
   );
 
   // Remove from local storage
@@ -69,10 +70,10 @@ export function useLocalStorage<T>(
     const handleStorageChange = () => {
       setStoredValue(readValue());
     };
-    
+
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('local-storage', handleStorageChange);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('local-storage', handleStorageChange);

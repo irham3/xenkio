@@ -69,6 +69,7 @@ import {
     Film,
     Wifi,
     Percent,
+    ClipboardCheck,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -428,6 +429,17 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS
     // =====================================================
     {
+        id: '105',
+        title: 'Data Checker',
+        description: 'Validate data manually row-by-row. Mark valid/invalid, add comments, and export results as CSV.',
+        icon: ClipboardCheck,
+        href: '/tools/data-checker',
+        slug: 'data-checker',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+    {
         id: '26',
         title: 'JSON Formatter',
         description: 'Format, validate, and beautify JSON data with syntax highlighting.',
@@ -728,6 +740,7 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'calculators',
     },
+
     {
         id: '93',
         title: 'Date Calculator',
@@ -847,9 +860,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
     },
 
-    // =====================================================
-    // DEVELOPER TOOLS - Tambahan
-    // =====================================================
+
 
 
     // =====================================================
@@ -1037,16 +1048,7 @@ export const TOOLS: ToolData[] = [
         isComingSoon: true,
         categoryId: 'calculators',
     },
-    {
-        id: '89',
-        title: 'Date Calculator',
-        description: 'Calculate differences between dates or add/subtract days.',
-        icon: CalendarDays,
-        href: '/tools/date-calculator',
-        slug: 'date-calculator',
-        isComingSoon: true,
-        categoryId: 'calculators',
-    },
+
     {
         id: '90',
         title: 'Compound Interest Calculator',
@@ -1081,6 +1083,7 @@ export const TOOLS: ToolData[] = [
 
 // Search suggestions for the search bar
 export const SEARCH_SUGGESTIONS = [
+    { type: 'tool' as const, name: 'Data Checker', category: 'Developer Tools' },
     { type: 'tool' as const, name: 'Merge PDF', category: 'Documents' },
     { type: 'tool' as const, name: 'Image Compressor', category: 'Media & Images' },
     { type: 'tool' as const, name: 'Password Generator', category: 'Security & Privacy' },
@@ -1089,5 +1092,5 @@ export const SEARCH_SUGGESTIONS = [
     { type: 'tool' as const, name: 'Color Picker', category: 'Design Tools' },
     { type: 'category' as const, name: 'PDF & Documents', count: 7 },
     { type: 'category' as const, name: 'Media & Images', count: 11 },
-    { type: 'category' as const, name: 'Developer Tools', count: 11 },
+    { type: 'category' as const, name: 'Developer Tools', count: 12 },
 ];

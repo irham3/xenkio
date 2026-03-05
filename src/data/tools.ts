@@ -63,7 +63,6 @@ import {
     Globe2,
     Server,
     DollarSign,
-    CalendarDays,
     CalendarRange,
     TrendingUp,
     Film,

@@ -23,6 +23,8 @@ import {
     CheckCircle2,
     XCircle,
     PartyPopper,
+    Pencil,
+    Undo2,
 } from 'lucide-react';
 
 export default function DataCheckerClient() {
@@ -40,25 +42,31 @@ export default function DataCheckerClient() {
         goToNextUnchecked,
         resetAll,
         clearAll,
+        updateRowValue,
+        undo,
         exportAsCSV,
     } = useDataChecker();
 
     const [textInput, setTextInput] = useState('');
     const [showList, setShowList] = useState(false);
+    const [forceReview, setForceReview] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const hasData = state.rows.length > 0;
-    const isComplete = hasData && stats.progress === 100;
+    const isAllChecked = hasData && stats.progress === 100;
+    const showSummary = isAllChecked && !forceReview;
 
     const handleLoadData = () => {
         if (textInput.trim()) {
             loadData(textInput);
+            setForceReview(false);
         }
     };
 
     const handleLoadSample = () => {
         setTextInput(SAMPLE_DATA);
         loadData(SAMPLE_DATA);
+        setForceReview(false);
     };
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,6 +143,23 @@ export default function DataCheckerClient() {
                                     Reset
                                 </button>
                                 <button
+                                    onClick={undo}
+                                    disabled={state.history.length === 0}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                                >
+                                    <Undo2 className="w-3.5 h-3.5" />
+                                    Undo
+                                </button>
+                                {isAllChecked && !showSummary && (
+                                    <button
+                                        onClick={() => setForceReview(false)}
+                                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                                    >
+                                        <CheckCircle2 className="w-3.5 h-3.5" />
+                                        Summary
+                                    </button>
+                                )}
+                                <button
                                     onClick={handleExportCSV}
                                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all"
                                 >
@@ -143,7 +168,7 @@ export default function DataCheckerClient() {
                                 </button>
                                 <button
                                     onClick={handleClearAll}
-                                    className="p-2 text-gray-500 hover:text-error-600 rounded-lg hover:bg-error-50 transition-all"
+                                    className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all"
                                     title="Clear all data"
                                 >
                                     <Trash2 className="w-4 h-4" />
@@ -230,7 +255,10 @@ export default function DataCheckerClient() {
                                     <ItemList
                                         rows={state.rows}
                                         currentIndex={state.currentIndex}
-                                        onGoToIndex={goToIndex}
+                                        onGoToIndex={(idx) => {
+                                            goToIndex(idx);
+                                            if (isAllChecked) setForceReview(true);
+                                        }}
                                         onSetRowStatus={setRowStatus}
                                     />
                                 </div>
@@ -244,7 +272,7 @@ export default function DataCheckerClient() {
                                 </div>
 
                                 {/* Completion Screen */}
-                                {isComplete ? (
+                                {showSummary ? (
                                     <div className="flex flex-col items-center justify-center py-10 text-center animate-in fade-in zoom-in-95 duration-500">
                                         <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-6">
                                             <PartyPopper className="w-10 h-10 text-emerald-500" />
@@ -277,13 +305,22 @@ export default function DataCheckerClient() {
                                                 <Download className="w-5 h-5" />
                                                 Export Results as CSV
                                             </button>
-                                            <button
-                                                onClick={resetAll}
-                                                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 transition-all"
-                                            >
-                                                <RotateCcw className="w-4 h-4" />
-                                                Review Again
-                                            </button>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => setForceReview(true)}
+                                                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition-all"
+                                                >
+                                                    <Pencil className="w-4 h-4" />
+                                                    Edit Items
+                                                </button>
+                                                <button
+                                                    onClick={resetAll}
+                                                    className="flex-2 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 transition-all"
+                                                >
+                                                    <RotateCcw className="w-4 h-4" />
+                                                    Review Again
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 ) : (
@@ -297,6 +334,9 @@ export default function DataCheckerClient() {
                                         onGoToNext={goToNext}
                                         onGoToPrev={goToPrev}
                                         onGoToNextUnchecked={goToNextUnchecked}
+                                        onUpdateValue={(val) => updateRowValue(state.currentIndex, val)}
+                                        onUndo={undo}
+                                        canUndo={state.history.length > 0}
                                     />
                                 )}
                             </div>

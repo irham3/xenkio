@@ -71,6 +71,7 @@ import {
     Film,
     Wifi,
     Percent,
+    GlassWater,
 } from 'lucide-react';
 
 export interface ToolData {
@@ -902,6 +903,16 @@ export const TOOLS: ToolData[] = [
         icon: LayoutGrid,
         href: '/tools/flexbox-generator',
         slug: 'flexbox-generator',
+        isNew: true,
+        categoryId: 'design-tools',
+    },
+    {
+        id: '104',
+        title: 'Glassmorphism Generator',
+        description: 'Create beautiful frosted glass UI effects with live preview and CSS code export.',
+        icon: GlassWater,
+        href: '/tools/glassmorphism-generator',
+        slug: 'glassmorphism-generator',
         isNew: true,
         categoryId: 'design-tools',
     },

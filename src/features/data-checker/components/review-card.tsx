@@ -17,6 +17,7 @@ import {
 
 interface ReviewCardProps {
     currentRow: DataRow | null;
+    nextRow: DataRow | null;
     currentIndex: number;
     stats: DataCheckerStats;
     onMarkValid: () => void;
@@ -46,6 +47,7 @@ const PATTERNS = {
 
 export function ReviewCard({
     currentRow,
+    nextRow,
     currentIndex,
     stats,
     onMarkValid,
@@ -377,7 +379,7 @@ export function ReviewCard({
                             >
                                 <CheckCircle2 className="w-6 h-6" />
                                 Valid
-                                <kbd className="ml-2 px-2 py-0.5 bg-emerald-600/50 rounded text-xs font-mono opacity-70">Enter</kbd>
+                                <kbd className="ml-2 px-2 py-0.5 bg-emerald-600/50 rounded text-xs font-mono opacity-70">Enter / Space</kbd>
                             </button>
 
                             {/* Invalid Button */}
@@ -453,11 +455,26 @@ export function ReviewCard({
             {!isCommentMode && (
                 <div className="flex items-center justify-center gap-4 mt-4">
                     <p className="text-[11px] text-gray-400 text-center flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                        <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">Enter</kbd> Valid</span>
+                        <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">Enter/Space</kbd> Valid</span>
                         <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">E</kbd> Edit</span>
                         <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">Ctrl+Z</kbd> Undo</span>
                         <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">←→</kbd> Navigate</span>
                     </p>
+                </div>
+            )}
+
+            {/* Next Up Preview */}
+            {!isCommentMode && nextRow && (
+                <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col items-center animate-in fade-in slide-in-from-bottom-2 duration-500">
+                    <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                        <SkipForward className="w-3.5 h-3.5" />
+                        Next Up
+                    </div>
+                    <div className="w-full max-w-md px-4 py-3 bg-gray-50/50 border border-gray-200/50 rounded-xl text-center shadow-sm">
+                        <p className="text-sm font-medium text-gray-600 truncate opacity-70">
+                            {nextRow.value}
+                        </p>
+                    </div>
                 </div>
             )}
         </div>

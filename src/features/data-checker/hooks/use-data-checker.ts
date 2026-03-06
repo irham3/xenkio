@@ -225,10 +225,14 @@ export function useDataChecker() {
         return [headerLine, ...dataLines].join('\n');
     }, [state.rows]);
 
+    const nextUncheckedIndex = state.rows.findIndex((r, idx) => idx > state.currentIndex && r.status === 'unchecked');
+    const nextRow = nextUncheckedIndex !== -1 ? state.rows[nextUncheckedIndex] : null;
+
     return {
         state,
         stats,
         currentRow,
+        nextRow,
         loadData,
         markCurrentValid,
         markCurrentInvalid,

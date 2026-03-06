@@ -940,6 +940,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'text-utilities',
     },
+    {
+        id: '105',
+        title: 'Morse Code Encoder & Decoder',
+        description: 'Convert text to Morse code or decode Morse code back to text instantly.',
+        icon: Wifi,
+        href: '/tools/morse-code',
+        slug: 'morse-code',
+        isNew: true,
+        categoryId: 'text-utilities',
+    },
 
     // =====================================================
     // WEB & SEO - Tambahan

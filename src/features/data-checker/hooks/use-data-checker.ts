@@ -12,6 +12,7 @@ const EMPTY_STATE: DataCheckerState = {
     rows: [],
     rawInput: '',
     currentIndex: 0,
+    history: [],
 };
 
 export function useDataChecker() {
@@ -27,10 +28,12 @@ export function useDataChecker() {
     // Initial mount sync: once client loads, pull from localStorage
     useEffect(() => {
         setIsMounted(true);
-        if (savedState !== EMPTY_STATE) {
-            setState(savedState);
+        if (savedState && savedState !== EMPTY_STATE) {
+            // Merge with EMPTY_STATE to ensure new fields like 'history' exist even for old saved data
+            setState({ ...EMPTY_STATE, ...savedState, history: savedState.history ?? [] });
         }
-    }, []); // Only on mount
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // Only on mount — intentionally ignoring savedState to avoid infinite loop
 
     // Sync local state → localStorage (only after mount and when state changes)
     useEffect(() => {
@@ -65,6 +68,36 @@ export function useDataChecker() {
         return state.rows[state.currentIndex] ?? null;
     }, [state.rows, state.currentIndex]);
 
+    const addToHistory = useCallback((row: DataRow) => {
+        setState(prev => ({
+            ...prev,
+            history: [...prev.history, { ...row }].slice(-20) // Keep last 20 actions
+        }));
+    }, []);
+
+    const undo = useCallback(() => {
+        setState(prev => {
+            if (prev.history.length === 0) return prev;
+
+            const lastAction = prev.history[prev.history.length - 1];
+            const newHistory = prev.history.slice(0, -1);
+
+            const newRows = prev.rows.map(row =>
+                row.id === lastAction.id ? { ...row, ...lastAction } : row
+            );
+
+            // Optionally move to the undone item's index
+            const undoneIndex = lastAction.index ?? prev.currentIndex;
+
+            return {
+                ...prev,
+                rows: newRows,
+                currentIndex: undoneIndex,
+                history: newHistory
+            };
+        });
+    }, []);
+
     const loadData = useCallback((rawInput: string) => {
         const lines = rawInput.split('\n').filter((line) => line.trim().length > 0);
         const rows: DataRow[] = lines.map((line, idx) => ({
@@ -75,10 +108,13 @@ export function useDataChecker() {
             comment: '',
         }));
 
-        setState({ rows, rawInput, currentIndex: 0 });
+        setState({ rows, rawInput, currentIndex: 0, history: [] });
     }, []);
 
     const markCurrentValid = useCallback(() => {
+        const rowToSave = state.rows[state.currentIndex];
+        if (rowToSave) addToHistory(rowToSave);
+
         setState((prev) => {
             const newRows = prev.rows.map((row, idx) =>
                 idx === prev.currentIndex ? { ...row, status: 'valid' as RowStatus } : row
@@ -87,9 +123,12 @@ export function useDataChecker() {
             const nextIndex = nextUnchecked !== -1 ? nextUnchecked : Math.min(prev.currentIndex + 1, prev.rows.length - 1);
             return { ...prev, rows: newRows, currentIndex: nextIndex };
         });
-    }, []);
+    }, [state.rows, state.currentIndex, addToHistory]);
 
     const markCurrentInvalid = useCallback((comment: string) => {
+        const rowToSave = state.rows[state.currentIndex];
+        if (rowToSave) addToHistory(rowToSave);
+
         setState((prev) => {
             const newRows = prev.rows.map((row, idx) =>
                 idx === prev.currentIndex ? { ...row, status: 'invalid' as RowStatus, comment } : row
@@ -98,16 +137,19 @@ export function useDataChecker() {
             const nextIndex = nextUnchecked !== -1 ? nextUnchecked : Math.min(prev.currentIndex + 1, prev.rows.length - 1);
             return { ...prev, rows: newRows, currentIndex: nextIndex };
         });
-    }, []);
+    }, [state.rows, state.currentIndex, addToHistory]);
 
     const setRowStatus = useCallback((rowId: string, status: RowStatus, comment?: string) => {
+        const rowToSave = state.rows.find(r => r.id === rowId);
+        if (rowToSave) addToHistory(rowToSave);
+
         setState((prev) => ({
             ...prev,
             rows: prev.rows.map((row) =>
                 row.id === rowId ? { ...row, status, comment: comment ?? row.comment } : row
             ),
         }));
-    }, []);
+    }, [state.rows, addToHistory]);
 
     const goToIndex = useCallback((index: number) => {
         setState((prev) => ({
@@ -157,6 +199,18 @@ export function useDataChecker() {
         removeSavedState();
     }, [removeSavedState]);
 
+    const updateRowValue = useCallback((index: number, newValue: string) => {
+        const rowToSave = state.rows[index];
+        if (rowToSave) addToHistory(rowToSave);
+
+        setState((prev) => ({
+            ...prev,
+            rows: prev.rows.map((row, idx) =>
+                idx === index ? { ...row, value: newValue } : row
+            ),
+        }));
+    }, [state.rows, addToHistory]);
+
     const exportAsCSV = useCallback((): string => {
         const headerLine = 'Data,Status,Comment';
         const dataLines = state.rows.map((row) => {
@@ -185,6 +239,8 @@ export function useDataChecker() {
         goToNextUnchecked,
         resetAll,
         clearAll,
+        updateRowValue,
+        undo,
         exportAsCSV,
     };
 }

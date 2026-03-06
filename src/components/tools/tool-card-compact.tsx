@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { ArrowUpRight, Crown, type LucideIcon } from 'lucide-react';
+import { ArrowUpRight, Crown } from 'lucide-react';
 
 interface ToolCardCompactProps {
   id: string;
   title: string;
   description: string;
   href: string;
-  icon: LucideIcon;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   isNew?: boolean;
   isPremium?: boolean;
   isComingSoon?: boolean;

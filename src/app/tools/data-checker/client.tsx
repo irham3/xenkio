@@ -32,6 +32,7 @@ export default function DataCheckerClient() {
         state,
         stats,
         currentRow,
+        nextRow,
         loadData,
         markCurrentValid,
         markCurrentInvalid,
@@ -327,6 +328,7 @@ export default function DataCheckerClient() {
                                     /* Review Card */
                                     <ReviewCard
                                         currentRow={currentRow}
+                                        nextRow={nextRow}
                                         currentIndex={state.currentIndex}
                                         stats={stats}
                                         onMarkValid={markCurrentValid}

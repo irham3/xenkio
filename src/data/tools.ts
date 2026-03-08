@@ -70,6 +70,7 @@ import {
     Percent,
     ClipboardCheck,
     GlassWater,
+    Database,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -548,6 +549,16 @@ export const TOOLS: ToolData[] = [
         icon: Code2,
         href: '/tools/html-entity-encoder',
         slug: 'html-entity-encoder',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '106',
+        title: 'SQL Formatter',
+        description: 'Format and beautify SQL queries with support for multiple dialects.',
+        icon: Database,
+        href: '/tools/sql-formatter',
+        slug: 'sql-formatter',
         isNew: true,
         categoryId: 'developer-tools',
     },

@@ -267,7 +267,7 @@ export function SqlFormatterTool({
                                         stats.formattedSize > stats.originalSize ? "text-amber-600" : "text-green-600"
                                     )}>
                                         {stats.formattedSize > stats.originalSize ? '+' : ''}
-                                        {((stats.formattedSize / stats.originalSize - 1) * 100).toFixed(1)}%
+                                        {stats.originalSize > 0 ? ((stats.formattedSize / stats.originalSize - 1) * 100).toFixed(1) : '0.0'}%
                                     </p>
                                 </div>
                             </div>

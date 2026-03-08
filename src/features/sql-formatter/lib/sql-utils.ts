@@ -10,11 +10,16 @@ export function formatSql(
     keywordCase: KeywordCase,
     indentStyle: IndentStyle
 ): string {
-    return format(sql, {
-        language,
-        tabWidth,
-        useTabs,
-        keywordCase,
-        indentStyle,
-    });
+    try {
+        return format(sql, {
+            language,
+            tabWidth,
+            useTabs,
+            keywordCase,
+            indentStyle,
+        });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`SQL formatting failed: ${message}`);
+    }
 }

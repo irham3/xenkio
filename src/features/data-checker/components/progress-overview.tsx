@@ -2,7 +2,16 @@
 
 import { cn } from '@/lib/utils';
 import type { DataCheckerStats } from '../types';
-import { CheckCircle2, XCircle, CircleDashed } from 'lucide-react';
+import { CheckCircle2, XCircle, CircleDashed, Clock, Timer } from 'lucide-react';
+
+const formatDuration = (ms: number) => {
+    if (ms < 0) return '0s';
+    const totalSecs = Math.floor(ms / 1000);
+    const m = Math.floor(totalSecs / 60);
+    const s = totalSecs % 60;
+    if (m > 0) return `${m}m ${s}s`;
+    return `${s}s`;
+};
 
 interface ProgressOverviewProps {
     stats: DataCheckerStats;
@@ -33,7 +42,7 @@ export function ProgressOverview({ stats }: ProgressOverviewProps) {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
                 <div className={cn(
                     "flex items-center gap-2 px-3 py-2 rounded-lg border transition-all",
                     stats.valid > 0
@@ -68,6 +77,32 @@ export function ProgressOverview({ stats }: ProgressOverviewProps) {
                     <div className="min-w-0">
                         <p className="text-xs font-medium opacity-70">Unchecked</p>
                         <p className="text-lg font-bold tabular-nums leading-tight">{stats.unchecked}</p>
+                    </div>
+                </div>
+                <div className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-lg border transition-all",
+                    stats.totalTimeMs > 0
+                        ? "bg-blue-50/80 border-blue-200/60 text-blue-700"
+                        : "bg-gray-50 border-gray-100 text-gray-400"
+                )}>
+                    <Clock className="w-4 h-4 shrink-0" />
+                    <div className="min-w-0">
+                        <p className="text-xs font-medium opacity-70">Total Time</p>
+                        <p className="text-sm font-bold truncate leading-tight">{formatDuration(stats.totalTimeMs)}</p>
+                    </div>
+                </div>
+                <div className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-lg border transition-all",
+                    stats.unchecked > 0 && stats.estimatedTimeRemainingMs > 0
+                        ? "bg-purple-50/80 border-purple-200/60 text-purple-700"
+                        : "bg-gray-50 border-gray-100 text-gray-400"
+                )}>
+                    <Timer className="w-4 h-4 shrink-0" />
+                    <div className="min-w-0">
+                        <p className="text-xs font-medium opacity-70">Est. Remaining</p>
+                        <p className="text-sm font-bold truncate leading-tight">
+                            {stats.unchecked === 0 ? 'Done' : formatDuration(stats.estimatedTimeRemainingMs)}
+                        </p>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import type { DataRow, DataCheckerState, DataCheckerStats, RowStatus } from '../types';
 
@@ -25,9 +25,15 @@ export function useDataChecker() {
     const [state, setState] = useState<DataCheckerState>(EMPTY_STATE);
     const [isMounted, setIsMounted] = useState(false);
 
+    // Timer refs
+    const lastTickRef = useRef<number>(0);
+    const lastActionTimeRef = useRef<number>(0);
+
     // Initial mount sync: once client loads, pull from localStorage
     useEffect(() => {
         setIsMounted(true);
+        lastTickRef.current = Date.now();
+        lastActionTimeRef.current = Date.now();
         if (savedState && savedState !== EMPTY_STATE) {
             // Merge with EMPTY_STATE to ensure new fields like 'history' exist even for old saved data
             setState({ ...EMPTY_STATE, ...savedState, history: savedState.history ?? [] });
@@ -40,6 +46,50 @@ export function useDataChecker() {
         if (!isMounted) return;
         setSavedState(state);
     }, [state, setSavedState, isMounted]);
+
+    // Track active time per row
+    useEffect(() => {
+        if (!isMounted) return;
+
+        const handleActivity = () => {
+            lastActionTimeRef.current = Date.now();
+        };
+
+        window.addEventListener('mousemove', handleActivity);
+        window.addEventListener('keydown', handleActivity);
+        window.addEventListener('click', handleActivity);
+
+        const interval = setInterval(() => {
+            const now = Date.now();
+            const elapsed = now - lastTickRef.current;
+            lastTickRef.current = now;
+
+            if (elapsed > 5000) return; // Prevent big jumps (e.g. computer sleep)
+            if (now - lastActionTimeRef.current > 30000) return; // Stop counting if AFK for 30s
+
+            setState((prev) => {
+                if (prev.rows.length === 0 || prev.currentIndex < 0 || prev.currentIndex >= prev.rows.length) return prev;
+                // If all done, stop counting
+                const hasUnchecked = prev.rows.some(r => r.status === 'unchecked');
+                if (!hasUnchecked) return prev;
+
+                const newRows = [...prev.rows];
+                const current = newRows[prev.currentIndex];
+                newRows[prev.currentIndex] = {
+                    ...current,
+                    timeSpentMs: (current.timeSpentMs || 0) + elapsed
+                };
+                return { ...prev, rows: newRows };
+            });
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+            window.removeEventListener('mousemove', handleActivity);
+            window.removeEventListener('keydown', handleActivity);
+            window.removeEventListener('click', handleActivity);
+        };
+    }, [isMounted]);
 
     // Warn before unload if there's checked progress
     useEffect(() => {
@@ -56,12 +106,25 @@ export function useDataChecker() {
 
     const stats: DataCheckerStats = useMemo(() => {
         const total = state.rows.length;
-        const valid = state.rows.filter((r) => r.status === 'valid').length;
-        const invalid = state.rows.filter((r) => r.status === 'invalid').length;
-        const unchecked = state.rows.filter((r) => r.status === 'unchecked').length;
+        let valid = 0;
+        let invalid = 0;
+        let unchecked = 0;
+        let totalTimeMs = 0;
+
+        for (const r of state.rows) {
+            if (r.status === 'valid') valid++;
+            else if (r.status === 'invalid') invalid++;
+            else unchecked++;
+            totalTimeMs += (r.timeSpentMs || 0);
+        }
+
         const checked = valid + invalid;
         const progress = total > 0 ? Math.round((checked / total) * 100) : 0;
-        return { total, checked, valid, invalid, unchecked, progress };
+
+        const averageTimeMs = checked > 0 ? totalTimeMs / checked : 0;
+        const estimatedTimeRemainingMs = unchecked > 0 ? averageTimeMs * unchecked : 0;
+
+        return { total, checked, valid, invalid, unchecked, progress, totalTimeMs, averageTimeMs, estimatedTimeRemainingMs };
     }, [state.rows]);
 
     const currentRow = useMemo(() => {
@@ -106,6 +169,7 @@ export function useDataChecker() {
             value: line.trim(),
             status: 'unchecked' as RowStatus,
             comment: '',
+            timeSpentMs: 0,
         }));
 
         setState({ rows, rawInput, currentIndex: 0, history: [] });
@@ -136,6 +200,29 @@ export function useDataChecker() {
             const nextUnchecked = newRows.findIndex((r, idx) => idx > prev.currentIndex && r.status === 'unchecked');
             const nextIndex = nextUnchecked !== -1 ? nextUnchecked : Math.min(prev.currentIndex + 1, prev.rows.length - 1);
             return { ...prev, rows: newRows, currentIndex: nextIndex };
+        });
+    }, [state.rows, state.currentIndex, addToHistory]);
+
+    const markRemainingAsValid = useCallback(() => {
+        // Find all unchecked rows after the current one
+        const rowsToSave = state.rows.filter((r, idx) => idx >= state.currentIndex && r.status === 'unchecked');
+        if (rowsToSave.length > 0) {
+            // we could save all to history, but for simplicity let's just save the current one if its unchecked
+            const current = state.rows[state.currentIndex];
+            if (current && current.status === 'unchecked') addToHistory(current);
+        }
+
+        setState((prev) => {
+            const newRows = prev.rows.map((row, idx) =>
+                idx >= prev.currentIndex && row.status === 'unchecked'
+                    ? { ...row, status: 'valid' as RowStatus }
+                    : row
+            );
+            return {
+                ...prev,
+                rows: newRows,
+                currentIndex: newRows.length - 1 // Move to the end
+            };
         });
     }, [state.rows, state.currentIndex, addToHistory]);
 
@@ -212,7 +299,7 @@ export function useDataChecker() {
     }, [state.rows, addToHistory]);
 
     const exportAsCSV = useCallback((): string => {
-        const headerLine = 'Data,Status,Comment';
+        const headerLine = 'Data,Status,Comment,Time Spent (ms)';
         const dataLines = state.rows.map((row) => {
             const value = row.value.includes(',') || row.value.includes('"')
                 ? `"${row.value.replace(/"/g, '""')}"`
@@ -220,7 +307,7 @@ export function useDataChecker() {
             const comment = row.comment.includes(',') || row.comment.includes('"')
                 ? `"${row.comment.replace(/"/g, '""')}"`
                 : row.comment;
-            return `${value},${row.status},${comment}`;
+            return `${value},${row.status},${comment},${Math.round(row.timeSpentMs || 0)}`;
         });
         return [headerLine, ...dataLines].join('\n');
     }, [state.rows]);
@@ -236,6 +323,7 @@ export function useDataChecker() {
         loadData,
         markCurrentValid,
         markCurrentInvalid,
+        markRemainingAsValid,
         setRowStatus,
         goToIndex,
         goToNext,

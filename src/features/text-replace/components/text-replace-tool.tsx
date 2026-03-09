@@ -24,17 +24,18 @@ function performReplace(
 
   if (useRegex) {
     try {
-      const flags = replaceAll
-        ? caseSensitive ? 'g' : 'gi'
-        : caseSensitive ? '' : 'i';
+      let flags = '';
+      if (replaceAll) flags += 'g';
+      if (!caseSensitive) flags += 'i';
       const regex = new RegExp(search, flags);
       const result = text.replace(regex, () => {
         count++;
         return replace;
       });
       return { result, count };
-    } catch {
-      toast.error('Invalid regex pattern');
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Invalid regex pattern';
+      toast.error(`Invalid regex: ${message}`);
       return { result: text, count: 0 };
     }
   }

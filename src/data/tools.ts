@@ -70,6 +70,8 @@ import {
     Percent,
     ClipboardCheck,
     GlassWater,
+    Database,
+    Replace,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -551,6 +553,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'developer-tools',
     },
+    {
+        id: '106',
+        title: 'SQL Formatter',
+        description: 'Format and beautify SQL queries with support for multiple dialects.',
+        icon: Database,
+        href: '/tools/sql-formatter',
+        slug: 'sql-formatter',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
 
     // =====================================================
     // DESIGN & COLOR TOOLS
@@ -967,6 +979,16 @@ export const TOOLS: ToolData[] = [
         icon: Wifi,
         href: '/tools/morse-code',
         slug: 'morse-code',
+        isNew: true,
+        categoryId: 'text-utilities',
+    },
+    {
+        id: '107',
+        title: 'Text Replace',
+        description: 'Find and replace text with plain text or regex patterns. Supports case-sensitive matching and replace all.',
+        icon: Replace,
+        href: '/tools/text-replace',
+        slug: 'text-replace',
         isNew: true,
         categoryId: 'text-utilities',
     },

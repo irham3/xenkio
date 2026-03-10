@@ -442,6 +442,17 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
+        id: '106',
+        title: 'Data Verifier',
+        description: 'Compare and sync two datasets side-by-side. Find mismatched rows, review missing data, and apply quick fixes.',
+        icon: ArrowLeftRight,
+        href: '/tools/data-verifier',
+        slug: 'data-verifier',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+    {
         id: '26',
         title: 'JSON Formatter',
         description: 'Format, validate, and beautify JSON data with syntax highlighting.',

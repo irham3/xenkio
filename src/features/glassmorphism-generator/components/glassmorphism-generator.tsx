@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, Shuffle } from 'lucide-react';
+import { Copy, Check, Shuffle, Palette } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -99,9 +99,13 @@ export function GlassmorphismGenerator() {
   const [config, setConfig] = useState<GlassConfig>(DEFAULT_CONFIG);
   const [backgroundIndex, setBackgroundIndex] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [useCustomBg, setUseCustomBg] = useState(false);
+  const [customColor1, setCustomColor1] = useState('#667eea');
+  const [customColor2, setCustomColor2] = useState('#764ba2');
 
   const glassCss = useMemo(() => buildGlassCss(config), [config]);
-  const currentBg = BACKGROUND_PRESETS[backgroundIndex];
+  const customBg = `linear-gradient(135deg, ${customColor1} 0%, ${customColor2} 100%)`;
+  const currentBg = useCustomBg ? customBg : BACKGROUND_PRESETS[backgroundIndex];
 
   const updateConfig = useCallback(<K extends keyof GlassConfig>(key: K, value: GlassConfig[K]): void => {
     setConfig((prev) => ({ ...prev, [key]: value }));
@@ -127,6 +131,7 @@ export function GlassmorphismGenerator() {
       glassColor: '#ffffff',
       borderRadius: 8 + Math.round(Math.random() * 24),
     });
+    setUseCustomBg(false);
     setBackgroundIndex(Math.floor(Math.random() * BACKGROUND_PRESETS.length));
   }, []);
 
@@ -146,15 +151,23 @@ export function GlassmorphismGenerator() {
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div
               className="absolute w-32 h-32 rounded-full"
-              style={{ background: 'rgba(255,255,255,0.3)', top: '15%', left: '12%' }}
+              style={{ background: 'rgba(255,255,255,0.35)', top: '10%', left: '10%' }}
             />
             <div
               className="absolute w-24 h-24 rounded-full"
-              style={{ background: 'rgba(255,255,255,0.2)', bottom: '20%', right: '15%' }}
+              style={{ background: 'rgba(255,255,0,0.3)', bottom: '15%', right: '12%' }}
             />
             <div
               className="absolute w-16 h-16 rounded-lg rotate-45"
-              style={{ background: 'rgba(255,255,255,0.25)', top: '30%', right: '30%' }}
+              style={{ background: 'rgba(255,100,100,0.35)', top: '25%', right: '25%' }}
+            />
+            <div
+              className="absolute w-20 h-20 rounded-full"
+              style={{ background: 'rgba(0,255,200,0.3)', bottom: '25%', left: '25%' }}
+            />
+            <div
+              className="absolute w-12 h-12 rounded-full"
+              style={{ background: 'rgba(255,255,255,0.4)', top: '55%', right: '45%' }}
             />
           </div>
 
@@ -306,10 +319,13 @@ export function GlassmorphismGenerator() {
                   {BACKGROUND_PRESETS.map((bg, i) => (
                     <button
                       key={i}
-                      onClick={() => setBackgroundIndex(i)}
+                      onClick={() => {
+                        setBackgroundIndex(i);
+                        setUseCustomBg(false);
+                      }}
                       className={cn(
                         'aspect-square rounded-lg border-2 transition-all',
-                        i === backgroundIndex
+                        !useCustomBg && i === backgroundIndex
                           ? 'border-primary-500 ring-2 ring-primary-500 ring-offset-1'
                           : 'border-gray-200 hover:border-gray-300'
                       )}
@@ -318,6 +334,96 @@ export function GlassmorphismGenerator() {
                     />
                   ))}
                 </div>
+              </div>
+
+              {/* Custom Background */}
+              <div className="space-y-3 pt-4 border-t border-gray-200">
+                <div className="flex items-center justify-between">
+                  <Label className="text-sm font-semibold text-gray-800">Custom Background</Label>
+                  <Button
+                    variant={useCustomBg ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setUseCustomBg(!useCustomBg)}
+                    className="h-7 text-xs gap-1.5"
+                  >
+                    <Palette className="w-3 h-3" />
+                    {useCustomBg ? 'Active' : 'Use Custom'}
+                  </Button>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <span className="text-xs text-gray-500">Start Color</span>
+                    <div className="flex items-center gap-2">
+                      <div className="relative shrink-0">
+                        <div
+                          className="w-8 h-8 rounded-md border border-gray-200 cursor-pointer"
+                          style={{ backgroundColor: customColor1 }}
+                        />
+                        <input
+                          type="color"
+                          value={customColor1}
+                          onChange={(e) => {
+                            setCustomColor1(e.target.value);
+                            setUseCustomBg(true);
+                          }}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          aria-label="Custom background start color"
+                        />
+                      </div>
+                      <Input
+                        value={customColor1.toUpperCase()}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (/^#[0-9A-Fa-f]{0,6}$/.test(val)) {
+                            setCustomColor1(val);
+                            setUseCustomBg(true);
+                          }
+                        }}
+                        className="h-8 font-mono text-xs uppercase bg-gray-50"
+                        maxLength={7}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <span className="text-xs text-gray-500">End Color</span>
+                    <div className="flex items-center gap-2">
+                      <div className="relative shrink-0">
+                        <div
+                          className="w-8 h-8 rounded-md border border-gray-200 cursor-pointer"
+                          style={{ backgroundColor: customColor2 }}
+                        />
+                        <input
+                          type="color"
+                          value={customColor2}
+                          onChange={(e) => {
+                            setCustomColor2(e.target.value);
+                            setUseCustomBg(true);
+                          }}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          aria-label="Custom background end color"
+                        />
+                      </div>
+                      <Input
+                        value={customColor2.toUpperCase()}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (/^#[0-9A-Fa-f]{0,6}$/.test(val)) {
+                            setCustomColor2(val);
+                            setUseCustomBg(true);
+                          }
+                        }}
+                        className="h-8 font-mono text-xs uppercase bg-gray-50"
+                        maxLength={7}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {useCustomBg && (
+                  <div
+                    className="h-8 rounded-lg border-2 border-primary-500 ring-2 ring-primary-500 ring-offset-1"
+                    style={{ background: customBg }}
+                  />
+                )}
               </div>
             </div>
           </div>

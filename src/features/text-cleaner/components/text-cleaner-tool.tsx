@@ -11,6 +11,8 @@ interface CleaningOption {
   description: string;
 }
 
+const SPACES_PER_TAB = 4;
+
 const CLEANING_OPTIONS: CleaningOption[] = [
   { key: 'trimLines', label: 'Trim Lines', description: 'Remove leading & trailing spaces from each line' },
   { key: 'multipleSpaces', label: 'Multiple Spaces', description: 'Collapse multiple spaces into one' },
@@ -34,7 +36,7 @@ function cleanText(text: string, options: Record<string, boolean>): string {
   }
 
   if (options.tabs) {
-    lines = lines.map((line) => line.replace(/\t/g, '    '));
+    lines = lines.map((line) => line.replace(/\t/g, ' '.repeat(SPACES_PER_TAB)));
   }
 
   if (options.blankLines) {

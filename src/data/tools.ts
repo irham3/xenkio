@@ -668,7 +668,8 @@ export const TOOLS: ToolData[] = [
         description: 'Remove extra spaces, duplicate lines, and clean up messy text.',
         icon: FileEdit,
         href: '/tools/text-cleaner',
-        isComingSoon: true,
+        slug: 'text-cleaner',
+        isNew: true,
         categoryId: 'text-utilities',
     },
     {

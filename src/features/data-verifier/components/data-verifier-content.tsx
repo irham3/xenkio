@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -17,7 +17,6 @@ import {
     Download,
     CheckCircle2,
     Info,
-    Check,
     Settings2,
     Plus,
     Trash2,
@@ -26,9 +25,6 @@ import {
     Database,
     Table,
     RotateCcw,
-    Copy,
-    AlertCircle,
-    CheckCircle,
     History,
     Search,
     Share2,
@@ -47,6 +43,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const STORAGE_KEY = 'xenkio_data_verifier_full_state';
+
+// Filter Logic Helper
+const resultsMatchFilter = (r: VerificationRow, term: string, filterType: string) => {
+    if (filterType === 'issues_only' && r.status === 'identical') return false;
+    if (!term) return true;
+    const lowerTerm = term.toLowerCase();
+    // Search in target data values
+    return Object.values(r.targetData || {}).some(val => String(val).toLowerCase().includes(lowerTerm));
+};
 
 // Component for highlighting character differences
 const DiffHighlight = ({ sVal, tVal }: { sVal: string, tVal: string }) => {
@@ -102,7 +107,7 @@ export function DataVerifierContent() {
     const [page, setPage] = useState(1);
     const rowsPerPage = 50;
 
-    const targetTableRef = useRef<HTMLDivElement>(null);
+
 
     // ==========================================
     // LocalStorage Hydration
@@ -113,11 +118,15 @@ export function DataVerifierContent() {
             if (savedState) {
                 const parsed = JSON.parse(savedState);
                 if (parsed.targetHeaders) {
-                    setState(parsed);
-                    if (parsed.targetRaw && parsed.targetRaw.length > 0) setIsConfiguring(true);
+                    setTimeout(() => {
+                        setState(parsed);
+                        if (parsed.targetRaw && parsed.targetRaw.length > 0) setIsConfiguring(true);
+                    }, 0);
                 }
             }
-        } catch (err) { console.error(err); }
+        } catch (_err) {
+            console.error(_err);
+        }
     }, []);
 
     useEffect(() => {
@@ -129,7 +138,9 @@ export function DataVerifierContent() {
                 } else {
                     console.warn('DataVerifier: State too large for localStorage, skipping save.');
                 }
-            } catch (err) { console.warn('DataVerifier: localStorage quota exceeded', err); }
+            } catch (err) {
+                console.warn('DataVerifier: localStorage quota exceeded', err);
+            }
         }, 1200);
         return () => clearTimeout(timeout);
     }, [state]);
@@ -272,7 +283,7 @@ export function DataVerifierContent() {
         });
     };
 
-    const handleSyncAll = () => {
+    const handleSyncAll = useCallback(() => {
         setState(prev => {
             const nextAudit = [...prev.auditLog];
             const nextTargetRaw = [...prev.targetRaw];
@@ -307,7 +318,7 @@ export function DataVerifierContent() {
             return { ...prev, results: nextResults as VerificationRow[], auditLog: nextAudit, targetRaw: nextTargetRaw };
         });
         toast.success("Synchronized all filtered issues!");
-    };
+    }, [searchTerm, filter]);
 
     const handleUndo = (logIndex: number, log: AuditEntry) => {
         setState(prev => {
@@ -350,27 +361,13 @@ export function DataVerifierContent() {
         try {
             await navigator.clipboard.writeText(tsv);
             toast.success("Copied to clipboard! Ready to paste into Excel.");
-        } catch (err) {
+        } catch {
             toast.error("Failed to copy data.");
         }
     };
 
-    const clearAll = () => {
-        setTargetPasted('');
-        setSourcePastedArr([{ id: 'src-1', name: 'Master Source', content: '' }]);
-        setState({ targetHeaders: [], targetRaw: [], sources: [], columnMappings: [], results: [], auditLog: [], checkDuplicates: true, duplicateKey: '' });
-        setIsConfiguring(false);
-        localStorage.removeItem(STORAGE_KEY);
-    };
 
-    // Filter Logic Helper
-    const resultsMatchFilter = (r: VerificationRow, term: string, filterType: string) => {
-        if (filterType === 'issues_only' && r.status === 'identical') return false;
-        if (!term) return true;
-        const lowerTerm = term.toLowerCase();
-        // Search in target data values
-        return Object.values(r.targetData || {}).some(val => String(val).toLowerCase().includes(lowerTerm));
-    };
+
 
     const stats = useMemo(() => {
         return {
@@ -393,17 +390,15 @@ export function DataVerifierContent() {
 
     const totalPages = Math.ceil(displayedResults.length / rowsPerPage);
 
-    // Reset page when search or filter changes
-    useEffect(() => {
-        setPage(1);
-    }, [searchTerm, filter]);
+    // Reset page logic moved to change handlers to avoid setState in effect
+
 
     // Keyboard Shortcuts
     useEffect(() => {
         const handleDown = (e: KeyboardEvent) => { if (e.ctrlKey && e.shiftKey && e.key === 'Enter') handleSyncAll(); };
         window.addEventListener('keydown', handleDown);
         return () => window.removeEventListener('keydown', handleDown);
-    }, [state.results, searchTerm, filter]);
+    }, [handleSyncAll]);
 
     // ==========================================
     // RENDER: STEP 1 (Input)
@@ -458,7 +453,7 @@ export function DataVerifierContent() {
                         </div>
 
                         <div className="grid md:grid-cols-1 gap-6">
-                            {sourcePastedArr.map((s, idx) => (
+                            {sourcePastedArr.map((s) => (
                                 <motion.div key={s.id} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
                                     <div className="flex gap-3 mb-2 items-center bg-gray-50 p-2 rounded-2xl border border-gray-100">
                                         <Database className="w-4 h-4 text-success-400 ml-2" />
@@ -694,14 +689,20 @@ export function DataVerifierContent() {
                                     className="pl-10 h-11 bg-white/80 border-gray-100 rounded-xl focus:ring-4 ring-indigo-50 font-medium"
                                     placeholder="Search specific records to verify..."
                                     value={searchTerm}
-                                    onChange={e => setSearchTerm(e.target.value)}
+                                    onChange={e => {
+                                        setSearchTerm(e.target.value);
+                                        setPage(1);
+                                    }}
                                 />
-                                {searchTerm && <button onClick={() => setSearchTerm('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500"><X className="w-4 h-4" /></button>}
+                                {searchTerm && <button onClick={() => {
+                                    setSearchTerm('');
+                                    setPage(1);
+                                }} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500"><X className="w-4 h-4" /></button>}
                             </div>
 
                             <div className="flex items-center gap-1 p-1 bg-gray-100/50 rounded-xl">
-                                <button onClick={() => setFilter('all')} className={cn("px-5 py-1.5 rounded-lg text-xs font-black transition-all", filter === 'all' ? "bg-white text-gray-900 shadow-sm" : "text-gray-400 hover:text-gray-600 uppercase tracking-widest")}>All</button>
-                                <button onClick={() => setFilter('issues_only')} className={cn("px-5 py-1.5 rounded-lg text-xs font-black transition-all", filter === 'issues_only' ? "bg-white text-error-600 shadow-sm" : "text-gray-400 hover:text-gray-600 uppercase tracking-widest")}>Issues</button>
+                                <button onClick={() => { setFilter('all'); setPage(1); }} className={cn("px-5 py-1.5 rounded-lg text-xs font-black transition-all", filter === 'all' ? "bg-white text-gray-900 shadow-sm" : "text-gray-400 hover:text-gray-600 uppercase tracking-widest")}>All</button>
+                                <button onClick={() => { setFilter('issues_only'); setPage(1); }} className={cn("px-5 py-1.5 rounded-lg text-xs font-black transition-all", filter === 'issues_only' ? "bg-white text-error-600 shadow-sm" : "text-gray-400 hover:text-gray-600 uppercase tracking-widest")}>Issues</button>
                             </div>
                         </div>
 

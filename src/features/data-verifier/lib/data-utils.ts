@@ -1,4 +1,4 @@
-import { VerificationRow, VerificationState, DataSource, ColumnMapping } from '../types';
+import { VerificationRow, VerificationState } from '../types';
 
 export function parsePastedData(text: string): { headers: string[], rows: Record<string, string>[], error?: string } {
     text = text.trim();

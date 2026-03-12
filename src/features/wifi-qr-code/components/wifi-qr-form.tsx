@@ -45,10 +45,10 @@ export function WifiQrForm({ config, onChange }: WifiQrFormProps) {
                             key={option.value}
                             type="button"
                             onClick={() => {
-                                onChange({ encryption: option.value });
-                                if (option.value === 'nopass') {
-                                    onChange({ encryption: option.value, password: '' });
-                                }
+                                onChange({
+                                    encryption: option.value,
+                                    ...(option.value === 'nopass' ? { password: '' } : {}),
+                                });
                             }}
                             className={cn(
                                 'px-3 py-2 text-sm rounded-lg border transition-all text-center',

@@ -870,7 +870,7 @@ export const TOOLS: ToolData[] = [
         icon: Wifi,
         href: '/tools/wifi-qr-code',
         slug: 'wifi-qr-code',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'media-images',
     },
 

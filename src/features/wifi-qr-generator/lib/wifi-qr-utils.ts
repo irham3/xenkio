@@ -6,7 +6,7 @@ import { WifiConfig } from '../types';
  * Characters that need escaping: \ ; , " :
  */
 function escapeWifiField(value: string): string {
-    return value.replace(/([\\;,":])/, '\\$1');
+    return value.replace(/[\\;,":]/g, (m) => '\\' + m);
 }
 
 /**

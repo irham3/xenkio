@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 const MAX_CHUNK_LENGTH = 200;
+const MAX_TEXT_LENGTH = 5000;
 
 function splitText(text: string): string[] {
     const chunks: string[] = [];
@@ -52,6 +53,13 @@ export async function POST(request: Request) {
             );
         }
 
+        if (text.length > MAX_TEXT_LENGTH) {
+            return NextResponse.json(
+                { error: `Text is too long. Maximum ${MAX_TEXT_LENGTH} characters allowed.` },
+                { status: 400 }
+            );
+        }
+
         const ttsLang = (lang || 'en-US').toLowerCase();
         const chunks = splitText(text);
         const audioBuffers: ArrayBuffer[] = [];
@@ -77,7 +85,9 @@ export async function POST(request: Request) {
             audioBuffers.push(buffer);
         }
 
-        // Concatenate all audio chunks
+        // Concatenate all MP3 audio chunks. MP3 is a streaming format where
+        // each frame is independently decodable, so concatenation produces
+        // valid playable output (same approach used by the gTTS library).
         const totalLength = audioBuffers.reduce((sum, buf) => sum + buf.byteLength, 0);
         const combined = new Uint8Array(totalLength);
         let offset = 0;

@@ -133,7 +133,8 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'speech.mp3';
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/[:.]/g, '-');
+            a.download = `speech-${timestamp}.mp3`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

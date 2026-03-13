@@ -28,9 +28,9 @@ function generateSlug(text: string, separator: SeparatorType, maxLength: number,
   let slug = text
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^\w\s-]/g, '')
+    .replace(/[^a-zA-Z0-9\s-]/g, '')
     .trim()
-    .replace(/\s+/g, sep)
+    .replace(/[\s-]+/g, sep)
     .replace(new RegExp(`[${sep === '.' ? '\\.' : sep}]+`, 'g'), sep);
 
   if (lowercase) {
@@ -135,7 +135,14 @@ export function SlugGeneratorTool() {
                 min={0}
                 max={500}
                 value={maxLength}
-                onChange={(e) => setMaxLength(Math.max(0, parseInt(e.target.value) || 0))}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '') {
+                    setMaxLength(0);
+                    return;
+                  }
+                  setMaxLength(Math.max(0, parseInt(val) || 0));
+                }}
                 className="w-20 px-2 py-1 text-xs text-gray-700 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400"
                 placeholder="0 = no limit"
               />

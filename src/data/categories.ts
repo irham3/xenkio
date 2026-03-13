@@ -34,7 +34,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Compress, resize, and convert images in your browser | no file size limits',
         icon: FileImage,
         color: '#E4E4E7',
-        toolCount: 11,
+        toolCount: 12,
     },
     {
         id: 'security-privacy',

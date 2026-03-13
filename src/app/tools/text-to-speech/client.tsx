@@ -23,12 +23,14 @@ export default function TextToSpeechClient() {
         isSpeaking,
         isPaused,
         isSupported,
+        isDownloading,
         error,
         voices,
         speak,
         pause,
         resume,
         stop,
+        downloadAudio,
     } = useTextToSpeech({ lang: language, rate, pitch, voice: selectedVoice });
 
     const handleLanguageChange = (lang: string) => {
@@ -105,11 +107,13 @@ export default function TextToSpeechClient() {
                             isSpeaking={isSpeaking}
                             isPaused={isPaused}
                             isSupported={isSupported}
+                            isDownloading={isDownloading}
                             hasText={text.trim().length > 0}
                             onPlay={() => speak(text)}
                             onPause={pause}
                             onResume={resume}
                             onStop={stop}
+                            onDownload={() => downloadAudio(text)}
                         />
                     </Card>
                 </div>

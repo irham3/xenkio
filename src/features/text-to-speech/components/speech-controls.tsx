@@ -38,33 +38,20 @@ export function SpeechControls({
     }
 
     return (
-        <div className="flex flex-col items-center justify-center py-12 space-y-8">
+        <div className="space-y-4">
             <div className="relative">
-                {/* Pulse Animation Rings */}
+                {/* Subtle pulse animation while speaking to indicate active playback */}
                 {isSpeaking && !isPaused && (
-                    <>
-                        <motion.div
-                            initial={{ scale: 1, opacity: 0.5 }}
-                            animate={{ scale: 2, opacity: 0 }}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: "easeOut",
-                            }}
-                            className="absolute inset-0 bg-primary/20 rounded-full"
-                        />
-                        <motion.div
-                            initial={{ scale: 1, opacity: 0.5 }}
-                            animate={{ scale: 1.5, opacity: 0 }}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: "easeOut",
-                                delay: 0.5,
-                            }}
-                            className="absolute inset-0 bg-primary/20 rounded-full"
-                        />
-                    </>
+                    <motion.div
+                        initial={{ opacity: 0.25 }}
+                        animate={{ opacity: [0.2, 0.45, 0.2] }}
+                        transition={{
+                            duration: 1.6,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                        className="absolute inset-0 rounded-xl bg-primary/20"
+                    />
                 )}
 
                 <Button
@@ -80,7 +67,7 @@ export function SpeechControls({
                     }}
                     disabled={!hasText && !isSpeaking}
                     className={cn(
-                        "h-32 w-32 rounded-full relative z-0 transition-all duration-300 shadow-2xl border-4 border-white/20",
+                        "relative z-10 h-14 w-full rounded-xl text-base font-semibold transition-all duration-300 shadow-sm gap-2",
                         isSpeaking && !isPaused
                             ? "bg-amber-500 hover:bg-amber-600 text-white"
                             : isPaused
@@ -89,28 +76,37 @@ export function SpeechControls({
                     )}
                 >
                     {isSpeaking && !isPaused ? (
-                        <Pause className="h-16 w-16" />
+                        <>
+                            <Pause className="h-5 w-5" />
+                            Pause Speech
+                        </>
+                    ) : isPaused ? (
+                        <>
+                            <Play className="h-5 w-5" />
+                            Resume Speech
+                        </>
                     ) : (
-                        <Play className="h-16 w-16 ml-2" />
+                        <>
+                            <Play className="h-5 w-5" />
+                            Play Speech
+                        </>
                     )}
                 </Button>
             </div>
 
-            <div className="flex items-center gap-4">
-                {isSpeaking && (
-                    <Button
-                        variant="outline"
-                        size="lg"
-                        onClick={onStop}
-                        className="gap-2"
-                    >
-                        <Square className="h-5 w-5" />
-                        Stop
-                    </Button>
-                )}
-            </div>
+            {isSpeaking && (
+                <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={onStop}
+                    className="w-full h-12 gap-2"
+                >
+                    <Square className="h-5 w-5" />
+                    Stop
+                </Button>
+            )}
 
-            <div className="space-y-2 text-center">
+            <div className="space-y-1 text-center">
                 <h3 className="text-2xl font-bold tracking-tight">
                     {isSpeaking && !isPaused
                         ? "Speaking..."

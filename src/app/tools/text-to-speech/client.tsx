@@ -83,19 +83,6 @@ export default function TextToSpeechClient() {
                         />
                     </Card>
 
-                    <Card className="p-6">
-                        <SpeechControls
-                            isSpeaking={isSpeaking}
-                            isPaused={isPaused}
-                            isSupported={isSupported}
-                            hasText={text.trim().length > 0}
-                            onPlay={() => speak(text)}
-                            onPause={pause}
-                            onResume={resume}
-                            onStop={stop}
-                        />
-                    </Card>
-
                     <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground">
                         <h4 className="font-semibold mb-2 text-foreground">Tips:</h4>
                         <ul className="list-disc pl-4 space-y-1">
@@ -112,6 +99,19 @@ export default function TextToSpeechClient() {
                         onChange={setText}
                         disabled={isSpeaking && !isPaused}
                     />
+
+                    <Card className="p-6">
+                        <SpeechControls
+                            isSpeaking={isSpeaking}
+                            isPaused={isPaused}
+                            isSupported={isSupported}
+                            hasText={text.trim().length > 0}
+                            onPlay={() => speak(text)}
+                            onPause={pause}
+                            onResume={resume}
+                            onStop={stop}
+                        />
+                    </Card>
                 </div>
             </div>
         </div>

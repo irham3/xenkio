@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { TextToSpeechState, TextToSpeechOptions } from '../types';
 import { DEFAULT_LANGUAGE, DEFAULT_RATE, DEFAULT_PITCH, DEFAULT_VOLUME } from '../constants';
 
+/** Delay (ms) after speech ends to capture any trailing audio before stopping the recorder */
+const RECORDING_TAIL_DELAY_MS = 300;
+
 export function useTextToSpeech(options: TextToSpeechOptions = {}) {
     const [state, setState] = useState<TextToSpeechState>({
         isSpeaking: false,
@@ -123,12 +126,13 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}) {
         setState(prev => ({ ...prev, error: null }));
 
         let displayStream: MediaStream | null = null;
+        let audioStream: MediaStream | null = null;
 
         try {
             // Capture audio from the current browser tab
             displayStream = await navigator.mediaDevices.getDisplayMedia({
                 audio: true,
-                video: true, // Required by the spec; video track is stopped immediately
+                video: true, // Needed for browser compatibility; video track is stopped immediately
                 preferCurrentTab: true, // Chrome 94+: auto-selects current tab
             } as DisplayMediaStreamOptions & { preferCurrentTab?: boolean });
 
@@ -140,7 +144,7 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}) {
                 throw new Error('No audio track captured. Please share a tab with "Share tab audio" enabled.');
             }
 
-            const audioStream = new MediaStream(audioTracks);
+            audioStream = new MediaStream(audioTracks);
             const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
                 ? 'audio/webm;codecs=opus'
                 : 'audio/webm';
@@ -162,7 +166,7 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}) {
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                audioStream.getTracks().forEach(track => track.stop());
+                audioStream?.getTracks().forEach(track => track.stop());
                 setIsDownloading(false);
             };
 
@@ -182,19 +186,18 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}) {
             }
 
             utterance.onend = () => {
-                // Small delay to capture trailing audio
                 setTimeout(() => {
                     if (recorder.state === 'recording') {
                         recorder.stop();
                     }
-                }, 300);
+                }, RECORDING_TAIL_DELAY_MS);
             };
 
             utterance.onerror = (event) => {
                 if (recorder.state === 'recording') {
                     recorder.stop();
                 }
-                audioStream.getTracks().forEach(track => track.stop());
+                audioStream?.getTracks().forEach(track => track.stop());
                 if (event.error !== 'canceled') {
                     setState(prev => ({
                         ...prev,
@@ -207,6 +210,7 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}) {
             window.speechSynthesis.speak(utterance);
         } catch (err) {
             displayStream?.getTracks().forEach(track => track.stop());
+            audioStream?.getTracks().forEach(track => track.stop());
             const message = err instanceof Error ? err.message : 'Failed to download audio';
             setState(prev => ({
                 ...prev,

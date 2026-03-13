@@ -667,7 +667,8 @@ export const TOOLS: ToolData[] = [
         description: 'Generate URL-friendly slugs from text.',
         icon: Link,
         href: '/tools/slug-generator',
-        isComingSoon: true,
+        slug: 'slug-generator',
+        isNew: true,
         categoryId: 'text-utilities',
     },
     {

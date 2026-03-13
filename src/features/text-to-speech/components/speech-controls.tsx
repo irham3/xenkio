@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Play, Pause, Square, Download, Loader2 } from "lucide-react";
+import { Play, Pause, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -9,26 +9,22 @@ interface SpeechControlsProps {
     isSpeaking: boolean;
     isPaused: boolean;
     isSupported: boolean;
-    isDownloading: boolean;
     hasText: boolean;
     onPlay: () => void;
     onPause: () => void;
     onResume: () => void;
     onStop: () => void;
-    onDownload: () => void;
 }
 
 export function SpeechControls({
     isSpeaking,
     isPaused,
     isSupported,
-    isDownloading,
     hasText,
     onPlay,
     onPause,
     onResume,
     onStop,
-    onDownload,
 }: SpeechControlsProps) {
     if (!isSupported) {
         return (
@@ -109,26 +105,6 @@ export function SpeechControls({
                     Stop
                 </Button>
             )}
-
-            <Button
-                variant="outline"
-                size="lg"
-                onClick={onDownload}
-                disabled={!hasText || isDownloading || isSpeaking}
-                className="w-full h-12 gap-2"
-            >
-                {isDownloading ? (
-                    <>
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                        Downloading...
-                    </>
-                ) : (
-                    <>
-                        <Download className="h-5 w-5" />
-                        Download Audio
-                    </>
-                )}
-            </Button>
 
             <div className="space-y-1 text-center">
                 <h3 className="text-2xl font-bold tracking-tight">

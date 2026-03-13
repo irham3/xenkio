@@ -687,7 +687,8 @@ export const TOOLS: ToolData[] = [
         description: 'Convert text to natural-sounding speech audio.',
         icon: Volume2,
         href: '/tools/text-to-speech',
-        isComingSoon: true,
+        slug: 'text-to-speech',
+        isNew: true,
         categoryId: 'text-utilities',
     },
     // Text Formatter removed - redundant with specific formatters
@@ -880,7 +881,6 @@ export const TOOLS: ToolData[] = [
         icon: Wifi,
         href: '/tools/wifi-qr-code',
         slug: 'wifi-qr-code',
-        isComingSoon: true,
         categoryId: 'media-images',
     },
 

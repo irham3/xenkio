@@ -11,6 +11,7 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}) {
         currentCharIndex: 0,
         voices: [],
     });
+    const [isDownloading, setIsDownloading] = useState(false);
 
     const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
@@ -104,11 +105,56 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}) {
         setState(prev => ({ ...prev, isSpeaking: false, isPaused: false, currentCharIndex: 0 }));
     }, []);
 
+    const downloadAudio = useCallback(async (text: string) => {
+        if (!text.trim()) {
+            setState(prev => ({ ...prev, error: 'Please enter some text to download.' }));
+            return;
+        }
+
+        setIsDownloading(true);
+        setState(prev => ({ ...prev, error: null }));
+
+        try {
+            const response = await fetch('/api/tts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text,
+                    lang: options.lang ?? DEFAULT_LANGUAGE,
+                }),
+            });
+
+            if (!response.ok) {
+                const data = await response.json().catch(() => null);
+                throw new Error(data?.error || 'Failed to generate audio');
+            }
+
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'speech.mp3';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            setState(prev => ({
+                ...prev,
+                error: err instanceof Error ? err.message : 'Failed to download audio',
+            }));
+        } finally {
+            setIsDownloading(false);
+        }
+    }, [options.lang]);
+
     return {
         ...state,
+        isDownloading,
         speak,
         pause,
         resume,
         stop,
+        downloadAudio,
     };
 }

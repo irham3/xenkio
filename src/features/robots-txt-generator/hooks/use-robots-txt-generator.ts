@@ -115,7 +115,7 @@ export function useRobotsTxtGenerator() {
         a.href = url;
         a.download = 'robots.txt';
         a.click();
-        URL.revokeObjectURL(url);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
     }, [output]);
 
     return {

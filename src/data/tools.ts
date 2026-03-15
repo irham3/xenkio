@@ -707,10 +707,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '49',
         title: 'Robots.txt Generator',
-        description: 'Create robots.txt files for search engine crawlers.',
+        description: 'Create robots.txt files visually to control search engine crawlers. Presets for WordPress, e-commerce, and AI bot blocking.',
         icon: Bot,
         href: '/tools/robots-txt-generator',
-        isComingSoon: true,
+        slug: 'robots-txt-generator',
+        isNew: true,
         categoryId: 'web-seo',
     },
 

@@ -72,6 +72,7 @@ import {
     GlassWater,
     Database,
     Replace,
+    BarChart3,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1147,6 +1148,17 @@ export const TOOLS: ToolData[] = [
         href: '/tools/crontab-generator',
         slug: 'crontab-generator',
         isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '113',
+        title: 'Instant Visualizer',
+        description: 'Paste data from Excel or CSV and instantly get interactive charts, KPI cards, and insights — zero config needed.',
+        icon: BarChart3,
+        href: '/tools/instant-visualizer',
+        slug: 'instant-visualizer',
+        isNew: true,
+        featured: true,
         categoryId: 'developer-tools',
     },
 ];

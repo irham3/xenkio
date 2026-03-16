@@ -5,6 +5,8 @@ import {
     CategoryCount,
     ChartConfig,
     DatasetAnalysis,
+    AggregationType,
+    PivotConfig,
 } from '../types';
 
 // ─── Parsing ───────────────────────────────────────────────
@@ -23,18 +25,51 @@ export function parsePastedData(text: string): {
     const firstLine = lines[0];
     const delimiter = firstLine.includes('\t')
         ? '\t'
-        : firstLine.includes(',')
-          ? ','
-          : firstLine.includes(';')
-            ? ';'
+        : firstLine.includes(';')
+          ? ';'
+          : firstLine.includes(',')
+            ? ','
             : '\t';
 
-    const headers = firstLine
-        .split(delimiter)
-        .map((h) => h.trim().replace(/^"|"$/g, ''))
-        .filter((h) => h);
+    const parseCSVLine = (line: string): string[] => {
+        const result: string[] = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '"') {
+                if (inQuotes && line[i + 1] === '"') {
+                    current += '"';
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (char === delimiter && !inQuotes) {
+                result.push(current);
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        result.push(current);
+        return result;
+    };
 
-    if (headers.length === 0) return { headers: [], rows: [], error: 'No valid headers found.' };
+    let rawHeaders = parseCSVLine(firstLine).map((h) => h.trim().replace(/^"|"$/g, ''));
+    if (rawHeaders.filter(Boolean).length === 0) return { headers: [], rows: [], error: 'Failed to recognize your data. Please ensure the top row contains column headers (e.g., Name, Age, Price).' };
+
+    const seenHeaders = new Set<string>();
+    const headers = rawHeaders.map((h, idx) => {
+        let name = h || `Column_${idx + 1}`;
+        let originalName = name;
+        let counter = 2;
+        while (seenHeaders.has(name)) {
+            name = `${originalName} (${counter})`;
+            counter++;
+        }
+        seenHeaders.add(name);
+        return name;
+    });
 
     const rows: Record<string, string>[] = [];
 
@@ -42,12 +77,12 @@ export function parsePastedData(text: string): {
         const line = lines[i];
         if (!line.trim()) continue;
 
-        const values = line.split(delimiter);
+        const values = parseCSVLine(line);
         const rowData: Record<string, string> = {};
         let hasData = false;
 
         headers.forEach((header, index) => {
-            let val = values[index] ? values[index].trim() : '';
+            let val = values[index] !== undefined ? values[index].trim() : '';
             val = val.replace(/^"|"$/g, '').replace(/""/g, '"');
             rowData[header] = val;
             if (val) hasData = true;
@@ -82,10 +117,30 @@ function isDateValue(value: string): boolean {
     return false;
 }
 
+export function parseToNumber(value: string | undefined | null): number {
+    if (!value) return NaN;
+    const trimmed = String(value).trim();
+    if (trimmed === '') return NaN;
+
+    const noSpaces = trimmed.replace(/\s/g, '');
+
+    // check Indonesian/European format: 1.500.000,50
+    if (/^-?\d{1,3}(\.\d{3})*(,\d+)?$/.test(noSpaces)) {
+        return Number(noSpaces.replace(/\./g, '').replace(',', '.'));
+    }
+    
+    // check US format: 1,500,000.50
+    if (/^-?\d{1,3}(,\d{3})*(\.\d+)?$/.test(noSpaces)) {
+        return Number(noSpaces.replace(/,/g, ''));
+    }
+
+    return Number(noSpaces.replace(/,/g, ''));
+}
+
 function isNumericValue(value: string): boolean {
     if (!value) return false;
-    const cleaned = value.replace(/,/g, '').trim();
-    return cleaned !== '' && !isNaN(Number(cleaned));
+    const num = parseToNumber(value);
+    return !isNaN(num);
 }
 
 function detectColumnType(values: string[]): ColumnType {
@@ -135,9 +190,8 @@ function computeNumericStats(
 ): NumericStats {
     const nums: number[] = [];
     for (const row of rows) {
-        const cleaned = (row[column] || '').replace(/,/g, '');
-        const n = Number(cleaned);
-        if (!isNaN(n) && cleaned.trim() !== '') nums.push(n);
+        const n = parseToNumber(row[column]);
+        if (!isNaN(n)) nums.push(n);
     }
 
     if (nums.length === 0) {
@@ -172,11 +226,128 @@ function computeCategoryCounts(
         .slice(0, 15);
 }
 
-// ─── Smart Chart Recommendation ──────────────────────────────
-function parseToNumber(value: string): number {
-    return Number(value.replace(/,/g, ''));
+// ─── Pivot / Aggregation Engine ────────────────────────────
+// parseToNumber is exported above
+
+function applyAggregation(values: number[], aggType: AggregationType): number {
+    if (values.length === 0) return 0;
+    switch (aggType) {
+        case 'sum':
+            return values.reduce((a, b) => a + b, 0);
+        case 'avg':
+            return values.reduce((a, b) => a + b, 0) / values.length;
+        case 'count':
+            return values.length;
+        case 'min':
+            return Math.min(...values);
+        case 'max':
+            return Math.max(...values);
+        default:
+            return values.reduce((a, b) => a + b, 0);
+    }
 }
 
+/**
+ * Aggregate data by groupBy column with the given aggregation.
+ * Optionally filters rows based on filterColumn/filterValues.
+ */
+export function aggregateData(
+    rows: Record<string, string>[],
+    pivotConfig: PivotConfig,
+): Record<string, unknown>[] {
+    const { groupByColumn, valueColumns, aggregation, filters } = pivotConfig;
+
+    // Apply filter if defined
+    let filteredRows = rows;
+    if (filters && filters.length > 0) {
+        filteredRows = rows.filter((row) => {
+            return filters.every((filter) => {
+                const rowValStr = (row[filter.column] || '').trim().toLowerCase();
+                const filterValStr = (filter.value || '').trim().toLowerCase();
+                const rowValNum = parseToNumber(row[filter.column] || '0');
+                const filterValNum = parseToNumber(filter.value || '0');
+
+                switch (filter.operator) {
+                    case 'equals':
+                        return rowValStr === filterValStr;
+                    case 'not_equals':
+                        return rowValStr !== filterValStr;
+                    case 'contains':
+                        return rowValStr.includes(filterValStr);
+                    case 'greater_than':
+                        return !isNaN(rowValNum) && !isNaN(filterValNum) && rowValNum > filterValNum;
+                    case 'less_than':
+                        return !isNaN(rowValNum) && !isNaN(filterValNum) && rowValNum < filterValNum;
+                    default:
+                        return true;
+                }
+            });
+        });
+    }
+
+    // Group rows by the groupBy column
+    const groups = new Map<string, Record<string, number[]>>();
+    for (const row of filteredRows) {
+        const groupKey = (row[groupByColumn] || '').trim();
+        if (!groupKey) continue;
+
+        if (!groups.has(groupKey)) {
+            const init: Record<string, number[]> = {};
+            for (const vc of valueColumns) {
+                init[vc] = [];
+            }
+            groups.set(groupKey, init);
+        }
+
+        const group = groups.get(groupKey)!;
+        for (const vc of valueColumns) {
+            const num = parseToNumber(row[vc] || '0');
+            if (!isNaN(num)) {
+                group[vc].push(num);
+            }
+        }
+    }
+
+    // Build aggregated data
+    const result: Record<string, unknown>[] = [];
+    for (const [groupKey, valuesMap] of groups) {
+        const entry: Record<string, unknown> = { [groupByColumn]: groupKey };
+        for (const vc of valueColumns) {
+            entry[vc] = applyAggregation(valuesMap[vc] || [], aggregation);
+        }
+        result.push(entry);
+    }
+
+    return result;
+}
+
+/**
+ * Build a chart config from a manual PivotConfig.
+ */
+export function buildManualChartConfig(
+    pivotConfig: PivotConfig,
+    rows: Record<string, string>[],
+    chartId: string,
+    chartType: 'line' | 'bar' | 'area' | 'pie',
+): ChartConfig {
+    const data = aggregateData(rows, pivotConfig);
+    const aggLabel = pivotConfig.aggregation.toUpperCase();
+    const valLabels = pivotConfig.valueColumns.join(', ');
+
+    return {
+        id: chartId,
+        title: `${aggLabel}(${valLabels}) by ${pivotConfig.groupByColumn}`,
+        type: chartType,
+        xKey: pivotConfig.groupByColumn,
+        yKeys: pivotConfig.valueColumns,
+        data,
+        allowedTypes: ['bar', 'line', 'area', 'pie'],
+        pivotConfig,
+        isManual: true,
+    };
+}
+
+// ─── Smart Chart Recommendation ──────────────────────────────
 function buildChartData(
     rows: Record<string, string>[],
     xKey: string,
@@ -194,9 +365,19 @@ function buildChartData(
     // Sort by date if timeseries
     if (xType === 'date') {
         data.sort((a, b) => {
-            const da = Date.parse(String(a[xKey]));
-            const db = Date.parse(String(b[xKey]));
-            return (isNaN(da) ? 0 : da) - (isNaN(db) ? 0 : db);
+            const safeParseDate = (v: string) => {
+                const parts = v.split(/[-/]/);
+                if (parts.length === 3) {
+                    // Try DD/MM/YYYY
+                    const fDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+                    if (!isNaN(fDate.getTime())) return fDate.getTime();
+                }
+                const d = Date.parse(v);
+                return isNaN(d) ? 0 : d;
+            };
+            const da = safeParseDate(String(a[xKey] || ''));
+            const db = safeParseDate(String(b[xKey] || ''));
+            return da - db;
         });
     }
 
@@ -209,6 +390,19 @@ function buildChartData(
     return data;
 }
 
+function findLabelColumn(schema: ColumnSchema[]): ColumnSchema | null {
+    // Prefer text columns with high uniqueness (like product names)
+    const textCols = schema.filter((s) => s.type === 'text');
+    if (textCols.length > 0) {
+        // Pick the one with highest unique count relative to row count
+        return textCols.reduce((best, col) =>
+            col.uniqueCount > best.uniqueCount ? col : best,
+            textCols[0],
+        );
+    }
+    return null;
+}
+
 function recommendCharts(
     schema: ColumnSchema[],
     rows: Record<string, string>[],
@@ -219,6 +413,7 @@ function recommendCharts(
     const dateColumns = schema.filter((s) => s.type === 'date');
     const numericColumns = schema.filter((s) => s.type === 'numeric');
     const categoricalColumns = schema.filter((s) => s.type === 'categorical');
+    const labelColumn = findLabelColumn(schema);
 
     // 1. TimeSeries: date + numeric(s)
     if (dateColumns.length > 0 && numericColumns.length > 0) {
@@ -236,7 +431,22 @@ function recommendCharts(
         });
     }
 
-    // 2. Categorical breakdown + numeric
+    // 2. Label column (text) + numeric → bar chart with product names
+    if (labelColumn && numericColumns.length > 0 && dateColumns.length === 0) {
+        const yKeysSlice = numericColumns.slice(0, 3);
+
+        charts.push({
+            id: `chart-${chartId++}`,
+            title: `${yKeysSlice.map((y) => y.name).join(', ')} by ${labelColumn.name}`,
+            type: 'bar',
+            xKey: labelColumn.name,
+            yKeys: yKeysSlice.map((y) => y.name),
+            data: buildChartData(rows, labelColumn.name, yKeysSlice.map((y) => y.name), 'text'),
+            allowedTypes: ['bar', 'line', 'area'],
+        });
+    }
+
+    // 3. Categorical breakdown + numeric (aggregated)
     if (categoricalColumns.length > 0 && numericColumns.length > 0) {
         const catCol = categoricalColumns[0];
         const numCol = numericColumns[0];
@@ -266,7 +476,7 @@ function recommendCharts(
         });
     }
 
-    // 3. Pie chart for categorical distribution
+    // 4. Pie chart for categorical distribution
     if (categoricalColumns.length > 0) {
         const catCol = categoricalColumns[0];
         const countMap = new Map<string, number>();
@@ -292,7 +502,7 @@ function recommendCharts(
         });
     }
 
-    // 4. If we have 2+ numeric columns but no date/categorical, scatter-like bar
+    // 5. Fallback: 2+ numeric columns but no date/categorical/label → bar
     if (charts.length === 0 && numericColumns.length >= 2) {
         const xCol = numericColumns[0];
         const yCol = numericColumns[1];

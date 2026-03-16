@@ -36,9 +36,17 @@ import {
     Hash,
     Layers,
     AlertCircle,
+    Settings2,
+    Plus,
+    X,
+    Filter,
+    Group,
+    Calculator,
+    Check,
+    Loader2,
 } from 'lucide-react';
-import { parsePastedData, analyzeDataset } from '../lib/data-analyzer';
-import type { DatasetAnalysis, ChartConfig, ChartType, NumericStats } from '../types';
+import { parsePastedData, analyzeDataset, buildManualChartConfig, parseToNumber } from '../lib/data-analyzer';
+import type { DatasetAnalysis, ChartConfig, ChartType, NumericStats, PivotConfig, AggregationType, ColumnSchema, FilterCondition, FilterOperator } from '../types';
 
 // ─── Color Palette (from globals.css) ──────────────────────
 const CHART_COLORS = [
@@ -57,6 +65,23 @@ const PIE_COLORS = [
     '#EC4899', '#14B8A6', '#F59E0B', '#6366F1',
     '#EF4444', '#06B6D4',
 ];
+
+// ─── Constants ────────────────────────────────────
+const AGG_LABELS: Record<AggregationType, string> = {
+    sum: 'Total Sum',
+    avg: 'Average',
+    count: 'Count',
+    min: 'Minimum',
+    max: 'Maximum',
+};
+
+const FILTER_OPERATOR_LABELS: Record<FilterOperator, string> = {
+    equals: 'Equals',
+    not_equals: 'Not Equals',
+    contains: 'Contains',
+    greater_than: 'Greater Than',
+    less_than: 'Less Than',
+};
 
 // ─── Format Utilities ──────────────────────────────────────
 function formatNumber(n: number): string {
@@ -113,15 +138,19 @@ function CustomTooltip({ active, payload, label }: {
 }
 
 // ─── KPI Card ──────────────────────────────────────────────
-function KpiCard({ label, value, sub, icon: Icon, color }: {
+function KpiCard({ label, value, sub, icon: Icon, color, index = 0 }: {
     label: string;
     value: string;
     sub?: string;
-    icon: React.ComponentType<{ className?: string }>;
+    icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
     color: string;
+    index?: number;
 }): React.ReactElement {
     return (
-        <div className="bg-white border border-gray-100 rounded-xl p-4 flex items-start gap-3 shadow-soft hover:shadow-medium transition-shadow">
+        <div 
+            className="bg-white border border-gray-100 rounded-xl p-4 flex items-start gap-3 shadow-soft hover:shadow-medium transition-shadow animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+            style={{ animationDelay: `${index * 75}ms` }}
+        >
             <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                 style={{ backgroundColor: `${color}14` }}
@@ -137,21 +166,305 @@ function KpiCard({ label, value, sub, icon: Icon, color }: {
     );
 }
 
+// ─── Pivot Config Panel ────────────────────────────────────
+function PivotConfigPanel({
+    schema,
+    rows,
+    onApply,
+    onCancel,
+    initialConfig,
+}: {
+    schema: ColumnSchema[];
+    rows: Record<string, string>[];
+    onApply: (config: PivotConfig, chartType: ChartType) => void;
+    onCancel: () => void;
+    initialConfig?: PivotConfig;
+}): React.ReactElement {
+    const numericCols = schema.filter((s) => s.type === 'numeric');
+    const allCols = schema;
+
+    const [groupBy, setGroupBy] = useState(initialConfig?.groupByColumn || allCols[0]?.name || '');
+    const [valueCols, setValueCols] = useState<string[]>(
+        initialConfig?.valueColumns || (numericCols[0] ? [numericCols[0].name] : []),
+    );
+    const [aggregation, setAggregation] = useState<AggregationType>(initialConfig?.aggregation || 'sum');
+    const [chartType, setChartType] = useState<ChartType>('bar');
+    const [filters, setFilters] = useState<FilterCondition[]>(initialConfig?.filters || []);
+    const [showFilters, setShowFilters] = useState((initialConfig?.filters?.length || 0) > 0);
+
+    const [newFilterCol, setNewFilterCol] = useState('');
+    const [newFilterOp, setNewFilterOp] = useState<FilterOperator>('equals');
+    const [newFilterVal, setNewFilterVal] = useState('');
+
+    const toggleValueCol = (col: string) => {
+        setValueCols((prev) =>
+            prev.includes(col) ? prev.filter((c) => c !== col) : [...prev, col],
+        );
+    };
+
+    const addFilter = () => {
+        if (!newFilterCol || !newFilterVal) return;
+        setFilters([...filters, { column: newFilterCol, operator: newFilterOp, value: newFilterVal }]);
+        setNewFilterCol('');
+        setNewFilterVal('');
+    };
+
+    const removeFilter = (index: number) => {
+        setFilters(filters.filter((_, i) => i !== index));
+    };
+
+    const handleApply = () => {
+        if (!groupBy || valueCols.length === 0) return;
+        onApply(
+            {
+                groupByColumn: groupBy,
+                valueColumns: valueCols,
+                aggregation,
+                filters: filters.length > 0 ? filters : undefined,
+            },
+            chartType,
+        );
+    };
+
+    return (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-medium overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-gray-50">
+                <div className="flex items-center gap-2">
+                    <Settings2 className="w-4 h-4 text-primary-500" />
+                    <h3 className="text-sm font-semibold text-gray-700">Custom Chart Builder</h3>
+                </div>
+                <button onClick={onCancel} className="text-gray-400 hover:text-gray-600 transition-colors">
+                    <X className="w-4 h-4" />
+                </button>
+            </div>
+
+            <div className="p-5 space-y-5">
+                {/* Group By */}
+                <div>
+                    <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                        <Group className="w-3.5 h-3.5" />
+                        Select Category (X-Axis)
+                    </label>
+                    <select
+                        value={groupBy}
+                        onChange={(e) => setGroupBy(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 bg-white"
+                    >
+                        {allCols.map((col) => (
+                            <option key={col.name} value={col.name}>
+                                {col.name} ({col.type})
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Value Columns */}
+                <div>
+                    <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                        <Hash className="w-3.5 h-3.5" />
+                        Select Value (Y-Axis)
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                        {numericCols.map((col) => {
+                            const isSelected = valueCols.includes(col.name);
+                            return (
+                                <button
+                                    key={col.name}
+                                    onClick={() => toggleValueCol(col.name)}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
+                                        isSelected
+                                            ? 'bg-primary-50 border-primary-300 text-primary-700'
+                                            : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
+                                    }`}
+                                >
+                                    {isSelected && <Check className="w-3 h-3 inline mr-1" />}
+                                    {col.name}
+                                </button>
+                            );
+                        })}
+                        {numericCols.length === 0 && (
+                            <p className="text-xs text-gray-400 italic">No numeric columns detected</p>
+                        )}
+                    </div>
+                </div>
+
+                {/* Aggregation */}
+                <div>
+                    <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                        <Calculator className="w-3.5 h-3.5" />
+                        Aggregation Method
+                    </label>
+                    <div className="flex gap-1.5">
+                        {(Object.entries(AGG_LABELS) as [AggregationType, string][]).map(([key, label]) => (
+                            <button
+                                key={key}
+                                onClick={() => setAggregation(key)}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
+                                    aggregation === key
+                                        ? 'bg-primary-50 border-primary-300 text-primary-700'
+                                        : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
+                                }`}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Chart Type */}
+                <div>
+                    <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                        <BarChart3 className="w-3.5 h-3.5" />
+                        Chart Type
+                    </label>
+                    <div className="flex gap-1.5">
+                        {(['bar', 'line', 'area', 'pie'] as ChartType[]).map((t) => {
+                            const TypeIcon = CHART_TYPE_ICONS[t];
+                            return (
+                                <button
+                                    key={t}
+                                    onClick={() => setChartType(t)}
+                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all border capitalize ${
+                                        chartType === t
+                                            ? 'bg-primary-50 border-primary-300 text-primary-700'
+                                            : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
+                                    }`}
+                                >
+                                    <TypeIcon className="w-3.5 h-3.5" />
+                                    {t}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Filter Toggle */}
+                <div>
+                    <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-primary-600 transition-colors"
+                    >
+                        <Filter className="w-3.5 h-3.5" />
+                        {showFilters ? 'Close Filter' : 'Filter Data'}
+                        {showFilters ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                    </button>
+
+                    {showFilters && (
+                        <div className="mt-3 space-y-3">
+                            {/* Active Filters */}
+                            {filters.length > 0 && (
+                                <div className="space-y-1.5">
+                                    {filters.map((f, i) => (
+                                        <div key={i} className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
+                                            <span className="text-xs text-gray-600">
+                                                <span className="font-semibold text-gray-800">{f.column}</span>{' '}
+                                                <span className="text-primary-600">{FILTER_OPERATOR_LABELS[f.operator]}</span>{' '}
+                                                <span className="font-semibold text-gray-800">&quot;{f.value}&quot;</span>
+                                            </span>
+                                            <button
+                                                onClick={() => removeFilter(i)}
+                                                className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                                            >
+                                                <X className="w-3.5 h-3.5" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Add New Filter */}
+                            <div className="flex gap-2">
+                                <select
+                                    value={newFilterCol}
+                                    onChange={(e) => setNewFilterCol(e.target.value)}
+                                    className="flex-1 px-2 py-1.5 border border-gray-200 rounded-lg text-xs text-gray-700 bg-white"
+                                >
+                                    <option value="">Select column...</option>
+                                    {allCols.map((col) => (
+                                        <option key={col.name} value={col.name}>
+                                            {col.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <select
+                                    value={newFilterOp}
+                                    onChange={(e) => setNewFilterOp(e.target.value as FilterOperator)}
+                                    className="flex-1 px-2 py-1.5 border border-gray-200 rounded-lg text-xs text-gray-700 bg-white"
+                                >
+                                    {(Object.entries(FILTER_OPERATOR_LABELS) as [FilterOperator, string][]).map(([val, label]) => (
+                                        <option key={val} value={val}>{label}</option>
+                                    ))}
+                                </select>
+                                <input
+                                    type="text"
+                                    value={newFilterVal}
+                                    onChange={(e) => setNewFilterVal(e.target.value)}
+                                    placeholder="Filter value..."
+                                    className="flex-1 px-2 py-1.5 border border-gray-200 rounded-lg text-xs text-gray-700 w-24"
+                                />
+                                <button
+                                    onClick={addFilter}
+                                    disabled={!newFilterCol || !newFilterVal}
+                                    className="shrink-0 flex items-center justify-center p-1.5 rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 disabled:opacity-50"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Apply */}
+                <div className="flex gap-2 pt-2">
+                    <button
+                        onClick={handleApply}
+                        disabled={!groupBy || valueCols.length === 0}
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-semibold hover:bg-primary-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-soft"
+                    >
+                        <Check className="w-4 h-4" />
+                        Create Chart
+                    </button>
+                    <button
+                        onClick={onCancel}
+                        className="px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 // ─── Chart Card ────────────────────────────────────────────
-function ChartCard({ config, onTypeChange }: {
+function ChartCard({ config, onTypeChange, index = 0 }: {
     config: ChartConfig;
     onTypeChange: (id: string, type: ChartType) => void;
+    index?: number;
 }): React.ReactElement {
     const [showTypeSelector, setShowTypeSelector] = useState(false);
     const currentType = config.type;
 
     return (
-        <div className="bg-white border border-gray-100 rounded-xl shadow-soft hover:shadow-medium transition-shadow overflow-hidden">
+        <div 
+            className="bg-white border border-gray-100 rounded-xl shadow-soft hover:shadow-medium transition-shadow overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+            style={{ animationDelay: `${index * 100}ms` }}
+        >
             {/* Header */}
             <div className="flex items-center justify-between px-5 pt-4 pb-2">
-                <h3 className="text-sm font-semibold text-gray-700 truncate pr-2">
-                    {config.title}
-                </h3>
+                <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-semibold text-gray-700 truncate pr-2">
+                        {config.title}
+                    </h3>
+                    {config.isManual && config.pivotConfig && (
+                        <p className="text-xs text-primary-500 mt-0.5">
+                            {AGG_LABELS[config.pivotConfig.aggregation]} · Manual
+                            {(config.pivotConfig.filters?.length || 0) > 0 && (
+                                <span className="text-gray-400"> · {config.pivotConfig.filters!.length} Filter(s)</span>
+                            )}
+                        </p>
+                    )}
+                </div>
                 {config.allowedTypes.length > 1 && (
                     <div className="relative">
                         <button
@@ -207,10 +520,20 @@ function renderChart(config: ChartConfig): React.ReactElement {
     const { type, xKey, yKeys, data } = config;
 
     if (type === 'pie') {
+        const sortedData = [...data].sort((a, b) => (Number(b[yKeys[0]]) || 0) - (Number(a[yKeys[0]]) || 0));
+        let displayData = sortedData;
+        
+        if (sortedData.length > 7) {
+            const top = sortedData.slice(0, 6);
+            const others = sortedData.slice(6);
+            const othersSum = others.reduce((sum, curr) => sum + (Number(curr[yKeys[0]]) || 0), 0);
+            displayData = [...top, { [xKey]: 'Others', [yKeys[0]]: othersSum }];
+        }
+
         return (
             <PieChart>
                 <Pie
-                    data={data}
+                    data={displayData}
                     dataKey={yKeys[0]}
                     nameKey={xKey}
                     cx="50%"
@@ -218,17 +541,17 @@ function renderChart(config: ChartConfig): React.ReactElement {
                     outerRadius={90}
                     innerRadius={45}
                     paddingAngle={2}
-                    label={({ name, percent }: { name: string; percent: number }) =>
-                        `${String(name).length > 10 ? String(name).slice(0, 10) + '…' : name} ${(percent * 100).toFixed(0)}%`
+                    label={({ name, percent }: any) =>
+                        `${String(name || '').length > 10 ? String(name || '').slice(0, 10) + '…' : (name || '')} ${((percent || 0) * 100).toFixed(0)}%`
                     }
                     labelLine={false}
                     style={{ fontSize: 11 }}
                 >
-                    {data.map((_, i) => (
+                    {displayData.map((_, i) => (
                         <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                     ))}
                 </Pie>
-                <Tooltip formatter={(value: number) => formatNumber(value)} />
+                <Tooltip formatter={(value: any) => formatNumber(Number(value))} />
             </PieChart>
         );
     }
@@ -322,7 +645,7 @@ function DataTable({ headers, rows }: {
 }): React.ReactElement {
     const [sortCol, setSortCol] = useState<string | null>(null);
     const [sortAsc, setSortAsc] = useState(true);
-    const [expanded, setExpanded] = useState(false);
+    const [visibleCount, setVisibleCount] = useState(100);
 
     const handleSort = useCallback((col: string) => {
         if (sortCol === col) {
@@ -339,44 +662,31 @@ function DataTable({ headers, rows }: {
             sorted.sort((a, b) => {
                 const va = a[sortCol] || '';
                 const vb = b[sortCol] || '';
-                const na = Number(va.replace(/,/g, ''));
-                const nb = Number(vb.replace(/,/g, ''));
+                const na = parseToNumber(va);
+                const nb = parseToNumber(vb);
                 if (!isNaN(na) && !isNaN(nb)) {
                     return sortAsc ? na - nb : nb - na;
                 }
                 return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
             });
         }
-        if (!expanded) sorted = sorted.slice(0, 100);
-        return sorted;
-    }, [rows, sortCol, sortAsc, expanded]);
+        return sorted.slice(0, visibleCount);
+    }, [rows, sortCol, sortAsc, visibleCount]);
 
     return (
-        <div className="bg-white border border-gray-100 rounded-xl shadow-soft overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
+        <div className="bg-white border border-gray-100 rounded-xl shadow-soft overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 shrink-0">
                 <div className="flex items-center gap-2">
                     <Table2 className="w-4 h-4 text-gray-400" />
                     <h3 className="text-sm font-semibold text-gray-700">Data Preview</h3>
                     <span className="text-xs text-gray-400">
-                        {rows.length} rows × {headers.length} columns
+                        Showing {displayRows.length} of {rows.length} rows
                     </span>
                 </div>
-                {rows.length > 100 && (
-                    <button
-                        onClick={() => setExpanded(!expanded)}
-                        className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
-                    >
-                        {expanded ? (
-                            <>Show less <ChevronUp className="w-3 h-3" /></>
-                        ) : (
-                            <>Show all ({rows.length}) <ChevronDown className="w-3 h-3" /></>
-                        )}
-                    </button>
-                )}
             </div>
-            <div className="overflow-auto max-h-[400px] scrollbar-themed">
+            <div className="overflow-auto max-h-[400px] scrollbar-themed relative">
                 <table className="w-full text-sm">
-                    <thead className="sticky top-0 z-10">
+                    <thead className="sticky top-0 z-10 bg-white shadow-soft">
                         <tr className="bg-gray-50 border-b border-gray-200">
                             <th className="px-3 py-2 text-left text-xs font-medium text-gray-400 w-12">#</th>
                             {headers.map((h) => (
@@ -403,21 +713,31 @@ function DataTable({ headers, rows }: {
                             >
                                 <td className="px-3 py-1.5 text-xs text-gray-300 font-mono">{idx + 1}</td>
                                 {headers.map((h) => (
-                                    <td key={h} className="px-3 py-1.5 text-gray-600 whitespace-nowrap max-w-[200px] truncate">
-                                        {row[h] || <span className="text-gray-300 italic">—</span>}
+                                    <td key={h} className="px-3 py-1.5 text-gray-600 whitespace-nowrap max-w-[200px] truncate" title={row[h]}>
+                                        {row[h] !== undefined && row[h] !== null && row[h] !== '' ? row[h] : <span className="text-gray-300 italic">—</span>}
                                     </td>
                                 ))}
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                {rows.length > visibleCount && (
+                    <div className="p-3 border-t border-gray-100 flex justify-center sticky bottom-0 bg-white/95 backdrop-blur-sm z-10">
+                        <button
+                            onClick={() => setVisibleCount((prev) => prev + 100)}
+                            className="px-5 py-2 text-xs font-semibold rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 hover:text-primary-700 transition-colors shadow-soft"
+                        >
+                            Load More ({rows.length - visibleCount} remaining rows)
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
 }
 
 // ─── Paste Zone ────────────────────────────────────────────
-function PasteZone({ onData }: { onData: (text: string) => void }): React.ReactElement {
+function PasteZone({ onData, initialData = '' }: { onData: (text: string) => void; initialData?: string }): React.ReactElement {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [dragOver, setDragOver] = useState(false);
@@ -483,6 +803,7 @@ function PasteZone({ onData }: { onData: (text: string) => void }): React.ReactE
                         const val = e.target.value;
                         if (val.trim()) onData(val);
                     }}
+                    defaultValue={initialData}
                     placeholder="Paste data here (Ctrl+V)..."
                     className="w-full max-w-2xl h-32 px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 resize-none font-mono bg-gray-50/50"
                     spellCheck={false}
@@ -513,42 +834,86 @@ function PasteZone({ onData }: { onData: (text: string) => void }): React.ReactE
 // ─── Main Component ────────────────────────────────────────
 export function InstantVisualizerContent(): React.ReactElement {
     const [analysis, setAnalysis] = useState<DatasetAnalysis | null>(null);
-    const [chartOverrides, setChartOverrides] = useState<Record<string, ChartType>>({});
+    const [rawData, setRawData] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
+    const [manualCharts, setManualCharts] = useState<ChartConfig[]>([]);
+    const [showPivotPanel, setShowPivotPanel] = useState(false);
+    const [isConfirmed, setIsConfirmed] = useState(false);
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
 
     const handleData = useCallback((text: string) => {
         setError(null);
-        const { headers, rows, error: parseError } = parsePastedData(text);
-        if (parseError) {
-            setError(parseError);
-            return;
-        }
-        if (rows.length === 0) {
-            setError('No data rows found. Make sure your data includes a header row and at least one data row.');
-            return;
-        }
-        const result = analyzeDataset(headers, rows);
-        setAnalysis(result);
-        setChartOverrides({});
+        setRawData(text);
+        setIsAnalyzing(true);
+
+        setTimeout(() => {
+            try {
+                const { headers, rows, error: parseError } = parsePastedData(text);
+                if (parseError) {
+                    setError(parseError);
+                    setIsAnalyzing(false);
+                    return;
+                }
+                if (rows.length === 0) {
+                    setError('No data rows found. Ensure your data includes a header row and at least one data row.');
+                    setIsAnalyzing(false);
+                    return;
+                }
+                const result = analyzeDataset(headers, rows);
+                setAnalysis(result);
+                setIsConfirmed(false);
+                setManualCharts(result.recommendedCharts);
+                setShowPivotPanel(false);
+            } catch (err) {
+                console.error(err);
+                setError('An unexpected error occurred while analyzing the data. Ensure the table format is not corrupted.');
+            } finally {
+                setIsAnalyzing(false);
+            }
+        }, 50);
     }, []);
 
     const handleClear = useCallback(() => {
         setAnalysis(null);
-        setChartOverrides({});
+        setRawData('');
         setError(null);
+        setManualCharts([]);
+        setShowPivotPanel(false);
+        setIsConfirmed(false);
+        setIsAnalyzing(false);
+    }, []);
+
+    const handleEditData = useCallback(() => {
+        setAnalysis(null);
+        setManualCharts([]);
+        setShowPivotPanel(false);
+        setIsConfirmed(false);
+        setIsAnalyzing(false);
     }, []);
 
     const handleChartTypeChange = useCallback((id: string, type: ChartType) => {
-        setChartOverrides((prev) => ({ ...prev, [id]: type }));
+        setManualCharts((prev) => {
+            const idx = prev.findIndex((c) => c.id === id);
+            if (idx !== -1) {
+                const updated = [...prev];
+                updated[idx] = { ...updated[idx], type };
+                return updated;
+            }
+            return prev;
+        });
     }, []);
 
-    const chartsWithOverrides = useMemo(() => {
-        if (!analysis) return [];
-        return analysis.recommendedCharts.map((c) => ({
-            ...c,
-            type: chartOverrides[c.id] || c.type,
-        }));
-    }, [analysis, chartOverrides]);
+    const handleAddManualChart = useCallback((pivotConfig: PivotConfig, chartType: ChartType) => {
+        if (!analysis) return;
+        const newId = `manual-${Date.now()}`;
+        const newChart = buildManualChartConfig(pivotConfig, analysis.rows, newId, chartType);
+        setManualCharts((prev) => [...prev, newChart]);
+        setShowPivotPanel(false);
+    }, [analysis]);
+
+    const handleRemoveManualChart = useCallback((id: string) => {
+        setManualCharts((prev) => prev.filter((c) => c.id !== id));
+    }, []);
 
     // Build KPI cards data
     const kpiCards = useMemo(() => {
@@ -616,7 +981,19 @@ export function InstantVisualizerContent(): React.ReactElement {
     if (!analysis) {
         return (
             <div className="space-y-4">
-                <PasteZone onData={handleData} />
+                {isAnalyzing ? (
+                    <div className="flex flex-col items-center justify-center py-20 px-6 border-2 border-dashed border-gray-200 rounded-2xl bg-white shadow-soft animate-in fade-in duration-300">
+                        <Loader2 className="w-10 h-10 text-primary-500 animate-spin mb-4" />
+                        <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                            Analyzing Your Data...
+                        </h2>
+                        <p className="text-sm text-gray-400 text-center max-w-md">
+                            The system is automatically reading column formats and generating the best chart recommendations for you.
+                        </p>
+                    </div>
+                ) : (
+                    <PasteZone onData={handleData} initialData={rawData} />
+                )}
                 {error && (
                     <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-4 py-3">
                         <AlertCircle className="w-4 h-4 shrink-0" />
@@ -627,11 +1004,50 @@ export function InstantVisualizerContent(): React.ReactElement {
         );
     }
 
+    // ─── Data Confirmation ─────────────────────────────────
+    if (!isConfirmed) {
+        return (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-xl border border-gray-100 shadow-soft">
+                    <div>
+                        <h2 className="text-lg font-semibold text-gray-800">
+                            Confirm Data
+                        </h2>
+                        <p className="text-sm text-gray-500 mt-1">
+                            Please review the table below. If the data is correct, you can proceed to generate charts.
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                        <button
+                            onClick={handleEditData}
+                            className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+                        >
+                            Edit Raw Data
+                        </button>
+                        <button
+                            onClick={() => {
+                                setIsConfirmed(true);
+                                // Don't show pivot panel initially after confirm to enjoy the premium default view
+                                // setShowPivotPanel(true);
+                            }}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-500 text-white text-sm font-semibold hover:bg-primary-600 transition-colors shadow-soft"
+                        >
+                            <Check className="w-4 h-4" />
+                            Data is Correct, Proceed
+                        </button>
+                    </div>
+                </div>
+
+                <DataTable headers={analysis.headers} rows={analysis.rows} />
+            </div>
+        );
+    }
+
     // ─── Dashboard ─────────────────────────────────────────
     return (
         <div className="space-y-6">
             {/* Toolbar */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between animate-in fade-in duration-500">
                 <div className="flex items-center gap-2">
                     <BarChart3 className="w-5 h-5 text-primary-500" />
                     <h2 className="text-base font-semibold text-gray-800">
@@ -641,47 +1057,90 @@ export function InstantVisualizerContent(): React.ReactElement {
                         {analysis.totalRows} rows
                     </span>
                 </div>
-                <button
-                    onClick={handleClear}
-                    className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-red-600 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors font-medium"
-                >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    Clear Data
-                </button>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setShowPivotPanel(!showPivotPanel)}
+                        className="flex items-center gap-1.5 text-xs text-primary-600 hover:text-primary-700 px-3 py-1.5 rounded-lg hover:bg-primary-50 transition-colors font-medium border border-primary-200"
+                    >
+                        <Plus className="w-3.5 h-3.5" />
+                        Add Chart
+                    </button>
+                    <button
+                        onClick={handleEditData}
+                        className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors font-medium border border-gray-200"
+                    >
+                        <Table2 className="w-3.5 h-3.5" />
+                        Edit Data
+                    </button>
+                    <button
+                        onClick={() => {
+                            if (window.confirm('Are you sure you want to clear the dashboard? All your data and charts will be lost.')) {
+                                handleClear();
+                            }
+                        }}
+                        className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-red-600 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors font-medium"
+                    >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        Clear Data
+                    </button>
+                </div>
             </div>
 
             {/* KPI Cards */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                 {kpiCards.map((card, i) => (
-                    <KpiCard key={i} {...card} />
+                    <KpiCard key={i} index={i} {...card} />
                 ))}
             </div>
 
-            {/* Charts */}
-            {chartsWithOverrides.length > 0 && (
-                <div className={`grid gap-4 ${
-                    chartsWithOverrides.length === 1
-                        ? 'grid-cols-1'
-                        : chartsWithOverrides.length === 2
-                          ? 'grid-cols-1 lg:grid-cols-2'
-                          : 'grid-cols-1 lg:grid-cols-2'
-                }`}>
-                    {chartsWithOverrides.map((config) => (
-                        <ChartCard
-                            key={config.id}
-                            config={config}
-                            onTypeChange={handleChartTypeChange}
-                        />
-                    ))}
+            {/* Pivot Config Panel */}
+            {showPivotPanel && (
+                <PivotConfigPanel
+                    schema={analysis.schema}
+                    rows={analysis.rows}
+                    onApply={handleAddManualChart}
+                    onCancel={() => setShowPivotPanel(false)}
+                />
+            )}
+
+            {/* Charts List */}
+            {manualCharts.length === 0 && !showPivotPanel && (
+                <div className="bg-white border border-gray-100 rounded-xl p-8 text-center animate-in fade-in duration-500">
+                    <BarChart3 className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                    <p className="text-sm text-gray-400">
+                        No charts yet. Click &quot;Add Chart&quot; to create one.
+                    </p>
                 </div>
             )}
 
-            {chartsWithOverrides.length === 0 && (
-                <div className="bg-white border border-gray-100 rounded-xl p-8 text-center">
-                    <BarChart3 className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                    <p className="text-sm text-gray-400">
-                        No charts could be generated automatically. Your data may only contain text fields.
-                    </p>
+            {/* Manual / Pivot Charts */}
+            {manualCharts.length > 0 && (
+                <div className="animate-in fade-in duration-500">
+                    <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">
+                        Your Charts
+                    </h3>
+                    <div className={`grid gap-4 ${
+                        manualCharts.length === 1
+                            ? 'grid-cols-1'
+                            : 'grid-cols-1 lg:grid-cols-2'
+                    }`}>
+                        {manualCharts.map((config, i) => (
+                            <div key={config.id} className="relative group">
+                                <ChartCard
+                                    config={config}
+                                    onTypeChange={handleChartTypeChange}
+                                    index={i + kpiCards.length}
+                                />
+                                <button
+                                    onClick={() => handleRemoveManualChart(config.id)}
+                                    className="absolute top-3 right-12 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-500 p-1 rounded-md hover:bg-red-50 z-10"
+                                    title="Remove chart"
+                                >
+                                    <X className="w-3.5 h-3.5" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
 

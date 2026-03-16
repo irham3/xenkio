@@ -127,16 +127,30 @@ export function getTitleCharCount(title: string): { count: number; status: 'good
     const count = title.length;
     if (count === 0) return { count, status: 'good' };
     if (count >= 30 && count <= 60) return { count, status: 'good' };
-    if (count > 60 && count <= 70) return { count, status: 'warning' };
+    if ((count >= 20 && count < 30) || (count > 60 && count <= 70)) return { count, status: 'warning' };
     return { count, status: 'danger' };
+}
+
+export function getTitleStatusLabel(count: number): string {
+    if (count === 0) return '';
+    if (count >= 30 && count <= 60) return 'optimal';
+    if (count > 60) return 'too long';
+    return 'too short';
 }
 
 export function getDescriptionCharCount(description: string): { count: number; status: 'good' | 'warning' | 'danger' } {
     const count = description.length;
     if (count === 0) return { count, status: 'good' };
     if (count >= 120 && count <= 160) return { count, status: 'good' };
-    if ((count > 100 && count < 120) || (count > 160 && count <= 180)) return { count, status: 'warning' };
+    if ((count >= 70 && count < 120) || (count > 160 && count <= 180)) return { count, status: 'warning' };
     return { count, status: 'danger' };
+}
+
+export function getDescriptionStatusLabel(count: number): string {
+    if (count === 0) return '';
+    if (count >= 120 && count <= 160) return 'optimal';
+    if (count > 160) return 'too long';
+    return 'too short';
 }
 
 export const ROBOTS_OPTIONS = [

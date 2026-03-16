@@ -27,6 +27,8 @@ import {
     LANGUAGES,
     getTitleCharCount,
     getDescriptionCharCount,
+    getTitleStatusLabel,
+    getDescriptionStatusLabel,
 } from '../lib/meta-tag-utils';
 
 function CharCounter({ count, status, label }: { count: number; status: 'good' | 'warning' | 'danger'; label: string }) {
@@ -106,7 +108,7 @@ export function MetaTagGenerator() {
                                     <CharCounter
                                         count={titleInfo.count}
                                         status={titleInfo.status}
-                                        label={titleInfo.count >= 30 && titleInfo.count <= 60 ? 'optimal' : titleInfo.count > 60 ? 'too long' : 'too short'}
+                                        label={getTitleStatusLabel(titleInfo.count)}
                                     />
                                 </div>
                                 <input
@@ -129,7 +131,7 @@ export function MetaTagGenerator() {
                                     <CharCounter
                                         count={descInfo.count}
                                         status={descInfo.status}
-                                        label={descInfo.count >= 120 && descInfo.count <= 160 ? 'optimal' : descInfo.count > 160 ? 'too long' : 'too short'}
+                                        label={getDescriptionStatusLabel(descInfo.count)}
                                     />
                                 </div>
                                 <textarea

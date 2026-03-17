@@ -1017,7 +1017,6 @@ export const TOOLS: ToolData[] = [
         icon: Share2,
         href: '/tools/og-generator',
         slug: 'og-generator',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {

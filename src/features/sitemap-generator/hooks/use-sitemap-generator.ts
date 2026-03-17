@@ -9,6 +9,8 @@ import {
     getDefaultConfig,
 } from '../lib/sitemap-utils';
 
+const URL_REVOKE_DELAY_MS = 1000;
+
 export function useSitemapGenerator() {
     const [config, setConfig] = useState<SitemapGeneratorConfig>(getDefaultConfig());
     const [bulkPaths, setBulkPaths] = useState('');
@@ -33,7 +35,11 @@ export function useSitemapGenerator() {
         }));
     }, []);
 
-    const updateUrl = useCallback(<K extends keyof SitemapUrlEntry>(id: string, field: K, value: SitemapUrlEntry[K]) => {
+    const updateUrl = useCallback(<FieldKey extends keyof SitemapUrlEntry>(
+        id: string,
+        field: FieldKey,
+        value: SitemapUrlEntry[FieldKey],
+    ) => {
         setConfig((prev) => ({
             ...prev,
             urls: prev.urls.map((entry) => {
@@ -68,7 +74,7 @@ export function useSitemapGenerator() {
 
         setConfig((prev) => ({
             ...prev,
-            urls: parsedPaths.map((path) => createUrlEntry(path)),
+            urls: [...prev.urls, ...parsedPaths.map((path) => createUrlEntry(path))],
         }));
     }, [bulkPaths]);
 
@@ -90,8 +96,10 @@ export function useSitemapGenerator() {
         const a = document.createElement('a');
         a.href = url;
         a.download = 'sitemap.xml';
+        document.body.appendChild(a);
         a.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), URL_REVOKE_DELAY_MS);
     }, [output]);
 
     return {

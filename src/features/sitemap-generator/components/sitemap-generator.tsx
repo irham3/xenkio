@@ -227,7 +227,11 @@ export function SitemapGenerator() {
                             </div>
                         </div>
 
-                        <div className="bg-gray-900 rounded-xl p-5 overflow-auto max-h-[60vh]">
+                        <div
+                            role="region"
+                            aria-label="Sitemap XML preview"
+                            className="bg-gray-900 rounded-xl p-5 overflow-auto max-h-[60vh]"
+                        >
                             <pre className="font-mono text-sm text-gray-100 whitespace-pre-wrap leading-relaxed select-all">
                                 {output}
                             </pre>

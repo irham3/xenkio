@@ -5,8 +5,6 @@ import {
     SitemapUrlEntry,
 } from '../types';
 
-let counter = 0;
-
 export const CHANGE_FREQUENCIES: SitemapChangeFrequency[] = [
     'always',
     'hourly',
@@ -36,8 +34,11 @@ export const PRESETS: SitemapPreset[] = [
 ];
 
 export function generateId(): string {
-    counter += 1;
-    return `sitemap-url-${Date.now()}-${counter}`;
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return `sitemap-url-${crypto.randomUUID()}`;
+    }
+
+    return `sitemap-url-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
 }
 
 export function createUrlEntry(path = '/'): SitemapUrlEntry {

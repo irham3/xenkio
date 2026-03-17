@@ -1032,11 +1032,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '83',
         title: 'Twitter Card Generator',
-        description: 'Generate Twitter Card meta tags for better link previews.',
+        description: 'Generate Twitter Card meta tags for better link previews on Twitter/X.',
         icon: Twitter,
         href: '/tools/twitter-card',
         slug: 'twitter-card',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'web-seo',
     },
     {

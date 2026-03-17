@@ -74,7 +74,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Meta tags, sitemap, robots.txt, and URL tools | generate locally, no data sent',
         icon: Globe,
         color: '#E4E4E7',
-        toolCount: 6,
+        toolCount: 7,
     },
     {
         id: 'calculators',

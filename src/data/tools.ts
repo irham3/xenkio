@@ -704,7 +704,8 @@ export const TOOLS: ToolData[] = [
         description: 'Generate SEO-optimized meta tags for your website.',
         icon: Globe,
         href: '/tools/meta-tag-generator',
-        isComingSoon: true,
+        slug: 'meta-tag-generator',
+        isNew: true,
         categoryId: 'web-seo',
     },
     {
@@ -1028,7 +1029,6 @@ export const TOOLS: ToolData[] = [
         icon: Share2,
         href: '/tools/og-generator',
         slug: 'og-generator',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {

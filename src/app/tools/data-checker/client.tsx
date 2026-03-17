@@ -1,6 +1,6 @@
 'use client';
 // Trigger rebuild for route recognition
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { useDataChecker } from '@/features/data-checker/hooks/use-data-checker';
 import { ReviewCard } from '@/features/data-checker/components/review-card';
 import { ItemList } from '@/features/data-checker/components/item-list';
@@ -25,6 +25,7 @@ import {
     PartyPopper,
     Pencil,
     Undo2,
+    Clock,
 } from 'lucide-react';
 
 export default function DataCheckerClient() {
@@ -36,6 +37,7 @@ export default function DataCheckerClient() {
         loadData,
         markCurrentValid,
         markCurrentInvalid,
+        markRemainingAsValid,
         setRowStatus,
         goToIndex,
         goToNext,
@@ -56,6 +58,14 @@ export default function DataCheckerClient() {
     const hasData = state.rows.length > 0;
     const isAllChecked = hasData && stats.progress === 100;
     const showSummary = isAllChecked && !forceReview;
+
+    const longestItems = useMemo(() => {
+        if (!isAllChecked) return [];
+        return [...state.rows]
+            .filter(r => (r.timeSpentMs || 0) > 0)
+            .sort((a, b) => (b.timeSpentMs || 0) - (a.timeSpentMs || 0))
+            .slice(0, 3);
+    }, [state.rows, isAllChecked]);
 
     const handleLoadData = () => {
         if (textInput.trim()) {
@@ -297,6 +307,29 @@ export default function DataCheckerClient() {
                                             </div>
                                         </div>
 
+                                        {/* Longest Items */}
+                                        {longestItems.length > 0 && (
+                                            <div className="w-full max-w-sm mb-8 text-left animate-in slide-in-from-bottom-2 duration-500 delay-150 fill-mode-both">
+                                                <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                                                    <Clock className="w-4 h-4 text-gray-400" />
+                                                    Longest Time Spent
+                                                </h4>
+                                                <div className="space-y-2">
+                                                    {longestItems.map((item, idx) => (
+                                                        <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 border border-gray-100 rounded-lg overflow-hidden">
+                                                            <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                <span className="text-xs font-bold text-gray-400 w-4 shrink-0">{idx + 1}</span>
+                                                                <span className="text-sm font-medium text-gray-700 truncate">{item.value}</span>
+                                                            </div>
+                                                            <span className="text-xs font-semibold text-gray-500 whitespace-nowrap ml-3 tabular-nums shrink-0">
+                                                                {(item.timeSpentMs! / 1000).toFixed(1)}s
+                                                            </span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
                                         {/* Actions */}
                                         <div className="flex flex-col gap-3 w-full max-w-xs">
                                             <button
@@ -339,6 +372,7 @@ export default function DataCheckerClient() {
                                         onUpdateValue={(val) => updateRowValue(state.currentIndex, val)}
                                         onUndo={undo}
                                         canUndo={state.history.length > 0}
+                                        onMarkRemainingAsValid={markRemainingAsValid}
                                     />
                                 )}
                             </div>

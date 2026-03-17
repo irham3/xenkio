@@ -72,6 +72,7 @@ import {
     GlassWater,
     Database,
     Replace,
+    BarChart3,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -442,6 +443,17 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
+        id: '106',
+        title: 'Data Verifier',
+        description: 'Compare and sync two datasets side-by-side. Find mismatched rows, review missing data, and apply quick fixes.',
+        icon: ArrowLeftRight,
+        href: '/tools/data-verifier',
+        slug: 'data-verifier',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+    {
         id: '26',
         title: 'JSON Formatter',
         description: 'Format, validate, and beautify JSON data with syntax highlighting.',
@@ -554,7 +566,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
-        id: '106',
+        id: '108',
         title: 'SQL Formatter',
         description: 'Format and beautify SQL queries with support for multiple dialects.',
         icon: Database,
@@ -943,7 +955,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'design-tools',
     },
     {
-        id: '104',
+        id: '109',
         title: 'Glassmorphism Generator',
         description: 'Create beautiful frosted glass UI effects with live preview and CSS code export.',
         icon: GlassWater,
@@ -977,7 +989,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'text-utilities',
     },
     {
-        id: '105',
+        id: '110',
         title: 'Morse Code Encoder & Decoder',
         description: 'Convert text to Morse code or decode Morse code back to text instantly.',
         icon: Wifi,
@@ -1001,7 +1013,7 @@ export const TOOLS: ToolData[] = [
     // WEB & SEO - Tambahan
     // =====================================================
     {
-        id: '93',
+        id: '111',
         title: 'URL Encoder / Decoder',
         description: 'Encode or decode URLs. Convert special characters to safer URL formats.',
         icon: Link2,
@@ -1129,13 +1141,24 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS - Crontab Generator
     // =====================================================
     {
-        id: '103',
+        id: '112',
         title: 'Crontab Generator',
         description: 'Build cron expressions visually or parse existing ones into human-readable schedules.',
         icon: Timer,
         href: '/tools/crontab-generator',
         slug: 'crontab-generator',
         isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '113',
+        title: 'Instant Visualizer',
+        description: 'Paste data from Excel or CSV and instantly get interactive charts, KPI cards, and insights — zero config needed.',
+        icon: BarChart3,
+        href: '/tools/instant-visualizer',
+        slug: 'instant-visualizer',
+        isNew: true,
+        featured: true,
         categoryId: 'developer-tools',
     },
 ];

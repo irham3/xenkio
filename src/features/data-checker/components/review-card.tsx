@@ -13,6 +13,7 @@ import {
     Save,
     Undo2,
     AlertTriangle,
+    Clock,
 } from 'lucide-react';
 
 interface ReviewCardProps {
@@ -28,6 +29,7 @@ interface ReviewCardProps {
     onUpdateValue: (newValue: string) => void;
     onUndo: () => void;
     canUndo: boolean;
+    onMarkRemainingAsValid: () => void;
 }
 
 const QUICK_TAGS = [
@@ -58,6 +60,7 @@ export function ReviewCard({
     onUpdateValue,
     onUndo,
     canUndo,
+    onMarkRemainingAsValid,
 }: ReviewCardProps) {
     const [commentText, setCommentText] = useState('');
     const [isCommentMode, setIsCommentMode] = useState(false);
@@ -148,9 +151,13 @@ export function ReviewCard({
     const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
         if (isCommentMode || isEditingValue) return; // Let inputs handle their own keys
 
-        if (e.key === 'Enter' || e.key === ' ') {
+        if ((e.key === 'Enter' || e.key === ' ') && !e.ctrlKey) {
             e.preventDefault();
             handleMarkValid();
+        }
+        if (e.key === 'Enter' && e.ctrlKey && e.shiftKey) {
+            e.preventDefault();
+            onMarkRemainingAsValid();
         }
         if (e.key === 'ArrowRight' || e.key === 'j') {
             e.preventDefault();
@@ -172,7 +179,7 @@ export function ReviewCard({
             e.preventDefault();
             if (canUndo) onUndo();
         }
-    }, [isCommentMode, isEditingValue, handleMarkValid, onGoToNext, onGoToPrev, onGoToNextUnchecked, handleStartEditing, onUndo, canUndo]);
+    }, [isCommentMode, isEditingValue, handleMarkValid, onGoToNext, onGoToPrev, onGoToNextUnchecked, handleStartEditing, onUndo, canUndo, onMarkRemainingAsValid]);
 
     const handleInvalidSubmit = useCallback(() => {
         playErrorSound();
@@ -261,6 +268,16 @@ export function ReviewCard({
                     >
                         <ChevronRight className="w-5 h-5" />
                     </button>
+                    <div
+                        className={cn(
+                            "ml-2 flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-semibold tabular-nums transition-colors",
+                            (currentRow.timeSpentMs || 0) > 15000 ? "bg-red-50 text-red-600" : "bg-gray-100/80 text-gray-500"
+                        )}
+                        title="Time spent on this item"
+                    >
+                        <Clock className="w-3.5 h-3.5" />
+                        {(Math.floor((currentRow.timeSpentMs || 0) / 100) / 10).toFixed(1)}s
+                    </div>
                 </div>
 
                 {stats.unchecked > 0 && (
@@ -456,6 +473,7 @@ export function ReviewCard({
                 <div className="flex items-center justify-center gap-4 mt-4">
                     <p className="text-[11px] text-gray-400 text-center flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
                         <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">Enter/Space</kbd> Valid</span>
+                        <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">Ctrl+Shift+Enter</kbd> Valid All</span>
                         <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">E</kbd> Edit</span>
                         <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">Ctrl+Z</kbd> Undo</span>
                         <span><kbd className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-mono">←→</kbd> Navigate</span>

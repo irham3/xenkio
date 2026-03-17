@@ -6,6 +6,7 @@ export interface DataRow {
     value: string;
     status: RowStatus;
     comment: string;
+    timeSpentMs?: number;
 }
 
 export interface DataCheckerState {
@@ -22,4 +23,7 @@ export interface DataCheckerStats {
     invalid: number;
     unchecked: number;
     progress: number;
+    totalTimeMs: number;
+    averageTimeMs: number;
+    estimatedTimeRemainingMs: number;
 }

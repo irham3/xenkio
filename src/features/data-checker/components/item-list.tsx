@@ -8,6 +8,7 @@ import {
     XCircle,
     CircleDashed,
     Search,
+    Clock,
 } from 'lucide-react';
 import { useState, useMemo } from 'react';
 
@@ -29,7 +30,7 @@ function StatusDot({ status }: { status: RowStatus }) {
     }
 }
 
-export function ItemList({ rows, currentIndex, onGoToIndex }: ItemListProps) {
+export function ItemList({ rows, currentIndex, onGoToIndex, onSetRowStatus }: ItemListProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<RowStatus | 'all'>('all');
     const listRef = useRef<HTMLDivElement>(null);
@@ -97,7 +98,7 @@ export function ItemList({ rows, currentIndex, onGoToIndex }: ItemListProps) {
                             key={row.id}
                             onClick={() => onGoToIndex(row.originalIndex)}
                             className={cn(
-                                "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200 border relative",
+                                "group w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-left transition-all duration-200 border relative",
                                 row.originalIndex === currentIndex
                                     ? "bg-primary-50 border-primary-200 shadow-sm ring-1 ring-primary-100"
                                     : "bg-white/50 border-transparent hover:border-gray-200 hover:bg-white",
@@ -110,7 +111,10 @@ export function ItemList({ rows, currentIndex, onGoToIndex }: ItemListProps) {
                                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary-500 rounded-r-full" />
                             )}
 
-                            <StatusDot status={row.status} />
+                            <div className="flex items-center justify-center w-6 h-6 rounded-full group-hover:bg-white/80 transition-all shrink-0">
+                                <StatusDot status={row.status} />
+                            </div>
+
                             <span className="text-[10px] font-mono text-gray-400 min-w-[18px] tabular-nums">{row.originalIndex + 1}</span>
                             <span className={cn(
                                 "text-sm truncate flex-1",
@@ -118,11 +122,45 @@ export function ItemList({ rows, currentIndex, onGoToIndex }: ItemListProps) {
                             )}>
                                 {row.value}
                             </span>
+
+                            {/* Time indicator subtle dot */}
+                            {(row.timeSpentMs || 0) > 15000 && (
+                                <span title="Took a long time" className="flex items-center shrink-0">
+                                    <Clock className="w-3 h-3 text-red-300" />
+                                </span>
+                            )}
+
                             {row.comment && (
                                 <span className="text-[9px] px-1.5 py-0.5 bg-red-100 text-red-600 rounded-full font-bold shrink-0 shadow-sm border border-red-200">
                                     !
                                 </span>
                             )}
+
+                            {/* Hover Quick Actions */}
+                            <div className="absolute right-2 opacity-0 group-hover:opacity-100 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-1 py-1 rounded-md shadow-sm border border-gray-100 transition-all">
+                                <span
+                                    role="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onSetRowStatus(row.id, 'valid');
+                                    }}
+                                    className="p-1 text-emerald-500 hover:bg-emerald-50 rounded"
+                                    title="Mark Valid"
+                                >
+                                    <CheckCircle2 className="w-4 h-4" />
+                                </span>
+                                <span
+                                    role="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onSetRowStatus(row.id, 'invalid', 'Quick Reject');
+                                    }}
+                                    className="p-1 text-red-500 hover:bg-red-50 rounded"
+                                    title="Mark Invalid"
+                                >
+                                    <XCircle className="w-4 h-4" />
+                                </span>
+                            </div>
                         </button>
                     ))
                 ) : (

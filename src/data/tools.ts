@@ -714,7 +714,8 @@ export const TOOLS: ToolData[] = [
         description: 'Generate XML sitemaps for search engines.',
         icon: Map,
         href: '/tools/sitemap-generator',
-        isComingSoon: true,
+        slug: 'sitemap-generator',
+        isNew: true,
         categoryId: 'web-seo',
     },
     {

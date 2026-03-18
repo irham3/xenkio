@@ -6,6 +6,7 @@ export interface ColumnSchema {
     uniqueCount: number;
     nullCount: number;
     sampleValues: string[];
+    hidden?: boolean;
 }
 
 export interface NumericStats {
@@ -22,7 +23,7 @@ export interface CategoryCount {
     value: number;
 }
 
-export type ChartType = 'line' | 'bar' | 'area' | 'pie';
+export type ChartType = 'line' | 'bar' | 'area' | 'pie' | 'scatter';
 
 export type AggregationType = 'sum' | 'avg' | 'count' | 'min' | 'max';
 
@@ -34,6 +35,8 @@ export interface FilterCondition {
     value: string;
 }
 
+export type DateGroupType = 'daily' | 'weekly' | 'monthly' | 'yearly';
+
 export interface PivotConfig {
     /** Column used for grouping rows (X-axis / labels) */
     groupByColumn: string;
@@ -43,6 +46,8 @@ export interface PivotConfig {
     aggregation: AggregationType;
     /** Filters to apply before aggregating */
     filters?: FilterCondition[];
+    /** Date formatting mode if X-axis is a date */
+    dateGroup?: DateGroupType;
 }
 
 export interface ChartConfig {
@@ -57,6 +62,17 @@ export interface ChartConfig {
     pivotConfig?: PivotConfig;
     /** Whether this chart is using manual/pivot mode */
     isManual?: boolean;
+    /** Auto-generated insights based on the chart data */
+    insight?: string;
+    /** Whether the bar/area chart should be stacked */
+    stacked?: boolean;
+}
+
+export interface ColumnOverride {
+    name: string;
+    newName?: string;
+    newType?: ColumnType;
+    hidden?: boolean;
 }
 
 export interface DatasetAnalysis {

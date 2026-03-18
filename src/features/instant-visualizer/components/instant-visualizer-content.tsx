@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef, useMemo } from 'react';
+import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import {
     BarChart,
     Bar,
@@ -10,6 +10,9 @@ import {
     Area,
     PieChart,
     Pie,
+    ScatterChart,
+    Scatter,
+    ZAxis,
     Cell,
     XAxis,
     YAxis,
@@ -44,9 +47,21 @@ import {
     Calculator,
     Check,
     Loader2,
+    Download,
+    Maximize2,
+    Minimize2,
+    Lightbulb,
+    FileImage,
+    FileText,
+    Activity, // For Scatter
+    Type, // Column Type
+    EyeOff, // Hide Column
+    LayoutDashboard,
 } from 'lucide-react';
+import html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
 import { parsePastedData, analyzeDataset, buildManualChartConfig, parseToNumber } from '../lib/data-analyzer';
-import type { DatasetAnalysis, ChartConfig, ChartType, NumericStats, PivotConfig, AggregationType, ColumnSchema, FilterCondition, FilterOperator } from '../types';
+import type { DatasetAnalysis, ChartConfig, ChartType, NumericStats, PivotConfig, AggregationType, ColumnSchema, FilterCondition, FilterOperator, DateGroupType, ColumnOverride } from '../types';
 
 // ─── Color Palette (from globals.css) ──────────────────────
 const CHART_COLORS = [
@@ -103,6 +118,7 @@ const CHART_TYPE_ICONS: Record<ChartType, React.ComponentType<{ className?: stri
     bar: BarChart2,
     area: AreaChartIcon,
     pie: PieChartIcon,
+    scatter: Activity,
 };
 
 // ─── Custom Tooltip ────────────────────────────────────────
@@ -169,7 +185,6 @@ function KpiCard({ label, value, sub, icon: Icon, color, index = 0 }: {
 // ─── Pivot Config Panel ────────────────────────────────────
 function PivotConfigPanel({
     schema,
-    rows,
     onApply,
     onCancel,
     initialConfig,
@@ -195,6 +210,11 @@ function PivotConfigPanel({
     const [newFilterCol, setNewFilterCol] = useState('');
     const [newFilterOp, setNewFilterOp] = useState<FilterOperator>('equals');
     const [newFilterVal, setNewFilterVal] = useState('');
+    const [dateGroup, setDateGroup] = useState<DateGroupType>(initialConfig?.dateGroup || 'daily');
+
+    const isDateCol = useMemo(() => {
+        return allCols.find(c => c.name === groupBy)?.type === 'date';
+    }, [groupBy, allCols]);
 
     const toggleValueCol = (col: string) => {
         setValueCols((prev) =>
@@ -221,6 +241,7 @@ function PivotConfigPanel({
                 valueColumns: valueCols,
                 aggregation,
                 filters: filters.length > 0 ? filters : undefined,
+                dateGroup: isDateCol ? dateGroup : undefined,
             },
             chartType,
         );
@@ -257,6 +278,31 @@ function PivotConfigPanel({
                         ))}
                     </select>
                 </div>
+
+                {/* Date Grouping (Only if X-Axis is Date) */}
+                {isDateCol && (
+                    <div>
+                        <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                            <TrendingUp className="w-3.5 h-3.5" />
+                            Date Grouping
+                        </label>
+                        <div className="flex gap-1.5">
+                            {(['daily', 'weekly', 'monthly', 'yearly'] as DateGroupType[]).map((mode) => (
+                                <button
+                                    key={mode}
+                                    onClick={() => setDateGroup(mode)}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border capitalize ${
+                                        dateGroup === mode
+                                            ? 'bg-primary-50 border-primary-300 text-primary-700'
+                                            : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
+                                    }`}
+                                >
+                                    {mode}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Value Columns */}
                 <div>
@@ -313,10 +359,11 @@ function PivotConfigPanel({
 
                 {/* Chart Type */}
                 <div>
-                    <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                    <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2" title="The visual style of the chart">
                         <BarChart3 className="w-3.5 h-3.5" />
                         Chart Type
                     </label>
+                    <p className="text-[10px] text-gray-400 mb-2">Select the best visualization for your data type.</p>
                     <div className="flex gap-1.5">
                         {(['bar', 'line', 'area', 'pie'] as ChartType[]).map((t) => {
                             const TypeIcon = CHART_TYPE_ICONS[t];
@@ -437,83 +484,189 @@ function PivotConfigPanel({
 }
 
 // ─── Chart Card ────────────────────────────────────────────
-function ChartCard({ config, onTypeChange, index = 0 }: {
+function ChartCard({ config, onTypeChange, index = 0, onRemove }: {
     config: ChartConfig;
     onTypeChange: (id: string, type: ChartType) => void;
     index?: number;
+    onRemove?: (id: string) => void;
 }): React.ReactElement {
     const [showTypeSelector, setShowTypeSelector] = useState(false);
+    const [showExportMenu, setShowExportMenu] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
     const currentType = config.type;
+    const chartRef = useRef<HTMLDivElement>(null);
 
-    return (
+    const handleExportPNG = async () => {
+        if (!chartRef.current) return;
+        try {
+            const canvas = await html2canvas(chartRef.current, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+            canvas.toBlob((blob) => {
+                if (blob) saveAs(blob, `${config.title.replace(/\s+/g, '_')}_chart.png`);
+            });
+        } catch (err) {
+            console.error('Error exporting PNG:', err);
+        }
+    };
+
+    const handleExportCSV = () => {
+        if (!config.data || config.data.length === 0) return;
+        const keys = [config.xKey, ...config.yKeys];
+        const csvContent = [
+            keys.join(','),
+            ...config.data.map(row => keys.map(k => `"${String(row[k] || '')}"`).join(','))
+        ].join('\n');
+        
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, `${config.title.replace(/\s+/g, '_')}_data.csv`);
+    };
+
+    const cardContent = (
         <div 
-            className="bg-white border border-gray-100 rounded-xl shadow-soft hover:shadow-medium transition-shadow overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
-            style={{ animationDelay: `${index * 100}ms` }}
+            className={`bg-white border border-gray-100 flex flex-col transition-shadow ${isFullscreen ? 'w-full h-full rounded-none px-4 py-6' : 'rounded-xl shadow-soft hover:shadow-medium overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both'}`}
+            style={!isFullscreen ? { animationDelay: `${index * 100}ms` } : {}}
+            onMouseLeave={() => { setShowTypeSelector(false); setShowExportMenu(false); }}
         >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 pt-4 pb-2">
+            <div className="flex items-center justify-between px-5 pt-4 pb-2 shrink-0">
                 <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-semibold text-gray-700 truncate pr-2">
+                    <h3 className="text-sm font-semibold text-gray-700 truncate pr-2" title={config.title}>
                         {config.title}
                     </h3>
                     {config.isManual && config.pivotConfig && (
-                        <p className="text-xs text-primary-500 mt-0.5">
+                        <p className="text-xs text-primary-500 mt-0.5" title={config.pivotConfig.filters?.length ? `${config.pivotConfig.filters.length} Filter(s) applied` : undefined}>
                             {AGG_LABELS[config.pivotConfig.aggregation]} · Manual
+                            {config.pivotConfig.dateGroup && ` · ${config.pivotConfig.dateGroup}`}
                             {(config.pivotConfig.filters?.length || 0) > 0 && (
                                 <span className="text-gray-400"> · {config.pivotConfig.filters!.length} Filter(s)</span>
                             )}
                         </p>
                     )}
                 </div>
-                {config.allowedTypes.length > 1 && (
+                <div className="flex items-center gap-1 shrink-0">
+                    {/* Chart Type Selector */}
+                    {config.allowedTypes.length > 1 && (
+                        <div className="relative">
+                            <button
+                                onClick={() => setShowTypeSelector(!showTypeSelector)}
+                                className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary-600 transition-colors px-2 py-1.5 rounded-md hover:bg-primary-50"
+                                title="Change Chart Type"
+                            >
+                                {(() => {
+                                    const TypeIcon = CHART_TYPE_ICONS[currentType];
+                                    return <TypeIcon className="w-4 h-4" />;
+                                })()}
+                                <ChevronDown className="w-3 h-3" />
+                            </button>
+                            {showTypeSelector && (
+                                <>
+                                    <div className="fixed inset-0 z-10" onClick={() => setShowTypeSelector(false)} />
+                                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-20 py-1 min-w-[120px]">
+                                        {config.allowedTypes.map((t) => {
+                                            const TypeIcon = CHART_TYPE_ICONS[t];
+                                            return (
+                                                <button
+                                                    key={t}
+                                                    onClick={() => {
+                                                        onTypeChange(config.id, t);
+                                                        setShowTypeSelector(false);
+                                                    }}
+                                                    className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs capitalize hover:bg-gray-50 transition-colors ${
+                                                        t === currentType ? 'text-primary-600 font-medium bg-primary-50' : 'text-gray-600'
+                                                    }`}
+                                                >
+                                                    <TypeIcon className="w-3.5 h-3.5" />
+                                                    {t} chart
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Export Menu */}
                     <div className="relative">
                         <button
-                            onClick={() => setShowTypeSelector(!showTypeSelector)}
-                            className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary-600 transition-colors px-2 py-1 rounded-md hover:bg-primary-50"
+                            onClick={() => setShowExportMenu(!showExportMenu)}
+                            className="flex items-center justify-center w-7 h-7 text-gray-400 hover:text-primary-600 transition-colors rounded-md hover:bg-primary-50"
+                            title="Export options"
                         >
-                            {(() => {
-                                const TypeIcon = CHART_TYPE_ICONS[currentType];
-                                return <TypeIcon className="w-3.5 h-3.5" />;
-                            })()}
-                            <ChevronDown className="w-3 h-3" />
+                            <Download className="w-4 h-4" />
                         </button>
-                        {showTypeSelector && (
+                        {showExportMenu && (
                             <>
-                                <div className="fixed inset-0 z-10" onClick={() => setShowTypeSelector(false)} />
-                                <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-20 py-1 min-w-[120px]">
-                                    {config.allowedTypes.map((t) => {
-                                        const TypeIcon = CHART_TYPE_ICONS[t];
-                                        return (
-                                            <button
-                                                key={t}
-                                                onClick={() => {
-                                                    onTypeChange(config.id, t);
-                                                    setShowTypeSelector(false);
-                                                }}
-                                                className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs capitalize hover:bg-gray-50 transition-colors ${
-                                                    t === currentType ? 'text-primary-600 font-medium bg-primary-50' : 'text-gray-600'
-                                                }`}
-                                            >
-                                                <TypeIcon className="w-3.5 h-3.5" />
-                                                {t} chart
-                                            </button>
-                                        );
-                                    })}
+                                <div className="fixed inset-0 z-10" onClick={() => setShowExportMenu(false)} />
+                                <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-20 py-1 min-w-[140px]">
+                                    <button
+                                        onClick={() => { handleExportPNG(); setShowExportMenu(false); }}
+                                        className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50 transition-colors"
+                                    >
+                                        <FileImage className="w-3.5 h-3.5 text-primary-500" />
+                                        Save as PNG
+                                    </button>
+                                    <button
+                                        onClick={() => { handleExportCSV(); setShowExportMenu(false); }}
+                                        className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50 transition-colors"
+                                    >
+                                        <FileText className="w-3.5 h-3.5 text-green-500" />
+                                        Export Data (CSV)
+                                    </button>
                                 </div>
                             </>
                         )}
                     </div>
-                )}
+
+                    {/* Fullscreen Toggle */}
+                    <button
+                        onClick={() => setIsFullscreen(!isFullscreen)}
+                        className="flex items-center justify-center w-7 h-7 text-gray-400 hover:text-primary-600 transition-colors rounded-md hover:bg-primary-50"
+                        title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+                    >
+                        {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                    </button>
+
+                    {/* Remove Chart */}
+                    {onRemove && (
+                        <button
+                            onClick={() => onRemove(config.id)}
+                            className="flex items-center justify-center w-7 h-7 text-gray-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
+                            title="Remove chart"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </button>
+                    )}
+                </div>
             </div>
 
-            {/* Chart */}
-            <div className="px-3 pb-4 h-[280px]">
+            {/* Chart Area */}
+            <div className={`px-3 pb-2 flex-1 min-h-0 ${isFullscreen ? 'min-h-[400px]' : 'h-[280px]'}`} ref={chartRef}>
                 <ResponsiveContainer width="100%" height="100%">
                     {renderChart(config)}
                 </ResponsiveContainer>
             </div>
+
+            {/* Narrative Insight */}
+            {config.insight && (
+                <div className="px-5 py-3 bg-gray-50/50 border-t border-gray-100 flex items-start gap-2 shrink-0">
+                    <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                        {config.insight}
+                    </p>
+                </div>
+            )}
         </div>
     );
+
+    if (isFullscreen) {
+        return (
+            <div className="fixed inset-0 z-50 bg-white flex flex-col overflow-auto p-4 sm:p-8">
+                {cardContent}
+            </div>
+        );
+    }
+
+    return cardContent;
 }
 
 function renderChart(config: ChartConfig): React.ReactElement {
@@ -541,7 +694,7 @@ function renderChart(config: ChartConfig): React.ReactElement {
                     outerRadius={90}
                     innerRadius={45}
                     paddingAngle={2}
-                    label={({ name, percent }: any) =>
+                    label={({ name, percent }: { name?: string | number; percent?: number }) =>
                         `${String(name || '').length > 10 ? String(name || '').slice(0, 10) + '…' : (name || '')} ${((percent || 0) * 100).toFixed(0)}%`
                     }
                     labelLine={false}
@@ -551,7 +704,7 @@ function renderChart(config: ChartConfig): React.ReactElement {
                         <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                     ))}
                 </Pie>
-                <Tooltip formatter={(value: any) => formatNumber(Number(value))} />
+                <Tooltip formatter={(value: number | string | readonly (string | number)[] | undefined) => formatNumber(Number(Array.isArray(value) ? value[0] : value || 0))} />
             </PieChart>
         );
     }
@@ -621,6 +774,24 @@ function renderChart(config: ChartConfig): React.ReactElement {
         );
     }
 
+    if (type === 'scatter') {
+        return (
+            <ScatterChart {...commonProps}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E4E4E7" vertical={false} />
+                <XAxis type="number" dataKey={xKey} name={xKey} tick={{ fontSize: 11, fill: '#71717A' }} tickFormatter={formatAxisTick} axisLine={{ stroke: '#E4E4E7' }} tickLine={false} />
+                <YAxis type="number" dataKey={yKeys[0]} name={yKeys[0]} tick={{ fontSize: 11, fill: '#71717A' }} tickFormatter={formatAxisTick} axisLine={false} tickLine={false} width={50} />
+                <ZAxis type="number" range={[50, 400]} />
+                <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
+                {yKeys.length > 1 && <Legend wrapperStyle={{ fontSize: 12 }} />}
+                <Scatter name={yKeys[0]} data={data} fill={CHART_COLORS[0]}>
+                    {data.map((_, index) => (
+                        <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                    ))}
+                </Scatter>
+            </ScatterChart>
+        );
+    }
+
     // bar (default)
     return (
         <BarChart {...commonProps}>
@@ -629,8 +800,9 @@ function renderChart(config: ChartConfig): React.ReactElement {
                 <Bar
                     key={yk}
                     dataKey={yk}
+                    stackId={config.stacked ? "a" : undefined}
                     fill={CHART_COLORS[i % CHART_COLORS.length]}
-                    radius={[4, 4, 0, 0]}
+                    radius={config.stacked ? [0, 0, 0, 0] : [4, 4, 0, 0]}
                     maxBarSize={48}
                 />
             ))}
@@ -639,13 +811,20 @@ function renderChart(config: ChartConfig): React.ReactElement {
 }
 
 // ─── Data Table ────────────────────────────────────────────
-function DataTable({ headers, rows }: {
-    headers: string[];
+function DataTable({ schema, rows, onOverrideChange }: {
+    schema: ColumnSchema[];
     rows: Record<string, string>[];
+    overrides?: Record<string, ColumnOverride>;
+    onOverrideChange?: (colName: string, override: Partial<ColumnOverride>) => void;
 }): React.ReactElement {
     const [sortCol, setSortCol] = useState<string | null>(null);
     const [sortAsc, setSortAsc] = useState(true);
     const [visibleCount, setVisibleCount] = useState(100);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [editingCol, setEditingCol] = useState<string | null>(null);
+
+    const visibleSchema = useMemo(() => schema.filter(s => !s.hidden), [schema]);
+    const headers = useMemo(() => visibleSchema.map(s => s.name), [visibleSchema]);
 
     const handleSort = useCallback((col: string) => {
         if (sortCol === col) {
@@ -656,8 +835,16 @@ function DataTable({ headers, rows }: {
         }
     }, [sortCol]);
 
+    const filteredRows = useMemo(() => {
+        if (!searchQuery.trim()) return rows;
+        const q = searchQuery.toLowerCase();
+        return rows.filter((row) =>
+            headers.some((h) => String(row[h] || '').toLowerCase().includes(q))
+        );
+    }, [rows, searchQuery, headers]);
+
     const displayRows = useMemo(() => {
-        let sorted = [...rows];
+        const sorted = [...filteredRows];
         if (sortCol) {
             sorted.sort((a, b) => {
                 const va = a[sortCol] || '';
@@ -671,17 +858,37 @@ function DataTable({ headers, rows }: {
             });
         }
         return sorted.slice(0, visibleCount);
-    }, [rows, sortCol, sortAsc, visibleCount]);
+    }, [filteredRows, sortCol, sortAsc, visibleCount]);
 
     return (
         <div className="bg-white border border-gray-100 rounded-xl shadow-soft overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 shrink-0">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-5 py-3 border-b border-gray-100 gap-3 shrink-0">
                 <div className="flex items-center gap-2">
                     <Table2 className="w-4 h-4 text-gray-400" />
                     <h3 className="text-sm font-semibold text-gray-700">Data Preview</h3>
                     <span className="text-xs text-gray-400">
-                        Showing {displayRows.length} of {rows.length} rows
+                        {filteredRows.length} rows found
                     </span>
+                </div>
+                <div className="relative group min-w-[240px]">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-500 transition-colors">
+                        <Filter className="w-3.5 h-3.5" />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search data..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-9 pr-4 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-400 transition-all"
+                    />
+                    {searchQuery && (
+                        <button 
+                            onClick={() => setSearchQuery('')}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500"
+                        >
+                            <X className="w-3.5 h-3.5" />
+                        </button>
+                    )}
                 </div>
             </div>
             <div className="overflow-auto max-h-[400px] scrollbar-themed relative">
@@ -689,20 +896,70 @@ function DataTable({ headers, rows }: {
                     <thead className="sticky top-0 z-10 bg-white shadow-soft">
                         <tr className="bg-gray-50 border-b border-gray-200">
                             <th className="px-3 py-2 text-left text-xs font-medium text-gray-400 w-12">#</th>
-                            {headers.map((h) => (
+                            {visibleSchema.map((col) => {
+                                const h = col.name;
+                                return (
                                 <th
                                     key={h}
-                                    onClick={() => handleSort(h)}
-                                    className="px-3 py-2 text-left text-xs font-medium text-gray-500 cursor-pointer hover:text-primary-600 select-none whitespace-nowrap group"
+                                    className="px-3 py-2 text-left text-xs font-medium text-gray-500 whitespace-nowrap group relative"
                                 >
-                                    <span className="flex items-center gap-1">
-                                        {h}
-                                        <ArrowUpDown className={`w-3 h-3 transition-colors ${
-                                            sortCol === h ? 'text-primary-500' : 'text-gray-300 group-hover:text-gray-400'
-                                        }`} />
-                                    </span>
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div 
+                                            className="flex items-center gap-1 cursor-pointer hover:text-primary-600 flex-1"
+                                            onClick={() => handleSort(h)}
+                                        >
+                                            <Type className={`w-3.5 h-3.5 ${col.type === 'numeric' ? 'text-blue-500' : col.type === 'date' ? 'text-green-500' : 'text-orange-500'}`} />
+                                            {h}
+                                            <ArrowUpDown className={`w-3 h-3 transition-colors ${
+                                                sortCol === h ? 'text-primary-500' : 'text-gray-300 group-hover:text-gray-400'
+                                            }`} />
+                                        </div>
+                                        {onOverrideChange && (
+                                            <button 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setEditingCol(editingCol === h ? null : h);
+                                                }}
+                                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded text-gray-400 transition-opacity"
+                                            >
+                                                <ChevronDown className="w-3 h-3" />
+                                            </button>
+                                        )}
+                                    </div>
+                                    {editingCol === h && onOverrideChange && (
+                                        <>
+                                            <div className="fixed inset-0 z-20" onClick={() => setEditingCol(null)} />
+                                            <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-30 py-1 min-w-[140px] font-normal z-50">
+                                                <div className="px-3 py-1.5 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Change Type</div>
+                                                {(['numeric', 'categorical', 'date', 'text'] as const).map(t => (
+                                                    <button
+                                                        key={t}
+                                                        onClick={() => {
+                                                            onOverrideChange(h, { newType: t });
+                                                            setEditingCol(null);
+                                                        }}
+                                                        className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs capitalize hover:bg-gray-50 ${col.type === t ? 'text-primary-600 font-medium' : 'text-gray-600'}`}
+                                                    >
+                                                        {t}
+                                                    </button>
+                                                ))}
+                                                <div className="my-1 border-t border-gray-100" />
+                                                <button
+                                                    onClick={() => {
+                                                        onOverrideChange(h, { hidden: true });
+                                                        setEditingCol(null);
+                                                    }}
+                                                    className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50"
+                                                >
+                                                    <EyeOff className="w-3.5 h-3.5" />
+                                                    Hide Column
+                                                </button>
+                                            </div>
+                                        </>
+                                    )}
                                 </th>
-                            ))}
+                                );
+                            })}
                         </tr>
                     </thead>
                     <tbody>
@@ -721,13 +978,13 @@ function DataTable({ headers, rows }: {
                         ))}
                     </tbody>
                 </table>
-                {rows.length > visibleCount && (
+                {filteredRows.length > visibleCount && (
                     <div className="p-3 border-t border-gray-100 flex justify-center sticky bottom-0 bg-white/95 backdrop-blur-sm z-10">
                         <button
                             onClick={() => setVisibleCount((prev) => prev + 100)}
                             className="px-5 py-2 text-xs font-semibold rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 hover:text-primary-700 transition-colors shadow-soft"
                         >
-                            Load More ({rows.length - visibleCount} remaining rows)
+                            Load More ({filteredRows.length - visibleCount} remaining rows)
                         </button>
                     </div>
                 )}
@@ -741,25 +998,32 @@ function PasteZone({ onData, initialData = '' }: { onData: (text: string) => voi
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [dragOver, setDragOver] = useState(false);
+    const [text, setText] = useState(initialData);
 
-    const handlePaste = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
-        const text = e.clipboardData.getData('text/plain');
+    const handleSubmit = useCallback(() => {
         if (text.trim()) {
-            e.preventDefault();
             onData(text);
         }
-    }, [onData]);
+    }, [text, onData]);
+
+    const handlePaste = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+        const pastedText = e.clipboardData.getData('text/plain');
+        if (pastedText.trim()) {
+            // If the textarea is empty, we handle it as a direct populate
+            // If not, we let the standard textarea logic handle it
+        }
+    }, []);
 
     const handleFileRead = useCallback((file: File) => {
         const reader = new FileReader();
         reader.onload = (e) => {
-            const text = e.target?.result;
-            if (typeof text === 'string' && text.trim()) {
-                onData(text);
+            const resultText = e.target?.result;
+            if (typeof resultText === 'string' && resultText.trim()) {
+                setText(resultText);
             }
         };
         reader.readAsText(file);
-    }, [onData]);
+    }, []);
 
     const handleDrop = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -777,55 +1041,82 @@ function PasteZone({ onData, initialData = '' }: { onData: (text: string) => voi
         <div
             className={`relative border-2 border-dashed rounded-2xl transition-all duration-200 ${
                 dragOver
-                    ? 'border-primary-400 bg-primary-50/50 scale-[1.005]'
+                    ? 'border-primary-400 bg-primary-50/50 scale-[1.01]'
                     : 'border-gray-200 bg-white hover:border-gray-300'
             }`}
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
         >
-            <div className="flex flex-col items-center justify-center py-16 px-6">
-                <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mb-4">
-                    <ClipboardPaste className="w-7 h-7 text-primary-500" />
+            <div className="flex flex-col items-center justify-center py-12 px-6">
+                <div className="w-14 h-14 rounded-2xl bg-primary-50 flex items-center justify-center mb-4">
+                    <ClipboardPaste className="w-6 h-6 text-primary-500" />
                 </div>
                 <h2 className="text-lg font-semibold text-gray-800 mb-1">
-                    Paste your data here
+                    Paste or Upload Your Data
                 </h2>
                 <p className="text-sm text-gray-400 mb-6 text-center max-w-md">
-                    Copy table data from Excel, Google Sheets, or any spreadsheet and paste it below.
-                    CSV and TSV formats are supported.
+                    Copy data from Excel or Google Sheets and paste below.
+                    You can edit the data before analysis.
                 </p>
 
-                <textarea
-                    ref={textareaRef}
-                    onPaste={handlePaste}
-                    onChange={(e) => {
-                        const val = e.target.value;
-                        if (val.trim()) onData(val);
-                    }}
-                    defaultValue={initialData}
-                    placeholder="Paste data here (Ctrl+V)..."
-                    className="w-full max-w-2xl h-32 px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 resize-none font-mono bg-gray-50/50"
-                    spellCheck={false}
-                />
+                <div className="w-full max-w-3xl space-y-4">
+                    <div className="relative group">
+                        <textarea
+                            ref={textareaRef}
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            onPaste={handlePaste}
+                            placeholder="Paste your table data here... (e.g. Columns separated by tabs or commas)"
+                            className="w-full h-48 px-4 py-4 border border-gray-200 rounded-xl text-sm text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-400 resize-none font-mono bg-white shadow-soft transition-all"
+                            spellCheck={false}
+                        />
+                        {text && (
+                            <button
+                                onClick={() => setText('')}
+                                className="absolute top-2 right-2 p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Clear all"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
 
-                <div className="flex items-center gap-3 mt-4">
-                    <span className="text-xs text-gray-300">or</span>
-                    <button
-                        onClick={() => fileInputRef.current?.click()}
-                        className="flex items-center gap-1.5 text-xs text-primary-600 hover:text-primary-700 font-medium px-3 py-1.5 rounded-lg hover:bg-primary-50 transition-colors"
-                    >
-                        <Upload className="w-3.5 h-3.5" />
-                        Upload CSV file
-                    </button>
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept=".csv,.tsv,.txt"
-                        className="hidden"
-                        onChange={handleFileChange}
-                    />
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-1">
+                            <button
+                                onClick={() => fileInputRef.current?.click()}
+                                className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-primary-600 font-medium px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                            >
+                                <Upload className="w-3.5 h-3.5" />
+                                Upload File
+                            </button>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept=".csv,.tsv,.txt"
+                                className="hidden"
+                                onChange={handleFileChange}
+                            />
+                        </div>
+
+                        <button
+                            onClick={handleSubmit}
+                            disabled={!text.trim()}
+                            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-semibold hover:bg-primary-600 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-soft hover:shadow-medium active:scale-95"
+                        >
+                            <BarChart3 className="w-4 h-4" />
+                            Analyze & Visualize Data
+                        </button>
+                    </div>
                 </div>
+                
+                {text.length > 0 && (
+                    <p className="mt-4 text-xs text-gray-400 flex items-center gap-1">
+                        <Check className="w-3 h-3 text-green-500" />
+                        {text.split('\n').filter(l => l.trim()).length} rows detected in editor
+                    </p>
+                )}
             </div>
         </div>
     );
@@ -840,11 +1131,71 @@ export function InstantVisualizerContent(): React.ReactElement {
     const [showPivotPanel, setShowPivotPanel] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [showClearConfirm, setShowClearConfirm] = useState(false);
+    const [selectedChartIds, setSelectedChartIds] = useState<Set<string>>(new Set());
+    const [columnOverrides, setColumnOverrides] = useState<Record<string, ColumnOverride>>({});
+
+    const handleOverrideChange = useCallback((colName: string, override: Partial<ColumnOverride>) => {
+        setColumnOverrides(prev => ({
+            ...prev,
+            [colName]: { ...prev[colName], ...override, name: colName } as ColumnOverride
+        }));
+    }, []);
+
+    // Re-analyze when overrides change
+    useEffect(() => {
+        if (!rawData) return;
+        try {
+            const { headers, rows, error } = parsePastedData(rawData);
+            if (!error && rows.length > 0) {
+                const result = analyzeDataset(headers, rows, columnOverrides);
+                setAnalysis(result);
+            }
+        } catch(e) {
+            console.error(e);
+        }
+    }, [columnOverrides, rawData]);
+
+    // Persistence logic
+    useEffect(() => {
+        const savedRawData = localStorage.getItem('visualizer-raw-data');
+        const savedCharts = localStorage.getItem('visualizer-charts');
+        const savedAnalysis = localStorage.getItem('visualizer-analysis');
+
+        if (savedRawData) setRawData(savedRawData);
+        if (savedCharts) setManualCharts(JSON.parse(savedCharts));
+        if (savedAnalysis) {
+            setAnalysis(JSON.parse(savedAnalysis));
+            setIsConfirmed(true); // If we have saved analysis and charts, assume it's confirmed
+        }
+    }, []);
+
+    useEffect(() => {
+        if (rawData) localStorage.setItem('visualizer-raw-data', rawData);
+        else localStorage.removeItem('visualizer-raw-data');
+    }, [rawData]);
+
+    useEffect(() => {
+        if (manualCharts.length > 0) {
+            localStorage.setItem('visualizer-charts', JSON.stringify(manualCharts));
+        } else {
+            localStorage.removeItem('visualizer-charts');
+        }
+    }, [manualCharts]);
+
+    useEffect(() => {
+        if (analysis && isConfirmed) {
+            localStorage.setItem('visualizer-analysis', JSON.stringify(analysis));
+        } else if (!analysis) {
+            localStorage.removeItem('visualizer-analysis');
+        }
+    }, [analysis, isConfirmed]);
 
     const handleData = useCallback((text: string) => {
         setError(null);
         setRawData(text);
         setIsAnalyzing(true);
+        setSelectedChartIds(new Set());
 
         setTimeout(() => {
             try {
@@ -861,8 +1212,17 @@ export function InstantVisualizerContent(): React.ReactElement {
                 }
                 const result = analyzeDataset(headers, rows);
                 setAnalysis(result);
-                setIsConfirmed(false);
-                setManualCharts(result.recommendedCharts);
+                
+                // If we have a reasonable number of recommended charts, skip confirmation and show them immediately
+                if (result.recommendedCharts.length > 0 && result.recommendedCharts.length <= 5) {
+                    setManualCharts(result.recommendedCharts);
+                    setSelectedChartIds(new Set(result.recommendedCharts.map(c => c.id)));
+                    setIsConfirmed(true);
+                } else {
+                    setIsConfirmed(false);
+                    setManualCharts([]); // Reset to empty initially during confirmation
+                    setSelectedChartIds(new Set(result.recommendedCharts.map(c => c.id))); // Select all by default
+                }
                 setShowPivotPanel(false);
             } catch (err) {
                 console.error(err);
@@ -983,21 +1343,17 @@ export function InstantVisualizerContent(): React.ReactElement {
             <div className="space-y-4">
                 {isAnalyzing ? (
                     <div className="flex flex-col items-center justify-center py-20 px-6 border-2 border-dashed border-gray-200 rounded-2xl bg-white shadow-soft animate-in fade-in duration-300">
-                        <Loader2 className="w-10 h-10 text-primary-500 animate-spin mb-4" />
-                        <h2 className="text-lg font-semibold text-gray-800 mb-1">
-                            Analyzing Your Data...
-                        </h2>
-                        <p className="text-sm text-gray-400 text-center max-w-md">
-                            The system is automatically reading column formats and generating the best chart recommendations for you.
-                        </p>
+                        <Loader2 className="w-8 h-8 text-primary-500 animate-spin mb-4" />
+                        <h3 className="text-sm font-medium text-gray-800">Analyzing your data...</h3>
+                        <p className="text-xs text-gray-400 mt-1">Extracting patterns & building recommendations</p>
                     </div>
                 ) : (
                     <PasteZone onData={handleData} initialData={rawData} />
                 )}
                 {error && (
-                    <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-4 py-3">
-                        <AlertCircle className="w-4 h-4 shrink-0" />
-                        {error}
+                    <div className="flex items-start gap-2 p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm animate-in fade-in slide-in-from-top-2 duration-300">
+                        <AlertCircle className="w-5 h-5 shrink-0" />
+                        <p className="leading-relaxed">{error}</p>
                     </div>
                 )}
             </div>
@@ -1008,37 +1364,80 @@ export function InstantVisualizerContent(): React.ReactElement {
     if (!isConfirmed) {
         return (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-xl border border-gray-100 shadow-soft">
-                    <div>
-                        <h2 className="text-lg font-semibold text-gray-800">
-                            Confirm Data
-                        </h2>
-                        <p className="text-sm text-gray-500 mt-1">
-                            Please review the table below. If the data is correct, you can proceed to generate charts.
-                        </p>
+                <div className="flex flex-col lg:flex-row gap-6">
+                    {/* Left: Table Preview */}
+                    <div className="flex-1 space-y-6 overflow-hidden">
+                        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-soft flex items-center justify-between">
+                            <div>
+                                <h2 className="text-lg font-semibold text-gray-800">
+                                    Confirm Data
+                                </h2>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Please review the detected columns and rows below.
+                                </p>
+                            </div>
+                        </div>
+                        <DataTable 
+                            schema={analysis.schema} 
+                            rows={analysis.rows} 
+                            overrides={columnOverrides}
+                            onOverrideChange={handleOverrideChange}
+                        />
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                        <button
-                            onClick={handleEditData}
-                            className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
-                        >
-                            Edit Raw Data
-                        </button>
-                        <button
-                            onClick={() => {
-                                setIsConfirmed(true);
-                                // Don't show pivot panel initially after confirm to enjoy the premium default view
-                                // setShowPivotPanel(true);
-                            }}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-500 text-white text-sm font-semibold hover:bg-primary-600 transition-colors shadow-soft"
-                        >
-                            <Check className="w-4 h-4" />
-                            Data is Correct, Proceed
-                        </button>
+
+                    {/* Right: Chart Selection */}
+                    <div className="w-full lg:w-80 shrink-0 space-y-4">
+                        <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-soft">
+                            <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <LayoutDashboard className="w-4 h-4 text-primary-500" />
+                                Recommended Charts
+                            </h3>
+                            <div className="space-y-3 max-h-[400px] overflow-auto pr-2 scrollbar-themed">
+                                {analysis.recommendedCharts.map((chart) => (
+                                    <label key={chart.id} className="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors group">
+                                        <div className="mt-0.5">
+                                            <input 
+                                                type="checkbox"
+                                                checked={selectedChartIds.has(chart.id)}
+                                                onChange={() => {
+                                                    const next = new Set(selectedChartIds);
+                                                    if (next.has(chart.id)) next.delete(chart.id);
+                                                    else next.add(chart.id);
+                                                    setSelectedChartIds(next);
+                                                }}
+                                                className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                                            />
+                                        </div>
+                                        <div className="min-w-0">
+                                            <p className="text-xs font-medium text-gray-700 truncate">{chart.title}</p>
+                                            <p className="text-[10px] text-gray-400 capitalize">{chart.type} chart</p>
+                                        </div>
+                                    </label>
+                                ))}
+                            </div>
+                            
+                            <div className="mt-6 pt-6 border-t border-gray-100 space-y-3">
+                                <button
+                                    onClick={() => {
+                                        const recommendedToAdd = analysis.recommendedCharts.filter(c => selectedChartIds.has(c.id));
+                                        setManualCharts(recommendedToAdd);
+                                        setIsConfirmed(true);
+                                    }}
+                                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-semibold hover:bg-primary-600 transition-colors shadow-soft"
+                                >
+                                    <Check className="w-4 h-4" />
+                                    Generate Dashboard
+                                </button>
+                                <button
+                                    onClick={handleEditData}
+                                    className="w-full px-4 py-2 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+                                >
+                                    Edit Raw Data
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <DataTable headers={analysis.headers} rows={analysis.rows} />
             </div>
         );
     }
@@ -1073,11 +1472,7 @@ export function InstantVisualizerContent(): React.ReactElement {
                         Edit Data
                     </button>
                     <button
-                        onClick={() => {
-                            if (window.confirm('Are you sure you want to clear the dashboard? All your data and charts will be lost.')) {
-                                handleClear();
-                            }
-                        }}
+                        onClick={() => setShowClearConfirm(true)}
                         className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-red-600 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors font-medium"
                     >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -1085,6 +1480,40 @@ export function InstantVisualizerContent(): React.ReactElement {
                     </button>
                 </div>
             </div>
+
+            {/* Clear Confirmation Modal */}
+            {showClearConfirm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setShowClearConfirm(false)}>
+                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+                        <div className="p-6">
+                            <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4 text-red-600">
+                                <Trash2 className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">Clear Dashboard?</h3>
+                            <p className="text-sm text-gray-500">
+                                Are you sure you want to clear the dashboard? All your uploaded data and custom charts will be permanently removed.
+                            </p>
+                        </div>
+                        <div className="p-4 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row gap-2 sm:justify-end">
+                            <button
+                                onClick={() => setShowClearConfirm(false)}
+                                className="px-4 py-2 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => {
+                                    handleClear();
+                                    setShowClearConfirm(false);
+                                }}
+                                className="px-4 py-2 rounded-xl bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-colors shadow-soft"
+                            >
+                                Yes, Clear Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* KPI Cards */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -1121,31 +1550,24 @@ export function InstantVisualizerContent(): React.ReactElement {
                     </h3>
                     <div className={`grid gap-4 ${
                         manualCharts.length === 1
-                            ? 'grid-cols-1'
+                            ? 'grid-cols-1 md:grid-cols-2' // ensure it does not stretch too wide if there's only 1
                             : 'grid-cols-1 lg:grid-cols-2'
                     }`}>
                         {manualCharts.map((config, i) => (
-                            <div key={config.id} className="relative group">
-                                <ChartCard
-                                    config={config}
-                                    onTypeChange={handleChartTypeChange}
-                                    index={i + kpiCards.length}
-                                />
-                                <button
-                                    onClick={() => handleRemoveManualChart(config.id)}
-                                    className="absolute top-3 right-12 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-500 p-1 rounded-md hover:bg-red-50 z-10"
-                                    title="Remove chart"
-                                >
-                                    <X className="w-3.5 h-3.5" />
-                                </button>
-                            </div>
+                            <ChartCard
+                                key={config.id}
+                                config={config}
+                                onTypeChange={handleChartTypeChange}
+                                index={i + kpiCards.length}
+                                onRemove={handleRemoveManualChart}
+                            />
                         ))}
                     </div>
                 </div>
             )}
 
             {/* Data Table */}
-            <DataTable headers={analysis.headers} rows={analysis.rows} />
+            <DataTable schema={analysis.schema} rows={analysis.rows} />
         </div>
     );
 }

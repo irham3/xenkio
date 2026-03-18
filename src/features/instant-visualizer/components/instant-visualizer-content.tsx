@@ -640,7 +640,7 @@ function ChartCard({ config, onTypeChange, index = 0, onRemove }: {
             </div>
 
             {/* Chart Area */}
-            <div className={`px-3 pb-2 flex-1 min-h-0 ${isFullscreen ? 'min-h-[400px]' : 'h-[280px]'}`} ref={chartRef}>
+            <div className={`px-3 pb-2 relative min-w-0 min-h-0 ${isFullscreen ? 'min-h-[400px] flex-1' : 'h-[280px]'}`} ref={chartRef}>
                 <ResponsiveContainer width="100%" height="100%">
                     {renderChart(config)}
                 </ResponsiveContainer>

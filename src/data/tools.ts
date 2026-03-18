@@ -1039,7 +1039,6 @@ export const TOOLS: ToolData[] = [
         icon: Code2,
         href: '/tools/schema-generator',
         slug: 'schema-generator',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {

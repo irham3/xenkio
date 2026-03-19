@@ -1058,7 +1058,6 @@ export const TOOLS: ToolData[] = [
         icon: Link2,
         href: '/tools/utm-builder',
         slug: 'utm-builder',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {

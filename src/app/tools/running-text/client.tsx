@@ -5,7 +5,7 @@ import { RunningTextDisplay } from '@/features/running-text/components/running-t
 import { RunningTextControls } from '@/features/running-text/components/running-text-controls';
 
 export default function RunningTextClient() {
-    const { config, isFullscreen, updateConfig, resetConfig } = useRunningText();
+    const { config, isFullscreen, updateConfig, resetConfig, getShareUrl } = useRunningText();
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-10">
@@ -32,6 +32,7 @@ export default function RunningTextClient() {
                     config={config}
                     updateConfig={updateConfig}
                     onReset={resetConfig}
+                    getShareUrl={getShareUrl}
                 />
             </div>
         </div>

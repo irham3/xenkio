@@ -30,8 +30,10 @@ const FONT_FAMILIES: Record<string, string> = {
 
 export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayProps) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const textRef = useRef<HTMLDivElement>(null);
     const leftHalfRef = useRef<HTMLDivElement>(null);
     const rightHalfRef = useRef<HTMLDivElement>(null);
+    const requestRef = useRef<number>();
 
     // ── Solid-mode strobe effect ──────────────────────────────────────────
     useEffect(() => {
@@ -109,6 +111,92 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
         }
     };
 
+    // ── JS Animation for Sync ─────────────────────────────────────────────
+    useEffect(() => {
+        if (!config.isSynced) {
+            if (textRef.current) textRef.current.style.transform = '';
+            if (requestRef.current) cancelAnimationFrame(requestRef.current);
+            return;
+        }
+
+        const animate = () => {
+            const el = textRef.current;
+            if (!el) return;
+
+            const now = Date.now();
+            // Start time defaults to now if not set, but usually user sets it in future
+            const startTime = config.syncStartTime || now;
+            // Elapsed time in ms, adjusted by user offset
+            const elapsed = now - startTime - config.syncOffset;
+
+            // If waiting for start time
+            if (elapsed < 0) {
+                el.style.transform = `translateX(${config.direction === 'left' ? '100vw' : '-100%'})`;
+                requestRef.current = requestAnimationFrame(animate);
+                return;
+            }
+
+            // Handle stopped state
+            if (config.speed === 0) {
+                el.style.transform = 'translateX(0px)';
+                requestRef.current = requestAnimationFrame(animate);
+                return;
+            }
+
+            // Calculate Speed (Pixels per millisecond)
+            // Fixed speed logic ensures consistency across devices regardless of screen width
+            // Speed 1 = 50px/s, Speed 10 = 500px/s
+            const pxPerSec = config.speed * 50; 
+            const pxPerMs = pxPerSec / 1000;
+            
+            // Total distance to travel = Viewport Width + Text Width
+            // We assume 100vw is the container width. 
+            // Note: For perfect multi-device sync with different screen sizes, 
+            // we ideally need a fixed "virtual canvas" width, but using local 100vw + scrollWidth 
+            // is the standard marquee behavior. 
+            // To make text "connect", the user uses the 'Offset' slider to align the phase.
+            const containerWidth = containerRef.current?.clientWidth || 0;
+            const textWidth = el.scrollWidth;
+            const totalDistance = containerWidth + textWidth;
+
+            // Current position in the loop
+            const travel = (elapsed * pxPerMs) % totalDistance;
+
+            if (config.direction === 'left') {
+                // Move from Right (Width) to Left (-TextWidth)
+                // Start at translateX(containerWidth)
+                // End at translateX(-textWidth)
+                // Current X = containerWidth - travel
+                const x = containerWidth - travel;
+                el.style.transform = `translateX(${x}px)`;
+            } else {
+                // Move from Left (-TextWidth) to Right (Width)
+                // Start at translateX(-textWidth)
+                // End at translateX(containerWidth)
+                // Current X = -textWidth + travel
+                const x = -textWidth + travel;
+                el.style.transform = `translateX(${x}px)`;
+            }
+
+            requestRef.current = requestAnimationFrame(animate);
+        };
+
+        requestRef.current = requestAnimationFrame(animate);
+
+        return () => {
+            if (requestRef.current) cancelAnimationFrame(requestRef.current);
+        };
+    }, [
+        config.isSynced,
+        config.syncStartTime,
+        config.syncOffset,
+        config.speed,
+        config.direction,
+        // Re-measure when text changes
+        config.text, 
+        config.fontSize
+    ]);
+
     const scrollDuration = `${(11 - config.speed) * 3}s`;
 
     const blinkAnimation =
@@ -117,14 +205,15 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
             : undefined;
 
     const marqueeAnimation =
-        config.direction === 'left'
+        config.speed === 0
+            ? undefined
+            : config.direction === 'left'
             ? `marquee-left ${scrollDuration} linear infinite`
             : `marquee-right ${scrollDuration} linear infinite`;
 
-    const displayText = useMemo(
-        () =>
-            `${config.text}${config.separator}${config.text}${config.separator}${config.text}`,
-        [config.text, config.separator]
+    const textBlocks = useMemo(
+        () => [config.text, config.text, config.text],
+        [config.text]
     );
 
     const isSplit = config.backgroundMode === 'split';
@@ -178,19 +267,38 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
 
             {/* Running text — sits above split background */}
             <div
-                className="relative whitespace-nowrap z-10"
+                ref={textRef}
+                className="relative whitespace-nowrap z-10 flex flex-row items-center"
                 style={{
-                    animation: blinkAnimation
-                        ? `${marqueeAnimation}, ${blinkAnimation}`
-                        : marqueeAnimation,
+                    animation: !config.isSynced 
+                        ? (blinkAnimation
+                            ? `${marqueeAnimation}, ${blinkAnimation}`
+                            : marqueeAnimation)
+                        : blinkAnimation, // Keep blink in sync mode, but remove marquee CSS
                     fontSize: `${config.fontSize}px`,
                     fontWeight: config.fontWeight,
                     fontFamily: FONT_FAMILIES[config.fontFamily],
                     color: config.textColor,
                     paddingLeft: '4rem',
+                    willChange: 'transform', // Optimize for JS animation
                 }}
             >
-                {displayText}
+                {textBlocks.map((text, i) => (
+                    <div key={i} className="flex flex-row items-center">
+                        <div
+                            style={{
+                                whiteSpace: 'pre',
+                                textAlign: config.textAlign,
+                                display: 'inline-block', // Ensure text-align works if width varies
+                            }}
+                        >
+                            {text}
+                        </div>
+                        {i < textBlocks.length - 1 && (
+                            <div className="whitespace-pre">{config.separator}</div>
+                        )}
+                    </div>
+                ))}
             </div>
 
             {/* Fullscreen toggle */}

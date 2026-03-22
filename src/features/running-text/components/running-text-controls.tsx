@@ -1,8 +1,10 @@
 'use client';
 
-import { RotateCcw } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { RotateCcw, Clock, Share2, Check, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
@@ -19,26 +21,68 @@ interface RunningTextControlsProps {
     config: RunningTextConfig;
     updateConfig: (updates: Partial<RunningTextConfig>) => void;
     onReset: () => void;
+    getShareUrl?: () => string;
 }
 
 export function RunningTextControls({
     config,
     updateConfig,
     onReset,
+    getShareUrl,
 }: RunningTextControlsProps) {
+    // Force re-render for countdown
+    const [now, setNow] = useState(Date.now());
+    const [copied, setCopied] = useState(false);
+
+    const handleCopyLink = () => {
+        if (!getShareUrl) return;
+        const url = getShareUrl();
+        navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+    
+    useEffect(() => {
+        if (!config.isSynced || !config.syncStartTime) return;
+        
+        const interval = setInterval(() => {
+            setNow(Date.now());
+        }, 100);
+        
+        return () => clearInterval(interval);
+    }, [config.isSynced, config.syncStartTime]);
+
     return (
         <div className="space-y-6">
             {/* Text */}
             <div className="space-y-2">
-                <Label htmlFor="rt-text" className="text-sm font-semibold text-gray-700">
-                    Text
-                </Label>
-                <Input
+                <div className="flex items-center justify-between">
+                    <Label htmlFor="rt-text" className="text-sm font-semibold text-gray-700">
+                        Text
+                    </Label>
+                    <div className="flex items-center border rounded-md overflow-hidden">
+                        {(['left', 'center', 'right'] as const).map((align) => (
+                            <button
+                                key={align}
+                                onClick={() => updateConfig({ textAlign: align })}
+                                className={`p-1.5 hover:bg-gray-100 transition-colors ${
+                                    config.textAlign === align ? 'bg-gray-100 text-gray-900' : 'text-gray-400'
+                                }`}
+                                title={`Align ${align}`}
+                            >
+                                {align === 'left' && <AlignLeft className="w-4 h-4" />}
+                                {align === 'center' && <AlignCenter className="w-4 h-4" />}
+                                {align === 'right' && <AlignRight className="w-4 h-4" />}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                <Textarea
                     id="rt-text"
                     value={config.text}
                     onChange={(e) => updateConfig({ text: e.target.value })}
                     placeholder="Type your message…"
-                    className="font-medium"
+                    className="font-medium min-h-[100px]"
                 />
             </div>
 
@@ -83,7 +127,7 @@ export function RunningTextControls({
                     <span className="font-normal text-gray-400">({config.speed}/10)</span>
                 </Label>
                 <Slider
-                    min={1}
+                    min={0}
                     max={10}
                     step={1}
                     value={[config.speed]}
@@ -302,6 +346,101 @@ export function RunningTextControls({
                 </div>
             </div>
 
+            {/* Multi-Device Sync */}
+            <div className="space-y-3 p-4 bg-blue-50 border border-blue-100 rounded-xl">
+                <div className="flex items-center justify-between">
+                    <Label className="text-sm font-bold text-blue-900">Multi-Device Sync</Label>
+                    <Switch
+                        checked={config.isSynced}
+                        onCheckedChange={(checked) => updateConfig({ isSynced: checked })}
+                    />
+                </div>
+                
+                {config.isSynced && (
+                    <div className="space-y-4 pt-2">
+                        <p className="text-xs text-blue-700 leading-relaxed">
+                            Sync multiple devices to create a connected running text display.
+                            Ensure all devices have the exact same settings.
+                        </p>
+
+                        {/* Start Time Sync */}
+                        <div className="space-y-2">
+                            <Label className="text-xs font-semibold text-blue-800">Sync Start Time</Label>
+                            <div className="flex gap-2">
+                                <Button 
+                                    size="sm" 
+                                    variant="secondary" 
+                                    className="flex-1 bg-white border-blue-200 text-blue-700 hover:bg-blue-100"
+                                    onClick={() => {
+                                        // Set start time to next 10-second mark + 2 seconds buffer
+                                        const now = Date.now();
+                                        const nextTarget = Math.ceil(now / 10000) * 10000 + 10000;
+                                        updateConfig({ syncStartTime: nextTarget });
+                                    }}
+                                >
+                                    Start at next :10s
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    variant="secondary"
+                                    className="bg-white border-blue-200 text-red-600 hover:bg-red-50"
+                                    onClick={() => updateConfig({ syncStartTime: null })}
+                                >
+                                    Reset
+                                </Button>
+                            </div>
+                            
+                            {config.syncStartTime && (
+                                <div className={`text-center py-3 rounded-lg border transition-colors ${
+                                    config.syncStartTime > now
+                                        ? 'bg-yellow-50 border-yellow-200 text-yellow-800'
+                                        : 'bg-green-50 border-green-200 text-green-800'
+                                }`}>
+                                    {config.syncStartTime > now ? (
+                                        <div className="flex flex-col items-center gap-1">
+                                            <div className="text-xs uppercase font-bold tracking-wider opacity-70">
+                                                Starting in
+                                            </div>
+                                            <div className="text-3xl font-black font-mono">
+                                                {(config.syncStartTime - now) / 1000 > 0 
+                                                    ? ((config.syncStartTime - now) / 1000).toFixed(1)
+                                                    : "0.0"}s
+                                            </div>
+                                            <div className="text-[10px] opacity-60">
+                                                Wait for other devices...
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center justify-center gap-2 font-bold animate-pulse">
+                                            <Clock className="w-4 h-4" />
+                                            SYNC ACTIVE
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Position Offset */}
+                        <div className="space-y-2">
+                            <Label className="text-xs font-semibold text-blue-800">
+                                Position/Time Delay ({config.syncOffset}ms)
+                            </Label>
+                            <Slider
+                                min={0}
+                                max={10000}
+                                step={100}
+                                value={[config.syncOffset]}
+                                onValueChange={([v]) => updateConfig({ syncOffset: v })}
+                                className="py-2"
+                            />
+                            <p className="text-[10px] text-blue-600">
+                                Adjust this slider on the second/third device to delay the text so it "flows" from the previous screen.
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </div>
+
             {/* Strobe Mode — only for solid background */}
             {config.backgroundMode === 'solid' && (
             <div className="space-y-3">
@@ -384,15 +523,37 @@ export function RunningTextControls({
             </div>
             )}
 
-            {/* Reset */}
-            <Button
-                variant="outline"
-                className="w-full"
-                onClick={onReset}
-            >
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Reset to Defaults
-            </Button>
+            {/* Reset & Share */}
+            <div className="flex gap-2">
+                <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={onReset}
+                >
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Reset
+                </Button>
+                
+                {getShareUrl && (
+                    <Button
+                        variant="default"
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                        onClick={handleCopyLink}
+                    >
+                        {copied ? (
+                            <>
+                                <Check className="w-4 h-4 mr-2" />
+                                Copied!
+                            </>
+                        ) : (
+                            <>
+                                <Share2 className="w-4 h-4 mr-2" />
+                                Share Config
+                            </>
+                        )}
+                    </Button>
+                )}
+            </div>
         </div>
     );
 }

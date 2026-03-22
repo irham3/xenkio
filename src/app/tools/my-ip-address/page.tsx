@@ -101,7 +101,7 @@ export default function MyIpAddressPage() {
                                     Provider (ISP). It is visible to any server you connect to on the internet.
                                 </p>
                                 <p>
-                                    Unlike a private IP address (e.g., <code className="bg-gray-100 px-1 rounded">192.168.x.x</code>)
+                                    Unlike a private IP address (e.g., <code className="bg-gray-100 px-1 rounded">192.168.1.1</code>)
                                     used within your local network, your public IP is how websites and services
                                     identify and communicate with your connection.
                                 </p>

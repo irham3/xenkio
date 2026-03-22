@@ -20,6 +20,7 @@ export function formatCoords(loc?: string): string {
     if (!lat || !lng) return '';
     const latNum = parseFloat(lat);
     const lngNum = parseFloat(lng);
+    if (isNaN(latNum) || isNaN(lngNum)) return '';
     const latDir = latNum >= 0 ? 'N' : 'S';
     const lngDir = lngNum >= 0 ? 'E' : 'W';
     return `${Math.abs(latNum).toFixed(4)}°${latDir}, ${Math.abs(lngNum).toFixed(4)}°${lngDir}`;

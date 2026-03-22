@@ -17,7 +17,7 @@ export function useMyIp() {
         try {
             const response = await fetch(IP_API_URL);
             if (!response.ok) {
-                throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+                throw new Error('Unable to reach IP lookup service. Please try again later.');
             }
             const data: IpInfo = await response.json();
             setState({ info: data, status: 'success', error: null });

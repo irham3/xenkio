@@ -73,6 +73,7 @@ import {
     Database,
     Replace,
     BarChart3,
+    Scroll,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -958,6 +959,16 @@ export const TOOLS: ToolData[] = [
         icon: GlassWater,
         href: '/tools/glassmorphism-generator',
         slug: 'glassmorphism-generator',
+        isNew: true,
+        categoryId: 'design-tools',
+    },
+    {
+        id: '114',
+        title: 'Running Text',
+        description: 'Create animated scrolling text with strobe effects (ambulance, police), blink mode, custom colors, and fullscreen display.',
+        icon: Scroll,
+        href: '/tools/running-text',
+        slug: 'running-text',
         isNew: true,
         categoryId: 'design-tools',
     },

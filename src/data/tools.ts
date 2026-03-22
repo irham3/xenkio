@@ -73,6 +73,7 @@ import {
     Database,
     Replace,
     BarChart3,
+    Network,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1158,6 +1159,16 @@ export const TOOLS: ToolData[] = [
         slug: 'instant-visualizer',
         isNew: true,
         featured: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '114',
+        title: 'My IP Address',
+        description: 'Find your public IP address, geolocation, ISP, hostname, and timezone instantly.',
+        icon: Network,
+        href: '/tools/my-ip-address',
+        slug: 'my-ip-address',
+        isNew: true,
         categoryId: 'developer-tools',
     },
 ];

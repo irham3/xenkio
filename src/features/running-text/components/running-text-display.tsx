@@ -7,7 +7,6 @@ import type { RunningTextConfig } from '../types';
 interface RunningTextDisplayProps {
     config: RunningTextConfig;
     isFullscreen: boolean;
-    onToggleFullscreen: () => void;
 }
 
 const STROBE_PRESETS: Record<string, { color1: string; color2: string; speed: number }> = {
@@ -29,17 +28,15 @@ const FONT_FAMILIES: Record<string, string> = {
     impact: 'Impact, "Arial Narrow", sans-serif',
 };
 
-export function RunningTextDisplay({
-    config,
-    isFullscreen,
-    onToggleFullscreen,
-}: RunningTextDisplayProps) {
+export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayProps) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const leftHalfRef = useRef<HTMLDivElement>(null);
+    const rightHalfRef = useRef<HTMLDivElement>(null);
 
-    // Strobe effect — direct DOM manipulation avoids setState-in-effect lint rule
+    // ── Solid-mode strobe effect ──────────────────────────────────────────
     useEffect(() => {
         const el = containerRef.current;
-        if (!el) return;
+        if (!el || config.backgroundMode !== 'solid') return;
 
         if (config.strobeMode === 'off') {
             el.style.backgroundColor = config.backgroundColor;
@@ -64,12 +61,53 @@ export function RunningTextDisplay({
             el.style.backgroundColor = config.backgroundColor;
         };
     }, [
+        config.backgroundMode,
         config.strobeMode,
         config.strobeSpeed,
         config.strobeColor1,
         config.strobeColor2,
         config.backgroundColor,
     ]);
+
+    // ── Split-mode swap effect ────────────────────────────────────────────
+    useEffect(() => {
+        const leftEl = leftHalfRef.current;
+        const rightEl = rightHalfRef.current;
+        if (!leftEl || !rightEl || config.backgroundMode !== 'split') return;
+
+        leftEl.style.backgroundColor = config.splitColorLeft;
+        rightEl.style.backgroundColor = config.splitColorRight;
+
+        if (!config.splitSwap) return;
+
+        let toggle = false;
+        const interval = setInterval(() => {
+            toggle = !toggle;
+            leftEl.style.backgroundColor = toggle
+                ? config.splitColorRight
+                : config.splitColorLeft;
+            rightEl.style.backgroundColor = toggle
+                ? config.splitColorLeft
+                : config.splitColorRight;
+        }, config.splitSwapSpeed);
+
+        return () => clearInterval(interval);
+    }, [
+        config.backgroundMode,
+        config.splitColorLeft,
+        config.splitColorRight,
+        config.splitSwap,
+        config.splitSwapSpeed,
+    ]);
+
+    // ── Fullscreen toggle (element-based so ONLY this div fills the screen)
+    const handleToggleFullscreen = () => {
+        if (!document.fullscreenElement) {
+            containerRef.current?.requestFullscreen().catch(() => {});
+        } else {
+            document.exitFullscreen().catch(() => {});
+        }
+    };
 
     const scrollDuration = `${(11 - config.speed) * 3}s`;
 
@@ -89,14 +127,18 @@ export function RunningTextDisplay({
         [config.text, config.separator]
     );
 
+    const isSplit = config.backgroundMode === 'split';
+
     return (
         <div
             ref={containerRef}
             className="relative overflow-hidden flex items-center select-none"
             style={{
-                backgroundColor: config.backgroundColor,
-                minHeight: isFullscreen ? '100vh' : '220px',
-                height: isFullscreen ? '100vh' : undefined,
+                backgroundColor: isSplit ? undefined : config.backgroundColor,
+                minHeight: isFullscreen ? undefined : '220px',
+                // When fullscreen, browser handles 100vw × 100vh automatically
+                height: isFullscreen ? '100%' : undefined,
+                width: '100%',
             }}
         >
             {/* Inject keyframe animations */}
@@ -113,11 +155,30 @@ export function RunningTextDisplay({
                     0%, 100% { opacity: 1; }
                     50%       { opacity: 0; }
                 }
+                /* Element fullscreen — fill viewport completely */
+                :fullscreen { width: 100% !important; height: 100% !important; }
+                :-webkit-full-screen { width: 100% !important; height: 100% !important; }
             `}</style>
 
-            {/* Running text */}
+            {/* Split background — absolutely fills the container */}
+            {isSplit && (
+                <div className="absolute inset-0 flex">
+                    <div
+                        ref={leftHalfRef}
+                        className="flex-1"
+                        style={{ backgroundColor: config.splitColorLeft }}
+                    />
+                    <div
+                        ref={rightHalfRef}
+                        className="flex-1"
+                        style={{ backgroundColor: config.splitColorRight }}
+                    />
+                </div>
+            )}
+
+            {/* Running text — sits above split background */}
             <div
-                className="whitespace-nowrap"
+                className="relative whitespace-nowrap z-10"
                 style={{
                     animation: blinkAnimation
                         ? `${marqueeAnimation}, ${blinkAnimation}`
@@ -134,8 +195,8 @@ export function RunningTextDisplay({
 
             {/* Fullscreen toggle */}
             <button
-                onClick={onToggleFullscreen}
-                className="absolute top-3 right-3 p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                onClick={handleToggleFullscreen}
+                className="absolute top-3 right-3 p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors z-20"
                 title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
             >
                 {isFullscreen ? (

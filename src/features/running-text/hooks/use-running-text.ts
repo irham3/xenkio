@@ -16,6 +16,11 @@ const DEFAULT_CONFIG: RunningTextConfig = {
     strobeSpeed: 200,
     strobeColor1: '#ff0000',
     strobeColor2: '#ffffff',
+    backgroundMode: 'solid',
+    splitColorLeft: '#000000',
+    splitColorRight: '#ff0000',
+    splitSwap: false,
+    splitSwapSpeed: 500,
     blinkMode: 'off',
     separator: '   ✦   ',
 };
@@ -41,20 +46,10 @@ export function useRunningText() {
         return () => document.removeEventListener('fullscreenchange', handleChange);
     }, []);
 
-    const toggleFullscreen = useCallback(async () => {
-        if (!document.fullscreenElement) {
-            await document.documentElement.requestFullscreen?.();
-        } else {
-            await document.exitFullscreen?.();
-        }
-        // isFullscreen is updated via the fullscreenchange listener above
-    }, []);
-
     return {
         config,
         isFullscreen,
         updateConfig,
         resetConfig,
-        toggleFullscreen,
     };
 }

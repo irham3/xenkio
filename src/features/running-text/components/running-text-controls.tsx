@@ -13,7 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import type { RunningTextConfig, StrobeMode, BlinkMode, FontFamily } from '../types';
+import type { RunningTextConfig, StrobeMode, BlinkMode, FontFamily, BackgroundMode } from '../types';
 
 interface RunningTextControlsProps {
     config: RunningTextConfig;
@@ -136,7 +136,8 @@ export function RunningTextControls({
                 </Select>
             </div>
 
-            {/* Colors */}
+            {/* Colors — only shown in solid mode */}
+            {config.backgroundMode === 'solid' && (
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                     <Label className="text-sm font-semibold text-gray-700">Text Color</Label>
@@ -167,6 +168,119 @@ export function RunningTextControls({
                     </div>
                 </div>
             </div>
+            )}
+
+            {/* Text color shown always */}
+            {config.backgroundMode === 'split' && (
+            <div className="space-y-2">
+                <Label className="text-sm font-semibold text-gray-700">Text Color</Label>
+                <div className="flex items-center gap-2">
+                    <input
+                        type="color"
+                        value={config.textColor}
+                        onChange={(e) => updateConfig({ textColor: e.target.value })}
+                        className="w-10 h-10 rounded cursor-pointer border border-gray-200"
+                    />
+                    <span className="text-sm font-mono text-gray-500">{config.textColor}</span>
+                </div>
+            </div>
+            )}
+
+            {/* Background Mode */}
+            <div className="space-y-3">
+                <Label className="text-sm font-semibold text-gray-700">Background Mode</Label>
+                <div className="flex gap-2">
+                    {(
+                        [
+                            { value: 'solid', label: '⬛ Solid' },
+                            { value: 'split', label: '◧ Split (2 Halves)' },
+                        ] as { value: BackgroundMode; label: string }[]
+                    ).map(({ value, label }) => (
+                        <button
+                            key={value}
+                            onClick={() => updateConfig({ backgroundMode: value })}
+                            className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                                config.backgroundMode === value
+                                    ? 'bg-gray-900 text-white border-gray-900'
+                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                            }`}
+                        >
+                            {label}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Split color controls */}
+                {config.backgroundMode === 'split' && (
+                    <div className="space-y-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                                <Label className="text-xs text-gray-500">Left color</Label>
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="color"
+                                        value={config.splitColorLeft}
+                                        onChange={(e) =>
+                                            updateConfig({ splitColorLeft: e.target.value })
+                                        }
+                                        className="w-9 h-9 rounded cursor-pointer border border-gray-200"
+                                    />
+                                    <span className="text-xs font-mono text-gray-500">
+                                        {config.splitColorLeft}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <Label className="text-xs text-gray-500">Right color</Label>
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="color"
+                                        value={config.splitColorRight}
+                                        onChange={(e) =>
+                                            updateConfig({ splitColorRight: e.target.value })
+                                        }
+                                        className="w-9 h-9 rounded cursor-pointer border border-gray-200"
+                                    />
+                                    <span className="text-xs font-mono text-gray-500">
+                                        {config.splitColorRight}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Swap toggle */}
+                        <div className="flex items-center justify-between">
+                            <Label className="text-xs text-gray-600 font-medium">
+                                Alternate / Swap halves
+                            </Label>
+                            <Switch
+                                checked={config.splitSwap}
+                                onCheckedChange={(checked) =>
+                                    updateConfig({ splitSwap: checked })
+                                }
+                            />
+                        </div>
+
+                        {/* Swap speed */}
+                        {config.splitSwap && (
+                            <div className="space-y-1">
+                                <Label className="text-xs text-gray-500">
+                                    Swap speed: {config.splitSwapSpeed} ms
+                                </Label>
+                                <Slider
+                                    min={50}
+                                    max={2000}
+                                    step={50}
+                                    value={[config.splitSwapSpeed]}
+                                    onValueChange={([v]) =>
+                                        updateConfig({ splitSwapSpeed: v })
+                                    }
+                                />
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
 
             {/* Blink Mode */}
             <div className="space-y-2">
@@ -188,7 +302,8 @@ export function RunningTextControls({
                 </div>
             </div>
 
-            {/* Strobe Mode */}
+            {/* Strobe Mode — only for solid background */}
+            {config.backgroundMode === 'solid' && (
             <div className="space-y-3">
                 <Label className="text-sm font-semibold text-gray-700">Strobe / Flash Mode</Label>
                 <div className="grid grid-cols-2 gap-1.5">
@@ -267,6 +382,7 @@ export function RunningTextControls({
                     </div>
                 )}
             </div>
+            )}
 
             {/* Reset */}
             <Button

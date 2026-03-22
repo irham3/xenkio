@@ -5,19 +5,14 @@ import { RunningTextDisplay } from '@/features/running-text/components/running-t
 import { RunningTextControls } from '@/features/running-text/components/running-text-controls';
 
 export default function RunningTextClient() {
-    const { config, isFullscreen, updateConfig, resetConfig, toggleFullscreen } =
-        useRunningText();
+    const { config, isFullscreen, updateConfig, resetConfig } = useRunningText();
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-10">
             {/* Preview + Display */}
             <div className="lg:col-span-2 space-y-4">
                 <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                    <RunningTextDisplay
-                        config={config}
-                        isFullscreen={isFullscreen}
-                        onToggleFullscreen={toggleFullscreen}
-                    />
+                    <RunningTextDisplay config={config} isFullscreen={isFullscreen} />
                 </div>
                 <p className="text-xs text-gray-400 text-center">
                     Click the{' '}

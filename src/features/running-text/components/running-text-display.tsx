@@ -33,7 +33,7 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
     const textRef = useRef<HTMLDivElement>(null);
     const leftHalfRef = useRef<HTMLDivElement>(null);
     const rightHalfRef = useRef<HTMLDivElement>(null);
-    const requestRef = useRef<number>();
+    const requestRef = useRef<number>(0);
 
     // ── Solid-mode strobe effect ──────────────────────────────────────────
     useEffect(() => {

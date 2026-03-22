@@ -31,7 +31,7 @@ export function RunningTextControls({
     getShareUrl,
 }: RunningTextControlsProps) {
     // Force re-render for countdown
-    const [now, setNow] = useState(Date.now());
+    const [now, setNow] = useState(() => Date.now());
     const [copied, setCopied] = useState(false);
 
     const handleCopyLink = () => {
@@ -434,7 +434,7 @@ export function RunningTextControls({
                                 className="py-2"
                             />
                             <p className="text-[10px] text-blue-600">
-                                Adjust this slider on the second/third device to delay the text so it "flows" from the previous screen.
+                                Adjust this slider on the second/third device to delay the text so it &quot;flows&quot; from the previous screen.
                             </p>
                         </div>
                     </div>

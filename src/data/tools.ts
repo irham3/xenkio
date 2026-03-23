@@ -968,7 +968,7 @@ export const TOOLS: ToolData[] = [
     {
         id: '114',
         title: 'Running Text',
-        description: 'Create animated scrolling text with strobe effects (ambulance, police), blink mode, custom colors, and fullscreen display.',
+        description: 'Create animated scrolling text with strobe effects, blink mode, custom colors, and fullscreen display.',
         icon: Scroll,
         href: '/tools/running-text',
         slug: 'running-text',

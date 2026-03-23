@@ -105,9 +105,9 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
     // ── Fullscreen toggle (element-based so ONLY this div fills the screen)
     const handleToggleFullscreen = () => {
         if (!document.fullscreenElement) {
-            containerRef.current?.requestFullscreen().catch(() => {});
+            containerRef.current?.requestFullscreen().catch(() => { });
         } else {
-            document.exitFullscreen().catch(() => {});
+            document.exitFullscreen().catch(() => { });
         }
     };
 
@@ -146,9 +146,9 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
             // Calculate Speed (Pixels per millisecond)
             // Fixed speed logic ensures consistency across devices regardless of screen width
             // Speed 1 = 50px/s, Speed 10 = 500px/s
-            const pxPerSec = config.speed * 50; 
+            const pxPerSec = config.speed * 50;
             const pxPerMs = pxPerSec / 1000;
-            
+
             // Total distance to travel = Viewport Width + Text Width
             // We assume 100vw is the container width. 
             // Note: For perfect multi-device sync with different screen sizes, 
@@ -193,7 +193,7 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
         config.speed,
         config.direction,
         // Re-measure when text changes
-        config.text, 
+        config.text,
         config.fontSize
     ]);
 
@@ -208,8 +208,8 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
         config.speed === 0
             ? undefined
             : config.direction === 'left'
-            ? `marquee-left ${scrollDuration} linear infinite`
-            : `marquee-right ${scrollDuration} linear infinite`;
+                ? `marquee-left ${scrollDuration} linear infinite`
+                : `marquee-right ${scrollDuration} linear infinite`;
 
     const textBlocks = useMemo(
         () => [config.text, config.text, config.text],
@@ -270,7 +270,7 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                 ref={textRef}
                 className="relative whitespace-nowrap z-10 flex flex-row items-center"
                 style={{
-                    animation: !config.isSynced 
+                    animation: !config.isSynced
                         ? (blinkAnimation
                             ? `${marqueeAnimation}, ${blinkAnimation}`
                             : marqueeAnimation)

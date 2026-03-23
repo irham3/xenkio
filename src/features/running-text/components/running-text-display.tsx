@@ -34,6 +34,14 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
     const leftHalfRef = useRef<HTMLDivElement>(null);
     const rightHalfRef = useRef<HTMLDivElement>(null);
     const requestRef = useRef<number>(0);
+    const lastNonZeroSpeedRef = useRef<number>(config.speed || 5);
+
+    // Keep track of the last speed > 0 to maintain duration while paused
+    useEffect(() => {
+        if (config.speed > 0) {
+            lastNonZeroSpeedRef.current = config.speed;
+        }
+    }, [config.speed]);
 
     // ── Solid-mode strobe effect ──────────────────────────────────────────
     useEffect(() => {
@@ -136,9 +144,20 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                 return;
             }
 
-            // Handle stopped state
+            // ── Handle stopped state ─────────────────────────────────────────────
+            // If speed is 0, just continue the loop but don't force a reset to 0px.
+            // Note: In synced mode, if speed is 0, the 'travel' calculation below 
+            // will naturally result in 0, putting the text at the starting position 
+            // of the loop. This is more consistent than forcing 'translateX(0px)'.
             if (config.speed === 0) {
-                el.style.transform = 'translateX(0px)';
+                const containerWidth = containerRef.current?.clientWidth || 0;
+                const textWidth = el.scrollWidth;
+                const totalDistance = containerWidth + textWidth;
+
+                // Deterministic start position based on direction
+                const x = config.direction === 'left' ? containerWidth : -textWidth;
+                el.style.transform = `translateX(${x}px)`;
+
                 requestRef.current = requestAnimationFrame(animate);
                 return;
             }
@@ -197,19 +216,36 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
         config.fontSize
     ]);
 
-    const scrollDuration = `${(11 - config.speed) * 3}s`;
+    const effectiveSpeed = config.speed === 0 ? lastNonZeroSpeedRef.current : config.speed;
+    const scrollDuration = `${(11 - effectiveSpeed) * 3}s`;
+    const animationPlayState = config.speed === 0 ? 'paused' : 'running';
 
-    const blinkAnimation =
-        config.blinkMode !== 'off'
-            ? `blink-text ${BLINK_DURATION[config.blinkMode]} step-start infinite`
-            : undefined;
+    const marqueeName = config.direction === 'left' ? 'marquee-left' : 'marquee-right';
+    const blinkName = config.blinkMode !== 'off' ? 'blink-text' : null;
 
-    const marqueeAnimation =
-        config.speed === 0
-            ? undefined
-            : config.direction === 'left'
-                ? `marquee-left ${scrollDuration} linear infinite`
-                : `marquee-right ${scrollDuration} linear infinite`;
+    const animNames: string[] = [];
+    const animDurations: string[] = [];
+    const animTimings: string[] = [];
+    const animIterCounts: string[] = [];
+    const animPlayStates: string[] = [];
+
+    // Marquee animation (only if not synced)
+    if (!config.isSynced) {
+        animNames.push(marqueeName);
+        animDurations.push(scrollDuration);
+        animTimings.push('linear');
+        animIterCounts.push('infinite');
+        animPlayStates.push(config.speed === 0 ? 'paused' : 'running');
+    }
+
+    // Blink animation
+    if (blinkName) {
+        animNames.push(blinkName);
+        animDurations.push(BLINK_DURATION[config.blinkMode]);
+        animTimings.push('step-start');
+        animIterCounts.push('infinite');
+        animPlayStates.push('running');
+    }
 
     const textBlocks = useMemo(
         () => [config.text, config.text, config.text],
@@ -270,11 +306,11 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                 ref={textRef}
                 className="relative whitespace-nowrap z-10 flex flex-row items-center"
                 style={{
-                    animation: !config.isSynced
-                        ? (blinkAnimation
-                            ? `${marqueeAnimation}, ${blinkAnimation}`
-                            : marqueeAnimation)
-                        : blinkAnimation, // Keep blink in sync mode, but remove marquee CSS
+                    animationName: animNames.join(', ') || 'none',
+                    animationDuration: animDurations.join(', '),
+                    animationTimingFunction: animTimings.join(', '),
+                    animationIterationCount: animIterCounts.join(', '),
+                    animationPlayState: animPlayStates.join(', '),
                     fontSize: `${config.fontSize}px`,
                     fontWeight: config.fontWeight,
                     fontFamily: FONT_FAMILIES[config.fontFamily],

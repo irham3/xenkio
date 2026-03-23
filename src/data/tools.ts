@@ -680,7 +680,8 @@ export const TOOLS: ToolData[] = [
         description: 'Generate URL-friendly slugs from text.',
         icon: Link,
         href: '/tools/slug-generator',
-        isComingSoon: true,
+        slug: 'slug-generator',
+        isNew: true,
         categoryId: 'text-utilities',
     },
     {
@@ -704,7 +705,8 @@ export const TOOLS: ToolData[] = [
         description: 'Generate SEO-optimized meta tags for your website.',
         icon: Globe,
         href: '/tools/meta-tag-generator',
-        isComingSoon: true,
+        slug: 'meta-tag-generator',
+        isNew: true,
         categoryId: 'web-seo',
     },
     {
@@ -719,10 +721,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '49',
         title: 'Robots.txt Generator',
-        description: 'Create robots.txt files for search engine crawlers.',
+        description: 'Create robots.txt files visually to control search engine crawlers. Presets for WordPress, e-commerce, and AI bot blocking.',
         icon: Bot,
         href: '/tools/robots-txt-generator',
-        isComingSoon: true,
+        slug: 'robots-txt-generator',
+        isNew: true,
         categoryId: 'web-seo',
     },
 
@@ -1037,7 +1040,6 @@ export const TOOLS: ToolData[] = [
         icon: Share2,
         href: '/tools/og-generator',
         slug: 'og-generator',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1053,11 +1055,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '83',
         title: 'Twitter Card Generator',
-        description: 'Generate Twitter Card meta tags for better link previews.',
+        description: 'Generate Twitter Card meta tags for better link previews on Twitter/X.',
         icon: Twitter,
         href: '/tools/twitter-card',
         slug: 'twitter-card',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'web-seo',
     },
     {

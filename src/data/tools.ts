@@ -503,6 +503,17 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
+        id: '110',
+        title: 'Event Timekeeper',
+        description: 'Manage event schedules with real-time countdown, presenter focus mode, and Excel import. Keep your events on track.',
+        icon: CalendarRange,
+        href: '/tools/event-timekeeper',
+        slug: 'event-timekeeper',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+    {
         id: '33',
         title: 'Markdown Editor',
         description: 'Edit and preview Markdown with live rendering.',

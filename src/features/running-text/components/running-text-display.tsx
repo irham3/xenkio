@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Maximize2, Minimize2 } from 'lucide-react';
 import type { RunningTextConfig } from '../types';
 
@@ -34,14 +34,17 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
     const leftHalfRef = useRef<HTMLDivElement>(null);
     const rightHalfRef = useRef<HTMLDivElement>(null);
     const requestRef = useRef<number>(0);
-    const lastNonZeroSpeedRef = useRef<number>(config.speed || 5);
 
-    // Keep track of the last speed > 0 to maintain duration while paused
-    useEffect(() => {
+    const [lastNonZeroSpeed, setLastNonZeroSpeed] = useState<number>(config.speed || 5);
+    const [prevSpeed, setPrevSpeed] = useState(config.speed);
+
+    // Sync state to props (recommended pattern to avoid set-state-in-effect)
+    if (config.speed !== prevSpeed) {
+        setPrevSpeed(config.speed);
         if (config.speed > 0) {
-            lastNonZeroSpeedRef.current = config.speed;
+            setLastNonZeroSpeed(config.speed);
         }
-    }, [config.speed]);
+    }
 
     // ── Solid-mode strobe effect ──────────────────────────────────────────
     useEffect(() => {
@@ -110,7 +113,7 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
         config.splitSwapSpeed,
     ]);
 
-    // ── Fullscreen toggle (element-based so ONLY this div fills the screen)
+    // ── Fullscreen toggle
     const handleToggleFullscreen = () => {
         if (!document.fullscreenElement) {
             containerRef.current?.requestFullscreen().catch(() => { });
@@ -132,67 +135,35 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
             if (!el) return;
 
             const now = Date.now();
-            // Start time defaults to now if not set, but usually user sets it in future
             const startTime = config.syncStartTime || now;
-            // Elapsed time in ms, adjusted by user offset
             const elapsed = now - startTime - config.syncOffset;
 
-            // If waiting for start time
             if (elapsed < 0) {
                 el.style.transform = `translateX(${config.direction === 'left' ? '100vw' : '-100%'})`;
                 requestRef.current = requestAnimationFrame(animate);
                 return;
             }
 
-            // ── Handle stopped state ─────────────────────────────────────────────
-            // If speed is 0, just continue the loop but don't force a reset to 0px.
-            // Note: In synced mode, if speed is 0, the 'travel' calculation below 
-            // will naturally result in 0, putting the text at the starting position 
-            // of the loop. This is more consistent than forcing 'translateX(0px)'.
             if (config.speed === 0) {
                 const containerWidth = containerRef.current?.clientWidth || 0;
                 const textWidth = el.scrollWidth;
-                const totalDistance = containerWidth + textWidth;
-
-                // Deterministic start position based on direction
                 const x = config.direction === 'left' ? containerWidth : -textWidth;
                 el.style.transform = `translateX(${x}px)`;
-
                 requestRef.current = requestAnimationFrame(animate);
                 return;
             }
 
-            // Calculate Speed (Pixels per millisecond)
-            // Fixed speed logic ensures consistency across devices regardless of screen width
-            // Speed 1 = 50px/s, Speed 10 = 500px/s
             const pxPerSec = config.speed * 50;
             const pxPerMs = pxPerSec / 1000;
-
-            // Total distance to travel = Viewport Width + Text Width
-            // We assume 100vw is the container width. 
-            // Note: For perfect multi-device sync with different screen sizes, 
-            // we ideally need a fixed "virtual canvas" width, but using local 100vw + scrollWidth 
-            // is the standard marquee behavior. 
-            // To make text "connect", the user uses the 'Offset' slider to align the phase.
             const containerWidth = containerRef.current?.clientWidth || 0;
             const textWidth = el.scrollWidth;
             const totalDistance = containerWidth + textWidth;
-
-            // Current position in the loop
             const travel = (elapsed * pxPerMs) % totalDistance;
 
             if (config.direction === 'left') {
-                // Move from Right (Width) to Left (-TextWidth)
-                // Start at translateX(containerWidth)
-                // End at translateX(-textWidth)
-                // Current X = containerWidth - travel
                 const x = containerWidth - travel;
                 el.style.transform = `translateX(${x}px)`;
             } else {
-                // Move from Left (-TextWidth) to Right (Width)
-                // Start at translateX(-textWidth)
-                // End at translateX(containerWidth)
-                // Current X = -textWidth + travel
                 const x = -textWidth + travel;
                 el.style.transform = `translateX(${x}px)`;
             }
@@ -211,14 +182,12 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
         config.syncOffset,
         config.speed,
         config.direction,
-        // Re-measure when text changes
         config.text,
         config.fontSize
     ]);
 
-    const effectiveSpeed = config.speed === 0 ? lastNonZeroSpeedRef.current : config.speed;
+    const effectiveSpeed = config.speed === 0 ? lastNonZeroSpeed : config.speed;
     const scrollDuration = `${(11 - effectiveSpeed) * 3}s`;
-    const animationPlayState = config.speed === 0 ? 'paused' : 'running';
 
     const marqueeName = config.direction === 'left' ? 'marquee-left' : 'marquee-right';
     const blinkName = config.blinkMode !== 'off' ? 'blink-text' : null;
@@ -229,7 +198,6 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
     const animIterCounts: string[] = [];
     const animPlayStates: string[] = [];
 
-    // Marquee animation (only if not synced)
     if (!config.isSynced) {
         animNames.push(marqueeName);
         animDurations.push(scrollDuration);
@@ -238,7 +206,6 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
         animPlayStates.push(config.speed === 0 ? 'paused' : 'running');
     }
 
-    // Blink animation
     if (blinkName) {
         animNames.push(blinkName);
         animDurations.push(BLINK_DURATION[config.blinkMode]);
@@ -261,12 +228,10 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
             style={{
                 backgroundColor: isSplit ? undefined : config.backgroundColor,
                 minHeight: isFullscreen ? undefined : '220px',
-                // When fullscreen, browser handles 100vw × 100vh automatically
                 height: isFullscreen ? '100%' : undefined,
                 width: '100%',
             }}
         >
-            {/* Inject keyframe animations */}
             <style>{`
                 @keyframes marquee-left {
                     from { transform: translateX(100vw); }
@@ -280,12 +245,10 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                     0%, 100% { opacity: 1; }
                     50%       { opacity: 0; }
                 }
-                /* Element fullscreen — fill viewport completely */
                 :fullscreen { width: 100% !important; height: 100% !important; }
                 :-webkit-full-screen { width: 100% !important; height: 100% !important; }
             `}</style>
 
-            {/* Split background — absolutely fills the container */}
             {isSplit && (
                 <div className="absolute inset-0 flex">
                     <div
@@ -301,7 +264,6 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                 </div>
             )}
 
-            {/* Running text — sits above split background */}
             <div
                 ref={textRef}
                 className="relative whitespace-nowrap z-10 flex flex-row items-center"
@@ -316,7 +278,7 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                     fontFamily: FONT_FAMILIES[config.fontFamily],
                     color: config.textColor,
                     paddingLeft: '4rem',
-                    willChange: 'transform', // Optimize for JS animation
+                    willChange: 'transform',
                 }}
             >
                 {textBlocks.map((text, i) => (
@@ -325,7 +287,7 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                             style={{
                                 whiteSpace: 'pre',
                                 textAlign: config.textAlign,
-                                display: 'inline-block', // Ensure text-align works if width varies
+                                display: 'inline-block',
                             }}
                         >
                             {text}
@@ -337,17 +299,12 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                 ))}
             </div>
 
-            {/* Fullscreen toggle */}
             <button
                 onClick={handleToggleFullscreen}
                 className="absolute top-3 right-3 p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors z-20"
                 title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
             >
-                {isFullscreen ? (
-                    <Minimize2 className="w-5 h-5" />
-                ) : (
-                    <Maximize2 className="w-5 h-5" />
-                )}
+                {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
             </button>
         </div>
     );

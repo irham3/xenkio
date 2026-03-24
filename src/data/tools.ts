@@ -1183,6 +1183,20 @@ export const TOOLS: ToolData[] = [
         featured: true,
         categoryId: 'developer-tools',
     },
+
+    // =====================================================
+    // DEVELOPER TOOLS - HTML Viewer
+    // =====================================================
+    {
+        id: '114',
+        title: 'HTML Viewer',
+        description: 'Paste HTML, CSS, and JavaScript and see the live rendered result instantly. Manage separate files or write everything in a single document.',
+        icon: Code2,
+        href: '/tools/html-viewer',
+        slug: 'html-viewer',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
 ];
 
 // Search suggestions for the search bar

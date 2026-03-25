@@ -1171,6 +1171,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'developer-tools',
     },
+    {
+        id: '115',
+        title: 'HTTP Status Codes',
+        description: 'Complete reference for all HTTP status codes with descriptions, use cases, and RFC specs. Instantly search and explore 1xx, 2xx, 3xx, 4xx, and 5xx codes.',
+        icon: Server,
+        href: '/tools/http-status-codes',
+        slug: 'http-status-codes',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
 ];
 
 // Search suggestions for the search bar

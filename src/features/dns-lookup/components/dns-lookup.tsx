@@ -71,9 +71,12 @@ export function DnsLookup() {
     };
 
     const handleCopy = (text: string, index: number) => {
-        navigator.clipboard.writeText(text);
-        setCopiedIndex(index);
-        setTimeout(() => setCopiedIndex(null), 2000);
+        navigator.clipboard.writeText(text).then(() => {
+            setCopiedIndex(index);
+            setTimeout(() => setCopiedIndex(null), 2000);
+        }).catch(() => {
+            // Silently ignore clipboard errors (e.g. insecure context, permissions denied)
+        });
     };
 
     const isLoading = state.status === 'loading';

@@ -47,9 +47,17 @@ export function formatTtl(ttl: number): string {
 export function isValidDomain(domain: string): boolean {
     const trimmed = domain.trim();
     if (!trimmed) return false;
-    // Allow plain domain names and IP addresses for PTR lookups
+    // Allow fully qualified domain names
     const domainRegex = /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
-    return domainRegex.test(trimmed);
+    if (domainRegex.test(trimmed)) return true;
+    // Allow IPv4 addresses (for PTR lookups)
+    const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
+    if (ipv4Regex.test(trimmed)) {
+        return trimmed.split('.').every(octet => parseInt(octet, 10) <= 255);
+    }
+    // Allow IPv6 addresses (for PTR lookups)
+    const ipv6Regex = /^[0-9a-fA-F:]{2,39}$/;
+    return ipv6Regex.test(trimmed);
 }
 
 export async function queryDns(domain: string, type: DnsRecordType): Promise<DnsRecord[]> {

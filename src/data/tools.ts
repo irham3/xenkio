@@ -1088,7 +1088,6 @@ export const TOOLS: ToolData[] = [
         icon: Server,
         href: '/tools/dns-lookup',
         slug: 'dns-lookup',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
 

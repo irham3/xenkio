@@ -74,6 +74,7 @@ import {
     Replace,
     BarChart3,
     Scroll,
+    PenLine,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1196,6 +1197,19 @@ export const TOOLS: ToolData[] = [
         slug: 'html-viewer',
         isNew: true,
         categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // MEDIA & IMAGES - Image Annotator
+    // =====================================================
+    {
+        id: '115',
+        title: 'Image Annotator',
+        description: 'Annotate images with arrows, shapes, text, and freehand drawing. Upload or paste an image and download the result.',
+        icon: PenLine,
+        href: '/tools/image-annotator',
+        slug: 'image-annotator',
+        isNew: true,
+        categoryId: 'media-images',
     },
 ];
 

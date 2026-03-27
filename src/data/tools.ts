@@ -873,11 +873,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '95',
         title: 'Internet Speed Test',
-        description: 'Test your internet connection speed (download, upload, ping).',
+        description: 'Test your internet connection speed — download, upload, ping, and jitter.',
         icon: Activity,
         href: '/tools/speed-test',
         slug: 'speed-test',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'web-seo',
     },
     {

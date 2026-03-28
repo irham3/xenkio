@@ -1068,7 +1068,6 @@ export const TOOLS: ToolData[] = [
         icon: Link,
         href: '/tools/link-shortener',
         slug: 'link-shortener',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {

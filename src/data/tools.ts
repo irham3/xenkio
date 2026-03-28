@@ -1197,6 +1197,20 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'developer-tools',
     },
+
+    // =====================================================
+    // DEVELOPER TOOLS - P2P Local Data Transfer
+    // =====================================================
+    {
+        id: '115',
+        title: 'P2P Local Data Transfer',
+        description: 'Send text and files directly between devices via WebRTC — no uploads, no accounts, nothing stored on any server.',
+        icon: Share2,
+        href: '/tools/p2p-share',
+        slug: 'p2p-share',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
 ];
 
 // Search suggestions for the search bar

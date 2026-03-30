@@ -727,7 +727,8 @@ export const TOOLS: ToolData[] = [
         description: 'Generate XML sitemaps for search engines.',
         icon: Map,
         href: '/tools/sitemap-generator',
-        isComingSoon: true,
+        slug: 'sitemap-generator',
+        isNew: true,
         categoryId: 'web-seo',
     },
     {
@@ -874,21 +875,21 @@ export const TOOLS: ToolData[] = [
     {
         id: '94',
         title: 'My IP Address',
-        description: 'Check your public IP address, location, and ISP details.',
+        description: 'Find your public IP address, geolocation, ISP, hostname, and timezone instantly.',
         icon: Globe2,
-        href: '/tools/my-ip',
-        slug: 'my-ip',
-        isComingSoon: true,
+        href: '/tools/my-ip-address',
+        slug: 'my-ip-address',
+        isNew: true,
         categoryId: 'web-seo',
     },
     {
         id: '95',
         title: 'Internet Speed Test',
-        description: 'Test your internet connection speed (download, upload, ping).',
+        description: 'Test your internet connection speed — download, upload, ping, and jitter.',
         icon: Activity,
         href: '/tools/speed-test',
         slug: 'speed-test',
-        isComingSoon: true,
+        isNew: true,
         categoryId: 'web-seo',
     },
     {
@@ -1061,7 +1062,6 @@ export const TOOLS: ToolData[] = [
         icon: Code2,
         href: '/tools/schema-generator',
         slug: 'schema-generator',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1081,7 +1081,6 @@ export const TOOLS: ToolData[] = [
         icon: Link2,
         href: '/tools/utm-builder',
         slug: 'utm-builder',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1091,17 +1090,16 @@ export const TOOLS: ToolData[] = [
         icon: Link,
         href: '/tools/link-shortener',
         slug: 'link-shortener',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
         id: '86',
-        title: 'HTTP Status Code Checker',
-        description: 'Check HTTP response codes and headers for any URL.',
+        title: 'HTTP Status Codes',
+        description: 'Complete reference for all HTTP status codes with descriptions, use cases, and RFC specs. Instantly search and explore 1xx, 2xx, 3xx, 4xx, and 5xx codes.',
         icon: Globe2,
-        href: '/tools/http-status',
-        slug: 'http-status',
-        isComingSoon: true,
+        href: '/tools/http-status-codes',
+        slug: 'http-status-codes',
+        isNew: true,
         categoryId: 'web-seo',
     },
     {
@@ -1111,7 +1109,6 @@ export const TOOLS: ToolData[] = [
         icon: Server,
         href: '/tools/dns-lookup',
         slug: 'dns-lookup',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
 
@@ -1210,7 +1207,7 @@ export const TOOLS: ToolData[] = [
         slug: 'image-annotator',
         isNew: true,
         categoryId: 'media-images',
-   },
+    },
     // =====================================================
     // DEVELOPER TOOLS - P2P Local Data Transfer
     // =====================================================

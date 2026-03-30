@@ -108,8 +108,8 @@ export function RunningTextControls({
                             key={dir}
                             onClick={() => updateConfig({ direction: dir })}
                             className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${config.direction === dir
-                                    ? 'bg-gray-900 text-white border-gray-900'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                ? 'bg-gray-900 text-white border-gray-900'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                                 }`}
                         >
                             {dir === 'left' ? '← Left' : 'Right →'}
@@ -242,8 +242,8 @@ export function RunningTextControls({
                             key={value}
                             onClick={() => updateConfig({ backgroundMode: value })}
                             className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${config.backgroundMode === value
-                                    ? 'bg-gray-900 text-white border-gray-900'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                ? 'bg-gray-900 text-white border-gray-900'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                                 }`}
                         >
                             {label}
@@ -332,8 +332,8 @@ export function RunningTextControls({
                             key={mode}
                             onClick={() => updateConfig({ blinkMode: mode })}
                             className={`py-1.5 rounded-lg border text-xs font-medium capitalize transition-colors ${config.blinkMode === mode
-                                    ? 'bg-gray-900 text-white border-gray-900'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                ? 'bg-gray-900 text-white border-gray-900'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                                 }`}
                         >
                             {mode === 'off' ? 'Off' : mode}
@@ -388,8 +388,8 @@ export function RunningTextControls({
 
                             {config.syncStartTime && (
                                 <div className={`text-center py-3 rounded-lg border transition-colors ${config.syncStartTime > now
-                                        ? 'bg-yellow-50 border-yellow-200 text-yellow-800'
-                                        : 'bg-green-50 border-green-200 text-green-800'
+                                    ? 'bg-yellow-50 border-yellow-200 text-yellow-800'
+                                    : 'bg-green-50 border-green-200 text-green-800'
                                     }`}>
                                     {config.syncStartTime > now ? (
                                         <div className="flex flex-col items-center gap-1">
@@ -452,8 +452,8 @@ export function RunningTextControls({
                                 key={value}
                                 onClick={() => updateConfig({ strobeMode: value })}
                                 className={`py-2 rounded-lg border text-xs font-medium transition-colors ${config.strobeMode === value
-                                        ? 'bg-gray-900 text-white border-gray-900'
-                                        : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                    ? 'bg-gray-900 text-white border-gray-900'
+                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                                     }`}
                             >
                                 {label}

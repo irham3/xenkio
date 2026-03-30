@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import {
     AlertCircle,
     FileCode,
@@ -22,8 +23,8 @@ export default function UrlEncoderClient() {
     const [mode, setMode] = useState<"encode" | "decode">("encode");
     const [error, setError] = useState<string | null>(null);
 
-    const processConversion = (text: string, currentMode: "encode" | "decode") => {
-        if (!text) {
+    const processConversion = () => {
+        if (!input) {
             setOutput("");
             setError(null);
             return;
@@ -31,10 +32,10 @@ export default function UrlEncoderClient() {
 
         try {
             setError(null);
-            if (currentMode === "encode") {
-                setOutput(encodeURIComponent(text));
+            if (mode === "encode") {
+                setOutput(encodeURIComponent(input));
             } else {
-                setOutput(decodeURIComponent(text));
+                setOutput(decodeURIComponent(input));
             }
         } catch {
             setError("Invalid URL format for decoding");
@@ -45,7 +46,8 @@ export default function UrlEncoderClient() {
     const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const value = e.target.value;
         setInput(value);
-        processConversion(value, mode);
+        setOutput("");
+        setError(null);
     };
 
     const handleClear = () => {
@@ -56,7 +58,8 @@ export default function UrlEncoderClient() {
 
     const setModeAndProcess = (newMode: "encode" | "decode") => {
         setMode(newMode);
-        processConversion(input, newMode);
+        setOutput("");
+        setError(null);
     };
 
     const currentModeInfo = URL_MODES.find(m => m.id === mode);
@@ -111,6 +114,13 @@ export default function UrlEncoderClient() {
                             />
 
                             <div className="flex items-center gap-2">
+                                <Button
+                                    onClick={processConversion}
+                                    disabled={!input}
+                                    className="flex-1"
+                                >
+                                    {mode === 'encode' ? 'Encode' : 'Decode'}
+                                </Button>
                                 <ClearButton onClick={handleClear} disabled={!input} className="flex-1" />
                             </div>
 
@@ -167,8 +177,8 @@ export default function UrlEncoderClient() {
                                                 )}
                                                 <p className="text-sm text-center">
                                                     {mode === 'encode'
-                                                        ? 'Enter text to see URL encoded output...'
-                                                        : 'Enter URL to see decoded text...'
+                                                        ? 'Enter text and click Encode to see URL encoded output...'
+                                                        : 'Enter URL encoded text and click Decode...'
                                                     }
                                                 </p>
                                             </div>

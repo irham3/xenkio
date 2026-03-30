@@ -43,7 +43,7 @@ export default function UrlEncoderPage() {
             "URL Encoding (Percent-encoding)",
             "URL Decoding",
             "Secure client-side processing",
-            "Real-time conversion"
+            "One-click conversion"
         ]
     };
 

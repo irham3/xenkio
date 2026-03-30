@@ -59,7 +59,7 @@ function reducer(state: LinkShortenerState, action: Action): LinkShortenerState 
 const initialState: LinkShortenerState = {
     url: '',
     alias: '',
-    provider: 'isgd',
+    provider: 'vgd',
     status: 'idle',
     error: null,
     result: null,

@@ -1,6 +1,6 @@
 export type ShortenStatus = 'idle' | 'loading' | 'success' | 'error';
 
-export type ShortenerProvider = 'isgd' | 'vgd';
+export type ShortenerProvider = 'vgd';
 
 export interface ShortenedLink {
     id: string;

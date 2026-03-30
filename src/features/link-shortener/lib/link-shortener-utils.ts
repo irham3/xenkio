@@ -1,11 +1,6 @@
 import type { ShortenerProvider } from '../types';
 
 export const PROVIDERS: Record<ShortenerProvider, { label: string; baseUrl: string; supportsAlias: boolean }> = {
-    isgd: {
-        label: 'is.gd',
-        baseUrl: 'https://is.gd/create.php',
-        supportsAlias: true,
-    },
     vgd: {
         label: 'v.gd',
         baseUrl: 'https://v.gd/create.php',
@@ -31,7 +26,7 @@ export function generateId(): string {
     return crypto.randomUUID();
 }
 
-interface IsgdResponse {
+interface ShortenerResponse {
     shorturl?: string;
     errorcode?: number;
     errormessage?: string;
@@ -58,7 +53,7 @@ export async function shortenUrl(
         throw new Error(`Request failed with status ${response.status}`);
     }
 
-    const data: IsgdResponse = await response.json();
+    const data: ShortenerResponse = await response.json();
 
     if (data.errormessage) {
         throw new Error(data.errormessage);

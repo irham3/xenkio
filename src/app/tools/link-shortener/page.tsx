@@ -7,13 +7,12 @@ const slug = 'link-shortener';
 
 export const metadata: Metadata = {
     title: 'Link Shortener - Create Short URLs Instantly | Xenkio',
-    description: 'Shorten long URLs into compact, shareable links with optional custom aliases. Free, fast, and browser-based using is.gd and v.gd.',
+    description: 'Shorten long URLs into compact, shareable links with optional custom aliases. Free, fast, and browser-based using v.gd.',
     keywords: [
         'link shortener',
         'url shortener',
         'short url',
         'custom alias url',
-        'is.gd',
         'v.gd',
         'shorten link',
         'free url shortener',
@@ -56,7 +55,7 @@ export default function LinkShortenerPage() {
         'featureList': [
             'Shorten long URLs into compact links',
             'Optional custom alias support',
-            'Multiple provider options (is.gd, v.gd)',
+            'Powered by v.gd',
             'Link history stored locally in your browser',
             'One-click copy for shortened links',
         ],

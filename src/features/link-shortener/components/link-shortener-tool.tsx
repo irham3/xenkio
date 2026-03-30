@@ -6,12 +6,6 @@ import { CopyButton } from '@/components/shared';
 import { cn } from '@/lib/utils';
 import { PROVIDERS } from '../lib/link-shortener-utils';
 import { useLinkShortener } from '../hooks/use-link-shortener';
-import type { ShortenerProvider } from '../types';
-
-const PROVIDER_OPTIONS: { value: ShortenerProvider; label: string }[] = [
-    { value: 'isgd', label: 'is.gd' },
-    { value: 'vgd', label: 'v.gd' },
-];
 
 function formatDate(ts: number): string {
     return new Intl.DateTimeFormat('en-US', {
@@ -31,7 +25,6 @@ export function LinkShortenerTool() {
         state,
         setUrl,
         setAlias,
-        setProvider,
         shorten,
         resetForm,
         deleteHistory,
@@ -73,23 +66,8 @@ export function LinkShortenerTool() {
                         <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Provider
                         </label>
-                        <div className="flex gap-2">
-                            {PROVIDER_OPTIONS.map((opt) => (
-                                <button
-                                    key={opt.value}
-                                    type="button"
-                                    disabled={isLoading}
-                                    onClick={() => setProvider(opt.value)}
-                                    className={cn(
-                                        'flex-1 h-10 rounded-xl border-2 text-sm font-semibold transition-all cursor-pointer disabled:opacity-50',
-                                        state.provider === opt.value
-                                            ? 'border-primary-400 bg-primary-50 text-primary-700'
-                                            : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-                                    )}
-                                >
-                                    {opt.label}
-                                </button>
-                            ))}
+                        <div className="h-10 rounded-xl border border-primary-200 bg-primary-50/60 px-3 flex items-center text-sm font-semibold text-primary-700">
+                            v.gd
                         </div>
                         <p className="text-xs text-gray-400">
                             {PROVIDERS[state.provider].supportsAlias ? 'Custom aliases supported' : 'No custom alias support'}
@@ -102,7 +80,7 @@ export function LinkShortenerTool() {
                         </label>
                         <div className="flex items-center h-10 bg-gray-50 border border-gray-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-primary-500/20 focus-within:border-primary-400 transition-all">
                             <span className="px-3 text-xs text-gray-400 font-mono shrink-0">
-                                {state.provider === 'isgd' ? 'is.gd/' : 'v.gd/'}
+                                v.gd/
                             </span>
                             <input
                                 type="text"
@@ -243,19 +221,12 @@ export function LinkShortenerTool() {
             )}
 
             {/* Info */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-white rounded-2xl border border-gray-200 p-5 space-y-2">
-                    <h3 className="text-sm font-bold text-gray-900">is.gd</h3>
-                    <p className="text-xs text-gray-500 leading-relaxed">
-                        A free, reliable URL shortener running since 2008. Supports custom aliases.
-                        Links never expire unless abused.
-                    </p>
-                </div>
+            <div className="grid grid-cols-1 gap-4">
                 <div className="bg-white rounded-2xl border border-gray-200 p-5 space-y-2">
                     <h3 className="text-sm font-bold text-gray-900">v.gd</h3>
                     <p className="text-xs text-gray-500 leading-relaxed">
-                        Same reliable infrastructure as is.gd, but with the v.gd domain.
-                        Use either — both are equally fast and permanent.
+                        A free and reliable URL shortener with custom alias support.
+                        Links are fast to create and easy to share.
                     </p>
                 </div>
             </div>

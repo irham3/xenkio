@@ -73,7 +73,6 @@ import {
     Database,
     Replace,
     BarChart3,
-    Network,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -863,11 +862,11 @@ export const TOOLS: ToolData[] = [
     {
         id: '94',
         title: 'My IP Address',
-        description: 'Check your public IP address, location, and ISP details.',
+        description: 'Find your public IP address, geolocation, ISP, hostname, and timezone instantly.',
         icon: Globe2,
-        href: '/tools/my-ip',
-        slug: 'my-ip',
-        isComingSoon: true,
+        href: '/tools/my-ip-address',
+        slug: 'my-ip-address',
+        isNew: true,
         categoryId: 'web-seo',
     },
     {
@@ -1072,12 +1071,12 @@ export const TOOLS: ToolData[] = [
     },
     {
         id: '86',
-        title: 'HTTP Status Code Checker',
-        description: 'Check HTTP response codes and headers for any URL.',
+        title: 'HTTP Status Codes',
+        description: 'Complete reference for all HTTP status codes with descriptions, use cases, and RFC specs. Instantly search and explore 1xx, 2xx, 3xx, 4xx, and 5xx codes.',
         icon: Globe2,
-        href: '/tools/http-status',
-        slug: 'http-status',
-        isComingSoon: true,
+        href: '/tools/http-status-codes',
+        slug: 'http-status-codes',
+        isNew: true,
         categoryId: 'web-seo',
     },
     {
@@ -1157,16 +1156,6 @@ export const TOOLS: ToolData[] = [
         slug: 'instant-visualizer',
         isNew: true,
         featured: true,
-        categoryId: 'developer-tools',
-    },
-    {
-        id: '114',
-        title: 'My IP Address',
-        description: 'Find your public IP address, geolocation, ISP, hostname, and timezone instantly.',
-        icon: Network,
-        href: '/tools/my-ip-address',
-        slug: 'my-ip-address',
-        isNew: true,
         categoryId: 'developer-tools',
     },
     {

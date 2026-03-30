@@ -81,7 +81,7 @@ export function RunningTextControls({
                     value={config.text}
                     onChange={(e) => updateConfig({ text: e.target.value })}
                     placeholder="Type your message…"
-                    className="font-medium min-h-[100px]"
+                    className="font-medium min-h-25"
                 />
             </div>
 

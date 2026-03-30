@@ -174,15 +174,29 @@ export function useHtmlViewer() {
     }, []);
 
     const addFile = useCallback((type: FileType) => {
-        const timestamp = Math.floor(Date.now() / 1000) % 10000;
         const ext = type === 'html' ? 'html' : type === 'css' ? 'css' : 'js';
-        const id = `${type}-${timestamp}`;
-        const newFile: CodeFile = { id, name: `file-${timestamp}.${ext}`, type, content: '' };
-        setState((prev) => ({
-            ...prev,
-            files: [...prev.files, newFile],
-            activeFileId: id,
-        }));
+
+        setState((prev) => {
+            // Keep IDs unique even when users add multiple files quickly.
+            let id = `${type}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+            while (prev.files.some((f) => f.id === id)) {
+                id = `${type}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+            }
+
+            let fileNumber = prev.files.filter((f) => f.type === type).length + 1;
+            let name = `file-${fileNumber}.${ext}`;
+            while (prev.files.some((f) => f.name === name)) {
+                fileNumber += 1;
+                name = `file-${fileNumber}.${ext}`;
+            }
+
+            const newFile: CodeFile = { id, name, type, content: '' };
+            return {
+                ...prev,
+                files: [...prev.files, newFile],
+                activeFileId: id,
+            };
+        });
     }, []);
 
     const deleteFile = useCallback((id: string) => {

@@ -123,6 +123,7 @@ function ReceivedItemCard({ item, onCopy, onDownload }: {
 export function P2PShareTool() {
     const {
         peerId,
+        customPeerId,
         remotePeerId,
         setRemotePeerId,
         status,
@@ -131,6 +132,7 @@ export function P2PShareTool() {
         receivedItems,
         sentCount,
         error,
+        applyCustomPeerId,
         connect,
         sendText,
         sendFile,
@@ -141,14 +143,47 @@ export function P2PShareTool() {
     const [textInput, setTextInput] = useState('');
     const [idCopied, setIdCopied] = useState(false);
     const [sendingFile, setSendingFile] = useState(false);
+    const [peerIdInput, setPeerIdInput] = useState(() => customPeerId ?? '');
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const isConnected = status === 'connected';
     const isReady = status === 'ready';
 
+    const copyToClipboard = async (text: string) => {
+        try {
+            if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(text);
+                return true;
+            }
+
+            if (typeof document !== 'undefined') {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+
+                const copied = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                return copied;
+            }
+        } catch {
+            return false;
+        }
+
+        return false;
+    };
+
     const handleCopyPeerId = async () => {
         if (!peerId) return;
-        await navigator.clipboard.writeText(peerId);
+        const copied = await copyToClipboard(peerId);
+        if (!copied) {
+            toast.error('Clipboard is not available on this browser/context');
+            return;
+        }
+
         setIdCopied(true);
         toast.success('Peer ID copied to clipboard');
         setTimeout(() => setIdCopied(false), 2000);
@@ -156,6 +191,32 @@ export function P2PShareTool() {
 
     const handleConnect = () => {
         if (remotePeerId.trim()) connect(remotePeerId.trim());
+    };
+
+    const handleApplyPeerId = () => {
+        const result = applyCustomPeerId(peerIdInput);
+        if (!result.ok) {
+            toast.error(result.error);
+            return;
+        }
+
+        if (result.mode === 'custom') {
+            setPeerIdInput(result.value);
+        }
+
+        toast.success(
+            result.mode === 'custom'
+                ? 'Applying custom Peer ID...'
+                : 'Switched to random Peer ID...',
+        );
+    };
+
+    const handleUseRandomPeerId = () => {
+        setPeerIdInput('');
+        const result = applyCustomPeerId('');
+        if (result.ok) {
+            toast.success('Switched to random Peer ID...');
+        }
     };
 
     const handleSendText = () => {
@@ -184,7 +245,12 @@ export function P2PShareTool() {
     };
 
     const handleCopyText = async (text: string) => {
-        await navigator.clipboard.writeText(text);
+        const copied = await copyToClipboard(text);
+        if (!copied) {
+            toast.error('Failed to copy text');
+            return;
+        }
+
         toast.success('Copied to clipboard');
     };
 
@@ -242,6 +308,37 @@ export function P2PShareTool() {
                 <p className="mt-2 text-xs text-gray-400">
                     Share this ID with the other person so they can connect to you.
                 </p>
+
+                <div className="mt-4 border-t border-gray-100 pt-4 space-y-2">
+                    <label className="block text-xs font-medium text-gray-600">
+                        Custom Peer ID (optional)
+                    </label>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                        <input
+                            type="text"
+                            value={peerIdInput}
+                            onChange={(e) => setPeerIdInput(e.target.value)}
+                            placeholder="e.g. booth-a1"
+                            className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900"
+                        />
+                        <button
+                            onClick={handleApplyPeerId}
+                            className="px-4 py-2 rounded-xl bg-gray-900 text-white text-sm hover:bg-gray-700 transition-all"
+                        >
+                            Apply
+                        </button>
+                        <button
+                            onClick={handleUseRandomPeerId}
+                            className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 text-sm hover:bg-gray-50 transition-all"
+                        >
+                            Use Random
+                        </button>
+                    </div>
+                    <p className="text-[11px] text-gray-400">
+                        Allowed: 4-20 chars, lowercase letters, numbers, and hyphen (-).
+                        Applying a new ID will reconnect this device.
+                    </p>
+                </div>
             </div>
 
             {/* Error banner */}
@@ -291,7 +388,7 @@ export function P2PShareTool() {
                                 <h2 className="font-semibold text-gray-900">Send Data</h2>
                                 <button
                                     onClick={disconnect}
-                                    className="flex items-center gap-1.5 text-sm text-red-500 hover:text-red-600 transition-colors"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors"
                                 >
                                     <X size={14} />
                                     Disconnect

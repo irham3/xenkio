@@ -5,6 +5,7 @@ import { Scale, Activity, TrendingDown, TrendingUp, Minus, Heart } from 'lucide-
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useBmiCalculator } from '../hooks/use-bmi-calculator';
+import { lbsToKg, kgToLbs } from '../lib/bmi-utils';
 import { cn } from '@/lib/utils';
 import type { BmiUnit } from '../types';
 
@@ -152,9 +153,9 @@ export function BmiCalculator() {
         if (result.category === 'normal') return null;
 
         if (result.category === 'underweight') {
-            const currentKg = unit === 'metric' ? parseFloat(weight) : parseFloat(weight) * 0.453592;
+            const currentKg = unit === 'metric' ? parseFloat(weight) : lbsToKg(parseFloat(weight));
             const diffKg = healthyWeightRange.min - currentKg;
-            const amount = unit === 'metric' ? diffKg : diffKg / 0.453592;
+            const amount = unit === 'metric' ? diffKg : kgToLbs(diffKg);
             return {
                 amount: Math.abs(amount).toFixed(1),
                 direction: 'gain' as const,
@@ -162,9 +163,9 @@ export function BmiCalculator() {
             };
         }
 
-        const currentKg = unit === 'metric' ? parseFloat(weight) : parseFloat(weight) * 0.453592;
+        const currentKg = unit === 'metric' ? parseFloat(weight) : lbsToKg(parseFloat(weight));
         const diffKg = currentKg - healthyWeightRange.max;
-        const amount = unit === 'metric' ? diffKg : diffKg / 0.453592;
+        const amount = unit === 'metric' ? diffKg : kgToLbs(diffKg);
         return {
             amount: Math.abs(amount).toFixed(1),
             direction: 'lose' as const,
@@ -276,7 +277,7 @@ export function BmiCalculator() {
                                         <p className="text-sm font-bold text-primary-800">
                                             {unit === 'metric'
                                                 ? `${healthyWeightRange.min} – ${healthyWeightRange.max} kg`
-                                                : `${(healthyWeightRange.min / 0.453592).toFixed(1)} – ${(healthyWeightRange.max / 0.453592).toFixed(1)} lbs`}
+                                                : `${kgToLbs(healthyWeightRange.min).toFixed(1)} – ${kgToLbs(healthyWeightRange.max).toFixed(1)} lbs`}
                                         </p>
                                     </div>
                                 </motion.div>

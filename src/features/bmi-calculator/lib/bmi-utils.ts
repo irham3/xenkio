@@ -1,11 +1,18 @@
 import type { BmiCategory, BmiResult } from '../types';
 
+export const BMI_NORMAL_MIN = 18.5;
+export const BMI_NORMAL_MAX = 24.9;
+
 export function cmToMeters(cm: number): number {
     return cm / 100;
 }
 
 export function lbsToKg(lbs: number): number {
     return lbs * 0.453592;
+}
+
+export function kgToLbs(kg: number): number {
+    return kg / 0.453592;
 }
 
 export function inchesToCm(inches: number): number {
@@ -76,7 +83,7 @@ export function getBmiResult(bmi: number): BmiResult {
 
 export function getHealthyWeightRange(heightM: number): { min: number; max: number } {
     return {
-        min: Math.round(18.5 * heightM * heightM * 10) / 10,
-        max: Math.round(24.9 * heightM * heightM * 10) / 10,
+        min: Math.round(BMI_NORMAL_MIN * heightM * heightM * 10) / 10,
+        max: Math.round(BMI_NORMAL_MAX * heightM * heightM * 10) / 10,
     };
 }

@@ -733,7 +733,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate Body Mass Index and health status.',
         icon: Activity,
         href: '/tools/bmi-calculator',
-        isComingSoon: true,
+        slug: 'bmi-calculator',
         categoryId: 'calculators',
     },
     {

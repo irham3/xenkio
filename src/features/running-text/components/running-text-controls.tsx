@@ -41,14 +41,14 @@ export function RunningTextControls({
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
-    
+
     useEffect(() => {
         if (!config.isSynced || !config.syncStartTime) return;
-        
+
         const interval = setInterval(() => {
             setNow(Date.now());
         }, 100);
-        
+
         return () => clearInterval(interval);
     }, [config.isSynced, config.syncStartTime]);
 
@@ -65,9 +65,8 @@ export function RunningTextControls({
                             <button
                                 key={align}
                                 onClick={() => updateConfig({ textAlign: align })}
-                                className={`p-1.5 hover:bg-gray-100 transition-colors ${
-                                    config.textAlign === align ? 'bg-gray-100 text-gray-900' : 'text-gray-400'
-                                }`}
+                                className={`p-1.5 hover:bg-gray-100 transition-colors ${config.textAlign === align ? 'bg-gray-100 text-gray-900' : 'text-gray-400'
+                                    }`}
                                 title={`Align ${align}`}
                             >
                                 {align === 'left' && <AlignLeft className="w-4 h-4" />}
@@ -82,7 +81,7 @@ export function RunningTextControls({
                     value={config.text}
                     onChange={(e) => updateConfig({ text: e.target.value })}
                     placeholder="Type your message…"
-                    className="font-medium min-h-[100px]"
+                    className="font-medium min-h-25"
                 />
             </div>
 
@@ -108,11 +107,10 @@ export function RunningTextControls({
                         <button
                             key={dir}
                             onClick={() => updateConfig({ direction: dir })}
-                            className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${
-                                config.direction === dir
-                                    ? 'bg-gray-900 text-white border-gray-900'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
-                            }`}
+                            className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${config.direction === dir
+                                ? 'bg-gray-900 text-white border-gray-900'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                }`}
                         >
                             {dir === 'left' ? '← Left' : 'Right →'}
                         </button>
@@ -182,7 +180,40 @@ export function RunningTextControls({
 
             {/* Colors — only shown in solid mode */}
             {config.backgroundMode === 'solid' && (
-            <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label className="text-sm font-semibold text-gray-700">Text Color</Label>
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="color"
+                                value={config.textColor}
+                                onChange={(e) => updateConfig({ textColor: e.target.value })}
+                                className="w-10 h-10 rounded cursor-pointer border border-gray-200"
+                            />
+                            <span className="text-sm font-mono text-gray-500">
+                                {config.textColor}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <Label className="text-sm font-semibold text-gray-700">Background</Label>
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="color"
+                                value={config.backgroundColor}
+                                onChange={(e) => updateConfig({ backgroundColor: e.target.value })}
+                                className="w-10 h-10 rounded cursor-pointer border border-gray-200"
+                            />
+                            <span className="text-sm font-mono text-gray-500">
+                                {config.backgroundColor}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Text color shown always */}
+            {config.backgroundMode === 'split' && (
                 <div className="space-y-2">
                     <Label className="text-sm font-semibold text-gray-700">Text Color</Label>
                     <div className="flex items-center gap-2">
@@ -192,42 +223,9 @@ export function RunningTextControls({
                             onChange={(e) => updateConfig({ textColor: e.target.value })}
                             className="w-10 h-10 rounded cursor-pointer border border-gray-200"
                         />
-                        <span className="text-sm font-mono text-gray-500">
-                            {config.textColor}
-                        </span>
+                        <span className="text-sm font-mono text-gray-500">{config.textColor}</span>
                     </div>
                 </div>
-                <div className="space-y-2">
-                    <Label className="text-sm font-semibold text-gray-700">Background</Label>
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="color"
-                            value={config.backgroundColor}
-                            onChange={(e) => updateConfig({ backgroundColor: e.target.value })}
-                            className="w-10 h-10 rounded cursor-pointer border border-gray-200"
-                        />
-                        <span className="text-sm font-mono text-gray-500">
-                            {config.backgroundColor}
-                        </span>
-                    </div>
-                </div>
-            </div>
-            )}
-
-            {/* Text color shown always */}
-            {config.backgroundMode === 'split' && (
-            <div className="space-y-2">
-                <Label className="text-sm font-semibold text-gray-700">Text Color</Label>
-                <div className="flex items-center gap-2">
-                    <input
-                        type="color"
-                        value={config.textColor}
-                        onChange={(e) => updateConfig({ textColor: e.target.value })}
-                        className="w-10 h-10 rounded cursor-pointer border border-gray-200"
-                    />
-                    <span className="text-sm font-mono text-gray-500">{config.textColor}</span>
-                </div>
-            </div>
             )}
 
             {/* Background Mode */}
@@ -243,11 +241,10 @@ export function RunningTextControls({
                         <button
                             key={value}
                             onClick={() => updateConfig({ backgroundMode: value })}
-                            className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${
-                                config.backgroundMode === value
-                                    ? 'bg-gray-900 text-white border-gray-900'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
-                            }`}
+                            className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${config.backgroundMode === value
+                                ? 'bg-gray-900 text-white border-gray-900'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                }`}
                         >
                             {label}
                         </button>
@@ -334,11 +331,10 @@ export function RunningTextControls({
                         <button
                             key={mode}
                             onClick={() => updateConfig({ blinkMode: mode })}
-                            className={`py-1.5 rounded-lg border text-xs font-medium capitalize transition-colors ${
-                                config.blinkMode === mode
-                                    ? 'bg-gray-900 text-white border-gray-900'
-                                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
-                            }`}
+                            className={`py-1.5 rounded-lg border text-xs font-medium capitalize transition-colors ${config.blinkMode === mode
+                                ? 'bg-gray-900 text-white border-gray-900'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                                }`}
                         >
                             {mode === 'off' ? 'Off' : mode}
                         </button>
@@ -355,7 +351,7 @@ export function RunningTextControls({
                         onCheckedChange={(checked) => updateConfig({ isSynced: checked })}
                     />
                 </div>
-                
+
                 {config.isSynced && (
                     <div className="space-y-4 pt-2">
                         <p className="text-xs text-blue-700 leading-relaxed">
@@ -367,9 +363,9 @@ export function RunningTextControls({
                         <div className="space-y-2">
                             <Label className="text-xs font-semibold text-blue-800">Sync Start Time</Label>
                             <div className="flex gap-2">
-                                <Button 
-                                    size="sm" 
-                                    variant="secondary" 
+                                <Button
+                                    size="sm"
+                                    variant="secondary"
                                     className="flex-1 bg-white border-blue-200 text-blue-700 hover:bg-blue-100"
                                     onClick={() => {
                                         // Set start time to next 10-second mark + 2 seconds buffer
@@ -389,20 +385,19 @@ export function RunningTextControls({
                                     Reset
                                 </Button>
                             </div>
-                            
+
                             {config.syncStartTime && (
-                                <div className={`text-center py-3 rounded-lg border transition-colors ${
-                                    config.syncStartTime > now
-                                        ? 'bg-yellow-50 border-yellow-200 text-yellow-800'
-                                        : 'bg-green-50 border-green-200 text-green-800'
-                                }`}>
+                                <div className={`text-center py-3 rounded-lg border transition-colors ${config.syncStartTime > now
+                                    ? 'bg-yellow-50 border-yellow-200 text-yellow-800'
+                                    : 'bg-green-50 border-green-200 text-green-800'
+                                    }`}>
                                     {config.syncStartTime > now ? (
                                         <div className="flex flex-col items-center gap-1">
                                             <div className="text-xs uppercase font-bold tracking-wider opacity-70">
                                                 Starting in
                                             </div>
                                             <div className="text-3xl font-black font-mono">
-                                                {(config.syncStartTime - now) / 1000 > 0 
+                                                {(config.syncStartTime - now) / 1000 > 0
                                                     ? ((config.syncStartTime - now) / 1000).toFixed(1)
                                                     : "0.0"}s
                                             </div>
@@ -443,84 +438,81 @@ export function RunningTextControls({
 
             {/* Strobe Mode — only for solid background */}
             {config.backgroundMode === 'solid' && (
-            <div className="space-y-3">
-                <Label className="text-sm font-semibold text-gray-700">Strobe / Flash Mode</Label>
-                <div className="grid grid-cols-2 gap-1.5">
-                    {(
-                        [
-                            { value: 'off', label: '🚫 Off' },
-                            { value: 'ambulance', label: '🚑 Ambulance' },
-                            { value: 'police', label: '🚔 Police' },
-                            { value: 'warning', label: '⚠️ Warning' },
-                            { value: 'custom', label: '🎨 Custom' },
-                        ] as { value: StrobeMode; label: string }[]
-                    ).map(({ value, label }) => (
-                        <button
-                            key={value}
-                            onClick={() => updateConfig({ strobeMode: value })}
-                            className={`py-2 rounded-lg border text-xs font-medium transition-colors ${
-                                config.strobeMode === value
+                <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-700">Strobe / Flash Mode</Label>
+                    <div className="grid grid-cols-2 gap-1.5">
+                        {(
+                            [
+                                { value: 'off', label: '🚫 Off' },
+
+                                { value: 'custom', label: '🎨 Custom' },
+                            ] as { value: StrobeMode; label: string }[]
+                        ).map(({ value, label }) => (
+                            <button
+                                key={value}
+                                onClick={() => updateConfig({ strobeMode: value })}
+                                className={`py-2 rounded-lg border text-xs font-medium transition-colors ${config.strobeMode === value
                                     ? 'bg-gray-900 text-white border-gray-900'
                                     : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
-                            }`}
-                        >
-                            {label}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Custom strobe colors */}
-                {config.strobeMode === 'custom' && (
-                    <div className="space-y-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-1">
-                                <Label className="text-xs text-gray-500">Color A</Label>
-                                <div className="flex items-center gap-2">
-                                    <input
-                                        type="color"
-                                        value={config.strobeColor1}
-                                        onChange={(e) =>
-                                            updateConfig({ strobeColor1: e.target.value })
-                                        }
-                                        className="w-9 h-9 rounded cursor-pointer border border-gray-200"
-                                    />
-                                    <span className="text-xs font-mono text-gray-500">
-                                        {config.strobeColor1}
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <Label className="text-xs text-gray-500">Color B</Label>
-                                <div className="flex items-center gap-2">
-                                    <input
-                                        type="color"
-                                        value={config.strobeColor2}
-                                        onChange={(e) =>
-                                            updateConfig({ strobeColor2: e.target.value })
-                                        }
-                                        className="w-9 h-9 rounded cursor-pointer border border-gray-200"
-                                    />
-                                    <span className="text-xs font-mono text-gray-500">
-                                        {config.strobeColor2}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="space-y-1">
-                            <Label className="text-xs text-gray-500">
-                                Flash speed: {config.strobeSpeed}ms
-                            </Label>
-                            <Slider
-                                min={50}
-                                max={1000}
-                                step={25}
-                                value={[config.strobeSpeed]}
-                                onValueChange={([v]) => updateConfig({ strobeSpeed: v })}
-                            />
-                        </div>
+                                    }`}
+                            >
+                                {label}
+                            </button>
+                        ))}
                     </div>
-                )}
-            </div>
+
+                    {/* Custom strobe colors */}
+                    {config.strobeMode === 'custom' && (
+                        <div className="space-y-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <Label className="text-xs text-gray-500">Color A</Label>
+                                    <div className="flex items-center gap-2">
+                                        <input
+                                            type="color"
+                                            value={config.strobeColor1}
+                                            onChange={(e) =>
+                                                updateConfig({ strobeColor1: e.target.value })
+                                            }
+                                            className="w-9 h-9 rounded cursor-pointer border border-gray-200"
+                                        />
+                                        <span className="text-xs font-mono text-gray-500">
+                                            {config.strobeColor1}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <Label className="text-xs text-gray-500">Color B</Label>
+                                    <div className="flex items-center gap-2">
+                                        <input
+                                            type="color"
+                                            value={config.strobeColor2}
+                                            onChange={(e) =>
+                                                updateConfig({ strobeColor2: e.target.value })
+                                            }
+                                            className="w-9 h-9 rounded cursor-pointer border border-gray-200"
+                                        />
+                                        <span className="text-xs font-mono text-gray-500">
+                                            {config.strobeColor2}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <Label className="text-xs text-gray-500">
+                                    Flash speed: {config.strobeSpeed}ms
+                                </Label>
+                                <Slider
+                                    min={50}
+                                    max={1000}
+                                    step={25}
+                                    value={[config.strobeSpeed]}
+                                    onValueChange={([v]) => updateConfig({ strobeSpeed: v })}
+                                />
+                            </div>
+                        </div>
+                    )}
+                </div>
             )}
 
             {/* Reset & Share */}
@@ -533,7 +525,7 @@ export function RunningTextControls({
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Reset
                 </Button>
-                
+
                 {getShareUrl && (
                     <Button
                         variant="default"

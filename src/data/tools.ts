@@ -74,6 +74,7 @@ import {
     Replace,
     BarChart3,
     Scroll,
+    PenLine,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -498,6 +499,17 @@ export const TOOLS: ToolData[] = [
         icon: Timer,
         href: '/tools/pomodoro-timer',
         slug: 'pomodoro-timer',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '110',
+        title: 'Event Timekeeper',
+        description: 'Manage event schedules with real-time countdown, presenter focus mode, and Excel import. Keep your events on track.',
+        icon: CalendarRange,
+        href: '/tools/event-timekeeper',
+        slug: 'event-timekeeper',
         isNew: true,
         featured: true,
         categoryId: 'developer-tools',
@@ -969,7 +981,7 @@ export const TOOLS: ToolData[] = [
     {
         id: '114',
         title: 'Running Text',
-        description: 'Create animated scrolling text with strobe effects (ambulance, police), blink mode, custom colors, and fullscreen display.',
+        description: 'Create animated scrolling text with strobe effects, blink mode, custom colors, and fullscreen display.',
         icon: Scroll,
         href: '/tools/running-text',
         slug: 'running-text',
@@ -1169,13 +1181,43 @@ export const TOOLS: ToolData[] = [
         featured: true,
         categoryId: 'developer-tools',
     },
+
+    // =====================================================
+    // DEVELOPER TOOLS - HTML Viewer
+    // =====================================================
+    {
+        id: '114',
+        title: 'HTML Viewer',
+        description: 'Paste HTML, CSS, and JavaScript and see the live rendered result instantly. Manage separate files or write everything in a single document.',
+        icon: Code2,
+        href: '/tools/html-viewer',
+        slug: 'html-viewer',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // MEDIA & IMAGES - Image Annotator
+    // =====================================================
     {
         id: '115',
-        title: 'HTTP Status Codes',
-        description: 'Complete reference for all HTTP status codes with descriptions, use cases, and RFC specs. Instantly search and explore 1xx, 2xx, 3xx, 4xx, and 5xx codes.',
-        icon: Server,
-        href: '/tools/http-status-codes',
-        slug: 'http-status-codes',
+        title: 'Image Annotator',
+        description: 'Annotate images with arrows, shapes, text, and freehand drawing. Upload or paste an image and download the result.',
+        icon: PenLine,
+        href: '/tools/image-annotator',
+        slug: 'image-annotator',
+        isNew: true,
+        categoryId: 'media-images',
+    },
+    // =====================================================
+    // DEVELOPER TOOLS - P2P Local Data Transfer
+    // =====================================================
+    {
+        id: '115',
+        title: 'P2P Local Data Transfer',
+        description: 'Send text and files directly between devices via WebRTC — no uploads, no accounts, nothing stored on any server.',
+        icon: Share2,
+        href: '/tools/p2p-share',
+        slug: 'p2p-share',
         isNew: true,
         categoryId: 'developer-tools',
     },

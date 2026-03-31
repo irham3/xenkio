@@ -8,7 +8,7 @@ const slug = 'running-text';
 export const metadata: Metadata = {
     title: 'Running Text / Marquee Display - Xenkio',
     description:
-        'Create animated scrolling running text with strobe effects (ambulance, police, warning), blink mode, custom colors, speed controls, and fullscreen display. Free and browser-based.',
+        'Create animated scrolling running text with strobe effects, blink mode, custom colors, speed controls, and fullscreen display. Free and browser-based.',
     keywords: [
         'running text',
         'marquee text',
@@ -59,7 +59,7 @@ export default function RunningTextPage() {
         description: tool.description,
         featureList: [
             'Animated scrolling text (left/right)',
-            'Strobe modes: Ambulance, Police, Warning, Custom',
+            'Strobe modes: Custom',
             'Blink effect (slow, medium, fast)',
             'Fullscreen display mode',
             'Custom text & background colors',

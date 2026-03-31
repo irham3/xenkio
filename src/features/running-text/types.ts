@@ -1,6 +1,6 @@
 export type ScrollDirection = 'left' | 'right';
 export type TextAlign = 'left' | 'center' | 'right';
-export type StrobeMode = 'off' | 'ambulance' | 'police' | 'warning' | 'custom';
+export type StrobeMode = 'off' | 'custom';
 export type BlinkMode = 'off' | 'slow' | 'medium' | 'fast';
 export type FontFamily = 'sans' | 'mono' | 'serif' | 'impact';
 export type BackgroundMode = 'solid' | 'split';

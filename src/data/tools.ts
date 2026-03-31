@@ -876,7 +876,7 @@ export const TOOLS: ToolData[] = [
         icon: Activity,
         href: '/tools/speed-test',
         slug: 'speed-test',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1076,7 +1076,7 @@ export const TOOLS: ToolData[] = [
         icon: Globe2,
         href: '/tools/http-status-checker',
         slug: 'http-status-checker',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1156,16 +1156,6 @@ export const TOOLS: ToolData[] = [
         slug: 'instant-visualizer',
         isNew: true,
         featured: true,
-        categoryId: 'developer-tools',
-    },
-    {
-        id: '115',
-        title: 'HTTP Status Code Checker',
-        description: 'Check the HTTP status code and response headers of any URL. Detect redirects, content type, and response time instantly.',
-        icon: Server,
-        href: '/tools/http-status-checker',
-        slug: 'http-status-checker',
-        isNew: true,
         categoryId: 'developer-tools',
     },
 ];

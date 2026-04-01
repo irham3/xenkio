@@ -1,4 +1,5 @@
 import type { AnonymizationMode } from '../types';
+import { MIN_PIXEL_SIZE } from '../constants';
 
 export interface FaceRegion {
     x: number;
@@ -68,7 +69,7 @@ export function applyAnonymization(
             ctx.restore();
         } else {
             // Pixelate: downscale to a few pixels then upscale without smoothing
-            const pixelSize = Math.max(2, intensity);
+            const pixelSize = Math.max(MIN_PIXEL_SIZE, intensity);
             const smallW = Math.max(1, Math.ceil(dw / pixelSize));
             const smallH = Math.max(1, Math.ceil(dh / pixelSize));
 

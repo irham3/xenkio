@@ -195,7 +195,8 @@ export function useFaceAnonymizer() {
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
         } catch (err) {
-            console.error('Download failed:', err);
+            const msg = err instanceof Error ? err.message : 'Download failed';
+            setStatus((s) => ({ ...s, error: msg }));
         }
     }, [faces, applyTo, mode, intensity, imageFile]);
 
@@ -208,6 +209,14 @@ export function useFaceAnonymizer() {
         setFaces([]);
         imageElRef.current = null;
     }, [imageUrl]);
+
+    const selectAllFaces = useCallback(() => {
+        setFaces((prev) => prev.map((f) => ({ ...f, selected: true })));
+    }, []);
+
+    const deselectAllFaces = useCallback(() => {
+        setFaces((prev) => prev.map((f) => ({ ...f, selected: false })));
+    }, []);
 
     return {
         imageFile,
@@ -222,6 +231,8 @@ export function useFaceAnonymizer() {
         canvasRef,
         handleImageUpload,
         toggleFaceSelection,
+        selectAllFaces,
+        deselectAllFaces,
         handleModeChange,
         setApplyTo,
         setIntensity,

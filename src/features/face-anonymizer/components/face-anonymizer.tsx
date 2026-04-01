@@ -29,6 +29,8 @@ export function FaceAnonymizer() {
         canvasRef,
         handleImageUpload,
         toggleFaceSelection,
+        selectAllFaces,
+        deselectAllFaces,
         handleModeChange,
         setApplyTo,
         setIntensity,
@@ -340,22 +342,14 @@ export function FaceAnonymizer() {
                         {applyTo === 'selected' && faces.length > 0 && (
                             <div className="flex items-center gap-2 pt-1">
                                 <button
-                                    onClick={() =>
-                                        faces
-                                            .filter((f) => !f.selected)
-                                            .forEach((f) => toggleFaceSelection(f.id))
-                                    }
+                                    onClick={selectAllFaces}
                                     className="text-xs text-primary-600 hover:underline"
                                 >
                                     Select all
                                 </button>
                                 <span className="text-gray-300">|</span>
                                 <button
-                                    onClick={() =>
-                                        faces
-                                            .filter((f) => f.selected)
-                                            .forEach((f) => toggleFaceSelection(f.id))
-                                    }
+                                    onClick={deselectAllFaces}
                                     className="text-xs text-gray-500 hover:underline"
                                 >
                                     Deselect all

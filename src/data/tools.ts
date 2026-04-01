@@ -73,6 +73,7 @@ import {
     Database,
     Replace,
     BarChart3,
+    ScanFace,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1157,6 +1158,20 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         featured: true,
         categoryId: 'developer-tools',
+    },
+
+    // =====================================================
+    // MEDIA & IMAGES - Face Anonymizer
+    // =====================================================
+    {
+        id: '114',
+        title: 'Face Anonymizer',
+        description: 'Automatically detect and blur or pixelate faces in photos. Select all or individual faces. 100% private — runs in your browser.',
+        icon: ScanFace,
+        href: '/tools/face-anonymizer',
+        slug: 'face-anonymizer',
+        isNew: true,
+        categoryId: 'media-images',
     },
 ];
 

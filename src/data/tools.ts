@@ -75,6 +75,7 @@ import {
     BarChart3,
     Scroll,
     PenLine,
+    Grid3x3,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -821,6 +822,16 @@ export const TOOLS: ToolData[] = [
         icon: Coins,
         href: '/tools/loan-calculator',
         isComingSoon: true,
+        categoryId: 'calculators',
+    },
+    {
+        id: '116',
+        title: 'Matrix Calculator',
+        description: 'Lakukan operasi matriks: transpose, perkalian, invers, determinan, trace, rank, dan pangkat. Mudah digunakan bahkan untuk pemula.',
+        icon: Grid3x3,
+        href: '/tools/matrix-calculator',
+        slug: 'matrix-calculator',
+        isNew: true,
         categoryId: 'calculators',
     },
     // =====================================================

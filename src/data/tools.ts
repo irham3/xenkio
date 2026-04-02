@@ -966,6 +966,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'design-tools',
     },
+    {
+        id: '115',
+        title: 'Keyframe Animation Generator',
+        description: 'Create CSS @keyframes animations visually with live preview, presets, and instant code export.',
+        icon: Film,
+        href: '/tools/keyframe-animation-generator',
+        slug: 'keyframe-animation-generator',
+        isNew: true,
+        categoryId: 'design-tools',
+    },
 
     // =====================================================
     // TEXT UTILITIES - Tambahan

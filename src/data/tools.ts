@@ -1169,6 +1169,20 @@ export const TOOLS: ToolData[] = [
     },
 
     // =====================================================
+    // DEVELOPER TOOLS - Time Complexity Calculator
+    // =====================================================
+    {
+        id: '117',
+        title: 'Time Complexity Calculator',
+        description: 'Analyze time and space complexity of your algorithm. Paste code or pseudocode and get instant Big O notation with detailed explanation.',
+        icon: BarChart3,
+        href: '/tools/time-complexity-calculator',
+        slug: 'time-complexity-calculator',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+
+    // =====================================================
     // DEVELOPER TOOLS - Crontab Generator
     // =====================================================
     {

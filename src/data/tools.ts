@@ -901,7 +901,7 @@ export const TOOLS: ToolData[] = [
         icon: Activity,
         href: '/tools/speed-test',
         slug: 'speed-test',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1120,12 +1120,12 @@ export const TOOLS: ToolData[] = [
     },
     {
         id: '86',
-        title: 'HTTP Status Codes',
-        description: 'Complete reference for all HTTP status codes with descriptions, use cases, and RFC specs. Instantly search and explore 1xx, 2xx, 3xx, 4xx, and 5xx codes.',
+        title: 'HTTP Status Code Checker',
+        description: 'Check the HTTP status code and response headers of any URL. Detect redirects, content type, and response time instantly.',
         icon: Globe2,
-        href: '/tools/http-status-codes',
-        slug: 'http-status-codes',
-        isNew: true,
+        href: '/tools/http-status-checker',
+        slug: 'http-status-checker',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {

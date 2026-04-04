@@ -77,6 +77,7 @@ import {
     PenLine,
     Grid3x3,
     Clapperboard,
+    FlaskConical,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1260,6 +1261,19 @@ export const TOOLS: ToolData[] = [
         slug: 'p2p-share',
         isNew: true,
         categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // CALCULATORS - Hypothesis Test
+    // =====================================================
+    {
+        id: '117',
+        title: 'Uji Hipotesis Statistik',
+        description: 'Hitung uji hipotesis untuk penelitian: t-test, z-test, chi-square, ANOVA, dan korelasi Pearson. Paste data langsung dari Excel.',
+        icon: FlaskConical,
+        href: '/tools/hypothesis-test',
+        slug: 'hypothesis-test',
+        isNew: true,
+        categoryId: 'calculators',
     },
 ];
 

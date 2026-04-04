@@ -337,7 +337,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
     },
     // =====================================================
-    // IMAGE TOOLS - Tambahan
+    // IMAGE TOOLS - Additional
     // =====================================================
     {
         id: '66',
@@ -829,7 +829,7 @@ export const TOOLS: ToolData[] = [
     {
         id: '116',
         title: 'Matrix Calculator',
-        description: 'Lakukan operasi matriks: transpose, perkalian, invers, determinan, trace, rank, dan pangkat. Mudah digunakan bahkan untuk pemula.',
+        description: 'Perform matrix operations: transpose, multiplication, inverse, determinant, trace, rank, and power. Easy to use even for beginners.',
         icon: Grid3x3,
         href: '/tools/matrix-calculator',
         slug: 'matrix-calculator',
@@ -837,7 +837,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'calculators',
     },
     // =====================================================
-    // SECURITY & PRIVACY - Tambahan
+    // SECURITY & PRIVACY - Additional
     // =====================================================
     {
         id: '68',
@@ -919,7 +919,7 @@ export const TOOLS: ToolData[] = [
 
 
     // =====================================================
-    // DESIGN TOOLS - Tambahan
+    // DESIGN TOOLS - Additional
     // =====================================================
     {
         id: '73',
@@ -1003,7 +1003,7 @@ export const TOOLS: ToolData[] = [
     },
 
     // =====================================================
-    // TEXT UTILITIES - Tambahan
+    // TEXT UTILITIES - Additional
     // =====================================================
     {
         id: '79',
@@ -1052,7 +1052,7 @@ export const TOOLS: ToolData[] = [
     {
         id: '119',
         title: 'Teleprompter',
-        description: 'Baca naskah dengan mudah. Mode teleprompter gulir otomatis atau mode baca halaman yang cocok untuk tablet, HP, dan laptop.',
+        description: 'Read scripts with ease. Auto-scrolling teleprompter mode or page-read mode suitable for tablets, phones, and laptops.',
         icon: Clapperboard,
         href: '/tools/teleprompter',
         slug: 'teleprompter',
@@ -1140,7 +1140,7 @@ export const TOOLS: ToolData[] = [
     },
 
     // =====================================================
-    // CALCULATORS - Tambahan
+    // CALCULATORS - Additional
     // =====================================================
     {
         id: '88',
@@ -1267,8 +1267,8 @@ export const TOOLS: ToolData[] = [
     // =====================================================
     {
         id: '122',
-        title: 'Uji Hipotesis Statistik',
-        description: 'Hitung uji hipotesis untuk penelitian: t-test, z-test, chi-square, ANOVA, dan korelasi Pearson. Paste data langsung dari Excel.',
+        title: 'Statistical Hypothesis Test',
+        description: 'Calculate hypothesis tests for research: t-test, z-test, chi-square, ANOVA, and Pearson correlation. Paste data directly from Excel.',
         icon: FlaskConical,
         href: '/tools/hypothesis-test',
         slug: 'hypothesis-test',

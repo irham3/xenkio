@@ -96,7 +96,7 @@ export function useMatrixCalculator() {
 
                 case 'determinant': {
                     if (sizeA.rows !== sizeA.cols) {
-                        setResult({ type: 'scalar', error: 'Determinan hanya bisa dihitung untuk matriks persegi (baris = kolom).' });
+                        setResult({ type: 'scalar', error: 'Determinant can only be calculated for square matrices (rows = columns).' });
                         return;
                     }
                     const det = determinant(matrixA);
@@ -106,7 +106,7 @@ export function useMatrixCalculator() {
 
                 case 'inverse': {
                     if (sizeA.rows !== sizeA.cols) {
-                        setResult({ type: 'scalar', error: 'Invers hanya bisa dihitung untuk matriks persegi (baris = kolom).' });
+                        setResult({ type: 'scalar', error: 'Inverse can only be calculated for square matrices (rows = columns).' });
                         return;
                     }
                     const inv = inverseMatrix(matrixA);
@@ -116,7 +116,7 @@ export function useMatrixCalculator() {
 
                 case 'add': {
                     if (sizeA.rows !== sizeB.rows || sizeA.cols !== sizeB.cols) {
-                        setResult({ type: 'scalar', error: 'Penjumlahan membutuhkan dua matriks dengan ukuran yang sama.' });
+                        setResult({ type: 'scalar', error: 'Addition requires two matrices of the same size.' });
                         return;
                     }
                     setResult({ type: 'matrix', matrix: addMatrices(matrixA, matrixB) });
@@ -125,7 +125,7 @@ export function useMatrixCalculator() {
 
                 case 'subtract': {
                     if (sizeA.rows !== sizeB.rows || sizeA.cols !== sizeB.cols) {
-                        setResult({ type: 'scalar', error: 'Pengurangan membutuhkan dua matriks dengan ukuran yang sama.' });
+                        setResult({ type: 'scalar', error: 'Subtraction requires two matrices of the same size.' });
                         return;
                     }
                     setResult({ type: 'matrix', matrix: subtractMatrices(matrixA, matrixB) });
@@ -134,7 +134,7 @@ export function useMatrixCalculator() {
 
                 case 'multiply': {
                     if (sizeA.cols !== sizeB.rows) {
-                        setResult({ type: 'scalar', error: `Perkalian matriks: jumlah kolom Matriks A (${sizeA.cols}) harus sama dengan jumlah baris Matriks B (${sizeB.rows}).` });
+                        setResult({ type: 'scalar', error: `Matrix multiplication: the number of columns in Matrix A (${sizeA.cols}) must match the number of rows in Matrix B (${sizeB.rows}).` });
                         return;
                     }
                     setResult({ type: 'matrix', matrix: multiplyMatrices(matrixA, matrixB) });
@@ -147,7 +147,7 @@ export function useMatrixCalculator() {
 
                 case 'trace': {
                     if (sizeA.rows !== sizeA.cols) {
-                        setResult({ type: 'scalar', error: 'Trace hanya bisa dihitung untuk matriks persegi (baris = kolom).' });
+                        setResult({ type: 'scalar', error: 'Trace can only be calculated for square matrices (rows = columns).' });
                         return;
                     }
                     setResult({ type: 'scalar', scalar: traceMatrix(matrixA) });
@@ -160,7 +160,7 @@ export function useMatrixCalculator() {
 
                 case 'power': {
                     if (sizeA.rows !== sizeA.cols) {
-                        setResult({ type: 'scalar', error: 'Pangkat matriks hanya bisa dihitung untuk matriks persegi (baris = kolom).' });
+                        setResult({ type: 'scalar', error: 'Matrix power can only be calculated for square matrices (rows = columns).' });
                         return;
                     }
                     setResult({ type: 'matrix', matrix: matrixPower(matrixA, power) });
@@ -168,7 +168,7 @@ export function useMatrixCalculator() {
                 }
             }
         } catch (err) {
-            const msg = err instanceof Error ? err.message : 'Terjadi kesalahan dalam perhitungan.';
+            const msg = err instanceof Error ? err.message : 'An error occurred during calculation.';
             setResult({ type: 'scalar', error: msg });
         }
     }, [operation, matrixA, matrixB, scalar, power, sizeA, sizeB]);

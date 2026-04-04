@@ -315,8 +315,8 @@ export function runOneSampleT(
         criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Cukup bukti bahwa rata-rata berbeda dari ${mu0} (α=${alpha}).`
-            : `Gagal tolak H₀. Tidak cukup bukti bahwa rata-rata berbeda dari ${mu0} (α=${alpha}).`,
+            ? `Reject H₀. Sufficient evidence that the mean is different from ${mu0} (α=${alpha}).`
+            : `Fail to reject H₀. Insufficient evidence that the mean is different from ${mu0} (α=${alpha}).`,
         descriptive: [s],
         groupLabels: ['Data'],
     };
@@ -364,10 +364,10 @@ export function runTwoSampleT(
         criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Cukup bukti perbedaan rata-rata antar dua grup (α=${alpha}).`
-            : `Gagal tolak H₀. Tidak cukup bukti perbedaan rata-rata antar dua grup (α=${alpha}).`,
+            ? `Reject H₀. Sufficient evidence of a difference in means between the two groups (α=${alpha}).`
+            : `Fail to reject H₀. Insufficient evidence of a difference in means between the two groups (α=${alpha}).`,
         descriptive: [s1, s2],
-        groupLabels: ['Grup 1', 'Grup 2'],
+        groupLabels: ['Group 1', 'Group 2'],
     };
 }
 
@@ -398,10 +398,10 @@ export function runPairedT(
         criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Cukup bukti perbedaan sebelum dan sesudah perlakuan (α=${alpha}).`
-            : `Gagal tolak H₀. Tidak cukup bukti perbedaan sebelum dan sesudah perlakuan (α=${alpha}).`,
+            ? `Reject H₀. Sufficient evidence of a difference before and after treatment (α=${alpha}).`
+            : `Fail to reject H₀. Insufficient evidence of a difference before and after treatment (α=${alpha}).`,
         descriptive: [descriptive(before), descriptive(after), s],
-        groupLabels: ['Sebelum', 'Sesudah', 'Selisih (d)'],
+        groupLabels: ['Before', 'After', 'Difference (d)'],
     };
 }
 
@@ -430,8 +430,8 @@ export function runOneSampleZ(
         criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Cukup bukti bahwa rata-rata berbeda dari ${mu0} (α=${alpha}).`
-            : `Gagal tolak H₀. Tidak cukup bukti bahwa rata-rata berbeda dari ${mu0} (α=${alpha}).`,
+            ? `Reject H₀. Sufficient evidence that the mean is different from ${mu0} (α=${alpha}).`
+            : `Fail to reject H₀. Insufficient evidence that the mean is different from ${mu0} (α=${alpha}).`,
         descriptive: [s],
         groupLabels: ['Data'],
     };
@@ -465,10 +465,10 @@ export function runTwoSampleZ(
         criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Cukup bukti perbedaan rata-rata antar dua grup (α=${alpha}).`
-            : `Gagal tolak H₀. Tidak cukup bukti perbedaan rata-rata antar dua grup (α=${alpha}).`,
+            ? `Reject H₀. Sufficient evidence of a difference in means between the two groups (α=${alpha}).`
+            : `Fail to reject H₀. Insufficient evidence of a difference in means between the two groups (α=${alpha}).`,
         descriptive: [s1, s2],
-        groupLabels: ['Grup 1', 'Grup 2'],
+        groupLabels: ['Group 1', 'Group 2'],
     };
 }
 
@@ -484,8 +484,8 @@ export function runChiSquareGoodness(
     const reject = pValue < alpha;
     return {
         testName: 'Chi-Square Goodness-of-Fit',
-        h0: 'Distribusi sesuai dengan yang diharapkan',
-        h1: 'Distribusi tidak sesuai',
+        h0: 'Data follows the expected distribution',
+        h1: 'Data does not follow the expected distribution',
         statistic: chi2,
         statisticLabel: 'χ²',
         df,
@@ -495,8 +495,8 @@ export function runChiSquareGoodness(
         criticalValueLabel: cv.toFixed(4),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Data tidak sesuai dengan distribusi yang diharapkan (α=${alpha}).`
-            : `Gagal tolak H₀. Data sesuai dengan distribusi yang diharapkan (α=${alpha}).`,
+            ? `Reject H₀. Data does not follow the expected distribution (α=${alpha}).`
+            : `Fail to reject H₀. Data follows the expected distribution (α=${alpha}).`,
     };
 }
 
@@ -524,8 +524,8 @@ export function runChiSquareIndependence(
     const reject = pValue < alpha;
     return {
         testName: 'Chi-Square Test of Independence',
-        h0: 'Kedua variabel independen',
-        h1: 'Kedua variabel tidak independen (ada hubungan)',
+        h0: 'Both variables are independent',
+        h1: 'Both variables are not independent (there is an association)',
         statistic: chi2,
         statisticLabel: 'χ²',
         df,
@@ -535,8 +535,8 @@ export function runChiSquareIndependence(
         criticalValueLabel: cv.toFixed(4),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Ada hubungan signifikan antara kedua variabel (α=${alpha}).`
-            : `Gagal tolak H₀. Tidak ada bukti hubungan antara kedua variabel (α=${alpha}).`,
+            ? `Reject H₀. There is a significant association between the two variables (α=${alpha}).`
+            : `Fail to reject H₀. No evidence of an association between the two variables (α=${alpha}).`,
     };
 }
 
@@ -564,8 +564,8 @@ export function runOneWayAnova(
     const reject = pValue < alpha;
     return {
         testName: 'One-Way ANOVA',
-        h0: 'μ₁ = μ₂ = ... = μₖ (semua rata-rata sama)',
-        h1: 'Minimal satu rata-rata berbeda',
+        h0: 'μ₁ = μ₂ = ... = μₖ (all means are equal)',
+        h1: 'At least one mean is different',
         statistic: f,
         statisticLabel: 'F',
         df: dfb,
@@ -575,10 +575,10 @@ export function runOneWayAnova(
         criticalValueLabel: cv.toFixed(4),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Setidaknya satu grup memiliki rata-rata yang berbeda (α=${alpha}).`
-            : `Gagal tolak H₀. Tidak ada perbedaan rata-rata yang signifikan antar grup (α=${alpha}).`,
+            ? `Reject H₀. At least one group has a different mean (α=${alpha}).`
+            : `Fail to reject H₀. No significant difference in means between groups (α=${alpha}).`,
         descriptive: stats,
-        groupLabels: groups.map((_, i) => `Grup ${i + 1}`),
+        groupLabels: groups.map((_, i) => `Group ${i + 1}`),
         ssb,
         ssw,
         sst,
@@ -608,8 +608,8 @@ export function runPearsonCorrelation(
     const reject = pValue < alpha;
     const label = altLabel(alt);
     return {
-        testName: 'Korelasi Pearson',
-        h0: 'ρ = 0 (tidak ada korelasi linear)',
+        testName: 'Pearson Correlation',
+        h0: 'ρ = 0 (no linear correlation)',
         h1: `ρ ${label} 0`,
         statistic: t,
         statisticLabel: 't',
@@ -620,8 +620,8 @@ export function runPearsonCorrelation(
         criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
-            ? `Tolak H₀. Ada korelasi linear signifikan (r = ${r.toFixed(4)}, α=${alpha}).`
-            : `Gagal tolak H₀. Tidak ada bukti korelasi linear yang signifikan (α=${alpha}).`,
+            ? `Reject H₀. There is a significant linear correlation (r = ${r.toFixed(4)}, α=${alpha}).`
+            : `Fail to reject H₀. No evidence of a significant linear correlation (α=${alpha}).`,
         descriptive: [sx, sy],
         groupLabels: ['X', 'Y'],
         r,

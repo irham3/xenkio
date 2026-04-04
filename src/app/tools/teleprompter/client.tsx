@@ -73,8 +73,8 @@ export default function TeleprompterClient() {
             <div className="text-center mb-12">
                 <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">Teleprompter</h1>
                 <p className="text-gray-500 text-lg max-w-xl mx-auto">
-                    Baca naskah dengan mudah — mode teleprompter gulir otomatis atau mode baca dengan
-                    navigasi next/prev.
+                    Read scripts with ease — auto-scroll teleprompter mode or reading mode with
+                    next/prev navigation.
                 </p>
             </div>
             <TeleprompterSetup

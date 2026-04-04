@@ -79,7 +79,7 @@ export function useHypothesisTest() {
             switch (testType) {
                 case 'one-sample-t': {
                     const d = parseNumbers(data1);
-                    if (d.length < 2) throw new Error('Minimal 2 data diperlukan.');
+                    if (d.length < 2) throw new Error('At least 2 data points are required.');
                     result = runOneSampleT(d, mu0, alpha, alternative);
                     break;
                 }
@@ -93,7 +93,7 @@ export function useHypothesisTest() {
                         g1 = parseNumbers(data1);
                         g2 = parseNumbers(data2);
                     }
-                    if (g1.length < 2 || g2.length < 2) throw new Error('Minimal 2 data per grup.');
+                    if (g1.length < 2 || g2.length < 2) throw new Error('At least 2 data points per group are required.');
                     result = runTwoSampleT(g1, g2, alpha, alternative, pooled);
                     break;
                 }
@@ -107,32 +107,31 @@ export function useHypothesisTest() {
                         b = parseNumbers(data1);
                         a = parseNumbers(data2);
                     }
-                    if (b.length !== a.length || b.length < 2)
-                        throw new Error('Kedua kolom harus memiliki jumlah data yang sama (min. 2).');
+                        throw new Error('Both columns must have the same number of data points (min. 2).');
                     result = runPairedT(b, a, alpha, alternative);
                     break;
                 }
                 case 'one-sample-z': {
                     const d = parseNumbers(data1);
-                    if (d.length < 2) throw new Error('Minimal 2 data diperlukan.');
-                    if (sigma <= 0) throw new Error('σ populasi harus > 0.');
+                    if (d.length < 2) throw new Error('At least 2 data points are required.');
+                    if (sigma <= 0) throw new Error('Population σ must be > 0.');
                     result = runOneSampleZ(d, mu0, sigma, alpha, alternative);
                     break;
                 }
                 case 'two-sample-z': {
                     const g1 = parseNumbers(data1);
                     const g2 = parseNumbers(data2);
-                    if (g1.length < 2 || g2.length < 2) throw new Error('Minimal 2 data per grup.');
+                    if (g1.length < 2 || g2.length < 2) throw new Error('At least 2 data points per group are required.');
                     result = runTwoSampleZ(g1, g2, sigma, config.sigma2, alpha, alternative);
                     break;
                 }
                 case 'chi-square-goodness': {
                     const obs = parseNumbers(observedInput);
                     const exp = parseNumbers(expectedInput);
-                    if (obs.length < 2) throw new Error('Minimal 2 kategori diperlukan.');
+                    if (obs.length < 2) throw new Error('At least 2 categories are required.');
                     if (obs.length !== exp.length)
-                        throw new Error('Jumlah nilai observed dan expected harus sama.');
-                    if (exp.some((e) => e <= 0)) throw new Error('Nilai expected harus > 0.');
+                        throw new Error('The number of observed and expected values must match.');
+                    if (exp.some((e) => e <= 0)) throw new Error('Expected values must be > 0.');
                     result = runChiSquareGoodness(obs, exp, alpha);
                     break;
                 }
@@ -147,18 +146,18 @@ export function useHypothesisTest() {
                                 .filter((v) => !isNaN(v)),
                         )
                         .filter((r) => r.length > 0);
-                    if (rows.length < 2) throw new Error('Minimal 2 baris diperlukan.');
+                    if (rows.length < 2) throw new Error('At least 2 rows are required.');
                     const colLen = rows[0].length;
-                    if (colLen < 2) throw new Error('Minimal 2 kolom diperlukan.');
+                    if (colLen < 2) throw new Error('At least 2 columns are required.');
                     if (rows.some((r) => r.length !== colLen))
-                        throw new Error('Semua baris harus memiliki jumlah kolom yang sama.');
+                        throw new Error('All rows must have the same number of columns.');
                     result = runChiSquareIndependence(rows, alpha);
                     break;
                 }
                 case 'one-way-anova': {
                     const cols = parseColumns(anovaInput);
-                    if (cols.length < 2) throw new Error('Minimal 2 grup diperlukan (kolom terpisah tab/koma).');
-                    if (cols.some((g) => g.length < 2)) throw new Error('Setiap grup harus memiliki minimal 2 data.');
+                    if (cols.length < 2) throw new Error('At least 2 groups are required (columns separated by tab/comma).');
+                    if (cols.some((g) => g.length < 2)) throw new Error('Each group must have at least 2 data points.');
                     result = runOneWayAnova(cols, alpha);
                     break;
                 }
@@ -173,12 +172,12 @@ export function useHypothesisTest() {
                         y = parseNumbers(data2);
                     }
                     if (x.length !== y.length || x.length < 3)
-                        throw new Error('X dan Y harus memiliki jumlah data yang sama (min. 3).');
+                        throw new Error('X and Y must have the same number of data points (min. 3).');
                     result = runPearsonCorrelation(x, y, alpha, alternative);
                     break;
                 }
                 default:
-                    throw new Error('Jenis uji tidak dikenal.');
+                    throw new Error('Unknown test type.');
             }
 
             setState((s) => ({ ...s, result, error: null }));
@@ -211,32 +210,32 @@ export type TestCategory = {
 
 export const TEST_CATEGORIES: TestCategory[] = [
     {
-        label: 'Uji t',
+        label: 't-Test',
         tests: [
-            { id: 'one-sample-t', label: 'One-Sample t-Test', description: 'Bandingkan rata-rata sampel dengan nilai hipotesis' },
-            { id: 'two-sample-t', label: 'Two-Sample t-Test', description: 'Bandingkan rata-rata dua kelompok independen' },
-            { id: 'paired-t', label: 'Paired t-Test', description: 'Bandingkan dua pengukuran pada subjek yang sama (sebelum–sesudah)' },
+            { id: 'one-sample-t', label: 'One-Sample t-Test', description: 'Compare sample mean with a hypothesized value' },
+            { id: 'two-sample-t', label: 'Two-Sample t-Test', description: 'Compare means of two independent groups' },
+            { id: 'paired-t', label: 'Paired t-Test', description: 'Compare two measurements on the same subject (before–after)' },
         ],
     },
     {
-        label: 'Uji Z',
+        label: 'Z-Test',
         tests: [
-            { id: 'one-sample-z', label: 'One-Sample Z-Test', description: 'Uji rata-rata dengan varians populasi diketahui' },
-            { id: 'two-sample-z', label: 'Two-Sample Z-Test', description: 'Bandingkan dua rata-rata dengan varians populasi diketahui' },
+            { id: 'one-sample-z', label: 'One-Sample Z-Test', description: 'Test mean with known population variance' },
+            { id: 'two-sample-z', label: 'Two-Sample Z-Test', description: 'Compare two means with known population variances' },
         ],
     },
     {
         label: 'Chi-Square',
         tests: [
-            { id: 'chi-square-goodness', label: 'Chi-Square Goodness-of-Fit', description: 'Uji apakah distribusi data sesuai ekspektasi' },
-            { id: 'chi-square-independence', label: 'Chi-Square Independence', description: 'Uji hubungan antara dua variabel kategorikal' },
+            { id: 'chi-square-goodness', label: 'Chi-Square Goodness-of-Fit', description: 'Test if data distribution matches expectations' },
+            { id: 'chi-square-independence', label: 'Chi-Square Test of Independence', description: 'Test relationship between two categorical variables' },
         ],
     },
     {
-        label: 'ANOVA & Korelasi',
+        label: 'ANOVA & Correlation',
         tests: [
-            { id: 'one-way-anova', label: 'One-Way ANOVA', description: 'Bandingkan rata-rata tiga kelompok atau lebih' },
-            { id: 'pearson-correlation', label: 'Korelasi Pearson', description: 'Uji kekuatan hubungan linear antara dua variabel' },
+            { id: 'one-way-anova', label: 'One-Way ANOVA', description: 'Compare means of three or more groups' },
+            { id: 'pearson-correlation', label: 'Pearson Correlation', description: 'Test strength of linear relationship between two variables' },
         ],
     },
 ];

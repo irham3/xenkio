@@ -6,23 +6,22 @@ import TeleprompterClient from './client';
 const slug = 'teleprompter';
 
 export const metadata: Metadata = {
-    title: 'Teleprompter Online Gratis - Xenkio',
+    title: 'Free Online Teleprompter - Xenkio',
     description:
-        'Teleprompter online gratis dengan dua mode: mode gulir otomatis untuk presentasi & rekaman, atau mode baca dengan navigasi halaman untuk tablet, HP, dan laptop.',
+        'Free online teleprompter with two modes: auto-scroll mode for presentations & recording, or reading mode with page navigation for tablets, mobile, and laptops.',
     keywords: [
-        'teleprompter online',
-        'teleprompter gratis',
-        'teleprompter hp',
+        'online teleprompter',
+        'free teleprompter',
+        'teleprompter mobile',
         'teleprompter tablet',
-        'baca naskah',
-        'script reader',
+        'script reading',
         'auto scroll text',
-        'mode baca',
+        'reading mode',
     ],
     openGraph: {
-        title: 'Teleprompter Online - Xenkio',
+        title: 'Online Teleprompter - Xenkio',
         description:
-            'Baca naskah dengan mudah. Mode teleprompter gulir otomatis atau mode baca next/prev untuk perangkat apa pun.',
+            'Read scripts with ease. Auto-scroll teleprompter mode or reading mode for any device.',
         type: 'website',
     },
 };
@@ -37,21 +36,21 @@ export default function TeleprompterPage() {
         name: 'Teleprompter Online',
         applicationCategory: 'UtilitiesApplication',
         description:
-            'Teleprompter online dengan mode gulir otomatis dan mode baca halaman. Ukuran font mudah diubah, cocok untuk presentasi dan rekaman.',
+            'Online teleprompter with auto-scroll and reading modes. Adjustable font size, perfect for presentations and recording.',
         operatingSystem: 'Any',
         offers: {
             '@type': 'Offer',
             price: '0',
-            priceCurrency: 'IDR',
+            priceCurrency: 'USD',
         },
         featureList: [
-            'Mode teleprompter dengan gulir otomatis',
-            'Mode baca dengan navigasi halaman',
-            'Ukuran font mudah diubah',
-            'Mode mirror untuk kaca teleprompter',
-            'Dukungan layar penuh',
-            'Preset warna',
-            'Navigasi keyboard dan swipe',
+            'Teleprompter mode with auto-scroll',
+            'Reading mode with page navigation',
+            'Adjustable font size',
+            'Mirror mode for glass teleprompters',
+            'Full-screen support',
+            'Color presets',
+            'Keyboard and swipe navigation',
         ],
     };
 

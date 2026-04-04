@@ -27,9 +27,9 @@ const FONT_FAMILY_OPTIONS = [
 ] as const;
 
 const SEGMENT_OPTIONS = [
-    { value: 'paragraph', label: 'Per Paragraf' },
-    { value: 'sentence', label: 'Per Kalimat' },
-    { value: 'line', label: 'Per Baris' },
+    { value: 'paragraph', label: 'Per Paragraph' },
+    { value: 'sentence', label: 'Per Sentence' },
+    { value: 'line', label: 'Per Line' },
 ] as const;
 
 export function TeleprompterSetup({
@@ -46,36 +46,36 @@ export function TeleprompterSetup({
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <div className="mb-4">
                     <Label className="text-sm font-bold text-gray-700 uppercase tracking-tight">
-                        Script / Naskah
+                        Script / Text
                     </Label>
                     <p className="text-sm text-gray-400 mt-1">
-                        Tulis atau tempel teks yang akan dibaca. Gunakan baris kosong untuk memisahkan paragraf.
+                        Write or paste the text to be read. Use empty lines to separate paragraphs.
                     </p>
                 </div>
                 <Textarea
                     value={config.script}
                     onChange={(e) => updateConfig({ script: e.target.value })}
-                    placeholder="Tulis naskah Anda di sini..."
+                    placeholder="Write your script here..."
                     className="min-h-[220px] text-base resize-y font-mono"
                 />
                 <p className="text-xs text-gray-400 mt-2 text-right">
                     {config.script.trim().length > 0
-                        ? `${config.script.trim().split(/\s+/).length} kata`
-                        : '0 kata'}
+                        ? `${config.script.trim().split(/\s+/).length} words`
+                        : '0 words'}
                 </p>
             </div>
 
             {/* Settings */}
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-tight mb-6">
-                    Pengaturan Tampilan
+                    Display Settings
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Font Size */}
                     <div className="space-y-3">
                         <Label className="text-sm font-semibold text-gray-700">
-                            Ukuran Font{' '}
+                            Font Size{' '}
                             <span className="font-bold text-sky-600">{config.fontSize}px</span>
                         </Label>
                         <Slider
@@ -95,7 +95,7 @@ export function TeleprompterSetup({
                     {/* Line Spacing */}
                     <div className="space-y-3">
                         <Label className="text-sm font-semibold text-gray-700">
-                            Jarak Baris{' '}
+                            Line Spacing{' '}
                             <span className="font-bold text-sky-600">{config.lineSpacing.toFixed(1)}x</span>
                         </Label>
                         <Slider
@@ -139,7 +139,7 @@ export function TeleprompterSetup({
 
                     {/* Font Weight */}
                     <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">Ketebalan Teks</Label>
+                        <Label className="text-sm font-semibold text-gray-700">Font Weight</Label>
                         <div className="flex gap-2">
                             {FONT_WEIGHT_OPTIONS.map((opt) => (
                                 <button
@@ -159,7 +159,7 @@ export function TeleprompterSetup({
 
                     {/* Colors */}
                     <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">Warna Teks</Label>
+                        <Label className="text-sm font-semibold text-gray-700">Text Color</Label>
                         <div className="flex items-center gap-3">
                             <input
                                 type="color"
@@ -172,7 +172,7 @@ export function TeleprompterSetup({
                     </div>
 
                     <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">Warna Latar</Label>
+                        <Label className="text-sm font-semibold text-gray-700">Background Color</Label>
                         <div className="flex items-center gap-3">
                             <input
                                 type="color"
@@ -192,7 +192,7 @@ export function TeleprompterSetup({
                     {/* Teleprompter Speed */}
                     <div className="space-y-3">
                         <Label className="text-sm font-semibold text-gray-700">
-                            Kecepatan Gulir{' '}
+                            Scroll Speed{' '}
                             <span className="font-bold text-sky-600">{config.scrollSpeed}</span>
                         </Label>
                         <Slider
@@ -204,8 +204,8 @@ export function TeleprompterSetup({
                             className="w-full"
                         />
                         <div className="flex justify-between text-xs text-gray-400">
-                            <span>Lambat</span>
-                            <span>Cepat</span>
+                            <span>Slow</span>
+                            <span>Fast</span>
                         </div>
                     </div>
 
@@ -220,7 +220,7 @@ export function TeleprompterSetup({
                                 onCheckedChange={(checked) => updateConfig({ mirror: checked })}
                             />
                             <span className="text-sm text-gray-500">
-                                {config.mirror ? 'Aktif — teks dicerminkan' : 'Nonaktif'}
+                                {config.mirror ? 'Active — text is mirrored' : 'Inactive'}
                             </span>
                         </div>
                     </div>
@@ -228,7 +228,7 @@ export function TeleprompterSetup({
                     {/* Segment Type (for reading mode) */}
                     <div className="space-y-3 md:col-span-2">
                         <Label className="text-sm font-semibold text-gray-700">
-                            Tampilkan Per (Mode Baca)
+                            Show Per (Reading Mode)
                         </Label>
                         <div className="flex gap-2 flex-wrap">
                             {SEGMENT_OPTIONS.map((opt) => (
@@ -266,7 +266,7 @@ export function TeleprompterSetup({
                             <span className="font-bold text-gray-900">Mode Teleprompter</span>
                         </div>
                         <p className="text-sm text-gray-500">
-                            Teks bergulir otomatis — cocok untuk presentasi atau rekaman.
+                            Auto-scrolling text — suitable for presentations or recordings.
                         </p>
                     </div>
                     <ChevronRight className="w-5 h-5 text-sky-400 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
@@ -287,7 +287,7 @@ export function TeleprompterSetup({
                             <span className="font-bold text-gray-900">Mode Baca</span>
                         </div>
                         <p className="text-sm text-gray-500">
-                            Tampilkan teks per bagian, bisa next/prev — cocok untuk tablet atau HP.
+                            Display text segment by segment with next/prev — suitable for tablets or phones.
                         </p>
                     </div>
                     <ChevronRight className="w-5 h-5 text-emerald-400 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
@@ -296,14 +296,14 @@ export function TeleprompterSetup({
 
             {!canStart && (
                 <p className="text-center text-sm text-gray-400">
-                    Masukkan naskah terlebih dahulu untuk memulai.
+                    Please enter a script first to start.
                 </p>
             )}
 
             {/* Color Presets */}
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-tight mb-4">
-                    Preset Warna
+                    Color Presets
                 </h3>
                 <div className="flex flex-wrap gap-3">
                     {COLOR_PRESETS.map((preset) => (
@@ -335,10 +335,10 @@ export function TeleprompterSetup({
 }
 
 const COLOR_PRESETS = [
-    { name: 'Klasik', textColor: '#ffffff', backgroundColor: '#000000' },
-    { name: 'Putih', textColor: '#1a1a1a', backgroundColor: '#ffffff' },
-    { name: 'Hijau TRP', textColor: '#00ff41', backgroundColor: '#0d0d0d' },
-    { name: 'Kuning', textColor: '#fbbf24', backgroundColor: '#1c1917' },
-    { name: 'Biru Malam', textColor: '#e0f2fe', backgroundColor: '#0c1a2e' },
+    { name: 'Classic', textColor: '#ffffff', backgroundColor: '#000000' },
+    { name: 'White', textColor: '#1a1a1a', backgroundColor: '#ffffff' },
+    { name: 'Matrix Green', textColor: '#00ff41', backgroundColor: '#0d0d0d' },
+    { name: 'Yellow', textColor: '#fbbf24', backgroundColor: '#1c1917' },
+    { name: 'Midnight Blue', textColor: '#e0f2fe', backgroundColor: '#0c1a2e' },
     { name: 'Sepia', textColor: '#4a3728', backgroundColor: '#f5f0e8' },
 ];

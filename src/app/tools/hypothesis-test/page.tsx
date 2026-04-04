@@ -6,11 +6,11 @@ import HypothesisTestClient from './client';
 const slug = 'hypothesis-test';
 
 export const metadata: Metadata = {
-    title: 'Uji Hipotesis Statistik - Xenkio',
+    title: 'Statistical Hypothesis Test - Xenkio',
     description:
-        'Kalkulator uji hipotesis statistik online: t-test, z-test, chi-square, ANOVA, korelasi Pearson. Paste data dari Excel, proses di browser, tanpa upload.',
+        'Online statistical hypothesis test calculator: t-test, z-test, chi-square, ANOVA, Pearson correlation. Paste data from Excel, processed in browser, no upload.',
     keywords: [
-        'uji hipotesis',
+        'hypothesis test',
         'hypothesis testing',
         't-test',
         'z-test',
@@ -18,15 +18,15 @@ export const metadata: Metadata = {
         'one-way anova',
         'paired t test',
         'pearson correlation',
-        'statistik penelitian',
-        'uji statistik online',
+        'research statistics',
+        'online statistical test',
         'hypothesis calculator',
         'statistical significance',
     ],
     openGraph: {
-        title: 'Uji Hipotesis Statistik | Xenkio',
+        title: 'Statistical Hypothesis Test | Xenkio',
         description:
-            'Kalkulator uji hipotesis: t-test, z-test, chi-square, ANOVA, korelasi. Paste data dari Excel, hasil instan di browser.',
+            'Hypothesis test calculator: t-test, z-test, chi-square, ANOVA, correlation. Paste data from Excel, instant results in browser.',
         type: 'website',
         images: [
             {
@@ -67,8 +67,8 @@ export default function HypothesisTestPage() {
             'Chi-Square Test of Independence',
             'One-Way ANOVA',
             'Pearson Correlation',
-            'Paste data langsung dari Excel',
-            'Statistik deskriptif otomatis',
+            'Paste data directly from Excel',
+            'Automatic descriptive statistics',
         ],
     };
 
@@ -81,11 +81,11 @@ export default function HypothesisTestPage() {
 
             <div className="text-center mb-10">
                 <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
-                    Uji Hipotesis Statistik
+                    Statistical Hypothesis Test
                 </h1>
                 <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                    Hitung uji statistik untuk kebutuhan penelitian — t-test, z-test, chi-square, ANOVA, dan
-                    korelasi Pearson. Paste data langsung dari Excel atau ketik manual. Semua dihitung di browser.
+                    Calculate statistical tests for research needs — t-test, z-test, chi-square, ANOVA, and
+                    Pearson correlation. Paste data directly from Excel or type manually. All calculated in browser.
                 </p>
             </div>
 

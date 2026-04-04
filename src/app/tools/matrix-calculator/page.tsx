@@ -8,14 +8,14 @@ const slug = 'matrix-calculator';
 export const metadata: Metadata = {
     title: 'Matrix Calculator - Xenkio',
     description:
-        'Kalkulator matriks online: transpose, perkalian, invers, determinan, trace, rank, dan lebih banyak lagi. Mudah digunakan, proses di browser, tanpa perlu akun.',
+        'Online matrix calculator: transpose, multiplication, inverse, determinant, trace, rank, and more. Easy to use, runs in browser, no account needed.',
     keywords: [
         'matrix calculator',
-        'kalkulator matriks',
-        'transpose matriks',
-        'invers matriks',
-        'determinan matriks',
-        'perkalian matriks',
+        'matrix calculator',
+        'matrix transpose',
+        'matrix inverse',
+        'matrix determinant',
+        'matrix multiplication',
         'matrix inverse',
         'matrix multiplication',
         'matrix determinant',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Matrix Calculator | Xenkio',
         description:
-            'Operasi matriks online: transpose, perkalian, invers, determinan, trace, rank, dan lainnya.',
+            'Online matrix operations: transpose, multiplication, inverse, determinant, trace, rank, and more.',
         type: 'website',
         images: [
             {
@@ -58,14 +58,14 @@ export default function MatrixCalculatorPage() {
         },
         description: tool.description,
         featureList: [
-            'Transpose matriks',
-            'Perkalian matriks (A × B)',
-            'Invers matriks',
-            'Determinan matriks',
-            'Penjumlahan & pengurangan matriks',
-            'Perkalian skalar',
-            'Trace & rank matriks',
-            'Pangkat matriks',
+            'Matrix transpose',
+            'Matrix multiplication (A × B)',
+            'Matrix inverse',
+            'Matrix determinant',
+            'Matrix addition & subtraction',
+            'Scalar multiplication',
+            'Trace & matrix rank',
+            'Matrix power',
         ],
     };
 
@@ -81,8 +81,8 @@ export default function MatrixCalculatorPage() {
                     Matrix Calculator
                 </h1>
                 <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                    Lakukan operasi matriks dengan mudah — transpose, perkalian, invers, determinan, dan lainnya.
-                    Semua diproses di browser kamu, tanpa perlu upload data.
+                    Perform matrix operations with ease — transpose, multiplication, inverse, determinant, and more.
+                    All processed in your browser, no data upload needed.
                 </p>
             </div>
 

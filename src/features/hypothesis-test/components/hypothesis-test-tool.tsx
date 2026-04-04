@@ -23,7 +23,7 @@ function DescStats({ stats, labels }: { stats: DescriptiveStats[]; labels: strin
             <table className="w-full text-sm border-collapse">
                 <thead>
                     <tr className="bg-gray-50">
-                        <th className="text-left px-3 py-2 font-semibold text-gray-600 border border-gray-200">Grup</th>
+                        <th className="text-left px-3 py-2 font-semibold text-gray-600 border border-gray-200">Group</th>
                         <th className="text-right px-3 py-2 font-semibold text-gray-600 border border-gray-200">n</th>
                         <th className="text-right px-3 py-2 font-semibold text-gray-600 border border-gray-200">Mean</th>
                         <th className="text-right px-3 py-2 font-semibold text-gray-600 border border-gray-200">SD</th>
@@ -52,8 +52,8 @@ function DescStats({ stats, labels }: { stats: DescriptiveStats[]; labels: strin
     );
 }
 
-const PASTE_HINT = 'Paste langsung dari Excel, Google Sheets, atau ketik manual.\nPisahkan angka dengan spasi, koma, tab, atau enter.';
-const PASTE_HINT_COLS = 'Paste langsung dari Excel (2 kolom, dipisah tab).\nAtau ketik dua baris angka yang dipisah tab/koma.';
+const PASTE_HINT = 'Paste directly from Excel, Google Sheets, or type manually.\nSeparate numbers with spaces, commas, tabs, or enter.';
+const PASTE_HINT_COLS = 'Paste directly from Excel (2 columns, tab-separated).\nOr type two rows of numbers separated by tabs/commas.';
 
 export function HypothesisTestTool() {
     const { state, updateConfig, setField, calculate, reset } = useHypothesisTest();
@@ -89,7 +89,7 @@ export function HypothesisTestTool() {
             <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
                 <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
                     <FlaskConical className="w-4 h-4 text-blue-500" />
-                    Pilih Jenis Uji Hipotesis
+                    Select Hypothesis Test Type
                 </h2>
                 <Tabs
                     value={TEST_CATEGORIES.find((c) => c.tests.some((t) => t.id === testType))?.label ?? TEST_CATEGORIES[0].label}
@@ -133,11 +133,11 @@ export function HypothesisTestTool() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* Config panel */}
                 <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-4">
-                    <h2 className="font-semibold text-gray-800">Pengaturan</h2>
+                    <h2 className="font-semibold text-gray-800">Settings</h2>
 
                     {/* Alpha */}
                     <div>
-                        <Label className="text-sm font-medium text-gray-700">Tingkat Signifikansi (α)</Label>
+                        <Label className="text-sm font-medium text-gray-700">Significance Level (α)</Label>
                         <Select
                             value={String(config.alpha)}
                             onValueChange={(v) => updateConfig({ alpha: parseFloat(v) })}
@@ -156,7 +156,7 @@ export function HypothesisTestTool() {
                     {/* Alternative hypothesis */}
                     {needsAlt && (
                         <div>
-                            <Label className="text-sm font-medium text-gray-700">Hipotesis Alternatif (H₁)</Label>
+                            <Label className="text-sm font-medium text-gray-700">Alternative Hypothesis (H₁)</Label>
                             <Select
                                 value={config.alternative}
                                 onValueChange={(v) => updateConfig({ alternative: v as AlternativeHypothesis })}
@@ -165,9 +165,9 @@ export function HypothesisTestTool() {
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="two-tailed">Dua Arah (≠) — paling umum</SelectItem>
-                                    <SelectItem value="right-tailed">Kanan ({'>'}) — right-tailed</SelectItem>
-                                    <SelectItem value="left-tailed">Kiri ({'<'}) — left-tailed</SelectItem>
+                                    <SelectItem value="two-tailed">Two-Tailed (≠) — most common</SelectItem>
+                                    <SelectItem value="right-tailed">Right-Tailed ({'>'})</SelectItem>
+                                    <SelectItem value="left-tailed">Left-Tailed ({'<'})</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -176,7 +176,7 @@ export function HypothesisTestTool() {
                     {/* μ₀ */}
                     {needsMu0 && testType !== 'two-sample-z' && (
                         <div>
-                            <Label className="text-sm font-medium text-gray-700">Nilai Hipotesis (μ₀)</Label>
+                            <Label className="text-sm font-medium text-gray-700">Hypothesized Value (μ₀)</Label>
                             <Input
                                 type="number"
                                 value={config.mu0}
@@ -189,7 +189,7 @@ export function HypothesisTestTool() {
                     {/* σ one-sample */}
                     {needsSigma && testType === 'one-sample-z' && (
                         <div>
-                            <Label className="text-sm font-medium text-gray-700">Simpangan Baku Populasi (σ)</Label>
+                            <Label className="text-sm font-medium text-gray-700">Population Standard Deviation (σ)</Label>
                             <Input
                                 type="number"
                                 min="0.0001"
@@ -205,11 +205,11 @@ export function HypothesisTestTool() {
                     {testType === 'two-sample-z' && (
                         <>
                             <div>
-                                <Label className="text-sm font-medium text-gray-700">σ₁ (populasi Grup 1)</Label>
+                                <Label className="text-sm font-medium text-gray-700">σ₁ (Group 1 Population)</Label>
                                 <Input type="number" min="0.0001" step="0.1" value={config.sigma} onChange={(e) => updateConfig({ sigma: parseFloat(e.target.value) || 1 })} className="mt-1.5" />
                             </div>
                             <div>
-                                <Label className="text-sm font-medium text-gray-700">σ₂ (populasi Grup 2)</Label>
+                                <Label className="text-sm font-medium text-gray-700">σ₂ (Group 2 Population)</Label>
                                 <Input type="number" min="0.0001" step="0.1" value={config.sigma2} onChange={(e) => updateConfig({ sigma2: parseFloat(e.target.value) || 1 })} className="mt-1.5" />
                             </div>
                         </>
@@ -226,7 +226,7 @@ export function HypothesisTestTool() {
                                 className="w-4 h-4 rounded border-gray-300 text-blue-600"
                             />
                             <Label htmlFor="pooled" className="text-sm font-medium text-gray-700 cursor-pointer">
-                                Pooled variance (asumsi varians sama)
+                                Pooled variance (assume equal variances)
                             </Label>
                         </div>
                     )}
@@ -240,7 +240,7 @@ export function HypothesisTestTool() {
                         <>
                             <div>
                                 <Label className="text-sm font-medium text-gray-700">
-                                    {isPairedOrCorr ? 'Data (2 kolom: Sebelum & Sesudah / X & Y)' : needsGroup2 ? 'Data Grup 1' : 'Data Sampel'}
+                                    {isPairedOrCorr ? 'Data (2 columns: Before & After / X & Y)' : needsGroup2 ? 'Group 1 Data' : 'Sample Data'}
                                 </Label>
                                 <Textarea
                                     placeholder={isPairedOrCorr ? PASTE_HINT_COLS : PASTE_HINT}
@@ -251,12 +251,12 @@ export function HypothesisTestTool() {
                                 />
                                 <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
                                     <Info className="w-3 h-3" />
-                                    {isPairedOrCorr ? 'Paste 2 kolom dari Excel. Atau gunakan kolom kedua di bawah.' : 'Paste dari Excel, Google Sheets, atau ketik angka dipisah spasi/enter.'}
+                                    {isPairedOrCorr ? 'Paste 2 columns from Excel. Or use the second column below.' : 'Paste from Excel, Google Sheets, or type numbers separated by spaces/enter.'}
                                 </p>
                             </div>
                             {needsGroup2 && !isPairedOrCorr && (
                                 <div>
-                                    <Label className="text-sm font-medium text-gray-700">Data Grup 2</Label>
+                                    <Label className="text-sm font-medium text-gray-700">Group 2 Data</Label>
                                     <Textarea
                                         placeholder={PASTE_HINT}
                                         value={state.data2}
@@ -269,7 +269,7 @@ export function HypothesisTestTool() {
                             {isPairedOrCorr && (
                                 <div>
                                     <Label className="text-sm font-medium text-gray-700">
-                                        {testType === 'paired-t' ? 'Data Sesudah (opsional jika sudah paste 2 kolom)' : 'Data Y (opsional jika sudah paste 2 kolom)'}
+                                        {testType === 'paired-t' ? 'After Data (optional if already pasted 2 columns)' : 'Y Data (optional if already pasted 2 columns)'}
                                     </Label>
                                     <Textarea
                                         placeholder={PASTE_HINT}
@@ -286,9 +286,9 @@ export function HypothesisTestTool() {
                     {needsObsExp && (
                         <>
                             <div>
-                                <Label className="text-sm font-medium text-gray-700">Frekuensi Observed (O)</Label>
+                                <Label className="text-sm font-medium text-gray-700">Observed Frequency (O)</Label>
                                 <Textarea
-                                    placeholder="Contoh: 20 30 15 35&#10;(pisahkan dengan spasi atau enter)"
+                                    placeholder="Example: 20 30 15 35\n(separate with spaces or enter)"
                                     value={state.observedInput}
                                     onChange={(e) => setField('observedInput', e.target.value)}
                                     className="mt-1.5 font-mono text-sm"
@@ -296,9 +296,9 @@ export function HypothesisTestTool() {
                                 />
                             </div>
                             <div>
-                                <Label className="text-sm font-medium text-gray-700">Frekuensi Expected (E)</Label>
+                                <Label className="text-sm font-medium text-gray-700">Expected Frequency (E)</Label>
                                 <Textarea
-                                    placeholder="Contoh: 25 25 25 25&#10;(pisahkan dengan spasi atau enter)"
+                                    placeholder="Example: 25 25 25 25\n(separate with spaces or enter)"
                                     value={state.expectedInput}
                                     onChange={(e) => setField('expectedInput', e.target.value)}
                                     className="mt-1.5 font-mono text-sm"
@@ -310,9 +310,9 @@ export function HypothesisTestTool() {
 
                     {needsContingency && (
                         <div>
-                            <Label className="text-sm font-medium text-gray-700">Tabel Kontingensi</Label>
+                            <Label className="text-sm font-medium text-gray-700">Contingency Table</Label>
                             <Textarea
-                                placeholder={'Paste dari Excel (baris = kategori A, kolom = kategori B)\nContoh 2x3:\n10\t20\t30\n15\t25\t10'}
+                                placeholder={'Paste from Excel (rows = category A, columns = category B)\nExample 2x3:\n10\t20\t30\n15\t25\t10'}
                                 value={state.contingencyInput}
                                 onChange={(e) => setField('contingencyInput', e.target.value)}
                                 className="mt-1.5 font-mono text-sm min-h-[100px] resize-y"
@@ -320,16 +320,16 @@ export function HypothesisTestTool() {
                             />
                             <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
                                 <Info className="w-3 h-3" />
-                                Setiap baris adalah satu kategori variabel A, kolom = kategori variabel B.
+                                Each row represents one category of variable A, columns = category of variable B.
                             </p>
                         </div>
                     )}
 
                     {needsAnova && (
                         <div>
-                            <Label className="text-sm font-medium text-gray-700">Data (setiap kolom = satu grup)</Label>
+                            <Label className="text-sm font-medium text-gray-700">Data (each column = one group)</Label>
                             <Textarea
-                                placeholder={'Paste dari Excel — setiap kolom = satu grup (dipisah tab)\nContoh 3 grup:\n12\t15\t10\n14\t18\t11\n13\t16\t9'}
+                                placeholder={'Paste from Excel — each column = one group (tab-separated)\nExample 3 groups:\n12\t15\t10\n14\t18\t11\n13\t16\t9'}
                                 value={state.anovaInput}
                                 onChange={(e) => setField('anovaInput', e.target.value)}
                                 className="mt-1.5 font-mono text-sm min-h-[120px] resize-y"
@@ -337,7 +337,7 @@ export function HypothesisTestTool() {
                             />
                             <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
                                 <Info className="w-3 h-3" />
-                                Setiap kolom mewakili satu grup. Pisahkan kolom dengan tab (langsung dari Excel).
+                                Each column represents one group. Separate columns with tabs (direct from Excel).
                             </p>
                         </div>
                     )}
@@ -352,7 +352,7 @@ export function HypothesisTestTool() {
                 </Button>
                 <Button onClick={handleCalculate} className="gap-2 px-6">
                     <FlaskConical className="w-4 h-4" />
-                    Hitung
+                    Calculate
                 </Button>
             </div>
 
@@ -390,20 +390,20 @@ export function HypothesisTestTool() {
                             ) : (
                                 <CheckCircle2 className="w-3.5 h-3.5" />
                             )}
-                            {result.reject ? 'Tolak H₀' : 'Gagal Tolak H₀'}
+                            {result.reject ? 'Reject H₀' : 'Fail to Reject H₀'}
                         </Badge>
                     </div>
 
                     {/* Key stats grid */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                         {[
-                            { label: `Statistik uji (${result.statisticLabel})`, value: fmt(result.statistic) },
-                            ...(result.df !== undefined ? [{ label: 'Derajat kebebasan (df)', value: result.df % 1 < 0.001 ? String(Math.round(result.df)) : fmt(result.df, 2) }] : []),
+                            { label: `Test statistic (${result.statisticLabel})`, value: fmt(result.statistic) },
+                            ...(result.df !== undefined ? [{ label: 'Degrees of freedom (df)', value: result.df % 1 < 0.001 ? String(Math.round(result.df)) : fmt(result.df, 2) }] : []),
                             { label: 'p-value', value: result.pValue < 0.0001 ? '< 0.0001' : fmt(result.pValue) },
                             { label: `α`, value: String(result.alpha) },
-                            ...(result.criticalValue !== undefined ? [{ label: 'Nilai kritis', value: result.criticalValueLabel ?? fmt(result.criticalValue) }] : []),
+                            ...(result.criticalValue !== undefined ? [{ label: 'Critical value', value: result.criticalValueLabel ?? fmt(result.criticalValue) }] : []),
                             ...(result.r !== undefined ? [{ label: 'r (Pearson)', value: fmt(result.r) }] : []),
-                            ...(result.r2 !== undefined ? [{ label: 'r² (koefisien)', value: fmt(result.r2) }] : []),
+                            ...(result.r2 !== undefined ? [{ label: 'r² (coefficient)', value: fmt(result.r2) }] : []),
                         ].map((item) => (
                             <div key={item.label} className="bg-gray-50 rounded-xl p-3">
                                 <div className="text-xs text-gray-500 mb-0.5">{item.label}</div>
@@ -415,12 +415,12 @@ export function HypothesisTestTool() {
                     {/* ANOVA table */}
                     {result.ssb !== undefined && (
                         <div>
-                            <h3 className="text-sm font-semibold text-gray-700 mb-2">Tabel ANOVA</h3>
+                            <h3 className="text-sm font-semibold text-gray-700 mb-2">ANOVA Table</h3>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm border-collapse">
                                     <thead>
                                         <tr className="bg-gray-50">
-                                            {['Sumber', 'SS', 'df', 'MS', 'F'].map((h) => (
+                                            {['Source', 'SS', 'df', 'MS', 'F'].map((h) => (
                                                 <th key={h} className="text-left px-3 py-2 font-semibold text-gray-600 border border-gray-200">{h}</th>
                                             ))}
                                         </tr>
@@ -461,11 +461,11 @@ export function HypothesisTestTool() {
                                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-gray-900"
                             >
                                 {showDesc ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                                Statistik Deskriptif
+                                Descriptive Statistics
                             </button>
                             {showDesc && (
                                 <div className="mt-2">
-                                    <DescStats stats={result.descriptive} labels={result.groupLabels ?? result.descriptive.map((_, i) => `Grup ${i + 1}`)} />
+                                    <DescStats stats={result.descriptive} labels={result.groupLabels ?? result.descriptive.map((_, i) => `Group ${i + 1}`)} />
                                 </div>
                             )}
                         </div>

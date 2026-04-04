@@ -19,7 +19,7 @@ const OPERATIONS: OperationDef[] = [
         id: 'transpose',
         label: 'Transpose',
         symbol: 'Aᵀ',
-        description: 'Tukar baris dan kolom',
+        description: 'Swap rows and columns',
         isBinary: false,
         requiresSquare: false,
         hasScalarInput: false,
@@ -28,9 +28,9 @@ const OPERATIONS: OperationDef[] = [
     },
     {
         id: 'add',
-        label: 'Penjumlahan',
+        label: 'Addition',
         symbol: 'A + B',
-        description: 'Tambahkan dua matriks',
+        description: 'Add two matrices',
         isBinary: true,
         requiresSquare: false,
         hasScalarInput: false,
@@ -39,9 +39,9 @@ const OPERATIONS: OperationDef[] = [
     },
     {
         id: 'subtract',
-        label: 'Pengurangan',
+        label: 'Subtraction',
         symbol: 'A − B',
-        description: 'Kurangkan dua matriks',
+        description: 'Subtract two matrices',
         isBinary: true,
         requiresSquare: false,
         hasScalarInput: false,
@@ -50,9 +50,9 @@ const OPERATIONS: OperationDef[] = [
     },
     {
         id: 'multiply',
-        label: 'Perkalian',
+        label: 'Multiplication',
         symbol: 'A × B',
-        description: 'Kalikan dua matriks',
+        description: 'Multiply two matrices',
         isBinary: true,
         requiresSquare: false,
         hasScalarInput: false,
@@ -61,9 +61,9 @@ const OPERATIONS: OperationDef[] = [
     },
     {
         id: 'scalar-multiply',
-        label: 'Skalar × Matriks',
+        label: 'Scalar × Matrix',
         symbol: 'k × A',
-        description: 'Kalikan matriks dengan angka',
+        description: 'Multiply matrix by a number',
         isBinary: false,
         requiresSquare: false,
         hasScalarInput: true,
@@ -72,9 +72,9 @@ const OPERATIONS: OperationDef[] = [
     },
     {
         id: 'determinant',
-        label: 'Determinan',
+        label: 'Determinant',
         symbol: '|A|',
-        description: 'Hitung determinan matriks',
+        description: 'Calculate matrix determinant',
         isBinary: false,
         requiresSquare: true,
         hasScalarInput: false,
@@ -83,9 +83,9 @@ const OPERATIONS: OperationDef[] = [
     },
     {
         id: 'inverse',
-        label: 'Invers',
+        label: 'Inverse',
         symbol: 'A⁻¹',
-        description: 'Hitung invers matriks',
+        description: 'Calculate matrix inverse',
         isBinary: false,
         requiresSquare: true,
         hasScalarInput: false,
@@ -96,7 +96,7 @@ const OPERATIONS: OperationDef[] = [
         id: 'trace',
         label: 'Trace',
         symbol: 'tr(A)',
-        description: 'Jumlah elemen diagonal',
+        description: 'Sum of diagonal elements',
         isBinary: false,
         requiresSquare: true,
         hasScalarInput: false,
@@ -107,7 +107,7 @@ const OPERATIONS: OperationDef[] = [
         id: 'rank',
         label: 'Rank',
         symbol: 'rank(A)',
-        description: 'Hitung rank matriks',
+        description: 'Calculate matrix rank',
         isBinary: false,
         requiresSquare: false,
         hasScalarInput: false,
@@ -116,9 +116,9 @@ const OPERATIONS: OperationDef[] = [
     },
     {
         id: 'power',
-        label: 'Pangkat',
+        label: 'Power',
         symbol: 'Aⁿ',
-        description: 'Pangkatkan matriks',
+        description: 'Raise matrix to power',
         isBinary: false,
         requiresSquare: true,
         hasScalarInput: false,
@@ -165,7 +165,7 @@ function MatrixGrid({
                     <div className="flex items-center gap-2 text-xs text-gray-500">
                         {!fixedRows && onRowsChange && (
                             <span className="flex items-center gap-1">
-                                Baris:
+                                Rows:
                                 <select
                                     value={rows}
                                     onChange={(e) => onRowsChange(Number(e.target.value))}
@@ -179,7 +179,7 @@ function MatrixGrid({
                         )}
                         {!fixedCols && onColsChange && (
                             <span className="flex items-center gap-1">
-                                Kolom:
+                                Columns:
                                 <select
                                     value={cols}
                                     onChange={(e) => onColsChange(Number(e.target.value))}
@@ -196,14 +196,14 @@ function MatrixGrid({
                 <div className="flex items-center gap-1">
                     <button
                         onClick={onRandomize}
-                        title="Isi acak"
+                        title="Fill random"
                         className="p-1.5 rounded text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
                     >
                         <Shuffle className="w-3.5 h-3.5" />
                     </button>
                     <button
                         onClick={onClear}
-                        title="Kosongkan"
+                        title="Clear"
                         className="p-1.5 rounded text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                     >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -317,7 +317,7 @@ export function MatrixCalculator() {
             {/* Operation Selector */}
             <div>
                 <p className="text-xs text-gray-400 mb-3 uppercase tracking-widest font-semibold">
-                    Pilih Operasi
+                    Select Operation
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
                     {OPERATIONS.map((op) => (
@@ -351,10 +351,10 @@ export function MatrixCalculator() {
                 <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
                 <span>
                     <strong>{currentOp.label}:</strong> {currentOp.description}.
-                    {currentOp.requiresSquare && ' Membutuhkan matriks persegi (baris = kolom).'}
-                    {currentOp.isBinary && ' Membutuhkan dua matriks.'}
-                    {currentOp.hasScalarInput && ' Masukkan nilai skalar di bawah.'}
-                    {currentOp.hasPowerInput && ' Masukkan nilai pangkat di bawah.'}
+                    {currentOp.requiresSquare && ' Requires a square matrix (rows = columns).'}
+                    {currentOp.isBinary && ' Requires two matrices.'}
+                    {currentOp.hasScalarInput && ' Enter a scalar value below.'}
+                    {currentOp.hasPowerInput && ' Enter a power value below.'}
                 </span>
             </div>
 
@@ -366,7 +366,7 @@ export function MatrixCalculator() {
                         matrix={matrixA}
                         rows={sizeA.rows}
                         cols={sizeA.cols}
-                        label="Matriks A"
+                        label="Matrix A"
                         onCellChange={updateCellA}
                         onRandomize={randomizeA}
                         onClear={clearA}
@@ -377,7 +377,7 @@ export function MatrixCalculator() {
                     />
                     {currentOp.requiresSquare && (
                         <div className="mt-3">
-                            <label className="text-xs text-gray-500 block mb-1">Ukuran (persegi)</label>
+                            <label className="text-xs text-gray-500 block mb-1">Size (square)</label>
                             <select
                                 value={sizeA.rows}
                                 onChange={(e) => {
@@ -396,7 +396,7 @@ export function MatrixCalculator() {
                     {/* Scalar Input */}
                     {currentOp.hasScalarInput && (
                         <div className="mt-4 space-y-1">
-                            <label className="text-xs text-gray-500">Nilai Skalar (k)</label>
+                            <label className="text-xs text-gray-500">Scalar Value (k)</label>
                             <input
                                 type="number"
                                 value={scalar}
@@ -409,14 +409,14 @@ export function MatrixCalculator() {
                     {/* Power Input */}
                     {currentOp.hasPowerInput && (
                         <div className="mt-4 space-y-1">
-                            <label className="text-xs text-gray-500">Nilai Pangkat (n)</label>
+                            <label className="text-xs text-gray-500">Power Value (n)</label>
                             <input
                                 type="number"
                                 value={power}
                                 onChange={(e) => setPower(parseInt(e.target.value) || 0)}
                                 className="border border-gray-200 rounded-lg px-3 py-2 text-sm w-28 focus:outline-none focus:ring-2 focus:ring-indigo-300"
                             />
-                            <p className="text-[10px] text-gray-400">Bisa negatif untuk invers pangkat</p>
+                            <p className="text-[10px] text-gray-400">Can be negative for inverse power</p>
                         </div>
                     )}
                 </div>
@@ -428,7 +428,7 @@ export function MatrixCalculator() {
                             matrix={matrixB}
                             rows={sizeB.rows}
                             cols={sizeB.cols}
-                            label="Matriks B"
+                            label="Matrix B"
                             onCellChange={updateCellB}
                             onRandomize={randomizeB}
                             onClear={clearB}
@@ -443,12 +443,12 @@ export function MatrixCalculator() {
                         />
                         {(operation === 'add' || operation === 'subtract') && (
                             <p className="mt-3 text-xs text-gray-400">
-                                Ukuran Matriks B mengikuti Matriks A ({sizeA.rows} × {sizeA.cols})
+                                Matrix B size follows Matrix A ({sizeA.rows} × {sizeA.cols})
                             </p>
                         )}
                         {operation === 'multiply' && (
                             <p className="mt-3 text-xs text-gray-400">
-                                Baris Matriks B terkunci = kolom A ({sizeA.cols})
+                                Matrix B rows locked = Matrix A columns ({sizeA.cols})
                             </p>
                         )}
                     </div>
@@ -459,7 +459,7 @@ export function MatrixCalculator() {
                     <div className="hidden md:flex items-center justify-center bg-gray-50 border border-dashed border-gray-200 rounded-2xl p-5 text-gray-400 text-sm">
                         <div className="text-center space-y-1">
                             <div className="text-3xl font-mono text-gray-200">{currentOp.symbol}</div>
-                            <div>Hanya menggunakan Matriks A</div>
+                            <div>Only uses Matrix A</div>
                         </div>
                     </div>
                 )}
@@ -472,7 +472,7 @@ export function MatrixCalculator() {
                     size="lg"
                     className="px-10 rounded-xl text-base font-semibold"
                 >
-                    Hitung {currentOp.symbol}
+                    Calculate {currentOp.symbol}
                 </Button>
             </div>
 
@@ -480,7 +480,7 @@ export function MatrixCalculator() {
             {result && (
                 <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-4">
                     <div className="flex items-center justify-between">
-                        <h3 className="font-semibold text-gray-800">Hasil</h3>
+                        <h3 className="font-semibold text-gray-800">Result</h3>
                         {!result.error && (
                             <button
                                 onClick={copyResult}
@@ -491,7 +491,7 @@ export function MatrixCalculator() {
                                 ) : (
                                     <Copy className="w-3.5 h-3.5" />
                                 )}
-                                {copied ? 'Disalin!' : 'Salin'}
+                                {copied ? 'Copied!' : 'Copy'}
                             </button>
                         )}
                     </div>
@@ -507,9 +507,9 @@ export function MatrixCalculator() {
                                 {formatNum(result.scalar)}
                             </div>
                             <div className="text-sm text-gray-400">
-                                {operation === 'determinant' && '(nilai determinan)'}
-                                {operation === 'trace' && '(jumlah elemen diagonal)'}
-                                {operation === 'rank' && '(rank matriks)'}
+                                {operation === 'determinant' && '(determinant value)'}
+                                {operation === 'trace' && '(sum of diagonal elements)'}
+                                {operation === 'rank' && '(matrix rank)'}
                             </div>
                         </div>
                     ) : result.type === 'matrix' && result.matrix ? (
@@ -525,12 +525,12 @@ export function MatrixCalculator() {
 
             {/* Tips / Guide */}
             <div className="bg-gray-50 border border-gray-200 rounded-2xl p-5 space-y-3">
-                <h4 className="font-semibold text-gray-700 text-sm">Panduan Operasi</h4>
+                <h4 className="font-semibold text-gray-700 text-sm">Operation Guide</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
                     {OPERATIONS.map((op) => (
                         <div key={op.id} className="flex items-start gap-2 text-xs text-gray-500">
                             <span className="font-mono font-bold text-indigo-500 w-16 shrink-0">{op.symbol}</span>
-                            <span>{op.description}{op.requiresSquare ? ' (matriks persegi)' : ''}</span>
+                            <span>{op.description}{op.requiresSquare ? ' (square matrix)' : ''}</span>
                         </div>
                     ))}
                 </div>

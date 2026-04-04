@@ -185,7 +185,7 @@ export function ReadingDisplay({
                     }}
                 >
                     <ChevronLeft className="w-5 h-5" />
-                    <span className="hidden sm:inline">Sebelumnya</span>
+                    <span className="hidden sm:inline">Previous</span>
                 </button>
 
                 {/* Dot indicators (max 10 shown) */}
@@ -218,7 +218,7 @@ export function ReadingDisplay({
                         color: config.backgroundColor,
                     }}
                 >
-                    <span className="hidden sm:inline">Selanjutnya</span>
+                    <span className="hidden sm:inline">Next</span>
                     <ChevronRight className="w-5 h-5" />
                 </button>
             </div>
@@ -229,7 +229,7 @@ export function ReadingDisplay({
                     className="text-center text-xs pb-4 flex-shrink-0"
                     style={{ color: config.textColor, opacity: 0.4 }}
                 >
-                    Tekan ←→ atau Spasi untuk navigasi • Swipe untuk layar sentuh
+                    Press ←→ or Space to navigate • Swipe for touch screen
                 </p>
             )}
         </div>

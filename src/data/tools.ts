@@ -1050,7 +1050,7 @@ export const TOOLS: ToolData[] = [
     // TEXT UTILITIES - Teleprompter
     // =====================================================
     {
-        id: '116',
+        id: '119',
         title: 'Teleprompter',
         description: 'Baca naskah dengan mudah. Mode teleprompter gulir otomatis atau mode baca halaman yang cocok untuk tablet, HP, dan laptop.',
         icon: Clapperboard,
@@ -1188,7 +1188,7 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS - Time Complexity Calculator
     // =====================================================
     {
-        id: '117',
+        id: '121',
         title: 'Time Complexity Calculator',
         description: 'Analyze time and space complexity of your algorithm. Paste code or pseudocode and get instant Big O notation with detailed explanation.',
         icon: BarChart3,
@@ -1253,7 +1253,7 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS - P2P Local Data Transfer
     // =====================================================
     {
-        id: '116',
+        id: '120',
         title: 'P2P Local Data Transfer',
         description: 'Send text and files directly between devices via WebRTC — no uploads, no accounts, nothing stored on any server.',
         icon: Share2,
@@ -1266,7 +1266,7 @@ export const TOOLS: ToolData[] = [
     // CALCULATORS - Hypothesis Test
     // =====================================================
     {
-        id: '117',
+        id: '122',
         title: 'Uji Hipotesis Statistik',
         description: 'Hitung uji hipotesis untuk penelitian: t-test, z-test, chi-square, ANOVA, dan korelasi Pearson. Paste data langsung dari Excel.',
         icon: FlaskConical,

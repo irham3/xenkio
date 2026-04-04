@@ -256,7 +256,7 @@ export function fCritical(alpha: number, df1: number, df2: number): number {
 export function parseNumbers(text: string): number[] {
     return text
         .split(/[\s,;\t\n\r]+/)
-        .map((s) => s.trim().replace(',', '.'))
+        .map((s) => s.trim().replace(/,/g, '.'))
         .filter((s) => s.length > 0)
         .map(Number)
         .filter((n) => !isNaN(n));
@@ -270,7 +270,7 @@ export function parseColumns(text: string): number[][] {
         .map((r) =>
             r
                 .split(/[\t,;]/)
-                .map((c) => c.trim().replace(',', '.'))
+                .map((c) => c.trim().replace(/,/g, '.'))
                 .map(Number),
         )
         .filter((r) => r.every((v) => !isNaN(v)) && r.length > 0);
@@ -280,6 +280,14 @@ export function parseColumns(text: string): number[][] {
 }
 
 // ── Individual test runners ────────────────────────────────────────────────
+
+function altLabel(alt: AlternativeHypothesis): string {
+    return alt === 'two-tailed' ? '≠' : alt === 'right-tailed' ? '>' : '<';
+}
+
+function criticalValueLabel(cv: number, alt: AlternativeHypothesis): string {
+    return alt === 'two-tailed' ? `±${cv.toFixed(4)}` : cv.toFixed(4);
+}
 
 export function runOneSampleT(
     data: number[],
@@ -293,18 +301,18 @@ export function runOneSampleT(
     const pValue = tPvalue(t, df, alt);
     const cv = tCritical(alpha, df, alt);
     const reject = pValue < alpha;
-    const altLabel = alt === 'two-tailed' ? '≠' : alt === 'right-tailed' ? '>' : '<';
+    const label = altLabel(alt);
     return {
         testName: 'One-Sample t-Test',
         h0: `μ = ${mu0}`,
-        h1: `μ ${altLabel} ${mu0}`,
+        h1: `μ ${label} ${mu0}`,
         statistic: t,
         statisticLabel: 't',
         df,
         pValue,
         alpha,
         criticalValue: cv,
-        criticalValueLabel: alt === 'two-tailed' ? `±${cv.toFixed(4)}` : cv.toFixed(4),
+        criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
             ? `Tolak H₀. Cukup bukti bahwa rata-rata berbeda dari ${mu0} (α=${alpha}).`
@@ -342,18 +350,18 @@ export function runTwoSampleT(
     const pValue = tPvalue(t, df, alt);
     const cv = tCritical(alpha, df, alt);
     const reject = pValue < alpha;
-    const altLabel = alt === 'two-tailed' ? '≠' : alt === 'right-tailed' ? '>' : '<';
+    const label = altLabel(alt);
     return {
         testName: `Two-Sample t-Test (${pooled ? 'Pooled' : 'Welch'})`,
         h0: 'μ₁ = μ₂',
-        h1: `μ₁ ${altLabel} μ₂`,
+        h1: `μ₁ ${label} μ₂`,
         statistic: t,
         statisticLabel: 't',
         df,
         pValue,
         alpha,
         criticalValue: cv,
-        criticalValueLabel: alt === 'two-tailed' ? `±${cv.toFixed(4)}` : cv.toFixed(4),
+        criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
             ? `Tolak H₀. Cukup bukti perbedaan rata-rata antar dua grup (α=${alpha}).`
@@ -376,18 +384,18 @@ export function runPairedT(
     const pValue = tPvalue(t, df, alt);
     const cv = tCritical(alpha, df, alt);
     const reject = pValue < alpha;
-    const altLabel = alt === 'two-tailed' ? '≠' : alt === 'right-tailed' ? '>' : '<';
+    const label = altLabel(alt);
     return {
         testName: 'Paired t-Test',
         h0: 'μd = 0',
-        h1: `μd ${altLabel} 0`,
+        h1: `μd ${label} 0`,
         statistic: t,
         statisticLabel: 't',
         df,
         pValue,
         alpha,
         criticalValue: cv,
-        criticalValueLabel: alt === 'two-tailed' ? `±${cv.toFixed(4)}` : cv.toFixed(4),
+        criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
             ? `Tolak H₀. Cukup bukti perbedaan sebelum dan sesudah perlakuan (α=${alpha}).`
@@ -409,17 +417,17 @@ export function runOneSampleZ(
     const pValue = normalPvalue(z, alt);
     const cv = normalCritical(alpha, alt);
     const reject = pValue < alpha;
-    const altLabel = alt === 'two-tailed' ? '≠' : alt === 'right-tailed' ? '>' : '<';
+    const label = altLabel(alt);
     return {
         testName: 'One-Sample Z-Test',
         h0: `μ = ${mu0}`,
-        h1: `μ ${altLabel} ${mu0}`,
+        h1: `μ ${label} ${mu0}`,
         statistic: z,
         statisticLabel: 'z',
         pValue,
         alpha,
         criticalValue: cv,
-        criticalValueLabel: alt === 'two-tailed' ? `±${cv.toFixed(4)}` : cv.toFixed(4),
+        criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
             ? `Tolak H₀. Cukup bukti bahwa rata-rata berbeda dari ${mu0} (α=${alpha}).`
@@ -444,17 +452,17 @@ export function runTwoSampleZ(
     const pValue = normalPvalue(z, alt);
     const cv = normalCritical(alpha, alt);
     const reject = pValue < alpha;
-    const altLabel = alt === 'two-tailed' ? '≠' : alt === 'right-tailed' ? '>' : '<';
+    const label = altLabel(alt);
     return {
         testName: 'Two-Sample Z-Test',
         h0: 'μ₁ = μ₂',
-        h1: `μ₁ ${altLabel} μ₂`,
+        h1: `μ₁ ${label} μ₂`,
         statistic: z,
         statisticLabel: 'z',
         pValue,
         alpha,
         criticalValue: cv,
-        criticalValueLabel: alt === 'two-tailed' ? `±${cv.toFixed(4)}` : cv.toFixed(4),
+        criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
             ? `Tolak H₀. Cukup bukti perbedaan rata-rata antar dua grup (α=${alpha}).`
@@ -598,18 +606,18 @@ export function runPearsonCorrelation(
     const pValue = tPvalue(t, df, alt);
     const cv = tCritical(alpha, df, alt);
     const reject = pValue < alpha;
-    const altLabel = alt === 'two-tailed' ? '≠' : alt === 'right-tailed' ? '>' : '<';
+    const label = altLabel(alt);
     return {
         testName: 'Korelasi Pearson',
         h0: 'ρ = 0 (tidak ada korelasi linear)',
-        h1: `ρ ${altLabel} 0`,
+        h1: `ρ ${label} 0`,
         statistic: t,
         statisticLabel: 't',
         df,
         pValue,
         alpha,
         criticalValue: cv,
-        criticalValueLabel: alt === 'two-tailed' ? `±${cv.toFixed(4)}` : cv.toFixed(4),
+        criticalValueLabel: criticalValueLabel(cv, alt),
         reject,
         conclusion: reject
             ? `Tolak H₀. Ada korelasi linear signifikan (r = ${r.toFixed(4)}, α=${alpha}).`

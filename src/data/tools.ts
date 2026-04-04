@@ -1026,7 +1026,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'text-utilities',
     },
     {
-        id: '110',
+        id: '118',
         title: 'Morse Code Encoder & Decoder',
         description: 'Convert text to Morse code or decode Morse code back to text instantly.',
         icon: Wifi,
@@ -1227,7 +1227,7 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS - HTML Viewer
     // =====================================================
     {
-        id: '114',
+        id: '117',
         title: 'HTML Viewer',
         description: 'Paste HTML, CSS, and JavaScript and see the live rendered result instantly. Manage separate files or write everything in a single document.',
         icon: Code2,
@@ -1253,7 +1253,7 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS - P2P Local Data Transfer
     // =====================================================
     {
-        id: '115',
+        id: '116',
         title: 'P2P Local Data Transfer',
         description: 'Send text and files directly between devices via WebRTC — no uploads, no accounts, nothing stored on any server.',
         icon: Share2,

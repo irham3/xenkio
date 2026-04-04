@@ -76,6 +76,7 @@ import {
     Scroll,
     PenLine,
     Grid3x3,
+    Clapperboard,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1040,6 +1041,20 @@ export const TOOLS: ToolData[] = [
         icon: Replace,
         href: '/tools/text-replace',
         slug: 'text-replace',
+        isNew: true,
+        categoryId: 'text-utilities',
+    },
+
+    // =====================================================
+    // TEXT UTILITIES - Teleprompter
+    // =====================================================
+    {
+        id: '116',
+        title: 'Teleprompter',
+        description: 'Baca naskah dengan mudah. Mode teleprompter gulir otomatis atau mode baca halaman yang cocok untuk tablet, HP, dan laptop.',
+        icon: Clapperboard,
+        href: '/tools/teleprompter',
+        slug: 'teleprompter',
         isNew: true,
         categoryId: 'text-utilities',
     },

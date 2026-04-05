@@ -1,12 +1,13 @@
 'use client';
 
-import { Clapperboard, BookOpen, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+import { Clapperboard, BookOpen } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { TeleprompterConfig } from '../types';
-import { FONT_FAMILIES } from '../lib/teleprompter-utils';
+import { FONT_FAMILIES, estimateDuration } from '../lib/teleprompter-utils';
 
 interface TeleprompterSetupProps {
     config: TeleprompterConfig;
@@ -27,10 +28,22 @@ const FONT_FAMILY_OPTIONS = [
 ] as const;
 
 const SEGMENT_OPTIONS = [
-    { value: 'paragraph', label: 'Per Paragraph' },
-    { value: 'sentence', label: 'Per Sentence' },
-    { value: 'line', label: 'Per Line' },
+    { value: 'smart', label: 'Smart Mode', desc: 'Intelligent split by sentence & length' },
+    { value: 'paragraph', label: 'By Paragraph', desc: 'Split at empty lines' },
+    { value: 'sentence', label: 'By Sentence', desc: 'Split at . ! ?' },
+    { value: 'line', label: 'By Line', desc: 'Split at each newline' },
 ] as const;
+
+const COLOR_PRESETS = [
+    { name: 'Classic', textColor: '#ffffff', backgroundColor: '#000000' },
+    { name: 'White', textColor: '#1a1a1a', backgroundColor: '#ffffff' },
+    { name: 'Matrix Green', textColor: '#00ff41', backgroundColor: '#0d0d0d' },
+    { name: 'Yellow', textColor: '#fbbf24', backgroundColor: '#1c1917' },
+    { name: 'Midnight Blue', textColor: '#e0f2fe', backgroundColor: '#0c1a2e' },
+    { name: 'Sepia', textColor: '#4a3728', backgroundColor: '#f5f0e8' },
+];
+
+type ActiveTab = 'teleprompter' | 'reading';
 
 export function TeleprompterSetup({
     config,
@@ -38,10 +51,12 @@ export function TeleprompterSetup({
     onStartTeleprompter,
     onStartReading,
 }: TeleprompterSetupProps) {
+    const [activeTab, setActiveTab] = useState<ActiveTab>('teleprompter');
     const canStart = config.script.trim().length > 0;
+    const wordCount = config.script.trim() ? config.script.trim().split(/\s+/).length : 0;
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-5">
             {/* Script Input */}
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <div className="mb-4">
@@ -56,256 +71,322 @@ export function TeleprompterSetup({
                     value={config.script}
                     onChange={(e) => updateConfig({ script: e.target.value })}
                     placeholder="Write your script here..."
-                    className="min-h-[220px] text-base resize-y font-mono"
+                    className="min-h-[200px] text-base resize-y font-mono"
                 />
-                <p className="text-xs text-gray-400 mt-2 text-right">
-                    {config.script.trim().length > 0
-                        ? `${config.script.trim().split(/\s+/).length} words`
-                        : '0 words'}
-                </p>
-            </div>
-
-            {/* Settings */}
-            <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
-                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-tight mb-6">
-                    Display Settings
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Font Size */}
-                    <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">
-                            Font Size{' '}
-                            <span className="font-bold text-sky-600">{config.fontSize}px</span>
-                        </Label>
-                        <Slider
-                            min={20}
-                            max={120}
-                            step={2}
-                            value={[config.fontSize]}
-                            onValueChange={([v]) => updateConfig({ fontSize: v })}
-                            className="w-full"
-                        />
-                        <div className="flex justify-between text-xs text-gray-400">
-                            <span>20px</span>
-                            <span>120px</span>
-                        </div>
-                    </div>
-
-                    {/* Line Spacing */}
-                    <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">
-                            Line Spacing{' '}
-                            <span className="font-bold text-sky-600">{config.lineSpacing.toFixed(1)}x</span>
-                        </Label>
-                        <Slider
-                            min={1}
-                            max={3}
-                            step={0.1}
-                            value={[config.lineSpacing]}
-                            onValueChange={([v]) => updateConfig({ lineSpacing: v })}
-                            className="w-full"
-                        />
-                        <div className="flex justify-between text-xs text-gray-400">
-                            <span>1.0x</span>
-                            <span>3.0x</span>
-                        </div>
-                    </div>
-
-                    {/* Font Family */}
-                    <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">Font</Label>
-                        <div className="flex gap-2 flex-wrap">
-                            {FONT_FAMILY_OPTIONS.map((opt) => (
-                                <button
-                                    key={opt.value}
-                                    onClick={() => updateConfig({ fontFamily: opt.value })}
-                                    style={
-                                        config.fontFamily === opt.value
-                                            ? undefined
-                                            : { fontFamily: FONT_FAMILIES[opt.value] }
-                                    }
-                                    className={`px-3 py-1.5 rounded-lg text-sm border transition-all ${
-                                        config.fontFamily === opt.value
-                                            ? 'bg-sky-500 text-white border-sky-500 font-semibold'
-                                            : 'bg-white text-gray-600 border-gray-200 hover:border-sky-300'
-                                    }`}
-                                >
-                                    {opt.label}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Font Weight */}
-                    <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">Font Weight</Label>
-                        <div className="flex gap-2">
-                            {FONT_WEIGHT_OPTIONS.map((opt) => (
-                                <button
-                                    key={opt.value}
-                                    onClick={() => updateConfig({ fontWeight: opt.value })}
-                                    className={`px-4 py-1.5 rounded-lg text-sm border transition-all ${
-                                        config.fontWeight === opt.value
-                                            ? 'bg-sky-500 text-white border-sky-500 font-semibold'
-                                            : 'bg-white text-gray-600 border-gray-200 hover:border-sky-300'
-                                    }`}
-                                >
-                                    <span style={{ fontWeight: opt.value }}>{opt.label}</span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Colors */}
-                    <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">Text Color</Label>
-                        <div className="flex items-center gap-3">
-                            <input
-                                type="color"
-                                value={config.textColor}
-                                onChange={(e) => updateConfig({ textColor: e.target.value })}
-                                className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5 bg-white"
-                            />
-                            <span className="text-sm font-mono text-gray-500">{config.textColor}</span>
-                        </div>
-                    </div>
-
-                    <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">Background Color</Label>
-                        <div className="flex items-center gap-3">
-                            <input
-                                type="color"
-                                value={config.backgroundColor}
-                                onChange={(e) => updateConfig({ backgroundColor: e.target.value })}
-                                className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5 bg-white"
-                            />
-                            <span className="text-sm font-mono text-gray-500">{config.backgroundColor}</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Divider */}
-                <div className="border-t border-gray-100 my-6" />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Teleprompter Speed */}
-                    <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">
-                            Scroll Speed{' '}
-                            <span className="font-bold text-sky-600">{config.scrollSpeed}</span>
-                        </Label>
-                        <Slider
-                            min={1}
-                            max={10}
-                            step={1}
-                            value={[config.scrollSpeed]}
-                            onValueChange={([v]) => updateConfig({ scrollSpeed: v })}
-                            className="w-full"
-                        />
-                        <div className="flex justify-between text-xs text-gray-400">
-                            <span>Slow</span>
-                            <span>Fast</span>
-                        </div>
-                    </div>
-
-                    {/* Mirror Mode */}
-                    <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-gray-700">
-                            Mode Mirror (Teleprompter)
-                        </Label>
-                        <div className="flex items-center gap-3">
-                            <Switch
-                                checked={config.mirror}
-                                onCheckedChange={(checked) => updateConfig({ mirror: checked })}
-                            />
-                            <span className="text-sm text-gray-500">
-                                {config.mirror ? 'Active — text is mirrored' : 'Inactive'}
-                            </span>
-                        </div>
-                    </div>
-
-                    {/* Segment Type (for reading mode) */}
-                    <div className="space-y-3 md:col-span-2">
-                        <Label className="text-sm font-semibold text-gray-700">
-                            Show Per (Reading Mode)
-                        </Label>
-                        <div className="flex gap-2 flex-wrap">
-                            {SEGMENT_OPTIONS.map((opt) => (
-                                <button
-                                    key={opt.value}
-                                    onClick={() => updateConfig({ segmentType: opt.value })}
-                                    className={`px-4 py-2 rounded-lg text-sm border transition-all ${
-                                        config.segmentType === opt.value
-                                            ? 'bg-sky-500 text-white border-sky-500 font-semibold'
-                                            : 'bg-white text-gray-600 border-gray-200 hover:border-sky-300'
-                                    }`}
-                                >
-                                    {opt.label}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs text-gray-400">
+                        {wordCount > 0 ? `Est. reading time: ${estimateDuration(config.script, config.scrollSpeed)}` : ''}
+                    </span>
+                    <span className="text-xs text-gray-400">{wordCount} words</span>
                 </div>
             </div>
 
-            {/* Start Buttons */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button
-                    onClick={onStartTeleprompter}
-                    disabled={!canStart}
-                    className={`flex items-center justify-between gap-4 p-5 rounded-2xl border-2 text-left transition-all group ${
-                        canStart
-                            ? 'border-sky-500 bg-sky-50 hover:bg-sky-100 cursor-pointer'
-                            : 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-60'
-                    }`}
-                >
-                    <div>
-                        <div className="flex items-center gap-2 mb-1">
-                            <Clapperboard className="w-5 h-5 text-sky-600" />
-                            <span className="font-bold text-gray-900">Mode Teleprompter</span>
-                        </div>
-                        <p className="text-sm text-gray-500">
-                            Auto-scrolling text — suitable for presentations or recordings.
-                        </p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-sky-400 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-                </button>
+            {/* Tab Panel */}
+            <div className="bg-white rounded-2xl shadow-soft border border-gray-200 overflow-hidden">
+                {/* Tab Headers */}
+                <div className="flex border-b border-gray-100">
+                    <button
+                        onClick={() => setActiveTab('teleprompter')}
+                        className={`flex items-center gap-2.5 px-6 py-4 text-sm font-semibold transition-all relative flex-1 justify-center ${
+                            activeTab === 'teleprompter'
+                                ? 'text-sky-600'
+                                : 'text-gray-400 hover:text-gray-600'
+                        }`}
+                    >
+                        <Clapperboard className="w-4 h-4" />
+                        Teleprompter Mode
+                        {activeTab === 'teleprompter' && (
+                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-500 rounded-t" />
+                        )}
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('reading')}
+                        className={`flex items-center gap-2.5 px-6 py-4 text-sm font-semibold transition-all relative flex-1 justify-center ${
+                            activeTab === 'reading'
+                                ? 'text-emerald-600'
+                                : 'text-gray-400 hover:text-gray-600'
+                        }`}
+                    >
+                        <BookOpen className="w-4 h-4" />
+                        Reading Mode
+                        {activeTab === 'reading' && (
+                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 rounded-t" />
+                        )}
+                    </button>
+                </div>
 
-                <button
-                    onClick={onStartReading}
-                    disabled={!canStart}
-                    className={`flex items-center justify-between gap-4 p-5 rounded-2xl border-2 text-left transition-all group ${
-                        canStart
-                            ? 'border-emerald-500 bg-emerald-50 hover:bg-emerald-100 cursor-pointer'
-                            : 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-60'
-                    }`}
-                >
-                    <div>
-                        <div className="flex items-center gap-2 mb-1">
-                            <BookOpen className="w-5 h-5 text-emerald-600" />
-                            <span className="font-bold text-gray-900">Mode Baca</span>
+                <div className="p-6 md:p-8">
+                    {/* ── TELEPROMPTER TAB ── */}
+                    {activeTab === 'teleprompter' && (
+                        <div className="space-y-7">
+                            <p className="text-sm text-gray-400 -mt-2">
+                                Auto-scrolling text — best for presentations and video recordings.
+                            </p>
+
+                            {/* Shared Display Settings */}
+                            <SharedDisplaySettings config={config} updateConfig={updateConfig} />
+
+                            {/* Divider */}
+                            <div className="border-t border-gray-100" />
+
+                            {/* Teleprompter-specific */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Scroll Speed */}
+                                <div className="space-y-3">
+                                    <Label className="text-sm font-semibold text-gray-700">
+                                        Scroll Speed{' '}
+                                        <span className="font-bold text-sky-600">{config.scrollSpeed}</span>
+                                    </Label>
+                                    <Slider
+                                        min={1}
+                                        max={10}
+                                        step={1}
+                                        value={[config.scrollSpeed]}
+                                        onValueChange={([v]) => updateConfig({ scrollSpeed: v })}
+                                        className="w-full"
+                                    />
+                                    <div className="flex justify-between text-xs text-gray-400">
+                                        <span>Slow</span>
+                                        <span>Fast</span>
+                                    </div>
+                                </div>
+
+                                {/* Mirror Mode */}
+                                <div className="space-y-3">
+                                    <Label className="text-sm font-semibold text-gray-700">
+                                        Mirror Mode
+                                    </Label>
+                                    <div className="flex items-center gap-3">
+                                        <Switch
+                                            checked={config.mirror}
+                                            onCheckedChange={(checked) => updateConfig({ mirror: checked })}
+                                        />
+                                        <span className="text-sm text-gray-500">
+                                            {config.mirror ? 'Active — text is mirrored' : 'Inactive'}
+                                        </span>
+                                    </div>
+                                    {config.mirror && (
+                                        <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2">
+                                            ⚠ Use a physical mirror or beam splitter in front of your screen.
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Start Button */}
+                            <button
+                                onClick={onStartTeleprompter}
+                                disabled={!canStart}
+                                className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm transition-all ${
+                                    canStart
+                                        ? 'bg-sky-500 hover:bg-sky-600 text-white shadow-sm hover:shadow-md'
+                                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                }`}
+                            >
+                                <Clapperboard className="w-4 h-4" />
+                                Start Teleprompter
+                            </button>
+                            {!canStart && (
+                                <p className="text-center text-xs text-gray-400 -mt-4">
+                                    Enter a script above to get started.
+                                </p>
+                            )}
                         </div>
-                        <p className="text-sm text-gray-500">
-                            Display text segment by segment with next/prev — suitable for tablets or phones.
-                        </p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-emerald-400 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-                </button>
+                    )}
+
+                    {/* ── READING MODE TAB ── */}
+                    {activeTab === 'reading' && (
+                        <div className="space-y-7">
+                            <p className="text-sm text-gray-400 -mt-2">
+                                Segment-by-segment display — best for tablets, phones, or guided reading.
+                            </p>
+
+                            {/* Shared Display Settings */}
+                            <SharedDisplaySettings config={config} updateConfig={updateConfig} />
+
+                            {/* Divider */}
+                            <div className="border-t border-gray-100" />
+
+                            {/* Segment Type */}
+                            <div className="space-y-3">
+                                <Label className="text-sm font-semibold text-gray-700">
+                                    Display By
+                                </Label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {SEGMENT_OPTIONS.map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            onClick={() => updateConfig({ segmentType: opt.value })}
+                                            className={`text-left px-4 py-3 rounded-xl border transition-all ${
+                                                config.segmentType === opt.value
+                                                    ? 'bg-emerald-50 border-emerald-400 text-emerald-700'
+                                                    : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-200'
+                                            }`}
+                                        >
+                                            <span className="block text-sm font-semibold">{opt.label}</span>
+                                            <span className="block text-xs text-gray-400 mt-0.5">{opt.desc}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Start Button */}
+                            <button
+                                onClick={onStartReading}
+                                disabled={!canStart}
+                                className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm transition-all ${
+                                    canStart
+                                        ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm hover:shadow-md'
+                                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                }`}
+                            >
+                                <BookOpen className="w-4 h-4" />
+                                Start Reading Mode
+                            </button>
+                            {!canStart && (
+                                <p className="text-center text-xs text-gray-400 -mt-4">
+                                    Enter a script above to get started.
+                                </p>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
+        </div>
+    );
+}
 
-            {!canStart && (
-                <p className="text-center text-sm text-gray-400">
-                    Please enter a script first to start.
-                </p>
-            )}
+/* ─── Shared Display Settings (used by both tabs) ─── */
+function SharedDisplaySettings({
+    config,
+    updateConfig,
+}: {
+    config: TeleprompterConfig;
+    updateConfig: (partial: Partial<TeleprompterConfig>) => void;
+}) {
+    return (
+        <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Font Size */}
+                <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-700">
+                        Font Size{' '}
+                        <span className="font-bold text-sky-600">{config.fontSize}px</span>
+                    </Label>
+                    <Slider
+                        min={20}
+                        max={120}
+                        step={2}
+                        value={[config.fontSize]}
+                        onValueChange={([v]) => updateConfig({ fontSize: v })}
+                        className="w-full"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400">
+                        <span>20px</span>
+                        <span>120px</span>
+                    </div>
+                </div>
+
+                {/* Line Spacing */}
+                <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-700">
+                        Line Spacing{' '}
+                        <span className="font-bold text-sky-600">{config.lineSpacing.toFixed(1)}x</span>
+                    </Label>
+                    <Slider
+                        min={1}
+                        max={3}
+                        step={0.1}
+                        value={[config.lineSpacing]}
+                        onValueChange={([v]) => updateConfig({ lineSpacing: v })}
+                        className="w-full"
+                    />
+                    <div className="flex justify-between text-xs text-gray-400">
+                        <span>1.0x</span>
+                        <span>3.0x</span>
+                    </div>
+                </div>
+
+                {/* Font Family */}
+                <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-700">Font</Label>
+                    <div className="flex gap-2 flex-wrap">
+                        {FONT_FAMILY_OPTIONS.map((opt) => (
+                            <button
+                                key={opt.value}
+                                onClick={() => updateConfig({ fontFamily: opt.value })}
+                                style={
+                                    config.fontFamily === opt.value
+                                        ? undefined
+                                        : { fontFamily: FONT_FAMILIES[opt.value] }
+                                }
+                                className={`px-3 py-1.5 rounded-lg text-sm border transition-all ${
+                                    config.fontFamily === opt.value
+                                        ? 'bg-sky-500 text-white border-sky-500 font-semibold'
+                                        : 'bg-white text-gray-600 border-gray-200 hover:border-sky-300'
+                                }`}
+                            >
+                                {opt.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Font Weight */}
+                <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-700">Font Weight</Label>
+                    <div className="flex gap-2">
+                        {FONT_WEIGHT_OPTIONS.map((opt) => (
+                            <button
+                                key={opt.value}
+                                onClick={() => updateConfig({ fontWeight: opt.value })}
+                                className={`px-4 py-1.5 rounded-lg text-sm border transition-all ${
+                                    config.fontWeight === opt.value
+                                        ? 'bg-sky-500 text-white border-sky-500 font-semibold'
+                                        : 'bg-white text-gray-600 border-gray-200 hover:border-sky-300'
+                                }`}
+                            >
+                                <span style={{ fontWeight: opt.value }}>{opt.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Text Color */}
+                <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-700">Text Color</Label>
+                    <div className="flex items-center gap-3">
+                        <input
+                            type="color"
+                            value={config.textColor}
+                            onChange={(e) => updateConfig({ textColor: e.target.value })}
+                            className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5 bg-white"
+                        />
+                        <span className="text-sm font-mono text-gray-500">{config.textColor}</span>
+                    </div>
+                </div>
+
+                {/* Background Color */}
+                <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-700">Background Color</Label>
+                    <div className="flex items-center gap-3">
+                        <input
+                            type="color"
+                            value={config.backgroundColor}
+                            onChange={(e) => updateConfig({ backgroundColor: e.target.value })}
+                            className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5 bg-white"
+                        />
+                        <span className="text-sm font-mono text-gray-500">{config.backgroundColor}</span>
+                    </div>
+                </div>
+            </div>
 
             {/* Color Presets */}
-            <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
-                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-tight mb-4">
+            <div className="space-y-2">
+                <Label className="text-xs font-bold text-gray-400 uppercase tracking-tight">
                     Color Presets
-                </h3>
-                <div className="flex flex-wrap gap-3">
+                </Label>
+                <div className="flex flex-wrap gap-2">
                     {COLOR_PRESETS.map((preset) => (
                         <button
                             key={preset.name}
@@ -315,17 +396,23 @@ export function TeleprompterSetup({
                                     backgroundColor: preset.backgroundColor,
                                 })
                             }
-                            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-200 hover:border-sky-300 transition-all text-sm"
+                            title={preset.name}
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-sm ${
+                                config.textColor === preset.textColor &&
+                                config.backgroundColor === preset.backgroundColor
+                                    ? 'border-sky-400 bg-sky-50 font-semibold text-sky-700'
+                                    : 'border-gray-200 hover:border-sky-300 text-gray-600'
+                            }`}
                         >
                             <span
-                                className="w-5 h-5 rounded-full border border-gray-200 flex-shrink-0"
+                                className="w-4 h-4 rounded-full border border-gray-200 flex-shrink-0"
                                 style={{ backgroundColor: preset.backgroundColor }}
                             />
                             <span
-                                className="w-3 h-3 rounded-full flex-shrink-0 -ml-1"
+                                className="w-2.5 h-2.5 rounded-full flex-shrink-0 -ml-1"
                                 style={{ backgroundColor: preset.textColor, border: '1.5px solid #e5e7eb' }}
                             />
-                            <span className="text-gray-600">{preset.name}</span>
+                            {preset.name}
                         </button>
                     ))}
                 </div>
@@ -333,12 +420,3 @@ export function TeleprompterSetup({
         </div>
     );
 }
-
-const COLOR_PRESETS = [
-    { name: 'Classic', textColor: '#ffffff', backgroundColor: '#000000' },
-    { name: 'White', textColor: '#1a1a1a', backgroundColor: '#ffffff' },
-    { name: 'Matrix Green', textColor: '#00ff41', backgroundColor: '#0d0d0d' },
-    { name: 'Yellow', textColor: '#fbbf24', backgroundColor: '#1c1917' },
-    { name: 'Midnight Blue', textColor: '#e0f2fe', backgroundColor: '#0c1a2e' },
-    { name: 'Sepia', textColor: '#4a3728', backgroundColor: '#f5f0e8' },
-];

@@ -29,7 +29,7 @@ export function ReadingDisplay({
     const { segments, currentSegmentIndex } = state;
     const currentSegment = segments[currentSegmentIndex] ?? '';
     const isFirst = currentSegmentIndex === 0;
-    const isLast = currentSegmentIndex === segments.length - 1;
+    const isLast = segments.length === 0 || currentSegmentIndex >= segments.length - 1;
     const progress = segments.length > 0 ? ((currentSegmentIndex + 1) / segments.length) * 100 : 0;
 
     // Keyboard navigation
@@ -53,17 +53,23 @@ export function ReadingDisplay({
 
     // Touch/swipe support
     const touchStartX = useRef<number | null>(null);
+    const touchStartY = useRef<number | null>(null);
     const onTouchStart = (e: React.TouchEvent) => {
         touchStartX.current = e.touches[0].clientX;
+        touchStartY.current = e.touches[0].clientY;
     };
     const onTouchEnd = (e: React.TouchEvent) => {
-        if (touchStartX.current === null) return;
-        const delta = touchStartX.current - e.changedTouches[0].clientX;
-        if (Math.abs(delta) > 50) {
-            if (delta > 0 && !isLast) onNext();
-            else if (delta < 0 && !isFirst) onPrev();
+        if (touchStartX.current === null || touchStartY.current === null) return;
+        const deltaX = touchStartX.current - e.changedTouches[0].clientX;
+        const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+        
+        // Ensure swipe is mostly horizontal to avoid triggering during vertical scroll
+        if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+            if (deltaX > 0 && !isLast) onNext();
+            else if (deltaX < 0 && !isFirst) onPrev();
         }
         touchStartX.current = null;
+        touchStartY.current = null;
     };
 
     const textStyle: React.CSSProperties = {
@@ -74,7 +80,9 @@ export function ReadingDisplay({
         lineHeight: config.lineSpacing,
         whiteSpace: 'pre-wrap',
         wordBreak: 'break-word',
+        overflowWrap: 'break-word',
         textAlign: 'center',
+        maxWidth: '100%',
     };
 
     return (
@@ -163,8 +171,8 @@ export function ReadingDisplay({
             </div>
 
             {/* Text content */}
-            <div className="flex-1 flex items-center justify-center px-8 md:px-16 lg:px-32 py-8">
-                <div className="max-w-5xl w-full">
+            <div className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden px-8 md:px-16 lg:px-32 ${config.mirror ? '-scale-x-100' : ''}`}>
+                <div className="m-auto w-full max-w-5xl py-12">
                     <p style={textStyle}>{currentSegment}</p>
                 </div>
             </div>

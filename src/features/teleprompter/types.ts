@@ -1,5 +1,5 @@
 export type TeleprompterMode = 'setup' | 'teleprompter' | 'reading';
-export type SegmentType = 'paragraph' | 'sentence' | 'line';
+export type SegmentType = 'paragraph' | 'sentence' | 'line' | 'smart';
 export type FontFamily = 'sans' | 'serif' | 'mono';
 
 export interface TeleprompterConfig {
@@ -21,4 +21,5 @@ export interface TeleprompterState {
     currentSegmentIndex: number;
     segments: string[];
     isFullscreen: boolean;
+    countdown: number | null;
 }

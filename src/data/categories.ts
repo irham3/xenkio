@@ -50,7 +50,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'JSON formatter, regex tester, diff checker, and code utilities | instant, no server needed',
         icon: Code2,
         color: '#E4E4E7',
-        toolCount: 15,
+        toolCount: 16,
     },
     {
         id: 'design-tools',
@@ -66,7 +66,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Word counter, case converter, slug generator, and text formatting | fast and private',
         icon: Type,
         color: '#E4E4E7',
-        toolCount: 11,
+        toolCount: 12,
     },
     {
         id: 'web-seo',
@@ -82,7 +82,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Unit converter, percentage, age, BMI, and loan calculators | instant results offline',
         icon: Calculator,
         color: '#E4E4E7',
-        toolCount: 5,
+        toolCount: 7,
     },
 ];
 

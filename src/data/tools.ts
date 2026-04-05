@@ -76,6 +76,9 @@ import {
     ScanFace,
     Scroll,
     PenLine,
+    Grid3x3,
+    Clapperboard,
+    FlaskConical,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -335,7 +338,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
     },
     // =====================================================
-    // IMAGE TOOLS - Tambahan
+    // IMAGE TOOLS - Additional
     // =====================================================
     {
         id: '66',
@@ -824,8 +827,18 @@ export const TOOLS: ToolData[] = [
         isComingSoon: true,
         categoryId: 'calculators',
     },
+    {
+        id: '116',
+        title: 'Matrix Calculator',
+        description: 'Perform matrix operations: transpose, multiplication, inverse, determinant, trace, rank, and power. Easy to use even for beginners.',
+        icon: Grid3x3,
+        href: '/tools/matrix-calculator',
+        slug: 'matrix-calculator',
+        isNew: true,
+        categoryId: 'calculators',
+    },
     // =====================================================
-    // SECURITY & PRIVACY - Tambahan
+    // SECURITY & PRIVACY - Additional
     // =====================================================
     {
         id: '68',
@@ -907,7 +920,7 @@ export const TOOLS: ToolData[] = [
 
 
     // =====================================================
-    // DESIGN TOOLS - Tambahan
+    // DESIGN TOOLS - Additional
     // =====================================================
     {
         id: '73',
@@ -1001,7 +1014,7 @@ export const TOOLS: ToolData[] = [
     },
 
     // =====================================================
-    // TEXT UTILITIES - Tambahan
+    // TEXT UTILITIES - Additional
     // =====================================================
     {
         id: '79',
@@ -1040,6 +1053,20 @@ export const TOOLS: ToolData[] = [
         icon: Replace,
         href: '/tools/text-replace',
         slug: 'text-replace',
+        isNew: true,
+        categoryId: 'text-utilities',
+    },
+
+    // =====================================================
+    // TEXT UTILITIES - Teleprompter
+    // =====================================================
+    {
+        id: '119',
+        title: 'Teleprompter',
+        description: 'Read scripts with ease. Auto-scrolling teleprompter mode or page-read mode suitable for tablets, phones, and laptops.',
+        icon: Clapperboard,
+        href: '/tools/teleprompter',
+        slug: 'teleprompter',
         isNew: true,
         categoryId: 'text-utilities',
     },
@@ -1124,7 +1151,7 @@ export const TOOLS: ToolData[] = [
     },
 
     // =====================================================
-    // CALCULATORS - Tambahan
+    // CALCULATORS - Additional
     // =====================================================
     {
         id: '88',
@@ -1166,6 +1193,20 @@ export const TOOLS: ToolData[] = [
         slug: 'grade-calculator',
         isComingSoon: true,
         categoryId: 'calculators',
+    },
+
+    // =====================================================
+    // DEVELOPER TOOLS - Time Complexity Calculator
+    // =====================================================
+    {
+        id: '121',
+        title: 'Time Complexity Calculator',
+        description: 'Analyze time and space complexity of your algorithm. Paste code or pseudocode and get instant Big O notation with detailed explanation.',
+        icon: BarChart3,
+        href: '/tools/time-complexity-calculator',
+        slug: 'time-complexity-calculator',
+        isNew: true,
+        categoryId: 'developer-tools',
     },
 
     // =====================================================
@@ -1235,7 +1276,7 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS - P2P Local Data Transfer
     // =====================================================
     {
-        id: '116',
+        id: '120',
         title: 'P2P Local Data Transfer',
         description: 'Send text and files directly between devices via WebRTC — no uploads, no accounts, nothing stored on any server.',
         icon: Share2,
@@ -1243,6 +1284,19 @@ export const TOOLS: ToolData[] = [
         slug: 'p2p-share',
         isNew: true,
         categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // CALCULATORS - Hypothesis Test
+    // =====================================================
+    {
+        id: '122',
+        title: 'Statistical Hypothesis Test',
+        description: 'Calculate hypothesis tests for research: t-test, z-test, chi-square, ANOVA, and Pearson correlation. Paste data directly from Excel.',
+        icon: FlaskConical,
+        href: '/tools/hypothesis-test',
+        slug: 'hypothesis-test',
+        isNew: true,
+        categoryId: 'calculators',
     },
 ];
 

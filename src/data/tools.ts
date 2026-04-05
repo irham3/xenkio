@@ -73,6 +73,7 @@ import {
     Database,
     Replace,
     BarChart3,
+    ScanFace,
     Scroll,
     PenLine,
     Grid3x3,
@@ -803,7 +804,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate Body Mass Index and health status.',
         icon: Activity,
         href: '/tools/bmi-calculator',
-        isComingSoon: true,
+        slug: 'bmi-calculator',
         categoryId: 'calculators',
     },
     {
@@ -988,6 +989,16 @@ export const TOOLS: ToolData[] = [
         icon: GlassWater,
         href: '/tools/glassmorphism-generator',
         slug: 'glassmorphism-generator',
+        isNew: true,
+        categoryId: 'design-tools',
+    },
+    {
+        id: '115',
+        title: 'Keyframe Animation Generator',
+        description: 'Create CSS @keyframes animations visually with live preview, presets, and instant code export.',
+        icon: Film,
+        href: '/tools/keyframe-animation-generator',
+        slug: 'keyframe-animation-generator',
         isNew: true,
         categoryId: 'design-tools',
     },
@@ -1224,6 +1235,18 @@ export const TOOLS: ToolData[] = [
     },
 
     // =====================================================
+    // MEDIA & IMAGES - Face Anonymizer
+    // =====================================================
+    {
+        id: '114',
+        title: 'Face Anonymizer',
+        description: 'Automatically detect and blur or pixelate faces in photos. Select all or individual faces. 100% private — runs in your browser.',
+        icon: ScanFace,
+        href: '/tools/face-anonymizer',
+        slug: 'face-anonymizer',
+        isNew: true,
+        categoryId: 'media-images',
+    },
     // DEVELOPER TOOLS - HTML Viewer
     // =====================================================
     {

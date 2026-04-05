@@ -107,7 +107,9 @@ export function useHypothesisTest() {
                         b = parseNumbers(data1);
                         a = parseNumbers(data2);
                     }
+                    if (b.length !== a.length || b.length < 2) {
                         throw new Error('Both columns must have the same number of data points (min. 2).');
+                    }
                     result = runPairedT(b, a, alpha, alternative);
                     break;
                 }

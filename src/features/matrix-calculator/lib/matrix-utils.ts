@@ -74,7 +74,7 @@ export function inverseMatrix(matrix: Matrix): Matrix {
     const det = determinant(matrix);
 
     if (Math.abs(det) < 1e-10) {
-        throw new Error('Matrix tidak bisa diinvers (determinan = 0)');
+        throw new Error('Matrix is not invertible (determinant = 0)');
     }
 
     const cofactors = matrix.map((row, i) =>

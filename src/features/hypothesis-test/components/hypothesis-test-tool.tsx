@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,14 +8,37 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertCircle, CheckCircle2, XCircle, ChevronDown, ChevronUp, Info, RotateCcw, FlaskConical } from 'lucide-react';
+import {
+    AlertCircle,
+    CheckCircle2,
+    XCircle,
+    ChevronDown,
+    ChevronUp,
+    Info,
+    RotateCcw,
+    FlaskConical,
+    ClipboardPaste,
+    Table2,
+} from 'lucide-react';
 import { useHypothesisTest, TEST_CATEGORIES } from '../hooks/use-hypothesis-test';
 import { TestType, AlternativeHypothesis } from '../types';
 import { DescriptiveStats } from '../types';
+import {
+    DataTableEditor,
+    formDataToText,
+    textToFormData,
+    createEmptyFormData,
+} from './data-table-editor';
+
+// ── Helpers ────────────────────────────────────────────────────────────────
 
 function fmt(n: number, d = 4): string {
     return Number.isFinite(n) ? n.toFixed(d) : '—';
 }
+
+type InputMode = 'paste' | 'form';
+
+// ── Descriptive Stats Table ────────────────────────────────────────────────
 
 function DescStats({ stats, labels }: { stats: DescriptiveStats[]; labels: string[] }) {
     return (
@@ -52,20 +75,63 @@ function DescStats({ stats, labels }: { stats: DescriptiveStats[]; labels: strin
     );
 }
 
+// ── Paste Mode Hints ──
+
 const PASTE_HINT = 'Paste directly from Excel, Google Sheets, or type manually.\nSeparate numbers with spaces, commas, tabs, or enter.';
 const PASTE_HINT_COLS = 'Paste directly from Excel (2 columns, tab-separated).\nOr type two rows of numbers separated by tabs/commas.';
+
+// ── Input Mode Toggle ──────────────────────────────────────────────────────
+
+function InputModeToggle({ mode, onModeChange }: { mode: InputMode; onModeChange: (m: InputMode) => void }) {
+    return (
+        <div className="inline-flex items-center rounded-lg bg-gray-100 p-0.5">
+            <button
+                onClick={() => onModeChange('form')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    mode === 'form'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
+                }`}
+            >
+                <Table2 className="w-3.5 h-3.5" />
+                Form
+            </button>
+            <button
+                onClick={() => onModeChange('paste')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    mode === 'paste'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
+                }`}
+            >
+                <ClipboardPaste className="w-3.5 h-3.5" />
+                Paste
+            </button>
+        </div>
+    );
+}
+
+// ── Main Component ─────────────────────────────────────────────────────────
 
 export function HypothesisTestTool() {
     const { state, updateConfig, setField, calculate, reset } = useHypothesisTest();
     const { config, result, error } = state;
     const [showDesc, setShowDesc] = useState(true);
+    const [inputMode, setInputMode] = useState<InputMode>('form');
+
+    // ── Form data state (2D string arrays for each input slot) ──
+    const [formData1, setFormData1] = useState<string[][]>(createEmptyFormData(5, 1));
+    const [formData2, setFormData2] = useState<string[][]>(createEmptyFormData(5, 1));
+    const [formPaired, setFormPaired] = useState<string[][]>(createEmptyFormData(5, 2));
+    const [formObsExp, setFormObsExp] = useState<string[][]>(createEmptyFormData(4, 2));
+    const [formContingency, setFormContingency] = useState<string[][]>(createEmptyFormData(3, 3));
+    const [formAnova, setFormAnova] = useState<string[][]>(createEmptyFormData(5, 3));
 
     const { testType } = config;
 
     const needsGroup2 =
         testType === 'two-sample-t' ||
-        testType === 'two-sample-z' ||
-        testType === 'paired-t';
+        testType === 'two-sample-z';
     const needsMu0 =
         testType === 'one-sample-t' ||
         testType === 'one-sample-z' ||
@@ -79,8 +145,363 @@ export function HypothesisTestTool() {
     const needsAnova = testType === 'one-way-anova';
     const isPairedOrCorr = testType === 'paired-t' || testType === 'pearson-correlation';
 
+    // ── Determine which form data to show based on testType ──
+    const inputCategory = useMemo(() => {
+        if (needsContingency) return 'contingency' as const;
+        if (needsObsExp) return 'observed-expected' as const;
+        if (needsAnova) return 'anova' as const;
+        if (isPairedOrCorr) return 'paired' as const;
+        if (needsGroup2) return 'dual' as const;
+        return 'single' as const;
+    }, [needsContingency, needsObsExp, needsAnova, isPairedOrCorr, needsGroup2]);
+
+    // ── Column definitions per variant ──
+    const formColumns = useMemo(() => {
+        switch (inputCategory) {
+            case 'single':
+                return [{ label: 'Sample Data', placeholder: 'value' }];
+            case 'dual':
+                return [
+                    { label: 'Group 1', placeholder: 'value' },
+                    { label: 'Group 2', placeholder: 'value' },
+                ];
+            case 'paired':
+                return testType === 'paired-t'
+                    ? [{ label: 'Before', placeholder: 'value' }, { label: 'After', placeholder: 'value' }]
+                    : [{ label: 'X', placeholder: 'value' }, { label: 'Y', placeholder: 'value' }];
+            case 'observed-expected':
+                return [
+                    { label: 'Observed (O)', placeholder: 'freq' },
+                    { label: 'Expected (E)', placeholder: 'freq' },
+                ];
+            case 'contingency':
+                return Array.from({ length: formContingency[0]?.length ?? 3 }, (_, i) => ({
+                    label: `Col ${i + 1}`,
+                    placeholder: 'freq',
+                }));
+            case 'anova':
+                return Array.from({ length: formAnova[0]?.length ?? 3 }, (_, i) => ({
+                    label: `Group ${i + 1}`,
+                    placeholder: 'value',
+                }));
+        }
+    }, [inputCategory, testType, formContingency, formAnova]);
+
+    // ── Get/set form data for the current input category ──
+    const currentFormData = useMemo(() => {
+        switch (inputCategory) {
+            case 'single': return formData1;
+            case 'dual': {
+                // Merge dual columns into a unified 2-col grid
+                const maxLen = Math.max(formData1.length, formData2.length, 3);
+                return Array.from({ length: maxLen }, (_, i) => [
+                    formData1[i]?.[0] ?? '',
+                    formData2[i]?.[0] ?? '',
+                ]);
+            }
+            case 'paired': return formPaired;
+            case 'observed-expected': return formObsExp;
+            case 'contingency': return formContingency;
+            case 'anova': return formAnova;
+        }
+    }, [inputCategory, formData1, formData2, formPaired, formObsExp, formContingency, formAnova]);
+
+    // ── Sync form data → paste text fields ──
+    const syncFormToPaste = useCallback(
+        (category: typeof inputCategory, newData: string[][]) => {
+            switch (category) {
+                case 'single': {
+                    setFormData1(newData);
+                    setField('data1', formDataToText(newData));
+                    break;
+                }
+                case 'dual': {
+                    // Split 2-col data into separate group fields
+                    const g1 = newData.map((r) => [r[0] ?? '']);
+                    const g2 = newData.map((r) => [r[1] ?? '']);
+                    setFormData1(g1);
+                    setFormData2(g2);
+                    setField('data1', formDataToText(g1));
+                    setField('data2', formDataToText(g2));
+                    break;
+                }
+                case 'paired': {
+                    setFormPaired(newData);
+                    setField('data1', formDataToText(newData));
+                    setField('data2', '');
+                    break;
+                }
+                case 'observed-expected': {
+                    setFormObsExp(newData);
+                    const obs = newData.map((r) => r[0]).filter((v) => v.trim() !== '').join(' ');
+                    const exp = newData.map((r) => r[1]).filter((v) => v.trim() !== '').join(' ');
+                    setField('observedInput', obs);
+                    setField('expectedInput', exp);
+                    break;
+                }
+                case 'contingency': {
+                    setFormContingency(newData);
+                    const text = newData
+                        .filter((r) => r.some((v) => v.trim() !== ''))
+                        .map((r) => r.join('\t'))
+                        .join('\n');
+                    setField('contingencyInput', text);
+                    break;
+                }
+                case 'anova': {
+                    setFormAnova(newData);
+                    const text = newData
+                        .filter((r) => r.some((v) => v.trim() !== ''))
+                        .map((r) => r.join('\t'))
+                        .join('\n');
+                    setField('anovaInput', text);
+                    break;
+                }
+            }
+        },
+        [setField],
+    );
+
+    const handleFormChange = useCallback(
+        (newData: string[][]) => {
+            syncFormToPaste(inputCategory, newData);
+        },
+        [inputCategory, syncFormToPaste],
+    );
+
+    // ── Handle contingency/anova column add/remove (need to update columns) ──
+    const handleFormChangeWithColumns = useCallback(
+        (newData: string[][]) => {
+            syncFormToPaste(inputCategory, newData);
+        },
+        [inputCategory, syncFormToPaste],
+    );
+
+    // ── Sync paste text → form data when switching to form mode ──
+    const handleModeSwitch = useCallback(
+        (newMode: InputMode) => {
+            if (newMode === 'form') {
+                // Parse current paste text into form data
+                switch (inputCategory) {
+                    case 'single': {
+                        const parsed = textToFormData(state.data1, 1);
+                        setFormData1(parsed.length > 0 ? parsed : createEmptyFormData(5, 1));
+                        break;
+                    }
+                    case 'dual': {
+                        const p1 = textToFormData(state.data1, 1);
+                        const p2 = textToFormData(state.data2, 1);
+                        setFormData1(p1.length > 0 ? p1 : createEmptyFormData(5, 1));
+                        setFormData2(p2.length > 0 ? p2 : createEmptyFormData(5, 1));
+                        break;
+                    }
+                    case 'paired': {
+                        const parsed = textToFormData(state.data1, 2);
+                        setFormPaired(parsed.length > 0 ? parsed : createEmptyFormData(5, 2));
+                        break;
+                    }
+                    case 'observed-expected': {
+                        const obsTokens = state.observedInput.trim().split(/[\s,;]+/).filter(Boolean);
+                        const expTokens = state.expectedInput.trim().split(/[\s,;]+/).filter(Boolean);
+                        const maxLen = Math.max(obsTokens.length, expTokens.length, 4);
+                        const parsed = Array.from({ length: maxLen }, (_, i) => [
+                            obsTokens[i] ?? '',
+                            expTokens[i] ?? '',
+                        ]);
+                        setFormObsExp(parsed);
+                        break;
+                    }
+                    case 'contingency': {
+                        if (state.contingencyInput.trim()) {
+                            const rows = state.contingencyInput.trim().split(/\n|\r\n/);
+                            const parsed = rows.map((r) =>
+                                r.split(/[\t,;]/).map((c) => c.trim()),
+                            );
+                            const maxCols = Math.max(...parsed.map((r) => r.length), 2);
+                            const normalized = parsed.map((r) => [
+                                ...r,
+                                ...Array(maxCols - r.length).fill(''),
+                            ]);
+                            setFormContingency(normalized.length > 0 ? normalized : createEmptyFormData(3, 3));
+                        } else {
+                            setFormContingency(createEmptyFormData(3, 3));
+                        }
+                        break;
+                    }
+                    case 'anova': {
+                        if (state.anovaInput.trim()) {
+                            const rows = state.anovaInput.trim().split(/\n|\r\n/);
+                            const parsed = rows.map((r) =>
+                                r.split(/[\t,;]/).map((c) => c.trim()),
+                            );
+                            const maxCols = Math.max(...parsed.map((r) => r.length), 2);
+                            const normalized = parsed.map((r) => [
+                                ...r,
+                                ...Array(maxCols - r.length).fill(''),
+                            ]);
+                            setFormAnova(normalized.length > 0 ? normalized : createEmptyFormData(5, 3));
+                        } else {
+                            setFormAnova(createEmptyFormData(5, 3));
+                        }
+                        break;
+                    }
+                }
+            }
+            setInputMode(newMode);
+        },
+        [inputCategory, state],
+    );
+
+    // ── Reset also clears form data ──
+    const handleReset = useCallback(() => {
+        reset();
+        setFormData1(createEmptyFormData(5, 1));
+        setFormData2(createEmptyFormData(5, 1));
+        setFormPaired(createEmptyFormData(5, 2));
+        setFormObsExp(createEmptyFormData(4, 2));
+        setFormContingency(createEmptyFormData(3, 3));
+        setFormAnova(createEmptyFormData(5, 3));
+    }, [reset]);
+
     function handleCalculate() {
         calculate();
+    }
+
+    // ── Render: Data Input Panel (FORM MODE) ──
+
+    function renderFormMode() {
+        return (
+            <DataTableEditor
+                variant={inputCategory}
+                columns={formColumns}
+                data={currentFormData}
+                onChange={handleFormChangeWithColumns}
+                allowAddColumns={inputCategory === 'contingency' || inputCategory === 'anova'}
+                minRows={inputCategory === 'contingency' ? 2 : 1}
+                minCols={inputCategory === 'contingency' ? 2 : inputCategory === 'anova' ? 2 : undefined}
+            />
+        );
+    }
+
+    // ── Render: Data Input Panel (PASTE MODE) ──
+
+    function renderPasteMode() {
+        if (needsContingency) {
+            return (
+                <div>
+                    <Label className="text-sm font-medium text-gray-700">Contingency Table</Label>
+                    <Textarea
+                        placeholder={'Paste from Excel (rows = category A, columns = category B)\nExample 2x3:\n10\t20\t30\n15\t25\t10'}
+                        value={state.contingencyInput}
+                        onChange={(e) => setField('contingencyInput', e.target.value)}
+                        className="mt-1.5 font-mono text-sm min-h-[100px] resize-y"
+                        rows={5}
+                    />
+                    <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                        <Info className="w-3 h-3" />
+                        Each row represents one category of variable A, columns = category of variable B.
+                    </p>
+                </div>
+            );
+        }
+
+        if (needsObsExp) {
+            return (
+                <>
+                    <div>
+                        <Label className="text-sm font-medium text-gray-700">Observed Frequency (O)</Label>
+                        <Textarea
+                            placeholder="Example: 20 30 15 35\n(separate with spaces or enter)"
+                            value={state.observedInput}
+                            onChange={(e) => setField('observedInput', e.target.value)}
+                            className="mt-1.5 font-mono text-sm"
+                            rows={3}
+                        />
+                    </div>
+                    <div>
+                        <Label className="text-sm font-medium text-gray-700">Expected Frequency (E)</Label>
+                        <Textarea
+                            placeholder="Example: 25 25 25 25\n(separate with spaces or enter)"
+                            value={state.expectedInput}
+                            onChange={(e) => setField('expectedInput', e.target.value)}
+                            className="mt-1.5 font-mono text-sm"
+                            rows={3}
+                        />
+                    </div>
+                </>
+            );
+        }
+
+        if (needsAnova) {
+            return (
+                <div>
+                    <Label className="text-sm font-medium text-gray-700">Data (each column = one group)</Label>
+                    <Textarea
+                        placeholder={'Paste from Excel — each column = one group (tab-separated)\nExample 3 groups:\n12\t15\t10\n14\t18\t11\n13\t16\t9'}
+                        value={state.anovaInput}
+                        onChange={(e) => setField('anovaInput', e.target.value)}
+                        className="mt-1.5 font-mono text-sm min-h-[120px] resize-y"
+                        rows={6}
+                    />
+                    <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                        <Info className="w-3 h-3" />
+                        Each column represents one group. Separate columns with tabs (direct from Excel).
+                    </p>
+                </div>
+            );
+        }
+
+        // Standard data input (t-tests, z-tests, pearson)
+        return (
+            <>
+                <div>
+                    <Label className="text-sm font-medium text-gray-700">
+                        {isPairedOrCorr ? 'Data (2 columns: Before & After / X & Y)' : needsGroup2 ? 'Group 1 Data' : 'Sample Data'}
+                    </Label>
+                    <Textarea
+                        placeholder={isPairedOrCorr ? PASTE_HINT_COLS : PASTE_HINT}
+                        value={state.data1}
+                        onChange={(e) => setField('data1', e.target.value)}
+                        className="mt-1.5 font-mono text-sm min-h-[100px] resize-y"
+                        rows={5}
+                    />
+                    <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                        <Info className="w-3 h-3" />
+                        {isPairedOrCorr
+                            ? 'Paste 2 columns from Excel. Or use the second column below.'
+                            : 'Paste from Excel, Google Sheets, or type numbers separated by spaces/enter.'}
+                    </p>
+                </div>
+                {needsGroup2 && !isPairedOrCorr && (
+                    <div>
+                        <Label className="text-sm font-medium text-gray-700">Group 2 Data</Label>
+                        <Textarea
+                            placeholder={PASTE_HINT}
+                            value={state.data2}
+                            onChange={(e) => setField('data2', e.target.value)}
+                            className="mt-1.5 font-mono text-sm min-h-[80px] resize-y"
+                            rows={4}
+                        />
+                    </div>
+                )}
+                {isPairedOrCorr && (
+                    <div>
+                        <Label className="text-sm font-medium text-gray-700">
+                            {testType === 'paired-t'
+                                ? 'After Data (optional if already pasted 2 columns)'
+                                : 'Y Data (optional if already pasted 2 columns)'}
+                        </Label>
+                        <Textarea
+                            placeholder={PASTE_HINT}
+                            value={state.data2}
+                            onChange={(e) => setField('data2', e.target.value)}
+                            className="mt-1.5 font-mono text-sm min-h-[80px] resize-y"
+                            rows={4}
+                        />
+                    </div>
+                )}
+            </>
+        );
     }
 
     return (
@@ -166,7 +587,7 @@ export function HypothesisTestTool() {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="two-tailed">Two-Tailed (≠) — most common</SelectItem>
-                                    <SelectItem value="right-tailed">Right-Tailed ({'>'})</SelectItem>
+                                    <SelectItem value="right-tailed">Right-Tailed ({'>'}) </SelectItem>
                                     <SelectItem value="left-tailed">Left-Tailed ({'<'})</SelectItem>
                                 </SelectContent>
                             </Select>
@@ -234,119 +655,18 @@ export function HypothesisTestTool() {
 
                 {/* Data panel */}
                 <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-4">
-                    <h2 className="font-semibold text-gray-800">Input Data</h2>
+                    <div className="flex items-center justify-between">
+                        <h2 className="font-semibold text-gray-800">Input Data</h2>
+                        <InputModeToggle mode={inputMode} onModeChange={handleModeSwitch} />
+                    </div>
 
-                    {!needsContingency && !needsObsExp && !needsAnova && (
-                        <>
-                            <div>
-                                <Label className="text-sm font-medium text-gray-700">
-                                    {isPairedOrCorr ? 'Data (2 columns: Before & After / X & Y)' : needsGroup2 ? 'Group 1 Data' : 'Sample Data'}
-                                </Label>
-                                <Textarea
-                                    placeholder={isPairedOrCorr ? PASTE_HINT_COLS : PASTE_HINT}
-                                    value={state.data1}
-                                    onChange={(e) => setField('data1', e.target.value)}
-                                    className="mt-1.5 font-mono text-sm min-h-[100px] resize-y"
-                                    rows={5}
-                                />
-                                <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                                    <Info className="w-3 h-3" />
-                                    {isPairedOrCorr ? 'Paste 2 columns from Excel. Or use the second column below.' : 'Paste from Excel, Google Sheets, or type numbers separated by spaces/enter.'}
-                                </p>
-                            </div>
-                            {needsGroup2 && !isPairedOrCorr && (
-                                <div>
-                                    <Label className="text-sm font-medium text-gray-700">Group 2 Data</Label>
-                                    <Textarea
-                                        placeholder={PASTE_HINT}
-                                        value={state.data2}
-                                        onChange={(e) => setField('data2', e.target.value)}
-                                        className="mt-1.5 font-mono text-sm min-h-[80px] resize-y"
-                                        rows={4}
-                                    />
-                                </div>
-                            )}
-                            {isPairedOrCorr && (
-                                <div>
-                                    <Label className="text-sm font-medium text-gray-700">
-                                        {testType === 'paired-t' ? 'After Data (optional if already pasted 2 columns)' : 'Y Data (optional if already pasted 2 columns)'}
-                                    </Label>
-                                    <Textarea
-                                        placeholder={PASTE_HINT}
-                                        value={state.data2}
-                                        onChange={(e) => setField('data2', e.target.value)}
-                                        className="mt-1.5 font-mono text-sm min-h-[80px] resize-y"
-                                        rows={4}
-                                    />
-                                </div>
-                            )}
-                        </>
-                    )}
-
-                    {needsObsExp && (
-                        <>
-                            <div>
-                                <Label className="text-sm font-medium text-gray-700">Observed Frequency (O)</Label>
-                                <Textarea
-                                    placeholder="Example: 20 30 15 35\n(separate with spaces or enter)"
-                                    value={state.observedInput}
-                                    onChange={(e) => setField('observedInput', e.target.value)}
-                                    className="mt-1.5 font-mono text-sm"
-                                    rows={3}
-                                />
-                            </div>
-                            <div>
-                                <Label className="text-sm font-medium text-gray-700">Expected Frequency (E)</Label>
-                                <Textarea
-                                    placeholder="Example: 25 25 25 25\n(separate with spaces or enter)"
-                                    value={state.expectedInput}
-                                    onChange={(e) => setField('expectedInput', e.target.value)}
-                                    className="mt-1.5 font-mono text-sm"
-                                    rows={3}
-                                />
-                            </div>
-                        </>
-                    )}
-
-                    {needsContingency && (
-                        <div>
-                            <Label className="text-sm font-medium text-gray-700">Contingency Table</Label>
-                            <Textarea
-                                placeholder={'Paste from Excel (rows = category A, columns = category B)\nExample 2x3:\n10\t20\t30\n15\t25\t10'}
-                                value={state.contingencyInput}
-                                onChange={(e) => setField('contingencyInput', e.target.value)}
-                                className="mt-1.5 font-mono text-sm min-h-[100px] resize-y"
-                                rows={5}
-                            />
-                            <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                                <Info className="w-3 h-3" />
-                                Each row represents one category of variable A, columns = category of variable B.
-                            </p>
-                        </div>
-                    )}
-
-                    {needsAnova && (
-                        <div>
-                            <Label className="text-sm font-medium text-gray-700">Data (each column = one group)</Label>
-                            <Textarea
-                                placeholder={'Paste from Excel — each column = one group (tab-separated)\nExample 3 groups:\n12\t15\t10\n14\t18\t11\n13\t16\t9'}
-                                value={state.anovaInput}
-                                onChange={(e) => setField('anovaInput', e.target.value)}
-                                className="mt-1.5 font-mono text-sm min-h-[120px] resize-y"
-                                rows={6}
-                            />
-                            <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                                <Info className="w-3 h-3" />
-                                Each column represents one group. Separate columns with tabs (direct from Excel).
-                            </p>
-                        </div>
-                    )}
+                    {inputMode === 'form' ? renderFormMode() : renderPasteMode()}
                 </div>
             </div>
 
             {/* ── Action buttons ── */}
             <div className="flex gap-3 justify-end">
-                <Button variant="outline" onClick={reset} className="gap-2">
+                <Button variant="outline" onClick={handleReset} className="gap-2">
                     <RotateCcw className="w-4 h-4" />
                     Reset
                 </Button>

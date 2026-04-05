@@ -240,14 +240,19 @@ export function fPvalue(f: number, df1: number, df2: number): number {
 }
 
 export function fCritical(alpha: number, df1: number, df2: number): number {
-    let f = 1.0;
+    let low = 0;
+    let high = 1e6;
     for (let i = 0; i < 100; i++) {
-        const p = fPvalue(f, df1, df2);
-        if (Math.abs(p - alpha) < 1e-8) break;
-        f += (p - alpha) * 2;
-        if (f < 0) f = 1e-6;
+        const mid = (low + high) / 2;
+        const p = fPvalue(mid, df1, df2);
+        if (p > alpha) {
+            low = mid;
+        } else {
+            high = mid;
+        }
+        if (Math.abs(high - low) < 1e-9) break;
     }
-    return f;
+    return high;
 }
 
 // ── Parsing helpers ────────────────────────────────────────────────────────
@@ -296,7 +301,7 @@ export function runOneSampleT(
     alt: AlternativeHypothesis,
 ): HypothesisTestResult {
     const s = descriptive(data);
-    const t = (s.mean - mu0) / s.se;
+    const t = s.se === 0 ? (s.mean === mu0 ? 0 : (s.mean > mu0 ? Infinity : -Infinity)) : (s.mean - mu0) / s.se;
     const df = s.n - 1;
     const pValue = tPvalue(t, df, alt);
     const cv = tCritical(alpha, df, alt);
@@ -336,12 +341,12 @@ export function runTwoSampleT(
         const sp2 =
             ((s1.n - 1) * s1.std ** 2 + (s2.n - 1) * s2.std ** 2) / (s1.n + s2.n - 2);
         const se = Math.sqrt(sp2 * (1 / s1.n + 1 / s2.n));
-        t = (s1.mean - s2.mean) / se;
+        t = se === 0 ? (s1.mean === s2.mean ? 0 : (s1.mean > s2.mean ? Infinity : -Infinity)) : (s1.mean - s2.mean) / se;
         df = s1.n + s2.n - 2;
     } else {
         // Welch
         const se = Math.sqrt(s1.std ** 2 / s1.n + s2.std ** 2 / s2.n);
-        t = (s1.mean - s2.mean) / se;
+        t = se === 0 ? (s1.mean === s2.mean ? 0 : (s1.mean > s2.mean ? Infinity : -Infinity)) : (s1.mean - s2.mean) / se;
         const num = (s1.std ** 2 / s1.n + s2.std ** 2 / s2.n) ** 2;
         const den =
             (s1.std ** 2 / s1.n) ** 2 / (s1.n - 1) + (s2.std ** 2 / s2.n) ** 2 / (s2.n - 1);
@@ -379,7 +384,7 @@ export function runPairedT(
 ): HypothesisTestResult {
     const diffs = before.map((b, i) => b - after[i]);
     const s = descriptive(diffs);
-    const t = s.mean / s.se;
+    const t = s.se === 0 ? (s.mean === 0 ? 0 : (s.mean > 0 ? Infinity : -Infinity)) : s.mean / s.se;
     const df = s.n - 1;
     const pValue = tPvalue(t, df, alt);
     const cv = tCritical(alpha, df, alt);
@@ -558,7 +563,7 @@ export function runOneWayAnova(
     const dfw = nTotal - k;
     const msb = ssb / dfb;
     const msw = ssw / dfw;
-    const f = msb / msw;
+    const f = msw === 0 ? (msb === 0 ? 0 : Infinity) : msb / msw;
     const pValue = fPvalue(f, dfb, dfw);
     const cv = fCritical(alpha, dfb, dfw);
     const reject = pValue < alpha;

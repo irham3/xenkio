@@ -1,5 +1,5 @@
 import type { AnonymizationMode } from '../types';
-import { MIN_PIXEL_SIZE } from '../constants';
+import { MAX_BLUR_INTENSITY, MIN_PIXEL_SIZE } from '../constants';
 
 export interface FaceRegion {
     x: number;
@@ -31,62 +31,80 @@ export function applyAnonymization(
     const scaleX = canvasWidth / image.naturalWidth;
     const scaleY = canvasHeight / image.naturalHeight;
 
-    for (const face of faces) {
-        // Source region in natural image pixels
-        const sx = Math.max(0, face.x);
-        const sy = Math.max(0, face.y);
-        const sw = Math.min(face.width, image.naturalWidth - sx);
-        const sh = Math.min(face.height, image.naturalHeight - sy);
+    const regions = faces
+        .map((face) => {
+            // Source region in natural image pixels
+            const sx = Math.max(0, face.x);
+            const sy = Math.max(0, face.y);
+            const sw = Math.min(face.width, image.naturalWidth - sx);
+            const sh = Math.min(face.height, image.naturalHeight - sy);
 
-        if (sw <= 0 || sh <= 0) continue;
+            if (sw <= 0 || sh <= 0) return null;
 
-        // Destination region in canvas pixels
-        const dx = sx * scaleX;
-        const dy = sy * scaleY;
-        const dw = sw * scaleX;
-        const dh = sh * scaleY;
+            // Destination region in canvas pixels
+            const dx = sx * scaleX;
+            const dy = sy * scaleY;
+            const dw = sw * scaleX;
+            const dh = sh * scaleY;
 
-        if (mode === 'blur') {
-            const blurRadius = intensity * 2;
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(dx, dy, dw, dh);
-            ctx.clip();
-            ctx.filter = `blur(${blurRadius}px)`;
-            // Draw a slightly larger area so blur covers edges
-            ctx.drawImage(
-                image,
-                Math.max(0, sx - 2),
-                Math.max(0, sy - 2),
-                Math.min(sw + 4, image.naturalWidth - Math.max(0, sx - 2)),
-                Math.min(sh + 4, image.naturalHeight - Math.max(0, sy - 2)),
-                dx - 2 * scaleX,
-                dy - 2 * scaleY,
-                dw + 4 * scaleX,
-                dh + 4 * scaleY,
-            );
-            ctx.filter = 'none';
-            ctx.restore();
-        } else {
-            // Pixelate: downscale to a few pixels then upscale without smoothing
-            const pixelSize = Math.max(MIN_PIXEL_SIZE, intensity);
-            const smallW = Math.max(1, Math.ceil(dw / pixelSize));
-            const smallH = Math.max(1, Math.ceil(dh / pixelSize));
+            return { sx, sy, sw, sh, dx, dy, dw, dh };
+        })
+        .filter((region): region is NonNullable<typeof region> => region !== null);
+
+    if (regions.length === 0) return;
+
+    if (mode === 'blur') {
+        const normalizedIntensity = Math.min(
+            1,
+            Math.max(0, (intensity - 1) / Math.max(1, MAX_BLUR_INTENSITY - 1)),
+        );
+        // Deterministic blur via downscale-upscale avoids non-monotonic behavior of large canvas filters.
+        const downscaleFactor = 1 + Math.round(normalizedIntensity * normalizedIntensity * 30);
+
+        for (const { sx, sy, sw, sh, dx, dy, dw, dh } of regions) {
+            if (dw <= 0 || dh <= 0 || sw <= 0 || sh <= 0) continue;
+
+            const sampleW = Math.max(1, Math.round(dw / downscaleFactor));
+            const sampleH = Math.max(1, Math.round(dh / downscaleFactor));
 
             const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = smallW;
-            tempCanvas.height = smallH;
+            tempCanvas.width = sampleW;
+            tempCanvas.height = sampleH;
             const tempCtx = tempCanvas.getContext('2d');
             if (!tempCtx) continue;
 
-            tempCtx.drawImage(image, sx, sy, sw, sh, 0, 0, smallW, smallH);
+            tempCtx.imageSmoothingEnabled = true;
+            tempCtx.imageSmoothingQuality = 'low';
+            tempCtx.drawImage(image, sx, sy, sw, sh, 0, 0, sampleW, sampleH);
 
             ctx.save();
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(tempCanvas, 0, 0, smallW, smallH, dx, dy, dw, dh);
             ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(tempCanvas, 0, 0, sampleW, sampleH, dx, dy, dw, dh);
             ctx.restore();
         }
+        return;
+    }
+
+    for (const { sx, sy, sw, sh, dx, dy, dw, dh } of regions) {
+        // Pixelate: downscale to a few pixels then upscale without smoothing
+        const pixelSize = Math.max(MIN_PIXEL_SIZE, intensity);
+        const smallW = Math.max(1, Math.ceil(dw / pixelSize));
+        const smallH = Math.max(1, Math.ceil(dh / pixelSize));
+
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = smallW;
+        tempCanvas.height = smallH;
+        const tempCtx = tempCanvas.getContext('2d');
+        if (!tempCtx) continue;
+
+        tempCtx.drawImage(image, sx, sy, sw, sh, 0, 0, smallW, smallH);
+
+        ctx.save();
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(tempCanvas, 0, 0, smallW, smallH, dx, dy, dw, dh);
+        ctx.imageSmoothingEnabled = true;
+        ctx.restore();
     }
 }
 

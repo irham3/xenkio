@@ -3,16 +3,17 @@
 import { useState, useCallback, useRef } from "react"
 import { useDropzone } from "react-dropzone"
 import { motion, AnimatePresence } from "framer-motion"
-import { Upload, Download, RefreshCw, ZoomIn, X, ArrowRight } from "lucide-react"
+import { Upload, Download, RefreshCw, ZoomIn, X, ArrowRight, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { type ScaleFactor, type UpscaleState } from "../types"
+import { upscaleWithAI, type UpscalePhase } from "../lib/upscale-engine"
 
 const SCALE_OPTIONS: { value: ScaleFactor; label: string; description: string }[] = [
     { value: 2, label: "2×", description: "Double resolution" },
     { value: 3, label: "3×", description: "Triple resolution" },
     { value: 4, label: "4×", description: "Quadruple resolution" },
-    { value: 8, label: "8×", description: "Ultra HD resolution" },
+    { value: 8, label: "8×", description: "Ultra HD" },
 ]
 
 const DEFAULT_SLIDER_WIDTH = 600
@@ -29,76 +30,12 @@ function formatDimension(w: number, h: number): string {
     return `${w} × ${h} px`
 }
 
-/**
- * Progressive high-quality canvas upscaling.
- * Uses multiple 2× passes with imageSmoothingQuality: 'high'
- * for better quality than a single large-step resize.
- */
-async function upscaleImageOnCanvas(
-    file: File,
-    scaleFactor: ScaleFactor,
-    outputFormat: string
-): Promise<{ dataUrl: string; width: number; height: number }> {
-    return new Promise((resolve, reject) => {
-        const img = new Image()
-        const objectUrl = URL.createObjectURL(file)
-
-        img.onload = () => {
-            URL.revokeObjectURL(objectUrl)
-
-            const targetWidth = img.naturalWidth * scaleFactor
-            const targetHeight = img.naturalHeight * scaleFactor
-
-            // Progressive 2× upscaling passes
-            let currentWidth = img.naturalWidth
-            let currentHeight = img.naturalHeight
-
-            // Draw initial source onto a canvas
-            let sourceCanvas = document.createElement("canvas")
-            sourceCanvas.width = currentWidth
-            sourceCanvas.height = currentHeight
-            const srcCtx = sourceCanvas.getContext("2d")
-            if (!srcCtx) {
-                reject(new Error("Canvas 2D context unavailable"))
-                return
-            }
-            srcCtx.drawImage(img, 0, 0)
-
-            // Keep doubling until we reach (or exceed) the target
-            while (currentWidth < targetWidth || currentHeight < targetHeight) {
-                const stepW = Math.min(currentWidth * 2, targetWidth)
-                const stepH = Math.min(currentHeight * 2, targetHeight)
-
-                const stepCanvas = document.createElement("canvas")
-                stepCanvas.width = stepW
-                stepCanvas.height = stepH
-                const stepCtx = stepCanvas.getContext("2d")
-                if (!stepCtx) {
-                    reject(new Error("Canvas 2D context unavailable"))
-                    return
-                }
-                stepCtx.imageSmoothingEnabled = true
-                stepCtx.imageSmoothingQuality = "high"
-                stepCtx.drawImage(sourceCanvas, 0, 0, stepW, stepH)
-
-                sourceCanvas = stepCanvas
-                currentWidth = stepW
-                currentHeight = stepH
-            }
-
-            const mime = outputFormat === "image/png" ? "image/png" : "image/jpeg"
-            const quality = mime === "image/jpeg" ? 0.95 : undefined
-            const dataUrl = sourceCanvas.toDataURL(mime, quality)
-            resolve({ dataUrl, width: targetWidth, height: targetHeight })
-        }
-
-        img.onerror = () => {
-            URL.revokeObjectURL(objectUrl)
-            reject(new Error("Failed to load image"))
-        }
-
-        img.src = objectUrl
-    })
+function getProcessingLabel(phase: UpscalePhase | null, progress: number): string {
+    if (phase === "loading-model") return "Downloading AI model..."
+    if (phase === "processing") {
+        return progress > 0 ? `Enhancing... ${Math.round(progress * 100)}%` : "Enhancing..."
+    }
+    return "Processing..."
 }
 
 const INITIAL_STATE: UpscaleState = {
@@ -111,11 +48,13 @@ const INITIAL_STATE: UpscaleState = {
     upscaledHeight: 0,
     status: "idle",
     error: null,
+    progress: 0,
+    phase: null,
 }
 
 export function ImageUpscaler() {
     const [state, setState] = useState<UpscaleState>(INITIAL_STATE)
-    const [scaleFactor, setScaleFactor] = useState<ScaleFactor>(2)
+    const [scaleFactor, setScaleFactor] = useState<ScaleFactor>(4)
     const [outputFormat, setOutputFormat] = useState<"image/jpeg" | "image/png">("image/jpeg")
     const [compareMode, setCompareMode] = useState<"side" | "slider">("side")
     const [sliderX, setSliderX] = useState(50)
@@ -154,12 +93,22 @@ export function ImageUpscaler() {
 
     const handleUpscale = async () => {
         if (!state.originalFile) return
-        setState((prev) => ({ ...prev, status: "processing", upscaledDataUrl: null, error: null }))
+        setState((prev) => ({
+            ...prev,
+            status: "loading-model",
+            upscaledDataUrl: null,
+            error: null,
+            progress: 0,
+            phase: "loading-model",
+        }))
         try {
-            const { dataUrl, width, height } = await upscaleImageOnCanvas(
+            const { dataUrl, width, height } = await upscaleWithAI(
                 state.originalFile,
                 scaleFactor,
-                outputFormat
+                outputFormat,
+                (amount, phase) => {
+                    setState((prev) => ({ ...prev, status: phase, progress: amount, phase }))
+                }
             )
             setState((prev) => ({
                 ...prev,
@@ -167,12 +116,14 @@ export function ImageUpscaler() {
                 upscaledDataUrl: dataUrl,
                 upscaledWidth: width,
                 upscaledHeight: height,
+                phase: null,
             }))
         } catch (err) {
             setState((prev) => ({
                 ...prev,
                 status: "error",
                 error: err instanceof Error ? err.message : "Upscaling failed",
+                phase: null,
             }))
         }
     }
@@ -194,7 +145,6 @@ export function ImageUpscaler() {
         setState(INITIAL_STATE)
     }
 
-    // Slider interaction
     const handleSliderMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         if (!isDraggingRef.current || !sliderContainerRef.current) return
         const rect = sliderContainerRef.current.getBoundingClientRect()
@@ -211,7 +161,7 @@ export function ImageUpscaler() {
     }, [])
 
     const hasImage = !!state.originalFile
-    const isProcessing = state.status === "processing"
+    const isProcessing = state.status === "loading-model" || state.status === "processing"
     const isDone = state.status === "done"
 
     return (
@@ -220,11 +170,15 @@ export function ImageUpscaler() {
 
             {/* Header */}
             <div className="text-center space-y-4 mb-2">
+                <div className="inline-flex items-center gap-2 text-primary-600 bg-primary-50 border border-primary-100 rounded-full px-3 py-1 text-xs font-medium mb-2">
+                    <Sparkles className="w-3 h-3" />
+                    AI-Powered • ESRGAN Super-Resolution
+                </div>
                 <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
                     Image Upscaler
                 </h1>
                 <p className="text-gray-600 max-w-xl mx-auto">
-                    Enlarge images up to 8× without losing quality — processed entirely in your browser.
+                    Enlarge images up to 8× with AI super-resolution — sharper detail, better textures. Processed entirely in your browser.
                 </p>
             </div>
 
@@ -300,18 +254,35 @@ export function ImageUpscaler() {
                         {/* Image Preview */}
                         <div className="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden min-h-[360px] flex items-center justify-center p-4">
                             {!isDone ? (
-                                /* Original preview only */
-                                <div className="flex flex-col items-center gap-3 w-full">
+                                <div className="flex flex-col items-center gap-4 w-full">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                         src={state.originalPreview ?? ""}
                                         alt="Original"
-                                        className="max-h-[400px] max-w-full object-contain rounded-xl shadow-sm"
+                                        className={cn(
+                                            "max-h-[400px] max-w-full object-contain rounded-xl shadow-sm transition-opacity",
+                                            isProcessing && "opacity-50"
+                                        )}
                                     />
                                     {isProcessing && (
-                                        <div className="flex items-center gap-2 text-primary-600 text-sm font-medium animate-pulse">
-                                            <RefreshCw className="w-4 h-4 animate-spin" />
-                                            Upscaling...
+                                        <div className="flex flex-col items-center gap-2">
+                                            <div className="flex items-center gap-2 text-primary-600 text-sm font-medium">
+                                                <RefreshCw className="w-4 h-4 animate-spin" />
+                                                {getProcessingLabel(state.phase, state.progress)}
+                                            </div>
+                                            {state.phase === "processing" && state.progress > 0 && (
+                                                <div className="w-48 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                                    <div
+                                                        className="h-full bg-primary-500 rounded-full transition-all duration-300"
+                                                        style={{ width: `${state.progress * 100}%` }}
+                                                    />
+                                                </div>
+                                            )}
+                                            {state.phase === "loading-model" && (
+                                                <p className="text-xs text-gray-400">
+                                                    Fetching AI model (~900 KB) from CDN…
+                                                </p>
+                                            )}
                                         </div>
                                     )}
                                     {state.status === "error" && (
@@ -319,7 +290,7 @@ export function ImageUpscaler() {
                                     )}
                                 </div>
                             ) : compareMode === "side" ? (
-                                /* Side-by-side compare */
+                                /* Side-by-side */
                                 <div className="grid grid-cols-2 gap-4 w-full">
                                     <div className="flex flex-col items-center gap-2">
                                         <span className="text-xs font-medium text-gray-500 uppercase tracking-wide bg-white border border-gray-200 px-2 py-0.5 rounded-full">
@@ -336,8 +307,9 @@ export function ImageUpscaler() {
                                         </span>
                                     </div>
                                     <div className="flex flex-col items-center gap-2">
-                                        <span className="text-xs font-medium text-primary-600 uppercase tracking-wide bg-primary-50 border border-primary-100 px-2 py-0.5 rounded-full">
-                                            Upscaled {scaleFactor}×
+                                        <span className="text-xs font-medium text-primary-600 uppercase tracking-wide bg-primary-50 border border-primary-100 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                            <Sparkles className="w-2.5 h-2.5" />
+                                            AI {scaleFactor}×
                                         </span>
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
@@ -362,14 +334,14 @@ export function ImageUpscaler() {
                                     onMouseMove={handleSliderMouseMove}
                                     onTouchMove={handleSliderTouchMove}
                                 >
-                                    {/* Upscaled (bottom layer, full width) */}
+                                    {/* Upscaled (full width, bottom layer) */}
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                         src={state.upscaledDataUrl ?? ""}
                                         alt="Upscaled"
                                         className="absolute inset-0 w-full h-full object-cover"
                                     />
-                                    {/* Original (top layer, clipped to left side) */}
+                                    {/* Original (left side, clipped) */}
                                     <div
                                         className="absolute inset-0 overflow-hidden"
                                         style={{ width: `${sliderX}%` }}
@@ -378,7 +350,7 @@ export function ImageUpscaler() {
                                         <img
                                             src={state.originalPreview ?? ""}
                                             alt="Original"
-                                            className="absolute inset-0 w-full h-full object-cover"
+                                            className="absolute inset-0 h-full object-cover"
                                             style={{ width: `${sliderContainerRef.current?.offsetWidth ?? DEFAULT_SLIDER_WIDTH}px`, maxWidth: "none" }}
                                         />
                                     </div>
@@ -391,18 +363,18 @@ export function ImageUpscaler() {
                                             <ArrowRight className="w-3 h-3 text-gray-600 -ml-0.5" />
                                         </div>
                                     </div>
-                                    {/* Labels */}
                                     <span className="absolute top-2 left-2 text-xs font-medium text-white bg-black/50 px-2 py-0.5 rounded-full backdrop-blur-sm">
                                         Original
                                     </span>
-                                    <span className="absolute top-2 right-2 text-xs font-medium text-white bg-primary-600/80 px-2 py-0.5 rounded-full backdrop-blur-sm">
-                                        Upscaled {scaleFactor}×
+                                    <span className="absolute top-2 right-2 text-xs font-medium text-white bg-primary-600/80 px-2 py-0.5 rounded-full backdrop-blur-sm flex items-center gap-1">
+                                        <Sparkles className="w-2.5 h-2.5" />
+                                        AI {scaleFactor}×
                                     </span>
                                 </div>
                             )}
                         </div>
 
-                        {/* Dimension info */}
+                        {/* Dimension info bar */}
                         {isDone && (
                             <AnimatePresence>
                                 <motion.div
@@ -416,7 +388,7 @@ export function ImageUpscaler() {
                                     </div>
                                     <ArrowRight className="w-4 h-4 text-gray-300" />
                                     <div className="text-center">
-                                        <p className="text-xs text-primary-500 mb-0.5">Upscaled</p>
+                                        <p className="text-xs text-primary-500 mb-0.5">AI Enhanced</p>
                                         <p className="font-medium text-primary-700">{formatDimension(state.upscaledWidth, state.upscaledHeight)}</p>
                                     </div>
                                     {state.originalFile && (
@@ -437,7 +409,7 @@ export function ImageUpscaler() {
                     <div className="col-span-1">
                         <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-6 sticky top-6 shadow-sm">
                             <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                                <ZoomIn className="w-5 h-5 text-gray-700" />
+                                <Sparkles className="w-5 h-5 text-primary-600" />
                                 <h2 className="font-semibold text-gray-900">Upscale Settings</h2>
                             </div>
 
@@ -449,8 +421,9 @@ export function ImageUpscaler() {
                                         <button
                                             key={opt.value}
                                             onClick={() => setScaleFactor(opt.value)}
+                                            disabled={isProcessing}
                                             className={cn(
-                                                "flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all text-center",
+                                                "flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all text-center disabled:opacity-50 disabled:cursor-not-allowed",
                                                 scaleFactor === opt.value
                                                     ? "border-primary-500 bg-primary-50 text-primary-700"
                                                     : "border-gray-200 hover:border-gray-300 text-gray-600"
@@ -476,8 +449,9 @@ export function ImageUpscaler() {
                                         <button
                                             key={fmt}
                                             onClick={() => setOutputFormat(fmt)}
+                                            disabled={isProcessing}
                                             className={cn(
-                                                "py-2.5 rounded-xl border-2 text-sm font-medium transition-all",
+                                                "py-2.5 rounded-xl border-2 text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed",
                                                 outputFormat === fmt
                                                     ? "border-primary-500 bg-primary-50 text-primary-700"
                                                     : "border-gray-200 hover:border-gray-300 text-gray-600"
@@ -487,6 +461,17 @@ export function ImageUpscaler() {
                                         </button>
                                     ))}
                                 </div>
+                            </div>
+
+                            {/* AI badge */}
+                            <div className="bg-primary-50 border border-primary-100 rounded-xl p-3 text-xs text-primary-700 space-y-1">
+                                <p className="font-medium flex items-center gap-1.5">
+                                    <Sparkles className="w-3 h-3" />
+                                    ESRGAN Super-Resolution
+                                </p>
+                                <p className="text-primary-600/80 leading-relaxed">
+                                    AI model (~900 KB) fetched from CDN on first use, then cached. Sharper edges, reconstructed textures — noticeably better than interpolation.
+                                </p>
                             </div>
 
                             {/* Actions */}
@@ -500,12 +485,12 @@ export function ImageUpscaler() {
                                     {isProcessing ? (
                                         <>
                                             <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                                            Processing...
+                                            {state.phase === "loading-model" ? "Loading AI..." : `${Math.round(state.progress * 100)}%`}
                                         </>
                                     ) : (
                                         <>
-                                            <ZoomIn className="mr-2 h-4 w-4" />
-                                            Upscale Image
+                                            <Sparkles className="mr-2 h-4 w-4" />
+                                            Upscale with AI
                                         </>
                                     )}
                                 </Button>
@@ -517,7 +502,7 @@ export function ImageUpscaler() {
                                         onClick={handleDownload}
                                     >
                                         <Download className="mr-2 h-4 w-4" />
-                                        Download Upscaled
+                                        Download Result
                                     </Button>
                                 )}
                             </div>

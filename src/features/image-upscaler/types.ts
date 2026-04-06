@@ -1,6 +1,8 @@
+import type { UpscalePhase } from './lib/upscale-engine'
+
 export type ScaleFactor = 2 | 3 | 4 | 8
 
-export type UpscaleStatus = 'idle' | 'processing' | 'done' | 'error'
+export type UpscaleStatus = 'idle' | 'loading-model' | 'processing' | 'done' | 'error'
 
 export interface UpscaleState {
     originalFile: File | null
@@ -12,4 +14,6 @@ export interface UpscaleState {
     upscaledHeight: number
     status: UpscaleStatus
     error: string | null
+    progress: number
+    phase: UpscalePhase | null
 }

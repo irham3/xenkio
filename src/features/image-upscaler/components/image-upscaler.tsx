@@ -15,6 +15,8 @@ const SCALE_OPTIONS: { value: ScaleFactor; label: string; description: string }[
     { value: 8, label: "8×", description: "Ultra HD resolution" },
 ]
 
+const DEFAULT_SLIDER_WIDTH = 600
+
 function formatSize(bytes: number): string {
     if (bytes === 0) return "0 B"
     const k = 1024
@@ -377,7 +379,7 @@ export function ImageUpscaler() {
                                             src={state.originalPreview ?? ""}
                                             alt="Original"
                                             className="absolute inset-0 w-full h-full object-cover"
-                                            style={{ width: `${sliderContainerRef.current?.offsetWidth ?? 600}px`, maxWidth: "none" }}
+                                            style={{ width: `${sliderContainerRef.current?.offsetWidth ?? DEFAULT_SLIDER_WIDTH}px`, maxWidth: "none" }}
                                         />
                                     </div>
                                     {/* Divider */}

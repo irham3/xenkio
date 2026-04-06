@@ -44,11 +44,11 @@ export default function ImageUpscalerPage() {
         description:
             "Upscale images up to 8× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
         featureList: [
-            "2×, 3×, 4×, 8× upscaling",
-            "Progressive high-quality canvas interpolation",
+            "2×, 3×, 4×, 8× AI upscaling",
+            "ESRGAN super-resolution — sharper edges, reconstructed textures",
             "Before/after comparison slider",
             "JPG & PNG output",
-            "Client-side only — fully private",
+            "Client-side only — fully private, no uploads",
         ],
     }
 

@@ -378,9 +378,9 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
     },
     {
-        id: '123',
+        id: 'image-upscaler',
         title: 'Image Upscaler',
-        description: 'Upscale images up to 8× with high-quality interpolation. 100% browser-based, fully private.',
+        description: 'Upscale images up to 8× with AI super-resolution (ESRGAN). Sharper detail, better textures — fully browser-based.',
         icon: ZoomIn,
         href: '/tools/image-upscaler',
         slug: 'image-upscaler',

@@ -79,6 +79,7 @@ import {
     Grid3x3,
     Clapperboard,
     FlaskConical,
+    ZoomIn,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -374,6 +375,16 @@ export const TOOLS: ToolData[] = [
         description: 'Resize images to exact dimensions or by percentage.',
         icon: Maximize2,
         href: '/tools/image-resizer',
+        categoryId: 'media-images',
+    },
+    {
+        id: '123',
+        title: 'Image Upscaler',
+        description: 'Upscale images up to 8× with high-quality interpolation. 100% browser-based, fully private.',
+        icon: ZoomIn,
+        href: '/tools/image-upscaler',
+        slug: 'image-upscaler',
+        isNew: true,
         categoryId: 'media-images',
     },
     // =====================================================

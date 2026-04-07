@@ -8,7 +8,7 @@ function getModelId(scale: ScaleFactor): string {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let currentPipeline: { scale: ScaleFactor; pipe: any } | null = null
+let currentPipeline: { scale: ScaleFactor; upscalePipeline: any } | null = null
 
 self.addEventListener('message', async (event: MessageEvent) => {
     const { type, data } = event.data as { type: string; data: { imageDataUrl: string; scale: ScaleFactor } }
@@ -23,18 +23,18 @@ self.addEventListener('message', async (event: MessageEvent) => {
             const modelId = getModelId(scale)
 
             if (!currentPipeline || currentPipeline.scale !== scale) {
-                const pipe = await pipeline('image-to-image', modelId, {
+                const upscalePipeline = await pipeline('image-to-image', modelId, {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     progress_callback: (progress: any) => {
                         self.postMessage({ type: 'progress', data: progress })
                     },
                 })
-                currentPipeline = { scale, pipe }
+                currentPipeline = { scale, upscalePipeline }
             }
 
             self.postMessage({ type: 'processing' })
 
-            const result = await currentPipeline.pipe(imageDataUrl)
+            const result = await currentPipeline.upscalePipeline(imageDataUrl)
             const blob = await result.toBlob()
 
             self.postMessage({ type: 'complete', data: { blob } })

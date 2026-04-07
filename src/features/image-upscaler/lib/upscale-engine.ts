@@ -47,10 +47,17 @@ export async function upscaleWithAI(
     outputFormat: 'image/jpeg' | 'image/png',
     onProgress: ProgressCallback
 ): Promise<{ dataUrl: string; width: number; height: number }> {
+    // Convert file to data URL in the main thread so the worker can access it
+    const imageDataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result as string)
+        reader.onerror = () => reject(new Error('Failed to read file'))
+        reader.readAsDataURL(file)
+    })
+
     return new Promise((resolve, reject) => {
         onProgress(0, 'loading-model')
 
-        const objectUrl = URL.createObjectURL(file)
         const w = getWorker()
 
         const handleMessage = async (event: MessageEvent) => {
@@ -67,7 +74,6 @@ export async function upscaleWithAI(
             } else if (type === 'processing') {
                 onProgress(0, 'processing')
             } else if (type === 'complete') {
-                URL.revokeObjectURL(objectUrl)
                 w.removeEventListener('message', handleMessage)
                 try {
                     const reader = new FileReader()
@@ -86,14 +92,13 @@ export async function upscaleWithAI(
                     reject(err)
                 }
             } else if (type === 'error') {
-                URL.revokeObjectURL(objectUrl)
                 w.removeEventListener('message', handleMessage)
                 reject(new Error(data as string))
             }
         }
 
         w.addEventListener('message', handleMessage)
-        w.postMessage({ type: 'upscale', data: { imageDataUrl: objectUrl, scale } })
+        w.postMessage({ type: 'upscale', data: { imageDataUrl, scale } })
     })
 }
 

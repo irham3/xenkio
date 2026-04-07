@@ -4,11 +4,11 @@ import { Metadata } from "next"
 export const metadata: Metadata = {
     title: "Image Upscaler | Xenkio Tools",
     description:
-        "Upscale images up to 8× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
+        "Upscale images up to 4× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
     openGraph: {
         title: "Image Upscaler | Xenkio Tools",
         description:
-            "Upscale images up to 8× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
+            "Upscale images up to 4× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
         type: "website",
         images: [
             {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Image Upscaler | Xenkio Tools",
         description:
-            "Upscale images up to 8× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
+            "Upscale images up to 4× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
         images: ["/og-image.jpg"],
     },
 }
@@ -42,10 +42,10 @@ export default function ImageUpscalerPage() {
             priceCurrency: "USD",
         },
         description:
-            "Upscale images up to 8× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
+            "Upscale images up to 4× without losing quality. 100% browser-based — no uploads, no servers, fully private.",
         featureList: [
-            "2×, 3×, 4×, 8× AI upscaling",
-            "ESRGAN super-resolution — sharper edges, reconstructed textures",
+            "2× and 4× AI upscaling",
+            "Swin2SR super-resolution — sharper edges, reconstructed textures",
             "Before/after comparison slider",
             "JPG & PNG output",
             "Client-side only — fully private, no uploads",

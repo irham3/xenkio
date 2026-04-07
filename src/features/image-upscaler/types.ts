@@ -1,6 +1,6 @@
 import type { UpscalePhase } from './lib/upscale-engine'
 
-export type ScaleFactor = 2 | 3 | 4 | 8
+export type ScaleFactor = 2 | 4
 
 export type UpscaleStatus = 'idle' | 'loading-model' | 'processing' | 'done' | 'error'
 

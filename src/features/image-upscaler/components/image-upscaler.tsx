@@ -11,9 +11,7 @@ import { upscaleWithAI, type UpscalePhase } from "../lib/upscale-engine"
 
 const SCALE_OPTIONS: { value: ScaleFactor; label: string; description: string }[] = [
     { value: 2, label: "2×", description: "Double resolution" },
-    { value: 3, label: "3×", description: "Triple resolution" },
     { value: 4, label: "4×", description: "Quadruple resolution" },
-    { value: 8, label: "8×", description: "Ultra HD" },
 ]
 
 const DEFAULT_SLIDER_WIDTH = 600
@@ -172,13 +170,13 @@ export function ImageUpscaler() {
             <div className="text-center space-y-4 mb-2">
                 <div className="inline-flex items-center gap-2 text-primary-600 bg-primary-50 border border-primary-100 rounded-full px-3 py-1 text-xs font-medium mb-2">
                     <Sparkles className="w-3 h-3" />
-                    AI-Powered • ESRGAN Super-Resolution
+                    AI-Powered • Swin2SR Super-Resolution
                 </div>
                 <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
                     Image Upscaler
                 </h1>
                 <p className="text-gray-600 max-w-xl mx-auto">
-                    Enlarge images up to 8× with AI super-resolution — sharper detail, better textures. Processed entirely in your browser.
+                    Enlarge images up to 4× with AI super-resolution — sharper detail, better textures. Processed entirely in your browser.
                 </p>
             </div>
 
@@ -467,10 +465,10 @@ export function ImageUpscaler() {
                             <div className="bg-primary-50 border border-primary-100 rounded-xl p-3 text-xs text-primary-700 space-y-1">
                                 <p className="font-medium flex items-center gap-1.5">
                                     <Sparkles className="w-3 h-3" />
-                                    ESRGAN Super-Resolution
+                                    Swin2SR Super-Resolution
                                 </p>
                                 <p className="text-primary-600/80 leading-relaxed">
-                                    AI model (~900 KB) fetched from CDN on first use, then cached. Sharper edges, reconstructed textures — noticeably better than interpolation.
+                                    AI model fetched from Hugging Face CDN on first use, then cached. Sharper edges, reconstructed textures — noticeably better than interpolation.
                                 </p>
                             </div>
 

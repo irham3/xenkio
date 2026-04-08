@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef } from "react"
 import { useDropzone } from "react-dropzone"
 import { motion, AnimatePresence } from "framer-motion"
-import { Upload, Download, RefreshCw, ZoomIn, X, ArrowRight, Sparkles } from "lucide-react"
+import { Upload, Download, RefreshCw, ZoomIn, X, ArrowRight, Sparkles, AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { type ScaleFactor, type UpscaleState } from "../types"
@@ -13,6 +13,8 @@ const SCALE_OPTIONS: { value: ScaleFactor; label: string; description: string }[
     { value: 2, label: "2×", description: "Double resolution" },
     { value: 4, label: "4×", description: "Quadruple resolution" },
 ]
+
+const LARGE_IMAGE_THRESHOLD = 1000
 
 const DEFAULT_SLIDER_WIDTH = 600
 
@@ -278,7 +280,7 @@ export function ImageUpscaler() {
                                             )}
                                             {state.phase === "loading-model" && (
                                                 <p className="text-xs text-gray-400">
-                                                    Fetching AI model (~900 KB) from CDN…
+                                                    Downloading AI model (~10 MB) — cached after first use…
                                                 </p>
                                             )}
                                         </div>
@@ -436,6 +438,12 @@ export function ImageUpscaler() {
                                     <p className="text-xs text-gray-400 text-center">
                                         Result: {state.originalWidth * scaleFactor} × {state.originalHeight * scaleFactor} px
                                     </p>
+                                )}
+                                {(state.originalWidth > LARGE_IMAGE_THRESHOLD || state.originalHeight > LARGE_IMAGE_THRESHOLD) && (
+                                    <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-700">
+                                        <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                                        <span>Large image detected — processing may take a while. For faster results, use an image under 1000 × 1000 px.</span>
+                                    </div>
                                 )}
                             </div>
 

@@ -24,6 +24,7 @@ self.addEventListener('message', async (event: MessageEvent) => {
 
             if (!currentPipeline || currentPipeline.scale !== scale) {
                 const upscalePipeline = await pipeline('image-to-image', modelId, {
+                    dtype: 'q8',
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     progress_callback: (progress: any) => {
                         self.postMessage({ type: 'progress', data: progress })

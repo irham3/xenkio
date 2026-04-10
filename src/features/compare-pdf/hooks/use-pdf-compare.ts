@@ -99,7 +99,6 @@ export function usePdfCompare() {
             setResult({
                 pages,
                 totalPages: maxPages,
-                maxPages,
             });
             setCurrentPage(1);
             setStatus('complete');

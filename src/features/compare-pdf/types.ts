@@ -35,5 +35,4 @@ export interface PageDiffResult {
 export interface CompareResult {
     pages: PageDiffResult[];
     totalPages: number;
-    maxPages: number;
 }

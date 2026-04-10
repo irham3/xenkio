@@ -133,11 +133,9 @@ export default function ComparePdfPage() {
                         <div className="space-y-4 text-gray-600">
                             <p>
                                 Unlike Acrobat or cloud services, every byte of your document
-                                stays in your browser. Comparison happens entirely using
-                                <span className="font-mono text-sm bg-gray-100 px-1 py-0.5 rounded mx-1 text-primary-600">
-                                    WebAssembly
-                                </span>
-                                — no server, no upload, no account required.
+                            stays in your browser. Comparison happens entirely using
+                            client-side browser APIs — no server, no upload, no account
+                            required.
                             </p>
                             <p>
                                 Perfect for comparing contracts, legal agreements, financial

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { PDFSignature } from '../types';
 import { cn } from '@/lib/utils';
-import { X, Maximize2 } from 'lucide-react';
+import { X, ArrowsOut } from '@phosphor-icons/react/dist/ssr';
 
 interface DraggableSignatureProps {
     signature: PDFSignature;
@@ -181,7 +181,7 @@ export function DraggableSignature({
                             onMouseDown={handleResizeStart}
                             onTouchStart={handleResizeStart}
                         >
-                            <Maximize2 className="w-3 h-3 text-primary-500 rotate-90" />
+                            <ArrowsOut className="w-3 h-3 text-primary-500 rotate-90" />
                         </div>
                     </>
                 )}

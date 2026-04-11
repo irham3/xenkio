@@ -1,6 +1,6 @@
 'use client';
 
-import { Download } from 'lucide-react';
+import { DownloadSimple } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { MarkdownPreview } from './markdown-preview';
@@ -38,7 +38,7 @@ export function PreviewPanel({
                         disabled={!markdown.trim()}
                         className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100 cursor-pointer"
                     >
-                        <Download className="w-3.5 h-3.5" />
+                        <DownloadSimple className="w-3.5 h-3.5" />
                         Download HTML
                     </Button>
                     <CopyButton

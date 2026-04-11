@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FileText, Plus } from 'lucide-react';
+import { FileText, Plus } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';

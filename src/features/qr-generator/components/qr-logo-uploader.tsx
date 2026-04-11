@@ -3,7 +3,7 @@
 
 import { QRConfig } from '../types';
 import { Label } from '@/components/ui/label';
-import { Upload, X } from 'lucide-react';
+import { UploadSimple, X } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { useRef } from 'react';
 import Image from 'next/image';
@@ -78,7 +78,7 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
           className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-all duration-200 group"
         >
           <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mb-3 group-hover:bg-primary-100 transition-colors">
-            <Upload className="w-6 h-6 text-gray-400 group-hover:text-primary-600" />
+            <UploadSimple className="w-6 h-6 text-gray-400 group-hover:text-primary-600" />
           </div>
           <p className="text-sm font-medium text-gray-700">Drop your logo here</p>
           <p className="text-xs text-gray-500 mt-1">PNG, JPG or SVG up to 2MB</p>

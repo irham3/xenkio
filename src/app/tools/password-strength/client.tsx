@@ -3,7 +3,14 @@
 import { usePasswordStrength } from '@/features/password-strength/hooks/use-password-strength';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Eye, EyeOff, RefreshCw, Copy, Check, X } from 'lucide-react';
+import {
+    Eye,
+    EyeSlash,
+    ArrowsClockwise,
+    Copy,
+    Check,
+    X
+} from '@phosphor-icons/react/dist/ssr';
 import { StrengthVisualization } from '@/features/password-strength/components/strength-visualization';
 import { AnalysisGrid } from '@/features/password-strength/components/analysis-grid';
 import { cn } from '@/lib/utils';
@@ -48,7 +55,7 @@ export default function PasswordStrengthClient() {
                             className="h-9 w-9 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md"
                             title={isVisible ? "Hide password" : "Show password"}
                         >
-                            {isVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+                            {isVisible ? <EyeSlash size={18} /> : <Eye size={18} />}
                         </Button>
                         <Button
                             variant="ghost"
@@ -57,7 +64,7 @@ export default function PasswordStrengthClient() {
                             className="h-9 w-9 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-md"
                             title="Generate new strong password"
                         >
-                            <RefreshCw size={18} />
+                            <ArrowsClockwise size={18} />
                         </Button>
                         <Button
                             variant="ghost"

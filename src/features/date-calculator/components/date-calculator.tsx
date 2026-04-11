@@ -3,17 +3,17 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Calendar,
-    CalendarDays,
+    CalendarDots,
     Clock,
     ArrowRight,
     Plus,
     Minus,
-    ArrowLeftRight,
+    ArrowsLeftRight,
     Briefcase,
     Sun,
     Hash,
-    ChevronDown,
-} from 'lucide-react';
+    CaretDown
+} from '@phosphor-icons/react/dist/ssr';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useDateCalculator } from '../hooks/use-date-calculator';
@@ -95,7 +95,7 @@ function DetailRow({ icon, label, value, color = 'text-gray-500' }: DetailRowPro
 /* ------------------------------------------------------------------ */
 
 const MODE_OPTIONS = [
-    { key: 'difference' as const, label: 'Date Difference', icon: ArrowLeftRight },
+    { key: 'difference' as const, label: 'Date Difference', icon: ArrowsLeftRight },
     { key: 'add-subtract' as const, label: 'Add / Subtract', icon: Plus },
 ];
 
@@ -282,7 +282,7 @@ export function DateCalculator() {
                                         className="flex flex-col items-center justify-center h-full text-center opacity-60"
                                     >
                                         <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                            <CalendarDays className="w-8 h-8 text-gray-400" />
+                                            <CalendarDots className="w-8 h-8 text-gray-400" />
                                         </div>
                                         <h3 className="text-sm font-semibold text-gray-800 mb-1">
                                             Pick Two Dates
@@ -514,7 +514,7 @@ export function DateCalculator() {
                                             <option value="months">Months</option>
                                             <option value="years">Years</option>
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                                     </div>
                                 </div>
 
@@ -667,7 +667,7 @@ export function DateCalculator() {
                             label="Total Weeks"
                             value={formatNumber(dateDifference.totalWeeks)}
                             sublabel="weeks"
-                            icon={<CalendarDays className="w-4 h-4" />}
+                            icon={<CalendarDots className="w-4 h-4" />}
                             color="text-primary-600"
                             bgColor="bg-primary-50"
                         />
@@ -727,7 +727,7 @@ export function DateCalculator() {
                                 color="text-primary-500"
                             />
                             <DetailRow
-                                icon={<CalendarDays className="w-4 h-4" />}
+                                icon={<CalendarDots className="w-4 h-4" />}
                                 label="Total weeks"
                                 value={`${formatNumber(dateDifference.totalWeeks)} weeks, ${dateDifference.totalDays % 7} days`}
                                 color="text-emerald-500"

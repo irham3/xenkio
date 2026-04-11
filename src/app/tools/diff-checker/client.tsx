@@ -8,19 +8,19 @@ import { hasChanges } from '@/features/diff-checker/lib/diff-utils';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
-  ChevronDown,
-  ArrowRightLeft,
-  Trash2,
-  Zap,
-  Plus,
-  Minus,
-  Equal,
-  FileText,
-  Columns,
-  AlignJustify,
-  Check,
-  Copy,
-} from 'lucide-react';
+    CaretDown,
+    ArrowsLeftRight,
+    Trash,
+    Lightning,
+    Plus,
+    Minus,
+    Equals,
+    FileText,
+    Columns,
+    TextAlignJustify,
+    Check,
+    Copy
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { UnifiedDiffView } from '@/features/diff-checker/components/unified-diff-view';
 import { SplitDiffView } from '@/features/diff-checker/components/split-diff-view';
@@ -88,7 +88,7 @@ export default function DiffCheckerClient() {
                   {mode.id === 'split' ? (
                     <Columns className="w-3.5 h-3.5" />
                   ) : (
-                    <AlignJustify className="w-3.5 h-3.5" />
+                    <TextAlignJustify className="w-3.5 h-3.5" />
                   )}
                   {mode.name}
                 </button>
@@ -108,7 +108,7 @@ export default function DiffCheckerClient() {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+              <CaretDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
             </div>
 
             {/* Advanced Options Toggle */}
@@ -138,7 +138,7 @@ export default function DiffCheckerClient() {
               className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               title="Swap texts"
             >
-              <ArrowRightLeft className="w-4 h-4" />
+              <ArrowsLeftRight className="w-4 h-4" />
             </button>
             <button
               onClick={clearAll}
@@ -146,7 +146,7 @@ export default function DiffCheckerClient() {
               className="p-2 text-gray-500 hover:text-error-600 rounded-lg hover:bg-error-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               title="Clear all"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -239,12 +239,12 @@ export default function DiffCheckerClient() {
           >
             {isComparing ? (
               <>
-                <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                <Lightning className="w-4 h-4 mr-2 animate-pulse" />
                 Comparing...
               </>
             ) : (
               <>
-                <Zap className="w-4 h-4 mr-2" />
+                <Lightning className="w-4 h-4 mr-2" />
                 Compare Differences
               </>
             )}
@@ -267,13 +267,13 @@ export default function DiffCheckerClient() {
                     {result.stats.deletions} removed
                   </div>
                   <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
-                    <Equal className="w-3 h-3" />
+                    <Equals className="w-3 h-3" />
                     {result.stats.unchanged} unchanged
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                    <Zap className="w-3 h-3" />
+                    <Lightning className="w-3 h-3" />
                     {result.executionTime.toFixed(1)}ms
                   </span>
                   <Button
@@ -299,7 +299,7 @@ export default function DiffCheckerClient() {
                   <span className="relative flex h-8 w-8 mb-4">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-8 w-8 bg-primary-500 justify-center items-center">
-                      <Zap className="w-4 h-4 text-white" />
+                      <Lightning className="w-4 h-4 text-white" />
                     </span>
                   </span>
                   <p className="text-sm font-medium text-gray-600">Computing differences...</p>

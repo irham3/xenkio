@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { JwtDebuggerClient } from './client';
-import { Shield, Code, Lock } from 'lucide-react';
+import { Shield, Code, Lock } from '@phosphor-icons/react/dist/ssr';
 
 export const metadata: Metadata = {
     title: 'JWT Debugger | Verify, Decode & Sign JSON Web Tokens',

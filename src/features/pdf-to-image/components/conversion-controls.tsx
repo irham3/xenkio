@@ -1,6 +1,6 @@
 import { Label } from '@/components/ui/label';
 import { ConversionOptions, ImageFormat } from '../types';
-import { Settings2, Download, Loader2, RotateCcw } from 'lucide-react';
+import { Sliders, DownloadSimple, SpinnerGap, ArrowCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -38,7 +38,7 @@ export function ConversionControls({
     return (
         <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-6 shadow-sm sticky top-6">
             <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                <Settings2 className="w-5 h-5 text-primary-600" />
+                <Sliders className="w-5 h-5 text-primary-600" />
                 <h2 className="font-semibold text-gray-900">Conversion Settings</h2>
             </div>
 
@@ -134,17 +134,17 @@ export function ConversionControls({
                     >
                         {isProcessing ? (
                             <>
-                                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                <SpinnerGap className="mr-2 h-5 w-5 animate-spin" />
                                 {progress > 0 ? `Converting ${progress}%` : 'Processing...'}
                             </>
                         ) : converted ? (
                             <>
-                                <RotateCcw className="mr-2 h-5 w-5" />
+                                <ArrowCounterClockwise className="mr-2 h-5 w-5" />
                                 Convert Again
                             </>
                         ) : (
                             <>
-                                <Download className="mr-2 h-5 w-5" />
+                                <DownloadSimple className="mr-2 h-5 w-5" />
                                 Convert PDF
                             </>
                         )}

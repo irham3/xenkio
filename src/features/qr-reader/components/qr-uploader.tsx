@@ -1,7 +1,7 @@
 
 "use client"
 
-import { QrCode } from "lucide-react"
+import { QrCode } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { useDropzone } from "react-dropzone"
 

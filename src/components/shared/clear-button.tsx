@@ -1,6 +1,6 @@
 'use client';
 
-import { Trash2 } from 'lucide-react';
+import { Trash } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -33,7 +33,7 @@ export function ClearButton({
             onClick={onClick}
             disabled={disabled}
         >
-            <Trash2 className={cn("h-4 w-4", size === 'sm' && "h-3 w-3")} />
+            <Trash className={cn("h-4 w-4", size === 'sm' && "h-3 w-3")} />
             {size !== 'icon' && label}
         </Button>
     );

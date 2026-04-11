@@ -1,6 +1,6 @@
 'use client';
 
-import { FileCode, AlertCircle, Terminal } from 'lucide-react';
+import { FileCode, WarningCircle, Terminal } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { JwtResult } from '../types';
 import { CopyButton } from '@/components/shared';
@@ -91,7 +91,7 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
                         )}>
                             {result.error ? (
                                 <div className="h-full flex flex-col items-center justify-center gap-2">
-                                    <AlertCircle className="w-8 h-8 opacity-20" />
+                                    <WarningCircle className="w-8 h-8 opacity-20" />
                                     <p className="text-xs font-semibold">{result.error}</p>
                                 </div>
                             ) : result.encodedToken ? (

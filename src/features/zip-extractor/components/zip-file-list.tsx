@@ -2,7 +2,15 @@
 "use client"
 
 import { ZipFileEntry } from "../types"
-import { File, Folder, Download, Search, HardDrive, Trash2, ArrowLeft } from "lucide-react"
+import {
+    File,
+    Folder,
+    DownloadSimple,
+    MagnifyingGlass,
+    HardDrive,
+    Trash,
+    ArrowLeft
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { useState, useMemo } from "react"
 import { cn } from "@/lib/utils"
@@ -56,7 +64,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                     </div>
 
                     <div className="flex flex-1 max-w-md relative group">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
+                        <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
                         <input
                             type="text"
                             placeholder="Search files inside zip..."
@@ -71,7 +79,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                             onClick={downloadAll}
                             className="h-10 rounded-xl px-4 bg-primary-600 hover:bg-primary-700 shadow-primary cursor-pointer text-sm font-bold"
                         >
-                            <Download className="w-4 h-4 mr-2" />
+                            <DownloadSimple className="w-4 h-4 mr-2" />
                             Download All
                         </Button>
                         <Button
@@ -80,7 +88,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                             onClick={onReset}
                             className="h-10 w-10 rounded-xl text-gray-400 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                         >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash className="w-4 h-4" />
                         </Button>
                     </div>
                 </div>
@@ -129,7 +137,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                                             className="p-2.5 rounded-xl bg-gray-50 text-gray-400 hover:bg-primary-50 hover:text-primary-600 transition-all cursor-pointer opacity-0 group-hover/file:opacity-100"
                                             title="Download this file"
                                         >
-                                            <Download className="w-4 h-4" />
+                                            <DownloadSimple className="w-4 h-4" />
                                         </button>
                                     )}
                                 </div>

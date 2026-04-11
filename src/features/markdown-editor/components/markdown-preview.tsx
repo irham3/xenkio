@@ -1,4 +1,4 @@
-import { FileCode } from "lucide-react";
+import { FileCode } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils";
 
 interface MarkdownPreviewProps {

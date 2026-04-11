@@ -1,7 +1,17 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Copy, Check, Trash2, Type, ArrowLeftRight, ArrowUpDown, LetterText, ListOrdered, Play } from 'lucide-react';
+import {
+    Copy,
+    Check,
+    Trash,
+    TextT,
+    ArrowsLeftRight,
+    ArrowsDownUp,
+    TextAa,
+    ListNumbers,
+    Play
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -17,11 +27,11 @@ interface ModeOption {
 }
 
 const MODES: ModeOption[] = [
-  { id: 'characters', label: 'Characters', description: 'Reverse entire text', icon: <Type className="w-4 h-4" /> },
-  { id: 'words', label: 'Each Word', description: 'Reverse each word', icon: <LetterText className="w-4 h-4" /> },
-  { id: 'word-order', label: 'Word Order', description: 'Reverse word order', icon: <ArrowLeftRight className="w-4 h-4" /> },
-  { id: 'lines', label: 'Each Line', description: 'Reverse each line', icon: <ListOrdered className="w-4 h-4" /> },
-  { id: 'line-order', label: 'Line Order', description: 'Reverse line order', icon: <ArrowUpDown className="w-4 h-4" /> },
+  { id: 'characters', label: 'Characters', description: 'Reverse entire text', icon: <TextT className="w-4 h-4" /> },
+  { id: 'words', label: 'Each Word', description: 'Reverse each word', icon: <TextAa className="w-4 h-4" /> },
+  { id: 'word-order', label: 'Word Order', description: 'Reverse word order', icon: <ArrowsLeftRight className="w-4 h-4" /> },
+  { id: 'lines', label: 'Each Line', description: 'Reverse each line', icon: <ListNumbers className="w-4 h-4" /> },
+  { id: 'line-order', label: 'Line Order', description: 'Reverse line order', icon: <ArrowsDownUp className="w-4 h-4" /> },
 ];
 
 function reverseString(str: string): string {
@@ -129,7 +139,7 @@ export function TextReverserTool() {
                   disabled={!input}
                   className="h-7 text-xs gap-1.5 text-gray-500 hover:text-gray-700"
                 >
-                  <Trash2 className="w-3 h-3" />
+                  <Trash className="w-3 h-3" />
                   Clear
                 </Button>
               </div>

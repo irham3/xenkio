@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield, History } from 'lucide-react';
+import { Shield, ClockCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateStrength } from '../lib/password-utils';
@@ -26,7 +26,7 @@ export function HistorySidebar({ history }: HistorySidebarProps) {
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 flex flex-col h-[500px] md:h-auto md:min-h-[600px] sticky top-8">
                 <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/50 rounded-t-2xl">
                     <h3 className="font-bold text-gray-700 flex items-center gap-2">
-                        <History className="h-4 w-4" />
+                        <ClockCounterClockwise className="h-4 w-4" />
                         Recent
                     </h3>
                     <span className="text-xs font-mono text-gray-400">{history.length}/10</span>

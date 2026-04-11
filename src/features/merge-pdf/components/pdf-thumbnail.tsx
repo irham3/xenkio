@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { FileText } from "lucide-react"
+import { FileText } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { getPdfjs } from "@/lib/pdf-worker"
 

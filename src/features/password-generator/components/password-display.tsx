@@ -1,6 +1,6 @@
 'use client';
 
-import { RefreshCw, ShieldAlert } from 'lucide-react';
+import { ArrowsClockwise, ShieldWarning } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -66,7 +66,7 @@ export function PasswordDisplay({ password, strength, onGenerate }: PasswordDisp
                         onClick={onGenerate}
                         className="rounded-xl px-6 h-12 bg-white text-gray-700 border-2 border-gray-200 hover:border-primary-500 hover:text-primary-600 hover:bg-primary-50 transition-all shadow-sm hover:shadow-md cursor-pointer"
                     >
-                        <RefreshCw className={cn("mr-2 h-5 w-5", "group-hover:rotate-180 transition-transform duration-500")} />
+                        <ArrowsClockwise className={cn("mr-2 h-5 w-5", "group-hover:rotate-180 transition-transform duration-500")} />
                         Regenerate
                     </Button>
 
@@ -85,7 +85,7 @@ export function PasswordDisplay({ password, strength, onGenerate }: PasswordDisp
                     </span>
                     {strength.feedback.length > 0 && (
                         <span className="text-xs text-error-500 flex items-center gap-1">
-                            <ShieldAlert className="h-3 w-3" />
+                            <ShieldWarning className="h-3 w-3" />
                             {strength.feedback[0]}
                         </span>
                     )}

@@ -5,7 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Copy, Trash2, Code2, Download, Braces, FileJson } from 'lucide-react';
+import {
+    Copy,
+    Trash,
+    CodeSimple,
+    DownloadSimple,
+    BracketsCurly,
+    FileJs
+} from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { IndentSize } from '../types';
 
@@ -66,7 +73,7 @@ export function JsonFormatterTool() {
             <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-xl border border-gray-100 shadow-sm sticky top-2 z-10 w-full">
                 <div className="flex items-center gap-2">
                     <Button variant="outline" size="sm" onClick={handleCreateNew} className="text-gray-600">
-                        <FileJson size={16} className="mr-2 text-primary-500" /> New
+                        <FileJs size={16} className="mr-2 text-primary-500" /> New
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => loadSample('{"sample": "data"}')} className="text-gray-600 hidden sm:flex">
                         Load Sample
@@ -89,13 +96,13 @@ export function JsonFormatterTool() {
 
                 <div className="flex items-center gap-2">
                     <Button size="sm" onClick={format} className="bg-primary-600 hover:bg-primary-700 text-white shadow-primary">
-                        <Braces size={16} className="mr-2" /> Format
+                        <BracketsCurly size={16} className="mr-2" /> Format
                     </Button>
                     <Button size="sm" variant="secondary" onClick={minify} className="bg-gray-100 hover:bg-gray-200 text-gray-700">
-                        <Code2 size={16} className="mr-2" /> Minify
+                        <CodeSimple size={16} className="mr-2" /> Minify
                     </Button>
                     <Button size="icon" variant="ghost" onClick={reset} title="Clear All" className="text-gray-400 hover:text-red-500 hover:bg-red-50">
-                        <Trash2 size={16} />
+                        <Trash size={16} />
                     </Button>
                 </div>
             </div>
@@ -136,7 +143,7 @@ export function JsonFormatterTool() {
                                 <Copy size={14} />
                             </Button>
                             <Button size="icon" variant="ghost" onClick={handleDownload} className="h-7 w-7 text-gray-400 hover:text-white hover:bg-gray-700 rounded">
-                                <Download size={14} />
+                                <DownloadSimple size={14} />
                             </Button>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ import {
     TimerSettings,
     TimerPresets
 } from '@/features/timer';
-import { Bell, BellOff, Info } from 'lucide-react';
+import { Bell, BellSlash, Info } from '@phosphor-icons/react/dist/ssr';
 
 export function TimerClient() {
     const {
@@ -37,7 +37,7 @@ export function TimerClient() {
                             className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-400 hover:text-primary-600"
                             title={config.soundEnabled ? "Disable Alarm" : "Enable Alarm"}
                         >
-                            {config.soundEnabled ? <Bell className="w-5 h-5" /> : <BellOff className="w-5 h-5" />}
+                            {config.soundEnabled ? <Bell className="w-5 h-5" /> : <BellSlash className="w-5 h-5" />}
                         </button>
                     </div>
 

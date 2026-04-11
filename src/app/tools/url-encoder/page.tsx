@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import UrlEncoder from './client';
 
-import { Link, Shield, Globe } from 'lucide-react';
+import { Link, Shield, Globe } from '@phosphor-icons/react/dist/ssr';
 
 
 

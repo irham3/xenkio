@@ -12,7 +12,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { MessageSquarePlus } from 'lucide-react';
+import { ChatCircle } from '@phosphor-icons/react/dist/ssr';
 import { FeedbackForm } from './feedback-form';
 
 export function FeedbackPopover() {
@@ -28,7 +28,7 @@ export function FeedbackPopover() {
                             size="icon"
                             className="h-10 w-10 text-gray-600 hover:text-gray-900 transition-colors"
                         >
-                            <MessageSquarePlus className="h-[1.2rem] w-[1.2rem]" />
+                            <ChatCircle className="h-[1.2rem] w-[1.2rem]" />
                             <span className="sr-only">Feedback</span>
                         </Button>
                     </PopoverTrigger>

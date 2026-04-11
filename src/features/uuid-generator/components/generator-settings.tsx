@@ -1,6 +1,12 @@
 'use client';
 
-import { Cpu, Hash, Info, Settings2, RefreshCw } from 'lucide-react';
+import {
+    Cpu,
+    Hash,
+    Info,
+    Sliders,
+    ArrowsClockwise
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -24,7 +30,7 @@ export function GeneratorSettings({ config, updateConfig, onGenerate, uuids }: G
         <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 pb-6 border-b border-gray-100 gap-4">
                 <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                    <Settings2 className="h-5 w-5 text-primary-500" />
+                    <Sliders className="h-5 w-5 text-primary-500" />
                     Generator Settings
                 </h3>
                 <div className="flex items-center gap-3">
@@ -39,7 +45,7 @@ export function GeneratorSettings({ config, updateConfig, onGenerate, uuids }: G
                         onClick={onGenerate}
                         className="rounded-xl px-8 h-11 bg-primary-600 text-white hover:bg-primary-700 shadow-md hover:shadow-primary transition-all active:scale-[0.98] group font-semibold flex-1 sm:flex-none cursor-pointer"
                     >
-                        <RefreshCw className={cn("mr-2 h-4 w-4", "group-active:rotate-180 transition-transform duration-500")} />
+                        <ArrowsClockwise className={cn("mr-2 h-4 w-4", "group-active:rotate-180 transition-transform duration-500")} />
                         Generate
                     </Button>
                 </div>

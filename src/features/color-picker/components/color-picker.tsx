@@ -7,7 +7,7 @@ import { isValidHex, rgbToHex, hslToRgb } from '../lib/color-utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, Pipette, Palette } from 'lucide-react';
+import { Copy, Check, Eyedropper, Palette } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 export function ColorPicker() {
@@ -95,7 +95,7 @@ export function ColorPicker() {
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/10">
                     <div className="flex items-center gap-2 px-3 py-1.5 bg-white/90 rounded-full shadow-sm">
-                      <Pipette className="w-4 h-4" />
+                      <Eyedropper className="w-4 h-4" />
                       <span className="text-sm font-medium">Click to pick</span>
                     </div>
                   </div>

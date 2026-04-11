@@ -4,7 +4,17 @@
 import { useState } from "react"
 import { QrReaderResult } from "../types"
 import { Button } from "@/components/ui/button"
-import { Copy, Check, ExternalLink, RefreshCw, Trash2, Globe, FileText, Calendar, Info } from "lucide-react"
+import {
+    Copy,
+    Check,
+    ArrowSquareOut,
+    ArrowsClockwise,
+    Trash,
+    Globe,
+    FileText,
+    Calendar,
+    Info
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { isValidUrl } from "../lib/qr-utils"
 import Image from "next/image"
@@ -113,7 +123,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                             onClick={onRescan}
                             className="h-10 rounded-xl px-4 border-gray-200 hover:bg-gray-50 hover:text-gray-900 cursor-pointer"
                         >
-                            <RefreshCw className="w-4 h-4 mr-2" />
+                            <ArrowsClockwise className="w-4 h-4 mr-2" />
                             Scan Another
                         </Button>
                         <Button
@@ -122,7 +132,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                             onClick={onClear}
                             className="h-10 rounded-xl px-4 text-gray-400 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                         >
-                            <Trash2 className="w-4 h-4 mr-2" />
+                            <Trash className="w-4 h-4 mr-2" />
                             Clear
                         </Button>
                     </div>
@@ -178,7 +188,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                             className="w-full sm:w-auto rounded-xl px-8 bg-primary-600 hover:bg-primary-700 shadow-primary hover:shadow-primary-lg transition-all cursor-pointer"
                             onClick={() => window.open(result.data, '_blank')}
                         >
-                            <ExternalLink className="w-4 h-4 mr-2" />
+                            <ArrowSquareOut className="w-4 h-4 mr-2" />
                             Open Link
                         </Button>
                     </div>

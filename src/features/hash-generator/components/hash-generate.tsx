@@ -7,7 +7,15 @@ import { HashAlgorithm } from '../types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, ChevronDown, ShieldX, Zap, Hash, RotateCcw } from 'lucide-react';
+import {
+    Copy,
+    Check,
+    CaretDown,
+    ShieldSlash,
+    Lightning,
+    Hash,
+    ArrowCounterClockwise
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 export function HashGenerate() {
@@ -68,7 +76,7 @@ export function HashGenerate() {
                                         </option>
                                     ))}
                                 </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                             </div>
                         </div>
 
@@ -154,12 +162,12 @@ export function HashGenerate() {
                             >
                                 {isGenerating ? (
                                     <>
-                                        <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                                        <Lightning className="w-4 h-4 mr-2 animate-pulse" />
                                         Generating...
                                     </>
                                 ) : (
                                     <>
-                                        <Zap className="w-4 h-4 mr-2" />
+                                        <Lightning className="w-4 h-4 mr-2" />
                                         Generate Hash
                                     </>
                                 )}
@@ -170,7 +178,7 @@ export function HashGenerate() {
                                 className="px-3 border-gray-200 hover:bg-gray-100"
                                 title="Reset"
                             >
-                                <RotateCcw className="w-4 h-4" />
+                                <ArrowCounterClockwise className="w-4 h-4" />
                             </Button>
                         </div>
                     </div>
@@ -183,7 +191,7 @@ export function HashGenerate() {
                             <h3 className="text-sm font-semibold text-gray-800">Generated Hash</h3>
                             {result?.executionTime !== undefined && !result.error && (
                                 <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                                    <Zap className="w-3 h-3" />
+                                    <Lightning className="w-3 h-3" />
                                     {result.executionTime.toFixed(1)}ms
                                 </span>
                             )}
@@ -210,7 +218,7 @@ export function HashGenerate() {
                                     </div>
                                 ) : result?.error ? (
                                     <div className="flex flex-col items-center justify-center h-full gap-2">
-                                        <ShieldX className="w-8 h-8 text-error-400 mb-2" />
+                                        <ShieldSlash className="w-8 h-8 text-error-400 mb-2" />
                                         <p className="font-semibold">Error Generation Failed</p>
                                         <p className="text-xs opacity-80">{result.error}</p>
                                     </div>

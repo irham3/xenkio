@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, X } from 'lucide-react';
+import { DownloadSimple, X } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 
 export interface ImageViewerProps {
@@ -61,7 +61,7 @@ export function ImageViewer({ src, alt, isOpen, onClose, onDownload, title }: Im
                                             onClick={onDownload}
                                             title="Download"
                                         >
-                                            <Download className="w-5 h-5" />
+                                            <DownloadSimple className="w-5 h-5" />
                                         </Button>
                                     )}
                                     <Button

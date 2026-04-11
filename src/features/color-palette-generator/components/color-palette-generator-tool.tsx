@@ -6,7 +6,13 @@ import { cn } from '@/lib/utils';
 import { PaletteStrip } from './palette-strip';
 import { generatePalette } from '../lib/utils';
 import { Color } from '../types';
-import { RefreshCw, Download, Copy, Sparkles, Info } from 'lucide-react';
+import {
+    ArrowsClockwise,
+    DownloadSimple,
+    Copy,
+    Sparkle,
+    Info
+} from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { RECOMMENDED_PALETTES } from '../constants';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -123,7 +129,7 @@ export function ColorPaletteGeneratorTool() {
                                 onClick={handleGenerate}
                                 className="font-bold px-6 h-12 bg-primary-600 hover:bg-primary-700 text-white rounded-xl transition-all active:scale-95 group shadow-lg shadow-primary/20"
                             >
-                                <RefreshCw className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" />
+                                <ArrowsClockwise className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" />
                                 Generate
                             </Button>
                         </div>
@@ -191,7 +197,7 @@ export function ColorPaletteGeneratorTool() {
                             CSS
                         </Button>
                         <Button variant="ghost" size="sm" onClick={handleDownloadJson} className="text-xs font-bold text-gray-500 hover:text-gray-900 px-3">
-                            <Download className="w-3.5 h-3.5 mr-2" />
+                            <DownloadSimple className="w-3.5 h-3.5 mr-2" />
                             JSON
                         </Button>
                     </div>
@@ -246,7 +252,7 @@ export function ColorPaletteGeneratorTool() {
                     <>
                         <div className="p-4 border-b border-gray-50 flex items-center justify-between">
                             <div className="flex items-center gap-2 font-bold text-gray-900 text-[10px] uppercase tracking-widest">
-                                <Sparkles className="w-3 h-3 text-primary-500" />
+                                <Sparkle className="w-3 h-3 text-primary-500" />
                                 <span>Curated</span>
                             </div>
                             <Select value={sidebarFilter === "seed" ? "all" : sidebarFilter} onValueChange={setSidebarFilter}>
@@ -313,7 +319,7 @@ export function ColorPaletteGeneratorTool() {
                                         }}
                                     />
                                     <div className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 text-primary-600 rounded-lg hover:bg-primary-100 transition-colors border border-primary-100 shadow-sm">
-                                        <RefreshCw className="w-3 h-3 rotate-45" />
+                                        <ArrowsClockwise className="w-3 h-3 rotate-45" />
                                         <span className="text-[10px] font-bold uppercase tracking-wider">Add Color</span>
                                     </div>
                                 </label>
@@ -373,7 +379,7 @@ export function ColorPaletteGeneratorTool() {
                             className="w-full h-11 font-bold bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-95"
                             onClick={handleGenerate}
                         >
-                            <Sparkles className="w-4 h-4 mr-2" />
+                            <Sparkle className="w-4 h-4 mr-2" />
                             Match & Complete
                         </Button>
 

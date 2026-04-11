@@ -3,7 +3,7 @@
 import { useCarouselGenerator } from '../hooks/use-carousel-generator';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Download, Loader2 } from 'lucide-react';
+import { DownloadSimple, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
 import { CarouselUploader } from './carousel-uploader';
 import { CarouselImageControls } from './carousel-image-controls';
 import { CarouselGeneratorForm } from './carousel-generator-form';
@@ -58,7 +58,7 @@ export function CarouselGenerator() {
               onClick={handleDownload}
               disabled={isExporting || config.images.length === 0}
             >
-              {isExporting ? <Loader2 className="mr-2 h-6 w-6 animate-spin" /> : <Download className="mr-2 h-6 w-6" />}
+              {isExporting ? <SpinnerGap className="mr-2 h-6 w-6 animate-spin" /> : <DownloadSimple className="mr-2 h-6 w-6" />}
               Export Carousel
             </Button>
             <p className="text-[12px] text-center mt-3 text-muted-foreground font-medium uppercase tracking-tighter">

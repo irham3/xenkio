@@ -4,7 +4,18 @@ import Image from 'next/image';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Upload, X, Download, ImageIcon, Wand2, Layers, CheckCircle, Pencil, Trash2, Plus } from 'lucide-react';
+import {
+    UploadSimple,
+    X,
+    DownloadSimple,
+    ImageSquare as PhosphorImage,
+    MagicWand,
+    Stack,
+    CheckCircle,
+    Pencil,
+    Trash,
+    Plus
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useBackgroundRemover } from '../hooks/use-background-remover';
@@ -108,7 +119,7 @@ export function BackgroundRemover() {
                             "w-20 h-20 rounded-2xl flex items-center justify-center bg-primary-50 transition-transform duration-300 group-hover:scale-110",
                             isDragActive && "bg-primary-100"
                         )}>
-                            <Upload className="w-10 h-10 text-primary-600" />
+                            <UploadSimple weight="duotone" className="w-10 h-10 text-primary-600" />
                         </div>
                         <div className="space-y-2">
                             <p className="text-xl font-semibold text-gray-900">
@@ -119,7 +130,7 @@ export function BackgroundRemover() {
                             </p>
                         </div>
                         <Button size="lg" className="mt-4 pointer-events-none">
-                            <Plus className="w-4 h-4 mr-2" />
+                            <Plus weight="duotone" className="w-4 h-4 mr-2" />
                             Select Image
                         </Button>
                     </div>
@@ -129,21 +140,21 @@ export function BackgroundRemover() {
                 <div className="grid sm:grid-cols-3 gap-6 pt-8">
                     <div className="flex flex-col items-center text-center p-4">
                         <div className="p-3 bg-blue-50 rounded-xl mb-3">
-                            <Wand2 className="w-6 h-6 text-blue-600" />
+                            <MagicWand weight="duotone" className="w-6 h-6 text-blue-600" />
                         </div>
                         <h3 className="font-semibold text-gray-900">AI Powered</h3>
                         <p className="text-sm text-gray-500 mt-1">Precise foreground detection automatically.</p>
                     </div>
                     <div className="flex flex-col items-center text-center p-4">
                         <div className="p-3 bg-green-50 rounded-xl mb-3">
-                            <Pencil className="w-6 h-6 text-green-600" />
+                            <Pencil weight="duotone" className="w-6 h-6 text-green-600" />
                         </div>
                         <h3 className="font-semibold text-gray-900">Manual Edit</h3>
                         <p className="text-sm text-gray-500 mt-1">Fine-tune results with Erase & Restore tools.</p>
                     </div>
                     <div className="flex flex-col items-center text-center p-4">
                         <div className="p-3 bg-purple-50 rounded-xl mb-3">
-                            <Download className="w-6 h-6 text-purple-600" />
+                            <DownloadSimple weight="duotone" className="w-6 h-6 text-purple-600" />
                         </div>
                         <h3 className="font-semibold text-gray-900">HD Download</h3>
                         <p className="text-sm text-gray-500 mt-1">Save full resolution transparent PNGs.</p>
@@ -169,11 +180,11 @@ export function BackgroundRemover() {
                         <input {...getInputProps()} />
                     </div>
                     <Button variant="outline" onClick={getRootProps().onClick} className="flex-1 md:flex-none">
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus weight="duotone" className="w-4 h-4 mr-2" />
                         Add Image
                     </Button>
                     <Button variant="ghost" className="text-red-600 hover:bg-red-50 hover:text-red-700" onClick={reset}>
-                        <Trash2 className="w-4 h-4 mr-2" />
+                        <Trash weight="duotone" className="w-4 h-4 mr-2" />
                         Clear All
                     </Button>
                 </div>
@@ -211,7 +222,7 @@ export function BackgroundRemover() {
                                         />
                                         {img.status === 'done' && (
                                             <div className="absolute right-0 bottom-0 bg-green-500 text-white p-0.5 rounded-tl-md">
-                                                <CheckCircle className="w-3 h-3" />
+                                                <CheckCircle weight="duotone" className="w-3 h-3" />
                                             </div>
                                         )}
                                     </div>
@@ -232,7 +243,7 @@ export function BackgroundRemover() {
                                         className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-600"
                                         onClick={(e) => { e.stopPropagation(); removeImage(img.id); }}
                                     >
-                                        <X className="w-3 h-3" />
+                                        <X weight="duotone" className="w-3 h-3" />
                                     </Button>
                                 </motion.div>
                             ))}
@@ -247,7 +258,7 @@ export function BackgroundRemover() {
                             {/* Toolbar */}
                             <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white z-10 shrink-0">
                                 <div className="flex items-center gap-2">
-                                    <Layers className="w-4 h-4 text-primary-600" />
+                                    <Stack weight="duotone" className="w-4 h-4 text-primary-600" />
                                     <span className="font-medium text-gray-900 text-sm">Preview</span>
                                 </div>
                                 <div className="flex gap-2">
@@ -259,7 +270,7 @@ export function BackgroundRemover() {
                                                 onClick={() => setEditingImageId(activeImage.id)}
                                                 className="border-primary-200 hover:bg-primary-50 text-primary-700"
                                             >
-                                                <Pencil className="w-4 h-4 mr-2" />
+                                                <Pencil weight="duotone" className="w-4 h-4 mr-2" />
                                                 Edit
                                             </Button>
                                             <Button
@@ -267,7 +278,7 @@ export function BackgroundRemover() {
                                                 onClick={() => downloadResult(activeImage)}
                                                 className="bg-primary-600 hover:bg-primary-700 text-white shadow-primary-500/20"
                                             >
-                                                <Download className="w-4 h-4 mr-2" />
+                                                <DownloadSimple weight="duotone" className="w-4 h-4 mr-2" />
                                                 Download
                                             </Button>
                                         </div>
@@ -277,7 +288,7 @@ export function BackgroundRemover() {
                                             onClick={() => handleProcess(activeImage.id)}
                                             className="bg-primary-600 text-white"
                                         >
-                                            <Wand2 className="w-4 h-4 mr-2" />
+                                            <MagicWand weight="duotone" className="w-4 h-4 mr-2" />
                                             Remove Background
                                         </Button>
                                     )}
@@ -320,7 +331,7 @@ export function BackgroundRemover() {
                                                         <div className="relative mb-4">
                                                             <div className="w-16 h-16 border-4 border-primary-100 border-t-primary-600 rounded-full animate-spin" />
                                                             <div className="absolute inset-0 flex items-center justify-center">
-                                                                <Wand2 className="w-6 h-6 text-primary-600" />
+                                                                <MagicWand weight="duotone" className="w-6 h-6 text-primary-600" />
                                                             </div>
                                                         </div>
                                                         <p className="font-semibold text-gray-900">Processing Image</p>
@@ -335,7 +346,7 @@ export function BackgroundRemover() {
                         </>
                     ) : (
                         <div className="flex-1 flex flex-col items-center justify-center text-gray-400">
-                            <ImageIcon className="w-16 h-16 mb-4 opacity-20" />
+                            <PhosphorImage weight="duotone" className="w-16 h-16 mb-4 opacity-20" />
                             <p>No image selected</p>
                         </div>
                     )}

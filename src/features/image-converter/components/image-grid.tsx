@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { Trash2 } from "lucide-react"
+import { Trash } from '@phosphor-icons/react/dist/ssr';
 import { ImageFile } from "../types"
 import {
     DndContext,
@@ -81,7 +81,7 @@ function SortableImageItem({ image, index, onRemove }: SortableImageItemProps) {
                     }}
                     onPointerDown={(e) => e.stopPropagation()} // Prevent drag start
                 >
-                    <Trash2 className="w-3 h-3" />
+                    <Trash className="w-3 h-3" />
                 </Button>
             </div>
 

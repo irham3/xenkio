@@ -1,6 +1,12 @@
 'use client';
 
-import { Sparkles, AlertCircle, ChevronDown, ArrowDownWideNarrow, Zap } from 'lucide-react';
+import {
+    Sparkle,
+    WarningCircle,
+    CaretDown,
+    SortDescending,
+    Lightning
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -56,7 +62,7 @@ export function JsonInputPanel({
                             onClick={() => onLoadSample(SAMPLE_JSON)}
                             className="text-xs text-primary-600 hover:text-primary-700 font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                         >
-                            <Sparkles className="w-3.5 h-3.5" />
+                            <Sparkle className="w-3.5 h-3.5" />
                             Load Sample Data
                         </button>
                     </div>
@@ -100,7 +106,7 @@ export function JsonInputPanel({
                                 exit={{ opacity: 0, y: -10 }}
                                 className="flex items-start gap-2.5 p-3 bg-red-50 rounded-xl border border-red-100"
                             >
-                                <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                                <WarningCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                                 <p className="text-xs text-red-700 leading-normal font-medium">{validationError}</p>
                             </motion.div>
                         )}
@@ -121,7 +127,7 @@ export function JsonInputPanel({
                                         <option key={type.id} value={type.id}>{type.label}</option>
                                     ))}
                                 </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                             </div>
                         </div>
                         <div className="space-y-2">
@@ -136,7 +142,7 @@ export function JsonInputPanel({
                                         <option key={size.id} value={size.id}>{size.label}</option>
                                     ))}
                                 </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                             </div>
                         </div>
                     </div>
@@ -144,7 +150,7 @@ export function JsonInputPanel({
 
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
                     <div className="flex items-center gap-3">
-                        <ArrowDownWideNarrow className="w-5 h-5 text-gray-400" />
+                        <SortDescending className="w-5 h-5 text-gray-400" />
                         <div>
                             <Label htmlFor="sort-keys" className="text-sm font-bold text-gray-800 cursor-pointer">Sort Alphabetically</Label>
                             <p className="text-[11px] text-gray-500 font-medium">Reorder keys in A-Z order</p>
@@ -177,7 +183,7 @@ export function JsonInputPanel({
                             disabled={!options.json.trim()}
                             className="flex-1 h-12 bg-primary-600 hover:bg-primary-700 text-white font-bold shadow-lg shadow-primary-500/20 cursor-pointer"
                         >
-                            <Zap className="w-4 h-4 mr-2" />
+                            <Lightning className="w-4 h-4 mr-2" />
                             {activeTab === 'format' ? 'Apply Formatting' : 'Apply Minification'}
                         </Button>
                     )}

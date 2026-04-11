@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mic, MicOff } from "lucide-react";
+import { Microphone, MicrophoneSlash } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -68,9 +68,9 @@ export function MicrophoneControl({
                     )}
                 >
                     {isListening ? (
-                        <MicOff className="h-16 w-16" />
+                        <MicrophoneSlash className="h-16 w-16" />
                     ) : (
-                        <Mic className="h-16 w-16" />
+                        <Microphone className="h-16 w-16" />
                     )}
                 </Button>
             </div>

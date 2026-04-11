@@ -19,18 +19,18 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import {
     Plus,
-    Trash2,
-    Building2,
+    Trash,
+    Buildings,
     User,
     Package,
-    Settings,
-    StickyNote,
+    Gear,
+    Note,
     Palette,
-    Upload,
+    UploadSimple,
     X,
     FileText,
-    Check,
-} from 'lucide-react';
+    Check
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 interface InvoiceFormProps {
@@ -271,8 +271,8 @@ export function InvoiceForm({
                 </div>
             </SectionCard>
 
-            {/* Logo Upload */}
-            <SectionCard title="Company Logo" icon={Upload}>
+            {/* Logo UploadSimple */}
+            <SectionCard title="Company Logo" icon={UploadSimple}>
                 <input
                     ref={fileInputRef}
                     type="file"
@@ -313,7 +313,7 @@ export function InvoiceForm({
                         onClick={() => fileInputRef.current?.click()}
                         className="w-full py-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-400 hover:bg-primary-50/50 transition-colors group cursor-pointer"
                     >
-                        <Upload className="w-8 h-8 mx-auto text-gray-400 group-hover:text-primary-500 mb-2" />
+                        <UploadSimple className="w-8 h-8 mx-auto text-gray-400 group-hover:text-primary-500 mb-2" />
                         <p className="text-sm font-medium text-gray-600 group-hover:text-primary-600">
                             Click to upload logo
                         </p>
@@ -365,7 +365,7 @@ export function InvoiceForm({
             </SectionCard>
 
             {/* Company Info */}
-            <SectionCard title="Your Company" icon={Building2}>
+            <SectionCard title="Your Company" icon={Buildings}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                         <Label className="text-sm font-medium text-gray-700">Company Name</Label>
@@ -521,7 +521,7 @@ export function InvoiceForm({
                                     disabled={invoiceData.items.length <= 1}
                                     className="h-9 w-9 p-0 text-gray-400 hover:text-red-500 hover:bg-red-50 disabled:opacity-30"
                                 >
-                                    <Trash2 className="w-4 h-4" />
+                                    <Trash className="w-4 h-4" />
                                 </Button>
                             </div>
                         </div>
@@ -538,8 +538,8 @@ export function InvoiceForm({
                 </div>
             </SectionCard>
 
-            {/* Settings */}
-            <SectionCard title="Invoice Settings" icon={Settings}>
+            {/* Gear */}
+            <SectionCard title="Invoice Settings" icon={Gear}>
                 <div className="space-y-6">
                     {/* Currency & Tax & Discount */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -651,7 +651,7 @@ export function InvoiceForm({
             </SectionCard>
 
             {/* Notes */}
-            <SectionCard title="Notes & Terms" icon={StickyNote}>
+            <SectionCard title="Notes & Terms" icon={Note}>
                 <textarea
                     value={invoiceData.notes}
                     onChange={(e) => setNotes(e.target.value)}

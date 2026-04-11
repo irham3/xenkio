@@ -11,7 +11,15 @@ import {
 } from '@/features/carousel-generator';
 import NextImage from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Download, Loader2, Settings, Layers, Image as ImageIcon, LayoutGrid, Share2 } from 'lucide-react';
+import {
+    DownloadSimple,
+    SpinnerGap,
+    Gear,
+    Stack,
+    Image as Image,
+    GridFour,
+    ShareNetwork
+} from '@phosphor-icons/react/dist/ssr';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function InstagramCarouselClient() {
@@ -50,7 +58,7 @@ export function InstagramCarouselClient() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
                     <span className="p-1.5 rounded-md bg-primary-50 text-primary-600">
-                      <ImageIcon size={16} />
+                      <Image size={16} />
                     </span>
                     <h3 className="text-sm font-bold text-gray-800">Media Library</h3>
                   </div>
@@ -76,7 +84,7 @@ export function InstagramCarouselClient() {
                     ))}
                     {config.images.length === 0 && (
                       <div className="col-span-2 py-12 flex flex-col items-center justify-center text-center border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50 text-gray-400">
-                        <ImageIcon className="w-8 h-8 opacity-20 mb-2" />
+                        <Image className="w-8 h-8 opacity-20 mb-2" />
                         <span className="text-xs font-medium">No assets yet</span>
                       </div>
                     )}
@@ -88,7 +96,7 @@ export function InstagramCarouselClient() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
                     <span className="p-1.5 rounded-md bg-primary-50 text-primary-600">
-                      <LayoutGrid size={16} />
+                      <GridFour size={16} />
                     </span>
                     <h3 className="text-sm font-bold text-gray-800">Canvas Settings</h3>
                   </div>
@@ -100,7 +108,7 @@ export function InstagramCarouselClient() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
                     <span className="p-1.5 rounded-md bg-primary-50 text-primary-600">
-                      <Share2 size={16} />
+                      <ShareNetwork size={16} />
                     </span>
                     <h3 className="text-sm font-bold text-gray-800">Export & Save</h3>
                   </div>
@@ -118,7 +126,7 @@ export function InstagramCarouselClient() {
                       onClick={handleDownload}
                       disabled={isExporting || config.images.length === 0}
                     >
-                      {isExporting ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Download className="mr-2 h-5 w-5" />}
+                      {isExporting ? <SpinnerGap className="mr-2 h-5 w-5 animate-spin" /> : <DownloadSimple className="mr-2 h-5 w-5" />}
                       Export Carousel
                     </Button>
                   </div>
@@ -161,12 +169,12 @@ export function InstagramCarouselClient() {
         <div className="mt-3 flex items-center justify-between px-3">
           <div className="flex items-center gap-0.5 text-xs font-medium text-gray-500 bg-white shadow-soft border border-gray-100 px-3 py-1.5 rounded-full">
             <span className="flex items-center gap-1.5 px-2">
-              <Settings className="w-3.5 h-3.5 text-gray-400" />
+              <Gear className="w-3.5 h-3.5 text-gray-400" />
               <span>{config.size}</span>
             </span>
             <span className="w-px h-3 bg-gray-200 mx-1" />
             <span className="flex items-center gap-1.5 px-2">
-              <Layers className="w-3.5 h-3.5 text-gray-400" />
+              <Stack className="w-3.5 h-3.5 text-gray-400" />
               <span>{config.slideCount} Slides</span>
             </span>
           </div>

@@ -5,7 +5,14 @@ import { useDropzone } from "react-dropzone"
 import imageCompression from "browser-image-compression"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { Upload, X, Download, Settings2, RefreshCw, Archive } from "lucide-react"
+import {
+    UploadSimple,
+    X,
+    DownloadSimple,
+    Sliders,
+    ArrowsClockwise,
+    Archive
+} from '@phosphor-icons/react/dist/ssr';
 import JSZip from "jszip"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -158,7 +165,7 @@ export function ImageCompressor() {
               "p-6 rounded-full bg-primary-50 text-primary-600 transition-transform duration-300 group-hover:scale-110 group-hover:bg-white group-hover:shadow-md",
               isDragActive && "bg-white shadow-md scale-110"
             )}>
-              <Upload className="w-10 h-10" />
+              <UploadSimple className="w-10 h-10" />
             </div>
             <div className="space-y-2">
               <p className="text-2xl font-semibold text-gray-900">
@@ -178,7 +185,7 @@ export function ImageCompressor() {
           <div className="col-span-1 lg:col-span-2 space-y-6">
             <div className="flex items-center justify-between">
               <Button onClick={open} variant="outline" className="gap-2">
-                <Upload className="w-4 h-4" />
+                <UploadSimple className="w-4 h-4" />
                 Add More Images
               </Button>
 
@@ -246,7 +253,7 @@ export function ImageCompressor() {
 
                       {img.status === "done" && (
                         <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700" onClick={() => downloadImage(img)}>
-                          <Download className="w-4 h-4" />
+                          <DownloadSimple className="w-4 h-4" />
                         </Button>
                       )}
 
@@ -272,7 +279,7 @@ export function ImageCompressor() {
           <div className="col-span-1">
             <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-6 sticky top-6 shadow-sm">
               <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                <Settings2 className="w-5 h-5 text-gray-700" />
+                <Sliders className="w-5 h-5 text-gray-700" />
                 <h2 className="font-semibold text-gray-900">Compression Settings</h2>
               </div>
 
@@ -321,12 +328,12 @@ export function ImageCompressor() {
                 >
                   {isCompressingAll ? (
                     <>
-                      <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                      <ArrowsClockwise className="mr-2 h-4 w-4 animate-spin" />
                       Processing...
                     </>
                   ) : (
                     <>
-                      <RefreshCw className="mr-2 h-4 w-4" />
+                      <ArrowsClockwise className="mr-2 h-4 w-4" />
                       Compress All Images
                     </>
                   )}

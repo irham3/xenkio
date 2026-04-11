@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
-import { Copy, Check, RotateCcw } from 'lucide-react';
+import { Copy, Check, ArrowCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 const QUICK_DISCOUNTS = [5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75];
@@ -247,7 +247,7 @@ export function DiscountCalculator() {
                                     onClick={handleReset}
                                     className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-gray-600 transition-colors"
                                 >
-                                    <RotateCcw className="w-3 h-3" />
+                                    <ArrowCounterClockwise className="w-3 h-3" />
                                     Reset
                                 </button>
                             </div>
@@ -259,7 +259,7 @@ export function DiscountCalculator() {
                         {!result ? (
                             <div className="flex flex-col items-center justify-center h-full text-center opacity-50">
                                 <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-3">
-                                    <RotateCcw className="w-6 h-6 text-gray-400" />
+                                    <ArrowCounterClockwise className="w-6 h-6 text-gray-400" />
                                 </div>
                                 <p className="text-sm font-medium text-gray-600 mb-0.5">Enter a price</p>
                                 <p className="text-xs text-gray-400">Type the original price to see the result</p>

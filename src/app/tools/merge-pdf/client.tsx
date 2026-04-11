@@ -4,7 +4,7 @@ import { useState, useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { PDFDocument, PageSizes, degrees } from "pdf-lib"
 import { motion } from "framer-motion"
-import { Trash2, Plus } from "lucide-react"
+import { Trash, Plus } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import {
@@ -266,7 +266,7 @@ export function MergePdfClient() {
           </div>
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" onClick={clearAll} className="text-gray-500 hover:text-red-600 cursor-pointer">
-              <Trash2 className="w-4 h-4 mr-2" />
+              <Trash className="w-4 h-4 mr-2" />
               Clear all
             </Button>
           </div>

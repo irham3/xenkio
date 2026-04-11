@@ -1,6 +1,6 @@
 "use client"
 
-import { Upload, Plus } from "lucide-react"
+import { UploadSimple, Plus } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -30,7 +30,7 @@ export function PdfUploader({ isDragActive, getRootProps, getInputProps }: PdfUp
                         "w-20 h-20 rounded-2xl flex items-center justify-center transition-all",
                         isDragActive ? "bg-primary-100" : "bg-gray-100"
                     )}>
-                        <Upload className={cn(
+                        <UploadSimple className={cn(
                             "w-10 h-10 transition-colors",
                             isDragActive ? "text-primary-600" : "text-gray-400"
                         )} />

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ClearButton } from '@/components/shared/clear-button';
 import { CopyButton } from '@/components/shared/copy-button';
 import { JwtOptions, JWT_ALGORITHMS } from '../types';
-import { ChevronDown, Lock, RefreshCcw } from 'lucide-react';
+import { CaretDown, Lock, ArrowsCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 import {
@@ -156,7 +156,7 @@ export function TokenInputPanel({ options, updateOption, onTrigger }: TokenInput
                                         <option key={alg.id} value={alg.id}>{alg.label}</option>
                                     ))}
                                 </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                             </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@ export function TokenInputPanel({ options, updateOption, onTrigger }: TokenInput
                         onClick={handleReSign}
                         className="w-full h-11 bg-primary-600 hover:bg-primary-700 text-white font-semibold shadow-sm transition-all"
                     >
-                        <RefreshCcw className="w-4 h-4 mr-2" />
+                        <ArrowsCounterClockwise className="w-4 h-4 mr-2" />
                         Re-Sign Token
                     </Button>
                 </div>

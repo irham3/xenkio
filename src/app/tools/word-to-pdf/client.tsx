@@ -6,7 +6,7 @@ import { WordUploader } from "@/features/word-to-pdf/components/word-uploader"
 import { WordProcess } from "@/features/word-to-pdf/components/word-process"
 import { useWordToPdf } from "@/features/word-to-pdf/hooks/use-word-to-pdf"
 import { WordFile } from "@/features/word-to-pdf/types"
-import { FileText, Shield, Zap } from "lucide-react"
+import { FileText, Shield, Lightning } from '@phosphor-icons/react/dist/ssr';
 
 export function WordToPdfClient() {
     const [wordFile, setWordFile] = useState<WordFile | null>(null)
@@ -89,7 +89,7 @@ export function WordToPdfClient() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 text-center">
                 <div className="space-y-4 p-8 bg-white rounded-2xl shadow-soft border border-gray-100 hover:shadow-medium transition-shadow">
                     <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <Zap className="w-7 h-7" />
+                        <Lightning className="w-7 h-7" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900">Instant Conversion</h3>
                     <p className="text-gray-600 leading-relaxed">

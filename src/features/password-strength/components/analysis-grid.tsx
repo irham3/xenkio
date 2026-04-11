@@ -1,7 +1,7 @@
 
 import { PasswordStrength } from '../lib/password-utils';
 import { Card } from '@/components/ui/card';
-import { Shield, Clock, Binary, Gauge } from 'lucide-react';
+import { Shield, Clock, Binary, Gauge } from '@phosphor-icons/react/dist/ssr';
 
 interface AnalysisGridProps {
     strength: PasswordStrength;

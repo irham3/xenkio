@@ -6,7 +6,15 @@ import { COMMON_PATTERNS, FLAG_DESCRIPTIONS } from '../constants';
 import { RegexFlags, RegexMatch } from '../types';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, ChevronDown, Zap, AlertCircle, Regex, Sparkles } from 'lucide-react';
+import {
+    Copy,
+    Check,
+    CaretDown,
+    Lightning,
+    WarningCircle,
+    BracketsAngle,
+    Sparkle
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -138,7 +146,7 @@ export function RegexTester() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-start gap-2 text-error-600 text-xs bg-error-50 px-3 py-2 rounded-lg border border-error-100"
                   >
-                    <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                    <WarningCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                     <span>{result.error}</span>
                   </motion.div>
                 )}
@@ -163,7 +171,7 @@ export function RegexTester() {
                     className="w-full flex items-center justify-between bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl p-3 outline-none transition-all hover:bg-gray-100 cursor-pointer focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400"
                   >
                     <span className="text-gray-500">Select a pattern...</span>
-                    <ChevronDown className={cn(
+                    <CaretDown className={cn(
                       "w-4 h-4 text-gray-500 transition-transform",
                       showPatternDropdown && "rotate-180"
                     )} />
@@ -189,7 +197,7 @@ export function RegexTester() {
                             className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0 focus:bg-gray-50 focus:outline-none"
                           >
                             <div className="flex items-center gap-2">
-                              <Sparkles className="w-3.5 h-3.5 text-primary-500" />
+                              <Sparkle className="w-3.5 h-3.5 text-primary-500" />
                               <span className="text-sm font-medium text-gray-800">{p.name}</span>
                             </div>
                             <p className="text-xs text-gray-500 mt-0.5 ml-5">{p.description}</p>
@@ -263,12 +271,12 @@ export function RegexTester() {
                 >
                   {isProcessing ? (
                     <>
-                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      <Lightning className="w-4 h-4 mr-2 animate-pulse" />
                       Testing...
                     </>
                   ) : (
                     <>
-                      <Zap className="w-4 h-4 mr-2" />
+                      <Lightning className="w-4 h-4 mr-2" />
                       Test Regex
                     </>
                   )}
@@ -301,7 +309,7 @@ export function RegexTester() {
                     </>
                   ) : copyError ? (
                     <>
-                      <AlertCircle className="w-4 h-4 mr-2" />
+                      <WarningCircle className="w-4 h-4 mr-2" />
                       Failed
                     </>
                   ) : (
@@ -321,7 +329,7 @@ export function RegexTester() {
               <h3 className="text-sm font-semibold text-gray-800">Results</h3>
               {result && result.executionTime > 0 && (
                 <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                  <Zap className="w-3 h-3" />
+                  <Lightning className="w-3 h-3" />
                   {result.executionTime.toFixed(2)}ms
                 </span>
               )}
@@ -347,12 +355,12 @@ export function RegexTester() {
               <div className="w-full h-full min-h-[200px] p-4 rounded-xl border border-gray-200 bg-white overflow-auto">
                 {!result ? (
                   <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
-                    <Regex className="w-10 h-10 text-gray-300" />
+                    <BracketsAngle className="w-10 h-10 text-gray-300" />
                     <p className="text-sm text-gray-400">Click &quot;Test Regex&quot; to see results</p>
                   </div>
                 ) : !result.isValid ? (
                   <div className="flex flex-col items-center justify-center h-full gap-2 text-error-500">
-                    <AlertCircle className="w-10 h-10 text-error-300" />
+                    <WarningCircle className="w-10 h-10 text-error-300" />
                     <p className="text-sm">Fix the pattern error above</p>
                   </div>
                 ) : highlightedText ? (
@@ -374,7 +382,7 @@ export function RegexTester() {
                   </pre>
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
-                    <Regex className="w-8 h-8 text-gray-300" />
+                    <BracketsAngle className="w-8 h-8 text-gray-300" />
                     <p className="text-sm text-gray-400">Enter text to test</p>
                   </div>
                 )}

@@ -1,6 +1,6 @@
 'use client';
 
-import { History, Cpu } from 'lucide-react';
+import { ClockCounterClockwise, Cpu } from '@phosphor-icons/react/dist/ssr';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type UUIDItem } from '../types';
 import { CopyButton, ClearButton } from '@/components/shared';
@@ -16,7 +16,7 @@ export function HistorySidebar({ history, onClear }: HistorySidebarProps) {
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 flex flex-col h-[750px] sticky top-8 overflow-hidden">
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white">
                     <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                        <History className="h-5 w-5 text-primary-500" />
+                        <ClockCounterClockwise className="h-5 w-5 text-primary-500" />
                         History
                     </h3>
                     {history.length > 0 && (

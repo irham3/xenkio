@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { FileText, Loader2 } from "lucide-react"
+import { FileText, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { getPdfjs } from "@/lib/pdf-worker"
@@ -142,7 +142,7 @@ function PdfCanvas({ pdfDocument, arrayBuffer, pageNumber, scale }: PdfCanvasPro
         <div className="relative w-full h-full">
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-50 rounded-lg z-10">
-                    <Loader2 className="w-6 h-6 text-primary-500 animate-spin" />
+                    <SpinnerGap className="w-6 h-6 text-primary-500 animate-spin" />
                 </div>
             )}
             <canvas

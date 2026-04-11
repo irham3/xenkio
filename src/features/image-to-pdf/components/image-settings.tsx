@@ -3,8 +3,15 @@
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-// import { Settings2, FileText, Download, Archive, Loader2 } from "lucide-react" 
-import { Settings2, FileImage, Download, Archive, Loader2, Trash2 } from "lucide-react"
+
+import {
+    Sliders,
+    FileImage,
+    DownloadSimple,
+    Archive,
+    SpinnerGap,
+    Trash
+} from '@phosphor-icons/react/dist/ssr';
 import { ConversionOptions, StandardPageSize, ImageFile } from "../types"
 
 const PAGE_SIZE_OPTIONS: { value: StandardPageSize; label: string }[] = [
@@ -40,7 +47,7 @@ export function ImageSettings({
     return (
         <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-5 sticky top-6 h-fit lg:col-span-1">
             <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                <Settings2 className="w-5 h-5 text-primary-600" />
+                <Sliders className="w-5 h-5 text-primary-600" />
                 <h2 className="font-semibold text-gray-900">Settings</h2>
             </div>
 
@@ -68,7 +75,7 @@ export function ImageSettings({
                         className="h-6 w-6 text-gray-400 hover:text-red-500 hover:bg-red-50 cursor-pointer"
                         title="Reset all"
                     >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash className="w-3.5 h-3.5" />
                     </Button>
                 </div>
 
@@ -205,13 +212,13 @@ export function ImageSettings({
                 >
                     {isProcessing ? (
                         <>
-                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                            <SpinnerGap className="mr-2 h-5 w-5 animate-spin" />
                             Converting...
                         </>
                     ) : (
                         <>
                             {options.outputMode === "single" ? (
-                                <Download className="mr-2 h-5 w-5" />
+                                <DownloadSimple className="mr-2 h-5 w-5" />
                             ) : (
                                 <Archive className="mr-2 h-5 w-5" />
                             )}

@@ -5,7 +5,7 @@ import { InvoiceForm } from './invoice-form';
 import { InvoicePreview } from './invoice-preview';
 import { generateInvoicePDF } from '../lib/pdf-generator';
 import { Button } from '@/components/ui/button';
-import { Download, RotateCcw, Eye, ChevronDown } from 'lucide-react';
+import { DownloadSimple, ArrowCounterClockwise, Eye, CaretDown } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
@@ -60,14 +60,14 @@ export function InvoiceGenerator() {
                         >
                             <Eye className="w-4 h-4" />
                             Preview
-                            <ChevronDown className={cn("w-4 h-4 transition-transform", showMobilePreview && "rotate-180")} />
+                            <CaretDown className={cn("w-4 h-4 transition-transform", showMobilePreview && "rotate-180")} />
                         </button>
                         <Button
                             onClick={handleDownloadPDF}
                             disabled={isGenerating}
                             className="bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all"
                         >
-                            <Download className="w-4 h-4 mr-2" />
+                            <DownloadSimple className="w-4 h-4 mr-2" />
                             {isGenerating ? 'Generating...' : 'Download PDF'}
                         </Button>
                         <Button
@@ -75,7 +75,7 @@ export function InvoiceGenerator() {
                             variant="outline"
                             className="border-gray-300 hover:bg-gray-50"
                         >
-                            <RotateCcw className="w-4 h-4 mr-2" />
+                            <ArrowCounterClockwise className="w-4 h-4 mr-2" />
                             Reset
                         </Button>
                     </div>

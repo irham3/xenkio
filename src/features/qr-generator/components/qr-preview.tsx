@@ -3,7 +3,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { QRConfig } from '../types';
 import { Button } from '@/components/ui/button';
-import { FileImage, FileCode, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
+import {
+    FileImage,
+    FileCode,
+    CheckCircle,
+    XCircle,
+    SpinnerGap
+} from '@phosphor-icons/react/dist/ssr';
 import { QRCodeCanvas } from 'qrcode.react';
 import jsQR from 'jsqr';
 
@@ -326,12 +332,12 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
         <div className="absolute top-2 right-2 z-10">
           {isValidating ? (
             <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold uppercase tracking-wider animate-pulse">
-              <Loader2 className="w-3 h-3 animate-spin" />
+              <SpinnerGap className="w-3 h-3 animate-spin" />
               Validating...
             </div>
           ) : isScannable ? (
             <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-50 text-green-600 text-[10px] font-bold uppercase tracking-wider border border-green-100 shadow-sm">
-              <CheckCircle2 className="w-3 h-3" />
+              <CheckCircle className="w-3 h-3" />
               Safe to Scan
             </div>
           ) : (

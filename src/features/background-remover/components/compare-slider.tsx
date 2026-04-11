@@ -1,6 +1,7 @@
+'use client';
 import Image from 'next/image';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { MoveHorizontal } from 'lucide-react';
+import { ArrowsLeftRight } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 interface CompareSliderProps {
@@ -94,7 +95,7 @@ export function CompareSlider({ original, modified, className }: CompareSliderPr
                 onTouchStart={onTouchStart}
             >
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-400 group-hover:scale-110 transition-transform">
-                    <MoveHorizontal size={16} />
+                    <ArrowsLeftRight weight="duotone" size={16} />
                 </div>
             </div>
 

@@ -1,13 +1,13 @@
 
 import React from 'react';
 import {
-    CheckCircle2,
-    FileJson,
-    FileSpreadsheet,
-    Zap,
+    CheckCircle,
+    FileJs,
+    FileXls,
+    Lightning,
     ShieldCheck,
-    Settings2
-} from 'lucide-react';
+    Sliders
+} from '@phosphor-icons/react/dist/ssr';
 
 export function JsonToCsvContent() {
     return (
@@ -15,7 +15,7 @@ export function JsonToCsvContent() {
             {/* Quick Guide Section */}
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <Zap className="w-6 h-6 text-primary-500" />
+                    <Lightning className="w-6 h-6 text-primary-500" />
                     How to Convert JSON to CSV in seconds
                 </h2>
                 <div className="grid md:grid-cols-3 gap-6">
@@ -55,7 +55,7 @@ export function JsonToCsvContent() {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
-                            <Settings2 className="w-6 h-6 text-blue-600" />
+                            <Sliders className="w-6 h-6 text-blue-600" />
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Smart Flattening</h3>
                         <p className="text-gray-600 text-sm">
@@ -75,7 +75,7 @@ export function JsonToCsvContent() {
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-4">
-                            <FileSpreadsheet className="w-6 h-6 text-purple-600" />
+                            <FileXls className="w-6 h-6 text-purple-600" />
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Table Preview</h3>
                         <p className="text-gray-600 text-sm">
@@ -85,7 +85,7 @@ export function JsonToCsvContent() {
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center mb-4">
-                            <Zap className="w-6 h-6 text-orange-600" />
+                            <Lightning className="w-6 h-6 text-orange-600" />
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Instant Conversion</h3>
                         <p className="text-gray-600 text-sm">
@@ -95,7 +95,7 @@ export function JsonToCsvContent() {
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
-                            <FileJson className="w-6 h-6 text-red-600" />
+                            <FileJs className="w-6 h-6 text-red-600" />
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Error Validation</h3>
                         <p className="text-gray-600 text-sm">
@@ -105,7 +105,7 @@ export function JsonToCsvContent() {
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center mb-4">
-                            <CheckCircle2 className="w-6 h-6 text-indigo-600" />
+                            <CheckCircle className="w-6 h-6 text-indigo-600" />
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Flexible Delimiters</h3>
                         <p className="text-gray-600 text-sm">

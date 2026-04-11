@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react"
 import jsQR from "jsqr"
-import { CameraOff, RefreshCw, X, Settings2 } from "lucide-react"
+import { CameraSlash, ArrowsClockwise, X, Sliders } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -138,7 +138,7 @@ export function QrScanner({ onScan, onClose }: QrScannerProps) {
             {status === 'denied' || status === 'error' ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center space-y-6 text-white z-20 bg-gray-950">
                     <div className="w-20 h-20 rounded-3xl bg-red-500/10 border border-red-500/20 flex items-center justify-center animate-in zoom-in-95 duration-500">
-                        <CameraOff className="w-10 h-10 text-red-500" />
+                        <CameraSlash className="w-10 h-10 text-red-500" />
                     </div>
 
                     <div className="space-y-2 max-w-xs">
@@ -157,7 +157,7 @@ export function QrScanner({ onScan, onClose }: QrScannerProps) {
                             onClick={handleRequestPermission}
                             className="w-full bg-primary-600 hover:bg-primary-500 text-white rounded-2xl h-12 font-semibold shadow-lg shadow-primary-900/20 transition-all cursor-pointer"
                         >
-                            <Settings2 className="w-4 h-4 mr-2" />
+                            <Sliders className="w-4 h-4 mr-2" />
                             Request Permission
                         </Button>
                         <Button
@@ -217,7 +217,7 @@ export function QrScanner({ onScan, onClose }: QrScannerProps) {
                             <div className="flex flex-col items-center gap-6">
                                 <div className="relative">
                                     <div className="w-16 h-16 rounded-full border-4 border-primary-500/20 border-t-primary-500 animate-spin" />
-                                    <RefreshCw className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-primary-500" />
+                                    <ArrowsClockwise className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-primary-500" />
                                 </div>
                                 <div className="space-y-1 text-center">
                                     <p className="text-white font-bold text-lg tracking-tight">Initializing Camera</p>

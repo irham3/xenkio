@@ -1,7 +1,7 @@
 
 "use client"
 
-import { FileArchive } from "lucide-react"
+import { FileArchive } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { useDropzone } from "react-dropzone"
 

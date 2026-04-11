@@ -125,18 +125,23 @@ export function useTeleprompter() {
         });
     }, []);
 
-    // Countdown effect
     useEffect(() => {
         if (state.countdown === null) return;
-        if (state.countdown > 0) {
-            const timer = setTimeout(() => {
-                setState((prev) => ({ ...prev, countdown: prev.countdown! - 1 }));
-            }, 1000);
-            return () => clearTimeout(timer);
-        } else if (state.countdown === 0) {
-            lastFrameTsRef.current = null;
-            setState((prev) => ({ ...prev, countdown: null, isPlaying: true }));
-        }
+
+        const timer = setTimeout(() => {
+            setState((prev) => {
+                if (prev.countdown === null) return prev;
+                if (prev.countdown > 1) {
+                    return { ...prev, countdown: prev.countdown - 1 };
+                } else {
+                    // Transition from 1 to null (starting playback)
+                    lastFrameTsRef.current = null;
+                    return { ...prev, countdown: null, isPlaying: true };
+                }
+            });
+        }, 1000);
+
+        return () => clearTimeout(timer);
     }, [state.countdown]);
 
     // Reset scroll position to top

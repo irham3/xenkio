@@ -5,7 +5,7 @@ export interface ToolData {
     id: string;
     title: string;
     description: string;
-    icon: LucideIcon;
+    icon: string;
     href: string;
     featured?: boolean;
     isNew?: boolean;
@@ -87,17 +87,6 @@ export const TOOLS: ToolData[] = [
         categoryId: 'documents',
     },
     {
-        id: '102',
-        title: 'PDF Reader',
-        description: 'Read PDF documents in your browser with AI-powered hand gesture page navigation. Swipe to flip pages.',
-        icon: PdfReaderIcon,
-        href: '/tools/pdf-reader',
-        slug: 'pdf-reader',
-        isNew: true,
-        featured: true,
-        categoryId: 'documents',
-    },
-    {
         id: '67',
         title: 'Sign PDF',
         description: 'Add your digital signature to PDF documents securely in your browser.',
@@ -108,32 +97,12 @@ export const TOOLS: ToolData[] = [
         isNew: true,
     },
     {
-        id: '104',
-        title: 'Stamp PDF',
-        description: 'Add professional stamps to PDF — approval, date, checklist, notes, and cost stamps with drag & resize.',
-        icon: FileText,
-        href: '/tools/stamp-pdf',
-        slug: 'stamp-pdf',
-        categoryId: 'documents',
-        isNew: true,
-    },
-    {
-        id: '103',
+        id: '102',
         title: 'Crop PDF',
         description: 'Visually crop and trim PDF pages. Remove margins, headers, or resize page area with precision.',
         icon: 'Crop',
         href: '/tools/crop-pdf',
         slug: 'crop-pdf',
-        categoryId: 'documents',
-        isNew: true,
-    },
-    {
-        id: '105',
-        title: 'Compare PDF',
-        description: 'Compare two PDF versions with visual ghosting overlay and pixel-level diff. Spot every layout shift and hidden change instantly.',
-        icon: GitCompare,
-        href: '/tools/compare-pdf',
-        slug: 'compare-pdf',
         categoryId: 'documents',
         isNew: true,
     },
@@ -266,7 +235,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
     },
     // =====================================================
-    // IMAGE TOOLS - Additional
+    // IMAGE TOOLS - Tambahan
     // =====================================================
     {
         id: '66',
@@ -366,28 +335,6 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS
     // =====================================================
     {
-        id: '123',
-        title: 'Data Checker',
-        description: 'Validate data manually row-by-row. Mark valid/invalid, add comments, and export results as CSV.',
-        icon: ClipboardCheck,
-        href: '/tools/data-checker',
-        slug: 'data-checker',
-        isNew: true,
-        featured: true,
-        categoryId: 'developer-tools',
-    },
-    {
-        id: '106',
-        title: 'Data Verifier',
-        description: 'Compare and sync two datasets side-by-side. Find mismatched rows, review missing data, and apply quick fixes.',
-        icon: ArrowLeftRight,
-        href: '/tools/data-verifier',
-        slug: 'data-verifier',
-        isNew: true,
-        featured: true,
-        categoryId: 'developer-tools',
-    },
-    {
         id: '26',
         title: 'JSON Formatter',
         description: 'Format, validate, and beautify JSON data with syntax highlighting.',
@@ -431,17 +378,6 @@ export const TOOLS: ToolData[] = [
         icon: 'Timer',
         href: '/tools/pomodoro-timer',
         slug: 'pomodoro-timer',
-        isNew: true,
-        featured: true,
-        categoryId: 'developer-tools',
-    },
-    {
-        id: '110',
-        title: 'Event Timekeeper',
-        description: 'Manage event schedules with real-time countdown, presenter focus mode, and Excel import. Keep your events on track.',
-        icon: CalendarRange,
-        href: '/tools/event-timekeeper',
-        slug: 'event-timekeeper',
         isNew: true,
         featured: true,
         categoryId: 'developer-tools',
@@ -510,16 +446,6 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'developer-tools',
     },
-    {
-        id: '108',
-        title: 'SQL Formatter',
-        description: 'Format and beautify SQL queries with support for multiple dialects.',
-        icon: Database,
-        href: '/tools/sql-formatter',
-        slug: 'sql-formatter',
-        isNew: true,
-        categoryId: 'developer-tools',
-    },
 
     // =====================================================
     // DESIGN & COLOR TOOLS
@@ -583,8 +509,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate placeholder text in various formats and lengths.',
         icon: 'NotePencil',
         href: '/tools/lorem-ipsum',
-        slug: 'lorem-ipsum',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -614,8 +539,7 @@ export const TOOLS: ToolData[] = [
         description: 'Remove extra spaces, duplicate lines, and clean up messy text.',
         icon: 'NotePencil',
         href: '/tools/text-cleaner',
-        slug: 'text-cleaner',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -624,8 +548,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate URL-friendly slugs from text.',
         icon: 'Link',
         href: '/tools/slug-generator',
-        slug: 'slug-generator',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     {
@@ -634,8 +557,7 @@ export const TOOLS: ToolData[] = [
         description: 'Convert text to natural-sounding speech audio.',
         icon: 'SpeakerHigh',
         href: '/tools/text-to-speech',
-        slug: 'text-to-speech',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'text-utilities',
     },
     // Text Formatter removed - redundant with specific formatters
@@ -649,8 +571,7 @@ export const TOOLS: ToolData[] = [
         description: 'Generate SEO-optimized meta tags for your website.',
         icon: 'Globe',
         href: '/tools/meta-tag-generator',
-        slug: 'meta-tag-generator',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -659,18 +580,16 @@ export const TOOLS: ToolData[] = [
         description: 'Generate XML sitemaps for search engines.',
         icon: 'MapTrifold',
         href: '/tools/sitemap-generator',
-        slug: 'sitemap-generator',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
         id: '49',
         title: 'Robots.txt Generator',
         description: 'Create robots.txt files for search engine crawlers.',
-        icon: Bot,
+        icon: 'Robot',
         href: '/tools/robots-txt-generator',
-        slug: 'robots-txt-generator',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
 
@@ -715,7 +634,6 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'calculators',
     },
-
     {
         id: '93',
         title: 'Date Calculator',
@@ -732,7 +650,7 @@ export const TOOLS: ToolData[] = [
         description: 'Calculate Body Mass Index and health status.',
         icon: 'ChartLineUp',
         href: '/tools/bmi-calculator',
-        slug: 'bmi-calculator',
+        isComingSoon: true,
         categoryId: 'calculators',
     },
     {
@@ -755,18 +673,8 @@ export const TOOLS: ToolData[] = [
         isComingSoon: true,
         categoryId: 'calculators',
     },
-    {
-        id: '116',
-        title: 'Matrix Calculator',
-        description: 'Perform matrix operations: transpose, multiplication, inverse, determinant, trace, rank, and power. Easy to use even for beginners.',
-        icon: Grid3x3,
-        href: '/tools/matrix-calculator',
-        slug: 'matrix-calculator',
-        isNew: true,
-        categoryId: 'calculators',
-    },
     // =====================================================
-    // SECURITY & PRIVACY - Additional
+    // SECURITY & PRIVACY - Tambahan
     // =====================================================
     {
         id: '68',
@@ -818,7 +726,7 @@ export const TOOLS: ToolData[] = [
         id: '94',
         title: 'My IP Address',
         description: 'Check your public IP address, location, and ISP details.',
-        icon: Globe2,
+        icon: 'Globe',
         href: '/tools/my-ip',
         slug: 'my-ip',
         isComingSoon: true,
@@ -828,7 +736,7 @@ export const TOOLS: ToolData[] = [
         id: '95',
         title: 'Internet Speed Test',
         description: 'Test your internet connection speed (download, upload, ping).',
-        icon: Activity,
+        icon: 'ChartLineUp',
         href: '/tools/speed-test',
         slug: 'speed-test',
         isComingSoon: true,
@@ -841,14 +749,17 @@ export const TOOLS: ToolData[] = [
         icon: 'WifiHigh',
         href: '/tools/wifi-qr-code',
         slug: 'wifi-qr-code',
+        isComingSoon: true,
         categoryId: 'media-images',
     },
 
-
+    // =====================================================
+    // DEVELOPER TOOLS - Tambahan
+    // =====================================================
 
 
     // =====================================================
-    // DESIGN TOOLS - Additional
+    // DESIGN TOOLS - Tambahan
     // =====================================================
     {
         id: '73',
@@ -907,42 +818,12 @@ export const TOOLS: ToolData[] = [
         icon: 'GridFour',
         href: '/tools/flexbox-generator',
         slug: 'flexbox-generator',
-        isNew: true,
-        categoryId: 'design-tools',
-    },
-    {
-        id: '109',
-        title: 'Glassmorphism Generator',
-        description: 'Create beautiful frosted glass UI effects with live preview and CSS code export.',
-        icon: GlassWater,
-        href: '/tools/glassmorphism-generator',
-        slug: 'glassmorphism-generator',
-        isNew: true,
-        categoryId: 'design-tools',
-    },
-    {
-        id: '115',
-        title: 'Keyframe Animation Generator',
-        description: 'Create CSS @keyframes animations visually with live preview, presets, and instant code export.',
-        icon: Film,
-        href: '/tools/keyframe-animation-generator',
-        slug: 'keyframe-animation-generator',
-        isNew: true,
-        categoryId: 'design-tools',
-    },
-    {
-        id: '114',
-        title: 'Running Text',
-        description: 'Create animated scrolling text with strobe effects, blink mode, custom colors, and fullscreen display.',
-        icon: Scroll,
-        href: '/tools/running-text',
-        slug: 'running-text',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'design-tools',
     },
 
     // =====================================================
-    // TEXT UTILITIES - Additional
+    // TEXT UTILITIES - Tambahan
     // =====================================================
     {
         id: '79',
@@ -964,46 +845,12 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'text-utilities',
     },
-    {
-        id: '118',
-        title: 'Morse Code Encoder & Decoder',
-        description: 'Convert text to Morse code or decode Morse code back to text instantly.',
-        icon: Wifi,
-        href: '/tools/morse-code',
-        slug: 'morse-code',
-        isNew: true,
-        categoryId: 'text-utilities',
-    },
-    {
-        id: '107',
-        title: 'Text Replace',
-        description: 'Find and replace text with plain text or regex patterns. Supports case-sensitive matching and replace all.',
-        icon: Replace,
-        href: '/tools/text-replace',
-        slug: 'text-replace',
-        isNew: true,
-        categoryId: 'text-utilities',
-    },
-
-    // =====================================================
-    // TEXT UTILITIES - Teleprompter
-    // =====================================================
-    {
-        id: '119',
-        title: 'Teleprompter',
-        description: 'Read scripts with ease. Auto-scrolling teleprompter mode or page-read mode suitable for tablets, phones, and laptops.',
-        icon: Clapperboard,
-        href: '/tools/teleprompter',
-        slug: 'teleprompter',
-        isNew: true,
-        categoryId: 'text-utilities',
-    },
 
     // =====================================================
     // WEB & SEO - Tambahan
     // =====================================================
     {
-        id: '93',
+        id: '110',
         title: 'URL Encoder / Decoder',
         description: 'Encode or decode URLs. Convert special characters to safer URL formats.',
         icon: 'LinkSimple',
@@ -1019,6 +866,7 @@ export const TOOLS: ToolData[] = [
         icon: 'ShareNetwork',
         href: '/tools/og-generator',
         slug: 'og-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1028,16 +876,17 @@ export const TOOLS: ToolData[] = [
         icon: 'CodeSimple',
         href: '/tools/schema-generator',
         slug: 'schema-generator',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
         id: '83',
         title: 'Twitter Card Generator',
-        description: 'Generate Twitter Card meta tags for better link previews.',
-        icon: Twitter,
+        description: 'Generate XLogo Card meta tags for better link previews.',
+        icon: 'XLogo',
         href: '/tools/twitter-card',
         slug: 'twitter-card',
-        isNew: true,
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1047,6 +896,7 @@ export const TOOLS: ToolData[] = [
         icon: 'LinkSimple',
         href: '/tools/utm-builder',
         slug: 'utm-builder',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1056,13 +906,14 @@ export const TOOLS: ToolData[] = [
         icon: 'Link',
         href: '/tools/link-shortener',
         slug: 'link-shortener',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
         id: '86',
         title: 'HTTP Status Code Checker',
         description: 'Check HTTP response codes and headers for any URL.',
-        icon: Globe2,
+        icon: 'Globe',
         href: '/tools/http-status',
         slug: 'http-status',
         isComingSoon: true,
@@ -1075,11 +926,12 @@ export const TOOLS: ToolData[] = [
         icon: 'HardDrives',
         href: '/tools/dns-lookup',
         slug: 'dns-lookup',
+        isComingSoon: true,
         categoryId: 'web-seo',
     },
 
     // =====================================================
-    // CALCULATORS - Additional
+    // CALCULATORS - Tambahan
     // =====================================================
     {
         id: '88',
@@ -1095,7 +947,7 @@ export const TOOLS: ToolData[] = [
         id: '89',
         title: 'Date Calculator',
         description: 'Calculate differences between dates or add/subtract days.',
-        icon: CalendarDays,
+        icon: 'CalendarDots',
         href: '/tools/date-calculator',
         slug: 'date-calculator',
         isComingSoon: true,
@@ -1131,115 +983,11 @@ export const TOOLS: ToolData[] = [
         isComingSoon: true,
         categoryId: 'calculators',
     },
-
-    // =====================================================
-    // DEVELOPER TOOLS - Time Complexity Calculator
-    // =====================================================
-    {
-        id: '121',
-        title: 'Time Complexity Calculator',
-        description: 'Analyze time and space complexity of your algorithm. Paste code or pseudocode and get instant Big O notation with detailed explanation.',
-        icon: BarChart3,
-        href: '/tools/time-complexity-calculator',
-        slug: 'time-complexity-calculator',
-        isNew: true,
-        categoryId: 'developer-tools',
-    },
-
-    // =====================================================
-    // DEVELOPER TOOLS - Crontab Generator
-    // =====================================================
-    {
-        id: '112',
-        title: 'Crontab Generator',
-        description: 'Build cron expressions visually or parse existing ones into human-readable schedules.',
-        icon: Timer,
-        href: '/tools/crontab-generator',
-        slug: 'crontab-generator',
-        isNew: true,
-        categoryId: 'developer-tools',
-    },
-    {
-        id: '113',
-        title: 'Instant Visualizer',
-        description: 'Paste data from Excel or CSV and instantly get interactive charts, KPI cards, and insights — zero config needed.',
-        icon: BarChart3,
-        href: '/tools/instant-visualizer',
-        slug: 'instant-visualizer',
-        isNew: true,
-        featured: true,
-        categoryId: 'developer-tools',
-    },
-
-    // =====================================================
-    // MEDIA & IMAGES - Face Anonymizer
-    // =====================================================
-    {
-        id: '124',
-        title: 'Face Anonymizer',
-        description: 'Automatically detect and blur or pixelate faces in photos. Select all or individual faces. 100% private — runs in your browser.',
-        icon: ScanFace,
-        href: '/tools/face-anonymizer',
-        slug: 'face-anonymizer',
-        isNew: true,
-        categoryId: 'media-images',
-    },
-    // DEVELOPER TOOLS - HTML Viewer
-    // =====================================================
-    {
-        id: '117',
-        title: 'HTML Viewer',
-        description: 'Paste HTML, CSS, and JavaScript and see the live rendered result instantly. Manage separate files or write everything in a single document.',
-        icon: Code2,
-        href: '/tools/html-viewer',
-        slug: 'html-viewer',
-        isNew: true,
-        categoryId: 'developer-tools',
-    },
-    // =====================================================
-    // MEDIA & IMAGES - Image Annotator
-    // =====================================================
-    {
-        id: '125',
-        title: 'Image Annotator',
-        description: 'Annotate images with arrows, shapes, text, and freehand drawing. Upload or paste an image and download the result.',
-        icon: PenLine,
-        href: '/tools/image-annotator',
-        slug: 'image-annotator',
-        isNew: true,
-        categoryId: 'media-images',
-    },
-    // =====================================================
-    // DEVELOPER TOOLS - P2P Local Data Transfer
-    // =====================================================
-    {
-        id: '120',
-        title: 'P2P Local Data Transfer',
-        description: 'Send text and files directly between devices via WebRTC — no uploads, no accounts, nothing stored on any server.',
-        icon: Share2,
-        href: '/tools/p2p-share',
-        slug: 'p2p-share',
-        isNew: true,
-        categoryId: 'developer-tools',
-    },
-    // =====================================================
-    // CALCULATORS - Hypothesis Test
-    // =====================================================
-    {
-        id: '122',
-        title: 'Statistical Hypothesis Test',
-        description: 'Calculate hypothesis tests for research: t-test, z-test, chi-square, ANOVA, and Pearson correlation. Paste data directly from Excel.',
-        icon: FlaskConical,
-        href: '/tools/hypothesis-test',
-        slug: 'hypothesis-test',
-        isNew: true,
-        categoryId: 'calculators',
-    },
 ];
 
 // Search suggestions for the search bar
 export const SEARCH_SUGGESTIONS = [
-    { type: 'tool' as const, name: 'Merge PDF', category: 'Documents' },
+    { type: 'tool' as const, name: 'GitMerge PDF', category: 'Documents' },
     { type: 'tool' as const, name: 'Image Compressor', category: 'Media & Images' },
     { type: 'tool' as const, name: 'Password Generator', category: 'Security & Privacy' },
     { type: 'tool' as const, name: 'QR Code Generator', category: 'Media & Images' },
@@ -1247,5 +995,5 @@ export const SEARCH_SUGGESTIONS = [
     { type: 'tool' as const, name: 'Color Picker', category: 'Design Tools' },
     { type: 'category' as const, name: 'PDF & Documents', count: 7 },
     { type: 'category' as const, name: 'Media & Images', count: 11 },
-    { type: 'category' as const, name: 'Developer Tools', count: 12 },
+    { type: 'category' as const, name: 'Developer Tools', count: 11 },
 ];

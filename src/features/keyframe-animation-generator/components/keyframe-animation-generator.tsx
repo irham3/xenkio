@@ -4,18 +4,7 @@ import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Copy,
-  Check,
-  Plus,
-  Trash2,
-  Play,
-  Pause,
-  RefreshCw,
-  ChevronDown,
-  ChevronUp,
-  Zap,
-} from 'lucide-react';
+import { Copy, Check, Plus, Trash, Play, Pause, ArrowsClockwise, CaretDown, CaretUp, Lightning } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -501,7 +490,7 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
       {/* Preset Animations */}
       <div className="border border-gray-200 rounded-lg p-4">
         <h2 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-          <Zap className="w-4 h-4" />
+          <Lightning className="w-4 h-4"  weight="duotone"/>
           Preset Animations
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -659,7 +648,7 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
                 onClick={addKeyframe}
                 className="h-7 text-xs gap-1"
               >
-                <Plus className="w-3 h-3" />
+                <Plus className="w-3 h-3"  weight="duotone"/>
                 Add Keyframe
               </Button>
             </div>
@@ -677,9 +666,9 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
                       className="flex items-center gap-1 flex-1 min-w-0"
                     >
                       {expandedKeyframes.has(kf.id) ? (
-                        <ChevronUp className="w-3 h-3 text-gray-400 flex-shrink-0" />
+                        <CaretUp className="w-3 h-3 text-gray-400 flex-shrink-0"  weight="duotone"/>
                       ) : (
-                        <ChevronDown className="w-3 h-3 text-gray-400 flex-shrink-0" />
+                        <CaretDown className="w-3 h-3 text-gray-400 flex-shrink-0"  weight="duotone"/>
                       )}
                       <span className="text-xs font-semibold text-gray-700 min-w-[32px]">
                         {kf.offset}%
@@ -715,7 +704,7 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
                             : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
                         )}
                       >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash className="w-3 h-3"  weight="duotone"/>
                       </button>
                     </div>
                   </div>
@@ -753,7 +742,7 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
                             onClick={() => removeProperty(kf.id, prop.id)}
                             className="text-gray-400 hover:text-red-500 hover:bg-red-50 p-1 rounded transition-colors flex-shrink-0"
                           >
-                            <Trash2 className="w-3 h-3" />
+                            <Trash className="w-3 h-3"  weight="duotone"/>
                           </button>
                         </div>
                       ))}
@@ -763,7 +752,7 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
                         onClick={() => addProperty(kf.id)}
                         className="h-6 text-xs text-gray-500 gap-1 px-2"
                       >
-                        <Plus className="w-3 h-3" />
+                        <Plus className="w-3 h-3"  weight="duotone"/>
                         Add property
                       </Button>
                     </div>
@@ -791,9 +780,9 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
                   )}
                 >
                   {isPlaying ? (
-                    <Pause className="w-3 h-3" />
+                    <Pause className="w-3 h-3"  weight="duotone"/>
                   ) : (
-                    <Play className="w-3 h-3" />
+                    <Play className="w-3 h-3"  weight="duotone"/>
                   )}
                   {isPlaying ? 'Pause' : 'Play'}
                 </button>
@@ -801,7 +790,7 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
                   onClick={handleRestart}
                   className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
                 >
-                  <RefreshCw className="w-3 h-3" />
+                  <ArrowsClockwise className="w-3 h-3"  weight="duotone"/>
                   Restart
                 </button>
               </div>
@@ -853,9 +842,9 @@ export function KeyframeAnimationGenerator(): React.ReactElement {
                 className="h-7 text-xs gap-1.5"
               >
                 {copied ? (
-                  <Check className="w-3 h-3 text-green-600" />
+                  <Check className="w-3 h-3 text-green-600"  weight="duotone"/>
                 ) : (
-                  <Copy className="w-3 h-3" />
+                  <Copy className="w-3 h-3"  weight="duotone"/>
                 )}
                 {copied ? 'Copied!' : 'Copy CSS'}
               </Button>

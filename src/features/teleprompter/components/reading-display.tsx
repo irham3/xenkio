@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, ArrowLeft, Maximize, Minimize, Plus, Minus } from 'lucide-react';
+import { CaretLeft, CaretRight, ArrowLeft, ArrowsOut, ArrowsIn, Plus, Minus } from '@phosphor-icons/react/dist/ssr';
 import { TeleprompterConfig, TeleprompterState } from '../types';
 import { FONT_FAMILIES } from '../lib/teleprompter-utils';
 
@@ -103,7 +103,7 @@ export function ReadingDisplay({
                     className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-80"
                     style={{ color: config.textColor, border: `1.5px solid ${config.textColor}44` }}
                 >
-                    <ArrowLeft className="w-4 h-4" />
+                    <ArrowLeft className="w-4 h-4"  weight="duotone"/>
                     <span className="hidden sm:inline">Setup</span>
                 </button>
 
@@ -126,7 +126,7 @@ export function ReadingDisplay({
                             className="p-1.5 rounded-lg hover:opacity-70 transition-opacity"
                             style={{ color: config.textColor }}
                         >
-                            <Minus className="w-3.5 h-3.5" />
+                            <Minus className="w-3.5 h-3.5"  weight="duotone"/>
                         </button>
                         <span
                             className="text-xs font-mono w-10 text-center font-semibold"
@@ -139,7 +139,7 @@ export function ReadingDisplay({
                             className="p-1.5 rounded-lg hover:opacity-70 transition-opacity"
                             style={{ color: config.textColor }}
                         >
-                            <Plus className="w-3.5 h-3.5" />
+                            <Plus className="w-3.5 h-3.5"  weight="duotone"/>
                         </button>
                     </div>
 
@@ -150,9 +150,9 @@ export function ReadingDisplay({
                         style={{ color: config.textColor, border: `1.5px solid ${config.textColor}33` }}
                     >
                         {state.isFullscreen ? (
-                            <Minimize className="w-4 h-4" />
+                            <ArrowsIn className="w-4 h-4"  weight="duotone"/>
                         ) : (
-                            <Maximize className="w-4 h-4" />
+                            <ArrowsOut className="w-4 h-4"  weight="duotone"/>
                         )}
                     </button>
                 </div>
@@ -192,7 +192,7 @@ export function ReadingDisplay({
                         border: `2px solid ${config.textColor}44`,
                     }}
                 >
-                    <ChevronLeft className="w-5 h-5" />
+                    <CaretLeft className="w-5 h-5"  weight="duotone"/>
                     <span className="hidden sm:inline">Previous</span>
                 </button>
 
@@ -227,7 +227,7 @@ export function ReadingDisplay({
                     }}
                 >
                     <span className="hidden sm:inline">Next</span>
-                    <ChevronRight className="w-5 h-5" />
+                    <CaretRight className="w-5 h-5"  weight="duotone"/>
                 </button>
             </div>
 

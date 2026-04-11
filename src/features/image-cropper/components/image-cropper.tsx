@@ -18,19 +18,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import {
-    ArrowClockwise,
-    DownloadSimple,
-    UploadSimple,
-    Trash,
-    Crop as CropIcon,
-    MagnifyingGlassPlus,
-    Monitor,
-    DeviceMobile,
-    Square,
-    Sliders,
-    Plus
-} from '@phosphor-icons/react/dist/ssr';
+import { ArrowClockwise, DownloadSimple, UploadSimple, Trash, Crop as CropIcon, MagnifyingGlassPlus, Monitor, DeviceMobile, Square, Sliders, Plus } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { canvasPreview, downloadCrop } from '../lib/crop-utils';
 import { cn } from '@/lib/utils';
@@ -212,7 +200,7 @@ export default function ImageCropper() {
                             <UploadSimple className={cn(
                                 "w-10 h-10 transition-colors",
                                 isDragActive ? "text-primary-600" : "text-gray-400"
-                            )} />
+                            )}  weight="duotone"/>
                         </div>
                         <div className="space-y-2">
                             <p className="text-xl font-semibold text-gray-900">
@@ -223,7 +211,7 @@ export default function ImageCropper() {
                             </p>
                         </div>
                         <Button size="lg" className="mt-4 pointer-events-none">
-                            <Plus className="w-4 h-4 mr-2" />
+                            <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                             Select Image
                         </Button>
                     </div>
@@ -264,7 +252,7 @@ export default function ImageCropper() {
             {/* Sidebar Controls */}
             <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-5 sticky top-6 h-fit lg:col-span-1">
                 <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                    <Sliders className="w-5 h-5 text-primary-600" />
+                    <Sliders className="w-5 h-5 text-primary-600"  weight="duotone"/>
                     <h2 className="font-semibold">Gear</h2>
 
                     {imgSrc && (
@@ -275,7 +263,7 @@ export default function ImageCropper() {
                             className="ml-auto h-6 w-6 text-gray-400 hover:text-red-500 hover:bg-red-50 cursor-pointer"
                             title="Reset all"
                         >
-                            <Trash className="w-3.5 h-3.5" />
+                            <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                         </Button>
                     )}
                 </div>
@@ -328,7 +316,7 @@ export default function ImageCropper() {
                             <span className="text-[10px] text-gray-500 font-mono bg-gray-100 px-1.5 py-0.5 rounded">{scale.toFixed(1)}x</span>
                         </div>
                         <div className="flex items-center gap-3">
-                            <MagnifyingGlassPlus className="w-4 h-4 text-gray-400" />
+                            <MagnifyingGlassPlus className="w-4 h-4 text-gray-400"  weight="duotone"/>
                             <Slider
                                 value={[scale]}
                                 min={0.1}
@@ -347,7 +335,7 @@ export default function ImageCropper() {
                             <span className="text-[10px] text-gray-500 font-mono bg-gray-100 px-1.5 py-0.5 rounded">{rotate}°</span>
                         </div>
                         <div className="flex items-center gap-3">
-                            <ArrowClockwise className="w-4 h-4 text-gray-400" />
+                            <ArrowClockwise className="w-4 h-4 text-gray-400"  weight="duotone"/>
                             <Slider
                                 value={[rotate]}
                                 min={-180}
@@ -373,7 +361,7 @@ export default function ImageCropper() {
                         disabled={!completedCrop || !imgSrc}
                         className="w-full h-12 bg-linear-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-500/25 cursor-pointer disabled:opacity-50"
                     >
-                        <DownloadSimple className="w-5 h-5 mr-2" />
+                        <DownloadSimple className="w-5 h-5 mr-2"  weight="duotone"/>
                         Download Crop
                     </Button>
                 </div>

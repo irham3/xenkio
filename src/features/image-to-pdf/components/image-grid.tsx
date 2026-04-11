@@ -82,7 +82,7 @@ function SortableImageItem({ image, index, onRemove }: SortableImageItemProps) {
                     }}
                     onPointerDown={(e) => e.stopPropagation()} // Prevent drag start
                 >
-                    <Trash className="w-3 h-3" />
+                    <Trash className="w-3 h-3"  weight="duotone"/>
                 </Button>
             </div>
 

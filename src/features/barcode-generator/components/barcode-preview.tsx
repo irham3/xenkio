@@ -147,7 +147,7 @@ export function BarcodePreview({ config }: BarcodePreviewProps) {
             <div className="w-full flex items-center justify-center bg-gray-50 border border-gray-200 rounded-xl p-8 min-h-[300px] overflow-hidden relative">
                 {error && (
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/95 text-red-500 p-4 text-center">
-                        <WarningCircle className="w-8 h-8 mb-2" />
+                        <WarningCircle className="w-8 h-8 mb-2"  weight="duotone"/>
                         <p className="font-medium text-lg">Invalid Data</p>
                         <p className="text-sm">{error}</p>
                         <p className="text-xs text-gray-400 mt-2 max-w-xs">
@@ -166,7 +166,7 @@ export function BarcodePreview({ config }: BarcodePreviewProps) {
                     onClick={downloadSvg}
                     disabled={!!error}
                 >
-                    <FileCode className="w-4 h-4" />
+                    <FileCode className="w-4 h-4"  weight="duotone"/>
                     Download SVG
                 </Button>
                 <Button
@@ -174,7 +174,7 @@ export function BarcodePreview({ config }: BarcodePreviewProps) {
                     onClick={downloadPng}
                     disabled={!!error}
                 >
-                    <DownloadSimple className="w-4 h-4" />
+                    <DownloadSimple className="w-4 h-4"  weight="duotone"/>
                     Download PNG
                 </Button>
             </div>

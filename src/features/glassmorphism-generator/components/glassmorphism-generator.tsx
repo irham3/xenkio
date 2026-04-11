@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, Shuffle, Palette } from 'lucide-react';
+import { Copy, Check, Shuffle, Palette } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -307,7 +307,7 @@ export function GlassmorphismGenerator() {
                   onClick={handleRandom}
                   className="flex-1 gap-1.5"
                 >
-                  <Shuffle className="w-4 h-4" />
+                  <Shuffle className="w-4 h-4"  weight="duotone"/>
                   Random
                 </Button>
               </div>
@@ -346,7 +346,7 @@ export function GlassmorphismGenerator() {
                     onClick={() => setUseCustomBg(!useCustomBg)}
                     className="h-7 text-xs gap-1.5"
                   >
-                    <Palette className="w-3 h-3" />
+                    <Palette className="w-3 h-3"  weight="duotone"/>
                     {useCustomBg ? 'Active' : 'Use Custom'}
                   </Button>
                 </div>
@@ -476,7 +476,7 @@ export function GlassmorphismGenerator() {
                       copied && 'text-green-600 border-green-500 bg-green-50'
                     )}
                   >
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copied ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     {copied ? 'Copied!' : 'Copy CSS'}
                   </Button>
                 </div>

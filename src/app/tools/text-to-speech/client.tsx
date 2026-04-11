@@ -10,7 +10,7 @@ import { SpeechSettings } from "@/features/text-to-speech/components/speech-sett
 import { DEFAULT_LANGUAGE, DEFAULT_RATE, DEFAULT_PITCH } from "@/features/text-to-speech/constants";
 import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { WarningCircle } from '@phosphor-icons/react/dist/ssr';
 
 export default function TextToSpeechClient() {
     const [text, setText] = useState("");
@@ -50,7 +50,7 @@ export default function TextToSpeechClient() {
 
             {error && (
                 <Alert variant="destructive" className="mb-6">
-                    <AlertCircle className="h-4 w-4" />
+                    <WarningCircle className="h-4 w-4"  weight="duotone"/>
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>{error}</AlertDescription>
                 </Alert>

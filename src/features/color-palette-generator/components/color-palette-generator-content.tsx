@@ -7,7 +7,7 @@ export function ColorPaletteGeneratorContent() {
             {/* Quick Guide */}
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <Lightning className="w-6 h-6 text-primary-500" />
+                    <Lightning className="w-6 h-6 text-primary-500"  weight="duotone"/>
                     How to use the Color Palette Generator
                 </h2>
                 <div className="grid md:grid-cols-3 gap-6">
@@ -22,7 +22,7 @@ export function ColorPaletteGeneratorContent() {
                         <div className="w-10 h-10 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center font-bold text-lg border border-primary-100">2</div>
                         <h3 className="font-semibold text-gray-900">Lock Favorites</h3>
                         <p className="text-gray-600 text-sm leading-relaxed">
-                            Click the <Lock className="w-3 h-3 inline mx-1" /> icon on any color strip to lock it. Future generations will update only the unlocked colors around it.
+                            Click the <Lock className="w-3 h-3 inline mx-1"  weight="duotone"/> icon on any color strip to lock it. Future generations will update only the unlocked colors around it.
                         </p>
                     </div>
                     <div className="flex flex-col gap-3">
@@ -47,7 +47,7 @@ export function ColorPaletteGeneratorContent() {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
-                            <ArrowsClockwise className="w-6 h-6 text-blue-600" />
+                            <ArrowsClockwise className="w-6 h-6 text-blue-600"  weight="duotone"/>
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Instant Generation</h3>
                         <p className="text-gray-600 text-sm">
@@ -57,7 +57,7 @@ export function ColorPaletteGeneratorContent() {
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-4">
-                            <Lock className="w-6 h-6 text-green-600" />
+                            <Lock className="w-6 h-6 text-green-600"  weight="duotone"/>
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Smart Locking</h3>
                         <p className="text-gray-600 text-sm">
@@ -67,7 +67,7 @@ export function ColorPaletteGeneratorContent() {
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-4">
-                            <DownloadSimple className="w-6 h-6 text-purple-600" />
+                            <DownloadSimple className="w-6 h-6 text-purple-600"  weight="duotone"/>
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Easy Export</h3>
                         <p className="text-gray-600 text-sm">
@@ -76,7 +76,7 @@ export function ColorPaletteGeneratorContent() {
                     </div>
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center mb-4">
-                            <Lightning className="w-6 h-6 text-orange-600" />
+                            <Lightning className="w-6 h-6 text-orange-600"  weight="duotone"/>
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Accessibility First</h3>
                         <p className="text-gray-600 text-sm">
@@ -86,7 +86,7 @@ export function ColorPaletteGeneratorContent() {
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="w-12 h-12 bg-pink-50 rounded-lg flex items-center justify-center mb-4">
-                            <Lightning className="w-6 h-6 text-pink-600" />
+                            <Lightning className="w-6 h-6 text-pink-600"  weight="duotone"/>
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-2">Curated Collection</h3>
                         <p className="text-gray-600 text-sm">

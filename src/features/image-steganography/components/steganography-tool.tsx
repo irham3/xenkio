@@ -8,17 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
-import {
-    UploadSimple,
-    Lock,
-    LockOpen,
-    DownloadSimple,
-    ImageSquare as PhosphorImage,
-    Copy,
-    ArrowsCounterClockwise,
-    ShieldCheck,
-    Eye
-} from '@phosphor-icons/react/dist/ssr';
+import { UploadSimple, Lock, LockOpen, DownloadSimple, ImageSquare as PhosphorImage, Copy, ArrowsCounterClockwise, ShieldCheck, Eye } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import Image from 'next/image';
@@ -117,8 +107,7 @@ export function SteganographyTool() {
                                             alt="Selected"
                                             fill
                                             className="object-contain"
-                                            unoptimized
-                                        />
+                                            unoptimized/>
                                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                             <p className="text-white font-medium flex items-center gap-2"><UploadSimple weight="duotone" size={16} /> Change Image</p>
                                         </div>
@@ -196,14 +185,14 @@ export function SteganographyTool() {
                             {mode === 'encode' && outputImageUrl && (
                                 <div className="relative w-full h-full p-4 flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-95 duration-500">
                                     <div className="relative w-full flex-1 min-h-[200px] rounded-lg overflow-hidden shadow-sm border border-gray-100">
-                                        <Image src={outputImageUrl} alt="Result" fill className="object-contain" unoptimized />
+                                        <Image src={outputImageUrl} alt="Result" fill className="object-contain" unoptimized/>
                                     </div>
                                     <div className="w-full space-y-2">
                                         <p className="text-xs text-center text-green-600 font-medium bg-green-50 py-1 rounded-full px-3 inline-block mx-auto w-full">
                                             Message Hidden Successfully!
                                         </p>
                                         <Button onClick={handleDownload} className="w-full" variant="outline">
-                                            <DownloadSimple className="mr-2 h-4 w-4" /> Download Image
+                                            <DownloadSimple className="mr-2 h-4 w-4"  weight="duotone"/> Download Image
                                         </Button>
                                         <p className="text-[10px] text-center text-gray-400">
                                             *Download this PNG to keep the message. Converting to JPG will destroy the data.

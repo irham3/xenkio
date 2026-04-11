@@ -9,15 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import {
-    Eye,
-    EyeSlash,
-    ArrowCounterClockwise,
-    Copy,
-    FileCode,
-    KeyReturn,
-    ShieldCheck
-} from '@phosphor-icons/react/dist/ssr';
+import { Eye, EyeSlash, ArrowCounterClockwise, Copy, FileCode, KeyReturn, ShieldCheck } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -66,7 +58,7 @@ export function HmacGenerator() {
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-3">
                             <Label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                                <ShieldCheck size={16} className="text-primary-500" /> Algorithm
+                                <ShieldCheck size={16} className="text-primary-500"  weight="duotone"/> Algorithm
                             </Label>
                             <Select value={algorithm} onValueChange={(val) => setAlgorithm(val as HmacAlgorithm)}>
                                 <SelectTrigger className="h-12 border-gray-200 bg-gray-50/50 focus:ring-primary-500 text-base">
@@ -99,7 +91,7 @@ export function HmacGenerator() {
                                     onClick={toggleSecretVisibility}
                                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-md hover:bg-gray-100"
                                 >
-                                    {isSecretVisible ? <EyeSlash size={16} /> : <Eye size={16} />}
+                                    {isSecretVisible ? <EyeSlash size={16}  weight="duotone"/> : <Eye size={16}  weight="duotone"/>}
                                 </button>
                             </div>
                         </div>
@@ -108,7 +100,7 @@ export function HmacGenerator() {
                     {/* Message Input */}
                     <div className="space-y-3">
                         <Label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                            <FileCode size={16} className="text-primary-500" /> Message Payload
+                            <FileCode size={16} className="text-primary-500"  weight="duotone"/> Message Payload
                         </Label>
                         <Textarea
                             value={message}
@@ -162,7 +154,7 @@ export function HmacGenerator() {
                                         onClick={handleCopy}
                                         title="Copy Result"
                                     >
-                                        <Copy size={14} />
+                                        <Copy size={14}  weight="duotone"/>
                                     </Button>
                                 </div>
                             )}
@@ -176,7 +168,7 @@ export function HmacGenerator() {
                             onClick={reset}
                             className="text-gray-500 hover:text-red-500 hover:bg-red-50"
                         >
-                            <ArrowCounterClockwise size={16} className="mr-2" /> Reset All
+                            <ArrowCounterClockwise size={16} className="mr-2"  weight="duotone"/> Reset All
                         </Button>
                     </div>
                 </div>
@@ -186,7 +178,7 @@ export function HmacGenerator() {
             <div className="grid md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                     <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                        <ShieldCheck className="text-green-500" size={18} />
+                        <ShieldCheck className="text-green-500" size={18}  weight="duotone"/>
                         Secure Hashing
                     </h3>
                     <p className="text-sm text-gray-500 leading-relaxed">
@@ -204,7 +196,7 @@ export function HmacGenerator() {
                 </div>
                 <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                     <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                        <FileCode className="text-purple-500" size={18} />
+                        <FileCode className="text-purple-500" size={18}  weight="duotone"/>
                         API Compatible
                     </h3>
                     <p className="text-sm text-gray-500 leading-relaxed">

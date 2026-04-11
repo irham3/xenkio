@@ -133,7 +133,7 @@ function PdfCanvas({ pdfDocument, arrayBuffer, pageNumber, scale }: PdfCanvasPro
     if (hasError) {
         return (
             <div className="w-full h-full flex items-center justify-center bg-red-50 rounded-lg">
-                <FileText className="w-10 h-10 text-red-300" />
+                <FileText className="w-10 h-10 text-red-300"  weight="duotone"/>
             </div>
         )
     }

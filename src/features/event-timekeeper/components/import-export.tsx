@@ -1,7 +1,7 @@
 'use client';
 
 import { EventItem } from '../types';
-import { Upload, Download, FileSpreadsheet } from 'lucide-react';
+import { UploadSimple, DownloadSimple, FileXls } from '@phosphor-icons/react/dist/ssr';
 import { useCallback, useRef, useState } from 'react';
 import { PasteImportModal } from './paste-import-modal';
 import { parseCSV, eventsToCSV } from '../utils/import-export';
@@ -108,14 +108,14 @@ export function ImportExport({ items, onImport }: ImportExportProps) {
                 onClick={() => fileInputRef.current?.click()}
                 className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:text-primary-600 transition-colors"
             >
-                <Upload className="w-3.5 h-3.5" />
+                <UploadSimple className="w-3.5 h-3.5"  weight="duotone"/>
                 Import File
             </button>
             <button
                 onClick={() => setIsPasteModalOpen(true)}
                 className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:text-primary-600 transition-colors"
             >
-                <Upload className="w-3.5 h-3.5" />
+                <UploadSimple className="w-3.5 h-3.5"  weight="duotone"/>
                 Paste
             </button>
             <button
@@ -123,11 +123,11 @@ export function ImportExport({ items, onImport }: ImportExportProps) {
                 className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:text-primary-600 transition-colors"
                 title="Export as CSV"
             >
-                <Download className="w-3.5 h-3.5" />
+                <DownloadSimple className="w-3.5 h-3.5"  weight="duotone"/>
                 Export
             </button>
             <div className="flex items-center gap-1 text-[10px] text-gray-300">
-                <FileSpreadsheet className="w-3 h-3" />
+                <FileXls className="w-3 h-3"  weight="duotone"/>
                 CSV, Excel, JSON
             </div>
 

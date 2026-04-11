@@ -3,14 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Card } from "@/components/ui/card"
-import {
-    FileText,
-    DownloadSimple,
-    ArrowsCounterClockwise,
-    WarningCircle,
-    CheckCircle,
-    ArrowRight
-} from '@phosphor-icons/react/dist/ssr';
+import { FileText, DownloadSimple, ArrowsCounterClockwise, WarningCircle, CheckCircle, ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import { WordFile, ConversionStatus } from "../types"
 import { motion } from "framer-motion"
 
@@ -40,7 +33,7 @@ export function WordProcess({
                 {/* File Info */}
                 <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl w-full border border-gray-100">
                     <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center shrink-0">
-                        <FileText className="w-6 h-6" />
+                        <FileText className="w-6 h-6"  weight="duotone"/>
                     </div>
                     <div className="flex-1 text-left min-w-0">
                         <h3 className="font-semibold text-gray-900 truncate">{file.name}</h3>
@@ -65,7 +58,7 @@ export function WordProcess({
                             className="w-full h-12 text-base shadow-primary hover:shadow-primary-lg transition-all"
                         >
                             Convert to PDF
-                            <ArrowRight className="w-4 h-4 ml-2" />
+                            <ArrowRight className="w-4 h-4 ml-2"  weight="duotone"/>
                         </Button>
                     </div>
                 )}
@@ -95,7 +88,7 @@ export function WordProcess({
                     >
                         <div className="flex flex-col items-center justify-center p-6 bg-green-50 rounded-2xl border border-green-100 space-y-3">
                             <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
-                                <CheckCircle className="w-6 h-6" />
+                                <CheckCircle className="w-6 h-6"  weight="duotone"/>
                             </div>
                             <h3 className="text-lg font-bold text-green-700">Conversion Successful!</h3>
                             <p className="text-green-600/80 text-sm">Your PDF is ready for download</p>
@@ -106,7 +99,7 @@ export function WordProcess({
                                 Convert Another
                             </Button>
                             <Button onClick={onDownload} className="h-12 bg-green-600 hover:bg-green-700 shadow-lg shadow-green-600/20">
-                                <DownloadSimple className="w-4 h-4 mr-2" />
+                                <DownloadSimple className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Download PDF
                             </Button>
                         </div>
@@ -117,7 +110,7 @@ export function WordProcess({
                 {status === 'error' && (
                     <div className="w-full space-y-4">
                         <div className="flex items-start gap-3 p-4 bg-red-50 rounded-lg border border-red-100 text-left">
-                            <WarningCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                            <WarningCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5"  weight="duotone"/>
                             <div>
                                 <h4 className="font-semibold text-red-700">Conversion Failed</h4>
                                 <p className="text-sm text-red-600 mt-1">{error}</p>

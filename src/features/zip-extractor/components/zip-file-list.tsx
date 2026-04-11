@@ -2,15 +2,7 @@
 "use client"
 
 import { ZipFileEntry } from "../types"
-import {
-    File,
-    Folder,
-    DownloadSimple,
-    MagnifyingGlass,
-    HardDrive,
-    Trash,
-    ArrowLeft
-} from '@phosphor-icons/react/dist/ssr';
+import { File, Folder, DownloadSimple, MagnifyingGlass, HardDrive, Trash, ArrowLeft } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { useState, useMemo } from "react"
 import { cn } from "@/lib/utils"
@@ -53,7 +45,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                             onClick={onReset}
                             className="p-2 hover:bg-white hover:shadow-soft rounded-xl transition-all cursor-pointer text-gray-400 hover:text-primary-600"
                         >
-                            <ArrowLeft className="w-5 h-5" />
+                            <ArrowLeft className="w-5 h-5"  weight="duotone"/>
                         </button>
                         <div>
                             <h3 className="font-bold text-gray-900 truncate max-w-[200px] md:max-w-xs" title={zipName}>
@@ -64,7 +56,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                     </div>
 
                     <div className="flex flex-1 max-w-md relative group">
-                        <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
+                        <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary-500 transition-colors"  weight="duotone"/>
                         <input
                             type="text"
                             placeholder="Search files inside zip..."
@@ -79,7 +71,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                             onClick={downloadAll}
                             className="h-10 rounded-xl px-4 bg-primary-600 hover:bg-primary-700 shadow-primary cursor-pointer text-sm font-bold"
                         >
-                            <DownloadSimple className="w-4 h-4 mr-2" />
+                            <DownloadSimple className="w-4 h-4 mr-2"  weight="duotone"/>
                             Download All
                         </Button>
                         <Button
@@ -88,7 +80,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                             onClick={onReset}
                             className="h-10 w-10 rounded-xl text-gray-400 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                         >
-                            <Trash className="w-4 h-4" />
+                            <Trash className="w-4 h-4"  weight="duotone"/>
                         </Button>
                     </div>
                 </div>
@@ -137,7 +129,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                                             className="p-2.5 rounded-xl bg-gray-50 text-gray-400 hover:bg-primary-50 hover:text-primary-600 transition-all cursor-pointer opacity-0 group-hover/file:opacity-100"
                                             title="Download this file"
                                         >
-                                            <DownloadSimple className="w-4 h-4" />
+                                            <DownloadSimple className="w-4 h-4"  weight="duotone"/>
                                         </button>
                                     )}
                                 </div>
@@ -145,7 +137,7 @@ export function ZipFileList({ files, zipName, onDownload, onReset }: ZipFileList
                         ) : (
                             <div className="py-20 flex flex-col items-center justify-center text-center space-y-4">
                                 <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center">
-                                    <HardDrive className="w-8 h-8 text-gray-300" />
+                                    <HardDrive className="w-8 h-8 text-gray-300"  weight="duotone"/>
                                 </div>
                                 <div className="space-y-1">
                                     <p className="font-bold text-gray-900">No files found</p>

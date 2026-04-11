@@ -66,7 +66,7 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
             onClick={removeLogo}
             className="h-8 text-red-500 hover:text-red-600 hover:bg-red-50"
           >
-            <X className="w-3 h-3 mr-1" />
+            <X className="w-3 h-3 mr-1"  weight="duotone"/>
             Remove
           </Button>
         )}
@@ -78,7 +78,7 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
           className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-all duration-200 group"
         >
           <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mb-3 group-hover:bg-primary-100 transition-colors">
-            <UploadSimple className="w-6 h-6 text-gray-400 group-hover:text-primary-600" />
+            <UploadSimple className="w-6 h-6 text-gray-400 group-hover:text-primary-600"  weight="duotone"/>
           </div>
           <p className="text-sm font-medium text-gray-700">Drop your logo here</p>
           <p className="text-xs text-gray-500 mt-1">PNG, JPG or SVG up to 2MB</p>
@@ -100,8 +100,7 @@ export function QrLogoUploader({ config, onChange }: QrLogoUploaderProps) {
                 width={64}
                 height={64}
                 unoptimized
-                className="max-w-full max-h-full object-contain"
-              />
+                className="max-w-full max-h-full object-contain"/>
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-900">Active Logo</p>

@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import type { DataCheckerStats } from '../types';
-import { CheckCircle2, XCircle, CircleDashed, Clock, Timer } from 'lucide-react';
+import { CheckCircle, XCircle, CircleDashed, Clock, Timer } from '@phosphor-icons/react/dist/ssr';
 
 const formatDuration = (ms: number) => {
     if (ms < 0) return '0s';
@@ -49,7 +49,7 @@ export function ProgressOverview({ stats }: ProgressOverviewProps) {
                         ? "bg-emerald-50/80 border-emerald-200/60 text-emerald-700"
                         : "bg-gray-50 border-gray-100 text-gray-400"
                 )}>
-                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    <CheckCircle className="w-4 h-4 shrink-0"  weight="duotone"/>
                     <div className="min-w-0">
                         <p className="text-xs font-medium opacity-70">Valid</p>
                         <p className="text-lg font-bold tabular-nums leading-tight">{stats.valid}</p>
@@ -61,7 +61,7 @@ export function ProgressOverview({ stats }: ProgressOverviewProps) {
                         ? "bg-red-50/80 border-red-200/60 text-red-600"
                         : "bg-gray-50 border-gray-100 text-gray-400"
                 )}>
-                    <XCircle className="w-4 h-4 shrink-0" />
+                    <XCircle className="w-4 h-4 shrink-0"  weight="duotone"/>
                     <div className="min-w-0">
                         <p className="text-xs font-medium opacity-70">Invalid</p>
                         <p className="text-lg font-bold tabular-nums leading-tight">{stats.invalid}</p>
@@ -73,7 +73,7 @@ export function ProgressOverview({ stats }: ProgressOverviewProps) {
                         ? "bg-amber-50/80 border-amber-200/60 text-amber-600"
                         : "bg-gray-50 border-gray-100 text-gray-400"
                 )}>
-                    <CircleDashed className="w-4 h-4 shrink-0" />
+                    <CircleDashed className="w-4 h-4 shrink-0"  weight="duotone"/>
                     <div className="min-w-0">
                         <p className="text-xs font-medium opacity-70">Unchecked</p>
                         <p className="text-lg font-bold tabular-nums leading-tight">{stats.unchecked}</p>
@@ -85,7 +85,7 @@ export function ProgressOverview({ stats }: ProgressOverviewProps) {
                         ? "bg-blue-50/80 border-blue-200/60 text-blue-700"
                         : "bg-gray-50 border-gray-100 text-gray-400"
                 )}>
-                    <Clock className="w-4 h-4 shrink-0" />
+                    <Clock className="w-4 h-4 shrink-0"  weight="duotone"/>
                     <div className="min-w-0">
                         <p className="text-xs font-medium opacity-70">Total Time</p>
                         <p className="text-sm font-bold truncate leading-tight">{formatDuration(stats.totalTimeMs)}</p>
@@ -97,7 +97,7 @@ export function ProgressOverview({ stats }: ProgressOverviewProps) {
                         ? "bg-purple-50/80 border-purple-200/60 text-purple-700"
                         : "bg-gray-50 border-gray-100 text-gray-400"
                 )}>
-                    <Timer className="w-4 h-4 shrink-0" />
+                    <Timer className="w-4 h-4 shrink-0"  weight="duotone"/>
                     <div className="min-w-0">
                         <p className="text-xs font-medium opacity-70">Est. Remaining</p>
                         <p className="text-sm font-bold truncate leading-tight">

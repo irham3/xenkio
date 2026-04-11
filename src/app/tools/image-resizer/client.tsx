@@ -86,7 +86,7 @@ export default function ImageResizerClient() {
                                     onClick={handleDownload}
                                     disabled={isCropping}
                                 >
-                                    <DownloadSimple className="w-5 h-5 mr-2" />
+                                    <DownloadSimple className="w-5 h-5 mr-2"  weight="duotone"/>
                                     Download Image
                                 </Button>
                                 {isCropping && (

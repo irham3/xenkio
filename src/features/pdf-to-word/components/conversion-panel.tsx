@@ -1,15 +1,6 @@
 "use client"
 
-import {
-    FileText,
-    DownloadSimple,
-    SpinnerGap,
-    CheckCircle,
-    WarningCircle,
-    ArrowsClockwise,
-    FileArrowDown,
-    ArrowRight
-} from '@phosphor-icons/react/dist/ssr';
+import { FileText, DownloadSimple, SpinnerGap, CheckCircle, WarningCircle, ArrowsClockwise, FileArrowDown, ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { PdfFile, ConversionResult, ConversionStatus } from "../types"
 
@@ -54,7 +45,7 @@ export function ConversionPanel({
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className="w-14 h-14 bg-error-50 rounded-xl flex items-center justify-center shrink-0">
-                            <FileText className="w-7 h-7 text-error-500" />
+                            <FileText className="w-7 h-7 text-error-500"  weight="duotone"/>
                         </div>
                         <div className="min-w-0">
                             <h3 className="text-lg font-semibold text-gray-900 truncate max-w-xs">
@@ -83,10 +74,10 @@ export function ConversionPanel({
             {isIdle && (
                 <div className="flex items-center justify-center gap-6 mb-6">
                     <div className="flex items-center gap-3 px-4 py-2 bg-error-50 rounded-lg">
-                        <FileText className="w-5 h-5 text-error-500" />
+                        <FileText className="w-5 h-5 text-error-500"  weight="duotone"/>
                         <span className="font-medium text-gray-700">PDF</span>
                     </div>
-                    <ArrowRight className="w-6 h-6 text-gray-400" />
+                    <ArrowRight className="w-6 h-6 text-gray-400"  weight="duotone"/>
                     <div className="flex items-center gap-3 px-4 py-2 bg-primary-50 rounded-lg">
                         <FileArrowDown className="w-5 h-5 text-primary-600" />
                         <span className="font-medium text-gray-700">DOCX</span>
@@ -171,7 +162,7 @@ export function ConversionPanel({
                 {isCompleted && result && (
                     <div className="text-center py-4">
                         <div className="w-16 h-16 mx-auto mb-6 bg-success-50 rounded-full flex items-center justify-center">
-                            <CheckCircle className="w-8 h-8 text-success-500" />
+                            <CheckCircle className="w-8 h-8 text-success-500"  weight="duotone"/>
                         </div>
 
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">
@@ -187,7 +178,7 @@ export function ConversionPanel({
                                 onClick={onDownload}
                                 className="px-8"
                             >
-                                <DownloadSimple className="w-4 h-4 mr-2" />
+                                <DownloadSimple className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Download Word File
                             </Button>
                             <Button
@@ -195,7 +186,7 @@ export function ConversionPanel({
                                 size="lg"
                                 onClick={onReset}
                             >
-                                <ArrowsClockwise className="w-4 h-4 mr-2" />
+                                <ArrowsClockwise className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Convert Another
                             </Button>
                         </div>
@@ -205,7 +196,7 @@ export function ConversionPanel({
                 {isError && (
                     <div className="text-center py-4">
                         <div className="w-16 h-16 mx-auto mb-6 bg-error-50 rounded-full flex items-center justify-center">
-                            <WarningCircle className="w-8 h-8 text-error-500" />
+                            <WarningCircle className="w-8 h-8 text-error-500"  weight="duotone"/>
                         </div>
 
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">
@@ -220,7 +211,7 @@ export function ConversionPanel({
                                 size="lg"
                                 onClick={onConvert}
                             >
-                                <ArrowsClockwise className="w-4 h-4 mr-2" />
+                                <ArrowsClockwise className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Try Again
                             </Button>
                             <Button

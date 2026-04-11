@@ -12,27 +12,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import {
-    ArrowRight,
-    Download,
-    CheckCircle2,
-    Info,
-    Settings2,
-    Plus,
-    Trash2,
-    ArrowLeftRight,
-    Key,
-    Database,
-    Table,
-    RotateCcw,
-    History,
-    Search,
-    Share2,
-    CheckCheck,
-    X,
-    Clipboard,
-    Undo
-} from 'lucide-react';
+import { ArrowRight, DownloadSimple, CheckCircle, Info, Gear, Plus, Trash, ArrowsLeftRight, Key, Database, Table, ArrowCounterClockwise, ClockCounterClockwise, MagnifyingGlass, ShareNetwork, Checks, X, Clipboard } from '@phosphor-icons/react/dist/ssr';
 import { VerificationRow, VerificationState, ColumnMapping, MatchType, AuditEntry, DataSource } from '../types';
 import { parsePastedData, compareData } from '../lib/data-utils';
 import { toast } from 'sonner';
@@ -408,14 +388,14 @@ export function DataVerifierContent() {
             <div className="space-y-8 max-w-6xl mx-auto">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-4xl font-black text-gray-900 font-serif">Data Verifier Pro</h1>
-                    <div className="flex gap-2 text-xs font-bold text-gray-400"><Database className="w-3 h-3" /> V2.5 Multi-Source</div>
+                    <div className="flex gap-2 text-xs font-bold text-gray-400"><Database className="w-3 h-3"  weight="duotone"/> V2.5 Multi-Source</div>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
                     {[
                         { icon: Database, color: 'text-success-600', bg: 'bg-success-50', title: 'Power VLOOKUP', desc: 'Sync data across multiple sources instantly.' },
-                        { icon: Share2, color: 'text-indigo-600', bg: 'bg-indigo-50', title: 'Copy-Paste Export', desc: 'Copy results directly back to Excel.' },
-                        { icon: History, color: 'text-primary-600', bg: 'bg-primary-50', title: 'Audit Trail', desc: 'Keep track of every change made.' }
+                        { icon: ShareNetwork, color: 'text-indigo-600', bg: 'bg-indigo-50', title: 'Copy-Paste Export', desc: 'Copy results directly back to Excel.' },
+                        { icon: ClockCounterClockwise, color: 'text-primary-600', bg: 'bg-primary-50', title: 'Audit Trail', desc: 'Keep track of every change made.' }
                     ].map((item, i) => (
                         <Card key={i} className="p-5 border-none shadow-soft-xl bg-white/60 backdrop-blur-md">
                             <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center mb-4 shadow-sm", item.bg)}>
@@ -448,7 +428,7 @@ export function DataVerifierContent() {
                                 Reference Sources (Master Data)
                             </Label>
                             <Button variant="outline" size="sm" onClick={addSourceInput} className="rounded-2xl border-success-200 text-success-700 hover:bg-success-50 h-10 px-6 font-bold">
-                                <Plus className="w-4 h-4 mr-2" /> Add Reference
+                                <Plus className="w-4 h-4 mr-2"  weight="duotone"/> Add Reference
                             </Button>
                         </div>
 
@@ -456,7 +436,7 @@ export function DataVerifierContent() {
                             {sourcePastedArr.map((s) => (
                                 <motion.div key={s.id} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
                                     <div className="flex gap-3 mb-2 items-center bg-gray-50 p-2 rounded-2xl border border-gray-100">
-                                        <Database className="w-4 h-4 text-success-400 ml-2" />
+                                        <Database className="w-4 h-4 text-success-400 ml-2"  weight="duotone"/>
                                         <Input
                                             value={s.name}
                                             onChange={e => setSourcePastedArr(sourcePastedArr.map(item => item.id === s.id ? { ...item, name: e.target.value } : item))}
@@ -465,7 +445,7 @@ export function DataVerifierContent() {
                                         <div className="flex-1" />
                                         {sourcePastedArr.length > 1 && (
                                             <Button variant="ghost" size="sm" onClick={() => setSourcePastedArr(sourcePastedArr.filter(item => item.id !== s.id))} className="h-8 w-8 p-0 text-gray-300 hover:text-error-600">
-                                                <X className="w-4 h-4" />
+                                                <X className="w-4 h-4"  weight="duotone"/>
                                             </Button>
                                         )}
                                     </div>
@@ -483,7 +463,7 @@ export function DataVerifierContent() {
 
                 <div className="flex justify-center pb-20">
                     <Button onClick={handleInitialize} size="lg" className="px-16 h-16 rounded-full text-lg font-black shadow-xl hover:scale-105 active:scale-95 transition-all bg-indigo-600 hover:bg-indigo-700" disabled={!targetPasted}>
-                        Next: Map & Match <ArrowRight className="w-6 h-6 ml-3" />
+                        Next: Map & Match <ArrowRight className="w-6 h-6 ml-3"  weight="duotone"/>
                     </Button>
                 </div>
             </div>
@@ -498,9 +478,9 @@ export function DataVerifierContent() {
             <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in zoom-in-95 duration-500">
                 <div className="flex items-center justify-between">
                     <h2 className="text-3xl font-black text-gray-900 flex items-center gap-4 font-serif">
-                        <Settings2 className="w-8 h-8 text-indigo-600" /> Verifier Configuration
+                        <Gear className="w-8 h-8 text-indigo-600"  weight="duotone"/> Verifier Configuration
                     </h2>
-                    <Button variant="ghost" onClick={() => setIsConfiguring(false)} className="text-gray-400 hover:text-gray-900 rounded-2xl h-12 px-6"><RotateCcw className="w-4 h-4 mr-2" /> Start Over</Button>
+                    <Button variant="ghost" onClick={() => setIsConfiguring(false)} className="text-gray-400 hover:text-gray-900 rounded-2xl h-12 px-6"><ArrowCounterClockwise className="w-4 h-4 mr-2"  weight="duotone"/> Start Over</Button>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8">
@@ -524,12 +504,12 @@ export function DataVerifierContent() {
                     </Card>
 
                     <Card className="p-8 border-none shadow-soft-xl bg-white/70 backdrop-blur-md space-y-6 rounded-3xl">
-                        <h3 className="font-black text-gray-900 text-xl flex items-center gap-3"><Database className="w-5 h-5 text-success-600" /> Source Linkage</h3>
+                        <h3 className="font-black text-gray-900 text-xl flex items-center gap-3"><Database className="w-5 h-5 text-success-600"  weight="duotone"/> Source Linkage</h3>
                         <div className="space-y-4 max-h-[300px] overflow-auto pr-2 custom-scrollbar">
                             {state.sources.map(src => (
                                 <div key={src.id} className="p-4 bg-success-50/50 rounded-2xl border border-success-100 flex flex-col gap-3">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-[11px] font-black uppercase text-success-700 flex items-center gap-2"><Table className="w-3.5 h-3.5" /> {src.name}</span>
+                                        <span className="text-[11px] font-black uppercase text-success-700 flex items-center gap-2"><Table className="w-3.5 h-3.5"  weight="duotone"/> {src.name}</span>
                                     </div>
                                     <div className="grid grid-cols-[1fr_20px_1fr] gap-3 items-center">
                                         <div className="space-y-1">
@@ -539,7 +519,7 @@ export function DataVerifierContent() {
                                                 <SelectContent>{src.headers.map(h => <SelectItem key={h} value={h}>{h}</SelectItem>)}</SelectContent>
                                             </Select>
                                         </div>
-                                        <div className="pt-4 text-success-300"><ArrowLeftRight className="w-3 h-3" /></div>
+                                        <div className="pt-4 text-success-300"><ArrowsLeftRight className="w-3 h-3"  weight="duotone"/></div>
                                         <div className="space-y-1">
                                             <span className="text-[9px] text-success-600 font-black uppercase ml-1">Target Key</span>
                                             <Select value={src.targetKey} onValueChange={v => setState({ ...state, sources: state.sources.map(s => s.id === src.id ? { ...s, targetKey: v } : s) })}>
@@ -556,9 +536,9 @@ export function DataVerifierContent() {
 
                 <Card className="p-8 border-none shadow-soft-xl bg-white/70 backdrop-blur-md space-y-8 rounded-3xl mb-20">
                     <div className="flex justify-between items-center bg-gray-50/50 -mx-8 -mt-8 p-8 border-b border-gray-100 rounded-t-3xl">
-                        <h3 className="font-black text-gray-900 text-xl flex items-center gap-3"><CheckCheck className="w-6 h-6 text-primary-600" /> Comparison Attributes</h3>
+                        <h3 className="font-black text-gray-900 text-xl flex items-center gap-3"><Checks className="w-6 h-6 text-primary-600"  weight="duotone"/> Comparison Attributes</h3>
                         <Button onClick={addMapping} variant="outline" size="sm" className="rounded-2xl border-indigo-200 text-indigo-700 hover:bg-indigo-50 h-10 px-6 font-bold shadow-sm">
-                            <Plus className="w-4 h-4 mr-2" /> Add Column Pair
+                            <Plus className="w-4 h-4 mr-2"  weight="duotone"/> Add Column Pair
                         </Button>
                     </div>
 
@@ -572,7 +552,7 @@ export function DataVerifierContent() {
                                         <SelectContent>{state.targetHeaders.map(h => <SelectItem key={h} value={h}>{h}</SelectItem>)}</SelectContent>
                                     </Select>
                                 </div>
-                                <div className="flex items-center justify-center pb-3.5 text-gray-200"><ArrowRight className="w-5 h-5" /></div>
+                                <div className="flex items-center justify-center pb-3.5 text-gray-200"><ArrowRight className="w-5 h-5"  weight="duotone"/></div>
                                 <div className="space-y-2">
                                     <Label className="text-[10px] font-black text-success-600 uppercase tracking-widest ml-1">With Source</Label>
                                     <Select value={m.sourceId} onValueChange={v => {
@@ -602,7 +582,7 @@ export function DataVerifierContent() {
                                     </Select>
                                 </div>
                                 <Button variant="ghost" size="sm" onClick={() => removeMapping(i)} className="h-11 w-11 rounded-xl text-gray-300 hover:text-error-600 hover:bg-error-50">
-                                    <Trash2 className="w-5 h-5" />
+                                    <Trash className="w-5 h-5"  weight="duotone"/>
                                 </Button>
                             </motion.div>
                         ))}
@@ -659,7 +639,7 @@ export function DataVerifierContent() {
                         <Clipboard className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" /> COPY TO CLIPBOARD
                     </Button>
                     <Button onClick={handleExportCSV} className="h-full min-h-[50px] px-8 rounded-2xl bg-gray-900 border-gray-900 shadow-soft-xl hover:bg-black font-black text-white group">
-                        <Download className="w-5 h-5 mr-3 group-hover:translate-y-0.5 transition-transform" /> DOWNLOAD CSV
+                        <DownloadSimple className="w-5 h-5 mr-3 group-hover:translate-y-0.5 transition-transform"  weight="duotone"/> DOWNLOAD CSV
                     </Button>
                 </div>
             </div>
@@ -668,15 +648,15 @@ export function DataVerifierContent() {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
                     <TabsList className="bg-white/50 border border-white backdrop-blur-sm p-1.5 rounded-2xl gap-2 shadow-sm h-14">
                         <TabsTrigger value="verifier" className="rounded-xl px-10 font-bold data-[state=active]:bg-indigo-600 data-[state=active]:text-white h-full transition-all">
-                            <CheckCheck className="w-4 h-4 mr-2" /> Comparison View
+                            <Checks className="w-4 h-4 mr-2"  weight="duotone"/> Comparison View
                         </TabsTrigger>
                         <TabsTrigger value="audit" className="rounded-xl px-10 font-bold data-[state=active]:bg-indigo-600 data-[state=active]:text-white h-full transition-all">
-                            <History className="w-4 h-4 mr-2" /> Audit Trail ({stats.fixes})
+                            <ClockCounterClockwise className="w-4 h-4 mr-2"  weight="duotone"/> Audit Trail ({stats.fixes})
                         </TabsTrigger>
                     </TabsList>
 
                     <div className="flex gap-4 self-end sm:self-auto">
-                        <Button variant="ghost" onClick={() => setState(prev => ({ ...prev, results: [] }))} className="rounded-2xl h-11 px-6 font-bold text-gray-400 hover:text-indigo-600 hover:bg-indigo-50"><RotateCcw className="w-4 h-4 mr-2" /> Adjust Mapping</Button>
+                        <Button variant="ghost" onClick={() => setState(prev => ({ ...prev, results: [] }))} className="rounded-2xl h-11 px-6 font-bold text-gray-400 hover:text-indigo-600 hover:bg-indigo-50"><ArrowCounterClockwise className="w-4 h-4 mr-2"  weight="duotone"/> Adjust Mapping</Button>
                     </div>
                 </div>
 
@@ -684,7 +664,7 @@ export function DataVerifierContent() {
                     <div className="flex flex-col md:flex-row justify-between items-center bg-white/50 p-3 rounded-2xl backdrop-blur-md border border-white/50 shadow-sm gap-4">
                         <div className="flex items-center gap-3 flex-1 w-full max-w-xl">
                             <div className="relative flex-1">
-                                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <MagnifyingGlass className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"  weight="duotone"/>
                                 <Input
                                     className="pl-10 h-11 bg-white/80 border-gray-100 rounded-xl focus:ring-4 ring-indigo-50 font-medium"
                                     placeholder="Search specific records to verify..."
@@ -697,7 +677,7 @@ export function DataVerifierContent() {
                                 {searchTerm && <button onClick={() => {
                                     setSearchTerm('');
                                     setPage(1);
-                                }} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500"><X className="w-4 h-4" /></button>}
+                                }} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500"><X className="w-4 h-4"  weight="duotone"/></button>}
                             </div>
 
                             <div className="flex items-center gap-1 p-1 bg-gray-100/50 rounded-xl">
@@ -715,7 +695,7 @@ export function DataVerifierContent() {
 
                             {(stats.mismatch > 0 || stats.missing > 0) && (
                                 <Button onClick={handleSyncAll} className="bg-indigo-600 text-white hover:bg-indigo-700 h-11 font-black px-8 rounded-xl shadow-indigo-200 shadow-md scale-100 hover:scale-105 active:scale-95 transition-all">
-                                    <CheckCheck className="w-4 h-4 mr-2" /> QUICK FIX FILTERED
+                                    <Checks className="w-4 h-4 mr-2"  weight="duotone"/> QUICK FIX FILTERED
                                 </Button>
                             )}
                         </div>
@@ -780,7 +760,7 @@ export function DataVerifierContent() {
                                                             {(isMismatch || isPartial) && (
                                                                 <div className="absolute top-1 right-6 z-10 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all pointer-events-none">
                                                                     <div className="bg-success-600 text-white text-[11px] font-black px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2 border border-white/20">
-                                                                        <ArrowRight className="w-3 h-3" /> Correct: {sVal}
+                                                                        <ArrowRight className="w-3 h-3"  weight="duotone"/> Correct: {sVal}
                                                                     </div>
                                                                 </div>
                                                             )}
@@ -790,16 +770,16 @@ export function DataVerifierContent() {
                                                 <td className="p-4 text-center sticky right-0 group-hover:bg-indigo-50/50 backdrop-blur-sm transition-all shadow-[-20px_0_30px_-5px_rgba(0,0,0,0.03)] border-l border-gray-100 bg-white">
                                                     {(r.status === 'mismatch' || r.status === 'partial') ? (
                                                         <Button size="sm" onClick={() => handleFixRow(r._id)} className="h-11 px-5 rounded-2xl bg-white text-indigo-700 border-2 border-indigo-100 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 shadow-sm font-black text-xs transition-all ring-0 focus:ring-4 ring-indigo-100">
-                                                            <RotateCcw className="w-4 h-4 mr-2" /> REPAIR
+                                                            <ArrowCounterClockwise className="w-4 h-4 mr-2"  weight="duotone"/> REPAIR
                                                         </Button>
                                                     ) : r.status === 'identical' ? (
                                                         <div className="flex items-center justify-center gap-2.5 text-success-500 bg-success-50/80 py-2 rounded-2xl border border-success-100">
-                                                            <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+                                                            <CheckCircle className="w-5 h-5 flex-shrink-0"  weight="duotone"/>
                                                             <span className="text-[10px] font-black uppercase tracking-wider">Verified</span>
                                                         </div>
                                                     ) : (
                                                         <div className="flex flex-col items-center justify-center gap-1 opacity-20">
-                                                            <Info className="w-5 h-5" />
+                                                            <Info className="w-5 h-5"  weight="duotone"/>
                                                             <span className="text-[9px] font-black uppercase tracking-tighter">Skip</span>
                                                         </div>
                                                     )}
@@ -851,7 +831,7 @@ export function DataVerifierContent() {
                         <div className="overflow-auto max-h-[500px] p-2 custom-scrollbar">
                             {state.auditLog.length === 0 ? (
                                 <div className="p-20 text-center space-y-4 opacity-30">
-                                    <History className="w-16 h-16 mx-auto mb-4" />
+                                    <ClockCounterClockwise className="w-16 h-16 mx-auto mb-4"  weight="duotone"/>
                                     <p className="font-black uppercase tracking-[0.2em]">No changes recorded yet</p>
                                 </div>
                             ) : (
@@ -874,7 +854,7 @@ export function DataVerifierContent() {
                                                 <td className="p-4">
                                                     <div className="flex items-center gap-3">
                                                         <span className="text-error-400 line-through bg-error-50 px-2 py-0.5 rounded text-xs">{log.oldValue || 'null'}</span>
-                                                        <ArrowRight className="w-3 h-3 text-gray-300" />
+                                                        <ArrowRight className="w-3 h-3 text-gray-300"  weight="duotone"/>
                                                         <span className="text-success-700 font-bold bg-success-50 px-2 py-0.5 rounded text-xs">{log.newValue}</span>
                                                     </div>
                                                 </td>
@@ -885,7 +865,7 @@ export function DataVerifierContent() {
                                                         onClick={() => handleUndo(i, log)}
                                                         className="h-8 px-3 rounded-xl text-gray-400 hover:text-orange-600 hover:bg-orange-50 font-bold text-[11px]"
                                                     >
-                                                        <Undo className="w-3.5 h-3.5 mr-1.5" /> UNDO
+                                                        <ArrowCounterClockwise className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/> UNDO
                                                     </Button>
                                                 </td>
                                             </tr>
@@ -900,11 +880,11 @@ export function DataVerifierContent() {
 
             <div className="text-center p-8 bg-gray-50/50 rounded-b-3xl border-t border-gray-100 -mx-4">
                 <p className="text-[11px] font-black text-gray-300 uppercase flex items-center justify-center gap-4">
-                    <span className="flex items-center gap-2 saturate-0 opacity-50"><Database className="w-3.5 h-3.5" /> LOCAL_ENCRYPTION_SAFE</span>
+                    <span className="flex items-center gap-2 saturate-0 opacity-50"><Database className="w-3.5 h-3.5"  weight="duotone"/> LOCAL_ENCRYPTION_SAFE</span>
                     <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-                    <span className="flex items-center gap-2"><Share2 className="w-3.5 h-3.5" /> DIRECT CLIPBOARD OUTPUT ACTIVE</span>
+                    <span className="flex items-center gap-2"><ShareNetwork className="w-3.5 h-3.5"  weight="duotone"/> DIRECT CLIPBOARD OUTPUT ACTIVE</span>
                     <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-                    <span className="flex items-center gap-2"><History className="w-3.5 h-3.5" /> REAL-TIME DIFF_ENGINE_V2</span>
+                    <span className="flex items-center gap-2"><ClockCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/> REAL-TIME DIFF_ENGINE_V2</span>
                 </p>
             </div>
         </div>

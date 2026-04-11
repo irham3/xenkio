@@ -20,7 +20,7 @@ export function FeedbackDialog() {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="ghost" size="sm" className="hidden sm:flex gap-2">
-                    <ChatCircle className="h-4 w-4" />
+                    <ChatCircle className="h-4 w-4"  weight="duotone"/>
                     Feedback
                 </Button>
             </DialogTrigger>

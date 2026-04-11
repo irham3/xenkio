@@ -9,17 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import {
-    UploadSimple,
-    DownloadSimple,
-    ArrowsCounterClockwise,
-    ImageSquare as PhosphorImage,
-    Check,
-    Sliders,
-    Monitor,
-    DeviceMobile,
-    AppleLogo
-} from '@phosphor-icons/react/dist/ssr';
+import { UploadSimple, DownloadSimple, ArrowsCounterClockwise, ImageSquare as PhosphorImage, Check, Sliders, Monitor, DeviceMobile, AppleLogo } from '@phosphor-icons/react/dist/ssr';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -235,8 +225,7 @@ export function FaviconGenerator() {
                                                             alt="Preview"
                                                             fill
                                                             unoptimized
-                                                            className="object-contain transition-transform duration-500 hover:scale-105"
-                                                        />
+                                                            className="object-contain transition-transform duration-500 hover:scale-105"/>
                                                     )}
                                                 </div>
                                             </div>
@@ -258,8 +247,7 @@ export function FaviconGenerator() {
                                                                 width={96}
                                                                 height={96}
                                                                 unoptimized
-                                                                className="max-w-full max-h-full object-contain"
-                                                            />
+                                                                className="max-w-full max-h-full object-contain"/>
                                                         </div>
                                                     </div>
                                                     <div className="text-center space-y-1">

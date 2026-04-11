@@ -156,7 +156,7 @@ export function TokenInputPanel({ options, updateOption, onTrigger }: TokenInput
                                         <option key={alg.id} value={alg.id}>{alg.label}</option>
                                     ))}
                                 </select>
-                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                             </div>
                         </div>
                     </div>
@@ -169,7 +169,7 @@ export function TokenInputPanel({ options, updateOption, onTrigger }: TokenInput
                 </Label>
                 <div className="relative group">
                     <div className="absolute left-3 top-0 bottom-0 flex items-center justify-center text-gray-400 pointer-events-none">
-                        <Lock className="w-4 h-4" />
+                        <Lock className="w-4 h-4"  weight="duotone"/>
                     </div>
                     <input
                         type="text"

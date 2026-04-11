@@ -46,7 +46,7 @@ export default function SpeechToTextClient() {
 
             {error && (
                 <Alert variant="destructive" className="mb-6">
-                    <WarningCircle className="h-4 w-4" />
+                    <WarningCircle className="h-4 w-4"  weight="duotone"/>
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>{error}</AlertDescription>
                 </Alert>

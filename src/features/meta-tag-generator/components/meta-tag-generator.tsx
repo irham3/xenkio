@@ -1,20 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-    Download,
-    RotateCcw,
-    Sparkles,
-    Globe,
-    Share2,
-    ChevronDown,
-    ChevronUp,
-    Search,
-    Type,
-    FileText,
-    Image as ImageIcon,
-    AtSign,
-} from 'lucide-react';
+import { DownloadSimple, ArrowCounterClockwise, Sparkle, Globe, ShareNetwork, CaretDown, CaretUp, MagnifyingGlass, TextT, FileText, Image as ImageIcon, At } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { CopyButton } from '@/components/shared';
@@ -67,7 +54,7 @@ export function MetaTagGenerator() {
             {/* Presets */}
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary-500" />
+                    <Sparkle className="h-4 w-4 text-primary-500"  weight="duotone"/>
                     Quick Presets
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -94,7 +81,7 @@ export function MetaTagGenerator() {
                     {/* Basic SEO */}
                     <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                         <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                            <Search className="h-5 w-5 text-primary-500" />
+                            <MagnifyingGlass className="h-5 w-5 text-primary-500"  weight="duotone"/>
                             Basic SEO
                         </h3>
                         <div className="space-y-5">
@@ -102,7 +89,7 @@ export function MetaTagGenerator() {
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
                                     <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                        <Type className="h-3 w-3" />
+                                        <TextT className="h-3 w-3"  weight="duotone"/>
                                         Page Title
                                     </label>
                                     <CharCounter
@@ -125,7 +112,7 @@ export function MetaTagGenerator() {
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
                                     <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                        <FileText className="h-3 w-3" />
+                                        <FileText className="h-3 w-3"  weight="duotone"/>
                                         Meta Description
                                     </label>
                                     <CharCounter
@@ -137,7 +124,7 @@ export function MetaTagGenerator() {
                                 <textarea
                                     value={config.description}
                                     onChange={(e) => updateField('description', e.target.value)}
-                                    className="w-full min-h-[80px] px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all resize-y"
+                                    className="w-full min-h-20 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all resize-y"
                                     placeholder="A brief description of your page content for search engines..."
                                 />
                                 <p className="text-xs text-gray-400">Recommended: 120–160 characters</p>
@@ -160,7 +147,7 @@ export function MetaTagGenerator() {
                             {/* Author */}
                             <div className="space-y-2">
                                 <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                    <AtSign className="h-3 w-3" />
+                                    <At className="h-3 w-3"  weight="duotone"/>
                                     Author
                                 </label>
                                 <input
@@ -175,7 +162,7 @@ export function MetaTagGenerator() {
                             {/* Canonical URL */}
                             <div className="space-y-2">
                                 <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                    <Globe className="h-3 w-3" />
+                                    <Globe className="h-3 w-3"  weight="duotone"/>
                                     Canonical URL
                                 </label>
                                 <input
@@ -212,13 +199,13 @@ export function MetaTagGenerator() {
                             className="w-full flex items-center justify-between p-6 md:px-8 cursor-pointer hover:bg-gray-50 transition-colors"
                         >
                             <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                                <Share2 className="h-5 w-5 text-primary-500" />
+                                <ShareNetwork className="h-5 w-5 text-primary-500"  weight="duotone"/>
                                 Open Graph (Facebook, LinkedIn)
                             </h3>
                             {showOg ? (
-                                <ChevronUp className="h-4 w-4 text-gray-400" />
+                                <CaretUp className="h-4 w-4 text-gray-400"  weight="duotone"/>
                             ) : (
-                                <ChevronDown className="h-4 w-4 text-gray-400" />
+                                <CaretDown className="h-4 w-4 text-gray-400"  weight="duotone"/>
                             )}
                         </button>
                         {showOg && (
@@ -238,13 +225,13 @@ export function MetaTagGenerator() {
                                     <textarea
                                         value={config.ogDescription}
                                         onChange={(e) => updateField('ogDescription', e.target.value)}
-                                        className="w-full min-h-[60px] px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all resize-y"
+                                        className="w-full min-h-15 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all resize-y"
                                         placeholder={config.description || 'Falls back to meta description'}
                                     />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                        <ImageIcon className="h-3 w-3" />
+                                        <ImageIcon className="h-3 w-3" weight="duotone" />
                                         OG Image URL
                                     </label>
                                     <input
@@ -307,9 +294,9 @@ export function MetaTagGenerator() {
                                 Twitter Card (X)
                             </h3>
                             {showTwitter ? (
-                                <ChevronUp className="h-4 w-4 text-gray-400" />
+                                <CaretUp className="h-4 w-4 text-gray-400"  weight="duotone"/>
                             ) : (
-                                <ChevronDown className="h-4 w-4 text-gray-400" />
+                                <CaretDown className="h-4 w-4 text-gray-400"  weight="duotone"/>
                             )}
                         </button>
                         {showTwitter && (
@@ -363,7 +350,7 @@ export function MetaTagGenerator() {
                                     <textarea
                                         value={config.twitterDescription}
                                         onChange={(e) => updateField('twitterDescription', e.target.value)}
-                                        className="w-full min-h-[60px] px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all resize-y"
+                                        className="w-full min-h-15 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all resize-y"
                                         placeholder={config.ogDescription || config.description || 'Falls back to OG/meta description'}
                                     />
                                 </div>
@@ -388,13 +375,13 @@ export function MetaTagGenerator() {
                             className="w-full flex items-center justify-between p-6 md:px-8 cursor-pointer hover:bg-gray-50 transition-colors"
                         >
                             <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                                <Globe className="h-5 w-5 text-primary-500" />
+                                <Globe className="h-5 w-5 text-primary-500"  weight="duotone"/>
                                 Advanced Options
                             </h3>
                             {showAdvanced ? (
-                                <ChevronUp className="h-4 w-4 text-gray-400" />
+                                <CaretUp className="h-4 w-4 text-gray-400"  weight="duotone"/>
                             ) : (
-                                <ChevronDown className="h-4 w-4 text-gray-400" />
+                                <CaretDown className="h-4 w-4 text-gray-400"  weight="duotone"/>
                             )}
                         </button>
                         {showAdvanced && (
@@ -470,7 +457,7 @@ export function MetaTagGenerator() {
                                     size="sm"
                                     className="rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
                                 >
-                                    <RotateCcw className="h-3.5 w-3.5 mr-1" />
+                                    <ArrowCounterClockwise className="h-3.5 w-3.5 mr-1"  weight="duotone"/>
                                     Reset
                                 </Button>
                                 <CopyButton
@@ -497,7 +484,7 @@ export function MetaTagGenerator() {
                                 "bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all"
                             )}
                         >
-                            <Download className="h-5 w-5 mr-2" />
+                            <DownloadSimple className="h-5 w-5 mr-2"  weight="duotone"/>
                             Download meta-tags.html
                         </Button>
 

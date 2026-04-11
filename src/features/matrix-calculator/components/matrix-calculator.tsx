@@ -1,13 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-    Shuffle,
-    Trash2,
-    Copy,
-    Check,
-    AlertCircle,
-} from 'lucide-react';
+import { Shuffle, Trash, Copy, Check, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useMatrixCalculator } from '../hooks/use-matrix-calculator';
@@ -199,14 +193,14 @@ function MatrixGrid({
                         title="Fill random"
                         className="p-1.5 rounded text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
                     >
-                        <Shuffle className="w-3.5 h-3.5" />
+                        <Shuffle className="w-3.5 h-3.5"  weight="duotone"/>
                     </button>
                     <button
                         onClick={onClear}
                         title="Clear"
                         className="p-1.5 rounded text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                     >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                     </button>
                 </div>
             </div>
@@ -348,7 +342,7 @@ export function MatrixCalculator() {
 
             {/* Info Banner */}
             <div className="flex items-start gap-2 bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 text-xs text-amber-700">
-                <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                <WarningCircle className="w-4 h-4 mt-0.5 shrink-0"  weight="duotone"/>
                 <span>
                     <strong>{currentOp.label}:</strong> {currentOp.description}.
                     {currentOp.requiresSquare && ' Requires a square matrix (rows = columns).'}
@@ -487,9 +481,9 @@ export function MatrixCalculator() {
                                 className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-indigo-600 transition-colors"
                             >
                                 {copied ? (
-                                    <Check className="w-3.5 h-3.5 text-green-500" />
+                                    <Check className="w-3.5 h-3.5 text-green-500"  weight="duotone"/>
                                 ) : (
-                                    <Copy className="w-3.5 h-3.5" />
+                                    <Copy className="w-3.5 h-3.5"  weight="duotone"/>
                                 )}
                                 {copied ? 'Copied!' : 'Copy'}
                             </button>
@@ -498,7 +492,7 @@ export function MatrixCalculator() {
 
                     {result.error ? (
                         <div className="flex items-start gap-2 text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3 text-sm">
-                            <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                            <WarningCircle className="w-4 h-4 mt-0.5 shrink-0"  weight="duotone"/>
                             <span>{result.error}</span>
                         </div>
                     ) : result.type === 'scalar' && result.scalar !== undefined ? (

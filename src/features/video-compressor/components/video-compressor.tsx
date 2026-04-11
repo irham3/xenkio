@@ -2,18 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import {
-    UploadSimple,
-    DownloadSimple,
-    FileVideo,
-    Sliders,
-    Lightning,
-    Shield,
-    WarningCircle,
-    CheckCircle,
-    FilmStrip,
-    ArrowsClockwise
-} from '@phosphor-icons/react/dist/ssr';
+import { UploadSimple, DownloadSimple, FileVideo, Sliders, Lightning, Shield, WarningCircle, CheckCircle, FilmStrip, ArrowsClockwise } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -161,7 +150,7 @@ export function VideoCompressor() {
                 <div className="bg-white border border-gray-200 rounded-2xl p-8 space-y-5">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-full bg-primary-50">
-                            <ArrowsClockwise className="w-5 h-5 text-primary-600 animate-spin" />
+                            <ArrowsClockwise className="w-5 h-5 text-primary-600 animate-spin"  weight="duotone"/>
                         </div>
                         <div>
                             <p className="font-semibold text-gray-900">Downloading Video Engine</p>
@@ -186,7 +175,7 @@ export function VideoCompressor() {
             {hookError && !isLoading && (
                 <div className="bg-red-50 border border-red-200 rounded-2xl p-6 flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
-                        <WarningCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                        <WarningCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5"  weight="duotone"/>
                         <div>
                             <p className="font-medium text-red-700">Engine Error</p>
                             <p className="text-sm text-red-600 mt-1">{hookError}</p>
@@ -220,7 +209,7 @@ export function VideoCompressor() {
                             'p-4 rounded-full bg-gray-100 transition-transform duration-300 group-hover:scale-110',
                             isDragActive && 'bg-white'
                         )}>
-                            <UploadSimple className="w-8 h-8 text-gray-900" />
+                            <UploadSimple className="w-8 h-8 text-gray-900"  weight="duotone"/>
                         </div>
                         <div className="space-y-1">
                             <p className="text-lg font-medium text-gray-900">
@@ -269,7 +258,7 @@ export function VideoCompressor() {
                             <div className="bg-white border border-gray-200 rounded-2xl p-8 space-y-4">
                                 <div className="flex items-center justify-between text-sm">
                                     <div className="flex items-center gap-2">
-                                        <ArrowsClockwise className="w-4 h-4 text-primary-600 animate-spin" />
+                                        <ArrowsClockwise className="w-4 h-4 text-primary-600 animate-spin"  weight="duotone"/>
                                         <span className="font-medium text-gray-900">Compressing...</span>
                                     </div>
                                     <span className="text-gray-500">{progress}%</span>
@@ -286,7 +275,7 @@ export function VideoCompressor() {
                                 size="lg"
                                 className="w-full"
                             >
-                                <Lightning className="mr-2 h-4 w-4" />
+                                <Lightning className="mr-2 h-4 w-4"  weight="duotone"/>
                                 Compress to ~{formatSize(estimatedSize)}
                             </Button>
                         )}
@@ -295,7 +284,7 @@ export function VideoCompressor() {
                     {/* Settings Panel */}
                     <div className="col-span-1 bg-white border border-gray-200 rounded-2xl p-6 space-y-6 h-fit sticky top-6">
                         <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                            <Sliders className="w-5 h-5 text-primary-600" />
+                            <Sliders className="w-5 h-5 text-primary-600"  weight="duotone"/>
                             <h2 className="font-semibold text-lg">Settings</h2>
                         </div>
 
@@ -420,7 +409,7 @@ export function VideoCompressor() {
                 <div className="bg-white border border-gray-200 rounded-2xl p-8 space-y-6">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-full bg-green-100">
-                            <CheckCircle className="w-5 h-5 text-green-600" />
+                            <CheckCircle className="w-5 h-5 text-green-600"  weight="duotone"/>
                         </div>
                         <h3 className="text-xl font-semibold text-gray-900">Compression Complete</h3>
                     </div>
@@ -450,7 +439,7 @@ export function VideoCompressor() {
 
                     <div className="flex gap-3 pt-2 border-t border-gray-100">
                         <Button onClick={handleDownload} size="lg" className="flex-1 gap-2">
-                            <DownloadSimple className="w-4 h-4" />
+                            <DownloadSimple className="w-4 h-4"  weight="duotone"/>
                             Download ({formatSize(result.size)})
                         </Button>
                         <Button variant="outline" size="lg" onClick={handleReset}>
@@ -464,21 +453,21 @@ export function VideoCompressor() {
             {!file && loaded && (
                 <div className="grid sm:grid-cols-3 gap-4">
                     <div className="flex items-start gap-3 p-4 bg-white border border-gray-200 rounded-xl">
-                        <Shield className="w-5 h-5 text-primary-600 shrink-0 mt-0.5" />
+                        <Shield className="w-5 h-5 text-primary-600 shrink-0 mt-0.5"  weight="duotone"/>
                         <div>
                             <p className="font-medium text-sm text-gray-900">100% Private</p>
                             <p className="text-xs text-gray-500 mt-0.5">Videos are processed in your browser. Nothing is uploaded.</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-3 p-4 bg-white border border-gray-200 rounded-xl">
-                        <Sliders className="w-5 h-5 text-primary-600 shrink-0 mt-0.5" />
+                        <Sliders className="w-5 h-5 text-primary-600 shrink-0 mt-0.5"  weight="duotone"/>
                         <div>
                             <p className="font-medium text-sm text-gray-900">Target Size Control</p>
                             <p className="text-xs text-gray-500 mt-0.5">Set your desired output size — guaranteed smaller every time.</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-3 p-4 bg-white border border-gray-200 rounded-xl">
-                        <FilmStrip className="w-5 h-5 text-primary-600 shrink-0 mt-0.5" />
+                        <FilmStrip className="w-5 h-5 text-primary-600 shrink-0 mt-0.5"  weight="duotone"/>
                         <div>
                             <p className="font-medium text-sm text-gray-900">H.264 Output</p>
                             <p className="text-xs text-gray-500 mt-0.5">Universal MP4 format playable on all devices.</p>

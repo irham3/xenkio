@@ -3,18 +3,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import type { DataRow, DataCheckerStats } from '../types';
-import {
-    CheckCircle2,
-    XCircle,
-    ChevronLeft,
-    ChevronRight,
-    SkipForward,
-    Pencil,
-    Save,
-    Undo2,
-    AlertTriangle,
-    Clock,
-} from 'lucide-react';
+import { CheckCircle, XCircle, CaretLeft, CaretRight, SkipForward, Pencil, FloppyDisk, ArrowCounterClockwise, Warning, Clock } from '@phosphor-icons/react/dist/ssr';
 
 interface ReviewCardProps {
     currentRow: DataRow | null;
@@ -229,7 +218,7 @@ export function ReviewCard({
         return (
             <div className="flex flex-col items-center justify-center py-16 text-center">
                 <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-5">
-                    <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+                    <CheckCircle className="w-10 h-10 text-emerald-500"  weight="duotone"/>
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2">All Done!</h3>
                 <p className="text-sm text-gray-500">You&apos;ve reviewed all items.</p>
@@ -256,7 +245,7 @@ export function ReviewCard({
                         disabled={isFirst}
                         className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                     >
-                        <ChevronLeft className="w-5 h-5" />
+                        <CaretLeft className="w-5 h-5"  weight="duotone"/>
                     </button>
                     <span className="text-sm font-semibold text-gray-600 tabular-nums">
                         {currentIndex + 1} <span className="text-gray-300 font-normal">of</span> {stats.total}
@@ -266,7 +255,7 @@ export function ReviewCard({
                         disabled={isLast}
                         className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                     >
-                        <ChevronRight className="w-5 h-5" />
+                        <CaretRight className="w-5 h-5"  weight="duotone"/>
                     </button>
                     <div
                         className={cn(
@@ -275,7 +264,7 @@ export function ReviewCard({
                         )}
                         title="Time spent on this item"
                     >
-                        <Clock className="w-3.5 h-3.5" />
+                        <Clock className="w-3.5 h-3.5"  weight="duotone"/>
                         {(Math.floor((currentRow.timeSpentMs || 0) / 100) / 10).toFixed(1)}s
                     </div>
                 </div>
@@ -285,7 +274,7 @@ export function ReviewCard({
                         onClick={onGoToNextUnchecked}
                         className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 hover:bg-primary-50 rounded-lg transition-all"
                     >
-                        <SkipForward className="w-3.5 h-3.5" />
+                        <SkipForward className="w-3.5 h-3.5"  weight="duotone"/>
                         Next unchecked
                     </button>
                 )}
@@ -296,7 +285,7 @@ export function ReviewCard({
                         className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
                         title="Undo (Ctrl+Z)"
                     >
-                        <Undo2 className="w-3.5 h-3.5" />
+                        <ArrowCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                         Undo
                     </button>
                 )}
@@ -317,9 +306,9 @@ export function ReviewCard({
                         currentRow.status === 'invalid' && "bg-red-100 text-red-700",
                     )}>
                         {currentRow.status === 'valid' ? (
-                            <><CheckCircle2 className="w-3.5 h-3.5" /> Valid</>
+                            <><CheckCircle className="w-3.5 h-3.5"  weight="duotone"/> Valid</>
                         ) : (
-                            <><XCircle className="w-3.5 h-3.5" /> Invalid</>
+                            <><XCircle className="w-3.5 h-3.5"  weight="duotone"/> Invalid</>
                         )}
                     </div>
                 )}
@@ -341,7 +330,7 @@ export function ReviewCard({
                                     onClick={handleSaveEdit}
                                     className="flex items-center gap-1.5 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-bold shadow-sm hover:bg-primary-700 transition-all"
                                 >
-                                    <Save className="w-4 h-4" /> Save Changes
+                                    <FloppyDisk className="w-4 h-4"  weight="duotone"/> Save Changes
                                 </button>
                                 <button
                                     onClick={() => setIsEditingValue(false)}
@@ -361,21 +350,21 @@ export function ReviewCard({
                                 className="absolute top-0 right-0 p-2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
                                 title="Edit value"
                             >
-                                <Pencil className="w-5 h-5" />
+                                <Pencil className="w-5 h-5"  weight="duotone"/>
                             </button>
                         </div>
                     )}
 
                     {patternWarning && !isEditingValue && (
                         <div className="mt-4 flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200/50 rounded-lg animate-pulse">
-                            <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />
+                            <Warning className="w-4 h-4 text-amber-500 shrink-0"  weight="duotone"/>
                             <p className="text-xs font-medium text-amber-700">{patternWarning}</p>
                         </div>
                     )}
 
                     {currentRow.comment && !isEditingValue && (
                         <div className="mt-4 flex items-start gap-2 px-3 py-2 bg-red-50 border border-red-200/50 rounded-lg">
-                            <XCircle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                            <XCircle className="w-4 h-4 text-red-400 mt-0.5 shrink-0"  weight="duotone"/>
                             <p className="text-sm text-red-600">{currentRow.comment}</p>
                         </div>
                     )}
@@ -394,7 +383,7 @@ export function ReviewCard({
                                     "focus-visible:ring-4 focus-visible:ring-emerald-300",
                                 )}
                             >
-                                <CheckCircle2 className="w-6 h-6" />
+                                <CheckCircle className="w-6 h-6"  weight="duotone"/>
                                 Valid
                                 <kbd className="ml-2 px-2 py-0.5 bg-emerald-600/50 rounded text-xs font-mono opacity-70">Enter / Space</kbd>
                             </button>
@@ -408,7 +397,7 @@ export function ReviewCard({
                                     "focus-visible:ring-4 focus-visible:ring-red-200",
                                 )}
                             >
-                                <XCircle className="w-5 h-5" />
+                                <XCircle className="w-5 h-5"  weight="duotone"/>
                                 Invalid — Add Comment
                             </button>
                         </div>
@@ -446,7 +435,7 @@ export function ReviewCard({
                                     onClick={handleInvalidSubmit}
                                     className="flex-1 flex items-center justify-center gap-2 py-4 rounded-xl text-base font-bold bg-red-500 hover:bg-red-600 text-white transition-all duration-200 active:scale-[0.98] shadow-md"
                                 >
-                                    <XCircle className="w-5 h-5" />
+                                    <XCircle className="w-5 h-5"  weight="duotone"/>
                                     Mark Invalid
                                     <kbd className="ml-1 px-2 py-0.5 bg-red-600/50 rounded text-xs font-mono opacity-70">Enter</kbd>
                                 </button>
@@ -485,7 +474,7 @@ export function ReviewCard({
             {!isCommentMode && nextRow && (
                 <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col items-center animate-in fade-in slide-in-from-bottom-2 duration-500">
                     <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-400 uppercase tracking-widest">
-                        <SkipForward className="w-3.5 h-3.5" />
+                        <SkipForward className="w-3.5 h-3.5"  weight="duotone"/>
                         Next Up
                     </div>
                     <div className="w-full max-w-md px-4 py-3 bg-gray-50/50 border border-gray-200/50 rounded-xl text-center shadow-sm">

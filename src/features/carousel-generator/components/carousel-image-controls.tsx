@@ -3,16 +3,7 @@
 import { CarouselImage } from '../types';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import {
-    Trash,
-    ArrowClockwise,
-    ArrowUp,
-    ArrowDown,
-    ArrowLeft,
-    ArrowRight,
-    Cards,
-    ArrowsClockwise
-} from '@phosphor-icons/react/dist/ssr';
+import { Trash, ArrowClockwise, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Cards, ArrowsClockwise } from '@phosphor-icons/react/dist/ssr';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface CarouselImageControlsProps {

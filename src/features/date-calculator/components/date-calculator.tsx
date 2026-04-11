@@ -1,19 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    Calendar,
-    CalendarDots,
-    Clock,
-    ArrowRight,
-    Plus,
-    Minus,
-    ArrowsLeftRight,
-    Briefcase,
-    Sun,
-    Hash,
-    CaretDown
-} from '@phosphor-icons/react/dist/ssr';
+import { Calendar, CalendarDots, Clock, ArrowRight, Plus, Minus, ArrowsLeftRight, Briefcase, Sun, Hash, CaretDown } from '@phosphor-icons/react/dist/ssr';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useDateCalculator } from '../hooks/use-date-calculator';
@@ -147,7 +135,7 @@ export function DateCalculator() {
                                     : 'text-gray-500 hover:text-gray-700'
                             )}
                         >
-                            <Icon className="w-4 h-4" />
+                            <Icon className="w-4 h-4"/>
                             {opt.label}
                         </button>
                     );
@@ -191,7 +179,7 @@ export function DateCalculator() {
                                 {/* Arrow Separator */}
                                 <div className="flex items-center justify-center py-1">
                                     <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                                        <ArrowRight className="w-4 h-4 text-gray-400" />
+                                        <ArrowRight className="w-4 h-4 text-gray-400"  weight="duotone"/>
                                     </div>
                                 </div>
 
@@ -367,7 +355,7 @@ export function DateCalculator() {
                                                 <div className="p-3 bg-white rounded-lg border border-gray-200">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center">
-                                                            <Calendar className="w-4 h-4 text-primary-600" />
+                                                            <Calendar className="w-4 h-4 text-primary-600"  weight="duotone"/>
                                                         </div>
                                                         <div className="flex-1">
                                                             <p className="text-xs text-gray-500">
@@ -458,7 +446,7 @@ export function DateCalculator() {
                                                             : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
                                                     )}
                                                 >
-                                                    <Icon className="w-3.5 h-3.5" />
+                                                    <Icon className="w-3.5 h-3.5"/>
                                                     {op.label}
                                                 </button>
                                             );
@@ -514,7 +502,7 @@ export function DateCalculator() {
                                             <option value="months">Months</option>
                                             <option value="years">Years</option>
                                         </select>
-                                        <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                                     </div>
                                 </div>
 
@@ -567,7 +555,7 @@ export function DateCalculator() {
                                         className="flex flex-col items-center justify-center h-full text-center opacity-60"
                                     >
                                         <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                            <Calendar className="w-8 h-8 text-gray-400" />
+                                            <Calendar className="w-8 h-8 text-gray-400"  weight="duotone"/>
                                         </div>
                                         <h3 className="text-sm font-semibold text-gray-800 mb-1">
                                             Configure Calculation
@@ -675,7 +663,7 @@ export function DateCalculator() {
                             label="Total Hours"
                             value={formatNumber(dateDifference.totalHours)}
                             sublabel="hours"
-                            icon={<Clock className="w-4 h-4" />}
+                            icon={<Clock className="w-4 h-4"  weight="duotone"/>}
                             color="text-emerald-600"
                             bgColor="bg-emerald-50"
                         />
@@ -683,7 +671,7 @@ export function DateCalculator() {
                             label="Total Minutes"
                             value={formatNumber(dateDifference.totalMinutes)}
                             sublabel="minutes"
-                            icon={<Clock className="w-4 h-4" />}
+                            icon={<Clock className="w-4 h-4"  weight="duotone"/>}
                             color="text-amber-600"
                             bgColor="bg-amber-50"
                         />
@@ -707,7 +695,7 @@ export function DateCalculator() {
                             label="Total Months"
                             value={formatNumber(dateDifference.totalMonths)}
                             sublabel="months"
-                            icon={<Calendar className="w-4 h-4" />}
+                            icon={<Calendar className="w-4 h-4"  weight="duotone"/>}
                             color="text-violet-600"
                             bgColor="bg-violet-50"
                         />
@@ -721,7 +709,7 @@ export function DateCalculator() {
                         </h3>
                         <div>
                             <DetailRow
-                                icon={<Calendar className="w-4 h-4" />}
+                                icon={<Calendar className="w-4 h-4"  weight="duotone"/>}
                                 label="Total days"
                                 value={formatNumber(dateDifference.totalDays)}
                                 color="text-primary-500"
@@ -733,7 +721,7 @@ export function DateCalculator() {
                                 color="text-emerald-500"
                             />
                             <DetailRow
-                                icon={<Clock className="w-4 h-4" />}
+                                icon={<Clock className="w-4 h-4"  weight="duotone"/>}
                                 label="Total seconds"
                                 value={formatNumber(dateDifference.totalSeconds)}
                                 color="text-amber-500"

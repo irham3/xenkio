@@ -266,7 +266,7 @@ export function MergePdfClient() {
           </div>
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" onClick={clearAll} className="text-gray-500 hover:text-red-600 cursor-pointer">
-              <Trash className="w-4 h-4 mr-2" />
+              <Trash className="w-4 h-4 mr-2"  weight="duotone"/>
               Clear all
             </Button>
           </div>
@@ -301,7 +301,7 @@ export function MergePdfClient() {
                   onClick={open}
                 >
                   <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
-                    <Plus className="w-6 h-6 text-gray-400" />
+                    <Plus className="w-6 h-6 text-gray-400"  weight="duotone"/>
                   </div>
                   <p className="text-sm text-gray-500 font-medium">Add PDF</p>
                 </motion.div>

@@ -2,16 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import {
-    UploadSimple,
-    X,
-    Sliders,
-    DownloadSimple,
-    File as PhosphorFile,
-    WarningCircle,
-    ArrowRight,
-    Plus
-} from '@phosphor-icons/react/dist/ssr';
+import { UploadSimple, X, Sliders, DownloadSimple, File as PhosphorFile, WarningCircle, ArrowRight, Plus } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -135,7 +126,7 @@ export function PDFCompressor() {
                                     <UploadSimple className={cn(
                                         "w-10 h-10 transition-colors",
                                         isDragActive ? "text-primary-600" : "text-gray-400"
-                                    )} />
+                                    )}  weight="duotone"/>
                                 </div>
                                 <div className="space-y-2">
                                     <p className="text-xl font-semibold text-gray-900">
@@ -146,7 +137,7 @@ export function PDFCompressor() {
                                     </p>
                                 </div>
                                 <Button size="lg" type="button">
-                                    <Plus className="w-4 h-4 mr-2" />
+                                    <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                                     Select PDF file
                                 </Button>
                             </div>
@@ -175,7 +166,7 @@ export function PDFCompressor() {
                                         onClick={() => { revokeCurrentUrl(); reset(); }}
                                         className="text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg h-9 w-9"
                                     >
-                                        <X className="w-5 h-5" />
+                                        <X className="w-5 h-5"  weight="duotone"/>
                                     </Button>
                                 </div>
                             </Card>
@@ -208,7 +199,7 @@ export function PDFCompressor() {
                                         className="w-full h-12 bg-linear-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-500/25"
                                     >
                                         <a href={result.url} download={`compressed-${file.name}`}>
-                                            <DownloadSimple className="mr-2 h-5 w-5" />
+                                            <DownloadSimple className="mr-2 h-5 w-5"  weight="duotone"/>
                                             Download Compressed PDF
                                         </a>
                                     </Button>
@@ -231,7 +222,7 @@ export function PDFCompressor() {
                                             </>
                                         ) : (
                                             <>
-                                                <ArrowRight className="mr-2 h-5 w-5" />
+                                                <ArrowRight className="mr-2 h-5 w-5"  weight="duotone"/>
                                                 Compress PDF
                                             </>
                                         )}
@@ -254,7 +245,7 @@ export function PDFCompressor() {
                 <div className="lg:col-span-1">
                     <Card className="p-6 border border-gray-200 rounded-xl bg-white space-y-6">
                         <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                            <Sliders className="w-4 h-4 text-primary-600" />
+                            <Sliders className="w-4 h-4 text-primary-600"  weight="duotone"/>
                             <h3 className="font-semibold text-gray-900">Gear</h3>
                         </div>
 
@@ -316,7 +307,7 @@ export function PDFCompressor() {
 
                         {/* Tip */}
                         <div className="p-4 rounded-lg bg-amber-50 border border-amber-100 flex gap-3">
-                            <WarningCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                            <WarningCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5"  weight="duotone"/>
                             <p className="text-xs text-amber-800 leading-relaxed">
                                 PDFs with many images benefit most from high compression.
                             </p>

@@ -157,7 +157,7 @@ export function QrScanner({ onScan, onClose }: QrScannerProps) {
                             onClick={handleRequestPermission}
                             className="w-full bg-primary-600 hover:bg-primary-500 text-white rounded-2xl h-12 font-semibold shadow-lg shadow-primary-900/20 transition-all cursor-pointer"
                         >
-                            <Sliders className="w-4 h-4 mr-2" />
+                            <Sliders className="w-4 h-4 mr-2"  weight="duotone"/>
                             Request Permission
                         </Button>
                         <Button
@@ -165,7 +165,7 @@ export function QrScanner({ onScan, onClose }: QrScannerProps) {
                             onClick={onClose}
                             className="w-full text-gray-400 hover:text-white hover:bg-white/5 rounded-2xl h-10 cursor-pointer"
                         >
-                            <X className="w-4 h-4 mr-2" />
+                            <X className="w-4 h-4 mr-2"  weight="duotone"/>
                             Close Scanner
                         </Button>
                     </div>
@@ -208,7 +208,7 @@ export function QrScanner({ onScan, onClose }: QrScannerProps) {
                             onClick={onClose}
                             className="p-2.5 rounded-full bg-black/40 text-white backdrop-blur-md hover:bg-black/60 transition-all border border-white/10 cursor-pointer active:scale-95"
                         >
-                            <X className="w-5 h-5" />
+                            <X className="w-5 h-5"  weight="duotone"/>
                         </button>
                     </div>
 
@@ -217,7 +217,7 @@ export function QrScanner({ onScan, onClose }: QrScannerProps) {
                             <div className="flex flex-col items-center gap-6">
                                 <div className="relative">
                                     <div className="w-16 h-16 rounded-full border-4 border-primary-500/20 border-t-primary-500 animate-spin" />
-                                    <ArrowsClockwise className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-primary-500" />
+                                    <ArrowsClockwise className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-primary-500"  weight="duotone"/>
                                 </div>
                                 <div className="space-y-1 text-center">
                                     <p className="text-white font-bold text-lg tracking-tight">Initializing Camera</p>

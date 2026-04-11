@@ -31,7 +31,7 @@ export function PeopleManager({ people, onAddPerson, onRemovePerson }: PeopleMan
     return (
         <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm space-y-4">
             <div className="flex items-center gap-2 pb-2 border-b border-gray-50">
-                <Users className="w-5 h-5 text-gray-500" />
+                <Users className="w-5 h-5 text-gray-500"  weight="duotone"/>
                 <h3 className="font-semibold text-gray-800">People Sharing</h3>
                 <span className="ml-auto text-xs font-bold bg-primary-50 text-primary-600 px-2.5 py-1 rounded-full">
                     {people.length}

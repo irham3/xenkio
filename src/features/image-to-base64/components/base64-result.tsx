@@ -5,13 +5,7 @@ import { useState } from "react"
 import { ImageToBase64Result } from "../types"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-    Copy,
-    Check,
-    ImageSquare as PhosphorImage,
-    CodeSimple,
-    Trash
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, ImageSquare as PhosphorImage, CodeSimple, Trash } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { formatBytes } from "../lib/base64-utils"
 import Image from "next/image"
@@ -71,8 +65,7 @@ export function Base64Result({ result, onClear }: Base64ResultProps) {
                                     src={result.dataUrl}
                                     alt="Preview"
                                     fill
-                                    className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                                />
+                                    className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"/>
                             </div>
 
                             <div className="space-y-4">

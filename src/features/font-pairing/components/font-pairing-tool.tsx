@@ -5,15 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { FONT_PAIRS, FONT_PAIR_CATEGORIES, PREVIEW_TEXT, GOOGLE_FONTS_CSS_BASE } from '../constants';
 import { FontPair, FontPairCategory, PreviewLayout } from '../types';
-import {
-    Copy,
-    Check,
-    Shuffle,
-    TextT,
-    Layout,
-    FileText,
-    Columns
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, Shuffle, TextT, Layout, FileText, Columns } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import {
     Select,
@@ -58,9 +50,9 @@ body, p {
 }
 
 const LAYOUT_OPTIONS: { value: PreviewLayout; label: string; icon: React.ReactNode }[] = [
-    { value: 'card', label: 'Card', icon: <Layout className="w-3.5 h-3.5" /> },
-    { value: 'article', label: 'Article', icon: <FileText className="w-3.5 h-3.5" /> },
-    { value: 'hero', label: 'Hero', icon: <Columns className="w-3.5 h-3.5" /> },
+    { value: 'card', label: 'Card', icon: <Layout className="w-3.5 h-3.5"  weight="duotone"/> },
+    { value: 'article', label: 'Article', icon: <FileText className="w-3.5 h-3.5"  weight="duotone"/> },
+    { value: 'hero', label: 'Hero', icon: <Columns className="w-3.5 h-3.5"  weight="duotone"/> },
 ];
 
 export function FontPairingTool() {
@@ -125,7 +117,7 @@ export function FontPairingTool() {
                             onClick={handleRandomPair}
                             className="font-bold px-6 h-12 bg-primary-600 hover:bg-primary-700 text-white rounded-xl transition-all active:scale-95 group shadow-lg shadow-primary/20"
                         >
-                            <Shuffle className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" />
+                            <Shuffle className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500"  weight="duotone"/>
                             Random Pair
                         </Button>
 
@@ -174,9 +166,9 @@ export function FontPairingTool() {
                             className="text-xs font-bold text-gray-500 hover:text-gray-900 px-3"
                         >
                             {copiedId === selectedPair.id ? (
-                                <Check className="w-3.5 h-3.5 mr-2 text-green-500" />
+                                <Check className="w-3.5 h-3.5 mr-2 text-green-500"  weight="duotone"/>
                             ) : (
-                                <Copy className="w-3.5 h-3.5 mr-2" />
+                                <Copy className="w-3.5 h-3.5 mr-2"  weight="duotone"/>
                             )}
                             CSS
                         </Button>
@@ -213,7 +205,7 @@ export function FontPairingTool() {
                             </p>
                             <div className="pt-4 border-t border-gray-100 flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
-                                    <TextT className="w-4 h-4 text-primary-600" />
+                                    <TextT className="w-4 h-4 text-primary-600"  weight="duotone"/>
                                 </div>
                                 <div>
                                     <p className="text-xs font-bold text-gray-700"
@@ -333,7 +325,7 @@ export function FontPairingTool() {
                 {/* Font Info Bar */}
                 <div className="flex items-center justify-center gap-2 py-2">
                     <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 border border-gray-200 text-[10px] font-bold text-gray-500 uppercase tracking-tighter">
-                        <TextT className="w-3 h-3" />
+                        <TextT className="w-3 h-3"  weight="duotone"/>
                         {selectedPair.heading} + {selectedPair.body}
                     </div>
                 </div>
@@ -344,7 +336,7 @@ export function FontPairingTool() {
                 {/* Category Filter */}
                 <div className="p-4 border-b border-gray-100 space-y-3">
                     <div className="flex items-center gap-2 font-bold text-gray-900 text-[10px] uppercase tracking-widest">
-                        <TextT className="w-3 h-3 text-primary-500" />
+                        <TextT className="w-3 h-3 text-primary-500"  weight="duotone"/>
                         <span>Font Pairs</span>
                     </div>
                     <Select value={categoryFilter} onValueChange={(val) => setCategoryFilter(val as FontPairCategory | 'all')}>
@@ -403,9 +395,9 @@ export function FontPairingTool() {
                         onClick={() => handleCopyCSS(selectedPair)}
                     >
                         {copiedId === selectedPair.id ? (
-                            <Check className="w-4 h-4 mr-2" />
+                            <Check className="w-4 h-4 mr-2"  weight="duotone"/>
                         ) : (
-                            <Copy className="w-4 h-4 mr-2" />
+                            <Copy className="w-4 h-4 mr-2"  weight="duotone"/>
                         )}
                         Copy CSS for {selectedPair.name}
                     </Button>

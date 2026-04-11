@@ -8,18 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-    AlertCircle,
-    CheckCircle2,
-    XCircle,
-    ChevronDown,
-    ChevronUp,
-    Info,
-    RotateCcw,
-    FlaskConical,
-    ClipboardPaste,
-    Table2,
-} from 'lucide-react';
+import { WarningCircle, CheckCircle, XCircle, CaretDown, CaretUp, Info, ArrowCounterClockwise, Flask, ClipboardText, Table } from '@phosphor-icons/react/dist/ssr';
 import { useHypothesisTest, TEST_CATEGORIES } from '../hooks/use-hypothesis-test';
 import { TestType, AlternativeHypothesis } from '../types';
 import { DescriptiveStats } from '../types';
@@ -93,7 +82,7 @@ function InputModeToggle({ mode, onModeChange }: { mode: InputMode; onModeChange
                         : 'text-gray-500 hover:text-gray-700'
                 }`}
             >
-                <Table2 className="w-3.5 h-3.5" />
+                <Table className="w-3.5 h-3.5"  weight="duotone"/>
                 Form
             </button>
             <button
@@ -104,7 +93,7 @@ function InputModeToggle({ mode, onModeChange }: { mode: InputMode; onModeChange
                         : 'text-gray-500 hover:text-gray-700'
                 }`}
             >
-                <ClipboardPaste className="w-3.5 h-3.5" />
+                <ClipboardText className="w-3.5 h-3.5"  weight="duotone"/>
                 Paste
             </button>
         </div>
@@ -398,7 +387,7 @@ export function HypothesisTestTool() {
                         rows={5}
                     />
                     <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                        <Info className="w-3 h-3" />
+                        <Info className="w-3 h-3"  weight="duotone"/>
                         Each row represents one category of variable A, columns = category of variable B.
                     </p>
                 </div>
@@ -444,7 +433,7 @@ export function HypothesisTestTool() {
                         rows={6}
                     />
                     <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                        <Info className="w-3 h-3" />
+                        <Info className="w-3 h-3"  weight="duotone"/>
                         Each column represents one group. Separate columns with tabs (direct from Excel).
                     </p>
                 </div>
@@ -466,7 +455,7 @@ export function HypothesisTestTool() {
                         rows={5}
                     />
                     <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                        <Info className="w-3 h-3" />
+                        <Info className="w-3 h-3"  weight="duotone"/>
                         {isPairedOrCorr
                             ? 'Paste 2 columns from Excel. Or use the second column below.'
                             : 'Paste from Excel, Google Sheets, or type numbers separated by spaces/enter.'}
@@ -509,7 +498,7 @@ export function HypothesisTestTool() {
             {/* ── Test selector ── */}
             <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
                 <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <FlaskConical className="w-4 h-4 text-blue-500" />
+                    <Flask className="w-4 h-4 text-blue-500"  weight="duotone"/>
                     Select Hypothesis Test Type
                 </h2>
                 <Tabs
@@ -667,11 +656,11 @@ export function HypothesisTestTool() {
             {/* ── Action buttons ── */}
             <div className="flex gap-3 justify-end">
                 <Button variant="outline" onClick={handleReset} className="gap-2">
-                    <RotateCcw className="w-4 h-4" />
+                    <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                     Reset
                 </Button>
                 <Button onClick={handleCalculate} className="gap-2 px-6">
-                    <FlaskConical className="w-4 h-4" />
+                    <Flask className="w-4 h-4"  weight="duotone"/>
                     Calculate
                 </Button>
             </div>
@@ -679,7 +668,7 @@ export function HypothesisTestTool() {
             {/* ── Error ── */}
             {error && (
                 <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
-                    <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                    <WarningCircle className="w-4 h-4 mt-0.5 shrink-0"  weight="duotone"/>
                     <span>{error}</span>
                 </div>
             )}
@@ -706,9 +695,9 @@ export function HypothesisTestTool() {
                             variant="outline"
                         >
                             {result.reject ? (
-                                <XCircle className="w-3.5 h-3.5" />
+                                <XCircle className="w-3.5 h-3.5"  weight="duotone"/>
                             ) : (
-                                <CheckCircle2 className="w-3.5 h-3.5" />
+                                <CheckCircle className="w-3.5 h-3.5"  weight="duotone"/>
                             )}
                             {result.reject ? 'Reject H₀' : 'Fail to Reject H₀'}
                         </Badge>
@@ -780,7 +769,7 @@ export function HypothesisTestTool() {
                                 onClick={() => setShowDesc((v) => !v)}
                                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-gray-900"
                             >
-                                {showDesc ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                {showDesc ? <CaretUp className="w-4 h-4"  weight="duotone"/> : <CaretDown className="w-4 h-4"  weight="duotone"/>}
                                 Descriptive Statistics
                             </button>
                             {showDesc && (
@@ -794,9 +783,9 @@ export function HypothesisTestTool() {
                     {/* Conclusion */}
                     <div className={`flex items-start gap-3 rounded-xl p-4 ${result.reject ? 'bg-red-50 border border-red-200' : 'bg-green-50 border border-green-200'}`}>
                         {result.reject ? (
-                            <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                            <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5"  weight="duotone"/>
                         ) : (
-                            <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                            <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5"  weight="duotone"/>
                         )}
                         <p className={`text-sm ${result.reject ? 'text-red-700' : 'text-green-700'}`}>
                             {result.conclusion}

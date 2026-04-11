@@ -4,7 +4,7 @@ import { WifiConfig, WifiEncryption } from '../types';
 import { ENCRYPTION_OPTIONS } from '../constants';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Wifi, Eye, EyeOff } from 'lucide-react';
+import { WifiHigh, Eye, EyeSlash } from '@phosphor-icons/react/dist/ssr';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -22,7 +22,7 @@ export function WifiForm({ wifi, onChange }: WifiFormProps) {
             <div className="space-y-2">
                 <Label htmlFor="wifi-ssid">Network Name (SSID)</Label>
                 <div className="relative">
-                    <Wifi className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <WifiHigh className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"  weight="duotone"/>
                     <Input
                         id="wifi-ssid"
                         value={wifi.ssid}
@@ -78,9 +78,9 @@ export function WifiForm({ wifi, onChange }: WifiFormProps) {
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                         >
                             {showPassword ? (
-                                <EyeOff className="h-4 w-4" />
+                                <EyeSlash className="h-4 w-4"  weight="duotone"/>
                             ) : (
-                                <Eye className="h-4 w-4" />
+                                <Eye className="h-4 w-4"  weight="duotone"/>
                             )}
                         </button>
                     </div>

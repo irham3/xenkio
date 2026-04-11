@@ -28,7 +28,7 @@ export function FeedbackPopover() {
                             size="icon"
                             className="h-10 w-10 text-gray-600 hover:text-gray-900 transition-colors"
                         >
-                            <ChatCircle className="h-[1.2rem] w-[1.2rem]" />
+                            <ChatCircle className="h-[1.2rem] w-[1.2rem]"  weight="duotone"/>
                             <span className="sr-only">Feedback</span>
                         </Button>
                     </PopoverTrigger>
@@ -45,7 +45,7 @@ export function FeedbackPopover() {
                         className="absolute right-2 top-2 h-8 w-8 text-muted-foreground hover:text-foreground rounded-sm"
                         onClick={() => setOpen(false)}
                     >
-                        <X className="h-4 w-4" />
+                        <X className="h-4 w-4"  weight="duotone"/>
                         <span className="sr-only">Close</span>
                     </Button> */}
 

@@ -4,18 +4,7 @@ import Image from 'next/image';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-    UploadSimple,
-    X,
-    DownloadSimple,
-    ImageSquare as PhosphorImage,
-    MagicWand,
-    Stack,
-    CheckCircle,
-    Pencil,
-    Trash,
-    Plus
-} from '@phosphor-icons/react/dist/ssr';
+import { UploadSimple, X, DownloadSimple, ImageSquare as PhosphorImage, MagicWand, Stack, CheckCircle, Pencil, Trash, Plus } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useBackgroundRemover } from '../hooks/use-background-remover';
@@ -218,8 +207,7 @@ export function BackgroundRemover() {
                                             alt="Thumbnail"
                                             fill
                                             className="object-cover"
-                                            unoptimized
-                                        />
+                                            unoptimized/>
                                         {img.status === 'done' && (
                                             <div className="absolute right-0 bottom-0 bg-green-500 text-white p-0.5 rounded-tl-md">
                                                 <CheckCircle weight="duotone" className="w-3 h-3" />
@@ -323,8 +311,7 @@ export function BackgroundRemover() {
                                                 alt="Preview"
                                                 fill
                                                 className="object-contain"
-                                                unoptimized
-                                            />
+                                                unoptimized/>
                                             {activeImage.status === 'processing' && (
                                                 <div className="absolute inset-0 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center z-20">
                                                     <div className="flex flex-col items-center bg-white p-6 rounded-2xl shadow-xl border border-gray-100">

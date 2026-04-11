@@ -6,13 +6,7 @@ import { cn } from '@/lib/utils';
 import { PaletteStrip } from './palette-strip';
 import { generatePalette } from '../lib/utils';
 import { Color } from '../types';
-import {
-    ArrowsClockwise,
-    DownloadSimple,
-    Copy,
-    Sparkle,
-    Info
-} from '@phosphor-icons/react/dist/ssr';
+import { ArrowsClockwise, DownloadSimple, Copy, Sparkle, Info } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { RECOMMENDED_PALETTES } from '../constants';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -129,7 +123,7 @@ export function ColorPaletteGeneratorTool() {
                                 onClick={handleGenerate}
                                 className="font-bold px-6 h-12 bg-primary-600 hover:bg-primary-700 text-white rounded-xl transition-all active:scale-95 group shadow-lg shadow-primary/20"
                             >
-                                <ArrowsClockwise className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" />
+                                <ArrowsClockwise className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500"  weight="duotone"/>
                                 Generate
                             </Button>
                         </div>
@@ -159,7 +153,7 @@ export function ColorPaletteGeneratorTool() {
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
-                                            <Info className="w-3 h-3 text-gray-300 cursor-help" />
+                                            <Info className="w-3 h-3 text-gray-300 cursor-help"  weight="duotone"/>
                                         </TooltipTrigger>
                                         <TooltipContent side="top" className="max-w-xs text-xs">
                                             <p className="font-bold mb-1 border-b border-white/20 pb-1">Generator Mode</p>
@@ -193,11 +187,11 @@ export function ColorPaletteGeneratorTool() {
                         <div className="h-6 w-px bg-gray-100 mx-1 hidden md:block" />
 
                         <Button variant="ghost" size="sm" onClick={handleCopyCSS} className="text-xs font-bold text-gray-500 hover:text-gray-900 px-3">
-                            <Copy className="w-3.5 h-3.5 mr-2" />
+                            <Copy className="w-3.5 h-3.5 mr-2"  weight="duotone"/>
                             CSS
                         </Button>
                         <Button variant="ghost" size="sm" onClick={handleDownloadJson} className="text-xs font-bold text-gray-500 hover:text-gray-900 px-3">
-                            <DownloadSimple className="w-3.5 h-3.5 mr-2" />
+                            <DownloadSimple className="w-3.5 h-3.5 mr-2"  weight="duotone"/>
                             JSON
                         </Button>
                     </div>
@@ -217,7 +211,7 @@ export function ColorPaletteGeneratorTool() {
 
                 <div className="flex items-center justify-center gap-2 py-2">
                     <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 border border-gray-200 text-[10px] font-bold text-gray-500 uppercase tracking-tighter">
-                        <Info className="w-3 h-3" />
+                        <Info className="w-3 h-3"  weight="duotone"/>
                         Interactive Canvas: Click hex to copy, lock to freeze
                     </div>
                 </div>
@@ -252,7 +246,7 @@ export function ColorPaletteGeneratorTool() {
                     <>
                         <div className="p-4 border-b border-gray-50 flex items-center justify-between">
                             <div className="flex items-center gap-2 font-bold text-gray-900 text-[10px] uppercase tracking-widest">
-                                <Sparkle className="w-3 h-3 text-primary-500" />
+                                <Sparkle className="w-3 h-3 text-primary-500"  weight="duotone"/>
                                 <span>Curated</span>
                             </div>
                             <Select value={sidebarFilter === "seed" ? "all" : sidebarFilter} onValueChange={setSidebarFilter}>
@@ -295,7 +289,7 @@ export function ColorPaletteGeneratorTool() {
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center">
-                                        <Info className="w-3.5 h-3.5 text-primary-600" />
+                                        <Info className="w-3.5 h-3.5 text-primary-600"  weight="duotone"/>
                                     </div>
                                     <h3 className="text-xs font-black text-gray-900 uppercase tracking-widest">Seed Colors</h3>
                                 </div>
@@ -319,7 +313,7 @@ export function ColorPaletteGeneratorTool() {
                                         }}
                                     />
                                     <div className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 text-primary-600 rounded-lg hover:bg-primary-100 transition-colors border border-primary-100 shadow-sm">
-                                        <ArrowsClockwise className="w-3 h-3 rotate-45" />
+                                        <ArrowsClockwise className="w-3 h-3 rotate-45"  weight="duotone"/>
                                         <span className="text-[10px] font-bold uppercase tracking-wider">Add Color</span>
                                     </div>
                                 </label>
@@ -379,7 +373,7 @@ export function ColorPaletteGeneratorTool() {
                             className="w-full h-11 font-bold bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-95"
                             onClick={handleGenerate}
                         >
-                            <Sparkle className="w-4 h-4 mr-2" />
+                            <Sparkle className="w-4 h-4 mr-2"  weight="duotone"/>
                             Match & Complete
                         </Button>
 

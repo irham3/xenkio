@@ -299,7 +299,7 @@ export function ImageToPdfClient() {
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 text-center">
           <div className="space-y-3 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto text-primary-600 mb-4">
-              <Plus className="w-6 h-6" />
+              <Plus className="w-6 h-6"  weight="duotone"/>
             </div>
             <h3 className="text-lg font-semibold text-gray-900">Easy to Use</h3>
             <p className="text-gray-600 text-sm leading-relaxed">
@@ -341,11 +341,11 @@ export function ImageToPdfClient() {
           </h2>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={openFileDialog} className="cursor-pointer">
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
               Add Images
             </Button>
             <Button variant="ghost" size="sm" onClick={handleReset} className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer">
-              <Trash className="w-4 h-4 mr-2" />
+              <Trash className="w-4 h-4 mr-2"  weight="duotone"/>
               Clear All
             </Button>
           </div>
@@ -366,7 +366,7 @@ export function ImageToPdfClient() {
         <input {...getInputProps()} className="hidden" />
       </div>
 
-      {/* Right: Settings Panel */}
+      {/* Right: Gear Panel */}
       <ImageSettings
         images={images}
         options={options}
@@ -386,7 +386,7 @@ export function ImageToPdfClient() {
             className="ml-2 h-6 w-6 p-0 rounded-full hover:bg-red-100"
             onClick={() => setError(null)}
           >
-            <Trash className="w-3 h-3" />
+            <Trash className="w-3 h-3"  weight="duotone"/>
           </Button>
         </div>
       )}

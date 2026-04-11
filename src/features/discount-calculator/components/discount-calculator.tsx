@@ -247,7 +247,7 @@ export function DiscountCalculator() {
                                     onClick={handleReset}
                                     className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-gray-600 transition-colors"
                                 >
-                                    <ArrowCounterClockwise className="w-3 h-3" />
+                                    <ArrowCounterClockwise className="w-3 h-3"  weight="duotone"/>
                                     Reset
                                 </button>
                             </div>
@@ -259,7 +259,7 @@ export function DiscountCalculator() {
                         {!result ? (
                             <div className="flex flex-col items-center justify-center h-full text-center opacity-50">
                                 <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-3">
-                                    <ArrowCounterClockwise className="w-6 h-6 text-gray-400" />
+                                    <ArrowCounterClockwise className="w-6 h-6 text-gray-400"  weight="duotone"/>
                                 </div>
                                 <p className="text-sm font-medium text-gray-600 mb-0.5">Enter a price</p>
                                 <p className="text-xs text-gray-400">Type the original price to see the result</p>
@@ -298,9 +298,9 @@ export function DiscountCalculator() {
                                             )}
                                         >
                                             {copiedField === 'final' ? (
-                                                <><Check className="w-3.5 h-3.5" /> Copied</>
+                                                <><Check className="w-3.5 h-3.5"  weight="duotone"/> Copied</>
                                             ) : (
-                                                <><Copy className="w-3.5 h-3.5" /> Copy</>
+                                                <><Copy className="w-3.5 h-3.5"  weight="duotone"/> Copy</>
                                             )}
                                         </button>
                                     </div>
@@ -463,7 +463,7 @@ function BreakdownRow({
                         )}
                         title="Copy"
                     >
-                        {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                        {copied ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     </button>
                 )}
             </div>

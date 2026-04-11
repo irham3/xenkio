@@ -8,7 +8,7 @@ import {
     FocusMode,
     TimekeeperSettings,
 } from '@/features/event-timekeeper';
-import { Maximize2, Clock, CalendarRange } from 'lucide-react';
+import { ArrowsOut, Clock, CalendarBlank } from '@phosphor-icons/react/dist/ssr';
 
 export function EventTimekeeperClient() {
     const {
@@ -81,7 +81,7 @@ export function EventTimekeeperClient() {
                         onClick={toggleFocusMode}
                         className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 border border-gray-200 rounded-lg hover:text-primary-600 hover:border-primary-300 transition-colors bg-white"
                     >
-                        <Maximize2 className="w-4 h-4" />
+                        <ArrowsOut className="w-4 h-4"  weight="duotone"/>
                         Presenter Focus Mode
                     </button>
                 </div>
@@ -94,7 +94,7 @@ export function EventTimekeeperClient() {
                     <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-base font-semibold text-gray-800 flex items-center gap-2">
-                                <CalendarRange className="w-4 h-4 text-primary-500" />
+                                <CalendarBlank className="w-4 h-4 text-primary-500"  weight="duotone"/>
                                 Schedule
                             </h2>
                             <ImportExport items={items} onImport={importEvents} />
@@ -129,7 +129,7 @@ export function EventTimekeeperClient() {
                     {/* Quick Info */}
                     <div className="mt-4 p-4 bg-primary-50 rounded-xl border border-primary-100">
                         <div className="flex gap-3">
-                            <Clock className="w-5 h-5 text-primary-500 shrink-0 mt-0.5" />
+                            <Clock className="w-5 h-5 text-primary-500 shrink-0 mt-0.5"  weight="duotone"/>
                             <div className="text-sm text-primary-700 leading-relaxed space-y-1">
                                 <p><strong>Tips:</strong></p>
                                 <ul className="list-disc list-inside text-xs space-y-0.5 text-primary-600">

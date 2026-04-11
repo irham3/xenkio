@@ -1,12 +1,6 @@
 'use client';
 
-import {
-    Sparkle,
-    WarningCircle,
-    CaretDown,
-    SortDescending,
-    Lightning
-} from '@phosphor-icons/react/dist/ssr';
+import { Sparkle, WarningCircle, CaretDown, SortDescending, Lightning } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -62,7 +56,7 @@ export function JsonInputPanel({
                             onClick={() => onLoadSample(SAMPLE_JSON)}
                             className="text-xs text-primary-600 hover:text-primary-700 font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                         >
-                            <Sparkle className="w-3.5 h-3.5" />
+                            <Sparkle className="w-3.5 h-3.5"  weight="duotone"/>
                             Load Sample Data
                         </button>
                     </div>
@@ -106,7 +100,7 @@ export function JsonInputPanel({
                                 exit={{ opacity: 0, y: -10 }}
                                 className="flex items-start gap-2.5 p-3 bg-red-50 rounded-xl border border-red-100"
                             >
-                                <WarningCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                                <WarningCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5"  weight="duotone"/>
                                 <p className="text-xs text-red-700 leading-normal font-medium">{validationError}</p>
                             </motion.div>
                         )}
@@ -127,7 +121,7 @@ export function JsonInputPanel({
                                         <option key={type.id} value={type.id}>{type.label}</option>
                                     ))}
                                 </select>
-                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                             </div>
                         </div>
                         <div className="space-y-2">
@@ -142,7 +136,7 @@ export function JsonInputPanel({
                                         <option key={size.id} value={size.id}>{size.label}</option>
                                     ))}
                                 </select>
-                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                             </div>
                         </div>
                     </div>
@@ -183,7 +177,7 @@ export function JsonInputPanel({
                             disabled={!options.json.trim()}
                             className="flex-1 h-12 bg-primary-600 hover:bg-primary-700 text-white font-bold shadow-lg shadow-primary-500/20 cursor-pointer"
                         >
-                            <Lightning className="w-4 h-4 mr-2" />
+                            <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                             {activeTab === 'format' ? 'Apply Formatting' : 'Apply Minification'}
                         </Button>
                     )}

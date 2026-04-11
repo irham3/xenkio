@@ -3,14 +3,7 @@
 import { usePasswordStrength } from '@/features/password-strength/hooks/use-password-strength';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-    Eye,
-    EyeSlash,
-    ArrowsClockwise,
-    Copy,
-    Check,
-    X
-} from '@phosphor-icons/react/dist/ssr';
+import { Eye, EyeSlash, ArrowsClockwise, Copy, Check, X } from '@phosphor-icons/react/dist/ssr';
 import { StrengthVisualization } from '@/features/password-strength/components/strength-visualization';
 import { AnalysisGrid } from '@/features/password-strength/components/analysis-grid';
 import { cn } from '@/lib/utils';
@@ -55,7 +48,7 @@ export default function PasswordStrengthClient() {
                             className="h-9 w-9 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md"
                             title={isVisible ? "Hide password" : "Show password"}
                         >
-                            {isVisible ? <EyeSlash size={18} /> : <Eye size={18} />}
+                            {isVisible ? <EyeSlash size={18}  weight="duotone"/> : <Eye size={18}  weight="duotone"/>}
                         </Button>
                         <Button
                             variant="ghost"
@@ -64,7 +57,7 @@ export default function PasswordStrengthClient() {
                             className="h-9 w-9 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-md"
                             title="Generate new strong password"
                         >
-                            <ArrowsClockwise size={18} />
+                            <ArrowsClockwise size={18}  weight="duotone"/>
                         </Button>
                         <Button
                             variant="ghost"
@@ -74,7 +67,7 @@ export default function PasswordStrengthClient() {
                             className="h-9 w-9 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-md"
                             title="Copy to clipboard"
                         >
-                            <Copy size={18} />
+                            <Copy size={18}  weight="duotone"/>
                         </Button>
                     </div>
                 </div>
@@ -101,7 +94,7 @@ export default function PasswordStrengthClient() {
             <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                     <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Check className="text-green-500" size={20} />
+                        <Check className="text-green-500" size={20}  weight="duotone"/>
                         What makes a strong password?
                     </h3>
                     <ul className="space-y-3 text-sm text-gray-600">
@@ -126,7 +119,7 @@ export default function PasswordStrengthClient() {
 
                 <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                     <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <X className="text-red-500" size={20} />
+                        <X className="text-red-500" size={20}  weight="duotone"/>
                         What to avoid?
                     </h3>
                     <ul className="space-y-3 text-sm text-gray-600">
@@ -161,7 +154,7 @@ function RequirementItem({ label, met }: { label: string; met: boolean }) {
                 ? "bg-green-50 text-green-700 border-green-200"
                 : "bg-gray-50 text-gray-400 border-gray-100"
         )}>
-            {met ? <Check size={14} strokeWidth={3} /> : <div className="w-3.5 h-3.5 rounded-full border-2 border-gray-300" />}
+            {met ? <Check size={14} strokeWidth={3}  weight="duotone"/> : <div className="w-3.5 h-3.5 rounded-full border-2 border-gray-300" />}
             {label}
         </div>
     );

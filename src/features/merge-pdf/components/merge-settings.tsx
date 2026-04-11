@@ -35,7 +35,7 @@ export function MergeSettings({
     return (
         <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-5 sticky top-6">
             <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                <Sliders className="w-5 h-5 text-primary-600" />
+                <Sliders className="w-5 h-5 text-primary-600"  weight="duotone"/>
                 <h2 className="font-semibold">Settings</h2>
             </div>
 
@@ -141,7 +141,7 @@ export function MergeSettings({
                         </>
                     ) : (
                         <>
-                            <DownloadSimple className="mr-2 h-5 w-5" />
+                            <DownloadSimple className="mr-2 h-5 w-5"  weight="duotone"/>
                             Merge PDF
                         </>
                     )}

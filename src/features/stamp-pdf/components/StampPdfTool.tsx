@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/utils';
 import { v4 as uuidv4 } from 'uuid';
-import { Upload, Download, RotateCcw, Loader2, FileText, RefreshCw, AlertCircle } from 'lucide-react';
+import { UploadSimple, DownloadSimple, ArrowCounterClockwise, CircleNotch, FileText, ArrowsClockwise, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 
 export function StampPdfTool() {
     const {
@@ -134,7 +134,7 @@ export function StampPdfTool() {
                 <input {...getInputProps()} />
                 <div className="flex flex-col items-center gap-4">
                     <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
-                        <Upload className="w-7 h-7 text-gray-400" />
+                        <UploadSimple className="w-7 h-7 text-gray-400"  weight="duotone"/>
                     </div>
                     <div>
                         <p className="text-lg font-semibold text-gray-700">
@@ -147,13 +147,13 @@ export function StampPdfTool() {
                 </div>
                 {state.isProcessing && (
                     <div className="mt-4 flex items-center justify-center gap-2 text-primary-600">
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <CircleNotch className="w-4 h-4 animate-spin"  weight="duotone"/>
                         <span className="text-sm font-medium">Loading PDF...</span>
                     </div>
                 )}
                 {state.error && (
                     <div className="mt-4 flex items-center justify-center gap-2 text-red-600">
-                        <AlertCircle className="w-4 h-4" />
+                        <WarningCircle className="w-4 h-4"  weight="duotone"/>
                         <span className="text-sm">{state.error}</span>
                     </div>
                 )}
@@ -166,7 +166,7 @@ export function StampPdfTool() {
             {/* Toolbar */}
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div className="flex items-center gap-2 min-w-0">
-                    <FileText className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                    <FileText className="w-4 h-4 text-gray-400 flex-shrink-0"  weight="duotone"/>
                     <span className="text-sm font-medium text-gray-700 truncate max-w-[200px]">
                         {state.file.name}
                     </span>
@@ -181,7 +181,7 @@ export function StampPdfTool() {
                         onClick={openFilePicker}
                         className="text-xs h-8"
                     >
-                        <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+                        <ArrowsClockwise className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                         Switch PDF
                     </Button>
                     <Button
@@ -190,7 +190,7 @@ export function StampPdfTool() {
                         onClick={reset}
                         className="text-xs h-8"
                     >
-                        <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+                        <ArrowCounterClockwise className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                         Reset
                     </Button>
                     <Button
@@ -200,9 +200,9 @@ export function StampPdfTool() {
                         className="text-xs h-8"
                     >
                         {state.isProcessing ? (
-                            <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                            <CircleNotch className="w-3.5 h-3.5 mr-1.5 animate-spin"  weight="duotone"/>
                         ) : (
-                            <Download className="w-3.5 h-3.5 mr-1.5" />
+                            <DownloadSimple className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                         )}
                         Download
                     </Button>
@@ -211,7 +211,7 @@ export function StampPdfTool() {
 
             {state.error && (
                 <div className="flex items-center gap-2 text-red-600 bg-red-50 rounded-lg p-3 text-sm">
-                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                    <WarningCircle className="w-4 h-4 flex-shrink-0"  weight="duotone"/>
                     {state.error}
                 </div>
             )}

@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, Plus, Trash2, Shuffle } from 'lucide-react';
+import { Copy, Check, Plus, Trash, Shuffle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -467,7 +467,7 @@ export function FlexboxGenerator() {
                   onClick={handleRandom}
                   className="flex-1 gap-1.5"
                 >
-                  <Shuffle className="w-4 h-4" />
+                  <Shuffle className="w-4 h-4"  weight="duotone"/>
                   Random
                 </Button>
                 <Button
@@ -476,7 +476,7 @@ export function FlexboxGenerator() {
                   onClick={addItem}
                   className="flex-1 gap-1.5"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-4 h-4"  weight="duotone"/>
                   Add Item
                 </Button>
               </div>
@@ -545,7 +545,7 @@ export function FlexboxGenerator() {
                         )}
                         aria-label={`Remove item ${index + 1}`}
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                       </button>
                     </div>
                   ))}
@@ -656,7 +656,7 @@ export function FlexboxGenerator() {
                       copied && 'text-green-600 border-green-500 bg-green-50'
                     )}
                   >
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copied ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     {copied ? 'Copied!' : 'Copy CSS'}
                   </Button>
                 </div>

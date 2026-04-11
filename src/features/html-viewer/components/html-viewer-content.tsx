@@ -1,24 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect, type KeyboardEvent } from 'react';
-import {
-    Code2,
-    Eye,
-    RefreshCw,
-    Plus,
-    X,
-    Pencil,
-    LayoutPanelLeft,
-    LayoutPanelTop,
-    Zap,
-    ZapOff,
-    RotateCcw,
-    ChevronDown,
-    FileCode2,
-    FileText,
-    Braces,
-    Check,
-} from 'lucide-react';
+import { Code, Eye, ArrowsClockwise, Plus, X, Pencil, Columns, Rows, Lightning, LightningSlash, ArrowCounterClockwise, CaretDown, FileCode, FileText, BracketsCurly, Check } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { useHtmlViewer } from '../hooks/use-html-viewer';
 import type { FileType } from '../types';
@@ -48,9 +31,9 @@ const FILE_TYPE_LABELS: Record<FileType, string> = {
 };
 
 function FileTypeIcon({ type, className }: { type: FileType; className?: string }) {
-    if (type === 'html') return <FileCode2 className={className} />;
-    if (type === 'css') return <FileText className={className} />;
-    return <Braces className={className} />;
+    if (type === 'html') return <FileCode className={className}  weight="duotone"/>;
+    if (type === 'css') return <FileText className={className}  weight="duotone"/>;
+    return <BracketsCurly className={className}  weight="duotone"/>;
 }
 
 export function HtmlViewerContent() {
@@ -197,7 +180,7 @@ export function HtmlViewerContent() {
                                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100',
                                 )}
                             >
-                                <Code2 className="w-3.5 h-3.5" />
+                                <Code className="w-3.5 h-3.5"  weight="duotone"/>
                                 Single File
                             </button>
                             <button
@@ -209,7 +192,7 @@ export function HtmlViewerContent() {
                                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100',
                                 )}
                             >
-                                <FileCode2 className="w-3.5 h-3.5" />
+                                <FileCode className="w-3.5 h-3.5"  weight="duotone"/>
                                 Multi File
                             </button>
                         </div>
@@ -226,7 +209,7 @@ export function HtmlViewerContent() {
                                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100',
                                 )}
                             >
-                                <LayoutPanelLeft className="w-3.5 h-3.5" />
+                                <Columns className="w-3.5 h-3.5"  weight="duotone"/>
                             </button>
                             <button
                                 onClick={() => setPreviewLayout('vertical')}
@@ -238,7 +221,7 @@ export function HtmlViewerContent() {
                                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100',
                                 )}
                             >
-                                <LayoutPanelTop className="w-3.5 h-3.5" />
+                                <Rows className="w-3.5 h-3.5"  weight="duotone"/>
                             </button>
                         </div>
 
@@ -254,12 +237,12 @@ export function HtmlViewerContent() {
                         >
                             {state.autoRefresh ? (
                                 <>
-                                    <Zap className="w-3.5 h-3.5" />
+                                    <Lightning className="w-3.5 h-3.5"  weight="duotone"/>
                                     Auto
                                 </>
                             ) : (
                                 <>
-                                    <ZapOff className="w-3.5 h-3.5" />
+                                    <LightningSlash className="w-3.5 h-3.5"  weight="duotone"/>
                                     Manual
                                 </>
                             )}
@@ -278,7 +261,7 @@ export function HtmlViewerContent() {
                                     : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50',
                             )}
                         >
-                            <RefreshCw className="w-3.5 h-3.5" />
+                            <ArrowsClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                             Refresh
                         </button>
 
@@ -294,9 +277,9 @@ export function HtmlViewerContent() {
                             )}
                         >
                             {showResetConfirm ? (
-                                <Check className="w-4 h-4" />
+                                <Check className="w-4 h-4"  weight="duotone"/>
                             ) : (
-                                <RotateCcw className="w-4 h-4" />
+                                <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                             )}
                         </button>
                     </div>
@@ -321,7 +304,7 @@ export function HtmlViewerContent() {
                         {/* Editor header */}
                         <div className="flex items-center justify-between px-4 py-2 bg-gray-900 border-b border-gray-700">
                             <div className="flex items-center gap-1.5">
-                                <Code2 className="w-3.5 h-3.5 text-gray-400" />
+                                <Code className="w-3.5 h-3.5 text-gray-400"  weight="duotone"/>
                                 <span className="text-xs font-medium text-gray-400">Editor</span>
                             </div>
                             {state.viewMode === 'single' && (
@@ -382,7 +365,7 @@ export function HtmlViewerContent() {
                                             className="opacity-0 group-hover/tab:opacity-100 p-0.5 rounded hover:bg-gray-600 transition-all text-gray-400 hover:text-gray-200"
                                             title="Rename"
                                         >
-                                            <Pencil className="w-2.5 h-2.5" />
+                                            <Pencil className="w-2.5 h-2.5"  weight="duotone"/>
                                         </button>
 
                                         {/* Delete icon (only when more than 1 file) */}
@@ -395,7 +378,7 @@ export function HtmlViewerContent() {
                                                 className="opacity-0 group-hover/tab:opacity-100 p-0.5 rounded hover:bg-error-900 hover:text-error-400 transition-all text-gray-400"
                                                 title="Delete file"
                                             >
-                                                <X className="w-2.5 h-2.5" />
+                                                <X className="w-2.5 h-2.5"  weight="duotone"/>
                                             </button>
                                         )}
                                     </div>
@@ -408,8 +391,8 @@ export function HtmlViewerContent() {
                                         className="flex items-center gap-0.5 px-2 py-2 text-xs text-gray-400 hover:text-gray-200 rounded-lg hover:bg-gray-700 transition-all"
                                         title="Add new file"
                                     >
-                                        <Plus className="w-3.5 h-3.5" />
-                                        <ChevronDown className="w-3 h-3" />
+                                        <Plus className="w-3.5 h-3.5"  weight="duotone"/>
+                                        <CaretDown className="w-3 h-3"  weight="duotone"/>
                                     </button>
 
                                     {showAddMenu && (
@@ -466,7 +449,7 @@ export function HtmlViewerContent() {
                         {/* Preview header */}
                         <div className="flex items-center justify-between px-4 py-2 bg-gray-50 border-b border-gray-100">
                             <div className="flex items-center gap-1.5">
-                                <Eye className="w-3.5 h-3.5 text-gray-400" />
+                                <Eye className="w-3.5 h-3.5 text-gray-400"  weight="duotone"/>
                                 <span className="text-xs font-medium text-gray-500">Preview</span>
                             </div>
                             <div className="flex items-center gap-2">
@@ -478,7 +461,7 @@ export function HtmlViewerContent() {
                                     className="p-1.5 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100 transition-all"
                                     title="Refresh preview"
                                 >
-                                    <RefreshCw className="w-3.5 h-3.5" />
+                                    <ArrowsClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                                 </button>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RotateCcw, Clock, Share2, Check, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import { ArrowCounterClockwise, Clock, ShareNetwork, Check, TextAlignLeft, TextAlignCenter, TextAlignRight } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -69,9 +69,9 @@ export function RunningTextControls({
                                     }`}
                                 title={`Align ${align}`}
                             >
-                                {align === 'left' && <AlignLeft className="w-4 h-4" />}
-                                {align === 'center' && <AlignCenter className="w-4 h-4" />}
-                                {align === 'right' && <AlignRight className="w-4 h-4" />}
+                                {align === 'left' && <TextAlignLeft className="w-4 h-4"  weight="duotone"/>}
+                                {align === 'center' && <TextAlignCenter className="w-4 h-4"  weight="duotone"/>}
+                                {align === 'right' && <TextAlignRight className="w-4 h-4"  weight="duotone"/>}
                             </button>
                         ))}
                     </div>
@@ -407,7 +407,7 @@ export function RunningTextControls({
                                         </div>
                                     ) : (
                                         <div className="flex items-center justify-center gap-2 font-bold animate-pulse">
-                                            <Clock className="w-4 h-4" />
+                                            <Clock className="w-4 h-4"  weight="duotone"/>
                                             SYNC ACTIVE
                                         </div>
                                     )}
@@ -522,7 +522,7 @@ export function RunningTextControls({
                     className="flex-1"
                     onClick={onReset}
                 >
-                    <RotateCcw className="w-4 h-4 mr-2" />
+                    <ArrowCounterClockwise className="w-4 h-4 mr-2"  weight="duotone"/>
                     Reset
                 </Button>
 
@@ -534,12 +534,12 @@ export function RunningTextControls({
                     >
                         {copied ? (
                             <>
-                                <Check className="w-4 h-4 mr-2" />
+                                <Check className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Copied!
                             </>
                         ) : (
                             <>
-                                <Share2 className="w-4 h-4 mr-2" />
+                                <ShareNetwork className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Share Config
                             </>
                         )}

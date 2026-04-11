@@ -6,13 +6,7 @@ import { ItemManager } from './item-manager';
 import { BillSummary } from './bill-summary';
 import { PdfReceipt } from './pdf-receipt';
 import { POPULAR_CURRENCIES } from '../constants';
-import {
-    Sliders,
-    Percent,
-    CreditCard,
-    User,
-    Hash
-} from '@phosphor-icons/react/dist/ssr';
+import { Sliders, Percent, CreditCard, User, Hash } from '@phosphor-icons/react/dist/ssr';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useState, useRef } from 'react';
 
@@ -66,7 +60,7 @@ export function SplitBillCalculator() {
                     {/* Unified Top Banner / Settings */}
                     <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
                         <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-50">
-                            <Sliders className="w-5 h-5 text-gray-500" />
+                            <Sliders className="w-5 h-5 text-gray-500"  weight="duotone"/>
                             <h3 className="font-semibold text-gray-800">Global Settings</h3>
                         </div>
 
@@ -162,7 +156,7 @@ export function SplitBillCalculator() {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-semibold text-gray-500 uppercase flex items-center gap-1.5">
-                                        <User className="w-3 h-3 text-gray-400" />
+                                        <User className="w-3 h-3 text-gray-400"  weight="duotone"/>
                                         Account Name
                                     </label>
                                     <input

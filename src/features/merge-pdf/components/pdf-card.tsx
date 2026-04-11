@@ -68,7 +68,7 @@ export function PdfCard({
                 "absolute top-2 left-1/2 -translate-x-1/2 transition-opacity",
                 isOverlay ? "hidden" : "opacity-0 group-hover:opacity-100"
             )}>
-                <DotsSixVertical className="w-4 h-4 text-gray-400" />
+                <DotsSixVertical className="w-4 h-4 text-gray-400"  weight="duotone"/>
             </div>
 
             {/* Order Badge */}
@@ -91,7 +91,7 @@ export function PdfCard({
                     aria-label={`Rotate ${pdf.name}`}
                     title="Rotate 90°"
                 >
-                    <ArrowClockwise className="w-3 h-3" />
+                    <ArrowClockwise className="w-3 h-3"  weight="duotone"/>
                 </button>
                 <button
                     onPointerDown={(e) => e.stopPropagation()}
@@ -103,7 +103,7 @@ export function PdfCard({
                     aria-label={`Remove ${pdf.name}`}
                     title="Remove"
                 >
-                    <X className="w-3.5 h-3.5" />
+                    <X className="w-3.5 h-3.5"  weight="duotone"/>
                 </button>
             </div>
 

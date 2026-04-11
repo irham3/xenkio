@@ -316,7 +316,7 @@ export function CssTriangleTool() {
                 onClick={handleReset}
                 className="w-full gap-1.5"
               >
-                <ArrowCounterClockwise className="w-4 h-4" />
+                <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                 Reset
               </Button>
             </div>
@@ -338,7 +338,7 @@ export function CssTriangleTool() {
                       copied && 'text-green-600 border-green-500 bg-green-50'
                     )}
                   >
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copied ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     {copied ? 'Copied!' : 'Copy CSS'}
                   </Button>
                 </div>

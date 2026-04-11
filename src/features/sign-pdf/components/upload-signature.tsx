@@ -42,7 +42,7 @@ export function UploadSignature({ onSave }: { onSave: (dataUrl: string) => void 
                         <Image className={cn(
                             "w-8 h-8 transition-colors",
                             isDragActive ? "text-primary-600" : "text-gray-400"
-                        )} />
+                        )}/>
                     </div>
                     <div className="space-y-1">
                         <p className="text-sm font-semibold text-gray-900">

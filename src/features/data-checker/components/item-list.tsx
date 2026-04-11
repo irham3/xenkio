@@ -3,13 +3,7 @@
 import { useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import type { DataRow, RowStatus } from '../types';
-import {
-    CheckCircle2,
-    XCircle,
-    CircleDashed,
-    Search,
-    Clock,
-} from 'lucide-react';
+import { CheckCircle, XCircle, CircleDashed, MagnifyingGlass, Clock } from '@phosphor-icons/react/dist/ssr';
 import { useState, useMemo } from 'react';
 
 interface ItemListProps {
@@ -22,11 +16,11 @@ interface ItemListProps {
 function StatusDot({ status }: { status: RowStatus }) {
     switch (status) {
         case 'valid':
-            return <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />;
+            return <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0"  weight="duotone"/>;
         case 'invalid':
-            return <XCircle className="w-4 h-4 text-red-500 shrink-0" />;
+            return <XCircle className="w-4 h-4 text-red-500 shrink-0"  weight="duotone"/>;
         default:
-            return <CircleDashed className="w-4 h-4 text-gray-300 shrink-0" />;
+            return <CircleDashed className="w-4 h-4 text-gray-300 shrink-0"  weight="duotone"/>;
     }
 }
 
@@ -64,7 +58,7 @@ export function ItemList({ rows, currentIndex, onGoToIndex, onSetRowStatus }: It
             {/* Search and Filter */}
             <div className="space-y-2">
                 <div className="relative">
-                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                    <MagnifyingGlass className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400"  weight="duotone"/>
                     <input
                         type="text"
                         placeholder="Search items..."
@@ -126,7 +120,7 @@ export function ItemList({ rows, currentIndex, onGoToIndex, onSetRowStatus }: It
                             {/* Time indicator subtle dot */}
                             {(row.timeSpentMs || 0) > 15000 && (
                                 <span title="Took a long time" className="flex items-center shrink-0">
-                                    <Clock className="w-3 h-3 text-red-300" />
+                                    <Clock className="w-3 h-3 text-red-300"  weight="duotone"/>
                                 </span>
                             )}
 
@@ -147,7 +141,7 @@ export function ItemList({ rows, currentIndex, onGoToIndex, onSetRowStatus }: It
                                     className="p-1 text-emerald-500 hover:bg-emerald-50 rounded"
                                     title="Mark Valid"
                                 >
-                                    <CheckCircle2 className="w-4 h-4" />
+                                    <CheckCircle className="w-4 h-4"  weight="duotone"/>
                                 </span>
                                 <span
                                     role="button"
@@ -158,7 +152,7 @@ export function ItemList({ rows, currentIndex, onGoToIndex, onSetRowStatus }: It
                                     className="p-1 text-red-500 hover:bg-red-50 rounded"
                                     title="Mark Invalid"
                                 >
-                                    <XCircle className="w-4 h-4" />
+                                    <XCircle className="w-4 h-4"  weight="duotone"/>
                                 </span>
                             </div>
                         </button>

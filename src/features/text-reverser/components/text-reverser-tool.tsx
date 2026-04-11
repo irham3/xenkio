@@ -1,17 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import {
-    Copy,
-    Check,
-    Trash,
-    TextT,
-    ArrowsLeftRight,
-    ArrowsDownUp,
-    TextAa,
-    ListNumbers,
-    Play
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, Trash, TextT, ArrowsLeftRight, ArrowsDownUp, TextAa, ListNumbers, Play } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -27,11 +17,11 @@ interface ModeOption {
 }
 
 const MODES: ModeOption[] = [
-  { id: 'characters', label: 'Characters', description: 'Reverse entire text', icon: <TextT className="w-4 h-4" /> },
+  { id: 'characters', label: 'Characters', description: 'Reverse entire text', icon: <TextT className="w-4 h-4"  weight="duotone"/> },
   { id: 'words', label: 'Each Word', description: 'Reverse each word', icon: <TextAa className="w-4 h-4" /> },
-  { id: 'word-order', label: 'Word Order', description: 'Reverse word order', icon: <ArrowsLeftRight className="w-4 h-4" /> },
+  { id: 'word-order', label: 'Word Order', description: 'Reverse word order', icon: <ArrowsLeftRight className="w-4 h-4"  weight="duotone"/> },
   { id: 'lines', label: 'Each Line', description: 'Reverse each line', icon: <ListNumbers className="w-4 h-4" /> },
-  { id: 'line-order', label: 'Line Order', description: 'Reverse line order', icon: <ArrowsDownUp className="w-4 h-4" /> },
+  { id: 'line-order', label: 'Line Order', description: 'Reverse line order', icon: <ArrowsDownUp className="w-4 h-4"  weight="duotone"/> },
 ];
 
 function reverseString(str: string): string {
@@ -139,7 +129,7 @@ export function TextReverserTool() {
                   disabled={!input}
                   className="h-7 text-xs gap-1.5 text-gray-500 hover:text-gray-700"
                 >
-                  <Trash className="w-3 h-3" />
+                  <Trash className="w-3 h-3"  weight="duotone"/>
                   Clear
                 </Button>
               </div>
@@ -167,7 +157,7 @@ export function TextReverserTool() {
                     : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 )}
               >
-                <Play className="w-4 h-4" />
+                <Play className="w-4 h-4"  weight="duotone"/>
                 Reverse
               </button>
             </div>
@@ -188,7 +178,7 @@ export function TextReverserTool() {
                     copied ? 'text-success-600' : 'text-gray-500 hover:text-gray-700'
                   )}
                 >
-                  {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  {copied ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                   {copied ? 'Copied' : 'Copy'}
                 </Button>
               </div>

@@ -2,12 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useJsonFormatter } from '@/features/json-formatter/hooks/use-json-formatter';
-import {
-    BracketsCurly,
-    CornersIn,
-    Graph,
-    CodeSimple
-} from '@phosphor-icons/react/dist/ssr';
+import { BracketsCurly, CornersIn, Graph, CodeSimple } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { JsonInputPanel } from '@/features/json-formatter/components/json-input-panel';
 import { JsonOutputPanel } from '@/features/json-formatter/components/json-output-panel';
@@ -69,7 +64,7 @@ export default function JsonFormatterClient() {
                             : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                     )}
                 >
-                    <BracketsCurly className="w-4 h-4" />
+                    <BracketsCurly className="w-4 h-4"  weight="duotone"/>
                     Format & Beautify
                 </button>
                 <button
@@ -93,7 +88,7 @@ export default function JsonFormatterClient() {
                             : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                     )}
                 >
-                    <Graph className="w-4 h-4" />
+                    <Graph className="w-4 h-4"  weight="duotone"/>
                     Tree View
                 </button>
                 <button

@@ -96,7 +96,7 @@ export function ImageSettings({
                         </>
                     ) : (
                         <>
-                            <ArrowsClockwise className="mr-2 h-4 w-4" />
+                            <ArrowsClockwise className="mr-2 h-4 w-4"  weight="duotone"/>
                             Convert Images
                         </>
                     )}

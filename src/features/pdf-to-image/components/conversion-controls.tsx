@@ -38,7 +38,7 @@ export function ConversionControls({
     return (
         <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-6 shadow-sm sticky top-6">
             <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                <Sliders className="w-5 h-5 text-primary-600" />
+                <Sliders className="w-5 h-5 text-primary-600"  weight="duotone"/>
                 <h2 className="font-semibold text-gray-900">Conversion Settings</h2>
             </div>
 
@@ -139,12 +139,12 @@ export function ConversionControls({
                             </>
                         ) : converted ? (
                             <>
-                                <ArrowCounterClockwise className="mr-2 h-5 w-5" />
+                                <ArrowCounterClockwise className="mr-2 h-5 w-5"  weight="duotone"/>
                                 Convert Again
                             </>
                         ) : (
                             <>
-                                <DownloadSimple className="mr-2 h-5 w-5" />
+                                <DownloadSimple className="mr-2 h-5 w-5"  weight="duotone"/>
                                 Convert PDF
                             </>
                         )}

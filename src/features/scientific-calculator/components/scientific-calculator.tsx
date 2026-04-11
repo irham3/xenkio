@@ -1,13 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import {
-    Copy,
-    Check,
-    ClockCounterClockwise,
-    Trash,
-    X
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, ClockCounterClockwise, Trash, X } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 // ─── Types ───
@@ -601,7 +595,7 @@ export function ScientificCalculator() {
                                     )}
                                     title="Toggle history"
                                 >
-                                    <ClockCounterClockwise className="w-4 h-4" />
+                                    <ClockCounterClockwise className="w-4 h-4"  weight="duotone"/>
                                     {history.length > 0 && (
                                         <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
                                             {history.length > 9 ? '9+' : history.length}
@@ -639,7 +633,7 @@ export function ScientificCalculator() {
                                     )}
                                     title="Copy result"
                                 >
-                                    {copiedField === 'display' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                                    {copiedField === 'display' ? <Check className="w-4 h-4"  weight="duotone"/> : <Copy className="w-4 h-4"  weight="duotone"/>}
                                 </button>
                             </div>
                         </div>
@@ -769,7 +763,7 @@ function HistorySidebar({
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50/80 shrink-0">
                 <div className="flex items-center gap-2">
-                    <ClockCounterClockwise className="w-4 h-4 text-gray-500" />
+                    <ClockCounterClockwise className="w-4 h-4 text-gray-500"  weight="duotone"/>
                     <span className="text-sm font-semibold text-gray-800">History</span>
                     {history.length > 0 && (
                         <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-full">
@@ -781,7 +775,7 @@ function HistorySidebar({
                     onClick={onClose}
                     className="p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
                 >
-                    <X className="w-4 h-4" />
+                    <X className="w-4 h-4"  weight="duotone"/>
                 </button>
             </div>
 
@@ -789,7 +783,7 @@ function HistorySidebar({
             <div className="flex-1 overflow-y-auto p-3 space-y-1.5">
                 {history.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <ClockCounterClockwise className="w-8 h-8 text-gray-200 mb-2" />
+                        <ClockCounterClockwise className="w-8 h-8 text-gray-200 mb-2"  weight="duotone"/>
                         <p className="text-xs text-gray-400">No calculations yet</p>
                     </div>
                 ) : (
@@ -818,7 +812,7 @@ function HistorySidebar({
                                         : 'text-gray-300 opacity-0 group-hover:opacity-100 hover:text-gray-500'
                                 )}
                             >
-                                {copiedField === 'h-' + entry.id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                                {copiedField === 'h-' + entry.id ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                             </button>
                         </div>
                     ))
@@ -832,7 +826,7 @@ function HistorySidebar({
                         onClick={onClear}
                         className="w-full flex items-center justify-center gap-1.5 p-2 text-xs font-medium text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                     >
-                        <Trash className="w-3 h-3" />
+                        <Trash className="w-3 h-3"  weight="duotone"/>
                         Clear history
                     </button>
                 </div>

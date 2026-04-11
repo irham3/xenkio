@@ -160,7 +160,7 @@ export function Navbar() {
                             "w-3.5 h-3.5 transition-transform duration-200 mt-px",
                             hoveredCategory === category.id ? "rotate-180" : ""
                           )}
-                        />
+                         weight="duotone"/>
                       </a>
 
                       <div
@@ -211,8 +211,7 @@ export function Navbar() {
                               <Link
                                 key={tool.id}
                                 href={tool.href}
-                                className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors"
-                              >
+                                className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
                                 {content}
                               </Link>
                             );
@@ -251,7 +250,7 @@ export function Navbar() {
                         "w-3.5 h-3.5 transition-transform duration-200 mt-px",
                         hoveredCategory === 'more' ? "rotate-180" : ""
                       )}
-                    />
+                     weight="duotone"/>
                   </button>
 
                   <div
@@ -297,7 +296,7 @@ export function Navbar() {
                                 </div>
                                 <span className="text-sm font-medium">{category.name}</span>
                               </div>
-                              <CaretDown className="w-3 h-3 rotate-90 text-gray-400 mt-px" />
+                              <CaretDown className="w-3 h-3 rotate-90 text-gray-400 mt-px"  weight="duotone"/>
                             </a>
 
                             {/* Nested Tool Menu */}
@@ -349,8 +348,7 @@ export function Navbar() {
                                     <Link
                                       key={tool.id}
                                       href={tool.href}
-                                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
-                                    >
+                                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
                                       {content}
                                     </Link>
                                   );
@@ -379,7 +377,7 @@ export function Navbar() {
                 aria-label="Search tools"
                 className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-[160px] cursor-pointer"
               >
-                <MagnifyingGlass className="w-4 h-4 shrink-0" />
+                <MagnifyingGlass className="w-4 h-4 shrink-0"  weight="duotone"/>
                 <span className="text-gray-600">Search tools...</span>
                 <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[12px] font-medium text-gray-500 bg-white border border-gray-200 rounded">
                   <span className="text-xs">⌘</span>K
@@ -392,8 +390,7 @@ export function Navbar() {
 
               {/* <Link
                 href="/sign-up"
-                className="hidden sm:inline-flex items-center px-5 py-2.5 text-[14px] font-semibold text-white bg-linear-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-lg shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300"
-              >
+                className="hidden sm:inline-flex items-center px-5 py-2.5 text-[14px] font-semibold text-white bg-linear-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-lg shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300">
                 Get Started
               </Link> */}
 
@@ -403,7 +400,7 @@ export function Navbar() {
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 className="xl:hidden p-2 text-gray-600 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <ListBullets className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-6 h-6"  weight="duotone"/> : <ListBullets className="w-6 h-6" />}
               </button>
             </div>
           </div>

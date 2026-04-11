@@ -8,17 +8,7 @@ import { TextSignature } from './text-signature';
 import { UploadSignature } from './upload-signature';
 import { PdfViewer } from './pdf-viewer';
 import { MobileSignature } from './mobile-signature';
-import {
-    DownloadSimple,
-    UploadSimple,
-    TextT,
-    PenNib,
-    Plus,
-    Trash,
-    Gear,
-    Palette,
-    DeviceMobile
-} from '@phosphor-icons/react/dist/ssr';
+import { DownloadSimple, UploadSimple, TextT, PenNib, Plus, Trash, Gear, Palette, DeviceMobile } from '@phosphor-icons/react/dist/ssr';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/utils';
 import { PDFSignature, SignMode } from '../types';
@@ -114,7 +104,7 @@ export function SignPdfTool() {
                             <UploadSimple className={cn(
                                 "w-10 h-10 transition-colors",
                                 isDragActive ? "text-primary-600" : "text-gray-400"
-                            )} />
+                            )}  weight="duotone"/>
                         </div>
                         <div className="space-y-2">
                             <p className="text-xl font-semibold text-gray-900">
@@ -125,7 +115,7 @@ export function SignPdfTool() {
                             </p>
                         </div>
                         <Button size="lg" className="mt-4" type="button">
-                            <Plus className="w-4 h-4 mr-2" />
+                            <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                             Select PDF file
                         </Button>
                     </div>
@@ -162,7 +152,7 @@ export function SignPdfTool() {
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                            <Palette className="w-4 h-4" />
+                            <Palette className="w-4 h-4"  weight="duotone"/>
                             Signature Color
                         </div>
                         <span className="text-xs text-gray-400">For new/edited signs</span>
@@ -195,15 +185,15 @@ export function SignPdfTool() {
                                 Draw
                             </TabsTrigger>
                             <TabsTrigger value="type" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md transition-all text-sm font-medium">
-                                <TextT className="w-4 h-4" />
+                                <TextT className="w-4 h-4"  weight="duotone"/>
                                 Type
                             </TabsTrigger>
                             <TabsTrigger value="upload" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md transition-all text-sm font-medium">
-                                <UploadSimple className="w-4 h-4" />
+                                <UploadSimple className="w-4 h-4"  weight="duotone"/>
                                 Upload
                             </TabsTrigger>
                             <TabsTrigger value="mobile" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md transition-all text-sm font-medium">
-                                <DeviceMobile className="w-4 h-4" />
+                                <DeviceMobile className="w-4 h-4"  weight="duotone"/>
                                 Phone
                             </TabsTrigger>
                         </TabsList>
@@ -234,7 +224,7 @@ export function SignPdfTool() {
                 {state.signatures.length > 0 && (
                     <div className="space-y-3 mt-2">
                         <div className="flex items-center gap-2 text-sm font-medium text-gray-700 pb-2 border-b">
-                            <Gear className="w-4 h-4" />
+                            <Gear className="w-4 h-4"  weight="duotone"/>
                             Manage Signatures ({state.signatures.length})
                         </div>
                         <div className="space-y-2 max-h-56 overflow-y-auto pr-2 no-scrollbar">
@@ -281,7 +271,7 @@ export function SignPdfTool() {
                                             }}
                                             title="Remove"
                                         >
-                                            <Trash className="w-3.5 h-3.5" />
+                                            <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                                         </Button>
                                     </div>
                                 </div>
@@ -298,7 +288,7 @@ export function SignPdfTool() {
                     >
                         {state.isProcessing ? 'Processing...' : (
                             <>
-                                <DownloadSimple className="w-5 h-5 mr-2" />
+                                <DownloadSimple className="w-5 h-5 mr-2"  weight="duotone"/>
                                 Sign & Download PDF
                             </>
                         )}

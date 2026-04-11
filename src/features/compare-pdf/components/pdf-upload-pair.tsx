@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FileText, Upload, X, CheckCircle2 } from 'lucide-react';
+import { FileText, UploadSimple, X, CheckCircle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { PdfInfo } from '../types';
@@ -55,7 +55,7 @@ function SinglePdfDropzone({
                     )}
                 >
                     <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center shrink-0">
-                        <FileText className="w-6 h-6 text-gray-400" />
+                        <FileText className="w-6 h-6 text-gray-400"  weight="duotone"/>
                     </div>
                     <div className="flex-1 min-w-0">
                         <p
@@ -69,14 +69,14 @@ function SinglePdfDropzone({
                             {formatSize(pdfInfo.size)}
                         </p>
                     </div>
-                    <CheckCircle2 className="w-5 h-5 text-success-500 shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-success-500 shrink-0"  weight="duotone"/>
                     <button
                         type="button"
                         onClick={onClear}
                         disabled={disabled}
                         className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:text-error-600 hover:bg-error-50 transition-colors"
                     >
-                        <X className="w-3.5 h-3.5" />
+                        <X className="w-3.5 h-3.5"  weight="duotone"/>
                     </button>
                 </div>
             ) : (
@@ -96,12 +96,12 @@ function SinglePdfDropzone({
                             isDragActive ? 'bg-primary-100' : 'bg-gray-100'
                         )}
                     >
-                        <Upload
+                        <UploadSimple
                             className={cn(
                                 'w-7 h-7 transition-colors',
                                 isDragActive ? 'text-primary-600' : 'text-gray-400'
                             )}
-                        />
+                         weight="duotone"/>
                     </div>
                     <div className="text-center space-y-1">
                         <p className="text-sm font-semibold text-gray-800">

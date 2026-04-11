@@ -1,9 +1,7 @@
 
 import { Metadata } from 'next';
 import ImageToBase64Client from './client';
-import { Image, Shield, CodeSimple } from '@phosphor-icons/react/dist/ssr';
-
-
+import { Image as ImageIcon, Shield, CodeSimple } from '@phosphor-icons/react/dist/ssr';
 
 export const metadata: Metadata = {
     title: 'Image to Base64 Converter | Free Online Tool',
@@ -79,7 +77,7 @@ export default function ImageToBase64Page() {
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <Image className="w-6 h-6 text-primary-500" />
+                                <ImageIcon className="w-6 h-6 text-primary-500"/>
                             </div>
                             <h3 className="font-bold text-gray-900">All Formats</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">
@@ -88,7 +86,7 @@ export default function ImageToBase64Page() {
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <Shield className="w-6 h-6 text-primary-500" />
+                                <Shield className="w-6 h-6 text-primary-500"  weight="duotone"/>
                             </div>
                             <h3 className="font-bold text-gray-900">Privacy First</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">

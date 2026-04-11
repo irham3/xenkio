@@ -69,7 +69,7 @@ export function SimpleSplitCalculator() {
                     <div>
                         <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Number of People</label>
                         <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><Users className="w-5 h-5" /></span>
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><Users className="w-5 h-5"  weight="duotone"/></span>
                             <input
                                 type="number"
                                 min="1"

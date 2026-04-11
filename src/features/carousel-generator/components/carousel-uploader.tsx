@@ -75,7 +75,7 @@ export function CarouselUploader({ onImagesSelected, className }: CarouselUpload
           "p-3 rounded-full bg-background shadow-sm transition-transform duration-200",
           isDragging ? "scale-110" : "group-hover:scale-110"
         )}>
-          <UploadSimple className="w-6 h-6 text-primary" />
+          <UploadSimple className="w-6 h-6 text-primary"  weight="duotone"/>
         </div>
         <div>
           <h3 className="font-semibold text-foreground">Upload Images</h3>

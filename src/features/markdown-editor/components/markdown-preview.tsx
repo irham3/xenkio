@@ -19,7 +19,7 @@ export const MarkdownPreview = ({ html, isEmpty, className }: MarkdownPreviewPro
                     <div className="markdown-body" dangerouslySetInnerHTML={{ __html: html }} />
                 ) : (
                     <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50 p-8">
-                        <FileCode className="w-8 h-8 text-gray-300" />
+                        <FileCode className="w-8 h-8 text-gray-300"  weight="duotone"/>
                         <p className="text-sm text-gray-400">Start typing to see preview...</p>
                     </div>
                 )}

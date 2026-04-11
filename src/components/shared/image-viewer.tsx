@@ -61,7 +61,7 @@ export function ImageViewer({ src, alt, isOpen, onClose, onDownload, title }: Im
                                             onClick={onDownload}
                                             title="Download"
                                         >
-                                            <DownloadSimple className="w-5 h-5" />
+                                            <DownloadSimple className="w-5 h-5"  weight="duotone"/>
                                         </Button>
                                     )}
                                     <Button
@@ -70,7 +70,7 @@ export function ImageViewer({ src, alt, isOpen, onClose, onDownload, title }: Im
                                         onClick={onClose}
                                         title="Close"
                                     >
-                                        <X className="w-5 h-5" />
+                                        <X className="w-5 h-5"  weight="duotone"/>
                                     </Button>
                                 </div>
 

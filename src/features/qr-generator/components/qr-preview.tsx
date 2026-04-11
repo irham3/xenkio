@@ -3,13 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { QRConfig } from '../types';
 import { Button } from '@/components/ui/button';
-import {
-    FileImage,
-    FileCode,
-    CheckCircle,
-    XCircle,
-    SpinnerGap
-} from '@phosphor-icons/react/dist/ssr';
+import { FileImage, FileCode, CheckCircle, XCircle, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
 import { QRCodeCanvas } from 'qrcode.react';
 import jsQR from 'jsqr';
 
@@ -337,12 +331,12 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
             </div>
           ) : isScannable ? (
             <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-50 text-green-600 text-[10px] font-bold uppercase tracking-wider border border-green-100 shadow-sm">
-              <CheckCircle className="w-3 h-3" />
+              <CheckCircle className="w-3 h-3"  weight="duotone"/>
               Safe to Scan
             </div>
           ) : (
             <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-50 text-red-600 text-[10px] font-bold uppercase tracking-wider border border-red-100 shadow-sm">
-              <XCircle className="w-3 h-3" />
+              <XCircle className="w-3 h-3"  weight="duotone"/>
               Unscannable
             </div>
           )}
@@ -388,7 +382,7 @@ export function QrPreview({ config, onDownload }: QrPreviewProps) {
           PNG
         </Button>
         <Button onClick={() => onDownload('svg', svgId)} variant="outline" className="w-full">
-          <FileCode className="mr-2 h-4 w-4" />
+          <FileCode className="mr-2 h-4 w-4"  weight="duotone"/>
           SVG
         </Button>
       </div>

@@ -10,7 +10,7 @@ import {
     DialogFooter,
 } from '@/components/ui/dialog';
 import { useState } from 'react';
-import { ClipboardPaste, Info } from 'lucide-react';
+import { ClipboardText, Info } from '@phosphor-icons/react/dist/ssr';
 
 interface PasteImportModalProps {
     isOpen: boolean;
@@ -37,7 +37,7 @@ export function PasteImportModal({ isOpen, onClose, onImport }: PasteImportModal
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
-                        <ClipboardPaste className="w-5 h-5 text-primary-500" />
+                        <ClipboardText className="w-5 h-5 text-primary-500"  weight="duotone"/>
                         Paste Schedule
                     </DialogTitle>
                 </DialogHeader>
@@ -45,7 +45,7 @@ export function PasteImportModal({ isOpen, onClose, onImport }: PasteImportModal
                 <div className="space-y-4 py-4">
                     <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-xs text-blue-800">
                         <div className="flex items-center gap-2 font-semibold mb-1">
-                            <Info className="w-3.5 h-3.5" />
+                            <Info className="w-3.5 h-3.5"  weight="duotone"/>
                             Format Guide
                         </div>
                         <p className="mb-2">

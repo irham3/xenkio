@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { WifiQRConfig } from '../types';
 import { generateWifiString } from '../lib/wifi-qr-utils';
 import { Button } from '@/components/ui/button';
-import { FileImage, FileCode, CheckCircle2, XCircle, Loader2, Wifi } from 'lucide-react';
+import { FileImage, FileCode, CheckCircle, XCircle, CircleNotch, WifiHigh } from '@phosphor-icons/react/dist/ssr';
 import { QRCodeCanvas } from 'qrcode.react';
 import jsQR from 'jsqr';
 
@@ -202,7 +202,7 @@ export function WifiQrPreview({ config, onDownload }: WifiQrPreviewProps) {
         return (
             <div className="flex flex-col items-center justify-center space-y-4 rounded-xl border border-gray-200 bg-gray-50/50 p-8 shadow-sm min-h-[400px]">
                 <div className="flex items-center justify-center w-20 h-20 rounded-full bg-gray-100">
-                    <Wifi className="w-10 h-10 text-gray-300" />
+                    <WifiHigh className="w-10 h-10 text-gray-300"  weight="duotone"/>
                 </div>
                 <div className="text-center space-y-1">
                     <p className="text-sm font-medium text-gray-500">Enter your WiFi details</p>
@@ -230,17 +230,17 @@ export function WifiQrPreview({ config, onDownload }: WifiQrPreviewProps) {
                 <div className="absolute top-2 right-2 z-10">
                     {isValidating ? (
                         <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold uppercase tracking-wider animate-pulse">
-                            <Loader2 className="w-3 h-3 animate-spin" />
+                            <CircleNotch className="w-3 h-3 animate-spin"  weight="duotone"/>
                             Validating...
                         </div>
                     ) : isScannable ? (
                         <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-50 text-green-600 text-[10px] font-bold uppercase tracking-wider border border-green-100 shadow-sm">
-                            <CheckCircle2 className="w-3 h-3" />
+                            <CheckCircle className="w-3 h-3"  weight="duotone"/>
                             Safe to Scan
                         </div>
                     ) : isScannable === false ? (
                         <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-50 text-red-600 text-[10px] font-bold uppercase tracking-wider border border-red-100 shadow-sm">
-                            <XCircle className="w-3 h-3" />
+                            <XCircle className="w-3 h-3"  weight="duotone"/>
                             Unscannable
                         </div>
                     ) : null}
@@ -282,7 +282,7 @@ export function WifiQrPreview({ config, onDownload }: WifiQrPreviewProps) {
                     PNG
                 </Button>
                 <Button onClick={() => onDownload('svg', svgId)} variant="outline" className="w-full">
-                    <FileCode className="mr-2 h-4 w-4" />
+                    <FileCode className="mr-2 h-4 w-4"  weight="duotone"/>
                     SVG
                 </Button>
             </div>

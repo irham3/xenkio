@@ -1,14 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-    Lock,
-    LockOpen,
-    Key,
-    ArrowsClockwise,
-    Eye,
-    EyeSlash
-} from '@phosphor-icons/react/dist/ssr';
+import { Lock, LockOpen, Key, ArrowsClockwise, Eye, EyeSlash } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -87,7 +80,7 @@ export function SymmetricPanel() {
                                 symMode === 'encrypt' ? "bg-white text-primary-600 shadow-sm ring-1 ring-gray-200" : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                             )}
                         >
-                            <Lock className="w-4 h-4" /> Encrypt
+                            <Lock className="w-4 h-4"  weight="duotone"/> Encrypt
                         </button>
                         <button
                             onClick={() => { setSymMode('decrypt'); setSymOutput(''); }}
@@ -96,7 +89,7 @@ export function SymmetricPanel() {
                                 symMode === 'decrypt' ? "bg-white text-primary-600 shadow-sm ring-1 ring-gray-200" : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                             )}
                         >
-                            <LockOpen className="w-4 h-4" /> Decrypt
+                            <LockOpen className="w-4 h-4"  weight="duotone"/> Decrypt
                         </button>
                     </div>
                 </div>
@@ -157,7 +150,7 @@ export function SymmetricPanel() {
                                 onClick={() => setShowSymKey(!showSymKey)}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
                             >
-                                {showSymKey ? <EyeSlash className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                {showSymKey ? <EyeSlash className="w-4 h-4"  weight="duotone"/> : <Eye className="w-4 h-4"  weight="duotone"/>}
                             </button>
                         </div>
                         <p className="text-xs text-gray-500">
@@ -180,9 +173,9 @@ export function SymmetricPanel() {
                         )}
                     >
                         {isSymLoading ? (
-                            <ArrowsClockwise className="w-5 h-5 animate-spin mr-2" />
+                            <ArrowsClockwise className="w-5 h-5 animate-spin mr-2"  weight="duotone"/>
                         ) : (
-                            symMode === 'encrypt' ? <Lock className="w-5 h-5 mr-2" /> : <LockOpen className="w-5 h-5 mr-2" />
+                            symMode === 'encrypt' ? <Lock className="w-5 h-5 mr-2"  weight="duotone"/> : <LockOpen className="w-5 h-5 mr-2"  weight="duotone"/>
                         )}
                         {symMode === 'encrypt' ? 'Encrypt Message' : 'Decrypt Message'}
                     </Button>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Copy, Check, Trash2, Sparkles, Play } from 'lucide-react';
+import { Copy, Check, Trash, Sparkle, Play } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -116,7 +116,7 @@ export function TextCleanerTool() {
         {/* Cleaning Options */}
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-4 h-4 text-gray-500" />
+            <Sparkle className="w-4 h-4 text-gray-500"  weight="duotone"/>
             <span className="text-sm font-semibold text-gray-800">
               Cleaning Options
             </span>
@@ -160,7 +160,7 @@ export function TextCleanerTool() {
                     : 'text-gray-300 cursor-not-allowed'
                 )}
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                 Clear
               </button>
             </div>
@@ -186,7 +186,7 @@ export function TextCleanerTool() {
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               )}
             >
-              <Play className="w-4 h-4" />
+              <Play className="w-4 h-4"  weight="duotone"/>
               Clean Text
             </button>
           </div>
@@ -216,9 +216,9 @@ export function TextCleanerTool() {
                 )}
               >
                 {copied ? (
-                  <Check className="w-3.5 h-3.5" />
+                  <Check className="w-3.5 h-3.5"  weight="duotone"/>
                 ) : (
-                  <Copy className="w-3.5 h-3.5" />
+                  <Copy className="w-3.5 h-3.5"  weight="duotone"/>
                 )}
                 {copied ? 'Copied' : 'Copy'}
               </button>

@@ -3,11 +3,7 @@
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-    WarningCircle,
-    FileCode,
-    FileText
-} from '@phosphor-icons/react/dist/ssr';
+import { WarningCircle, FileCode, FileText } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from 'framer-motion';
 import { CopyButton, ClearButton } from '@/components/shared';
@@ -83,7 +79,7 @@ export default function UrlEncoderClient() {
                                 : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                         )}
                     >
-                        {m.id === 'encode' ? <FileCode className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+                        {m.id === 'encode' ? <FileCode className="w-4 h-4"  weight="duotone"/> : <FileText className="w-4 h-4"  weight="duotone"/>}
                         {m.name}
                     </button>
                 ))}
@@ -162,7 +158,7 @@ export default function UrlEncoderClient() {
                                     >
                                         {error ? (
                                             <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
-                                                <WarningCircle className="w-10 h-10 text-red-400" />
+                                                <WarningCircle className="w-10 h-10 text-red-400"  weight="duotone"/>
                                                 <p className="font-semibold text-sm">Decoding Error</p>
                                                 <p className="text-xs opacity-80 text-center max-w-[250px]">{error}</p>
                                             </div>
@@ -171,9 +167,9 @@ export default function UrlEncoderClient() {
                                         ) : (
                                             <div className="flex flex-col items-center justify-center h-full gap-3 py-8 opacity-50">
                                                 {mode === 'encode' ? (
-                                                    <FileCode className="w-10 h-10 text-gray-300" />
+                                                    <FileCode className="w-10 h-10 text-gray-300"  weight="duotone"/>
                                                 ) : (
-                                                    <FileText className="w-10 h-10 text-gray-300" />
+                                                    <FileText className="w-10 h-10 text-gray-300"  weight="duotone"/>
                                                 )}
                                                 <p className="text-sm text-center">
                                                     {mode === 'encode'

@@ -6,20 +6,7 @@ import { INDENT_TYPES, INDENT_SIZES, WRAP_LINE_LENGTHS, WRAP_ATTRIBUTES_OPTIONS,
 import { IndentType, IndentSize, WrapLineLength, HtmlFormatterOptions } from '../types';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import {
-    Copy,
-    Check,
-    CaretDown,
-    Lightning,
-    CodeSimple,
-    CornersIn,
-    ArrowCounterClockwise,
-    FileCode,
-    DownloadSimple,
-    WarningCircle,
-    CaretRight,
-    Sparkle
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, CaretDown, Lightning, CodeSimple, CornersIn, ArrowCounterClockwise, FileCode, DownloadSimple, WarningCircle, CaretRight, Sparkle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -121,7 +108,7 @@ export function HtmlFormatter() {
                       onClick={() => loadSample(SAMPLE_HTML)}
                       className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1 transition-colors"
                     >
-                      <Sparkle className="w-3 h-3" />
+                      <Sparkle className="w-3 h-3"  weight="duotone"/>
                       Load Sample
                     </button>
                   </div>
@@ -139,7 +126,7 @@ export function HtmlFormatter() {
                 />
                 {validationError && (
                   <div className="flex items-start gap-2 p-2 bg-amber-50 rounded-lg border border-amber-200">
-                    <WarningCircle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <WarningCircle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5"  weight="duotone"/>
                     <p className="text-xs text-amber-700">{validationError}</p>
                   </div>
                 )}
@@ -171,7 +158,7 @@ export function HtmlFormatter() {
                                 </option>
                               ))}
                             </select>
-                            <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                            <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                           </div>
                         </div>
                         <div className="space-y-2">
@@ -188,7 +175,7 @@ export function HtmlFormatter() {
                                 </option>
                               ))}
                             </select>
-                            <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                            <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                           </div>
                         </div>
                       </div>
@@ -201,7 +188,7 @@ export function HtmlFormatter() {
                         <CaretRight className={cn(
                           "w-4 h-4 transition-transform duration-200",
                           showAdvanced && "rotate-90"
-                        )} />
+                        )}  weight="duotone"/>
                         Advanced Options
                       </button>
 
@@ -230,7 +217,7 @@ export function HtmlFormatter() {
                                     </option>
                                   ))}
                                 </select>
-                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                               </div>
                             </div>
 
@@ -249,7 +236,7 @@ export function HtmlFormatter() {
                                     </option>
                                   ))}
                                 </select>
-                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                               </div>
                               <p className="text-[11px] text-gray-500">
                                 {WRAP_ATTRIBUTES_OPTIONS.find(o => o.id === options.wrapAttributes)?.description}
@@ -296,12 +283,12 @@ export function HtmlFormatter() {
                 >
                   {isFormatting ? (
                     <>
-                      <Lightning className="w-4 h-4 mr-2 animate-pulse" />
+                      <Lightning className="w-4 h-4 mr-2 animate-pulse"  weight="duotone"/>
                       Formatting...
                     </>
                   ) : (
                     <>
-                      <Lightning className="w-4 h-4 mr-2" />
+                      <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                       Format HTML
                     </>
                   )}
@@ -312,7 +299,7 @@ export function HtmlFormatter() {
                   onClick={reset}
                   className="h-9 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100"
                 >
-                  <ArrowCounterClockwise className="w-3.5 h-3.5" />
+                  <ArrowCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                   Reset
                 </Button>
               </div>
@@ -329,7 +316,7 @@ export function HtmlFormatter() {
                 <div className="flex items-center gap-2">
                   {result?.executionTime !== undefined && !result.error && result.formatted && (
                     <span className="flex items-center gap-1.5 text-[11px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                      <Lightning className="w-3 h-3" />
+                      <Lightning className="w-3 h-3"  weight="duotone"/>
                       {result.executionTime.toFixed(1)}ms
                     </span>
                   )}
@@ -369,7 +356,7 @@ export function HtmlFormatter() {
                     </div>
                   ) : result?.error ? (
                     <div className="flex flex-col items-center justify-center h-full gap-2">
-                      <WarningCircle className="w-8 h-8 text-error-400 mb-2" />
+                      <WarningCircle className="w-8 h-8 text-error-400 mb-2"  weight="duotone"/>
                       <p className="font-semibold font-sans">Formatting Failed</p>
                       <p className="text-xs opacity-80 font-sans">{result.error}</p>
                     </div>
@@ -377,7 +364,7 @@ export function HtmlFormatter() {
                     result.formatted
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
-                      <FileCode className="w-8 h-8 text-gray-300" />
+                      <FileCode className="w-8 h-8 text-gray-300"  weight="duotone"/>
                       <p className="font-sans">Paste HTML to format...</p>
                     </div>
                   )}
@@ -392,7 +379,7 @@ export function HtmlFormatter() {
                       onClick={handleDownload}
                       className="h-8 gap-1.5 text-xs font-medium border-gray-200 bg-white hover:bg-gray-50 transition-all"
                     >
-                      <DownloadSimple className="w-3.5 h-3.5" />
+                      <DownloadSimple className="w-3.5 h-3.5"  weight="duotone"/>
                       Download
                     </Button>
                     <Button
@@ -404,7 +391,7 @@ export function HtmlFormatter() {
                         copied && "text-success-600 border-success-500 bg-success-50"
                       )}
                     >
-                      {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copied ? <Check className="w-3.5 h-3.5"  weight="duotone"/> : <Copy className="w-3.5 h-3.5"  weight="duotone"/>}
                       {copied ? 'Copied' : 'Copy'}
                     </Button>
                   </div>

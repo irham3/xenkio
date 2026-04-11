@@ -1,13 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import {
-    Copy,
-    Check,
-    Trash,
-    TextT,
-    Play
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, Trash, TextT, Play } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -175,7 +169,7 @@ export function CaseConverterTool() {
         {/* Case Type Selector */}
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-2 mb-3">
-            <TextT className="w-4 h-4 text-gray-500" />
+            <TextT className="w-4 h-4 text-gray-500"  weight="duotone"/>
             <span className="text-sm font-semibold text-gray-800">
               Select Case
             </span>
@@ -219,7 +213,7 @@ export function CaseConverterTool() {
                     : 'text-gray-300 cursor-not-allowed'
                 )}
               >
-                <Trash className="w-3.5 h-3.5" />
+                <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                 Clear
               </button>
             </div>
@@ -244,7 +238,7 @@ export function CaseConverterTool() {
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               )}
             >
-              <Play className="w-4 h-4" />
+              <Play className="w-4 h-4"  weight="duotone"/>
               Convert
             </button>
           </div>
@@ -274,9 +268,9 @@ export function CaseConverterTool() {
                 )}
               >
                 {copied ? (
-                  <Check className="w-3.5 h-3.5" />
+                  <Check className="w-3.5 h-3.5"  weight="duotone"/>
                 ) : (
-                  <Copy className="w-3.5 h-3.5" />
+                  <Copy className="w-3.5 h-3.5"  weight="duotone"/>
                 )}
                 {copied ? 'Copied' : 'Copy'}
               </button>

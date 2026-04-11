@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import {
-    BarChart,
     Bar,
     LineChart,
     Line,
@@ -21,43 +20,10 @@ import {
     ResponsiveContainer,
     Legend,
 } from 'recharts';
-import {
-    ClipboardPaste,
-    Trash2,
-    Table2,
-    BarChart3,
-    TrendingUp,
-    ArrowUpDown,
-    FileSpreadsheet,
-    ChevronDown,
-    ChevronUp,
-    BarChart2,
-    LineChart as LineChartIcon,
-    PieChart as PieChartIcon,
-    AreaChart as AreaChartIcon,
-    Upload,
-    Hash,
-    Layers,
-    AlertCircle,
-    Settings2,
-    Plus,
-    X,
-    Filter,
-    Group,
-    Calculator,
-    Check,
-    Loader2,
-    Download,
-    Maximize2,
-    Minimize2,
-    Lightbulb,
-    FileImage,
-    FileText,
-    Activity, // For Scatter
-    Type, // Column Type
-    EyeOff, // Hide Column
-    LayoutDashboard,
-} from 'lucide-react';
+import { ClipboardText, Trash, Table, ChartBar, TrendUp, ArrowsDownUp, FileXls, CaretDown, CaretUp, ChartLine as LineChartIcon, ChartPie as PieChartIcon, ChartLine as AreaChartIcon, UploadSimple, Hash, Stack, WarningCircle, Gear, Plus, X, Funnel, Users, Calculator, Check, CircleNotch, DownloadSimple, ArrowsOut, ArrowsIn, Lightbulb, FileImage, FileText, Pulse, // For Scatter
+    TextT, // Column Type
+    EyeSlash, // Hide Column
+    Layout } from '@phosphor-icons/react/dist/ssr';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import { parsePastedData, analyzeDataset, buildManualChartConfig, parseToNumber } from '../lib/data-analyzer';
@@ -115,10 +81,10 @@ function formatAxisTick(value: unknown): string {
 // ─── Chart Type Icon Map ───────────────────────────────────
 const CHART_TYPE_ICONS: Record<ChartType, React.ComponentType<{ className?: string }>> = {
     line: LineChartIcon,
-    bar: BarChart2,
+    bar: ChartBar,
     area: AreaChartIcon,
     pie: PieChartIcon,
-    scatter: Activity,
+    scatter: Pulse,
 };
 
 // ─── Custom Tooltip ────────────────────────────────────────
@@ -171,7 +137,7 @@ function KpiCard({ label, value, sub, icon: Icon, color, index = 0 }: {
                 className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                 style={{ backgroundColor: `${color}14` }}
             >
-                <Icon className="w-5 h-5" style={{ color }} />
+                <Icon className="w-5 h-5" style={{ color }}/>
             </div>
             <div className="min-w-0">
                 <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">{label}</p>
@@ -251,11 +217,11 @@ function PivotConfigPanel({
         <div className="bg-white border border-gray-200 rounded-xl shadow-medium overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-gray-50">
                 <div className="flex items-center gap-2">
-                    <Settings2 className="w-4 h-4 text-primary-500" />
+                    <Gear className="w-4 h-4 text-primary-500"  weight="duotone"/>
                     <h3 className="text-sm font-semibold text-gray-700">Custom Chart Builder</h3>
                 </div>
                 <button onClick={onCancel} className="text-gray-400 hover:text-gray-600 transition-colors">
-                    <X className="w-4 h-4" />
+                    <X className="w-4 h-4"  weight="duotone"/>
                 </button>
             </div>
 
@@ -263,7 +229,7 @@ function PivotConfigPanel({
                 {/* Group By */}
                 <div>
                     <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
-                        <Group className="w-3.5 h-3.5" />
+                        <Users className="w-3.5 h-3.5"  weight="duotone"/>
                         Select Category (X-Axis)
                     </label>
                     <select
@@ -283,7 +249,7 @@ function PivotConfigPanel({
                 {isDateCol && (
                     <div>
                         <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
-                            <TrendingUp className="w-3.5 h-3.5" />
+                            <TrendUp className="w-3.5 h-3.5"  weight="duotone"/>
                             Date Grouping
                         </label>
                         <div className="flex gap-1.5">
@@ -323,7 +289,7 @@ function PivotConfigPanel({
                                             : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
                                     }`}
                                 >
-                                    {isSelected && <Check className="w-3 h-3 inline mr-1" />}
+                                    {isSelected && <Check className="w-3 h-3 inline mr-1"  weight="duotone"/>}
                                     {col.name}
                                 </button>
                             );
@@ -360,7 +326,7 @@ function PivotConfigPanel({
                 {/* Chart Type */}
                 <div>
                     <label className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider mb-2" title="The visual style of the chart">
-                        <BarChart3 className="w-3.5 h-3.5" />
+                        <ChartBar className="w-3.5 h-3.5"  weight="duotone"/>
                         Chart Type
                     </label>
                     <p className="text-[10px] text-gray-400 mb-2">Select the best visualization for your data type.</p>
@@ -391,9 +357,9 @@ function PivotConfigPanel({
                         onClick={() => setShowFilters(!showFilters)}
                         className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-primary-600 transition-colors"
                     >
-                        <Filter className="w-3.5 h-3.5" />
+                        <Funnel className="w-3.5 h-3.5"  weight="duotone"/>
                         {showFilters ? 'Close Filter' : 'Filter Data'}
-                        {showFilters ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                        {showFilters ? <CaretUp className="w-3 h-3"  weight="duotone"/> : <CaretDown className="w-3 h-3"  weight="duotone"/>}
                     </button>
 
                     {showFilters && (
@@ -412,7 +378,7 @@ function PivotConfigPanel({
                                                 onClick={() => removeFilter(i)}
                                                 className="text-gray-400 hover:text-red-500 transition-colors p-1"
                                             >
-                                                <X className="w-3.5 h-3.5" />
+                                                <X className="w-3.5 h-3.5"  weight="duotone"/>
                                             </button>
                                         </div>
                                     ))}
@@ -454,7 +420,7 @@ function PivotConfigPanel({
                                     disabled={!newFilterCol || !newFilterVal}
                                     className="shrink-0 flex items-center justify-center p-1.5 rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 disabled:opacity-50"
                                 >
-                                    <Plus className="w-4 h-4" />
+                                    <Plus className="w-4 h-4"  weight="duotone"/>
                                 </button>
                             </div>
                         </div>
@@ -468,7 +434,7 @@ function PivotConfigPanel({
                         disabled={!groupBy || valueCols.length === 0}
                         className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-semibold hover:bg-primary-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-soft"
                     >
-                        <Check className="w-4 h-4" />
+                        <Check className="w-4 h-4"  weight="duotone"/>
                         Create Chart
                     </button>
                     <button
@@ -555,12 +521,12 @@ function ChartCard({ config, onTypeChange, index = 0, onRemove }: {
                                     const TypeIcon = CHART_TYPE_ICONS[currentType];
                                     return <TypeIcon className="w-4 h-4" />;
                                 })()}
-                                <ChevronDown className="w-3 h-3" />
+                                <CaretDown className="w-3 h-3"  weight="duotone"/>
                             </button>
                             {showTypeSelector && (
                                 <>
                                     <div className="fixed inset-0 z-10" onClick={() => setShowTypeSelector(false)} />
-                                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-20 py-1 min-w-[120px]">
+                                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-20 py-1 min-w-30">
                                         {config.allowedTypes.map((t) => {
                                             const TypeIcon = CHART_TYPE_ICONS[t];
                                             return (
@@ -592,12 +558,12 @@ function ChartCard({ config, onTypeChange, index = 0, onRemove }: {
                             className="flex items-center justify-center w-7 h-7 text-gray-400 hover:text-primary-600 transition-colors rounded-md hover:bg-primary-50"
                             title="Export options"
                         >
-                            <Download className="w-4 h-4" />
+                            <DownloadSimple className="w-4 h-4"  weight="duotone"/>
                         </button>
                         {showExportMenu && (
                             <>
                                 <div className="fixed inset-0 z-10" onClick={() => setShowExportMenu(false)} />
-                                <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-20 py-1 min-w-[140px]">
+                                <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-20 py-1 min-w-35">
                                     <button
                                         onClick={() => { handleExportPNG(); setShowExportMenu(false); }}
                                         className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50 transition-colors"
@@ -609,7 +575,7 @@ function ChartCard({ config, onTypeChange, index = 0, onRemove }: {
                                         onClick={() => { handleExportCSV(); setShowExportMenu(false); }}
                                         className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50 transition-colors"
                                     >
-                                        <FileText className="w-3.5 h-3.5 text-green-500" />
+                                        <FileText className="w-3.5 h-3.5 text-green-500"  weight="duotone"/>
                                         Export Data (CSV)
                                     </button>
                                 </div>
@@ -623,7 +589,7 @@ function ChartCard({ config, onTypeChange, index = 0, onRemove }: {
                         className="flex items-center justify-center w-7 h-7 text-gray-400 hover:text-primary-600 transition-colors rounded-md hover:bg-primary-50"
                         title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
                     >
-                        {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                        {isFullscreen ? <ArrowsIn className="w-4 h-4"  weight="duotone"/> : <ArrowsOut className="w-4 h-4"  weight="duotone"/>}
                     </button>
 
                     {/* Remove Chart */}
@@ -633,14 +599,14 @@ function ChartCard({ config, onTypeChange, index = 0, onRemove }: {
                             className="flex items-center justify-center w-7 h-7 text-gray-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
                             title="Remove chart"
                         >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash className="w-4 h-4"  weight="duotone"/>
                         </button>
                     )}
                 </div>
             </div>
 
             {/* Chart Area */}
-            <div className={`px-3 pb-2 relative min-w-0 min-h-0 ${isFullscreen ? 'min-h-[400px] flex-1' : 'h-[280px]'}`} ref={chartRef}>
+            <div className={`px-3 pb-2 relative min-w-0 min-h-0 ${isFullscreen ? 'min-h-100 flex-1' : 'h-70'}`} ref={chartRef}>
                 <ResponsiveContainer width="100%" height="100%">
                     {renderChart(config)}
                 </ResponsiveContainer>
@@ -794,7 +760,7 @@ function renderChart(config: ChartConfig): React.ReactElement {
 
     // bar (default)
     return (
-        <BarChart {...commonProps}>
+        <ChartBar {...commonProps} weight="duotone">
             {axes}
             {yKeys.map((yk, i) => (
                 <Bar
@@ -806,7 +772,7 @@ function renderChart(config: ChartConfig): React.ReactElement {
                     maxBarSize={48}
                 />
             ))}
-        </BarChart>
+        </ChartBar>
     );
 }
 
@@ -864,15 +830,15 @@ function DataTable({ schema, rows, onOverrideChange }: {
         <div className="bg-white border border-gray-100 rounded-xl shadow-soft overflow-hidden flex flex-col">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between px-5 py-3 border-b border-gray-100 gap-3 shrink-0">
                 <div className="flex items-center gap-2">
-                    <Table2 className="w-4 h-4 text-gray-400" />
+                    <Table className="w-4 h-4 text-gray-400"  weight="duotone"/>
                     <h3 className="text-sm font-semibold text-gray-700">Data Preview</h3>
                     <span className="text-xs text-gray-400">
                         {filteredRows.length} rows found
                     </span>
                 </div>
-                <div className="relative group min-w-[240px]">
+                <div className="relative group min-w-60">
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-500 transition-colors">
-                        <Filter className="w-3.5 h-3.5" />
+                        <Funnel className="w-3.5 h-3.5"  weight="duotone"/>
                     </div>
                     <input
                         type="text"
@@ -886,12 +852,12 @@ function DataTable({ schema, rows, onOverrideChange }: {
                             onClick={() => setSearchQuery('')}
                             className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500"
                         >
-                            <X className="w-3.5 h-3.5" />
+                            <X className="w-3.5 h-3.5"  weight="duotone"/>
                         </button>
                     )}
                 </div>
             </div>
-            <div className="overflow-auto max-h-[400px] scrollbar-themed relative">
+            <div className="overflow-auto max-h-100 scrollbar-themed relative">
                 <table className="w-full text-sm">
                     <thead className="sticky top-0 z-10 bg-white shadow-soft">
                         <tr className="bg-gray-50 border-b border-gray-200">
@@ -908,11 +874,11 @@ function DataTable({ schema, rows, onOverrideChange }: {
                                             className="flex items-center gap-1 cursor-pointer hover:text-primary-600 flex-1"
                                             onClick={() => handleSort(h)}
                                         >
-                                            <Type className={`w-3.5 h-3.5 ${col.type === 'numeric' ? 'text-blue-500' : col.type === 'date' ? 'text-green-500' : 'text-orange-500'}`} />
+                                            <TextT className={`w-3.5 h-3.5 ${col.type === 'numeric' ? 'text-blue-500' : col.type === 'date' ? 'text-green-500' : 'text-orange-500'}`}  weight="duotone"/>
                                             {h}
-                                            <ArrowUpDown className={`w-3 h-3 transition-colors ${
+                                            <ArrowsDownUp className={`w-3 h-3 transition-colors ${
                                                 sortCol === h ? 'text-primary-500' : 'text-gray-300 group-hover:text-gray-400'
-                                            }`} />
+                                            }`}  weight="duotone"/>
                                         </div>
                                         {onOverrideChange && (
                                             <button 
@@ -922,14 +888,14 @@ function DataTable({ schema, rows, onOverrideChange }: {
                                                 }}
                                                 className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded text-gray-400 transition-opacity"
                                             >
-                                                <ChevronDown className="w-3 h-3" />
+                                                <CaretDown className="w-3 h-3"  weight="duotone"/>
                                             </button>
                                         )}
                                     </div>
                                     {editingCol === h && onOverrideChange && (
                                         <>
                                             <div className="fixed inset-0 z-20" onClick={() => setEditingCol(null)} />
-                                            <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-30 py-1 min-w-[140px] font-normal z-50">
+                                            <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-medium z-30 py-1 min-w-35 font-normal">
                                                 <div className="px-3 py-1.5 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Change Type</div>
                                                 {(['numeric', 'categorical', 'date', 'text'] as const).map(t => (
                                                     <button
@@ -951,7 +917,7 @@ function DataTable({ schema, rows, onOverrideChange }: {
                                                     }}
                                                     className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50"
                                                 >
-                                                    <EyeOff className="w-3.5 h-3.5" />
+                                                    <EyeSlash className="w-3.5 h-3.5"  weight="duotone"/>
                                                     Hide Column
                                                 </button>
                                             </div>
@@ -970,7 +936,7 @@ function DataTable({ schema, rows, onOverrideChange }: {
                             >
                                 <td className="px-3 py-1.5 text-xs text-gray-300 font-mono">{idx + 1}</td>
                                 {headers.map((h) => (
-                                    <td key={h} className="px-3 py-1.5 text-gray-600 whitespace-nowrap max-w-[200px] truncate" title={row[h]}>
+                                    <td key={h} className="px-3 py-1.5 text-gray-600 whitespace-nowrap max-w-50 truncate" title={row[h]}>
                                         {row[h] !== undefined && row[h] !== null && row[h] !== '' ? row[h] : <span className="text-gray-300 italic">—</span>}
                                     </td>
                                 ))}
@@ -1050,7 +1016,7 @@ function PasteZone({ onData, initialData = '' }: { onData: (text: string) => voi
         >
             <div className="flex flex-col items-center justify-center py-12 px-6">
                 <div className="w-14 h-14 rounded-2xl bg-primary-50 flex items-center justify-center mb-4">
-                    <ClipboardPaste className="w-6 h-6 text-primary-500" />
+                    <ClipboardText className="w-6 h-6 text-primary-500"  weight="duotone"/>
                 </div>
                 <h2 className="text-lg font-semibold text-gray-800 mb-1">
                     Paste or Upload Your Data
@@ -1077,7 +1043,7 @@ function PasteZone({ onData, initialData = '' }: { onData: (text: string) => voi
                                 className="absolute top-2 right-2 p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                                 title="Clear all"
                             >
-                                <X className="w-4 h-4" />
+                                <X className="w-4 h-4"  weight="duotone"/>
                             </button>
                         )}
                     </div>
@@ -1088,7 +1054,7 @@ function PasteZone({ onData, initialData = '' }: { onData: (text: string) => voi
                                 onClick={() => fileInputRef.current?.click()}
                                 className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-primary-600 font-medium px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
                             >
-                                <Upload className="w-3.5 h-3.5" />
+                                <UploadSimple className="w-3.5 h-3.5"  weight="duotone"/>
                                 Upload File
                             </button>
                             <input
@@ -1105,7 +1071,7 @@ function PasteZone({ onData, initialData = '' }: { onData: (text: string) => voi
                             disabled={!text.trim()}
                             className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-semibold hover:bg-primary-600 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-soft hover:shadow-medium active:scale-95"
                         >
-                            <BarChart3 className="w-4 h-4" />
+                            <ChartBar className="w-4 h-4"  weight="duotone"/>
                             Analyze & Visualize Data
                         </button>
                     </div>
@@ -1113,7 +1079,7 @@ function PasteZone({ onData, initialData = '' }: { onData: (text: string) => voi
                 
                 {text.length > 0 && (
                     <p className="mt-4 text-xs text-gray-400 flex items-center gap-1">
-                        <Check className="w-3 h-3 text-green-500" />
+                        <Check className="w-3 h-3 text-green-500"  weight="duotone"/>
                         {text.split('\n').filter(l => l.trim()).length} rows detected in editor
                     </p>
                 )}
@@ -1284,7 +1250,7 @@ export function InstantVisualizerContent(): React.ReactElement {
             label: 'Total Rows',
             value: analysis.totalRows.toLocaleString(),
             sub: `${analysis.totalColumns} columns`,
-            icon: FileSpreadsheet,
+            icon: FileXls,
             color: '#0EA5E9',
         });
 
@@ -1307,7 +1273,7 @@ export function InstantVisualizerContent(): React.ReactElement {
                 label: 'Categories',
                 value: catCols.length.toString(),
                 sub: catCols.map((c) => c.name).slice(0, 3).join(', '),
-                icon: Layers,
+                icon: Stack,
                 color: '#F97316',
             });
         }
@@ -1317,7 +1283,7 @@ export function InstantVisualizerContent(): React.ReactElement {
                 label: 'Date Columns',
                 value: dateCols.length.toString(),
                 sub: dateCols.map((c) => c.name).slice(0, 3).join(', '),
-                icon: TrendingUp,
+                icon: TrendUp,
                 color: '#22C55E',
             });
         }
@@ -1329,7 +1295,7 @@ export function InstantVisualizerContent(): React.ReactElement {
                 label: `Sum of ${topStat.column}`,
                 value: formatNumber(topStat.sum),
                 sub: `avg ${formatNumber(topStat.mean)}`,
-                icon: BarChart3,
+                icon: ChartBar,
                 color: '#EC4899',
             });
         }
@@ -1343,7 +1309,7 @@ export function InstantVisualizerContent(): React.ReactElement {
             <div className="space-y-4">
                 {isAnalyzing ? (
                     <div className="flex flex-col items-center justify-center py-20 px-6 border-2 border-dashed border-gray-200 rounded-2xl bg-white shadow-soft animate-in fade-in duration-300">
-                        <Loader2 className="w-8 h-8 text-primary-500 animate-spin mb-4" />
+                        <CircleNotch className="w-8 h-8 text-primary-500 animate-spin mb-4"  weight="duotone"/>
                         <h3 className="text-sm font-medium text-gray-800">Analyzing your data...</h3>
                         <p className="text-xs text-gray-400 mt-1">Extracting patterns & building recommendations</p>
                     </div>
@@ -1352,7 +1318,7 @@ export function InstantVisualizerContent(): React.ReactElement {
                 )}
                 {error && (
                     <div className="flex items-start gap-2 p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm animate-in fade-in slide-in-from-top-2 duration-300">
-                        <AlertCircle className="w-5 h-5 shrink-0" />
+                        <WarningCircle className="w-5 h-5 shrink-0"  weight="duotone"/>
                         <p className="leading-relaxed">{error}</p>
                     </div>
                 )}
@@ -1389,10 +1355,10 @@ export function InstantVisualizerContent(): React.ReactElement {
                     <div className="w-full lg:w-80 shrink-0 space-y-4">
                         <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-soft">
                             <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                <LayoutDashboard className="w-4 h-4 text-primary-500" />
+                                <Layout className="w-4 h-4 text-primary-500"  weight="duotone"/>
                                 Recommended Charts
                             </h3>
-                            <div className="space-y-3 max-h-[400px] overflow-auto pr-2 scrollbar-themed">
+                            <div className="space-y-3 max-h-100 overflow-auto pr-2 scrollbar-themed">
                                 {analysis.recommendedCharts.map((chart) => (
                                     <label key={chart.id} className="flex items-start gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors group">
                                         <div className="mt-0.5">
@@ -1425,7 +1391,7 @@ export function InstantVisualizerContent(): React.ReactElement {
                                     }}
                                     className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-semibold hover:bg-primary-600 transition-colors shadow-soft"
                                 >
-                                    <Check className="w-4 h-4" />
+                                    <Check className="w-4 h-4"  weight="duotone"/>
                                     Generate Dashboard
                                 </button>
                                 <button
@@ -1448,7 +1414,7 @@ export function InstantVisualizerContent(): React.ReactElement {
             {/* Toolbar */}
             <div className="flex items-center justify-between animate-in fade-in duration-500">
                 <div className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5 text-primary-500" />
+                    <ChartBar className="w-5 h-5 text-primary-500"  weight="duotone"/>
                     <h2 className="text-base font-semibold text-gray-800">
                         Dashboard
                     </h2>
@@ -1461,21 +1427,21 @@ export function InstantVisualizerContent(): React.ReactElement {
                         onClick={() => setShowPivotPanel(!showPivotPanel)}
                         className="flex items-center gap-1.5 text-xs text-primary-600 hover:text-primary-700 px-3 py-1.5 rounded-lg hover:bg-primary-50 transition-colors font-medium border border-primary-200"
                     >
-                        <Plus className="w-3.5 h-3.5" />
+                        <Plus className="w-3.5 h-3.5"  weight="duotone"/>
                         Add Chart
                     </button>
                     <button
                         onClick={handleEditData}
                         className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors font-medium border border-gray-200"
                     >
-                        <Table2 className="w-3.5 h-3.5" />
+                        <Table className="w-3.5 h-3.5"  weight="duotone"/>
                         Edit Data
                     </button>
                     <button
                         onClick={() => setShowClearConfirm(true)}
                         className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-red-600 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors font-medium"
                     >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                         Clear Data
                     </button>
                 </div>
@@ -1487,7 +1453,7 @@ export function InstantVisualizerContent(): React.ReactElement {
                     <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
                         <div className="p-6">
                             <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4 text-red-600">
-                                <Trash2 className="w-6 h-6" />
+                                <Trash className="w-6 h-6"  weight="duotone"/>
                             </div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">Clear Dashboard?</h3>
                             <p className="text-sm text-gray-500">
@@ -1535,7 +1501,7 @@ export function InstantVisualizerContent(): React.ReactElement {
             {/* Charts List */}
             {manualCharts.length === 0 && !showPivotPanel && (
                 <div className="bg-white border border-gray-100 rounded-xl p-8 text-center animate-in fade-in duration-500">
-                    <BarChart3 className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                    <ChartBar className="w-8 h-8 text-gray-300 mx-auto mb-2"  weight="duotone"/>
                     <p className="text-sm text-gray-400">
                         No charts yet. Click &quot;Add Chart&quot; to create one.
                     </p>

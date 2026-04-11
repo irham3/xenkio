@@ -1,16 +1,7 @@
 'use client';
 
 import { useState, useRef, KeyboardEvent } from 'react';
-import {
-    Search,
-    Copy,
-    Check,
-    AlertTriangle,
-    Clock,
-    ChevronRight,
-    RotateCcw,
-    Server,
-} from 'lucide-react';
+import { MagnifyingGlass, Copy, Check, Warning, Clock, CaretRight, ArrowCounterClockwise, Database } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useDnsLookup } from '../hooks/use-dns-lookup';
@@ -93,7 +84,7 @@ export function DnsLookup() {
                         <label className="text-sm font-semibold text-gray-700">Domain Name</label>
                         <div className="relative flex gap-3">
                             <div className="relative flex-1">
-                                <Server className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <Database className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                                 <input
                                     ref={inputRef}
                                     type="text"
@@ -118,7 +109,7 @@ export function DnsLookup() {
                                     </span>
                                 ) : (
                                     <>
-                                        <Search className="w-4 h-4" />
+                                        <MagnifyingGlass className="w-4 h-4"  weight="duotone"/>
                                         Lookup
                                     </>
                                 )}
@@ -158,7 +149,7 @@ export function DnsLookup() {
                                     onClick={() => handleQuickExample(example)}
                                     className="inline-flex items-center gap-1 text-xs text-primary-600 hover:text-primary-700 font-medium group"
                                 >
-                                    <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                                    <CaretRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform"  weight="duotone"/>
                                     {example}
                                 </button>
                             ))}
@@ -171,7 +162,7 @@ export function DnsLookup() {
             {hasError && (
                 <div className="bg-white rounded-2xl border border-error-200 p-6 flex items-start gap-4">
                     <div className="w-10 h-10 rounded-full bg-error-50 flex items-center justify-center shrink-0">
-                        <AlertTriangle className="w-5 h-5 text-error-500" />
+                        <Warning className="w-5 h-5 text-error-500"  weight="duotone"/>
                     </div>
                     <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-sm">Lookup Failed</p>
@@ -183,7 +174,7 @@ export function DnsLookup() {
                         size="sm"
                         className="gap-2 border-gray-200 hover:bg-gray-50 shrink-0"
                     >
-                        <RotateCcw className="w-3.5 h-3.5" />
+                        <ArrowCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                         Reset
                     </Button>
                 </div>
@@ -228,7 +219,7 @@ export function DnsLookup() {
                             size="sm"
                             className="gap-1.5 text-gray-500 hover:text-gray-700 h-8 px-3"
                         >
-                            <RotateCcw className="w-3.5 h-3.5" />
+                            <ArrowCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                             Clear
                         </Button>
                     </div>
@@ -254,7 +245,7 @@ export function DnsLookup() {
                                         </th>
                                         <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wide w-24">
                                             <span className="flex items-center gap-1">
-                                                <Clock className="w-3 h-3" />
+                                                <Clock className="w-3 h-3"  weight="duotone"/>
                                                 TTL
                                             </span>
                                         </th>
@@ -292,9 +283,9 @@ export function DnsLookup() {
                                                     title="Copy value"
                                                 >
                                                     {copiedIndex === index ? (
-                                                        <Check className="w-3.5 h-3.5 text-success-500" />
+                                                        <Check className="w-3.5 h-3.5 text-success-500"  weight="duotone"/>
                                                     ) : (
-                                                        <Copy className="w-3.5 h-3.5" />
+                                                        <Copy className="w-3.5 h-3.5"  weight="duotone"/>
                                                     )}
                                                 </button>
                                             </td>

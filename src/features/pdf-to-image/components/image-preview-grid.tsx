@@ -50,7 +50,7 @@ export function ImagePreviewGrid({ images }: ImagePreviewGridProps) {
                                 onClick={() => setSelectedImage(image)}
                                 title="View Full Size"
                             >
-                                <MagnifyingGlassPlus className="w-4 h-4" />
+                                <MagnifyingGlassPlus className="w-4 h-4"  weight="duotone"/>
                             </Button>
                             <Button
                                 size="icon"
@@ -58,7 +58,7 @@ export function ImagePreviewGrid({ images }: ImagePreviewGridProps) {
                                 onClick={() => handleDownloadSingle(image)}
                                 title="Download Image"
                             >
-                                <DownloadSimple className="w-4 h-4" />
+                                <DownloadSimple className="w-4 h-4"  weight="duotone"/>
                             </Button>
                         </div>
                     </motion.div>

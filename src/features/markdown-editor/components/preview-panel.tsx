@@ -38,7 +38,7 @@ export function PreviewPanel({
                         disabled={!markdown.trim()}
                         className="h-8 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100 cursor-pointer"
                     >
-                        <DownloadSimple className="w-3.5 h-3.5" />
+                        <DownloadSimple className="w-3.5 h-3.5"  weight="duotone"/>
                         Download HTML
                     </Button>
                     <CopyButton

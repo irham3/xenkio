@@ -5,13 +5,7 @@ import { BASE64_MODES } from '@/features/base64-encoder/constants';
 import { type Base64Mode } from '@/features/base64-encoder/types';
 import { Button } from '@/components/ui/button';
 import { Label } from "@/components/ui/label";
-import {
-    ArrowsLeftRight,
-    FileCode,
-    FileText,
-    Lightning,
-    WarningCircle
-} from '@phosphor-icons/react/dist/ssr';
+import { ArrowsLeftRight, FileCode, FileText, Lightning, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CopyButton, ClearButton } from '@/components/shared';
@@ -43,7 +37,7 @@ export default function Base64EncoderClient() {
                 : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
             )}
           >
-            {mode.id === 'encode' ? <FileCode className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+            {mode.id === 'encode' ? <FileCode className="w-4 h-4"  weight="duotone"/> : <FileText className="w-4 h-4"  weight="duotone"/>}
             {mode.name}
           </button>
         ))}
@@ -86,7 +80,7 @@ export default function Base64EncoderClient() {
                   disabled={!result?.output || !!result.error}
                   className="flex-1 gap-2 cursor-pointer"
                 >
-                  <ArrowsLeftRight className="w-4 h-4" />
+                  <ArrowsLeftRight className="w-4 h-4"  weight="duotone"/>
                   Swap
                 </Button>
                 <ClearButton onClick={clear} disabled={!options.input} className="flex-1" />
@@ -101,12 +95,12 @@ export default function Base64EncoderClient() {
                 >
                   {isProcessing ? (
                     <>
-                      <Lightning className="w-4 h-4 mr-2 animate-pulse" />
+                      <Lightning className="w-4 h-4 mr-2 animate-pulse"  weight="duotone"/>
                       Processing...
                     </>
                   ) : (
                     <>
-                      <Lightning className="w-4 h-4 mr-2" />
+                      <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                       {options.mode === 'encode' ? 'Encode to Base64' : 'Decode from Base64'}
                     </>
                   )}
@@ -130,7 +124,7 @@ export default function Base64EncoderClient() {
                 </h3>
                 {result?.executionTime !== undefined && !result.error && result.output && (
                   <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                    <Lightning className="w-3 h-3" />
+                    <Lightning className="w-3 h-3"  weight="duotone"/>
                     {result.executionTime.toFixed(1)}ms
                   </span>
                 )}
@@ -156,7 +150,7 @@ export default function Base64EncoderClient() {
                   >
                     {result?.error ? (
                       <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
-                        <WarningCircle className="w-10 h-10 text-error-400" />
+                        <WarningCircle className="w-10 h-10 text-error-400"  weight="duotone"/>
                         <p className="font-semibold text-sm">Decoding Error</p>
                         <p className="text-xs opacity-80 text-center max-w-[250px]">{result.error}</p>
                       </div>
@@ -165,9 +159,9 @@ export default function Base64EncoderClient() {
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-3 py-8 opacity-50">
                         {options.mode === 'encode' ? (
-                          <FileCode className="w-10 h-10 text-gray-300" />
+                          <FileCode className="w-10 h-10 text-gray-300"  weight="duotone"/>
                         ) : (
-                          <FileText className="w-10 h-10 text-gray-300" />
+                          <FileText className="w-10 h-10 text-gray-300"  weight="duotone"/>
                         )}
                         <p className="text-sm">
                           {options.mode === 'encode'

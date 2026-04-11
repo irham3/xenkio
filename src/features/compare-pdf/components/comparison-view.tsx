@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { CircleNotch } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { CompareViewMode, PageDiffResult, RenderedPage } from '../types';
 
@@ -78,7 +78,7 @@ export function ComparisonView({
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[400px] text-gray-400">
-                <Loader2 className="w-10 h-10 animate-spin mb-4 text-primary-500" />
+                <CircleNotch className="w-10 h-10 animate-spin mb-4 text-primary-500"  weight="duotone"/>
                 <p className="text-sm font-medium">Loading page…</p>
             </div>
         );

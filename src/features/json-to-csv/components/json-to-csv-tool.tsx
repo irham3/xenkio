@@ -5,19 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import {
-    Copy,
-    DownloadSimple,
-    Trash,
-    FileJs,
-    FileXls,
-    CaretRight,
-    MagicWand,
-    UploadSimple,
-    Table as Table,
-    FileText,
-    WarningCircle
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, DownloadSimple, Trash, FileJs, FileXls, CaretRight, MagicWand, UploadSimple, Table as Table, FileText, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import { jsonToCsv, generateCsvData, ConvertOptions } from '../lib/converter';
 import { toast } from 'sonner';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -222,7 +210,7 @@ export function JsonToCsvTool() {
                         Load Sample
                     </Button>
                     <Button variant="ghost" size="sm" onClick={clearAll} className="text-sm h-9 text-red-500 hover:text-red-700 hover:bg-red-50 px-3 font-medium">
-                        <Trash className="w-4 h-4 mr-1.5" />
+                        <Trash className="w-4 h-4 mr-1.5"  weight="duotone"/>
                         Clear All
                     </Button>
                 </div>
@@ -240,17 +228,17 @@ export function JsonToCsvTool() {
                             <span className="font-semibold text-gray-700 text-sm">JSON Input</span>
                             {error && (
                                 <div className="flex items-center gap-1.5 ml-3 px-2 py-0.5 bg-red-50 text-red-600 rounded text-xs font-medium animate-pulse">
-                                    <WarningCircle className="w-3 h-3" />
+                                    <WarningCircle className="w-3 h-3"  weight="duotone"/>
                                     Invalid JSON
                                 </div>
                             )}
                         </div>
                         <div className="flex gap-1">
                             <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white hover:shadow-sm" onClick={() => fileInputRef.current?.click()} title="Upload JSON File">
-                                <UploadSimple className="w-4 h-4 text-gray-500" />
+                                <UploadSimple className="w-4 h-4 text-gray-500"  weight="duotone"/>
                             </Button>
                             <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white hover:shadow-sm" onClick={() => handleCopy(input)} title="Copy JSON">
-                                <Copy className="w-4 h-4 text-gray-500" />
+                                <Copy className="w-4 h-4 text-gray-500"  weight="duotone"/>
                             </Button>
                             <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white hover:shadow-sm" onClick={formatJson} title="Format JSON">
                                 <MagicWand className="w-4 h-4 text-gray-500" />
@@ -266,7 +254,7 @@ export function JsonToCsvTool() {
                     >
                         {isDragging && (
                             <div className="absolute inset-0 z-20 bg-primary-50/90 flex flex-col items-center justify-center border-2 border-dashed border-primary-300 m-2 rounded-lg backdrop-blur-sm animate-in fade-in zoom-in duration-200">
-                                <UploadSimple className="w-12 h-12 text-primary-500 mb-2" />
+                                <UploadSimple className="w-12 h-12 text-primary-500 mb-2"  weight="duotone"/>
                                 <p className="text-lg font-semibold text-primary-700">Drop JSON file here</p>
                             </div>
                         )}
@@ -282,7 +270,7 @@ export function JsonToCsvTool() {
 
                 {/* Conversion Arrow (Visible on Desktop) */}
                 <div className="hidden lg:flex flex-col items-center justify-center text-gray-300 gap-2">
-                    <CaretRight className="w-8 h-8 text-gray-300" />
+                    <CaretRight className="w-8 h-8 text-gray-300"  weight="duotone"/>
                 </div>
 
                 {/* Output Panel (CSV / Table) */}
@@ -292,18 +280,18 @@ export function JsonToCsvTool() {
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-2">
                                     <div className="p-1.5 bg-green-100 rounded-md">
-                                        <FileXls className="w-4 h-4 text-green-700" />
+                                        <FileXls className="w-4 h-4 text-green-700"  weight="duotone"/>
                                     </div>
                                     <span className="font-semibold text-gray-700 text-sm">Output</span>
                                 </div>
 
                                 <TabsList className="h-8 bg-gray-200/50 p-0.5">
                                     <TabsTrigger value="csv" className="h-7 text-xs px-3 data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                                        <FileText className="w-3.5 h-3.5 mr-1.5" />
+                                        <FileText className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                                         CSV Text
                                     </TabsTrigger>
                                     <TabsTrigger value="table" className="h-7 text-xs px-3 data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                                        <Table className="w-3.5 h-3.5 mr-1.5" />
+                                        <Table className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                                         Table Preview
                                     </TabsTrigger>
                                 </TabsList>
@@ -311,11 +299,11 @@ export function JsonToCsvTool() {
 
                             <div className="flex gap-2">
                                 <Button variant="outline" size="sm" className="h-8 text-xs border-gray-200 hover:bg-gray-50" onClick={() => handleCopy(output)} disabled={!output} title="Copy CSV">
-                                    <Copy className="w-3.5 h-3.5 mr-1.5" />
+                                    <Copy className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                                     Copy
                                 </Button>
                                 <Button variant="default" size="sm" className="h-8 text-xs bg-primary-600 hover:bg-primary-700 text-white shadow-sm" onClick={handleDownload} disabled={!output}>
-                                    <DownloadSimple className="w-3.5 h-3.5 mr-1.5" />
+                                    <DownloadSimple className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                                     Download
                                 </Button>
                             </div>
@@ -358,7 +346,7 @@ export function JsonToCsvTool() {
                                     </div>
                                 ) : (
                                     <div className="flex flex-col items-center justify-center h-full text-gray-400 gap-2">
-                                        <Table className="w-12 h-12 opacity-20" />
+                                        <Table className="w-12 h-12 opacity-20"  weight="duotone"/>
                                         <p className="text-sm">Enter valid JSON to see table preview</p>
                                     </div>
                                 )}

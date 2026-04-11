@@ -4,13 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    Copy,
-    Check,
-    Link,
-    LinkBreak,
-    ArrowCounterClockwise
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, Link, LinkBreak, ArrowCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -208,7 +202,7 @@ export function BorderRadiusGeneratorTool() {
                     state.linked && 'text-primary-600 border-primary-300 bg-primary-50'
                   )}
                 >
-                  {state.linked ? <Link className="w-3.5 h-3.5" /> : <LinkBreak className="w-3.5 h-3.5" />}
+                  {state.linked ? <Link className="w-3.5 h-3.5"/> : <LinkBreak className="w-3.5 h-3.5" />}
                   {state.linked ? 'Linked' : 'Unlinked'}
                 </Button>
               </div>
@@ -252,7 +246,7 @@ export function BorderRadiusGeneratorTool() {
                   onClick={handleReset}
                   className="flex-1 gap-1.5"
                 >
-                  <ArrowCounterClockwise className="w-4 h-4" />
+                  <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                   Reset
                 </Button>
               </div>
@@ -339,7 +333,7 @@ export function BorderRadiusGeneratorTool() {
                       copied && 'text-green-600 border-green-500 bg-green-50'
                     )}
                   >
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copied ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     {copied ? 'Copied!' : 'Copy CSS'}
                   </Button>
                 </div>

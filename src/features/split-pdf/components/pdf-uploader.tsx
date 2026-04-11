@@ -33,7 +33,7 @@ export function PdfUploader({ isDragActive, getRootProps, getInputProps }: PdfUp
                         <UploadSimple className={cn(
                             "w-10 h-10 transition-colors",
                             isDragActive ? "text-primary-600" : "text-gray-400"
-                        )} />
+                        )}  weight="duotone"/>
                     </div>
                     <div className="space-y-2">
                         <p className="text-xl font-semibold text-gray-900">
@@ -44,7 +44,7 @@ export function PdfUploader({ isDragActive, getRootProps, getInputProps }: PdfUp
                         </p>
                     </div>
                     <Button size="lg" className="mt-4" type="button">
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                         Select PDF file
                     </Button>
                 </div>

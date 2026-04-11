@@ -58,7 +58,7 @@ export function CarouselGenerator() {
               onClick={handleDownload}
               disabled={isExporting || config.images.length === 0}
             >
-              {isExporting ? <SpinnerGap className="mr-2 h-6 w-6 animate-spin" /> : <DownloadSimple className="mr-2 h-6 w-6" />}
+              {isExporting ? <SpinnerGap className="mr-2 h-6 w-6 animate-spin" /> : <DownloadSimple className="mr-2 h-6 w-6"  weight="duotone"/>}
               Export Carousel
             </Button>
             <p className="text-[12px] text-center mt-3 text-muted-foreground font-medium uppercase tracking-tighter">

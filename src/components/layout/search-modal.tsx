@@ -127,7 +127,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                 <div className="bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col">
                     {/* Search Header */}
                     <div className="flex items-center px-4 py-4 border-b border-gray-100">
-                        <MagnifyingGlass className="w-5 h-5 text-gray-500 mr-3" />
+                        <MagnifyingGlass className="w-5 h-5 text-gray-500 mr-3"  weight="duotone"/>
                         <label htmlFor="modal-search" className="sr-only">Search tools</label>
                         <input
                             id="modal-search"
@@ -147,7 +147,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                             aria-label="Close search"
                             className="p-1 hover:bg-gray-100 rounded-md transition-colors"
                         >
-                            <X className="w-5 h-5 text-gray-600" />
+                            <X className="w-5 h-5 text-gray-600"  weight="duotone"/>
                         </button>
                     </div>
 
@@ -191,7 +191,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                                             </div>
                                         </div>
                                         {selectedIndex === index && (
-                                            <ArrowRight className="w-4 h-4 text-primary-500" />
+                                            <ArrowRight className="w-4 h-4 text-primary-500"  weight="duotone"/>
                                         )}
                                     </button>
                                 ))}

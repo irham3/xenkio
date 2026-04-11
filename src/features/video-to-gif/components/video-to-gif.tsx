@@ -2,19 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
-import {
-    UploadSimple,
-    DownloadSimple,
-    FileVideo,
-    Sliders,
-    Image as Image,
-    WarningCircle,
-    ArrowsClockwise,
-    Play,
-    Pause,
-    Scissors,
-    SpinnerGap
-} from '@phosphor-icons/react/dist/ssr';
+import { UploadSimple, DownloadSimple, FileVideo, Sliders, Image as Image, WarningCircle, ArrowsClockwise, Play, Pause, Scissors, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { useVideoToGif, GifSettings, DEFAULT_GIF_SETTINGS, GifResult } from '../hooks/use-video-to-gif'
@@ -208,7 +196,7 @@ export function VideoToGif() {
                     <div className="flex flex-col items-center justify-center gap-4 text-center">
                         {ffmpegError ? (
                             <>
-                                <WarningCircle className="w-10 h-10 text-red-400" />
+                                <WarningCircle className="w-10 h-10 text-red-400"  weight="duotone"/>
                                 <p className="text-red-600 text-sm">{ffmpegError}</p>
                                 <button
                                     onClick={() => window.location.reload()}
@@ -263,7 +251,7 @@ export function VideoToGif() {
                             'p-4 rounded-2xl transition-colors',
                             isDragActive ? 'bg-primary-100' : 'bg-gray-100'
                         )}>
-                            <UploadSimple className={cn('w-8 h-8', isDragActive ? 'text-primary-600' : 'text-gray-400')} />
+                            <UploadSimple className={cn('w-8 h-8', isDragActive ? 'text-primary-600' : 'text-gray-400')}  weight="duotone"/>
                         </div>
                         <div className="space-y-1.5">
                             <p className="text-base font-semibold text-gray-700">
@@ -283,7 +271,7 @@ export function VideoToGif() {
     // ─── Main UI ───
     return (
         <div className="w-full max-w-4xl mx-auto space-y-5">
-            {/* Top Row: Video Preview + Settings */}
+            {/* Top Row: VideoCamera Preview + Settings */}
             <div className="grid lg:grid-cols-5 gap-5">
                 {/* Video Preview | 3 cols */}
                 <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
@@ -309,8 +297,8 @@ export function VideoToGif() {
                                 isPlaying ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'
                             )}>
                                 {isPlaying
-                                    ? <Pause className="w-6 h-6 text-white" />
-                                    : <Play className="w-6 h-6 text-white ml-0.5" />}
+                                    ? <Pause className="w-6 h-6 text-white"  weight="duotone"/>
+                                    : <Play className="w-6 h-6 text-white ml-0.5"  weight="duotone"/>}
                             </div>
                         </button>
                     </div>
@@ -318,7 +306,7 @@ export function VideoToGif() {
                     {/* Timeline / Range */}
                     <div className="px-4 py-3 border-t border-gray-100">
                         <div className="flex items-center gap-2 mb-2">
-                            <Scissors className="w-3.5 h-3.5 text-gray-400" />
+                            <Scissors className="w-3.5 h-3.5 text-gray-400"  weight="duotone"/>
                             <span className="text-xs font-medium text-gray-500">Trim</span>
                             <span className="text-[11px] text-gray-400 ml-auto font-mono">
                                 {formatTime(settings.startTime)} – {formatTime(settings.startTime + settings.duration)} / {formatTime(video.duration)}
@@ -385,7 +373,7 @@ export function VideoToGif() {
                 {/* Settings Panel | 2 cols */}
                 <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                     <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/80 flex items-center gap-2">
-                        <Sliders className="w-4 h-4 text-gray-500" />
+                        <Sliders className="w-4 h-4 text-gray-500"  weight="duotone"/>
                         <span className="text-sm font-semibold text-gray-800">Settings</span>
                     </div>
 
@@ -498,7 +486,7 @@ export function VideoToGif() {
                                 </>
                             ) : (
                                 <>
-                                    <Image className="w-4 h-4" />
+                                    <Image className="w-4 h-4"/>
                                     Convert to GIF
                                 </>
                             )}
@@ -509,7 +497,7 @@ export function VideoToGif() {
                             disabled={isConverting}
                             className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors"
                         >
-                            <ArrowsClockwise className="w-3 h-3" />
+                            <ArrowsClockwise className="w-3 h-3"  weight="duotone"/>
                             Upload different video
                         </button>
                     </div>
@@ -545,7 +533,7 @@ export function VideoToGif() {
                 <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
                     <div className="px-5 py-3 border-b border-gray-100 bg-gray-50/80 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Image className="w-4 h-4 text-emerald-500" />
+                            <Image className="w-4 h-4 text-emerald-500"/>
                             <span className="text-sm font-semibold text-gray-800">Result</span>
                         </div>
                         <div className="flex items-center gap-3 text-xs text-gray-500">
@@ -587,7 +575,7 @@ export function VideoToGif() {
                             onClick={handleDownload}
                             className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-semibold hover:bg-primary-700 transition-colors shadow-sm active:scale-[0.98]"
                         >
-                            <DownloadSimple className="w-4 h-4" />
+                            <DownloadSimple className="w-4 h-4"  weight="duotone"/>
                             Download
                         </button>
                     </div>
@@ -597,7 +585,7 @@ export function VideoToGif() {
             {/* FFmpeg Error */}
             {ffmpegError && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
-                    <WarningCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                    <WarningCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5"  weight="duotone"/>
                     <div>
                         <p className="text-sm font-medium text-red-700">Conversion Error</p>
                         <p className="text-xs text-red-500 mt-0.5">{ffmpegError}</p>

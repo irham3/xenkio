@@ -78,7 +78,7 @@ export default function QrReaderPage() {
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <DeviceMobile className="w-6 h-6 text-primary-500" />
+                                <DeviceMobile className="w-6 h-6 text-primary-500"  weight="duotone"/>
                             </div>
                             <h3 className="font-bold text-gray-900">Mobile Ready</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">
@@ -87,7 +87,7 @@ export default function QrReaderPage() {
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <Shield className="w-6 h-6 text-primary-500" />
+                                <Shield className="w-6 h-6 text-primary-500"  weight="duotone"/>
                             </div>
                             <h3 className="font-bold text-gray-900">Privacy Secured</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">
@@ -96,7 +96,7 @@ export default function QrReaderPage() {
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <Lightning className="w-6 h-6 text-primary-500" />
+                                <Lightning className="w-6 h-6 text-primary-500"  weight="duotone"/>
                             </div>
                             <h3 className="font-bold text-gray-900">Instant Results</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">

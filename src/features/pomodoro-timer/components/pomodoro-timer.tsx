@@ -2,14 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    Play,
-    Pause,
-    ArrowCounterClockwise,
-    Sliders,
-    SpeakerHigh,
-    SpeakerSlash
-} from '@phosphor-icons/react/dist/ssr';
+import { Play, Pause, ArrowCounterClockwise, Sliders, SpeakerHigh, SpeakerSlash } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -178,7 +171,7 @@ export function PomodoroTimer() {
                         )}
                         onClick={toggleTimer}
                     >
-                        {isActive ? <Pause className="h-10 w-10 fill-current" /> : <Play className="h-10 w-10 fill-current ml-1" />}
+                        {isActive ? <Pause className="h-10 w-10 fill-current"  weight="duotone"/> : <Play className="h-10 w-10 fill-current ml-1"  weight="duotone"/>}
                     </Button>
 
                     <Button
@@ -187,7 +180,7 @@ export function PomodoroTimer() {
                         className="h-14 w-14 rounded-2xl bg-gray-50 text-gray-500 hover:text-primary-600 hover:bg-white border border-gray-200 shadow-sm transition-all"
                         onClick={resetTimer}
                     >
-                        <ArrowCounterClockwise className="h-6 w-6" />
+                        <ArrowCounterClockwise className="h-6 w-6"  weight="duotone"/>
                     </Button>
                 </div>
             </div>
@@ -199,7 +192,7 @@ export function PomodoroTimer() {
                     className="w-full flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-xl"
                     onClick={() => setShowSettings(!showSettings)}
                 >
-                    <Sliders className="h-4 w-4 mr-2" />
+                    <Sliders className="h-4 w-4 mr-2"  weight="duotone"/>
                     <span>{showSettings ? 'Hide Settings' : 'Configure Timer'}</span>
                 </Button>
 

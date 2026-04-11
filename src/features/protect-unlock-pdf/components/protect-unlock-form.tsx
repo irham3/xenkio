@@ -3,18 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    Lock,
-    LockOpen,
-    UploadSimple,
-    File as File,
-    X,
-    Eye,
-    EyeSlash,
-    ShieldCheck,
-    FileText,
-    CheckCircle
-} from '@phosphor-icons/react/dist/ssr';
+import { Lock, LockOpen, UploadSimple, File as File, X, Eye, EyeSlash, ShieldCheck, FileText, CheckCircle } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -103,7 +92,7 @@ export function ProtectUnlockForm() {
                     "p-4 rounded-2xl transition-colors duration-500",
                     action === 'protect' ? "bg-blue-500/10 text-blue-600" : "bg-orange-500/10 text-orange-600"
                 )}>
-                    {action === 'protect' ? <Lock className="w-10 h-10" /> : <LockOpen className="w-10 h-10" />}
+                    {action === 'protect' ? <Lock className="w-10 h-10"  weight="duotone"/> : <LockOpen className="w-10 h-10"  weight="duotone"/>}
                 </div>
                 <div className="space-y-2">
                     <h2 className="text-4xl font-bold tracking-tight text-foreground">
@@ -170,7 +159,7 @@ export function ProtectUnlockForm() {
                                             "w-24 h-24 mb-6 rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300",
                                             action === 'protect' ? "bg-blue-100 text-blue-600" : "bg-orange-100 text-orange-600"
                                         )}>
-                                            {action === 'protect' ? <ShieldCheck className="w-12 h-12" /> : <FileText className="w-12 h-12" />}
+                                            {action === 'protect' ? <ShieldCheck className="w-12 h-12"  weight="duotone"/> : <FileText className="w-12 h-12"  weight="duotone"/>}
                                         </div>
                                         <h3 className="text-2xl font-bold mb-3 text-slate-900">Drop your PDF here</h3>
                                         <p className="text-slate-500 mb-8 max-w-xs mx-auto text-base font-medium">
@@ -183,7 +172,7 @@ export function ProtectUnlockForm() {
                                                 action === 'protect' ? "bg-blue-600 hover:bg-blue-700" : "bg-orange-600 hover:bg-orange-700"
                                             )}
                                         >
-                                            <UploadSimple className="w-5 h-5 mr-2" />
+                                            <UploadSimple className="w-5 h-5 mr-2"  weight="duotone"/>
                                             Select PDF File
                                         </Button>
                                     </div>
@@ -219,7 +208,7 @@ export function ProtectUnlockForm() {
                                             onClick={handleRemoveFile}
                                             className="text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                                         >
-                                            <X className="w-5 h-5" />
+                                            <X className="w-5 h-5"  weight="duotone"/>
                                         </Button>
                                     </div>
 
@@ -243,7 +232,7 @@ export function ProtectUnlockForm() {
                                                     onClick={() => setShowPassword(!showPassword)}
                                                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                                                 >
-                                                    {showPassword ? <EyeSlash className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                                    {showPassword ? <EyeSlash className="w-4 h-4"  weight="duotone"/> : <Eye className="w-4 h-4"  weight="duotone"/>}
                                                 </button>
                                             </div>
                                         </div>
@@ -266,7 +255,7 @@ export function ProtectUnlockForm() {
                                             <div className="space-y-4">
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-2">
-                                                        <ShieldCheck className={cn("w-5 h-5", action === 'protect' ? "text-blue-600" : "text-orange-600")} />
+                                                        <ShieldCheck className={cn("w-5 h-5", action === 'protect' ? "text-blue-600" : "text-orange-600")}  weight="duotone"/>
                                                         <Label className="text-base font-semibold text-slate-900">Advanced Options</Label>
                                                     </div>
                                                     <Switch
@@ -342,7 +331,7 @@ export function ProtectUnlockForm() {
                                             >
                                                 <Button asChild className="w-full h-14 text-lg rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20 transition-all duration-300">
                                                     <a href={processedUrl} download={`${action === 'protect' ? 'protected' : 'unlocked'}-${file.name}`}>
-                                                        <CheckCircle className="w-5 h-5 mr-2" />
+                                                        <CheckCircle className="w-5 h-5 mr-2"  weight="duotone"/>
                                                         Download {action === 'protect' ? 'Protected' : 'Unlocked'} PDF
                                                     </a>
                                                 </Button>

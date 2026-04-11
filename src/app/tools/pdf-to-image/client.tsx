@@ -2,14 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    FileText,
-    X,
-    DownloadSimple,
-    ArrowsClockwise,
-    Image as Image,
-    SpinnerGap
-} from '@phosphor-icons/react/dist/ssr';
+import { FileText, X, DownloadSimple, ArrowsClockwise, Image as ImageIcon, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { saveAs } from 'file-saver';
@@ -77,7 +70,7 @@ export default function PdfToImageClient() {
                             <Card className="p-4 sm:p-5 border-none shadow-sm bg-white rounded-2xl ring-1 ring-gray-100 flex flex-wrap items-center justify-between gap-4">
                                 <div className="flex items-center gap-4 min-w-0">
                                     <div className="w-12 h-12 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0 ring-1 ring-primary-100">
-                                        <FileText className="w-6 h-6" />
+                                        <FileText className="w-6 h-6"  weight="duotone"/>
                                     </div>
                                     <div className="min-w-0">
                                         <h3 className="font-semibold text-gray-900 truncate pr-2" title={file.name}>
@@ -97,7 +90,7 @@ export default function PdfToImageClient() {
                                     className="text-gray-400 hover:text-error-600 hover:bg-error-50 shrink-0"
                                     disabled={status === 'processing'}
                                 >
-                                    <X className="w-4 h-4" />
+                                    <X className="w-4 h-4"  weight="duotone"/>
                                 </Button>
                             </Card>
 
@@ -119,9 +112,9 @@ export default function PdfToImageClient() {
                             </AnimatePresence>
 
                             {/* PREVIEW AREA */}
-                            <div className="bg-white rounded-2xl ring-1 ring-gray-100 min-h-[400px] p-6 sm:p-8">
+                            <div className="bg-white rounded-2xl ring-1 ring-gray-100 min-h-100 p-6 sm:p-8">
                                 <div className="flex items-center gap-2 mb-6">
-                                    <Image className="w-5 h-5 text-gray-400" />
+                                    <ImageIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
                                     <h3 className="font-semibold text-gray-900">Preview</h3>
                                 </div>
 
@@ -132,7 +125,7 @@ export default function PdfToImageClient() {
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}
-                                            className="h-[300px] flex flex-col items-center justify-center text-center p-8 rounded-xl bg-gray-50/50"
+                                            className="h-75 flex flex-col items-center justify-center text-center p-8 rounded-xl bg-gray-50/50"
                                         >
                                             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm ring-1 ring-gray-100 mb-6">
                                                 <SpinnerGap className="w-8 h-8 text-primary-600 animate-spin" />
@@ -149,7 +142,7 @@ export default function PdfToImageClient() {
                                             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-success-50 p-4 rounded-xl border border-success-100">
                                                 <div className="flex items-center gap-3 text-success-800">
                                                     <div className="w-8 h-8 rounded-full bg-success-100 flex items-center justify-center shrink-0">
-                                                        <ArrowsClockwise className="w-4 h-4 text-success-600" />
+                                                        <ArrowsClockwise className="w-4 h-4 text-success-600"  weight="duotone"/>
                                                     </div>
                                                     <div>
                                                         <h4 className="font-bold text-sm">Conversion Complete</h4>
@@ -160,7 +153,7 @@ export default function PdfToImageClient() {
                                                     onClick={handleDownloadZip}
                                                     className="w-full sm:w-auto bg-success-600 hover:bg-success-700 text-white shadow-sm h-9 px-4 text-sm"
                                                 >
-                                                    <DownloadSimple className="w-3.5 h-3.5 mr-2" />
+                                                    <DownloadSimple className="w-3.5 h-3.5 mr-2"  weight="duotone"/>
                                                     Download ZIP
                                                 </Button>
                                             </div>
@@ -171,10 +164,10 @@ export default function PdfToImageClient() {
                                             key="placeholder"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
-                                            className="h-[300px] flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-gray-100 rounded-xl bg-gray-50/50"
+                                            className="h-75 flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-gray-100 rounded-xl bg-gray-50/50"
                                         >
                                             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm ring-1 ring-gray-100 mb-4">
-                                                <Image className="w-8 h-8 text-gray-300" />
+                                                <ImageIcon className="w-8 h-8 text-gray-300" aria-hidden="true" />
                                             </div>
                                             <h4 className="text-gray-900 font-medium mb-1">Ready to Convert</h4>
                                             <p className="text-sm text-gray-500 max-w-xs">
@@ -187,7 +180,7 @@ export default function PdfToImageClient() {
                         </div>
 
                         {/* RIGHT COLUMN: Sidebar Settings */}
-                        <div className="w-full lg:w-[340px] shrink-0 lg:sticky lg:top-6">
+                        <div className="w-full lg:w-85 shrink-0 lg:sticky lg:top-6">
                             <ConversionControls
                                 options={options}
                                 onChange={setOptions}

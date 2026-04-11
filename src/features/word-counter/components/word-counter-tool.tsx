@@ -1,16 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import {
-    Copy,
-    Check,
-    Trash,
-    TextT,
-    FileText,
-    Clock,
-    ChartBar,
-    Play
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, Trash, TextT, FileText, Clock, ChartBar, Play } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 
 interface TextStats {
@@ -140,12 +131,12 @@ export function WordCounterTool() {
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <StatCard label="Words" value={stats.words} icon={<TextT className="h-4 w-4" />} />
-        <StatCard label="Characters" value={stats.characters} icon={<FileText className="h-4 w-4" />} />
-        <StatCard label="No Spaces" value={stats.charactersNoSpaces} icon={<FileText className="h-4 w-4" />} />
-        <StatCard label="Sentences" value={stats.sentences} icon={<TextT className="h-4 w-4" />} />
-        <StatCard label="Paragraphs" value={stats.paragraphs} icon={<FileText className="h-4 w-4" />} />
-        <StatCard label="Lines" value={stats.lines} icon={<FileText className="h-4 w-4" />} />
+        <StatCard label="Words" value={stats.words} icon={<TextT className="h-4 w-4"  weight="duotone"/>} />
+        <StatCard label="Characters" value={stats.characters} icon={<FileText className="h-4 w-4"  weight="duotone"/>} />
+        <StatCard label="No Spaces" value={stats.charactersNoSpaces} icon={<FileText className="h-4 w-4"  weight="duotone"/>} />
+        <StatCard label="Sentences" value={stats.sentences} icon={<TextT className="h-4 w-4"  weight="duotone"/>} />
+        <StatCard label="Paragraphs" value={stats.paragraphs} icon={<FileText className="h-4 w-4"  weight="duotone"/>} />
+        <StatCard label="Lines" value={stats.lines} icon={<FileText className="h-4 w-4"  weight="duotone"/>} />
       </div>
 
       {/* Textarea + Actions */}
@@ -159,14 +150,14 @@ export function WordCounterTool() {
               onClick={handleCopy}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-green-600"  weight="duotone"/> : <Copy className="h-3.5 w-3.5"  weight="duotone"/>}
               {copied ? 'Copied' : 'Copy'}
             </button>
             <button
               onClick={handleClear}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              <Trash className="h-3.5 w-3.5" />
+              <Trash className="h-3.5 w-3.5"  weight="duotone"/>
               Clear
             </button>
           </div>
@@ -187,7 +178,7 @@ export function WordCounterTool() {
               : 'bg-gray-100 text-gray-400 cursor-not-allowed'
           }`}
         >
-          <Play className="w-4 h-4" />
+          <Play className="w-4 h-4"  weight="duotone"/>
           Analyze
         </button>
       </div>
@@ -197,7 +188,7 @@ export function WordCounterTool() {
         {/* Time Estimates */}
         <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
           <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-            <Clock className="h-4 w-4 text-primary-500" />
+            <Clock className="h-4 w-4 text-primary-500"  weight="duotone"/>
             Time Estimates
           </h3>
           <div className="space-y-3">
@@ -218,7 +209,7 @@ export function WordCounterTool() {
         {/* Top Words */}
         <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
           <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-            <ChartBar className="h-4 w-4 text-primary-500" />
+            <ChartBar className="h-4 w-4 text-primary-500"  weight="duotone"/>
             Top Keywords
           </h3>
           {topWords.length === 0 ? (

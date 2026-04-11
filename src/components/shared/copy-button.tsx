@@ -46,9 +46,9 @@ export function CopyButton({
             disabled={!value}
         >
             {copied ? (
-                <Check className={cn("h-4 w-4", size === 'sm' && "h-3 w-3")} />
+                <Check className={cn("h-4 w-4", size === 'sm' && "h-3 w-3")}  weight="duotone"/>
             ) : (
-                <Copy className={cn("h-4 w-4", size === 'sm' && "h-3 w-3")} />
+                <Copy className={cn("h-4 w-4", size === 'sm' && "h-3 w-3")}  weight="duotone"/>
             )}
             {showText && size !== 'icon' && (copied ? 'Copied!' : label)}
         </Button>

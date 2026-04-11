@@ -141,7 +141,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
               className="p-1.5 hover:bg-gray-700 text-gray-400 hover:text-white rounded-md transition-colors"
               onClick={() => setZoom(z => Math.max(0.05, z - 0.05))}
             >
-              <Minus size={14} />
+              <Minus size={14}  weight="duotone"/>
             </button>
             <span className="text-[10px] font-mono w-10 text-center text-gray-300 select-none">
               {Math.round(zoom * 100)}%
@@ -150,7 +150,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
               className="p-1.5 hover:bg-gray-700 text-gray-400 hover:text-white rounded-md transition-colors"
               onClick={() => setZoom(z => Math.min(1.5, z + 0.05))}
             >
-              <Plus size={14} />
+              <Plus size={14}  weight="duotone"/>
             </button>
           </div>
         </div>
@@ -223,8 +223,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
                     width={img.width || 800}
                     height={img.height || 800}
                     unoptimized
-                    draggable={false}
-                  />
+                    draggable={false}/>
 
                   {/* Selection Overlay & Handles */}
                   {isSelected && (
@@ -247,7 +246,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
                         className="absolute -top-10 left-1/2 -translate-x-1/2 w-8 h-8 bg-white border border-gray-200 rounded-full shadow-lg z-50 flex items-center justify-center cursor-ew-resize hover:scale-105 hover:border-primary-500 hover:text-primary-600 transition-all text-gray-500"
                         onMouseDown={(e) => handleStart(e, img.id, 'rotate')}
                       >
-                        <ArrowClockwise size={14} />
+                        <ArrowClockwise size={14}  weight="duotone"/>
                       </div>
 
                       {/* Connecting line to rotate handle */}
@@ -259,7 +258,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
                         onClick={(e) => handleDelete(img.id, e)}
                         onMouseDown={(e) => e.stopPropagation()}
                       >
-                        <Trash size={12} />
+                        <Trash size={12}  weight="duotone"/>
                       </button>
                     </>
                   )}

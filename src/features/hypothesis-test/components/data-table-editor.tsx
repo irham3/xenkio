@@ -3,7 +3,7 @@
 import { useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Trash2, X } from 'lucide-react';
+import { Plus, Trash, X } from '@phosphor-icons/react/dist/ssr';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -159,7 +159,7 @@ export function DataTableEditor({
                                                 className="p-0.5 rounded hover:bg-red-100 text-gray-400 hover:text-red-500 transition-colors"
                                                 title={`Remove ${col.label}`}
                                             >
-                                                <X className="w-3 h-3" />
+                                                <X className="w-3 h-3"  weight="duotone"/>
                                             </button>
                                         )}
                                     </div>
@@ -214,7 +214,7 @@ export function DataTableEditor({
                                         className="p-1 rounded opacity-0 group-hover:opacity-100 hover:bg-red-100 text-gray-400 hover:text-red-500 transition-all disabled:opacity-0"
                                         title="Remove row"
                                     >
-                                        <Trash2 className="w-3.5 h-3.5" />
+                                        <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                                     </button>
                                 </td>
                             </tr>
@@ -232,7 +232,7 @@ export function DataTableEditor({
                     onClick={addRow}
                     className="h-7 text-xs gap-1 text-gray-600"
                 >
-                    <Plus className="w-3 h-3" />
+                    <Plus className="w-3 h-3"  weight="duotone"/>
                     Add Row
                 </Button>
                 {allowAddColumns && (
@@ -245,7 +245,7 @@ export function DataTableEditor({
                         }}
                         className="h-7 text-xs gap-1 text-gray-600"
                     >
-                        <Plus className="w-3 h-3" />
+                        <Plus className="w-3 h-3"  weight="duotone"/>
                         Add Column
                     </Button>
                 )}

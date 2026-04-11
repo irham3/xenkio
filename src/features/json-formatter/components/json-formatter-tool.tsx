@@ -5,14 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import {
-    Copy,
-    Trash,
-    CodeSimple,
-    DownloadSimple,
-    BracketsCurly,
-    FileJs
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Trash, CodeSimple, DownloadSimple, BracketsCurly, FileJs } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { IndentSize } from '../types';
 
@@ -96,13 +89,13 @@ export function JsonFormatterTool() {
 
                 <div className="flex items-center gap-2">
                     <Button size="sm" onClick={format} className="bg-primary-600 hover:bg-primary-700 text-white shadow-primary">
-                        <BracketsCurly size={16} className="mr-2" /> Format
+                        <BracketsCurly size={16} className="mr-2"  weight="duotone"/> Format
                     </Button>
                     <Button size="sm" variant="secondary" onClick={minify} className="bg-gray-100 hover:bg-gray-200 text-gray-700">
                         <CodeSimple size={16} className="mr-2" /> Minify
                     </Button>
                     <Button size="icon" variant="ghost" onClick={reset} title="Clear All" className="text-gray-400 hover:text-red-500 hover:bg-red-50">
-                        <Trash size={16} />
+                        <Trash size={16}  weight="duotone"/>
                     </Button>
                 </div>
             </div>
@@ -140,10 +133,10 @@ export function JsonFormatterTool() {
                         <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Result</span>
                         <div className="flex gap-1 opacity-100 transition-opacity">
                             <Button size="icon" variant="ghost" onClick={handleCopy} className="h-7 w-7 text-gray-400 hover:text-white hover:bg-gray-700 rounded">
-                                <Copy size={14} />
+                                <Copy size={14}  weight="duotone"/>
                             </Button>
                             <Button size="icon" variant="ghost" onClick={handleDownload} className="h-7 w-7 text-gray-400 hover:text-white hover:bg-gray-700 rounded">
-                                <DownloadSimple size={14} />
+                                <DownloadSimple size={14}  weight="duotone"/>
                             </Button>
                         </div>
                     </div>

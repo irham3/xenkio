@@ -1,14 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    Calendar,
-    Cake,
-    Clock,
-    CalendarDots,
-    Confetti,
-    Star
-} from '@phosphor-icons/react/dist/ssr';
+import { Calendar, Cake, Clock, CalendarDots, Confetti, Star } from '@phosphor-icons/react/dist/ssr';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAgeCalculator } from '../hooks/use-age-calculator';

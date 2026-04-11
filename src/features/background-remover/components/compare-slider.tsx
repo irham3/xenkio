@@ -69,8 +69,7 @@ export function CompareSlider({ original, modified, className }: CompareSliderPr
                         backgroundImage: 'linear-gradient(45deg, #f3f4f6 25%, transparent 25%), linear-gradient(-45deg, #f3f4f6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f3f4f6 75%), linear-gradient(-45deg, transparent 75%, #f3f4f6 75%)',
                         backgroundSize: '20px 20px',
                         backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px'
-                    }}
-                />
+                    }}/>
             </div>
 
             {/* Original Image (Clipped) */}
@@ -83,8 +82,7 @@ export function CompareSlider({ original, modified, className }: CompareSliderPr
                     alt="Original"
                     fill
                     className="object-contain"
-                    unoptimized
-                />
+                    unoptimized/>
             </div>
 
             {/* Slider Handle */}

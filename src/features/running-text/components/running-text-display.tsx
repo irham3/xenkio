@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Maximize2, Minimize2 } from 'lucide-react';
+import { ArrowsOut, ArrowsIn } from '@phosphor-icons/react/dist/ssr';
 import type { RunningTextConfig } from '../types';
 
 interface RunningTextDisplayProps {
@@ -304,7 +304,7 @@ export function RunningTextDisplay({ config, isFullscreen }: RunningTextDisplayP
                 className="absolute top-3 right-3 p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors z-20"
                 title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
             >
-                {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
+                {isFullscreen ? <ArrowsIn className="w-5 h-5"  weight="duotone"/> : <ArrowsOut className="w-5 h-5"  weight="duotone"/>}
             </button>
         </div>
     );

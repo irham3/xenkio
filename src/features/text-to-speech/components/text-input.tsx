@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Copy, Trash2, Check } from "lucide-react";
+import { Copy, Trash, Check } from '@phosphor-icons/react/dist/ssr';
 import { toast } from "sonner";
 
 interface TextInputProps {
@@ -43,9 +43,9 @@ export function TextInput({ value, onChange, disabled }: TextInputProps) {
                         disabled={!value}
                     >
                         {copied ? (
-                            <Check className="h-4 w-4 mr-2" />
+                            <Check className="h-4 w-4 mr-2"  weight="duotone"/>
                         ) : (
-                            <Copy className="h-4 w-4 mr-2" />
+                            <Copy className="h-4 w-4 mr-2"  weight="duotone"/>
                         )}
                         {copied ? "Copied" : "Copy"}
                     </Button>
@@ -56,7 +56,7 @@ export function TextInput({ value, onChange, disabled }: TextInputProps) {
                         disabled={!value}
                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
                     >
-                        <Trash2 className="h-4 w-4 mr-2" />
+                        <Trash className="h-4 w-4 mr-2"  weight="duotone"/>
                         Clear
                     </Button>
                 </div>

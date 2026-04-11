@@ -1,21 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import {
-    Eraser,
-    PaintBrush,
-    ArrowCounterClockwise,
-    ArrowClockwise,
-    X,
-    MagnifyingGlassPlus,
-    MagnifyingGlassMinus,
-    Check,
-    Cursor,
-    ImageSquare as PhosphorImage,
-    Palette,
-    PaintBucket,
-    UploadSimple
-} from '@phosphor-icons/react/dist/ssr';
+import { Eraser, PaintBrush, ArrowCounterClockwise, ArrowClockwise, X, MagnifyingGlassPlus, MagnifyingGlassMinus, Check, Cursor, ImageSquare as PhosphorImage, Palette, PaintBucket, UploadSimple, Plus } from '@phosphor-icons/react/dist/ssr';
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
@@ -373,7 +359,7 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
             <div className="h-14 shrink-0 flex items-center justify-between px-6 bg-black/40 border-b border-white/10 backdrop-blur text-white z-40">
                 <div className="flex items-center gap-4">
                     <h3 className="text-lg font-bold mr-4">Edit Result</h3>
-                    <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'manual' | 'background')} className="w-[400px]">
+                    <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'manual' | 'background')} className="w-100">
                         <TabsList className="grid w-full grid-cols-2 bg-white/10 text-white">
                             <TabsTrigger value="manual" className="data-[state=active]:bg-white/20 data-[state=active]:text-white">Manual Edit</TabsTrigger>
                             <TabsTrigger value="background" className="data-[state=active]:bg-white/20 data-[state=active]:text-white">Backround</TabsTrigger>
@@ -549,7 +535,7 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                                         className={cn("w-10 h-10 rounded-full border-2 flex items-center justify-center bg-[url('/transparent-grid.png')] bg-contain", bgType === 'transparent' ? "border-white" : "border-white/20")}
                                         title="Transparent"
                                     >
-                                        <X className="w-4 h-4 text-gray-500" />
+                                        <X className="w-4 h-4 text-gray-500"  weight="duotone"/>
                                     </button>
 
                                     {/* Custom Color Input */}
@@ -560,7 +546,7 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                                             onChange={(e) => { setBgType('color'); setBgValue(e.target.value) }}
                                         />
                                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none mix-blend-difference">
-                                            <Plus className="w-4 h-4 text-white" />
+                                            <Plus className="w-4 h-4 text-white"  weight="duotone"/>
                                         </div>
                                     </div>
 
@@ -591,7 +577,7 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                                     <div className="flex gap-4 overflow-x-auto pb-2">
                                         <label className="shrink-0 w-24 h-24 rounded-lg border-2 border-dashed border-white/20 hover:border-white/50 flex flex-col items-center justify-center cursor-pointer text-white/50 hover:text-white bg-white/5 hover:bg-white/10 transition-colors">
                                             <input type="file" accept="image/*" className="hidden" onChange={handleBgUpload} />
-                                            <UploadSimple className="w-6 h-6 mb-2" />
+                                            <UploadSimple className="w-6 h-6 mb-2"  weight="duotone"/>
                                             <span className="text-[10px]">UploadSimple</span>
                                         </label>
 
@@ -601,7 +587,7 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                                                 onClick={() => { setBgType('image'); setBgValue(img.url) }}
                                                 className={cn("shrink-0 w-24 h-24 rounded-lg border-2 overflow-hidden relative transition-all", bgValue === img.url && bgType === 'image' ? "border-white ring-2 ring-white/50" : "border-white/10")}
                                             >
-                                                <Image src={img.url} alt={img.label} fill sizes="96px" className="object-cover" />
+                                                <Image src={img.url} alt={img.label} fill sizes="96px" className="object-cover"/>
                                                 <div className="absolute inset-0 flex items-end p-1 bg-linear-to-t from-black/60 to-transparent z-10">
                                                     <span className="text-[10px] text-white font-medium">{img.label}</span>
                                                 </div>
@@ -615,14 +601,5 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                 </div>
             </div>
         </div>
-    )
-}
-
-function Plus({ className }: { className?: string }) {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <path d="M5 12h14" />
-            <path d="M12 5v14" />
-        </svg>
     )
 }

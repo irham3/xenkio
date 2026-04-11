@@ -168,7 +168,7 @@ export function HeroSection() {
                           </div>
                           <div className="text-sm text-gray-700 truncate">{tool.description}</div>
                         </div>
-                        {!tool.isComingSoon && <ArrowRight className="w-4 h-4 text-gray-400" />}
+                        {!tool.isComingSoon && <ArrowRight className="w-4 h-4 text-gray-400"  weight="duotone"/>}
                       </>
                     );
 
@@ -198,12 +198,12 @@ export function HeroSection() {
           {/* Trust Indicators - 3 UVP Pillars */}
           <div className="animate-fade-in delay-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-gray-500">
             <div className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              <ShieldCheck className="w-4 h-4 text-emerald-500"  weight="duotone"/>
               <span className="font-medium">Private by design</span>
             </div>
             <span className="hidden sm:block text-gray-300">·</span>
             <div className="flex items-center gap-1.5">
-              <Lightning className="w-4 h-4 text-amber-500" />
+              <Lightning className="w-4 h-4 text-amber-500"  weight="duotone"/>
               <span className="font-medium">Instant, no queue</span>
             </div>
             <span className="hidden sm:block text-gray-300">·</span>

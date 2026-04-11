@@ -39,7 +39,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                   : "text-gray-500 hover:text-gray-900"
               )}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-4 h-4"/>
               {tab.label}
             </button>
           );

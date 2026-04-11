@@ -72,7 +72,7 @@ export function TranscriptEditor({
                         onClick={handleCopy}
                         disabled={!value}
                     >
-                        {copied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
+                        {copied ? <Check className="h-4 w-4 mr-2"  weight="duotone"/> : <Copy className="h-4 w-4 mr-2"  weight="duotone"/>}
                         {copied ? "Copied" : "Copy"}
                     </Button>
                     <Button
@@ -81,7 +81,7 @@ export function TranscriptEditor({
                         onClick={handleDownload}
                         disabled={!value}
                     >
-                        <DownloadSimple className="h-4 w-4 mr-2" />
+                        <DownloadSimple className="h-4 w-4 mr-2"  weight="duotone"/>
                         Export
                     </Button>
                     <Button
@@ -91,7 +91,7 @@ export function TranscriptEditor({
                         disabled={!value}
                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
                     >
-                        <Trash className="h-4 w-4 mr-2" />
+                        <Trash className="h-4 w-4 mr-2"  weight="duotone"/>
                         Clear
                     </Button>
                 </div>

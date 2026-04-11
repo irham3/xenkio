@@ -17,20 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import {
-    Plus,
-    Trash,
-    Buildings,
-    User,
-    Package,
-    Gear,
-    Note,
-    Palette,
-    UploadSimple,
-    X,
-    FileText,
-    Check
-} from '@phosphor-icons/react/dist/ssr';
+import { Plus, Trash, Buildings, User, Package, Gear, Note, Palette, UploadSimple, X, FileText, Check } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 interface InvoiceFormProps {
@@ -64,7 +51,7 @@ function SectionCard({
         <div className={cn("bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden", className)}>
             <div className="flex items-center gap-2.5 p-4 border-b border-gray-100 bg-gray-50/50">
                 <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-100">
-                    <Icon className="w-4 h-4 text-primary-600" />
+                    <Icon className="w-4 h-4 text-primary-600"/>
                 </div>
                 <h3 className="font-semibold text-gray-900">{title}</h3>
             </div>
@@ -199,7 +186,7 @@ export function InvoiceForm({
                             <p className="text-xs font-semibold text-gray-900 truncate">{template.label}</p>
                             {invoiceData.settings.template === template.value && !invoiceData.settings.useCustomColors && (
                                 <div className="absolute top-1.5 right-1.5 w-4 h-4 bg-primary-500 rounded-full flex items-center justify-center">
-                                    <Check className="w-2.5 h-2.5 text-white" />
+                                    <Check className="w-2.5 h-2.5 text-white"  weight="duotone"/>
                                 </div>
                             )}
                         </button>
@@ -289,13 +276,12 @@ export function InvoiceForm({
                                 width={80}
                                 height={80}
                                 className="w-20 h-20 object-contain rounded-lg border border-gray-200 bg-white"
-                                unoptimized
-                            />
+                                unoptimized/>
                             <button
                                 onClick={removeLogo}
                                 className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer"
                             >
-                                <X className="w-3.5 h-3.5" />
+                                <X className="w-3.5 h-3.5"  weight="duotone"/>
                             </button>
                         </div>
                         <div>
@@ -313,7 +299,7 @@ export function InvoiceForm({
                         onClick={() => fileInputRef.current?.click()}
                         className="w-full py-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-400 hover:bg-primary-50/50 transition-colors group cursor-pointer"
                     >
-                        <UploadSimple className="w-8 h-8 mx-auto text-gray-400 group-hover:text-primary-500 mb-2" />
+                        <UploadSimple className="w-8 h-8 mx-auto text-gray-400 group-hover:text-primary-500 mb-2"  weight="duotone"/>
                         <p className="text-sm font-medium text-gray-600 group-hover:text-primary-600">
                             Click to upload logo
                         </p>
@@ -521,7 +507,7 @@ export function InvoiceForm({
                                     disabled={invoiceData.items.length <= 1}
                                     className="h-9 w-9 p-0 text-gray-400 hover:text-red-500 hover:bg-red-50 disabled:opacity-30"
                                 >
-                                    <Trash className="w-4 h-4" />
+                                    <Trash className="w-4 h-4"  weight="duotone"/>
                                 </Button>
                             </div>
                         </div>
@@ -532,7 +518,7 @@ export function InvoiceForm({
                         onClick={addItem}
                         className="w-full mt-2 border-dashed border-gray-300 text-gray-600 hover:text-primary-600 hover:border-primary-300"
                     >
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                         Add Item
                     </Button>
                 </div>

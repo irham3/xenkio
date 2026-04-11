@@ -1,21 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import {
-    AlertCircle,
-    Check,
-    Copy,
-    Download,
-    FileText,
-    Loader2,
-    MessageSquare,
-    Send,
-    Trash2,
-    Upload,
-    Wifi,
-    WifiOff,
-    X,
-} from 'lucide-react';
+import { WarningCircle, Check, Copy, DownloadSimple, FileText, CircleNotch, ChatCircle, PaperPlaneTilt, Trash, UploadSimple, WifiHigh, WifiSlash, X } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { useP2PShare } from '../hooks/use-p2p-share';
 import { downloadFile, formatFileSize } from '../lib/peer-utils';
@@ -53,11 +39,11 @@ function StatusBadge({ status }: { status: ConnectionStatus }) {
             className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${className}`}
         >
             {status === 'initializing' || status === 'connecting' ? (
-                <Loader2 size={10} className="animate-spin" />
+                <CircleNotch size={10} className="animate-spin"  weight="duotone"/>
             ) : status === 'connected' ? (
-                <Wifi size={10} />
+                <WifiHigh size={10}  weight="duotone"/>
             ) : status === 'error' || status === 'disconnected' ? (
-                <WifiOff size={10} />
+                <WifiSlash size={10}  weight="duotone"/>
             ) : null}
             {label}
         </span>
@@ -74,8 +60,8 @@ function ReceivedItemCard({ item, onCopy, onDownload }: {
         <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
             <div className="w-8 h-8 bg-white border border-gray-200 rounded-lg flex items-center justify-center shrink-0">
                 {isText
-                    ? <MessageSquare size={15} className="text-gray-500" />
-                    : <FileText size={15} className="text-gray-500" />
+                    ? <ChatCircle size={15} className="text-gray-500"  weight="duotone"/>
+                    : <FileText size={15} className="text-gray-500"  weight="duotone"/>
                 }
             </div>
             <div className="flex-1 min-w-0">
@@ -91,7 +77,7 @@ function ReceivedItemCard({ item, onCopy, onDownload }: {
                             onClick={() => onCopy(item.payload.text ?? '')}
                             className="mt-2 flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-700 transition-colors"
                         >
-                            <Copy size={12} />
+                            <Copy size={12}  weight="duotone"/>
                             Copy text
                         </button>
                     </>
@@ -110,7 +96,7 @@ function ReceivedItemCard({ item, onCopy, onDownload }: {
                             onClick={() => onDownload(item)}
                             className="mt-2 flex items-center gap-1.5 text-xs text-blue-500 hover:text-blue-700 transition-colors font-medium"
                         >
-                            <Download size={12} />
+                            <DownloadSimple size={12}  weight="duotone"/>
                             Download
                         </button>
                     </>
@@ -299,8 +285,8 @@ export function P2PShareTool() {
                         className="flex items-center gap-2 px-4 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-700 disabled:opacity-40 transition-all shrink-0"
                     >
                         {idCopied
-                            ? <Check size={16} />
-                            : <Copy size={16} />
+                            ? <Check size={16}  weight="duotone"/>
+                            : <Copy size={16}  weight="duotone"/>
                         }
                         <span className="text-sm">{idCopied ? 'Copied' : 'Copy'}</span>
                     </button>
@@ -344,7 +330,7 @@ export function P2PShareTool() {
             {/* Error banner */}
             {error && (
                 <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-red-700">
-                    <AlertCircle size={16} className="shrink-0" />
+                    <WarningCircle size={16} className="shrink-0"  weight="duotone"/>
                     <span className="text-sm">{error}</span>
                 </div>
             )}
@@ -372,8 +358,8 @@ export function P2PShareTool() {
                                     className="flex items-center gap-2 px-5 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-700 disabled:opacity-40 transition-all whitespace-nowrap text-sm"
                                 >
                                     {status === 'connecting'
-                                        ? <Loader2 size={16} className="animate-spin" />
-                                        : <Wifi size={16} />
+                                        ? <CircleNotch size={16} className="animate-spin"  weight="duotone"/>
+                                        : <WifiHigh size={16}  weight="duotone"/>
                                     }
                                     Connect
                                 </button>
@@ -390,7 +376,7 @@ export function P2PShareTool() {
                                     onClick={disconnect}
                                     className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors"
                                 >
-                                    <X size={14} />
+                                    <X size={14}  weight="duotone"/>
                                     Disconnect
                                 </button>
                             </div>
@@ -412,7 +398,7 @@ export function P2PShareTool() {
                                     disabled={!textInput.trim()}
                                     className="mt-2 flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-xl hover:bg-gray-700 disabled:opacity-40 transition-all text-sm"
                                 >
-                                    <Send size={14} />
+                                    <PaperPlaneTilt size={14}  weight="duotone"/>
                                     Send Text
                                 </button>
                             </div>
@@ -427,12 +413,12 @@ export function P2PShareTool() {
                                 <label className="flex items-center gap-3 px-4 py-4 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-gray-400 transition-colors">
                                     {sendingFile ? (
                                         <>
-                                            <Loader2 size={18} className="text-gray-400 animate-spin" />
+                                            <CircleNotch size={18} className="text-gray-400 animate-spin"  weight="duotone"/>
                                             <span className="text-sm text-gray-500">Sending…</span>
                                         </>
                                     ) : (
                                         <>
-                                            <Upload size={18} className="text-gray-400" />
+                                            <UploadSimple size={18} className="text-gray-400"  weight="duotone"/>
                                             <span className="text-sm text-gray-500">
                                                 Click to select a file to send
                                             </span>
@@ -475,7 +461,7 @@ export function P2PShareTool() {
                                 onClick={clearReceived}
                                 className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-red-500 transition-colors"
                             >
-                                <Trash2 size={14} />
+                                <Trash size={14}  weight="duotone"/>
                                 Clear all
                             </button>
                         )}
@@ -484,7 +470,7 @@ export function P2PShareTool() {
                     {isReady && receivedItems.length === 0 && (
                         <div className="flex flex-col items-center py-12 text-center">
                             <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                <Wifi size={24} className="text-gray-400" />
+                                <WifiHigh size={24} className="text-gray-400"  weight="duotone"/>
                             </div>
                             <p className="font-medium text-gray-700 mb-1">
                                 Waiting for connection
@@ -498,7 +484,7 @@ export function P2PShareTool() {
                     {isConnected && receivedItems.length === 0 && (
                         <div className="flex flex-col items-center py-12 text-center">
                             <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mb-4">
-                                <Check size={24} className="text-green-500" />
+                                <Check size={24} className="text-green-500"  weight="duotone"/>
                             </div>
                             <p className="font-medium text-gray-700 mb-1">Connected!</p>
                             <p className="text-sm text-gray-400">

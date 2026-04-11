@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { FaceAnonymizerClient } from './client';
-import { ScanFace, Shield, Download } from 'lucide-react';
+import { UserFocus, Shield, DownloadSimple } from '@phosphor-icons/react/dist/ssr';
 import { TOOLS } from '@/data/tools';
 import { notFound } from 'next/navigation';
 
@@ -96,7 +96,7 @@ export default function FaceAnonymizerPage() {
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         {[
                             {
-                                Icon: ScanFace,
+                                Icon: UserFocus,
                                 title: 'AI-Powered Detection',
                                 body: 'BlazeFace model detects every face in the photo automatically — no manual regions needed.',
                             },
@@ -106,14 +106,14 @@ export default function FaceAnonymizerPage() {
                                 body: 'Your image never leaves the browser. All face detection and anonymization happens locally on your device.',
                             },
                             {
-                                Icon: Download,
+                                Icon: DownloadSimple,
                                 title: 'Full-Resolution Output',
                                 body: 'Download the anonymized image at the original resolution as a lossless PNG file.',
                             },
                         ].map(({ Icon, title, body }) => (
                             <div key={title} className="p-6 space-y-4">
                                 <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                    <Icon className="w-6 h-6 text-primary-500" />
+                                    <Icon className="w-6 h-6 text-primary-500"/>
                                 </div>
                                 <h3 className="font-bold text-gray-900">{title}</h3>
                                 <p className="text-sm text-gray-500 leading-relaxed">{body}</p>

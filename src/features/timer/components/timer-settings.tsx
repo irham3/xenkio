@@ -61,7 +61,7 @@ export function TimerSettings({ config, onChange }: TimerSettingsProps) {
                         config.mode === 'countdown' ? "bg-white text-primary-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
                     )}
                 >
-                    <Clock className="w-4 h-4" />
+                    <Clock className="w-4 h-4"  weight="duotone"/>
                     Countdown
                 </button>
                 <button
@@ -79,7 +79,7 @@ export function TimerSettings({ config, onChange }: TimerSettingsProps) {
                         config.mode === 'deadline' ? "bg-white text-primary-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
                     )}
                 >
-                    <Calendar className="w-4 h-4" />
+                    <Calendar className="w-4 h-4"  weight="duotone"/>
                     By Target Time
                 </button>
             </div>

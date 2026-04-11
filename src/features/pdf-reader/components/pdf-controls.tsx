@@ -1,16 +1,6 @@
 'use client';
 
-import {
-    ChevronLeft,
-    ChevronRight,
-    ZoomIn,
-    ZoomOut,
-    Hand,
-    Loader2,
-    RotateCcw,
-    Maximize,
-    Minimize,
-} from 'lucide-react';
+import { CaretLeft, CaretRight, MagnifyingGlassPlus, MagnifyingGlassMinus, Hand, CircleNotch, ArrowCounterClockwise, ArrowsOut, ArrowsIn } from '@phosphor-icons/react/dist/ssr';
 
 interface PdfControlsProps {
     currentPage: number;
@@ -60,7 +50,7 @@ export function PdfControls({
                     className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     aria-label="Previous page"
                 >
-                    <ChevronLeft className="w-5 h-5" />
+                    <CaretLeft className="w-5 h-5"  weight="duotone"/>
                 </button>
 
                 <div className="flex items-center gap-1.5 text-sm">
@@ -83,7 +73,7 @@ export function PdfControls({
                     className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     aria-label="Next page"
                 >
-                    <ChevronRight className="w-5 h-5" />
+                    <CaretRight className="w-5 h-5"  weight="duotone"/>
                 </button>
             </div>
 
@@ -95,7 +85,7 @@ export function PdfControls({
                     className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     aria-label="Zoom out"
                 >
-                    <ZoomOut className="w-4 h-4" />
+                    <MagnifyingGlassMinus className="w-4 h-4"  weight="duotone"/>
                 </button>
                 <span className="text-sm font-medium text-gray-700 w-12 text-center tabular-nums">
                     {Math.round(zoom * 100)}%
@@ -106,7 +96,7 @@ export function PdfControls({
                     className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     aria-label="Zoom in"
                 >
-                    <ZoomIn className="w-4 h-4" />
+                    <MagnifyingGlassPlus className="w-4 h-4"  weight="duotone"/>
                 </button>
             </div>
 
@@ -126,7 +116,7 @@ export function PdfControls({
                     aria-label={isGestureActive ? 'Disable gesture control' : 'Enable gesture control'}
                 >
                     {isGestureLoading ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <CircleNotch className="w-4 h-4 animate-spin"  weight="duotone"/>
                     ) : (
                         <Hand className="w-4 h-4" />
                     )}
@@ -145,9 +135,9 @@ export function PdfControls({
                     aria-label={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                 >
                     {isFullscreen ? (
-                        <Minimize className="w-4 h-4" />
+                        <ArrowsIn className="w-4 h-4"  weight="duotone"/>
                     ) : (
-                        <Maximize className="w-4 h-4" />
+                        <ArrowsOut className="w-4 h-4"  weight="duotone"/>
                     )}
                 </button>
 
@@ -156,7 +146,7 @@ export function PdfControls({
                     className="p-2 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
                     aria-label="Reset reader"
                 >
-                    <RotateCcw className="w-4 h-4" />
+                    <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                 </button>
             </div>
         </div>

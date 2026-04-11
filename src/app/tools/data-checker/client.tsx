@@ -9,24 +9,7 @@ import { SAMPLE_DATA } from '@/features/data-checker/constants';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import {
-    Upload,
-    Trash2,
-    Download,
-    FileSpreadsheet,
-    RotateCcw,
-    ClipboardPaste,
-    FileText,
-    Zap,
-    List,
-    ChevronRight,
-    CheckCircle2,
-    XCircle,
-    PartyPopper,
-    Pencil,
-    Undo2,
-    Clock,
-} from 'lucide-react';
+import { UploadSimple, Trash, DownloadSimple, FileXls, ArrowCounterClockwise, ClipboardText, FileText, Lightning, List, CaretRight, CheckCircle, XCircle, Confetti, Pencil, Clock } from '@phosphor-icons/react/dist/ssr';
 
 export default function DataCheckerClient() {
     const {
@@ -139,9 +122,9 @@ export default function DataCheckerClient() {
                                             : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'
                                     )}
                                 >
-                                    <List className="w-3.5 h-3.5" />
+                                    <List className="w-3.5 h-3.5"  weight="duotone"/>
                                     All Items
-                                    <ChevronRight className={cn("w-3 h-3 transition-transform", showList && "rotate-90")} />
+                                    <CaretRight className={cn("w-3 h-3 transition-transform", showList && "rotate-90")}  weight="duotone"/>
                                 </button>
                             </div>
 
@@ -150,7 +133,7 @@ export default function DataCheckerClient() {
                                     onClick={resetAll}
                                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all"
                                 >
-                                    <RotateCcw className="w-3.5 h-3.5" />
+                                    <ArrowCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                                     Reset
                                 </button>
                                 <button
@@ -158,7 +141,7 @@ export default function DataCheckerClient() {
                                     disabled={state.history.length === 0}
                                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                                 >
-                                    <Undo2 className="w-3.5 h-3.5" />
+                                    <ArrowCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                                     Undo
                                 </button>
                                 {isAllChecked && !showSummary && (
@@ -166,7 +149,7 @@ export default function DataCheckerClient() {
                                         onClick={() => setForceReview(false)}
                                         className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
                                     >
-                                        <CheckCircle2 className="w-3.5 h-3.5" />
+                                        <CheckCircle className="w-3.5 h-3.5"  weight="duotone"/>
                                         Summary
                                     </button>
                                 )}
@@ -174,7 +157,7 @@ export default function DataCheckerClient() {
                                     onClick={handleExportCSV}
                                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all"
                                 >
-                                    <Download className="w-3.5 h-3.5" />
+                                    <DownloadSimple className="w-3.5 h-3.5"  weight="duotone"/>
                                     Export CSV
                                 </button>
                                 <button
@@ -182,7 +165,7 @@ export default function DataCheckerClient() {
                                     className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all"
                                     title="Clear all data"
                                 >
-                                    <Trash2 className="w-4 h-4" />
+                                    <Trash className="w-4 h-4"  weight="duotone"/>
                                 </button>
                             </div>
                         </div>
@@ -194,7 +177,7 @@ export default function DataCheckerClient() {
                             <div className="space-y-4">
                                 <div className="flex items-baseline justify-between">
                                     <Label htmlFor="data-input" className="text-sm font-semibold text-gray-800 flex items-center gap-2">
-                                        <FileSpreadsheet className="w-4 h-4 text-primary-500" />
+                                        <FileXls className="w-4 h-4 text-primary-500"  weight="duotone"/>
                                         Enter Your Data
                                     </Label>
                                     <div className="flex items-center gap-2">
@@ -202,14 +185,14 @@ export default function DataCheckerClient() {
                                             onClick={handlePaste}
                                             className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-md hover:bg-primary-50 transition-all"
                                         >
-                                            <ClipboardPaste className="w-3 h-3" />
+                                            <ClipboardText className="w-3 h-3"  weight="duotone"/>
                                             Paste
                                         </button>
                                         <button
                                             onClick={() => fileInputRef.current?.click()}
                                             className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100 transition-all"
                                         >
-                                            <Upload className="w-3 h-3" />
+                                            <UploadSimple className="w-3 h-3"  weight="duotone"/>
                                             Upload
                                         </button>
                                         <input
@@ -240,7 +223,7 @@ export default function DataCheckerClient() {
                                         disabled={!textInput.trim()}
                                         className="flex-1 bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-all h-12 text-base"
                                     >
-                                        <Zap className="w-4 h-4 mr-2" />
+                                        <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                                         Start Checking
                                     </Button>
                                     <button
@@ -286,7 +269,7 @@ export default function DataCheckerClient() {
                                 {showSummary ? (
                                     <div className="flex flex-col items-center justify-center py-10 text-center animate-in fade-in zoom-in-95 duration-500">
                                         <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-6">
-                                            <PartyPopper className="w-10 h-10 text-emerald-500" />
+                                            <Confetti className="w-10 h-10 text-emerald-500"  weight="duotone"/>
                                         </div>
                                         <h3 className="text-2xl font-bold text-gray-900 mb-2">All Done!</h3>
                                         <p className="text-sm text-gray-500 mb-8 max-w-[300px]">
@@ -296,12 +279,12 @@ export default function DataCheckerClient() {
                                         {/* Summary Cards */}
                                         <div className="flex items-center gap-4 mb-8">
                                             <div className="flex flex-col items-center gap-1 px-6 py-4 bg-emerald-50 border border-emerald-200/60 rounded-xl">
-                                                <CheckCircle2 className="w-6 h-6 text-emerald-500 mb-1" />
+                                                <CheckCircle className="w-6 h-6 text-emerald-500 mb-1"  weight="duotone"/>
                                                 <span className="text-3xl font-bold text-emerald-700 tabular-nums">{stats.valid}</span>
                                                 <span className="text-xs font-medium text-emerald-600/70">Valid</span>
                                             </div>
                                             <div className="flex flex-col items-center gap-1 px-6 py-4 bg-red-50 border border-red-200/60 rounded-xl">
-                                                <XCircle className="w-6 h-6 text-red-500 mb-1" />
+                                                <XCircle className="w-6 h-6 text-red-500 mb-1"  weight="duotone"/>
                                                 <span className="text-3xl font-bold text-red-700 tabular-nums">{stats.invalid}</span>
                                                 <span className="text-xs font-medium text-red-600/70">Invalid</span>
                                             </div>
@@ -311,7 +294,7 @@ export default function DataCheckerClient() {
                                         {longestItems.length > 0 && (
                                             <div className="w-full max-w-sm mb-8 text-left animate-in slide-in-from-bottom-2 duration-500 delay-150 fill-mode-both">
                                                 <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                                                    <Clock className="w-4 h-4 text-gray-400" />
+                                                    <Clock className="w-4 h-4 text-gray-400"  weight="duotone"/>
                                                     Longest Time Spent
                                                 </h4>
                                                 <div className="space-y-2">
@@ -336,7 +319,7 @@ export default function DataCheckerClient() {
                                                 onClick={handleExportCSV}
                                                 className="w-full flex items-center justify-center gap-2 py-4 rounded-xl text-base font-bold bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
                                             >
-                                                <Download className="w-5 h-5" />
+                                                <DownloadSimple className="w-5 h-5"  weight="duotone"/>
                                                 Export Results as CSV
                                             </button>
                                             <div className="flex gap-2">
@@ -344,14 +327,14 @@ export default function DataCheckerClient() {
                                                     onClick={() => setForceReview(true)}
                                                     className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition-all"
                                                 >
-                                                    <Pencil className="w-4 h-4" />
+                                                    <Pencil className="w-4 h-4"  weight="duotone"/>
                                                     Edit Items
                                                 </button>
                                                 <button
                                                     onClick={resetAll}
                                                     className="flex-2 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 transition-all"
                                                 >
-                                                    <RotateCcw className="w-4 h-4" />
+                                                    <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                                                     Review Again
                                                 </button>
                                             </div>
@@ -384,7 +367,7 @@ export default function DataCheckerClient() {
                         <div className="p-8 border-t border-gray-100 bg-gray-50/30">
                             <div className="flex flex-col items-center justify-center text-center">
                                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                    <FileText className="w-8 h-8 text-gray-400" />
+                                    <FileText className="w-8 h-8 text-gray-400"  weight="duotone"/>
                                 </div>
                                 <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Check</h3>
                                 <p className="text-xs text-gray-500 max-w-[300px]">

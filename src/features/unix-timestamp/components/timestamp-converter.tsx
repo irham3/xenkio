@@ -7,18 +7,7 @@ import { parseDateString, formatTimestampDisplay } from '../lib/timestamp-utils'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    Copy,
-    Check,
-    CaretDown,
-    Clock,
-    Calendar,
-    ArrowsLeftRight,
-    Lightning,
-    ArrowsClockwise,
-    Globe,
-    Timer
-} from '@phosphor-icons/react/dist/ssr';
+import { Copy, Check, CaretDown, Clock, Calendar, ArrowsLeftRight, Lightning, ArrowsClockwise, Globe, Timer } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -41,7 +30,7 @@ function CopyButton({ text, field, copiedField, onCopy }: CopyButtonProps) {
       )}
       title="Copy"
     >
-      {copiedField === field ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+      {copiedField === field ? <Check className="w-3.5 h-3.5"  weight="duotone"/> : <Copy className="w-3.5 h-3.5"  weight="duotone"/>}
     </button>
   );
 }
@@ -104,7 +93,7 @@ export function TimestampConverter() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm border border-gray-100">
-              <Timer className="w-5 h-5 text-primary-600" />
+              <Timer className="w-5 h-5 text-primary-600"  weight="duotone"/>
             </div>
             <div>
               <p className="text-xs text-gray-500 font-medium mb-0.5">Current Unix Timestamp</p>
@@ -122,7 +111,7 @@ export function TimestampConverter() {
               copiedField === 'live' && "text-success-600 border-success-300 bg-success-50"
             )}
           >
-            {copiedField === 'live' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+            {copiedField === 'live' ? <Check className="w-3.5 h-3.5"  weight="duotone"/> : <Copy className="w-3.5 h-3.5"  weight="duotone"/>}
             {copiedField === 'live' ? 'Copied' : 'Copy'}
           </Button>
         </div>
@@ -139,7 +128,7 @@ export function TimestampConverter() {
               : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
           )}
         >
-          <Clock className="w-4 h-4" />
+          <Clock className="w-4 h-4"  weight="duotone"/>
           Timestamp → Date
         </button>
         <button
@@ -151,7 +140,7 @@ export function TimestampConverter() {
               : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
           )}
         >
-          <Calendar className="w-4 h-4" />
+          <Calendar className="w-4 h-4"  weight="duotone"/>
           Date → Timestamp
         </button>
       </div>
@@ -182,7 +171,7 @@ export function TimestampConverter() {
                         onClick={toggleUnit}
                         className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
                       >
-                        <ArrowsLeftRight className="w-3 h-3" />
+                        <ArrowsLeftRight className="w-3 h-3"  weight="duotone"/>
                         {options.unit === 'seconds' ? 'Seconds' : 'Milliseconds'}
                       </button>
                     </div>
@@ -201,7 +190,7 @@ export function TimestampConverter() {
                         onClick={setToNow}
                         className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 px-3 text-xs gap-1.5 bg-primary-500 hover:bg-primary-600"
                       >
-                        <Lightning className="w-3.5 h-3.5" />
+                        <Lightning className="w-3.5 h-3.5"  weight="duotone"/>
                         Now
                       </Button>
                     </div>
@@ -226,7 +215,7 @@ export function TimestampConverter() {
                   {/* Timezone Select */}
                   <div className="space-y-2 pt-4 border-t border-gray-100">
                     <Label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
-                      <Globe className="w-4 h-4 text-gray-500" />
+                      <Globe className="w-4 h-4 text-gray-500"  weight="duotone"/>
                       Timezone
                     </Label>
                     <div className="relative">
@@ -241,7 +230,7 @@ export function TimestampConverter() {
                           </option>
                         ))}
                       </select>
-                      <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                      <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                     </div>
                   </div>
                 </motion.div>
@@ -264,7 +253,7 @@ export function TimestampConverter() {
                         onClick={handleSetNowDate}
                         className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
                       >
-                        <ArrowsClockwise className="w-3 h-3" />
+                        <ArrowsClockwise className="w-3 h-3"  weight="duotone"/>
                         Set to Now
                       </button>
                     </div>
@@ -348,7 +337,7 @@ export function TimestampConverter() {
                   {!result ? (
                     <div className="flex flex-col items-center justify-center h-full text-center opacity-60">
                       <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                        <Clock className="w-8 h-8 text-gray-400" />
+                        <Clock className="w-8 h-8 text-gray-400"  weight="duotone"/>
                       </div>
                       <h3 className="text-sm font-semibold text-gray-800 mb-1">Enter a Timestamp</h3>
                       <p className="text-xs text-gray-500 max-w-[200px]">
@@ -358,7 +347,7 @@ export function TimestampConverter() {
                   ) : !result.isValid ? (
                     <div className="flex flex-col items-center justify-center h-full text-center">
                       <div className="w-16 h-16 bg-error-50 rounded-full flex items-center justify-center mb-4">
-                        <Clock className="w-8 h-8 text-error-400" />
+                        <Clock className="w-8 h-8 text-error-400"  weight="duotone"/>
                       </div>
                       <h3 className="text-sm font-semibold text-error-700 mb-1">Invalid Timestamp</h3>
                       <p className="text-xs text-error-500">{result.error}</p>
@@ -461,7 +450,7 @@ export function TimestampConverter() {
                   {!dateResult ? (
                     <div className="flex flex-col items-center justify-center h-full text-center opacity-60">
                       <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                        <Calendar className="w-8 h-8 text-gray-400" />
+                        <Calendar className="w-8 h-8 text-gray-400"  weight="duotone"/>
                       </div>
                       <h3 className="text-sm font-semibold text-gray-800 mb-1">Enter a Date</h3>
                       <p className="text-xs text-gray-500 max-w-[200px]">
@@ -471,7 +460,7 @@ export function TimestampConverter() {
                   ) : !dateResult.isValid ? (
                     <div className="flex flex-col items-center justify-center h-full text-center">
                       <div className="w-16 h-16 bg-error-50 rounded-full flex items-center justify-center mb-4">
-                        <Calendar className="w-8 h-8 text-error-400" />
+                        <Calendar className="w-8 h-8 text-error-400"  weight="duotone"/>
                       </div>
                       <h3 className="text-sm font-semibold text-error-700 mb-1">Invalid Date</h3>
                       <p className="text-xs text-error-500">{dateResult.error}</p>
@@ -493,7 +482,7 @@ export function TimestampConverter() {
                             copiedField === 'result-seconds' && "bg-success-600 hover:bg-success-700"
                           )}
                         >
-                          {copiedField === 'result-seconds' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          {copiedField === 'result-seconds' ? <Check className="w-4 h-4"  weight="duotone"/> : <Copy className="w-4 h-4"  weight="duotone"/>}
                           {copiedField === 'result-seconds' ? 'Copied!' : 'Copy Timestamp'}
                         </Button>
                       </div>

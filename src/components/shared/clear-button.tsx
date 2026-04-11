@@ -33,7 +33,7 @@ export function ClearButton({
             onClick={onClick}
             disabled={disabled}
         >
-            <Trash className={cn("h-4 w-4", size === 'sm' && "h-3 w-3")} />
+            <Trash className={cn("h-4 w-4", size === 'sm' && "h-3 w-3")}  weight="duotone"/>
             {size !== 'icon' && label}
         </Button>
     );

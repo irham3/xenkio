@@ -7,14 +7,7 @@ import { HashAlgorithm } from '../types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    CaretDown,
-    ShieldCheck,
-    ShieldSlash,
-    Lightning,
-    CheckCircle,
-    ArrowCounterClockwise
-} from '@phosphor-icons/react/dist/ssr';
+import { CaretDown, ShieldCheck, ShieldSlash, Lightning, CheckCircle, ArrowCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
@@ -92,7 +85,7 @@ export function HashVerify() {
                                         </option>
                                     ))}
                                 </select>
-                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                             </div>
                         </div>
 
@@ -126,12 +119,12 @@ export function HashVerify() {
                             >
                                 {isVerifying ? (
                                     <>
-                                        <Lightning className="w-4 h-4 mr-2 animate-pulse" />
+                                        <Lightning className="w-4 h-4 mr-2 animate-pulse"  weight="duotone"/>
                                         Verifying...
                                     </>
                                 ) : (
                                     <>
-                                        <ShieldCheck className="w-4 h-4 mr-2" />
+                                        <ShieldCheck className="w-4 h-4 mr-2"  weight="duotone"/>
                                         Verify Hash
                                     </>
                                 )}
@@ -142,7 +135,7 @@ export function HashVerify() {
                                 className="px-3 border-gray-200 hover:bg-gray-100"
                                 title="Reset"
                             >
-                                <ArrowCounterClockwise className="w-4 h-4" />
+                                <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                             </Button>
                         </div>
                     </div>
@@ -156,7 +149,7 @@ export function HashVerify() {
                                 <span className="relative flex h-8 w-8 mb-4">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-8 w-8 bg-primary-500 justify-center items-center">
-                                        <Lightning className="w-4 h-4 text-white" />
+                                        <Lightning className="w-4 h-4 text-white"  weight="duotone"/>
                                     </span>
                                 </span>
                                 <h3 className="text-sm font-semibold text-gray-800 mb-1">Verifying...</h3>
@@ -178,7 +171,7 @@ export function HashVerify() {
                                     isMatch ? "bg-success-100 text-success-600" : "bg-error-100 text-error-600"
                                 )}>
                                     {isMatch
-                                        ? <ShieldCheck className="w-10 h-10" />
+                                        ? <ShieldCheck className="w-10 h-10"  weight="duotone"/>
                                         : <ShieldSlash className="w-10 h-10" />
                                     }
                                 </div>
@@ -203,7 +196,7 @@ export function HashVerify() {
                         ) : (
                             <div className="flex flex-col items-center text-center p-8 opacity-60">
                                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                    <CheckCircle className="w-8 h-8 text-gray-400" />
+                                    <CheckCircle className="w-8 h-8 text-gray-400"  weight="duotone"/>
                                 </div>
                                 <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Verify</h3>
                                 <p className="text-xs text-gray-500 max-w-[200px]">Enter original text and the hash to compare them instantly.</p>

@@ -32,6 +32,10 @@ export async function renderPdfPage(
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new Error('Could not create canvas context');
 
+    // Keep page rendering opaque so overlay opacity behaves predictably at 0-100%.
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await page.render({ canvasContext: ctx, viewport } as any).promise;
 

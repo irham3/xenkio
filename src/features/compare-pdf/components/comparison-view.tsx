@@ -53,7 +53,7 @@ export function ComparisonView({
         };
     }, [currentPage, getRenderedPage]);
 
-    // Draw page A canvas
+    // Redraw when the target canvas changes across view mode switches.
     useEffect(() => {
         if (!pageA || !canvasARef.current) return;
         const canvas = canvasARef.current;
@@ -62,9 +62,9 @@ export function ComparisonView({
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
         ctx.putImageData(pageA.imageData, 0, 0);
-    }, [pageA]);
+    }, [pageA, viewMode]);
 
-    // Draw page B canvas
+    // Redraw when the target canvas changes across view mode switches.
     useEffect(() => {
         if (!pageB || !canvasBRef.current) return;
         const canvas = canvasBRef.current;
@@ -73,7 +73,7 @@ export function ComparisonView({
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
         ctx.putImageData(pageB.imageData, 0, 0);
-    }, [pageB]);
+    }, [pageB, viewMode]);
 
     if (loading) {
         return (
@@ -85,7 +85,7 @@ export function ComparisonView({
     }
 
     if (viewMode === 'ghost') {
-        // Render page A at full opacity, page B on top at `opacity`
+        // Crossfade from A (0%) to B (100%) using the overlay canvas opacity.
         return (
             <div className="flex flex-col items-center gap-4">
                 <div className="relative inline-block rounded-xl overflow-hidden shadow-lg border border-gray-100">
@@ -102,7 +102,6 @@ export function ComparisonView({
                             className="absolute inset-0 block max-w-full"
                             style={{
                                 opacity,
-                                mixBlendMode: 'multiply',
                                 maxWidth: '100%',
                             }}
                         />

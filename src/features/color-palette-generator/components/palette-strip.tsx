@@ -1,5 +1,5 @@
 import React from 'react';
-import { Lock, Unlock, Copy, Hash } from 'lucide-react';
+import { Lock, LockOpen, Copy, Hash } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { Color } from '../types';
 import { getContrastColor, getContrastRatio } from '../lib/utils';
@@ -78,7 +78,7 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock,
                                     className={cn("rounded-full h-10 w-10 transition-all hover:scale-110", bgHover, textColor)}
                                     onClick={(e) => { e.stopPropagation(); onToggleLock(color.id); }}
                                 >
-                                    {color.locked ? <Lock className="w-5 h-5" /> : <Unlock className="w-5 h-5 opacity-40 group-hover:opacity-100" />}
+                                    {color.locked ? <Lock className="w-5 h-5" /> : <LockOpen className="w-5 h-5 opacity-40 group-hover:opacity-100" />}
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>{color.locked ? "Unlock" : "Lock Color"}</TooltipContent>

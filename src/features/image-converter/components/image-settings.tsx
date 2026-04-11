@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { ConversionOptions, ImageFormat } from "../types"
-import { Loader2, RefreshCw } from "lucide-react"
+import { SpinnerGap, ArrowsClockwise } from '@phosphor-icons/react/dist/ssr';
 
 interface ImageSettingsProps {
     options: ConversionOptions
@@ -91,12 +91,12 @@ export function ImageSettings({
                 >
                     {isProcessing ? (
                         <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <SpinnerGap className="mr-2 h-4 w-4 animate-spin" />
                             Converting...
                         </>
                     ) : (
                         <>
-                            <RefreshCw className="mr-2 h-4 w-4" />
+                            <ArrowsClockwise className="mr-2 h-4 w-4" />
                             Convert Images
                         </>
                     )}

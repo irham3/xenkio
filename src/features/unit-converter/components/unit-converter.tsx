@@ -3,25 +3,25 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    ArrowRightLeft,
+    ArrowsLeftRight,
     Copy,
     Check,
-    History,
-    Trash2,
-    ChevronDown,
+    ClockCounterClockwise,
+    Trash,
+    CaretDown,
     Ruler,
-    Weight,
+    Scales,
     Thermometer,
-    Droplet,
+    Drop,
     Square,
     Gauge,
     ArrowDown,
-    Zap,
-    Battery,
+    Lightning,
+    BatteryFull,
     HardDrive,
     Clock,
-    RotateCcw,
-} from 'lucide-react';
+    ArrowCounterClockwise
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,14 +32,14 @@ import type { UnitCategory, ConversionHistoryItem } from '../types';
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
     Ruler,
-    Weight,
+    Weight: Scales,
     Thermometer,
-    Droplet,
+    Droplet: Drop,
     Square,
     Gauge,
     ArrowDown,
-    Zap,
-    Battery,
+    Zap: Lightning,
+    Battery: BatteryFull,
     HardDrive,
     Clock,
 };
@@ -197,7 +197,7 @@ export function UnitConverter() {
                                                     </option>
                                                 ))}
                                             </select>
-                                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                            <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                                         </div>
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@ export function UnitConverter() {
                                         onClick={swapUnits}
                                         className="h-10 w-10 rounded-full border-gray-200 hover:bg-gray-50 hover:border-gray-300"
                                     >
-                                        <ArrowRightLeft className="w-4 h-4 text-gray-500" />
+                                        <ArrowsLeftRight className="w-4 h-4 text-gray-500" />
                                     </Button>
                                 </div>
 
@@ -233,7 +233,7 @@ export function UnitConverter() {
                                                 </option>
                                             ))}
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                        <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                                     </div>
                                 </div>
 
@@ -281,7 +281,7 @@ export function UnitConverter() {
                                     className="flex flex-col items-center justify-center h-full text-center opacity-60"
                                 >
                                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                        <RotateCcw className="w-8 h-8 text-gray-400" />
+                                        <ArrowCounterClockwise className="w-8 h-8 text-gray-400" />
                                     </div>
                                     <h3 className="text-sm font-semibold text-gray-800 mb-1">
                                         Enter a Value
@@ -421,7 +421,7 @@ export function UnitConverter() {
                         className="w-full flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
                     >
                         <div className="flex items-center gap-2">
-                            <History className="w-4 h-4 text-gray-500" />
+                            <ClockCounterClockwise className="w-4 h-4 text-gray-500" />
                             <span className="text-sm font-semibold text-gray-800">
                                 Recent Conversions
                             </span>
@@ -429,7 +429,7 @@ export function UnitConverter() {
                                 {history.length}
                             </span>
                         </div>
-                        <ChevronDown
+                        <CaretDown
                             className={cn(
                                 'w-4 h-4 text-gray-500 transition-transform',
                                 showHistory && 'rotate-180'
@@ -473,7 +473,7 @@ export function UnitConverter() {
                                                     </p>
                                                 </div>
                                             </div>
-                                            <ArrowRightLeft className="w-4 h-4 text-gray-400" />
+                                            <ArrowsLeftRight className="w-4 h-4 text-gray-400" />
                                         </button>
                                     ))}
 
@@ -483,7 +483,7 @@ export function UnitConverter() {
                                         onClick={clearHistory}
                                         className="w-full text-gray-500 hover:text-red-600 hover:bg-red-50"
                                     >
-                                        <Trash2 className="w-4 h-4 mr-2" />
+                                        <Trash className="w-4 h-4 mr-2" />
                                         Clear History
                                     </Button>
                                 </div>

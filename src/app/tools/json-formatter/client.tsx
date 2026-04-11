@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useJsonFormatter } from '@/features/json-formatter/hooks/use-json-formatter';
 import {
-    Braces,
-    Minimize2,
-    Network,
-    Code2,
-} from 'lucide-react';
+    BracketsCurly,
+    CornersIn,
+    Graph,
+    CodeSimple
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { JsonInputPanel } from '@/features/json-formatter/components/json-input-panel';
 import { JsonOutputPanel } from '@/features/json-formatter/components/json-output-panel';
@@ -69,7 +69,7 @@ export default function JsonFormatterClient() {
                             : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                     )}
                 >
-                    <Braces className="w-4 h-4" />
+                    <BracketsCurly className="w-4 h-4" />
                     Format & Beautify
                 </button>
                 <button
@@ -81,7 +81,7 @@ export default function JsonFormatterClient() {
                             : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                     )}
                 >
-                    <Minimize2 className="w-4 h-4" />
+                    <CornersIn className="w-4 h-4" />
                     Minify / Compact
                 </button>
                 <button
@@ -93,7 +93,7 @@ export default function JsonFormatterClient() {
                             : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                     )}
                 >
-                    <Network className="w-4 h-4" />
+                    <Graph className="w-4 h-4" />
                     Tree View
                 </button>
                 <button
@@ -105,7 +105,7 @@ export default function JsonFormatterClient() {
                             : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                     )}
                 >
-                    <Code2 className="w-4 h-4" />
+                    <CodeSimple className="w-4 h-4" />
                     TypeScript
                 </button>
             </div>

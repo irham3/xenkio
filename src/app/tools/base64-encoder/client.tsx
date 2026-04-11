@@ -5,7 +5,13 @@ import { BASE64_MODES } from '@/features/base64-encoder/constants';
 import { type Base64Mode } from '@/features/base64-encoder/types';
 import { Button } from '@/components/ui/button';
 import { Label } from "@/components/ui/label";
-import { ArrowRightLeft, FileCode, FileText, Zap, AlertCircle } from 'lucide-react';
+import {
+    ArrowsLeftRight,
+    FileCode,
+    FileText,
+    Lightning,
+    WarningCircle
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CopyButton, ClearButton } from '@/components/shared';
@@ -80,7 +86,7 @@ export default function Base64EncoderClient() {
                   disabled={!result?.output || !!result.error}
                   className="flex-1 gap-2 cursor-pointer"
                 >
-                  <ArrowRightLeft className="w-4 h-4" />
+                  <ArrowsLeftRight className="w-4 h-4" />
                   Swap
                 </Button>
                 <ClearButton onClick={clear} disabled={!options.input} className="flex-1" />
@@ -95,12 +101,12 @@ export default function Base64EncoderClient() {
                 >
                   {isProcessing ? (
                     <>
-                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      <Lightning className="w-4 h-4 mr-2 animate-pulse" />
                       Processing...
                     </>
                   ) : (
                     <>
-                      <Zap className="w-4 h-4 mr-2" />
+                      <Lightning className="w-4 h-4 mr-2" />
                       {options.mode === 'encode' ? 'Encode to Base64' : 'Decode from Base64'}
                     </>
                   )}
@@ -124,7 +130,7 @@ export default function Base64EncoderClient() {
                 </h3>
                 {result?.executionTime !== undefined && !result.error && result.output && (
                   <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                    <Zap className="w-3 h-3" />
+                    <Lightning className="w-3 h-3" />
                     {result.executionTime.toFixed(1)}ms
                   </span>
                 )}
@@ -150,7 +156,7 @@ export default function Base64EncoderClient() {
                   >
                     {result?.error ? (
                       <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
-                        <AlertCircle className="w-10 h-10 text-error-400" />
+                        <WarningCircle className="w-10 h-10 text-error-400" />
                         <p className="font-semibold text-sm">Decoding Error</p>
                         <p className="text-xs opacity-80 text-center max-w-[250px]">{result.error}</p>
                       </div>

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { TimerConfig } from '../types';
-import { Clock, Calendar, Hash } from 'lucide-react';
+import { Clock, Calendar, Hash } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 interface TimerSettingsProps {

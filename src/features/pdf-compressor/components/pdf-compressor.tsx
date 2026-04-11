@@ -3,15 +3,15 @@
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import {
-    Upload,
+    UploadSimple,
     X,
-    Settings2,
-    Download,
-    FileIcon,
-    AlertCircle,
+    Sliders,
+    DownloadSimple,
+    File as PhosphorFile,
+    WarningCircle,
     ArrowRight,
     Plus
-} from 'lucide-react';
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -113,7 +113,7 @@ export function PDFCompressor() {
                                     "w-20 h-20 rounded-2xl flex items-center justify-center transition-all",
                                     isDragActive ? "bg-primary-100" : "bg-gray-100"
                                 )}>
-                                    <Upload className={cn(
+                                    <UploadSimple className={cn(
                                         "w-10 h-10 transition-colors",
                                         isDragActive ? "text-primary-600" : "text-gray-400"
                                     )} />
@@ -139,7 +139,7 @@ export function PDFCompressor() {
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
                                         <div className="w-12 h-12 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center">
-                                            <FileIcon className="w-6 h-6" />
+                                            <PhosphorFile className="w-6 h-6" />
                                         </div>
                                         <div className="overflow-hidden">
                                             <p className="font-medium text-gray-900 truncate max-w-50 sm:max-w-xs">
@@ -189,7 +189,7 @@ export function PDFCompressor() {
                                         className="w-full h-12 bg-linear-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-500/25"
                                     >
                                         <a href={result.url} download={`compressed-${file.name}`}>
-                                            <Download className="mr-2 h-5 w-5" />
+                                            <DownloadSimple className="mr-2 h-5 w-5" />
                                             Download Compressed PDF
                                         </a>
                                     </Button>
@@ -235,8 +235,8 @@ export function PDFCompressor() {
                 <div className="lg:col-span-1">
                     <Card className="p-6 border border-gray-200 rounded-xl bg-white space-y-6">
                         <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                            <Settings2 className="w-4 h-4 text-primary-600" />
-                            <h3 className="font-semibold text-gray-900">Settings</h3>
+                            <Sliders className="w-4 h-4 text-primary-600" />
+                            <h3 className="font-semibold text-gray-900">Gear</h3>
                         </div>
 
                         <div className="space-y-6">
@@ -297,7 +297,7 @@ export function PDFCompressor() {
 
                         {/* Tip */}
                         <div className="p-4 rounded-lg bg-amber-50 border border-amber-100 flex gap-3">
-                            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                            <WarningCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                             <p className="text-xs text-amber-800 leading-relaxed">
                                 PDFs with many images benefit most from high compression.
                             </p>

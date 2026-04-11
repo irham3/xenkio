@@ -4,7 +4,13 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeftRight, Copy, Check, AlertTriangle, CheckCircle } from 'lucide-react';
+import {
+    ArrowsLeftRight,
+    Copy,
+    Check,
+    Warning,
+    CheckCircle
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -235,7 +241,7 @@ export function ContrastCheckerTool() {
                   onClick={swapColors}
                   className="gap-2 text-gray-600 hover:text-gray-900"
                 >
-                  <ArrowLeftRight className="w-4 h-4" />
+                  <ArrowsLeftRight className="w-4 h-4" />
                   Swap Colors
                 </Button>
               </div>
@@ -299,7 +305,7 @@ export function ContrastCheckerTool() {
                       {result.pass ? (
                         <CheckCircle className="w-4 h-4 shrink-0" />
                       ) : (
-                        <AlertTriangle className="w-4 h-4 shrink-0" />
+                        <Warning className="w-4 h-4 shrink-0" />
                       )}
                       <div className="min-w-0">
                         <p className="font-medium text-xs leading-tight">{result.label}</p>

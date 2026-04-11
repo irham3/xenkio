@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, ArrowRight } from 'lucide-react';
+import { MagnifyingGlass, X, ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import { useRouter } from 'next/navigation';
 import { TOOLS } from '@/data/tools';
 import { cn } from '@/lib/utils';
+import { IconRenderer } from '../ui/icon-renderer';
 import type Fuse from 'fuse.js';
 
 interface SearchModalProps {
@@ -126,7 +127,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                 <div className="bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col">
                     {/* Search Header */}
                     <div className="flex items-center px-4 py-4 border-b border-gray-100">
-                        <Search className="w-5 h-5 text-gray-500 mr-3" />
+                        <MagnifyingGlass className="w-5 h-5 text-gray-500 mr-3" />
                         <label htmlFor="modal-search" className="sr-only">Search tools</label>
                         <input
                             id="modal-search"
@@ -173,7 +174,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                                             "flex items-center justify-center w-8 h-8 rounded-lg shrink-0",
                                             selectedIndex === index ? "bg-primary-100 text-primary-600" : "bg-gray-100 text-gray-500"
                                         )}>
-                                            <tool.icon className="w-4 h-4" />
+                                            <IconRenderer name={tool.icon} className="w-4 h-4" />
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className={cn(

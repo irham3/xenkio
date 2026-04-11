@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Crown } from 'lucide-react';
+import { ArrowRight, Sparkle, Crown } from '@phosphor-icons/react/dist/ssr';
 import SpotlightCard from '@/components/reactbits/spotlight-card';
+import { IconRenderer } from '../ui/icon-renderer';
 
 import { TOOLS } from '@/data/tools';
 
@@ -24,7 +25,7 @@ export function ToolCardFeatured({
   isPremium,
 }: ToolCardFeaturedProps) {
   const tool = TOOLS.find(t => t.id === id);
-  const Icon = tool?.icon || Sparkles;
+  const iconName = tool?.icon || 'Sparkle';
 
   return (
     <Link href={href} className="block h-full group">
@@ -37,7 +38,7 @@ export function ToolCardFeatured({
           <div className="absolute top-0 right-0 flex items-center gap-2">
             {isNew && (
               <span className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-primary-700 bg-primary-50 rounded-full border border-primary-100">
-                <Sparkles className="w-3 h-3" />
+                <Sparkle className="w-3 h-3" />
                 New
               </span>
             )}
@@ -51,7 +52,7 @@ export function ToolCardFeatured({
 
           {/* Icon - Clean, no gradient background */}
           <div className="inline-flex items-center justify-center w-14 h-14 mb-6">
-            <Icon className="w-8 h-8 text-gray-600 group-hover:text-primary-600 transition-colors" strokeWidth={1.5} />
+            <IconRenderer name={iconName} className="w-8 h-8 text-gray-600 group-hover:text-primary-600 transition-colors" />
           </div>
 
           {/* Content */}

@@ -1,6 +1,6 @@
 "use client"
 
-import { RotateCw, X, Loader2, GripVertical } from "lucide-react"
+import { ArrowClockwise, X, SpinnerGap, DotsSixVertical } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { PdfFile } from "../types"
 import { PdfThumbnail } from "./pdf-thumbnail"
@@ -68,7 +68,7 @@ export function PdfCard({
                 "absolute top-2 left-1/2 -translate-x-1/2 transition-opacity",
                 isOverlay ? "hidden" : "opacity-0 group-hover:opacity-100"
             )}>
-                <GripVertical className="w-4 h-4 text-gray-400" />
+                <DotsSixVertical className="w-4 h-4 text-gray-400" />
             </div>
 
             {/* Order Badge */}
@@ -91,7 +91,7 @@ export function PdfCard({
                     aria-label={`Rotate ${pdf.name}`}
                     title="Rotate 90°"
                 >
-                    <RotateCw className="w-3 h-3" />
+                    <ArrowClockwise className="w-3 h-3" />
                 </button>
                 <button
                     onPointerDown={(e) => e.stopPropagation()}
@@ -119,7 +119,7 @@ export function PdfCard({
                 ) : (
                     <>
                         <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
-                            <Loader2 className="w-6 h-6 text-gray-300 animate-spin" />
+                            <SpinnerGap className="w-6 h-6 text-gray-300 animate-spin" />
                         </div>
                         <PdfThumbnail
                             arrayBuffer={pdf.arrayBuffer}

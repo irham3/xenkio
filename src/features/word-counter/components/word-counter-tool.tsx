@@ -1,7 +1,16 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Copy, Check, Trash2, Type, FileText, Clock, BarChart3, Play } from 'lucide-react';
+import {
+    Copy,
+    Check,
+    Trash,
+    TextT,
+    FileText,
+    Clock,
+    ChartBar,
+    Play
+} from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 
 interface TextStats {
@@ -131,10 +140,10 @@ export function WordCounterTool() {
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <StatCard label="Words" value={stats.words} icon={<Type className="h-4 w-4" />} />
+        <StatCard label="Words" value={stats.words} icon={<TextT className="h-4 w-4" />} />
         <StatCard label="Characters" value={stats.characters} icon={<FileText className="h-4 w-4" />} />
         <StatCard label="No Spaces" value={stats.charactersNoSpaces} icon={<FileText className="h-4 w-4" />} />
-        <StatCard label="Sentences" value={stats.sentences} icon={<Type className="h-4 w-4" />} />
+        <StatCard label="Sentences" value={stats.sentences} icon={<TextT className="h-4 w-4" />} />
         <StatCard label="Paragraphs" value={stats.paragraphs} icon={<FileText className="h-4 w-4" />} />
         <StatCard label="Lines" value={stats.lines} icon={<FileText className="h-4 w-4" />} />
       </div>
@@ -157,7 +166,7 @@ export function WordCounterTool() {
               onClick={handleClear}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              <Trash2 className="h-3.5 w-3.5" />
+              <Trash className="h-3.5 w-3.5" />
               Clear
             </button>
           </div>
@@ -209,7 +218,7 @@ export function WordCounterTool() {
         {/* Top Words */}
         <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
           <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-            <BarChart3 className="h-4 w-4 text-primary-500" />
+            <ChartBar className="h-4 w-4 text-primary-500" />
             Top Keywords
           </h3>
           {topWords.length === 0 ? (

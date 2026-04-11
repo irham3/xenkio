@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react"
 import { useDropzone } from "react-dropzone"
-import { Plus, Trash2 } from "lucide-react"
+import { Plus, Trash } from '@phosphor-icons/react/dist/ssr';
 import JSZip from "jszip"
 import { Button } from "@/components/ui/button"
 import { ConversionOptions, ImageFile } from "@/features/image-converter/types"
@@ -410,7 +410,7 @@ export function ImageConverterClient() {
                             Add Images
                         </Button>
                         <Button variant="ghost" size="sm" onClick={handleReset} className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer">
-                            <Trash2 className="w-4 h-4 mr-2" />
+                            <Trash className="w-4 h-4 mr-2" />
                             Clear All
                         </Button>
                     </div>
@@ -449,7 +449,7 @@ export function ImageConverterClient() {
                         className="ml-2 h-6 w-6 p-0 rounded-full hover:bg-red-100"
                         onClick={() => setError(null)}
                     >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash className="w-3 h-3" />
                     </Button>
                 </div>
             )}

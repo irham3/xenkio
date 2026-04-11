@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { Check } from "lucide-react"
+import { Check } from '@phosphor-icons/react/dist/ssr';
 import { PdfPageThumbnail } from "./pdf-page-thumbnail"
 import { PdfFile } from "../types"
 import {

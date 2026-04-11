@@ -8,7 +8,17 @@ import { TextSignature } from './text-signature';
 import { UploadSignature } from './upload-signature';
 import { PdfViewer } from './pdf-viewer';
 import { MobileSignature } from './mobile-signature';
-import { Download, Upload, Type, PenTool, Plus, Trash2, Settings, Palette, Smartphone } from 'lucide-react';
+import {
+    DownloadSimple,
+    UploadSimple,
+    TextT,
+    PenNib,
+    Plus,
+    Trash,
+    Gear,
+    Palette,
+    DeviceMobile
+} from '@phosphor-icons/react/dist/ssr';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/utils';
 import { PDFSignature, SignMode } from '../types';
@@ -101,7 +111,7 @@ export function SignPdfTool() {
                             "w-20 h-20 rounded-2xl flex items-center justify-center transition-all",
                             isDragActive ? "bg-primary-100" : "bg-gray-100"
                         )}>
-                            <Upload className={cn(
+                            <UploadSimple className={cn(
                                 "w-10 h-10 transition-colors",
                                 isDragActive ? "text-primary-600" : "text-gray-400"
                             )} />
@@ -181,19 +191,19 @@ export function SignPdfTool() {
                     }} className="w-full">
                         <TabsList className="grid w-full grid-cols-4 h-12 bg-gray-100/50 p-1 rounded-lg">
                             <TabsTrigger value="draw" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md transition-all text-sm font-medium">
-                                <PenTool className="w-4 h-4" />
+                                <PenNib className="w-4 h-4" />
                                 Draw
                             </TabsTrigger>
                             <TabsTrigger value="type" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md transition-all text-sm font-medium">
-                                <Type className="w-4 h-4" />
+                                <TextT className="w-4 h-4" />
                                 Type
                             </TabsTrigger>
                             <TabsTrigger value="upload" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md transition-all text-sm font-medium">
-                                <Upload className="w-4 h-4" />
+                                <UploadSimple className="w-4 h-4" />
                                 Upload
                             </TabsTrigger>
                             <TabsTrigger value="mobile" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md transition-all text-sm font-medium">
-                                <Smartphone className="w-4 h-4" />
+                                <DeviceMobile className="w-4 h-4" />
                                 Phone
                             </TabsTrigger>
                         </TabsList>
@@ -224,7 +234,7 @@ export function SignPdfTool() {
                 {state.signatures.length > 0 && (
                     <div className="space-y-3 mt-2">
                         <div className="flex items-center gap-2 text-sm font-medium text-gray-700 pb-2 border-b">
-                            <Settings className="w-4 h-4" />
+                            <Gear className="w-4 h-4" />
                             Manage Signatures ({state.signatures.length})
                         </div>
                         <div className="space-y-2 max-h-56 overflow-y-auto pr-2 no-scrollbar">
@@ -259,7 +269,7 @@ export function SignPdfTool() {
                                             }}
                                             title="Edit signature"
                                         >
-                                            <PenTool className="w-3.5 h-3.5" />
+                                            <PenNib className="w-3.5 h-3.5" />
                                         </Button>
                                         <Button
                                             variant="ghost"
@@ -271,7 +281,7 @@ export function SignPdfTool() {
                                             }}
                                             title="Remove"
                                         >
-                                            <Trash2 className="w-3.5 h-3.5" />
+                                            <Trash className="w-3.5 h-3.5" />
                                         </Button>
                                     </div>
                                 </div>
@@ -288,7 +298,7 @@ export function SignPdfTool() {
                     >
                         {state.isProcessing ? 'Processing...' : (
                             <>
-                                <Download className="w-5 h-5 mr-2" />
+                                <DownloadSimple className="w-5 h-5 mr-2" />
                                 Sign & Download PDF
                             </>
                         )}

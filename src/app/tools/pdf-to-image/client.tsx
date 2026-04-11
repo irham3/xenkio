@@ -2,7 +2,14 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, X, Download, RefreshCw, Image as ImageIcon, Loader2 } from 'lucide-react';
+import {
+    FileText,
+    X,
+    DownloadSimple,
+    ArrowsClockwise,
+    Image as Image,
+    SpinnerGap
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { saveAs } from 'file-saver';
@@ -114,7 +121,7 @@ export default function PdfToImageClient() {
                             {/* PREVIEW AREA */}
                             <div className="bg-white rounded-2xl ring-1 ring-gray-100 min-h-[400px] p-6 sm:p-8">
                                 <div className="flex items-center gap-2 mb-6">
-                                    <ImageIcon className="w-5 h-5 text-gray-400" />
+                                    <Image className="w-5 h-5 text-gray-400" />
                                     <h3 className="font-semibold text-gray-900">Preview</h3>
                                 </div>
 
@@ -128,7 +135,7 @@ export default function PdfToImageClient() {
                                             className="h-[300px] flex flex-col items-center justify-center text-center p-8 rounded-xl bg-gray-50/50"
                                         >
                                             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm ring-1 ring-gray-100 mb-6">
-                                                <Loader2 className="w-8 h-8 text-primary-600 animate-spin" />
+                                                <SpinnerGap className="w-8 h-8 text-primary-600 animate-spin" />
                                             </div>
                                             <h4 className="text-gray-900 text-lg font-semibold mb-2">Converting PDF...</h4>
                                         </motion.div>
@@ -142,7 +149,7 @@ export default function PdfToImageClient() {
                                             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-success-50 p-4 rounded-xl border border-success-100">
                                                 <div className="flex items-center gap-3 text-success-800">
                                                     <div className="w-8 h-8 rounded-full bg-success-100 flex items-center justify-center shrink-0">
-                                                        <RefreshCw className="w-4 h-4 text-success-600" />
+                                                        <ArrowsClockwise className="w-4 h-4 text-success-600" />
                                                     </div>
                                                     <div>
                                                         <h4 className="font-bold text-sm">Conversion Complete</h4>
@@ -153,7 +160,7 @@ export default function PdfToImageClient() {
                                                     onClick={handleDownloadZip}
                                                     className="w-full sm:w-auto bg-success-600 hover:bg-success-700 text-white shadow-sm h-9 px-4 text-sm"
                                                 >
-                                                    <Download className="w-3.5 h-3.5 mr-2" />
+                                                    <DownloadSimple className="w-3.5 h-3.5 mr-2" />
                                                     Download ZIP
                                                 </Button>
                                             </div>
@@ -167,7 +174,7 @@ export default function PdfToImageClient() {
                                             className="h-[300px] flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-gray-100 rounded-xl bg-gray-50/50"
                                         >
                                             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm ring-1 ring-gray-100 mb-4">
-                                                <ImageIcon className="w-8 h-8 text-gray-300" />
+                                                <Image className="w-8 h-8 text-gray-300" />
                                             </div>
                                             <h4 className="text-gray-900 font-medium mb-1">Ready to Convert</h4>
                                             <p className="text-sm text-gray-500 max-w-xs">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Check } from 'lucide-react';
+import { Check } from '@phosphor-icons/react/dist/ssr';
 import { fontDancing, fontGreatVibes, fontAlexBrush, fontPacifico, fontSatisfy } from '../fonts';
 
 const FONTS = [

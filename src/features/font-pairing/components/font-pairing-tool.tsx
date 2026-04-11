@@ -5,7 +5,15 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { FONT_PAIRS, FONT_PAIR_CATEGORIES, PREVIEW_TEXT, GOOGLE_FONTS_CSS_BASE } from '../constants';
 import { FontPair, FontPairCategory, PreviewLayout } from '../types';
-import { Copy, Check, Shuffle, Type, LayoutTemplate, FileText, Columns2 } from 'lucide-react';
+import {
+    Copy,
+    Check,
+    Shuffle,
+    TextT,
+    Layout,
+    FileText,
+    Columns
+} from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import {
     Select,
@@ -50,9 +58,9 @@ body, p {
 }
 
 const LAYOUT_OPTIONS: { value: PreviewLayout; label: string; icon: React.ReactNode }[] = [
-    { value: 'card', label: 'Card', icon: <LayoutTemplate className="w-3.5 h-3.5" /> },
+    { value: 'card', label: 'Card', icon: <Layout className="w-3.5 h-3.5" /> },
     { value: 'article', label: 'Article', icon: <FileText className="w-3.5 h-3.5" /> },
-    { value: 'hero', label: 'Hero', icon: <Columns2 className="w-3.5 h-3.5" /> },
+    { value: 'hero', label: 'Hero', icon: <Columns className="w-3.5 h-3.5" /> },
 ];
 
 export function FontPairingTool() {
@@ -205,7 +213,7 @@ export function FontPairingTool() {
                             </p>
                             <div className="pt-4 border-t border-gray-100 flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
-                                    <Type className="w-4 h-4 text-primary-600" />
+                                    <TextT className="w-4 h-4 text-primary-600" />
                                 </div>
                                 <div>
                                     <p className="text-xs font-bold text-gray-700"
@@ -325,7 +333,7 @@ export function FontPairingTool() {
                 {/* Font Info Bar */}
                 <div className="flex items-center justify-center gap-2 py-2">
                     <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 border border-gray-200 text-[10px] font-bold text-gray-500 uppercase tracking-tighter">
-                        <Type className="w-3 h-3" />
+                        <TextT className="w-3 h-3" />
                         {selectedPair.heading} + {selectedPair.body}
                     </div>
                 </div>
@@ -336,7 +344,7 @@ export function FontPairingTool() {
                 {/* Category Filter */}
                 <div className="p-4 border-b border-gray-100 space-y-3">
                     <div className="flex items-center gap-2 font-bold text-gray-900 text-[10px] uppercase tracking-widest">
-                        <Type className="w-3 h-3 text-primary-500" />
+                        <TextT className="w-3 h-3 text-primary-500" />
                         <span>Font Pairs</span>
                     </div>
                     <Select value={categoryFilter} onValueChange={(val) => setCategoryFilter(val as FontPairCategory | 'all')}>

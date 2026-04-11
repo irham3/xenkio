@@ -2,7 +2,19 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Upload, Download, FileVideo, Settings2, Image as ImageIcon, AlertCircle, RefreshCw, Play, Pause, Scissors, Loader2 } from 'lucide-react'
+import {
+    UploadSimple,
+    DownloadSimple,
+    FileVideo,
+    Sliders,
+    Image as Image,
+    WarningCircle,
+    ArrowsClockwise,
+    Play,
+    Pause,
+    Scissors,
+    SpinnerGap
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { useVideoToGif, GifSettings, DEFAULT_GIF_SETTINGS, GifResult } from '../hooks/use-video-to-gif'
@@ -196,7 +208,7 @@ export function VideoToGif() {
                     <div className="flex flex-col items-center justify-center gap-4 text-center">
                         {ffmpegError ? (
                             <>
-                                <AlertCircle className="w-10 h-10 text-red-400" />
+                                <WarningCircle className="w-10 h-10 text-red-400" />
                                 <p className="text-red-600 text-sm">{ffmpegError}</p>
                                 <button
                                     onClick={() => window.location.reload()}
@@ -251,7 +263,7 @@ export function VideoToGif() {
                             'p-4 rounded-2xl transition-colors',
                             isDragActive ? 'bg-primary-100' : 'bg-gray-100'
                         )}>
-                            <Upload className={cn('w-8 h-8', isDragActive ? 'text-primary-600' : 'text-gray-400')} />
+                            <UploadSimple className={cn('w-8 h-8', isDragActive ? 'text-primary-600' : 'text-gray-400')} />
                         </div>
                         <div className="space-y-1.5">
                             <p className="text-base font-semibold text-gray-700">
@@ -373,7 +385,7 @@ export function VideoToGif() {
                 {/* Settings Panel | 2 cols */}
                 <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                     <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/80 flex items-center gap-2">
-                        <Settings2 className="w-4 h-4 text-gray-500" />
+                        <Sliders className="w-4 h-4 text-gray-500" />
                         <span className="text-sm font-semibold text-gray-800">Settings</span>
                     </div>
 
@@ -481,12 +493,12 @@ export function VideoToGif() {
                         >
                             {isConverting ? (
                                 <>
-                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    <SpinnerGap className="w-4 h-4 animate-spin" />
                                     Converting... {progress}%
                                 </>
                             ) : (
                                 <>
-                                    <ImageIcon className="w-4 h-4" />
+                                    <Image className="w-4 h-4" />
                                     Convert to GIF
                                 </>
                             )}
@@ -497,7 +509,7 @@ export function VideoToGif() {
                             disabled={isConverting}
                             className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors"
                         >
-                            <RefreshCw className="w-3 h-3" />
+                            <ArrowsClockwise className="w-3 h-3" />
                             Upload different video
                         </button>
                     </div>
@@ -508,7 +520,7 @@ export function VideoToGif() {
             {isConverting && (
                 <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
                     <div className="flex items-center gap-3">
-                        <Loader2 className="w-5 h-5 text-primary-600 animate-spin shrink-0" />
+                        <SpinnerGap className="w-5 h-5 text-primary-600 animate-spin shrink-0" />
                         <div className="flex-1 space-y-2">
                             <div className="flex items-center justify-between">
                                 <span className="text-sm font-medium text-gray-700">Creating GIF...</span>
@@ -533,7 +545,7 @@ export function VideoToGif() {
                 <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
                     <div className="px-5 py-3 border-b border-gray-100 bg-gray-50/80 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <ImageIcon className="w-4 h-4 text-emerald-500" />
+                            <Image className="w-4 h-4 text-emerald-500" />
                             <span className="text-sm font-semibold text-gray-800">Result</span>
                         </div>
                         <div className="flex items-center gap-3 text-xs text-gray-500">
@@ -575,7 +587,7 @@ export function VideoToGif() {
                             onClick={handleDownload}
                             className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-semibold hover:bg-primary-700 transition-colors shadow-sm active:scale-[0.98]"
                         >
-                            <Download className="w-4 h-4" />
+                            <DownloadSimple className="w-4 h-4" />
                             Download
                         </button>
                     </div>
@@ -585,7 +597,7 @@ export function VideoToGif() {
             {/* FFmpeg Error */}
             {ffmpegError && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                    <WarningCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                     <div>
                         <p className="text-sm font-medium text-red-700">Conversion Error</p>
                         <p className="text-xs text-red-500 mt-0.5">{ffmpegError}</p>

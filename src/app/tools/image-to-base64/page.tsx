@@ -1,7 +1,7 @@
 
 import { Metadata } from 'next';
 import ImageToBase64Client from './client';
-import { ImageIcon, Shield, Code2 } from 'lucide-react';
+import { Image, Shield, CodeSimple } from '@phosphor-icons/react/dist/ssr';
 
 
 
@@ -79,7 +79,7 @@ export default function ImageToBase64Page() {
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <ImageIcon className="w-6 h-6 text-primary-500" />
+                                <Image className="w-6 h-6 text-primary-500" />
                             </div>
                             <h3 className="font-bold text-gray-900">All Formats</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">
@@ -97,7 +97,7 @@ export default function ImageToBase64Page() {
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <Code2 className="w-6 h-6 text-primary-500" />
+                                <CodeSimple className="w-6 h-6 text-primary-500" />
                             </div>
                             <h3 className="font-bold text-gray-900">Code Snippets</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">
@@ -173,7 +173,7 @@ export default function ImageToBase64Page() {
                                     <div className="w-full h-4 bg-gray-100 rounded animate-pulse" />
                                     <div className="w-[80%] h-4 bg-gray-100 rounded animate-pulse" />
                                     <div className="w-[90%] h-24 bg-primary-50 rounded-lg flex items-center justify-center">
-                                        <Code2 className="w-8 h-8 text-primary-200" />
+                                        <CodeSimple className="w-8 h-8 text-primary-200" />
                                     </div>
                                 </div>
                             </div>

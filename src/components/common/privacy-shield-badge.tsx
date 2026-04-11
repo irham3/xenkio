@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { ShieldCheck, Wifi, WifiOff, Activity } from 'lucide-react';
+import { ShieldCheck, WifiHigh, WifiSlash, ChartLineUp } from '@phosphor-icons/react/dist/ssr';
 
 /**
  * Detects approximate device memory capacity.
@@ -93,7 +93,7 @@ export function PrivacyShieldBadge({
                 {isOfflineCapable && (
                     <>
                         <span className="text-emerald-300">·</span>
-                        <WifiOff className="w-3 h-3" />
+                        <WifiSlash className="w-3 h-3" />
                         <span>Works offline</span>
                     </>
                 )}
@@ -110,7 +110,7 @@ export function PrivacyShieldBadge({
                 </div>
                 {showNetworkMonitor && (
                     <div className="flex items-center gap-1.5">
-                        <Activity className="w-3.5 h-3.5 text-emerald-500" />
+                        <ChartLineUp className="w-3.5 h-3.5 text-emerald-500" />
                         <span>
                             {requestCount === 0
                                 ? 'Zero data sent to servers'
@@ -120,7 +120,7 @@ export function PrivacyShieldBadge({
                 )}
                 {isOfflineCapable && (
                     <div className="flex items-center gap-1.5">
-                        <WifiOff className="w-3.5 h-3.5 text-emerald-500" />
+                        <WifiSlash className="w-3.5 h-3.5 text-emerald-500" />
                         <span>Works offline</span>
                     </div>
                 )}
@@ -163,7 +163,7 @@ export function PrivacyShieldBadge({
                         {/* Offline Badge */}
                         {isOfflineCapable && (
                             <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
-                                <WifiOff className="w-3 h-3" />
+                                <WifiSlash className="w-3 h-3" />
                                 Works offline
                             </div>
                         )}
@@ -171,7 +171,7 @@ export function PrivacyShieldBadge({
                         {/* Device Capacity */}
                         {showCapacity && memoryGB && (
                             <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                                <Wifi className="w-3 h-3" />
+                                <WifiHigh className="w-3 h-3" />
                                 Your device can handle files up to ~{maxFileMB >= 1024 ? `${(maxFileMB / 1024).toFixed(1)}GB` : `${maxFileMB}MB`}
                             </div>
                         )}
@@ -198,7 +198,7 @@ export function DeviceCapacityInfo() {
 
     return (
         <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 flex items-start gap-3 text-xs">
-            <Activity className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+            <ChartLineUp className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
             <div className="flex-1">
                 <p className="text-amber-800 font-medium">Device capacity detected: {memoryGB}GB RAM</p>
                 <p className="text-amber-700 mt-0.5">

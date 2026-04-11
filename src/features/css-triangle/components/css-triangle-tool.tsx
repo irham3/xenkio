@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, RotateCcw } from 'lucide-react';
+import { Copy, Check, ArrowCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -316,7 +316,7 @@ export function CssTriangleTool() {
                 onClick={handleReset}
                 className="w-full gap-1.5"
               >
-                <RotateCcw className="w-4 h-4" />
+                <ArrowCounterClockwise className="w-4 h-4" />
                 Reset
               </Button>
             </div>

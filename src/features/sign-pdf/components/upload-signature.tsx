@@ -1,7 +1,7 @@
 
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { ImageIcon } from 'lucide-react';
+import { Image } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 export function UploadSignature({ onSave }: { onSave: (dataUrl: string) => void }) {
@@ -39,7 +39,7 @@ export function UploadSignature({ onSave }: { onSave: (dataUrl: string) => void 
                         "w-16 h-16 rounded-xl flex items-center justify-center transition-all",
                         isDragActive ? "bg-primary-100" : "bg-gray-100"
                     )}>
-                        <ImageIcon className={cn(
+                        <Image className={cn(
                             "w-8 h-8 transition-colors",
                             isDragActive ? "text-primary-600" : "text-gray-400"
                         )} />

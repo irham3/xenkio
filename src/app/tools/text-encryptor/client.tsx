@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Key, ShieldCheck } from 'lucide-react';
+import { Key, ShieldCheck } from '@phosphor-icons/react/dist/ssr';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SymmetricPanel } from '@/features/text-encryptor/components/symmetric-panel';
 import { AsymmetricPanel } from '@/features/text-encryptor/components/asymmetric-panel';

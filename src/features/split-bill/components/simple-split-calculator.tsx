@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { POPULAR_CURRENCIES } from '../constants';
-import { Percent, Users, Receipt } from 'lucide-react';
+import { Percent, Users, Receipt } from '@phosphor-icons/react/dist/ssr';
 
 export function SimpleSplitCalculator() {
     const [currencyCode, setCurrencyCode] = useState('IDR');

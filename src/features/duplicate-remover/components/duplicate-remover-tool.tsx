@@ -1,7 +1,16 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Copy, Check, Trash2, Type, AlignLeft, ListFilter, ArrowDownAZ, Play } from 'lucide-react';
+import {
+    Copy,
+    Check,
+    Trash,
+    TextT,
+    AlignLeft,
+    FunnelSimple,
+    SortAscending,
+    Play
+} from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -92,10 +101,10 @@ export function DuplicateRemoverTool() {
   }, []);
 
   const optionItems: { key: keyof Options; label: string; icon: React.ReactNode }[] = [
-    { key: 'caseSensitive', label: 'Case Sensitive', icon: <Type className="w-3.5 h-3.5" /> },
+    { key: 'caseSensitive', label: 'Case Sensitive', icon: <TextT className="w-3.5 h-3.5" /> },
     { key: 'trimWhitespace', label: 'Trim Whitespace', icon: <AlignLeft className="w-3.5 h-3.5" /> },
-    { key: 'removeEmptyLines', label: 'Remove Empty Lines', icon: <ListFilter className="w-3.5 h-3.5" /> },
-    { key: 'sortOutput', label: 'Sort Output', icon: <ArrowDownAZ className="w-3.5 h-3.5" /> },
+    { key: 'removeEmptyLines', label: 'Remove Empty Lines', icon: <FunnelSimple className="w-3.5 h-3.5" /> },
+    { key: 'sortOutput', label: 'Sort Output', icon: <SortAscending className="w-3.5 h-3.5" /> },
   ];
 
   return (
@@ -164,7 +173,7 @@ export function DuplicateRemoverTool() {
                     disabled={!input}
                     className="h-7 text-xs gap-1.5"
                   >
-                    <Trash2 className="w-3 h-3" />
+                    <Trash className="w-3 h-3" />
                     Clear
                   </Button>
                   <Button

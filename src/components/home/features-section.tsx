@@ -1,6 +1,6 @@
 'use client';
 
-import { ShieldCheck, Infinity, Layers, Wifi } from 'lucide-react';
+import { ShieldCheck, Infinity, Stack, WifiHigh } from '@phosphor-icons/react/dist/ssr';
 
 const features = [
     {
@@ -16,12 +16,12 @@ const features = [
     {
         name: 'Batch everything',
         description: 'Drop 100 files at once. We handle the rest.',
-        icon: Layers,
+        icon: Stack,
     },
     {
         name: 'Works offline',
         description: 'Load once, use anywhere. No connection needed.',
-        icon: Wifi,
+        icon: WifiHigh,
     },
 ];
 
@@ -46,7 +46,7 @@ export function FeaturesSection() {
                         >
                             <div className="flex items-start gap-4">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50 text-gray-500 shrink-0 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
-                                    <feature.icon className="h-5 w-5" aria-hidden="true" />
+                                    <feature.icon weight="duotone" className="h-5 w-5" aria-hidden="true" />
                                 </div>
                                 <div>
                                     <h3 className="text-base font-semibold text-gray-900">

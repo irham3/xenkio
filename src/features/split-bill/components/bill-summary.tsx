@@ -1,5 +1,5 @@
 import { BillSummary as BillSummaryType, Currency } from '../types';
-import { Download, Users, Calculator, Info } from 'lucide-react';
+import { DownloadSimple, Users, Calculator, Info } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -55,7 +55,7 @@ export function BillSummary({ summary, currency, onExportPdf, paymentInfo }: Bil
                     variant="outline"
                     className="h-9 border-primary-200 hover:bg-primary-50 hover:text-primary-700 font-semibold"
                 >
-                    <Download className="w-4 h-4 mr-2" />
+                    <DownloadSimple className="w-4 h-4 mr-2" />
                     Export PDF
                 </Button>
             </div>

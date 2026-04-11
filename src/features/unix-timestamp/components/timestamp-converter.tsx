@@ -8,17 +8,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Copy,
-  Check,
-  ChevronDown,
-  Clock,
-  Calendar,
-  ArrowRightLeft,
-  Zap,
-  RefreshCw,
-  Globe,
-  Timer,
-} from 'lucide-react';
+    Copy,
+    Check,
+    CaretDown,
+    Clock,
+    Calendar,
+    ArrowsLeftRight,
+    Lightning,
+    ArrowsClockwise,
+    Globe,
+    Timer
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -182,7 +182,7 @@ export function TimestampConverter() {
                         onClick={toggleUnit}
                         className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
                       >
-                        <ArrowRightLeft className="w-3 h-3" />
+                        <ArrowsLeftRight className="w-3 h-3" />
                         {options.unit === 'seconds' ? 'Seconds' : 'Milliseconds'}
                       </button>
                     </div>
@@ -201,7 +201,7 @@ export function TimestampConverter() {
                         onClick={setToNow}
                         className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 px-3 text-xs gap-1.5 bg-primary-500 hover:bg-primary-600"
                       >
-                        <Zap className="w-3.5 h-3.5" />
+                        <Lightning className="w-3.5 h-3.5" />
                         Now
                       </Button>
                     </div>
@@ -241,7 +241,7 @@ export function TimestampConverter() {
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                      <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                     </div>
                   </div>
                 </motion.div>
@@ -264,7 +264,7 @@ export function TimestampConverter() {
                         onClick={handleSetNowDate}
                         className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
                       >
-                        <RefreshCw className="w-3 h-3" />
+                        <ArrowsClockwise className="w-3 h-3" />
                         Set to Now
                       </button>
                     </div>

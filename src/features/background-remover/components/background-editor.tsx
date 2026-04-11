@@ -1,7 +1,21 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Eraser, Brush, Undo, Redo, X, ZoomIn, ZoomOut, Check, MousePointer2, Image as ImageIcon, Palette, PaintBucket, Upload } from 'lucide-react'
+import {
+    Eraser,
+    PaintBrush,
+    ArrowCounterClockwise,
+    ArrowClockwise,
+    X,
+    MagnifyingGlassPlus,
+    MagnifyingGlassMinus,
+    Check,
+    Cursor,
+    ImageSquare as PhosphorImage,
+    Palette,
+    PaintBucket,
+    UploadSimple
+} from '@phosphor-icons/react/dist/ssr';
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
@@ -373,14 +387,14 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                         onClick={undo} disabled={historyStep <= 0}
                         title="Undo (Ctrl+Z)"
                     >
-                        <Undo className="w-5 h-5" />
+                        <ArrowCounterClockwise weight="duotone" className="w-5 h-5" />
                     </Button>
                     <Button
                         size="sm" variant="ghost" className="h-9 w-9 p-0 text-white/70 hover:text-white hover:bg-white/20"
                         onClick={redo} disabled={historyStep >= history.length - 1}
                         title="Redo (Ctrl+Y)"
                     >
-                        <Redo className="w-5 h-5" />
+                        <ArrowClockwise weight="duotone" className="w-5 h-5" />
                     </Button>
 
                     <div className="h-6 w-px bg-white/20 mx-4" />
@@ -389,14 +403,14 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                         size="sm" variant="ghost" className="h-9 w-24 gap-2 text-white hover:bg-white/20 border border-white/20"
                         onClick={onCancel}
                     >
-                        <X className="w-4 h-4" />
+                        <X weight="duotone" className="w-4 h-4" />
                         Cancel
                     </Button>
                     <Button
                         size="sm" className="h-9 w-24 gap-2 bg-primary-600 hover:bg-primary-700 text-white border-0"
                         onClick={handleSave}
                     >
-                        <Check className="w-4 h-4" />
+                        <Check weight="duotone" className="w-4 h-4" />
                         Done
                     </Button>
                 </div>
@@ -466,13 +480,13 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                     {/* Scale Info */}
                     <div className="absolute left-4 bottom-4 flex items-center gap-2 bg-white/10 rounded-full px-3 py-1">
                         <Button size="icon" variant="ghost" className="h-6 w-6 text-white/80 hover:text-white rounded-full" onClick={handleZoomOut}>
-                            <ZoomOut className="w-3 h-3" />
+                            <MagnifyingGlassMinus weight="duotone" className="w-3 h-3" />
                         </Button>
                         <span className="text-[10px] text-white/90 min-w-8 text-center font-mono">
                             {Math.round(zoom * 100)}%
                         </span>
                         <Button size="icon" variant="ghost" className="h-6 w-6 text-white/80 hover:text-white rounded-full" onClick={handleZoomIn}>
-                            <ZoomIn className="w-3 h-3" />
+                            <MagnifyingGlassPlus weight="duotone" className="w-3 h-3" />
                         </Button>
                     </div>
 
@@ -485,7 +499,7 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                                     className={cn("h-9 px-4 gap-2 hover:bg-white/20 hover:text-white", mode === 'erase' ? "bg-white/20 text-white shadow-sm" : "text-white/70")}
                                     onClick={() => setMode('erase')}
                                 >
-                                    <Eraser className="w-4 h-4" />
+                                    <Eraser weight="duotone" className="w-4 h-4" />
                                     Erase
                                 </Button>
                                 <Button
@@ -494,13 +508,13 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                                     className={cn("h-9 px-4 gap-2 hover:bg-white/20 hover:text-white", mode === 'restore' ? "bg-white/20 text-white shadow-sm" : "text-white/70")}
                                     onClick={() => setMode('restore')}
                                 >
-                                    <Brush className="w-4 h-4" />
+                                    <PaintBrush weight="duotone" className="w-4 h-4" />
                                     Restore
                                 </Button>
                             </div>
                             <div className="h-8 w-px bg-white/20" />
                             <div className="flex items-center gap-4 w-64">
-                                <MousePointer2 className="w-4 h-4 text-white/80" />
+                                <Cursor weight="duotone" className="w-4 h-4 text-white/80" />
                                 <Slider
                                     value={brushSize}
                                     onValueChange={setBrushSize}
@@ -519,13 +533,13 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                             <Tabs defaultValue="color" className="w-full">
                                 <TabsList className="bg-transparent border-b border-white/10 w-full justify-start rounded-none h-auto p-0 mb-4 gap-6">
                                     <TabsTrigger value="color" className="bg-transparent data-[state=active]:bg-transparent data-[state=active]:border-b-2 border-primary-500 rounded-none px-0 py-2 text-white/60 data-[state=active]:text-white">
-                                        <Palette className="w-4 h-4 mr-2" /> Colors
+                                        <Palette weight="duotone" className="w-4 h-4 mr-2" /> Colors
                                     </TabsTrigger>
                                     <TabsTrigger value="gradient" className="bg-transparent data-[state=active]:bg-transparent data-[state=active]:border-b-2 border-primary-500 rounded-none px-0 py-2 text-white/60 data-[state=active]:text-white">
-                                        <PaintBucket className="w-4 h-4 mr-2" /> Gradients
+                                        <PaintBucket weight="duotone" className="w-4 h-4 mr-2" /> Gradients
                                     </TabsTrigger>
                                     <TabsTrigger value="image" className="bg-transparent data-[state=active]:bg-transparent data-[state=active]:border-b-2 border-primary-500 rounded-none px-0 py-2 text-white/60 data-[state=active]:text-white">
-                                        <ImageIcon className="w-4 h-4 mr-2" /> Images
+                                        <PhosphorImage weight="duotone" className="w-4 h-4 mr-2" /> Images
                                     </TabsTrigger>
                                 </TabsList>
 
@@ -577,8 +591,8 @@ export function BackgroundEditor({ originalUrl, resultUrl, onSave, onCancel }: B
                                     <div className="flex gap-4 overflow-x-auto pb-2">
                                         <label className="shrink-0 w-24 h-24 rounded-lg border-2 border-dashed border-white/20 hover:border-white/50 flex flex-col items-center justify-center cursor-pointer text-white/50 hover:text-white bg-white/5 hover:bg-white/10 transition-colors">
                                             <input type="file" accept="image/*" className="hidden" onChange={handleBgUpload} />
-                                            <Upload className="w-6 h-6 mb-2" />
-                                            <span className="text-[10px]">Upload</span>
+                                            <UploadSimple className="w-6 h-6 mb-2" />
+                                            <span className="text-[10px]">UploadSimple</span>
                                         </label>
 
                                         {IMAGE_TEMPLATES.map(img => (

@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import {
-    AlertCircle,
+    WarningCircle,
     FileCode,
     FileText
-} from "lucide-react";
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from 'framer-motion';
 import { CopyButton, ClearButton } from '@/components/shared';
@@ -152,7 +152,7 @@ export default function UrlEncoderClient() {
                                     >
                                         {error ? (
                                             <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
-                                                <AlertCircle className="w-10 h-10 text-red-400" />
+                                                <WarningCircle className="w-10 h-10 text-red-400" />
                                                 <p className="font-semibold text-sm">Decoding Error</p>
                                                 <p className="text-xs opacity-80 text-center max-w-[250px]">{error}</p>
                                             </div>

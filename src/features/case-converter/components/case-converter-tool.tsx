@@ -1,7 +1,13 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Copy, Check, Trash2, Type, Play } from 'lucide-react';
+import {
+    Copy,
+    Check,
+    Trash,
+    TextT,
+    Play
+} from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -169,7 +175,7 @@ export function CaseConverterTool() {
         {/* Case Type Selector */}
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-2 mb-3">
-            <Type className="w-4 h-4 text-gray-500" />
+            <TextT className="w-4 h-4 text-gray-500" />
             <span className="text-sm font-semibold text-gray-800">
               Select Case
             </span>
@@ -213,7 +219,7 @@ export function CaseConverterTool() {
                     : 'text-gray-300 cursor-not-allowed'
                 )}
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                <Trash className="w-3.5 h-3.5" />
                 Clear
               </button>
             </div>

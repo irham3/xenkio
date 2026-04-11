@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { CATEGORIES } from '@/data/categories';
 import { cn } from '@/lib/utils';
-import { LayoutGrid } from 'lucide-react';
+import { GridFour } from '@phosphor-icons/react/dist/ssr';
+import { IconRenderer } from '../ui/icon-renderer';
 
 export function CategoryTabs() {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -70,7 +71,7 @@ export function CategoryTabs() {
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               )}
             >
-              <LayoutGrid className="w-4 h-4" />
+              <GridFour className="w-4 h-4" />
               All Tools
             </button>
 
@@ -86,7 +87,7 @@ export function CategoryTabs() {
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 )}
               >
-                <category.icon className="w-4 h-4" />
+                <IconRenderer name={category.icon} className="w-4 h-4" />
                 {category.name}
                 <span className={cn(
                   'text-xs px-1.5 py-0.5 rounded-full',

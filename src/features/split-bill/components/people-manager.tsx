@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Person } from '../types';
 import { Button } from '@/components/ui/button';
-import { UserPlus, UserMinus, Users } from 'lucide-react';
+import { UserPlus, UserMinus, Users } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 

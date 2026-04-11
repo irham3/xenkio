@@ -4,7 +4,7 @@
 import { useZipExtractor } from "../hooks/use-zip-extractor"
 import { ZipUploader } from "./zip-uploader"
 import { ZipFileList } from "./zip-file-list"
-import { RefreshCw, AlertCircle } from "lucide-react"
+import { ArrowsClockwise, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 
 export function ZipExtractor() {
     const {
@@ -21,7 +21,7 @@ export function ZipExtractor() {
         <div className="w-full space-y-8 min-h-[400px]">
             {error && (
                 <div className="max-w-4xl mx-auto p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-700 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <AlertCircle className="w-5 h-5 shrink-0" />
+                    <WarningCircle className="w-5 h-5 shrink-0" />
                     <p className="text-sm font-medium">{error}</p>
                 </div>
             )}
@@ -30,7 +30,7 @@ export function ZipExtractor() {
                 <div className="flex flex-col items-center justify-center py-20 space-y-6">
                     <div className="relative">
                         <div className="w-16 h-16 rounded-full border-4 border-primary-500/20 border-t-primary-500 animate-spin" />
-                        <RefreshCw className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-primary-500" />
+                        <ArrowsClockwise className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-primary-500" />
                     </div>
                     <div className="text-center space-y-2">
                         <h3 className="text-xl font-bold text-gray-900">Extracting Archive...</h3>

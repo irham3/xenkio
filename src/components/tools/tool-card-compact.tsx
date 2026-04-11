@@ -1,12 +1,13 @@
 import Link from 'next/link';
-import { ArrowUpRight, Crown, type LucideIcon } from 'lucide-react';
+import { ArrowUpRight, Crown } from '@phosphor-icons/react/dist/ssr';
+import { IconRenderer } from '../ui/icon-renderer';
 
 interface ToolCardCompactProps {
   id: string;
   title: string;
   description: string;
   href: string;
-  icon: LucideIcon;
+  icon: string;
   isNew?: boolean;
   isPremium?: boolean;
   isComingSoon?: boolean;
@@ -17,7 +18,7 @@ export function ToolCardCompact({
   title,
   description,
   href,
-  icon: Icon,
+  icon,
   isNew,
   isPremium,
   isComingSoon,
@@ -53,7 +54,7 @@ export function ToolCardCompact({
 
       {/* Icon - No background */}
       <div className={`inline-flex items-center justify-center w-10 h-10 mb-4 transition-transform duration-300 ${isComingSoon ? 'opacity-50' : 'group-hover:scale-110'}`}>
-        <Icon className={`w-6 h-6 text-gray-600 transition-colors ${!isComingSoon && 'group-hover:text-primary-600'}`} strokeWidth={1.5} />
+<IconRenderer name={icon} className={`w-6 h-6 text-gray-600 transition-colors ${!isComingSoon && 'group-hover:text-primary-600'}`} />
       </div>
 
       {/* Content */}

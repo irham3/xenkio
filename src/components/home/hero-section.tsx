@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { ArrowRight, ShieldCheck, Zap, UserX } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Lightning, UserMinus } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import ShinyText from '@/components/reactbits/shiny-text';
 import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input';
+import { IconRenderer } from '@/components/ui/icon-renderer';
 import { TOOLS, type ToolData } from '@/data/tools';
 import type Fuse from 'fuse.js';
 
@@ -156,7 +157,7 @@ export function HeroSection() {
                     const content = (
                       <>
                         <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 shrink-0">
-                          <tool.icon className="w-5 h-5 text-gray-600" />
+                          <IconRenderer name={tool.icon} className="w-5 h-5 text-gray-600" />
                         </div>
                         <div className="flex-1 text-left min-w-0">
                           <div className="flex items-center gap-2">
@@ -202,12 +203,12 @@ export function HeroSection() {
             </div>
             <span className="hidden sm:block text-gray-300">·</span>
             <div className="flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-amber-500" />
+              <Lightning className="w-4 h-4 text-amber-500" />
               <span className="font-medium">Instant, no queue</span>
             </div>
             <span className="hidden sm:block text-gray-300">·</span>
             <div className="flex items-center gap-1.5">
-              <UserX className="w-4 h-4 text-primary-500" />
+              <UserMinus className="w-4 h-4 text-primary-500" />
               <span className="font-medium">No account needed</span>
             </div>
           </div>

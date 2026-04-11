@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { CarouselConfig, CarouselImage, INSTAGRAM_SIZES } from '../types';
 import { cn } from '@/lib/utils';
-import { Minus, Plus, Trash2, RotateCw } from 'lucide-react';
+import { Minus, Plus, Trash, ArrowClockwise } from '@phosphor-icons/react/dist/ssr';
 
 interface CarouselPreviewProps {
   config: CarouselConfig;
@@ -247,7 +247,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
                         className="absolute -top-10 left-1/2 -translate-x-1/2 w-8 h-8 bg-white border border-gray-200 rounded-full shadow-lg z-50 flex items-center justify-center cursor-ew-resize hover:scale-105 hover:border-primary-500 hover:text-primary-600 transition-all text-gray-500"
                         onMouseDown={(e) => handleStart(e, img.id, 'rotate')}
                       >
-                        <RotateCw size={14} />
+                        <ArrowClockwise size={14} />
                       </div>
 
                       {/* Connecting line to rotate handle */}
@@ -259,7 +259,7 @@ export function CarouselPreview({ config, onChange, selectedImageId, onSelectIma
                         onClick={(e) => handleDelete(img.id, e)}
                         onMouseDown={(e) => e.stopPropagation()}
                       >
-                        <Trash2 size={12} />
+                        <Trash size={12} />
                       </button>
                     </>
                   )}

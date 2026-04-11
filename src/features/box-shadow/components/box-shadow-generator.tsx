@@ -4,7 +4,13 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, Plus, Trash2, Shuffle } from 'lucide-react';
+import {
+    Copy,
+    Check,
+    Plus,
+    Trash,
+    Shuffle
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -362,7 +368,7 @@ export function BoxShadowGenerator() {
                             )}
                             aria-label="Remove shadow layer"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>

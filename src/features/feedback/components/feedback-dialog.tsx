@@ -10,7 +10,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { MessageSquarePlus } from 'lucide-react';
+import { ChatCircle } from '@phosphor-icons/react/dist/ssr';
 import { FeedbackForm } from './feedback-form';
 
 export function FeedbackDialog() {
@@ -20,7 +20,7 @@ export function FeedbackDialog() {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="ghost" size="sm" className="hidden sm:flex gap-2">
-                    <MessageSquarePlus className="h-4 w-4" />
+                    <ChatCircle className="h-4 w-4" />
                     Feedback
                 </Button>
             </DialogTrigger>

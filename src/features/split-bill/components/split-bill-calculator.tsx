@@ -6,7 +6,13 @@ import { ItemManager } from './item-manager';
 import { BillSummary } from './bill-summary';
 import { PdfReceipt } from './pdf-receipt';
 import { POPULAR_CURRENCIES } from '../constants';
-import { Settings2, Percent, CreditCard, User, Hash } from 'lucide-react';
+import {
+    Sliders,
+    Percent,
+    CreditCard,
+    User,
+    Hash
+} from '@phosphor-icons/react/dist/ssr';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useState, useRef } from 'react';
 
@@ -60,7 +66,7 @@ export function SplitBillCalculator() {
                     {/* Unified Top Banner / Settings */}
                     <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
                         <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-50">
-                            <Settings2 className="w-5 h-5 text-gray-500" />
+                            <Sliders className="w-5 h-5 text-gray-500" />
                             <h3 className="font-semibold text-gray-800">Global Settings</h3>
                         </div>
 

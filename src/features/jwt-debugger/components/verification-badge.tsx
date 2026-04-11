@@ -1,6 +1,6 @@
 'use client';
 
-import { ShieldCheck, ShieldAlert, Shield } from 'lucide-react';
+import { ShieldCheck, ShieldWarning, Shield } from '@phosphor-icons/react/dist/ssr';
 import {
     Tooltip,
     TooltipContent,
@@ -37,7 +37,7 @@ export function VerificationBadge({ isVerified, hasToken, verificationError }: V
 
     const badge = (
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-100 text-red-700 text-[10px] font-bold uppercase tracking-wider border border-red-200 cursor-help">
-            <ShieldAlert className="w-3 h-3" />
+            <ShieldWarning className="w-3 h-3" />
             Invalid Signature
         </div>
     );

@@ -1,6 +1,6 @@
 "use client"
 
-import { FileText, Plus } from "lucide-react"
+import { FileText, Plus } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { DropzoneRootProps, DropzoneInputProps } from "react-dropzone"

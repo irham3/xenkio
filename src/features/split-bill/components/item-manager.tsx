@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { Person, SplitItem, Currency } from '../types';
 import { Button } from '@/components/ui/button';
-import { Plus, Trash2, Receipt, Users, Check, Banknote } from 'lucide-react';
+import {
+    Plus,
+    Trash,
+    Receipt,
+    Users,
+    Check,
+    Money
+} from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 interface ItemManagerProps {
@@ -125,7 +132,7 @@ export function ItemManager({
                     </div>
                 </div>
                 <p className="text-[10px] text-gray-400 mt-2 flex items-center gap-1.5">
-                    <Banknote className="w-3.5 h-3.5" />
+                    <Money className="w-3.5 h-3.5" />
                     Price should be the unit price. It will be multiplied by quantity.
                 </p>
             </div>
@@ -172,7 +179,7 @@ export function ItemManager({
                                         className="text-gray-400 hover:text-red-500 p-1.5 rounded-md hover:bg-red-50 transition-colors"
                                         title="Remove Item"
                                     >
-                                        <Trash2 className="w-4 h-4" />
+                                        <Trash className="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>

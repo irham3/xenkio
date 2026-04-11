@@ -3,19 +3,19 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import {
-    Upload,
+    UploadSimple,
     Plus,
-    Download,
-    RotateCcw,
-    Loader2,
+    DownloadSimple,
+    ArrowCounterClockwise,
+    SpinnerGap,
     FileText,
     Crop,
     Copy,
-    ChevronLeft,
-    ChevronRight,
+    CaretLeft,
+    CaretRight,
     Check,
-    ChevronDown,
-} from 'lucide-react';
+    CaretDown
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -152,7 +152,7 @@ function PdfCanvas({ pdfDocument, arrayBuffer, pageNumber, scale, onDimensionsRe
         <div className="relative w-full h-full">
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-50 rounded-lg z-10">
-                    <Loader2 className="w-6 h-6 text-primary-500 animate-spin" />
+                    <SpinnerGap className="w-6 h-6 text-primary-500 animate-spin" />
                 </div>
             )}
             <canvas
@@ -679,7 +679,7 @@ export default function CropPdfTool() {
                                     isDragActive ? 'bg-primary-100' : 'bg-gray-100'
                                 )}
                             >
-                                <Upload
+                                <UploadSimple
                                     className={cn(
                                         'w-10 h-10 transition-colors',
                                         isDragActive ? 'text-primary-600' : 'text-gray-400'
@@ -798,7 +798,7 @@ export default function CropPdfTool() {
                                         ))}
                                     </optgroup>
                                 </select>
-                                <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                                <CaretDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
                             </div>
                         </div>
                     </div>
@@ -816,7 +816,7 @@ export default function CropPdfTool() {
                     )}
 
                     <Button variant="outline" size="sm" onClick={handleResetCrop} className="text-xs">
-                        <RotateCcw className="w-3.5 h-3.5 mr-1" />
+                        <ArrowCounterClockwise className="w-3.5 h-3.5 mr-1" />
                         Reset Crop
                     </Button>
 
@@ -838,12 +838,12 @@ export default function CropPdfTool() {
                     >
                         {isProcessing ? (
                             <>
-                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                <SpinnerGap className="w-4 h-4 mr-2 animate-spin" />
                                 Processing...
                             </>
                         ) : (
                             <>
-                                <Download className="w-4 h-4 mr-2" />
+                                <DownloadSimple className="w-4 h-4 mr-2" />
                                 Download Cropped PDF
                             </>
                         )}
@@ -915,7 +915,7 @@ export default function CropPdfTool() {
                                 disabled={currentPage <= 1}
                                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                             >
-                                <ChevronLeft className="w-4 h-4" />
+                                <CaretLeft className="w-4 h-4" />
                             </Button>
                             <span className="text-sm text-gray-700 font-medium">
                                 Page {currentPage} of {pdfFile.pageCount}
@@ -926,7 +926,7 @@ export default function CropPdfTool() {
                                 disabled={currentPage >= pdfFile.pageCount}
                                 onClick={() => setCurrentPage((p) => Math.min(pdfFile.pageCount, p + 1))}
                             >
-                                <ChevronRight className="w-4 h-4" />
+                                <CaretRight className="w-4 h-4" />
                             </Button>
                         </div>
                     )}

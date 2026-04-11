@@ -19,18 +19,18 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import {
-    RotateCw,
-    Download,
-    Upload,
-    Trash2,
+    ArrowClockwise,
+    DownloadSimple,
+    UploadSimple,
+    Trash,
     Crop as CropIcon,
-    ZoomIn,
+    MagnifyingGlassPlus,
     Monitor,
-    Smartphone,
+    DeviceMobile,
     Square,
-    Settings2,
-    Plus,
-} from 'lucide-react';
+    Sliders,
+    Plus
+} from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { canvasPreview, downloadCrop } from '../lib/crop-utils';
 import { cn } from '@/lib/utils';
@@ -60,12 +60,12 @@ function centerAspectCrop(
 const ASPECTS = [
     { value: 0, label: 'Free / Custom', icon: CropIcon },
     { value: 1, label: 'Square (1:1)', icon: Square },
-    { value: 4 / 5, label: 'Instagram Portrait (4:5)', icon: Smartphone },
+    { value: 4 / 5, label: 'Instagram Portrait (4:5)', icon: DeviceMobile },
     { value: 1.91 / 1, label: 'Instagram Landscape (1.91:1)', icon: Monitor },
     { value: 16 / 9, label: 'Landscape (16:9)', icon: Monitor },
     { value: 4 / 3, label: 'Standard (4:3)', icon: Monitor },
-    { value: 9 / 16, label: 'Portrait (9:16)', icon: Smartphone },
-    { value: 3 / 4, label: 'Portrait (3:4)', icon: Smartphone },
+    { value: 9 / 16, label: 'Portrait (9:16)', icon: DeviceMobile },
+    { value: 3 / 4, label: 'Portrait (3:4)', icon: DeviceMobile },
     { value: 2 / 1, label: 'Twitter Header (2:1)', icon: Monitor },
 ];
 
@@ -209,7 +209,7 @@ export default function ImageCropper() {
                             "w-20 h-20 rounded-2xl flex items-center justify-center transition-all",
                             isDragActive ? "bg-primary-100" : "bg-gray-100"
                         )}>
-                            <Upload className={cn(
+                            <UploadSimple className={cn(
                                 "w-10 h-10 transition-colors",
                                 isDragActive ? "text-primary-600" : "text-gray-400"
                             )} />
@@ -264,8 +264,8 @@ export default function ImageCropper() {
             {/* Sidebar Controls */}
             <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-5 sticky top-6 h-fit lg:col-span-1">
                 <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                    <Settings2 className="w-5 h-5 text-primary-600" />
-                    <h2 className="font-semibold">Settings</h2>
+                    <Sliders className="w-5 h-5 text-primary-600" />
+                    <h2 className="font-semibold">Gear</h2>
 
                     {imgSrc && (
                         <Button
@@ -275,7 +275,7 @@ export default function ImageCropper() {
                             className="ml-auto h-6 w-6 text-gray-400 hover:text-red-500 hover:bg-red-50 cursor-pointer"
                             title="Reset all"
                         >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash className="w-3.5 h-3.5" />
                         </Button>
                     )}
                 </div>
@@ -328,7 +328,7 @@ export default function ImageCropper() {
                             <span className="text-[10px] text-gray-500 font-mono bg-gray-100 px-1.5 py-0.5 rounded">{scale.toFixed(1)}x</span>
                         </div>
                         <div className="flex items-center gap-3">
-                            <ZoomIn className="w-4 h-4 text-gray-400" />
+                            <MagnifyingGlassPlus className="w-4 h-4 text-gray-400" />
                             <Slider
                                 value={[scale]}
                                 min={0.1}
@@ -347,7 +347,7 @@ export default function ImageCropper() {
                             <span className="text-[10px] text-gray-500 font-mono bg-gray-100 px-1.5 py-0.5 rounded">{rotate}°</span>
                         </div>
                         <div className="flex items-center gap-3">
-                            <RotateCw className="w-4 h-4 text-gray-400" />
+                            <ArrowClockwise className="w-4 h-4 text-gray-400" />
                             <Slider
                                 value={[rotate]}
                                 min={-180}
@@ -373,7 +373,7 @@ export default function ImageCropper() {
                         disabled={!completedCrop || !imgSrc}
                         className="w-full h-12 bg-linear-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-500/25 cursor-pointer disabled:opacity-50"
                     >
-                        <Download className="w-5 h-5 mr-2" />
+                        <DownloadSimple className="w-5 h-5 mr-2" />
                         Download Crop
                     </Button>
                 </div>

@@ -1,4 +1,4 @@
-import { Play, Pause, RotateCcw, Square } from 'lucide-react';
+import { Play, Pause, ArrowCounterClockwise, Square } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 interface TimerControlsProps {
@@ -72,7 +72,7 @@ export function TimerControls({
                 className="flex items-center justify-center w-14 h-14 rounded-full border-2 border-gray-200 text-gray-400 hover:text-primary-600 hover:border-primary-200 transition-colors"
                 title="Reset Timer"
             >
-                <RotateCcw className="w-6 h-6" />
+                <ArrowCounterClockwise className="w-6 h-6" />
             </button>
         </div>
     );

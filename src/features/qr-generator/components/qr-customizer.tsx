@@ -6,7 +6,7 @@ import { QRConfig } from '../types';
 import { QR_ERROR_LEVELS } from '../constants';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { Frame, Settings2, Palette } from 'lucide-react';
+import { FrameCorners, Sliders, Palette } from '@phosphor-icons/react/dist/ssr';
 
 interface QrCustomizerProps {
   config: QRConfig;
@@ -18,8 +18,8 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
 
   const tabs = [
     { id: 'design', label: 'Design', icon: Palette },
-    { id: 'frame', label: 'Frame', icon: Frame },
-    { id: 'options', label: 'Options', icon: Settings2 },
+    { id: 'frame', label: 'Frame', icon: FrameCorners },
+    { id: 'options', label: 'Options', icon: Sliders },
   ] as const;
 
   return (
@@ -302,7 +302,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
           <div className="space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label>Frame Style</Label>
+                <Label>FrameCorners Style</Label>
                 <div className="grid grid-cols-2 gap-2">
                   {(['none', 'simple', 'modern', 'badge'] as const).map((style) => (
                     <button
@@ -326,7 +326,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
               {config.frame?.style !== 'none' && (
                 <>
                   <div className="space-y-2">
-                    <Label>Frame Text</Label>
+                    <Label>FrameCorners Text</Label>
                     <input
                       type="text"
                       value={config.frame?.text}
@@ -338,7 +338,7 @@ export function QrCustomizer({ config, onChange }: QrCustomizerProps) {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Frame Color</Label>
+                    <Label>FrameCorners Color</Label>
                     <div className="flex gap-2">
                       <input
                         type="color"

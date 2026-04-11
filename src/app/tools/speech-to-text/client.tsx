@@ -8,7 +8,7 @@ import { LanguageSelector } from "@/features/speech-to-text/components/language-
 import { DEFAULT_LANGUAGE } from "@/features/speech-to-text/constants";
 import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { WarningCircle } from '@phosphor-icons/react/dist/ssr';
 
 export default function SpeechToTextClient() {
     const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
@@ -46,7 +46,7 @@ export default function SpeechToTextClient() {
 
             {error && (
                 <Alert variant="destructive" className="mb-6">
-                    <AlertCircle className="h-4 w-4" />
+                    <WarningCircle className="h-4 w-4" />
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>{error}</AlertDescription>
                 </Alert>

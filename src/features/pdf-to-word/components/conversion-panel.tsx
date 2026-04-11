@@ -1,6 +1,15 @@
 "use client"
 
-import { FileText, Download, Loader2, CheckCircle2, AlertCircle, RefreshCw, FileDown, ArrowRight } from "lucide-react"
+import {
+    FileText,
+    DownloadSimple,
+    SpinnerGap,
+    CheckCircle,
+    WarningCircle,
+    ArrowsClockwise,
+    FileArrowDown,
+    ArrowRight
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { PdfFile, ConversionResult, ConversionStatus } from "../types"
 
@@ -79,7 +88,7 @@ export function ConversionPanel({
                     </div>
                     <ArrowRight className="w-6 h-6 text-gray-400" />
                     <div className="flex items-center gap-3 px-4 py-2 bg-primary-50 rounded-lg">
-                        <FileDown className="w-5 h-5 text-primary-600" />
+                        <FileArrowDown className="w-5 h-5 text-primary-600" />
                         <span className="font-medium text-gray-700">DOCX</span>
                     </div>
                 </div>
@@ -103,7 +112,7 @@ export function ConversionPanel({
                             className="px-12 py-6 text-base h-auto"
                             onClick={onConvert}
                         >
-                            <FileDown className="w-5 h-5 mr-3" />
+                            <FileArrowDown className="w-5 h-5 mr-3" />
                             Convert to Word
                         </Button>
 
@@ -153,7 +162,7 @@ export function ConversionPanel({
                             Converting your PDF...
                         </h4>
                         <p className="text-gray-500 text-sm flex items-center justify-center gap-2">
-                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <SpinnerGap className="w-4 h-4 animate-spin" />
                             Extracting text, colors, and styles
                         </p>
                     </div>
@@ -162,7 +171,7 @@ export function ConversionPanel({
                 {isCompleted && result && (
                     <div className="text-center py-4">
                         <div className="w-16 h-16 mx-auto mb-6 bg-success-50 rounded-full flex items-center justify-center">
-                            <CheckCircle2 className="w-8 h-8 text-success-500" />
+                            <CheckCircle className="w-8 h-8 text-success-500" />
                         </div>
 
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">
@@ -178,7 +187,7 @@ export function ConversionPanel({
                                 onClick={onDownload}
                                 className="px-8"
                             >
-                                <Download className="w-4 h-4 mr-2" />
+                                <DownloadSimple className="w-4 h-4 mr-2" />
                                 Download Word File
                             </Button>
                             <Button
@@ -186,7 +195,7 @@ export function ConversionPanel({
                                 size="lg"
                                 onClick={onReset}
                             >
-                                <RefreshCw className="w-4 h-4 mr-2" />
+                                <ArrowsClockwise className="w-4 h-4 mr-2" />
                                 Convert Another
                             </Button>
                         </div>
@@ -196,7 +205,7 @@ export function ConversionPanel({
                 {isError && (
                     <div className="text-center py-4">
                         <div className="w-16 h-16 mx-auto mb-6 bg-error-50 rounded-full flex items-center justify-center">
-                            <AlertCircle className="w-8 h-8 text-error-500" />
+                            <WarningCircle className="w-8 h-8 text-error-500" />
                         </div>
 
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">
@@ -211,7 +220,7 @@ export function ConversionPanel({
                                 size="lg"
                                 onClick={onConvert}
                             >
-                                <RefreshCw className="w-4 h-4 mr-2" />
+                                <ArrowsClockwise className="w-4 h-4 mr-2" />
                                 Try Again
                             </Button>
                             <Button

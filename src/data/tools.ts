@@ -80,6 +80,7 @@ import {
     Grid3x3,
     Clapperboard,
     FlaskConical,
+    GitBranch,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1206,6 +1207,20 @@ export const TOOLS: ToolData[] = [
         categoryId: 'calculators',
     },
 
+    // =====================================================
+    // DEVELOPER TOOLS - Time Complexity Calculator
+    // =====================================================
+    {
+        id: '123',
+        title: 'Tree Visualizer',
+        description: 'Build and animate binary trees from arrays or BST insertions. See interactive step-by-step traversal visualizations.',
+        icon: GitBranch,
+        href: '/tools/tree-visualizer',
+        slug: 'tree-visualizer',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
     // =====================================================
     // DEVELOPER TOOLS - Time Complexity Calculator
     // =====================================================

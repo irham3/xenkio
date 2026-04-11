@@ -35,7 +35,6 @@ interface DataTableEditorProps {
 // ── Component ──────────────────────────────────────────────────────────────
 
 export function DataTableEditor({
-    variant,
     columns,
     data,
     onChange,

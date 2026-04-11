@@ -449,7 +449,7 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS
     // =====================================================
     {
-        id: '105',
+        id: '123',
         title: 'Data Checker',
         description: 'Validate data manually row-by-row. Mark valid/invalid, add comments, and export results as CSV.',
         icon: ClipboardCheck,
@@ -1249,7 +1249,7 @@ export const TOOLS: ToolData[] = [
     // MEDIA & IMAGES - Face Anonymizer
     // =====================================================
     {
-        id: '114',
+        id: '124',
         title: 'Face Anonymizer',
         description: 'Automatically detect and blur or pixelate faces in photos. Select all or individual faces. 100% private — runs in your browser.',
         icon: ScanFace,
@@ -1274,7 +1274,7 @@ export const TOOLS: ToolData[] = [
     // MEDIA & IMAGES - Image Annotator
     // =====================================================
     {
-        id: '115',
+        id: '125',
         title: 'Image Annotator',
         description: 'Annotate images with arrows, shapes, text, and freehand drawing. Upload or paste an image and download the result.',
         icon: PenLine,

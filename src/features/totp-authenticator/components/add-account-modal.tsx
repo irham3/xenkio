@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { X, Upload, KeyRound, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { normalizeSecret } from '../lib/totp';
 import type { TotpAlgorithm } from '../types';
 import type { AddAccountForm } from '../hooks/use-totp-authenticator';
 
@@ -211,7 +212,7 @@ export function AddAccountModal({ onAdd, onClose, onQrScan }: AddAccountModalPro
                                     ref={secretRef}
                                     type="text"
                                     value={form.secret}
-                                    onChange={e => setForm(prev => ({ ...prev, secret: e.target.value.toUpperCase().replace(/\s/g, '') }))}
+                                    onChange={e => setForm(prev => ({ ...prev, secret: normalizeSecret(e.target.value) }))}
                                     placeholder="JBSWY3DPEHPK3PXP"
                                     className="w-full px-3 py-2 text-sm font-mono border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent"
                                     required

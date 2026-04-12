@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { TotpAccount, TotpAlgorithm } from '../types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { generateTotp, getRemainingSeconds, getProgress } from '../lib/totp';
+import { generateTotp, getRemainingSeconds, getProgress, normalizeSecret } from '../lib/totp';
 import { exportAccountsToText, importAccountsFromText } from '../lib/export-import';
 import { scanQrFromFile } from '../lib/qr-scanner';
 import { toast } from 'sonner';
@@ -52,7 +52,8 @@ export function useTotpAuthenticator() {
     useEffect(() => {
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(refreshCodes, 1000);
-        // Defer the initial refresh to avoid calling setState synchronously in effect
+        // Defer the initial refresh by one tick so React finishes the current render cycle
+        // before triggering a setState call, preventing a synchronous setState-during-render warning.
         const id = setTimeout(refreshCodes, 0);
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
@@ -65,7 +66,7 @@ export function useTotpAuthenticator() {
             id: crypto.randomUUID(),
             name: form.name.trim(),
             issuer: form.issuer.trim(),
-            secret: form.secret.trim().toUpperCase().replace(/\s/g, ''),
+            secret: normalizeSecret(form.secret),
             algorithm: form.algorithm,
             digits: form.digits,
             period: form.period,

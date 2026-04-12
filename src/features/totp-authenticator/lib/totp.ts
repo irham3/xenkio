@@ -74,6 +74,10 @@ export function generateTotp(
     return String(code % 10 ** digits).padStart(digits, '0');
 }
 
+export function normalizeSecret(secret: string): string {
+    return secret.trim().toUpperCase().replace(/\s/g, '');
+}
+
 export function getRemainingSeconds(period: number, timeMs?: number): number {
     const now = timeMs ?? Date.now();
     const elapsed = Math.floor(now / 1000) % period;

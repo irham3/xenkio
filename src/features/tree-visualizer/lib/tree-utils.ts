@@ -188,26 +188,117 @@ export function generateLevelOrderSteps(root: TreeNode | null): TraversalStep[] 
     return steps;
 }
 
-// Layout Algorithm (Simple version)
-// Recursively sets x and y on each node
-export function calculateNodePositions(root: TreeNode | null, width: number, height: number): TreeNode | null {
+export function generateBSTInsertSteps(root: TreeNode | null, targetVal: number): { steps: TraversalStep[], newRoot: TreeNode } {
+    const steps: TraversalStep[] = [];
+    const visitedIds: string[] = [];
+    
+    // Quick copy helper (deep enough for structure)
+    const cloneNode = (node: TreeNode | null): TreeNode | null => {
+        if (!node) return null;
+        return { ...node, left: cloneNode(node.left), right: cloneNode(node.right) };
+    };
+
+    const newRoot = cloneNode(root);
+    const newNode: TreeNode = { id: generateId(), val: targetVal, left: null, right: null };
+
+    if (!newRoot) {
+        steps.push({ visitedIds: [newNode.id], currentId: newNode.id, outputVals: [targetVal] });
+        return { steps, newRoot: newNode };
+    }
+
+    let current: TreeNode | null = newRoot;
+    let parent: TreeNode | null = null;
+    let isLeft = true;
+
+    while (current) {
+        visitedIds.push(current.id);
+        steps.push({ visitedIds: [...visitedIds], currentId: current.id, outputVals: [targetVal] });
+
+        parent = current;
+        if (targetVal < current.val) {
+            current = current.left;
+            isLeft = true;
+        } else if (targetVal > current.val) {
+            current = current.right;
+            isLeft = false;
+        } else {
+            // Already exists, stop
+            return { steps, newRoot };
+        }
+    }
+
+    if (parent) {
+        if (isLeft) parent.left = newNode;
+        else parent.right = newNode;
+        visitedIds.push(newNode.id);
+        steps.push({ visitedIds: [...visitedIds], currentId: newNode.id, outputVals: [targetVal] });
+    }
+
+    return { steps, newRoot };
+}
+
+export function generateBSTSearchSteps(root: TreeNode | null, targetVal: number): TraversalStep[] {
+    const steps: TraversalStep[] = [];
+    const visitedIds: string[] = [];
+    let current = root;
+
+    while (current) {
+        visitedIds.push(current.id);
+        steps.push({ visitedIds: [...visitedIds], currentId: current.id, outputVals: [targetVal] });
+
+        if (targetVal === current.val) break;
+        else if (targetVal < current.val) current = current.left;
+        else current = current.right;
+    }
+    
+    if (!current) {
+        steps.push({ visitedIds: [...visitedIds], currentId: null, outputVals: [targetVal] });
+    }
+
+    return steps;
+}
+
+// Layout Algorithm & Analytics Calculation
+export function calculateNodePositions(root: TreeNode | null, width: number, heightContainer: number): TreeNode | null {
     if (!root) return null;
 
     const HORIZONTAL_SPACING = width / 2.5; 
-    const VERTICAL_SPACING = Math.min(80, height / 5);
-    function traverse(node: TreeNode | null, depth: number, x: number, y: number, offset: number) {
-        if (!node) return;
+    const VERTICAL_SPACING = Math.min(80, heightContainer / 5);
+    
+    // First pass calculation for height, balance factor, depth, and positions
+    function traverse(node: TreeNode | null, depth: number, x: number, y: number, offset: number): number {
+        if (!node) return -1; // null node height = -1
 
         node.x = x;
         node.y = y;
+        node.depth = depth;
 
         // Offset decreases as depth increases to avoid overlap
-        if (node.left) traverse(node.left, depth + 1, x - offset, y + VERTICAL_SPACING, offset / 2);
-        if (node.right) traverse(node.right, depth + 1, x + offset, y + VERTICAL_SPACING, offset / 2);
+        const leftHeight = traverse(node.left, depth + 1, x - offset, y + VERTICAL_SPACING, offset / 2);
+        const rightHeight = traverse(node.right, depth + 1, x + offset, y + VERTICAL_SPACING, offset / 2);
+        
+        node.height = Math.max(leftHeight, rightHeight) + 1;
+        node.balanceFactor = leftHeight - rightHeight;
+
+        return node.height;
     }
 
     // Centered at width/2, somewhat from top
     traverse(root, 0, width / 2, 40, HORIZONTAL_SPACING);
 
+    return root;
+}
+
+export function invertTreeObj(root: TreeNode | null): TreeNode | null {
+    if (!root) return null;
+    
+    // Swap left and right
+    const temp = root.left;
+    root.left = root.right;
+    root.right = temp;
+    
+    invertTreeObj(root.left);
+    invertTreeObj(root.right);
+    
     return root;
 }

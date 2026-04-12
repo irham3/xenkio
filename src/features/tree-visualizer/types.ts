@@ -1,5 +1,5 @@
 export type TreeMode = 'array' | 'bst';
-export type TraversalType = 'inorder' | 'preorder' | 'postorder' | 'level-order';
+export type TraversalType = 'inorder' | 'preorder' | 'postorder' | 'level-order' | 'bst-insert' | 'bst-search';
 
 export interface TreeNode {
     id: string; // Unique ID for animations
@@ -9,6 +9,10 @@ export interface TreeNode {
     // Visualization positions (relative 0-1 or absolute coords)
     x?: number;
     y?: number;
+    // Advanced stats for hover
+    height?: number;
+    depth?: number;
+    balanceFactor?: number;
 }
 
 export interface TreeEdge {

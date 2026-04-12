@@ -8,7 +8,10 @@ import {
     generatePreorderSteps,
     generatePostorderSteps,
     generateLevelOrderSteps,
-    calculateNodePositions
+    calculateNodePositions,
+    invertTreeObj,
+    generateBSTInsertSteps,
+    generateBSTSearchSteps
 } from '../lib/tree-utils';
 
 const DEFAULT_ARRAY = "[1, 2, 3, null, 5, null, 7]";
@@ -38,6 +41,11 @@ export function useTreeVisualizer() {
             traversalSteps: [] 
         }));
     }, []);
+
+    const setMode = useCallback((mode: 'array' | 'bst') => {
+        stopAnimation();
+        setState(prev => ({ ...prev, mode, error: null }));
+    }, [stopAnimation]);
 
     const handleArrayInput = useCallback((input: string) => {
         stopAnimation();
@@ -116,6 +124,40 @@ export function useTreeVisualizer() {
         }));
     }, [dimensions, state.mode, stopAnimation]);
 
+    const invertCurrentTree = useCallback(() => {
+        stopAnimation();
+        if (!state.root) return;
+
+        const newRoot = invertTreeObj(JSON.parse(JSON.stringify(state.root)));
+        const positionedRoot = calculateNodePositions(newRoot, dimensions.width, dimensions.height);
+
+        const buildLevelOrderStr = (root: TreeNode | null) => {
+            if (!root) return "[]";
+            const q = [root];
+            const res: (number | null)[] = [];
+            while (q.length > 0) {
+                const n = q.shift()!;
+                if (n) {
+                    res.push(n.val);
+                    q.push((n.left as TreeNode) || null);
+                    q.push((n.right as TreeNode) || null);
+                } else {
+                    res.push(null);
+                }
+            }
+            while(res.length > 0 && res[res.length-1] === null) res.pop();
+            return `[${res.join(', ')}]`.replace(/null/g, 'null');
+        };
+
+        const arrStr = buildLevelOrderStr(newRoot);
+        
+        setState(prev => ({
+            ...prev,
+            root: positionedRoot,
+            arrayInput: arrStr
+        }));
+    }, [state.root, dimensions.width, dimensions.height, stopAnimation]);
+
     // Initial load
     useEffect(() => {
         handleArrayInput(DEFAULT_ARRAY);
@@ -178,6 +220,37 @@ export function useTreeVisualizer() {
         }));
     }, [state.root]);
 
+    const playBSTInsert = useCallback((val: number) => {
+        stopAnimation();
+        const { steps, newRoot } = generateBSTInsertSteps(state.root, val);
+        
+        // Compute positions for the new root
+        const positionedRoot = calculateNodePositions(newRoot, dimensions.width, dimensions.height);
+
+        setState(prev => ({
+            ...prev,
+            root: positionedRoot, 
+            traversalType: 'bst-insert',
+            traversalSteps: steps,
+            currentStepIndex: 0,
+            isPlaying: true
+        }));
+    }, [state.root, dimensions, stopAnimation]);
+
+    const playBSTSearch = useCallback((val: number) => {
+        stopAnimation();
+        if (!state.root) return;
+        const steps = generateBSTSearchSteps(state.root, val);
+
+        setState(prev => ({
+            ...prev,
+            traversalType: 'bst-search',
+            traversalSteps: steps,
+            currentStepIndex: 0,
+            isPlaying: true
+        }));
+    }, [state.root, stopAnimation]);
+
     const togglePlay = useCallback(() => {
         setState(prev => {
             if (prev.traversalSteps.length === 0) return prev;
@@ -229,7 +302,11 @@ export function useTreeVisualizer() {
         setSpeed,
         stepForward,
         stepBackward,
-        updateDimensions
+        updateDimensions,
+        invertCurrentTree,
+        setMode,
+        playBSTInsert,
+        playBSTSearch
     };
 }
 

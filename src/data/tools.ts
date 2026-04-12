@@ -49,6 +49,7 @@ import {
     ArrowLeftRight,
     Crop,
     Shield,
+    ShieldCheck,
     LockKeyhole,
     KeyRound,
     Box,
@@ -443,6 +444,16 @@ export const TOOLS: ToolData[] = [
         href: '/tools/jwt-debugger',
         categoryId: 'security-privacy',
         isNew: true,
+    },
+    {
+        id: '25',
+        title: '2FA TOTP Authenticator',
+        description: 'Generate TOTP 2FA codes from secret keys or QR codes. Supports SHA1/SHA256/SHA512. 100% client-side.',
+        icon: ShieldCheck,
+        href: '/tools/totp-authenticator',
+        slug: 'totp-authenticator',
+        isNew: true,
+        categoryId: 'security-privacy',
     },
 
 

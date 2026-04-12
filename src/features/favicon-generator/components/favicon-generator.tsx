@@ -159,7 +159,7 @@ export function FaviconGenerator() {
                         <div
                             {...getRootProps()}
                             className={cn(
-                                "relative group cursor-pointer h-[400px] rounded-3xl border-2 border-dashed transition-all flex flex-col items-center justify-center p-12 text-center",
+                                "relative group cursor-pointer h-100 rounded-3xl border-2 border-dashed transition-all flex flex-col items-center justify-center p-12 text-center",
                                 isDragActive
                                     ? "border-primary bg-primary-50/30 scale-[0.99]"
                                     : "border-gray-200 bg-white hover:border-primary/50 hover:bg-gray-50/50"
@@ -175,12 +175,12 @@ export function FaviconGenerator() {
                             </p>
                         </div>
                     ) : (
-                        <Card className="overflow-hidden border-gray-100 shadow-medium h-fit min-h-[400px] flex flex-col bg-white">
+                        <Card className="overflow-hidden border-gray-100 shadow-medium h-fit min-h-100 flex flex-col bg-white">
                             {/* Toolbar */}
                             <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
                                 <div className="flex items-center gap-3">
                                     <PhosphorImage weight="duotone" className="w-5 h-5 text-primary" />
-                                    <span className="font-medium text-gray-900 truncate max-w-[200px]">{file.name}</span>
+                                    <span className="font-medium text-gray-900 truncate max-w-50">{file.name}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Button variant="ghost" size="sm" onClick={reset} className="text-gray-500 hover:text-error-600">

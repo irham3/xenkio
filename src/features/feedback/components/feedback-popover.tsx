@@ -37,7 +37,7 @@ export function FeedbackPopover() {
                     Feedback
                 </TooltipContent>
             </Tooltip>
-            <PopoverContent className="w-[360px] p-0 overflow-hidden shadow-xl border-border/50" align="end">
+            <PopoverContent className="w-90 p-0 overflow-hidden shadow-xl border-border/50" align="end">
                 <div className="relative p-6 bg-card">
                     {/* <Button
                         variant="ghost"

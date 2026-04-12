@@ -47,7 +47,7 @@ export default function InstagramCarouselPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-[1600px]">
+        <div className="container mx-auto px-4 py-8 max-w-400">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

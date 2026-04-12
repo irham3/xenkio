@@ -329,7 +329,7 @@ export function ContrastCheckerTool() {
               <div className="space-y-2">
                 <Label className="text-sm font-semibold text-gray-800">Preview</Label>
                 <div
-                  className="rounded-xl border border-gray-200 p-6 space-y-4 min-h-[200px]"
+                  className="rounded-xl border border-gray-200 p-6 space-y-4 min-h-50"
                   style={{ backgroundColor: background }}
                 >
                   <p style={{ color: foreground, fontSize: '28px', fontWeight: 700, lineHeight: 1.3 }}>

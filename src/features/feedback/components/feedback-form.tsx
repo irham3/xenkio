@@ -70,7 +70,7 @@ export function FeedbackForm({ onSuccess }: FeedbackFormProps) {
                     id="feedback"
                     name="feedback"
                     placeholder="Tell us what you think..."
-                    className="min-h-[120px] bg-muted/50 border-transparent focus-visible:bg-background transition-all duration-200 resize-none rounded-md"
+                    className="min-h-30 bg-muted/50 border-transparent focus-visible:bg-background transition-all duration-200 resize-none rounded-md"
                     required
                     disabled={isPending}
                     maxLength={2000}

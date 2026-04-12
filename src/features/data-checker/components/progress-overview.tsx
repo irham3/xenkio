@@ -36,7 +36,7 @@ export function ProgressOverview({ stats }: ProgressOverviewProps) {
                         />
                     </div>
                 </div>
-                <span className="text-sm font-semibold text-gray-700 tabular-nums min-w-[48px] text-right">
+                <span className="text-sm font-semibold text-gray-700 tabular-nums min-w-12 text-right">
                     {stats.progress}%
                 </span>
             </div>

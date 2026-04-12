@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { UploadSimple, DownloadSimple, ArrowCounterClockwise, Eye, EyeSlash, CircleNotch, UserFocus, Image } from '@phosphor-icons/react/dist/ssr';
+import { UploadSimple, DownloadSimple, ArrowCounterClockwise, Eye, EyeSlash, CircleNotch, UserFocus, Image as ImageIcon } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
@@ -134,7 +134,7 @@ export function FaceAnonymizer() {
                             desc: 'Choose your preferred anonymization style and set the strength.',
                         },
                         {
-                            icon: <Image className="w-6 h-6 text-green-600"/>,
+                            icon: <ImageIcon className="w-6 h-6 text-green-600" aria-hidden="true" />, 
                             bg: 'bg-green-50',
                             title: '100% Private',
                             desc: 'Everything runs in your browser — no image ever leaves your device.',
@@ -197,7 +197,7 @@ export function FaceAnonymizer() {
                             </span>
                         )}
                     </div>
-                    <div className="p-4 flex items-center justify-center bg-gray-50 min-h-[300px]">
+                    <div className="p-4 flex items-center justify-center bg-gray-50 min-h-75">
                         {status.isDetecting && faces.length === 0 ? (
                             <div className="flex flex-col items-center gap-3 text-gray-400">
                                 <CircleNotch className="w-8 h-8 animate-spin text-primary-400"  weight="duotone"/>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { ArrowCounterClockwise, ArrowClockwise, TextB, TextItalic, TextUnderline, TextStrikethrough, TextHOne, TextHTwo, TextHThree, TextHFour, TextHFive, TextHSix, ListBullets, ListNumbers, CheckSquare, Quotes, Link as LinkIcon, Image as Image, Code, Table as Table, Minus, DotsThree, Eraser } from '@phosphor-icons/react/dist/ssr';
+import { ArrowCounterClockwise, ArrowClockwise, TextB, TextItalic, TextUnderline, TextStrikethrough, TextHOne, TextHTwo, TextHThree, TextHFour, TextHFive, TextHSix, ListBullets, ListNumbers, CheckSquare, Quotes, Link as LinkIcon, Image as ImageIcon, Code, Table as Table, Minus, DotsThree, Eraser } from '@phosphor-icons/react/dist/ssr';
 
 interface ToolbarProps {
     undo: () => void;
@@ -166,7 +166,7 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Image"
                 >
-                    <Image className="w-4 h-4"/>
+                    <ImageIcon className="w-4 h-4" aria-hidden="true" />
                 </button>
                 <button
                     onClick={() => applyFormatting('`', '`', 'inline code')}

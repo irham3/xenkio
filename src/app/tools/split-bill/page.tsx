@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default function SplitBillPage() {
     return (
         <main className="min-h-screen bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-[1400px] mx-auto mb-8 text-center space-y-4">
+            <div className="max-w-350 mx-auto mb-8 text-center space-y-4">
                 <h1 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
                     Split Bill
                 </h1>

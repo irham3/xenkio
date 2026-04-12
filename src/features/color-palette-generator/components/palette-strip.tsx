@@ -55,7 +55,7 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock,
 
     return (
         <div
-            className="group relative flex-1 flex flex-col items-center justify-center min-h-[120px] md:min-h-0 transition-all duration-500 ease-in-out hover:flex-2"
+            className="group relative flex-1 flex flex-col items-center justify-center min-h-30 md:min-h-0 transition-all duration-500 ease-in-out hover:flex-2"
             style={{ backgroundColor: color.hex }}
         >
             {/* Overlay for visual depth */}

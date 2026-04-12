@@ -505,7 +505,7 @@ export function DataVerifierContent() {
 
                     <Card className="p-8 border-none shadow-soft-xl bg-white/70 backdrop-blur-md space-y-6 rounded-3xl">
                         <h3 className="font-black text-gray-900 text-xl flex items-center gap-3"><Database className="w-5 h-5 text-success-600"  weight="duotone"/> Source Linkage</h3>
-                        <div className="space-y-4 max-h-[300px] overflow-auto pr-2 custom-scrollbar">
+                        <div className="space-y-4 max-h-75 overflow-auto pr-2 custom-scrollbar">
                             {state.sources.map(src => (
                                 <div key={src.id} className="p-4 bg-success-50/50 rounded-2xl border border-success-100 flex flex-col gap-3">
                                     <div className="flex items-center justify-between">
@@ -605,7 +605,7 @@ export function DataVerifierContent() {
         <div className="space-y-6 animate-in fade-in duration-700">
             <div className="flex flex-col lg:flex-row gap-6 items-stretch">
                 <Card className="flex-1 p-6 border-none shadow-soft-xl flex flex-wrap gap-x-12 gap-y-6 items-center bg-white/ backdrop-blur-md rounded-3xl">
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                         <div className="flex items-end gap-3">
                             <span className="text-5xl font-black text-indigo-600 leading-none">{Math.round((stats.ident / stats.total) * 100) || 0}%</span>
                             <div className="flex flex-col">
@@ -614,7 +614,7 @@ export function DataVerifierContent() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-1 justify-around gap-4 min-w-[300px]">
+                    <div className="flex flex-1 justify-around gap-4 min-w-75">
                         <div className="text-center">
                             <span className="block text-3xl font-black text-error-600">{stats.mismatch}</span>
                             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Mismatches</span>
@@ -635,10 +635,10 @@ export function DataVerifierContent() {
                 </Card>
 
                 <div className="flex lg:flex-col gap-3 justify-center">
-                    <Button variant="outline" onClick={handleCopyTSV} className="h-full min-h-[50px] px-8 rounded-2xl border-gray-200 bg-white hover:bg-gray-50 shadow-sm font-black text-indigo-600 group">
+                    <Button variant="outline" onClick={handleCopyTSV} className="h-full min-h-12.5 px-8 rounded-2xl border-gray-200 bg-white hover:bg-gray-50 shadow-sm font-black text-indigo-600 group">
                         <Clipboard className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" /> COPY TO CLIPBOARD
                     </Button>
-                    <Button onClick={handleExportCSV} className="h-full min-h-[50px] px-8 rounded-2xl bg-gray-900 border-gray-900 shadow-soft-xl hover:bg-black font-black text-white group">
+                    <Button onClick={handleExportCSV} className="h-full min-h-12.5 px-8 rounded-2xl bg-gray-900 border-gray-900 shadow-soft-xl hover:bg-black font-black text-white group">
                         <DownloadSimple className="w-5 h-5 mr-3 group-hover:translate-y-0.5 transition-transform"  weight="duotone"/> DOWNLOAD CSV
                     </Button>
                 </div>
@@ -702,8 +702,8 @@ export function DataVerifierContent() {
                     </div>
 
                     <Card className="border-none shadow-soft-xl overflow-hidden rounded-3xl bg-white/90 backdrop-blur-xl border border-white">
-                        <div className="overflow-auto max-h-[650px] custom-scrollbar">
-                            <table className="w-full text-left border-collapse min-w-[1200px]">
+                        <div className="overflow-auto max-h-162.5 custom-scrollbar">
+                            <table className="w-full text-left border-collapse min-w-300">
                                 <thead className="sticky top-0 z-20 bg-gray-50/95 backdrop-blur-md border-b border-gray-100">
                                     <tr>
                                         <th className="p-4 w-12 text-center text-[10px] font-black text-gray-300 uppercase">#</th>
@@ -774,7 +774,7 @@ export function DataVerifierContent() {
                                                         </Button>
                                                     ) : r.status === 'identical' ? (
                                                         <div className="flex items-center justify-center gap-2.5 text-success-500 bg-success-50/80 py-2 rounded-2xl border border-success-100">
-                                                            <CheckCircle className="w-5 h-5 flex-shrink-0"  weight="duotone"/>
+                                                            <CheckCircle className="w-5 h-5 shrink-0"  weight="duotone"/>
                                                             <span className="text-[10px] font-black uppercase tracking-wider">Verified</span>
                                                         </div>
                                                     ) : (
@@ -828,7 +828,7 @@ export function DataVerifierContent() {
                             </div>
                             <Button variant="outline" onClick={() => setState({ ...state, auditLog: [] })} className="rounded-xl h-10 border-gray-200">Clear Logs</Button>
                         </div>
-                        <div className="overflow-auto max-h-[500px] p-2 custom-scrollbar">
+                        <div className="overflow-auto max-h-125 p-2 custom-scrollbar">
                             {state.auditLog.length === 0 ? (
                                 <div className="p-20 text-center space-y-4 opacity-30">
                                     <ClockCounterClockwise className="w-16 h-16 mx-auto mb-4"  weight="duotone"/>

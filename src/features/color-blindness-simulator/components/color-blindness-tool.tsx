@@ -348,10 +348,10 @@ export function ColorBlindnessTool() {
               <div className="px-4 py-3 border-b border-gray-100">
                 <h4 className="text-sm font-bold text-gray-900">Original</h4>
               </div>
-              <div className="p-3 flex items-center justify-center bg-gray-50 min-h-[200px]">
+              <div className="p-3 flex items-center justify-center bg-gray-50 min-h-50">
                 <canvas
                   ref={sourceCanvasRef}
-                  className="max-w-full max-h-[500px] rounded-lg object-contain"
+                  className="max-w-full max-h-125 rounded-lg object-contain"
                 />
               </div>
             </div>
@@ -362,10 +362,10 @@ export function ColorBlindnessTool() {
                   Simulated | {currentSimulation?.label}
                 </h4>
               </div>
-              <div className="p-3 flex items-center justify-center bg-gray-50 min-h-[200px]">
+              <div className="p-3 flex items-center justify-center bg-gray-50 min-h-50">
                 <canvas
                   ref={simulatedCanvasRef}
-                  className="max-w-full max-h-[500px] rounded-lg object-contain"
+                  className="max-w-full max-h-125 rounded-lg object-contain"
                 />
               </div>
             </div>

@@ -35,7 +35,7 @@ interface DataTableEditorProps {
 // ── Component ──────────────────────────────────────────────────────────────
 
 export function DataTableEditor({
-    variant,
+    variant: _variant,
     columns,
     data,
     onChange,
@@ -43,6 +43,7 @@ export function DataTableEditor({
     minRows = 1,
     minCols = 2,
 }: DataTableEditorProps) {
+    void _variant;
     const numCols = columns.length;
     const numRows = data.length;
 

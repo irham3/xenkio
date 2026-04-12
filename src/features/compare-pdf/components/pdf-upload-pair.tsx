@@ -83,7 +83,7 @@ function SinglePdfDropzone({
                 <div
                     {...getRootProps()}
                     className={cn(
-                        'relative flex flex-col items-center justify-center gap-3 p-8 rounded-2xl border-2 border-dashed transition-all cursor-pointer min-h-[160px]',
+                        'relative flex flex-col items-center justify-center gap-3 p-8 rounded-2xl border-2 border-dashed transition-all cursor-pointer min-h-40',
                         isDragActive
                             ? 'border-primary-400 bg-primary-50'
                             : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 bg-white'

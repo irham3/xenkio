@@ -144,7 +144,7 @@ export function BarcodePreview({ config }: BarcodePreviewProps) {
     return (
         <div className="flex flex-col items-center space-y-6">
             {/* Visual Preview Area */}
-            <div className="w-full flex items-center justify-center bg-gray-50 border border-gray-200 rounded-xl p-8 min-h-[300px] overflow-hidden relative">
+            <div className="w-full flex items-center justify-center bg-gray-50 border border-gray-200 rounded-xl p-8 min-h-75 overflow-hidden relative">
                 {error && (
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/95 text-red-500 p-4 text-center">
                         <WarningCircle className="w-8 h-8 mb-2"  weight="duotone"/>

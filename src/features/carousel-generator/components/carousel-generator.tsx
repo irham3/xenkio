@@ -26,7 +26,7 @@ export function CarouselGenerator() {
   const selectedImage = config.images.find(img => img.id === selectedImageId);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-100px)] min-h-[600px]">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-100px)] min-h-150">
       {/* Left Sidebar: Controls */}
       <aside className="lg:col-span-3 flex flex-col gap-6 overflow-y-auto pr-4 scrollbar-hide bg-muted/30 p-4 rounded-2xl border">
         <div className="space-y-6">

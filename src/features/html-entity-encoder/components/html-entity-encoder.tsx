@@ -117,7 +117,7 @@ export function HtmlEntityEncoder() {
                   onChange={(e) => updateInput(e.target.value)}
                   placeholder={activeTab === 'encode' ? 'Paste your HTML here...' : 'Paste encoded HTML entities here...'}
                   spellCheck={false}
-                  className="w-full min-h-[200px] lg:min-h-[280px] p-4 text-[13px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                  className="w-full min-h-50 lg:min-h-70 p-4 text-[13px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
                 />
               </div>
 

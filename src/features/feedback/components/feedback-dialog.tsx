@@ -24,7 +24,7 @@ export function FeedbackDialog() {
                     Feedback
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-106.25">
                 <DialogHeader>
                     {/* <DialogTitle>Send Feedback</DialogTitle> */}
                     {/* <DialogDescription>

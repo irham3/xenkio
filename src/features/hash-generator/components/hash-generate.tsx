@@ -49,7 +49,7 @@ export function HashGenerate() {
                                 value={options.text}
                                 onChange={(e) => updateOption('text', e.target.value)}
                                 placeholder="Type something to hash..."
-                                className="w-full min-h-[120px] p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                                className="w-full min-h-30 p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
                             />
                         </div>
 
@@ -177,7 +177,7 @@ export function HashGenerate() {
                 </div>
 
                 {/* RIGHT PANEL: Output & Results */}
-                <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px] border-l border-gray-100">
+                <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-75 border-l border-gray-100">
                     <div className="flex flex-col h-auto">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-sm font-semibold text-gray-800">Generated Hash</h3>
@@ -191,7 +191,7 @@ export function HashGenerate() {
 
                         <div className="flex-1 relative group">
                             <div className={cn(
-                                "w-full min-h-[120px] p-5 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
+                                "w-full min-h-30 p-5 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
                                 isGenerating
                                     ? "bg-white border-primary-200 text-gray-400"
                                     : result?.error

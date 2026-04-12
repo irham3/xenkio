@@ -153,7 +153,7 @@ export function BorderRadiusGeneratorTool() {
     <div className="w-full">
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
         {/* Preview */}
-        <div className="flex items-center justify-center bg-gray-50 p-8 md:p-12 min-h-[280px]">
+        <div className="flex items-center justify-center bg-gray-50 p-8 md:p-12 min-h-70">
           <div
             className="transition-all duration-300 shadow-lg"
             style={{

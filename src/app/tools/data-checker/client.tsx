@@ -214,7 +214,7 @@ export default function DataCheckerClient() {
                                     value={textInput}
                                     onChange={(e) => setTextInput(e.target.value)}
                                     placeholder={`Enter data to validate, one per line:\n\nJohn Doe - john@example.com\nJane Smith - jane@mail.com\nBob Wilson - +62812345678\n...`}
-                                    className="w-full min-h-[220px] p-4 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
+                                    className="w-full min-h-55 p-4 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
                                 />
 
                                 <div className="flex gap-3">
@@ -272,7 +272,7 @@ export default function DataCheckerClient() {
                                             <Confetti className="w-10 h-10 text-emerald-500"  weight="duotone"/>
                                         </div>
                                         <h3 className="text-2xl font-bold text-gray-900 mb-2">All Done!</h3>
-                                        <p className="text-sm text-gray-500 mb-8 max-w-[300px]">
+                                        <p className="text-sm text-gray-500 mb-8 max-w-75">
                                             You&apos;ve reviewed all {stats.total} items. Here&apos;s the summary:
                                         </p>
 
@@ -370,7 +370,7 @@ export default function DataCheckerClient() {
                                     <FileText className="w-8 h-8 text-gray-400"  weight="duotone"/>
                                 </div>
                                 <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Check</h3>
-                                <p className="text-xs text-gray-500 max-w-[300px]">
+                                <p className="text-xs text-gray-500 max-w-75">
                                     Enter your data above — one item per line. Then review each item one by one,
                                     marking it as valid or invalid.
                                 </p>

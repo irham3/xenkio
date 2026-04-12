@@ -120,7 +120,7 @@ export function CssMinifier() {
                   onChange={(e) => updateOption('css', e.target.value)}
                   placeholder="Paste your CSS code here..."
                   spellCheck={false}
-                  className="w-full min-h-[200px] lg:min-h-[280px] p-4 text-[13px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                  className="w-full min-h-50 lg:min-h-70 p-4 text-[13px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
                 />
               </div>
 
@@ -189,7 +189,7 @@ export function CssMinifier() {
           </div>
 
           {/* RIGHT PANEL: Output */}
-          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[400px]">
+          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-100">
             <div className="flex flex-col h-full">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-gray-800">
@@ -219,7 +219,7 @@ export function CssMinifier() {
 
               <div className="flex-1 relative group">
                 <div className={cn(
-                  "w-full h-full min-h-[280px] p-4 rounded-xl border font-mono text-[12px] leading-relaxed overflow-auto transition-all duration-300 whitespace-pre",
+                  "w-full h-full min-h-70 p-4 rounded-xl border font-mono text-[12px] leading-relaxed overflow-auto transition-all duration-300 whitespace-pre",
                   isProcessing
                     ? "bg-white border-primary-200 text-gray-400"
                     : result?.error

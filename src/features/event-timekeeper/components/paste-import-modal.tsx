@@ -34,7 +34,7 @@ export function PasteImportModal({ isOpen, onClose, onImport }: PasteImportModal
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="sm:max-w-[600px]">
+            <DialogContent className="sm:max-w-150">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <ClipboardText className="w-5 h-5 text-primary-500"  weight="duotone"/>

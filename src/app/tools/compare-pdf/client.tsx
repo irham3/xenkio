@@ -144,7 +144,7 @@ export default function ComparePdfClient() {
                         </div>
 
                         {/* Sidebar controls */}
-                        <div className="w-full lg:w-[280px] shrink-0 lg:sticky lg:top-6 bg-white rounded-2xl ring-1 ring-gray-100 shadow-sm p-5">
+                        <div className="w-full lg:w-70 shrink-0 lg:sticky lg:top-6 bg-white rounded-2xl ring-1 ring-gray-100 shadow-sm p-5">
                             <h3 className="text-sm font-bold text-gray-900 mb-4">
                                 Comparison Settings
                             </h3>

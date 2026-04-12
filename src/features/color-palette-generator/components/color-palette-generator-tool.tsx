@@ -111,7 +111,7 @@ export function ColorPaletteGeneratorTool() {
     if (!mounted) return null;
 
     return (
-        <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl mx-auto items-stretch lg:h-[700px]">
+        <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl mx-auto items-stretch lg:h-175">
             {/* Main Editor Area */}
             <main className="flex-1 flex flex-col gap-4 min-w-0 h-full">
                 {/* Header Controls */}

@@ -77,7 +77,7 @@ export function ComparisonView({
 
     if (loading) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] text-gray-400">
+            <div className="flex flex-col items-center justify-center min-h-100 text-gray-400">
                 <CircleNotch className="w-10 h-10 animate-spin mb-4 text-primary-500"  weight="duotone"/>
                 <p className="text-sm font-medium">Loading page…</p>
             </div>

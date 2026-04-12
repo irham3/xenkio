@@ -1,4 +1,5 @@
-import { 
+import type { ComponentType } from 'react';
+import {
   Archive,
   ArrowsLeftRight,
   ArrowsOut,
@@ -64,9 +65,9 @@ import {
   WifiHigh,
   XLogo
 } from '@phosphor-icons/react/dist/ssr';
-import { IconProps } from '@phosphor-icons/react';
+import type { IconProps } from '@phosphor-icons/react';
 
-const icons: Record<string, any> = {
+const icons: Record<string, ComponentType<IconProps>> = {
   Archive: Archive,
   ArrowsLeftRight: ArrowsLeftRight,
   ArrowsOut: ArrowsOut,
@@ -135,8 +136,10 @@ const icons: Record<string, any> = {
 
 export type IconName = keyof typeof icons;
 
+export type IconName = keyof typeof icons;
+
 interface IconRendererProps extends IconProps {
-  name: string;
+  name: IconName;
 }
 
 export function IconRenderer({ name, ...props }: IconRendererProps) {

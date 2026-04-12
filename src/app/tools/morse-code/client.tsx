@@ -68,7 +68,7 @@ export default function MorseCodeClient() {
                   ? "Type or paste text to encode..."
                   : "Paste Morse code to decode (e.g. .... . .-.. .-.. --- / .-- --- .-. .-.. -..)..."
                 }
-                className="w-full min-h-[200px] p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
+                className="w-full min-h-50 p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
               />
 
               <div className="flex items-center gap-2">
@@ -114,7 +114,7 @@ export default function MorseCodeClient() {
           </div>
 
           {/* RIGHT PANEL: Output */}
-          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px]">
+          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-75">
             <div className="flex flex-col h-auto">
               {/* Output Header */}
               <div className="flex items-center justify-between mb-4">
@@ -139,7 +139,7 @@ export default function MorseCodeClient() {
                     exit={{ opacity: 0, y: -5 }}
                     transition={{ duration: 0.2 }}
                     className={cn(
-                      "w-full min-h-[200px] p-4 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
+                      "w-full min-h-50 p-4 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
                       result?.error
                         ? "bg-error-50 border-error-200 text-error-600"
                         : result?.output
@@ -151,7 +151,7 @@ export default function MorseCodeClient() {
                       <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
                         <WarningCircle className="w-10 h-10 text-error-400"  weight="duotone"/>
                         <p className="font-semibold text-sm">Decoding Error</p>
-                        <p className="text-xs opacity-80 text-center max-w-[250px]">{result.error}</p>
+                        <p className="text-xs opacity-80 text-center max-w-62.5">{result.error}</p>
                       </div>
                     ) : result?.output ? (
                       result.output

@@ -50,7 +50,7 @@ export function CategoryTabs() {
       <div
         ref={containerRef}
         className={cn(
-          'sticky top-[74px] z-40 transition-all duration-300',
+          'sticky top-18.5 z-40 transition-all duration-300',
           isSticky
             ? 'bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm'
             : 'bg-transparent'

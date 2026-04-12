@@ -175,7 +175,7 @@ export function CssTriangleTool() {
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
         {/* Triangle Preview */}
         <div className="relative">
-          <div className="w-full rounded-t-2xl bg-[repeating-conic-gradient(#f3f4f6_0%_25%,#ffffff_0%_50%)] bg-[length:20px_20px] flex items-center justify-center" style={{ minHeight: '240px' }}>
+          <div className="w-full rounded-t-2xl bg-[repeating-conic-gradient(#f3f4f6_0%_25%,#ffffff_0%_50%)] bg-size-[20px_20px] flex items-center justify-center" style={{ minHeight: '240px' }}>
             <div style={inlineStyle} />
           </div>
         </div>

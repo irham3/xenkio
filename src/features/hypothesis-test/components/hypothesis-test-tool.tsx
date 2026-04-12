@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -249,13 +249,6 @@ export function HypothesisTestTool() {
             }
         },
         [setField],
-    );
-
-    const handleFormChange = useCallback(
-        (newData: string[][]) => {
-            syncFormToPaste(inputCategory, newData);
-        },
-        [inputCategory, syncFormToPaste],
     );
 
     // ── Handle contingency/anova column add/remove (need to update columns) ──

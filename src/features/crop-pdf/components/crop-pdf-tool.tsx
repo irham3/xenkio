@@ -842,7 +842,7 @@ export default function CropPdfTool() {
             <div className="flex gap-6">
                 {/* Page thumbnails (left sidebar) */}
                 {pdfFile.pageCount > 1 && (
-                    <div className="hidden md:flex flex-col gap-2 max-h-[680px] overflow-y-auto pr-1 scrollbar-themed">
+                    <div className="hidden md:flex flex-col gap-2 max-h-170 overflow-y-auto pr-1 scrollbar-themed">
                         {Array.from({ length: pdfFile.pageCount }, (_, i) => (
                             <PageThumbnail
                                 key={i}

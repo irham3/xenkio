@@ -179,7 +179,7 @@ export function BackgroundRemover() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start h-[calc(100vh-200px)] min-h-[600px]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start h-[calc(100vh-200px)] min-h-150">
                 {/* Thumbnails Sidebar */}
                 <div className="lg:col-span-3 h-full overflow-hidden flex flex-col bg-white rounded-xl border border-gray-200 shadow-sm">
                     <div className="p-4 border-b border-gray-100 font-medium text-sm text-gray-500">

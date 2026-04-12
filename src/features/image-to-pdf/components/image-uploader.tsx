@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus, Image as Image } from '@phosphor-icons/react/dist/ssr';
+import { Plus, Image as ImageIcon } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { DropzoneRootProps, DropzoneInputProps } from "react-dropzone"
@@ -30,10 +30,10 @@ export function ImageUploader({ isDragActive, getRootProps, getInputProps, descr
                         "w-20 h-20 rounded-2xl flex items-center justify-center transition-all",
                         isDragActive ? "bg-primary-100" : "bg-gray-100"
                     )}>
-                        <Image className={cn(
+                        <ImageIcon className={cn(
                             "w-10 h-10 transition-colors",
                             isDragActive ? "text-primary-600" : "text-gray-400"
-                        )}/>
+                        )} aria-hidden="true" />
                     </div>
                     <div className="space-y-2">
                         <p className="text-xl font-semibold text-gray-900">

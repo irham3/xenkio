@@ -352,7 +352,7 @@ export function FlexboxGenerator() {
         {/* Preview */}
         <div className="w-full rounded-t-2xl bg-gray-100 p-6" style={{ minHeight: '280px' }}>
           <div
-            className="w-full border-2 border-dashed border-gray-300 rounded-xl p-4 min-h-[220px]"
+            className="w-full border-2 border-dashed border-gray-300 rounded-xl p-4 min-h-55"
             style={{
               display: 'flex',
               flexDirection: container.flexDirection,
@@ -368,7 +368,7 @@ export function FlexboxGenerator() {
                 key={item.id}
                 onClick={() => setSelectedItem(item.id === selectedItem ? null : item.id)}
                 className={cn(
-                  'rounded-lg border-2 transition-all flex items-center justify-center text-sm font-semibold cursor-pointer min-w-[60px] min-h-[60px] px-4 py-3',
+                  'rounded-lg border-2 transition-all flex items-center justify-center text-sm font-semibold cursor-pointer min-w-15 min-h-15 px-4 py-3',
                   ITEM_COLORS[index % ITEM_COLORS.length],
                   item.id === selectedItem && 'ring-2 ring-primary-500 ring-offset-2'
                 )}

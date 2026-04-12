@@ -63,7 +63,7 @@ export function HashVerify() {
                                     setIsMatch(null);
                                 }}
                                 placeholder="Enter the original text..."
-                                className="w-full min-h-[100px] p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                                className="w-full min-h-25 p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
                             />
                         </div>
 
@@ -142,7 +142,7 @@ export function HashVerify() {
                 </div>
 
                 {/* RIGHT PANEL: Results */}
-                <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px] border-l border-gray-100">
+                <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-75 border-l border-gray-100">
                     <div className="flex flex-col h-full justify-center">
                         {isVerifying ? (
                             <div className="flex flex-col items-center justify-center p-8 opacity-60">
@@ -199,7 +199,7 @@ export function HashVerify() {
                                     <CheckCircle className="w-8 h-8 text-gray-400"  weight="duotone"/>
                                 </div>
                                 <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Verify</h3>
-                                <p className="text-xs text-gray-500 max-w-[200px]">Enter original text and the hash to compare them instantly.</p>
+                                <p className="text-xs text-gray-500 max-w-50">Enter original text and the hash to compare them instantly.</p>
                             </div>
                         )}
                     </div>

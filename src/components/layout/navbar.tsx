@@ -106,11 +106,11 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Gradient line at top */}
-      <div className="h-[2px] bg-linear-to-r from-primary-500 via-primary-600 to-accent-500" />
+      <div className="h-0.5 bg-linear-to-r from-primary-500 via-primary-600 to-accent-500" />
 
       <nav className="bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative h-[72px] flex items-center">
+          <div className="relative h-18 flex items-center">
             {/* Logo - Left aligned */}
             <div className="flex items-center gap-2 shrink-0 z-10">
               <Link href="/" className="flex items-center gap-3 group">
@@ -167,7 +167,7 @@ export function Navbar() {
                         className={cn(
                           "absolute top-full left-1/2 mt-2 p-3 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left transition-all duration-200 origin-top -translate-x-1/2",
                           hoveredCategory === category.id ? "opacity-100 visible translate-y-0 scale-100" : "opacity-0 invisible translate-y-2 scale-95",
-                          isTwoColumns ? "w-[540px]" : "w-[290px]"
+                          isTwoColumns ? "w-135" : "w-72.5"
                         )}
                       >
                         <div className={cn("grid gap-2", isTwoColumns ? "grid-cols-2" : "grid-cols-1")}>
@@ -255,7 +255,7 @@ export function Navbar() {
 
                   <div
                     className={cn(
-                      "absolute top-full left-1/2 mt-2 w-[260px] p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left transition-all duration-200 origin-top -translate-x-1/2",
+                      "absolute top-full left-1/2 mt-2 w-65 p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left transition-all duration-200 origin-top -translate-x-1/2",
                       hoveredCategory === 'more' ? "opacity-100 visible translate-y-0 scale-100" : "opacity-0 invisible translate-y-2 scale-95"
                     )}
                   >
@@ -304,11 +304,11 @@ export function Navbar() {
                               className={cn(
                                 "absolute top-0 right-full mr-2 p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 transition-all duration-200",
                                 activeSubCategory === category.id ? "opacity-100 visible translate-x-0" : "opacity-0 invisible translate-x-2",
-                                isTwoColumns ? "w-[540px]" : "w-[290px]"
+                                isTwoColumns ? "w-135" : "w-72.5"
                               )}
                             >
                               <div className={cn(
-                                "grid gap-2 max-h-[600px] overflow-y-auto scrollbar-themed",
+                                "grid gap-2 max-h-150 overflow-y-auto scrollbar-themed",
                                 isTwoColumns ? "grid-cols-2" : "grid-cols-1"
                               )}>
                                 {categoryTools.map((tool) => {
@@ -375,7 +375,7 @@ export function Navbar() {
               <button
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Search tools"
-                className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-[160px] cursor-pointer"
+                className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-40 cursor-pointer"
               >
                 <MagnifyingGlass className="w-4 h-4 shrink-0"  weight="duotone"/>
                 <span className="text-gray-600">Search tools...</span>
@@ -410,7 +410,7 @@ export function Navbar() {
         <div
           className={cn(
             'xl:hidden overflow-hidden transition-all duration-300 ease-in-out',
-            mobileMenuOpen ? 'max-h-[600px] opacity-100 shadow-xl' : 'max-h-0 opacity-0'
+            mobileMenuOpen ? 'max-h-150 opacity-100 shadow-xl' : 'max-h-0 opacity-0'
           )}
         >
           <div className="px-4 py-3 space-y-1 bg-white border-t border-gray-100 max-h-[80vh] overflow-y-auto">

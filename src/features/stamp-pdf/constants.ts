@@ -1,4 +1,4 @@
-import { CheckCircle, XCircle, Clock, ShieldWarning, SealCheck, Calendar, ListChecks, NotePencil, Bank, Money } from '@phosphor-icons/react/dist/ssr';
+import { CheckCircle, XCircle, Clock, ShieldWarning, SealCheck, Calendar, ListChecks, NotePencil, Money } from '@phosphor-icons/react/dist/ssr';
 import { StampTemplate } from './types';
 
 export const MAX_PDF_SIZE = 20 * 1024 * 1024; // 20MB

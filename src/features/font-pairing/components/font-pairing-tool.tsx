@@ -106,7 +106,7 @@ export function FontPairingTool() {
     if (!mounted) return null;
 
     return (
-        <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl mx-auto items-stretch lg:min-h-[700px]">
+        <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl mx-auto items-stretch lg:min-h-175">
             {/* Main Preview Area */}
             <main className="flex-1 flex flex-col gap-4 min-w-0">
                 {/* Header Controls */}
@@ -332,7 +332,7 @@ export function FontPairingTool() {
             </main>
 
             {/* Sidebar - Font Pair Library */}
-            <aside className="w-full lg:w-80 shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden lg:h-[700px]">
+            <aside className="w-full lg:w-80 shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden lg:h-175">
                 {/* Category Filter */}
                 <div className="p-4 border-b border-gray-100 space-y-3">
                     <div className="flex items-center gap-2 font-bold text-gray-900 text-[10px] uppercase tracking-widest">

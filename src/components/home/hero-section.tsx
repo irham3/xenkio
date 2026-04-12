@@ -101,7 +101,7 @@ export function HeroSection() {
         </div>
 
         {/* Subtle Ambient Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary-100/30 blur-[120px] rounded-full opacity-60" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-125 bg-primary-100/30 blur-[120px] rounded-full opacity-60" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -152,7 +152,7 @@ export function HeroSection() {
             {/* Search Results Dropdown */}
             {showResults && (
               <div className="animate-fade-in-up absolute top-full left-0 right-0 mt-2 max-w-xl bg-white rounded-xl border border-gray-200 shadow-xl z-50 overflow-hidden">
-                <div className="max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="max-h-100 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {results.map((tool) => {
                     const content = (
                       <>

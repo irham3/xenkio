@@ -106,7 +106,7 @@ export function HmacGenerator() {
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Enter the message data here to sign..."
-                            className="min-h-[150px] border-gray-200 bg-gray-50/50 focus:ring-primary-500 font-mono text-sm resize-y"
+                            className="min-h-37.5 border-gray-200 bg-gray-50/50 focus:ring-primary-500 font-mono text-sm resize-y"
                         />
                     </div>
 
@@ -139,7 +139,7 @@ export function HmacGenerator() {
 
                         <div className="relative group">
                             <div className={cn(
-                                "w-full min-h-[60px] p-4 rounded-xl border border-gray-200 bg-gray-50 font-mono text-sm break-all flex items-center transition-all duration-300",
+                                "w-full min-h-15 p-4 rounded-xl border border-gray-200 bg-gray-50 font-mono text-sm break-all flex items-center transition-all duration-300",
                                 result.signature ? "text-gray-800 bg-green-50/30 border-green-100" : "text-gray-400 italic"
                             )}>
                                 {result.signature || "Enter message and key to verify signature..."}

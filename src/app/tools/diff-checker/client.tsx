@@ -189,7 +189,7 @@ export default function DiffCheckerClient() {
                 value={options.originalText}
                 onChange={(e) => updateOption('originalText', e.target.value)}
                 placeholder="Paste original text here..."
-                className="w-full min-h-[200px] p-3 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
+                className="w-full min-h-50 p-3 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
               />
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function DiffCheckerClient() {
                 value={options.modifiedText}
                 onChange={(e) => updateOption('modifiedText', e.target.value)}
                 placeholder="Paste modified text here..."
-                className="w-full min-h-[200px] p-3 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
+                className="w-full min-h-50 p-3 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
               />
             </div>
           </div>
@@ -318,7 +318,7 @@ export default function DiffCheckerClient() {
                 <FileText className="w-8 h-8 text-gray-400"  weight="duotone"/>
               </div>
               <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Compare</h3>
-              <p className="text-xs text-gray-500 max-w-[250px]">
+              <p className="text-xs text-gray-500 max-w-62.5">
                 Enter or paste two texts above and click &quot;Compare Differences&quot; to see the changes.
               </p>
             </div>

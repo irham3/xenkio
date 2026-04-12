@@ -342,7 +342,7 @@ export function ReviewCard({
                         </div>
                     ) : (
                         <div className="group relative">
-                            <p className="text-2xl md:text-3xl font-semibold text-gray-900 leading-relaxed break-words pr-12">
+                            <p className="text-2xl md:text-3xl font-semibold text-gray-900 leading-relaxed wrap-break-word pr-12">
                                 {currentRow.value}
                             </p>
                             <button

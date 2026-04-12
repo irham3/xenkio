@@ -85,7 +85,7 @@ export function ItemList({ rows, currentIndex, onGoToIndex, onSetRowStatus }: It
                 </div>
             </div>
 
-            <div ref={listRef} className="space-y-1 max-h-[400px] overflow-y-auto scrollbar-themed pr-1 scroll-smooth">
+            <div ref={listRef} className="space-y-1 max-h-100 overflow-y-auto scrollbar-themed pr-1 scroll-smooth">
                 {filteredRows.length > 0 ? (
                     filteredRows.map((row) => (
                         <button
@@ -109,7 +109,7 @@ export function ItemList({ rows, currentIndex, onGoToIndex, onSetRowStatus }: It
                                 <StatusDot status={row.status} />
                             </div>
 
-                            <span className="text-[10px] font-mono text-gray-400 min-w-[18px] tabular-nums">{row.originalIndex + 1}</span>
+                            <span className="text-[10px] font-mono text-gray-400 min-w-4.5 tabular-nums">{row.originalIndex + 1}</span>
                             <span className={cn(
                                 "text-sm truncate flex-1",
                                 row.originalIndex === currentIndex ? "font-bold text-gray-900" : "text-gray-600",

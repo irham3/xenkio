@@ -21,6 +21,7 @@ export interface AddAccountForm {
     secret: string;
     algorithm: TotpAlgorithm;
     digits: 6 | 8;
+    period: number;
 }
 
 const EMPTY_ACCOUNTS: TotpAccount[] = [];
@@ -67,7 +68,7 @@ export function useTotpAuthenticator() {
             secret: form.secret.trim().toUpperCase().replace(/\s/g, ''),
             algorithm: form.algorithm,
             digits: form.digits,
-            period: 30,
+            period: form.period,
         };
         setAccounts(prev => [...prev, newAccount]);
         setShowAddModal(false);

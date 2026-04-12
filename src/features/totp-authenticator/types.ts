@@ -7,7 +7,7 @@ export interface TotpAccount {
     secret: string;
     algorithm: TotpAlgorithm;
     digits: 6 | 8;
-    period: 30;
+    period: number;
 }
 
 export interface TotpCode {

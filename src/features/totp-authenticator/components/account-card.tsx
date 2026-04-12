@@ -51,7 +51,7 @@ export function AccountCard({ account, codeEntry, onCopy, onRemove }: AccountCar
                     {firstHalf} {secondHalf}
                 </span>
                 <button
-                    onClick={() => onCopy(code.replace(' ', ''))}
+                    onClick={() => onCopy(code.replace(/\s/g, ''))}
                     className="p-2 rounded-lg text-gray-400 hover:text-primary-600 hover:bg-primary-50 transition-colors cursor-pointer"
                     title="Copy code"
                 >

@@ -18,6 +18,7 @@ const DEFAULT_FORM: AddAccountForm = {
     secret: '',
     algorithm: 'SHA1',
     digits: 6,
+    period: 30,
 };
 
 export function AddAccountModal({ onAdd, onClose, onQrScan }: AddAccountModalProps) {

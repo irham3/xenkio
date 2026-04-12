@@ -47,7 +47,10 @@ export function parseOtpauthUri(uri: string): Omit<TotpAccount, 'id'> | null {
         const digitsParam = Number(url.searchParams.get('digits') ?? 6);
         const digits: 6 | 8 = digitsParam === 8 ? 8 : 6;
 
-        return { name, issuer, secret: secret.toUpperCase(), algorithm, digits, period: 30 };
+        const periodParam = Number(url.searchParams.get('period') ?? 30);
+        const period = periodParam > 0 ? periodParam : 30;
+
+        return { name, issuer, secret: secret.toUpperCase(), algorithm, digits, period };
     } catch {
         return null;
     }

@@ -56,7 +56,7 @@ export function generateTotp(
     secret: string,
     algorithm: TotpAlgorithm,
     digits: 6 | 8,
-    period: 30,
+    period: number,
     timeMs?: number
 ): string {
     const now = timeMs ?? Date.now();

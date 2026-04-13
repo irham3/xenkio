@@ -22,7 +22,8 @@ export function useLocalStorage<T>(
     }
   }, [initialValue, key]);
 
-  const [storedValue, setStoredValue] = useState<T>(readValue);
+  // Keep first client render identical to server output to avoid hydration mismatches.
+  const [storedValue, setStoredValue] = useState<T>(initialValue);
 
   // Return a wrapped version of useState's setter function that persists to localStorage
   const setValue = useCallback(
@@ -65,6 +66,11 @@ export function useLocalStorage<T>(
       console.warn(`Error removing localStorage key "${key}":`, error);
     }
   }, [key, initialValue]);
+
+  // Sync from localStorage after mount.
+  useEffect(() => {
+    setStoredValue(readValue());
+  }, [readValue]);
 
   useEffect(() => {
     const handleStorageChange = () => {

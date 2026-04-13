@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: resolution fallback
-import { sha1 } from '@noble/hashes/sha1.js';
+import { sha1 } from '@noble/hashes/legacy.js';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: resolution fallback
 import { sha256, sha512 } from '@noble/hashes/sha2.js';

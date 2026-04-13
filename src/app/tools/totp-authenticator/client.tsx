@@ -1,10 +1,11 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Plus, Download, Upload, Trash2, ShieldCheck } from 'lucide-react';
 import { useTotpAuthenticator } from '@/features/totp-authenticator/hooks/use-totp-authenticator';
 import { AccountCard } from '@/features/totp-authenticator/components/account-card';
 import { AddAccountModal } from '@/features/totp-authenticator/components/add-account-modal';
+import type { TotpAccount } from '@/features/totp-authenticator/types';
 import { cn } from '@/lib/utils';
 
 export function TotpAuthenticatorClient() {
@@ -25,6 +26,7 @@ export function TotpAuthenticatorClient() {
     } = useTotpAuthenticator();
 
     const importRef = useRef<HTMLInputElement>(null);
+    const [pendingRemoveAccount, setPendingRemoveAccount] = useState<TotpAccount | null>(null);
 
     const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -36,6 +38,18 @@ export function TotpAuthenticatorClient() {
         };
         reader.readAsText(file);
         e.target.value = '';
+    };
+
+    const requestRemoveAccount = (accountId: string) => {
+        const account = accounts.find((item) => item.id === accountId);
+        if (!account) return;
+        setPendingRemoveAccount(account);
+    };
+
+    const confirmRemoveAccount = () => {
+        if (!pendingRemoveAccount) return;
+        removeAccount(pendingRemoveAccount.id);
+        setPendingRemoveAccount(null);
     };
 
     return (
@@ -115,9 +129,51 @@ export function TotpAuthenticatorClient() {
                             account={account}
                             codeEntry={codes[account.id]}
                             onCopy={copyCode}
-                            onRemove={removeAccount}
+                            onRemove={requestRemoveAccount}
                         />
                     ))}
+                </div>
+            )}
+
+            {/* Remove Confirm Dialog */}
+            {pendingRemoveAccount && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm border border-gray-200 p-6 space-y-4">
+                        <div className="space-y-1">
+                            <h3 className="text-base font-bold text-gray-900">Remove account?</h3>
+                            <p className="text-sm text-gray-500">
+                                This will permanently remove
+                                {' '}
+                                <span className="font-semibold text-gray-700">{pendingRemoveAccount.name}</span>
+                                {pendingRemoveAccount.issuer ? (
+                                    <>
+                                        {' '}
+                                        from
+                                        {' '}
+                                        <span className="font-semibold text-gray-700">{pendingRemoveAccount.issuer}</span>
+                                    </>
+                                ) : null}
+                                . This action cannot be undone.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => setPendingRemoveAccount(null)}
+                                className="flex-1 px-4 py-2.5 text-sm font-semibold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors cursor-pointer"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmRemoveAccount}
+                                className={cn(
+                                    'flex-1 px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors cursor-pointer',
+                                    'bg-error-500 text-white hover:bg-error-600'
+                                )}
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
 

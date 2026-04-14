@@ -136,8 +136,6 @@ const icons: Record<string, ComponentType<IconProps>> = {
 
 export type IconName = keyof typeof icons;
 
-export type IconName = keyof typeof icons;
-
 interface IconRendererProps extends IconProps {
   name: IconName;
 }

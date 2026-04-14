@@ -82,6 +82,7 @@ import {
     Clapperboard,
     FlaskConical,
     GitBranch,
+    Monitor,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1170,6 +1171,16 @@ export const TOOLS: ToolData[] = [
         icon: Server,
         href: '/tools/dns-lookup',
         slug: 'dns-lookup',
+        categoryId: 'web-seo',
+    },
+    {
+        id: '126',
+        title: 'User Agent Checker',
+        description: 'Detect your browser, OS, device type, and rendering engine from your user agent string.',
+        icon: Monitor,
+        href: '/tools/user-agent-checker',
+        slug: 'user-agent-checker',
+        isNew: true,
         categoryId: 'web-seo',
     },
 

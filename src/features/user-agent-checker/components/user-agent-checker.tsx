@@ -80,7 +80,7 @@ export function UserAgentChecker() {
         <Monitor className="w-8 h-8 text-gray-300" />
     );
 
-    const deviceTypeColor = () => {
+    const getDeviceTypeColor = (): string => {
         if (!parsed) return 'bg-gray-100 text-gray-500';
         if (parsed.isBot) return 'bg-warning-50 text-warning-700 border-warning-200';
         if (parsed.isMobile) return 'bg-primary-50 text-primary-700 border-primary-200';
@@ -112,7 +112,7 @@ export function UserAgentChecker() {
                                     )}
                                     <div className={cn(
                                         'mt-2 inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full border',
-                                        deviceTypeColor()
+                                        getDeviceTypeColor()
                                     )}>
                                         {getDeviceIcon(parsed.device.type)}
                                         {parsed.device.type}

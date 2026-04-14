@@ -112,7 +112,7 @@ function parseDevice(ua: string): DeviceInfo {
 }
 
 function parseEngine(ua: string): EngineInfo {
-    if (/Gecko\/([0-9.]+)/i.test(ua) && !/like Gecko/i.test(ua.replace(/like Gecko/i, ''))) {
+    if (/Gecko\/([0-9.]+)/i.test(ua) && !/AppleWebKit/i.test(ua)) {
         const version = ua.match(/Gecko\/([0-9.]+)/i)?.[1] ?? '';
         return { name: 'Gecko', version };
     }

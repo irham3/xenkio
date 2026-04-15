@@ -83,6 +83,7 @@ import {
     FlaskConical,
     GitBranch,
     Monitor,
+    ScreenShare,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -389,6 +390,16 @@ export const TOOLS: ToolData[] = [
         icon: Maximize2,
         href: '/tools/image-resizer',
         categoryId: 'media-images',
+    },
+    {
+        id: '123',
+        title: 'Screen Recorder',
+        description: 'Record your screen, window, or browser tab with audio. No installation, no upload, 100% private.',
+        icon: ScreenShare,
+        href: '/tools/screen-recorder',
+        slug: 'screen-recorder',
+        categoryId: 'media-images',
+        isNew: true,
     },
     // =====================================================
     // SECURITY & PRIVACY TOOLS

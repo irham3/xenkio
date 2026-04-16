@@ -1234,7 +1234,7 @@ export const TOOLS: ToolData[] = [
     // DEVELOPER TOOLS - Time Complexity Calculator
     // =====================================================
     {
-        id: '123',
+        id: '128',
         title: 'Tree Visualizer',
         description: 'Build and animate binary trees from arrays or BST insertions. See interactive step-by-step traversal visualizations.',
         icon: GitBranch,

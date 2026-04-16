@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import "@/lib/polyfills";
 import { Providers } from "./providers";
 import { PwaRegister } from "@/components/pwa-register";
 

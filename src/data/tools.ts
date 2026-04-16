@@ -392,7 +392,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
     },
     {
-        id: '123',
+        id: '127',
         title: 'Screen Recorder',
         description: 'Record your screen, window, or browser tab with audio. No installation, no upload, 100% private.',
         icon: ScreenShare,
@@ -1109,16 +1109,6 @@ export const TOOLS: ToolData[] = [
     // =====================================================
     // WEB & SEO - Tambahan
     // =====================================================
-    {
-        id: '111',
-        title: 'URL Encoder / Decoder',
-        description: 'Encode or decode URLs. Convert special characters to safer URL formats.',
-        icon: Link2,
-        href: '/tools/url-encoder',
-        slug: 'url-encoder',
-        categoryId: 'web-seo',
-        isNew: true,
-    },
     {
         id: '81',
         title: 'Open Graph Generator',

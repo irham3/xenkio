@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button';
 import { 
     Play, Pause, SkipForward, SkipBack, 
     RefreshCw, Download, Copy, Check,
-    ZoomIn, ZoomOut, Maximize
+    ZoomIn, ZoomOut, Maximize, FlipHorizontal, Image, Search, Plus
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { TreeNode } from '../types';
 
-function TreeSVG({ 
+export function TreeSVG({ 
     root, 
     width, 
     height, 
@@ -65,13 +65,19 @@ function TreeSVG({
         }
 
         nodes.push(
-            <g key={`node-${node.id}`} className="transition-all duration-300" transform={`translate(${node.x}, ${node.y})`}>
+            <g key={`node-${node.id}`} className="transition-all duration-300 cursor-help" transform={`translate(${node.x}, ${node.y})`}>
+                <title>
+{`Value: ${node.val}
+Depth: ${node.depth ?? 0}
+Height: ${node.height ?? 0}
+Balance Factor: ${node.balanceFactor ?? 0}`}
+                </title>
                 <circle 
                     r="18" 
                     fill={fillColor} 
                     stroke={strokeColor} 
                     strokeWidth={isCurrent ? "3" : "2"}
-                    className="transition-all duration-300"
+                    className="transition-all duration-300 hover:stroke-indigo-400 hover:stroke-[4px]"
                 />
                 <text 
                     textAnchor="middle" 
@@ -112,12 +118,17 @@ export function TreeVisualizer() {
         setSpeed,
         stepForward,
         stepBackward,
-        updateDimensions
+        updateDimensions,
+        invertCurrentTree,
+        setMode,
+        playBSTInsert,
+        playBSTSearch
     } = useTreeVisualizer();
 
     const containerRef = useRef<HTMLDivElement>(null);
     const svgWrapperRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
+    const [bstInputVal, setBstInputVal] = useState<string>('');
 
     // Zoom and Pan State
     const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
@@ -173,7 +184,7 @@ export function TreeVisualizer() {
     }, [updateDimensions]);
 
     // Download SVG
-    const handleDownload = () => {
+    const handleDownloadSVG = () => {
         if (!svgWrapperRef.current) return;
         const svgElement = svgWrapperRef.current.querySelector('svg');
         if (!svgElement) return;
@@ -193,6 +204,45 @@ export function TreeVisualizer() {
         document.body.removeChild(link);
     };
 
+    // Download PNG
+    const handleDownloadPNG = () => {
+        if (!svgWrapperRef.current) return;
+        const svgElement = svgWrapperRef.current.querySelector('svg');
+        if (!svgElement) return;
+
+        const serializer = new XMLSerializer();
+        let source = serializer.serializeToString(svgElement);
+        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+
+        const img = new window.Image();
+        const svgBlob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(svgBlob);
+
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = svgElement.width.baseVal.value || 1200;
+            canvas.height = svgElement.height.baseVal.value || 600;
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+                ctx.fillStyle = "#f8fafc"; // bg-slate-50
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+
+                const imgURI = canvas.toDataURL("image/png");
+                const link = document.createElement("a");
+                link.href = imgURI;
+                link.download = `tree-${Math.random().toString(36).substring(2,7)}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        };
+        img.src = url;
+    };
+
     const currentStep = state.traversalSteps[state.currentStepIndex];
 
     const copyOutput = () => {
@@ -207,34 +257,100 @@ export function TreeVisualizer() {
     return (
         <div className="space-y-6 max-w-6xl mx-auto" ref={containerRef}>
             
+            {/* Mode Settings Tab */}
+            <div className="flex justify-center border-b border-gray-200">
+                <div className="flex gap-6">
+                    <button 
+                        className={cn("px-4 py-3 font-semibold text-sm transition-colors border-b-2 whitespace-nowrap", state.mode === 'array' ? "border-indigo-600 text-indigo-700" : "border-transparent text-gray-500 hover:text-gray-800")}
+                        onClick={() => setMode('array')}
+                    >Level-Order Array</button>
+                    <button 
+                        className={cn("px-4 py-3 font-semibold text-sm transition-colors border-b-2 whitespace-nowrap", state.mode === 'bst' ? "border-indigo-600 text-indigo-700" : "border-transparent text-gray-500 hover:text-gray-800")}
+                        onClick={() => setMode('bst')}
+                    >Binary Search Tree</button>
+                </div>
+            </div>
+
             {/* Input Controls */}
             <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-4">
                 <div className="flex flex-col md:flex-row gap-4 items-end">
-                    <div className="flex-1 space-y-2 w-full">
-                        <label className="text-sm font-semibold text-gray-700">
-                            Tree Array Representation (Level-order)
-                        </label>
-                        <input
-                            type="text"
-                            value={state.arrayInput}
-                            onChange={(e) => handleArrayInput(e.target.value)}
-                            placeholder="e.g. [1, 2, 3, null, 5]"
-                            className={cn(
-                                "w-full border rounded-lg px-4 py-2 font-mono text-sm",
-                                "focus:outline-none focus:ring-2 focus:ring-indigo-300",
-                                state.error ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-indigo-400"
-                            )}
-                        />
-                        {state.error && <p className="text-xs text-red-500 mt-1">{state.error}</p>}
-                        <p className="text-xs text-gray-500">
-                            Format: comma-separated values, LeetCode style.
-                        </p>
-                    </div>
                     
-                    <Button onClick={generateRandom} variant="outline" className="shrink-0 gap-2">
-                        <RefreshCw className="w-4 h-4" />
-                        Random Tree
-                    </Button>
+                    {state.mode === 'array' ? (
+                        <div className="flex-1 space-y-2 w-full">
+                            <label className="text-sm font-semibold text-gray-700">
+                                Tree Array Representation (Level-order)
+                            </label>
+                            <input
+                                type="text"
+                                value={state.arrayInput}
+                                onChange={(e) => handleArrayInput(e.target.value)}
+                                placeholder="e.g. [1, 2, 3, null, 5]"
+                                className={cn(
+                                    "w-full border rounded-lg px-4 py-2 font-mono text-sm",
+                                    "focus:outline-none focus:ring-2 focus:ring-indigo-300",
+                                    state.error ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-indigo-400"
+                                )}
+                            />
+                            {state.error && <p className="text-xs text-red-500 mt-1">{state.error}</p>}
+                            <p className="text-xs text-gray-500">
+                                Format: comma-separated values, LeetCode style.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="flex-1 space-y-2 w-full">
+                            <label className="text-sm font-semibold text-gray-700">
+                                Interactive BST Tracer Operations
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="number"
+                                    value={bstInputVal}
+                                    onChange={(e) => setBstInputVal(e.target.value)}
+                                    placeholder="Enter a number..."
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            const v = parseInt(bstInputVal);
+                                            if (!isNaN(v)) { playBSTInsert(v); setBstInputVal(''); }
+                                        }
+                                    }}
+                                    className="flex-1 border border-gray-200 rounded-lg px-4 py-2 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
+                                />
+                                <Button 
+                                    className="gap-1.5 bg-indigo-600 hover:bg-indigo-700" 
+                                    onClick={() => {
+                                        const v = parseInt(bstInputVal);
+                                        if (!isNaN(v)) { playBSTInsert(v); setBstInputVal(''); }
+                                    }}
+                                >
+                                    <Plus className="w-4 h-4" /> Insert
+                                </Button>
+                                <Button 
+                                    variant="secondary" 
+                                    className="gap-1.5"
+                                    onClick={() => {
+                                        const v = parseInt(bstInputVal);
+                                        if (!isNaN(v)) { playBSTSearch(v); setBstInputVal(''); }
+                                    }}
+                                >
+                                    <Search className="w-4 h-4" /> Search
+                                </Button>
+                            </div>
+                            <p className="text-xs text-gray-500">
+                                Tracing animations for Insert and Search operations will play automatically.
+                            </p>
+                        </div>
+                    )}
+                    
+                    <div className="flex flex-col gap-2 min-w-[140px]">
+                        <Button onClick={generateRandom} variant="outline" className="w-full shrink-0 gap-2">
+                            <RefreshCw className="w-4 h-4" />
+                            Random Tree
+                        </Button>
+                        <Button onClick={invertCurrentTree} variant="secondary" className="w-full shrink-0 gap-2">
+                            <FlipHorizontal className="w-4 h-4" />
+                            Invert Tree
+                        </Button>
+                    </div>
                 </div>
             </div>
 
@@ -242,10 +358,16 @@ export function TreeVisualizer() {
             <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm flex flex-col">
                 <div className="bg-gray-50 border-b border-gray-200 px-4 py-3 flex justify-between items-center">
                     <h3 className="font-semibold text-gray-700">Visualization</h3>
-                    <Button onClick={handleDownload} variant="ghost" size="sm" className="h-8 gap-1.5 text-gray-500">
-                        <Download className="w-4 h-4" />
-                        <span className="hidden sm:inline">Export SVG</span>
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button onClick={handleDownloadSVG} variant="ghost" size="sm" className="h-8 gap-1.5 text-gray-500">
+                            <Download className="w-4 h-4" />
+                            <span className="hidden sm:inline">SVG</span>
+                        </Button>
+                        <Button onClick={handleDownloadPNG} variant="ghost" size="sm" className="h-8 gap-1.5 text-gray-500">
+                            <Image className="w-4 h-4" />
+                            <span className="hidden sm:inline">PNG</span>
+                        </Button>
+                    </div>
                 </div>
                 
                 <div 
@@ -362,12 +484,12 @@ export function TreeVisualizer() {
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="font-semibold text-gray-800 tracking-wide">
                             {state.traversalSteps.length > 0 ? (
-                                <span className="capitalize">{state.traversalType} Traversal</span>
+                                <span className="capitalize">{state.traversalType === 'bst-insert' ? 'BST Insertion' : state.traversalType === 'bst-search' ? 'BST Search' : `${state.traversalType} Traversal`}</span>
                             ) : (
-                                "Traversal Output"
+                                "Output Log"
                             )}
                         </h3>
-                        {currentStep && currentStep.outputVals.length > 0 && (
+                        {currentStep && currentStep.outputVals.length > 0 && !['bst-insert', 'bst-search'].includes(state.traversalType) && (
                             <button onClick={copyOutput} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-indigo-600 transition-colors">
                                 {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
                                 {copied ? 'Copied!' : 'Copy Array'}

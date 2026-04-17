@@ -262,10 +262,14 @@ export function ExifViewer() {
 
   const handleCopy = useCallback(async () => {
     if (!exifData || !fileInfo) return
-    const text = JSON.stringify({ file: fileInfo, exif: exifData }, null, 2)
-    await navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    try {
+      const text = JSON.stringify({ file: fileInfo, exif: exifData }, null, 2)
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      setError("Failed to copy to clipboard. Please try again.")
+    }
   }, [exifData, fileInfo])
 
   const handleExport = useCallback(() => {
@@ -310,7 +314,7 @@ export function ExifViewer() {
         /* Drop Zone */
         <div
           onDrop={handleDrop}
-          onDragOver={(e) => { e.preventDefault(); setIsDragOver(true) }}
+          onDragOver={(e) => { e.preventDefault(); if (!isDragOver) setIsDragOver(true) }}
           onDragLeave={() => setIsDragOver(false)}
           onClick={() => fileInputRef.current?.click()}
           className={cn(

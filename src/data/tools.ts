@@ -84,6 +84,7 @@ import {
     GitBranch,
     Monitor,
     ScreenShare,
+    FileSearch2,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -398,6 +399,16 @@ export const TOOLS: ToolData[] = [
         icon: ScreenShare,
         href: '/tools/screen-recorder',
         slug: 'screen-recorder',
+        categoryId: 'media-images',
+        isNew: true,
+    },
+    {
+        id: '129',
+        title: 'EXIF Viewer',
+        description: 'View embedded metadata from photos — camera model, settings, GPS, date and more. 100% private.',
+        icon: FileSearch2,
+        href: '/tools/exif-viewer',
+        slug: 'exif-viewer',
         categoryId: 'media-images',
         isNew: true,
     },

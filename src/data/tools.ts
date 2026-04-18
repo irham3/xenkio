@@ -85,6 +85,7 @@ import {
     Monitor,
     ScreenShare,
     FileSearch2,
+    ShieldAlert,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1357,6 +1358,19 @@ export const TOOLS: ToolData[] = [
         slug: 'hypothesis-test',
         isNew: true,
         categoryId: 'calculators',
+    },
+    // =====================================================
+    // DEVELOPER TOOLS - Chmod Calculator
+    // =====================================================
+    {
+        id: '129',
+        title: 'Chmod Calculator',
+        description: 'Calculate Unix file permissions interactively. Toggle read, write, execute bits for owner, group, and others. Get octal, symbolic, and chmod command output instantly.',
+        icon: ShieldAlert,
+        href: '/tools/chmod-calculator',
+        slug: 'chmod-calculator',
+        isNew: true,
+        categoryId: 'developer-tools',
     },
 ];
 

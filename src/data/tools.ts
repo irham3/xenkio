@@ -86,6 +86,7 @@ import {
     ScreenShare,
     FileSearch2,
     ShieldAlert,
+    FileCheck,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -476,6 +477,16 @@ export const TOOLS: ToolData[] = [
         icon: ShieldCheck,
         href: '/tools/totp-authenticator',
         slug: 'totp-authenticator',
+        isNew: true,
+        categoryId: 'security-privacy',
+    },
+    {
+        id: '130',
+        title: 'Checksum Checker',
+        description: 'Verify file integrity by computing MD5, SHA-1, SHA-256, SHA-512, and CRC32 checksums. Drop any file — runs entirely in your browser.',
+        icon: FileCheck,
+        href: '/tools/checksum-checker',
+        slug: 'checksum-checker',
         isNew: true,
         categoryId: 'security-privacy',
     },

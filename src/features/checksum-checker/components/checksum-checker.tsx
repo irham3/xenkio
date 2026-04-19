@@ -42,10 +42,14 @@ export function ChecksumChecker() {
         noClick: false,
     });
 
-    const handleCopy = (algo: ChecksumAlgorithm, hash: string) => {
-        navigator.clipboard.writeText(hash);
-        setCopiedAlgo(algo);
-        setTimeout(() => setCopiedAlgo(null), 2000);
+    const handleCopy = async (algo: ChecksumAlgorithm, hash: string) => {
+        try {
+            await navigator.clipboard.writeText(hash);
+            setCopiedAlgo(algo);
+            setTimeout(() => setCopiedAlgo(null), 2000);
+        } catch {
+            // Clipboard write failed — silently ignore (browser may not have permission)
+        }
     };
 
     // Determine verification status for the selected algorithm
@@ -120,6 +124,12 @@ export function ChecksumChecker() {
                                         <X className="w-4 h-4" />
                                     </button>
                                 </div>
+                            )}
+                            {/* Large file warning */}
+                            {fileInfo && fileInfo.size > 500 * 1024 * 1024 && (
+                                <p className="text-[11px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                                    Large file detected ({formatFileSize(fileInfo.size)}). Computing checksums may take a moment.
+                                </p>
                             )}
                         </div>
 

@@ -13,6 +13,8 @@ import {
     RotateCcw,
     File as FileIcon,
     X,
+    Zap,
+    Cpu,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,11 +22,37 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useChecksum } from '../hooks/use-checksum';
 import { CHECKSUM_ALGORITHMS } from '../constants';
-import { ChecksumAlgorithm } from '../types';
+import { ChecksumAlgorithm, HashingMode } from '../types';
 import { formatFileSize } from '../lib/checksum-utils';
 
+const HASHING_MODES: {
+    id: HashingMode;
+    label: string;
+    icon: React.ElementType;
+    headline: string;
+    description: string;
+    caveat: string;
+}[] = [
+    {
+        id: 'fast',
+        label: 'Fast',
+        icon: Zap,
+        headline: 'Loads entire file at once',
+        description: 'Uses browser-native crypto — fastest on modern hardware.',
+        caveat: 'RAM usage = file size',
+    },
+    {
+        id: 'efficient',
+        label: 'Efficient',
+        icon: Cpu,
+        headline: 'Reads 8 MB at a time',
+        description: 'Keeps RAM usage low regardless of file size.',
+        caveat: 'Slower · shows live progress',
+    },
+];
+
 export function ChecksumChecker() {
-    const { file, fileInfo, results, isComputing, progress, expectedHash, setExpectedHash, handleFile, reset } =
+    const { file, fileInfo, results, isComputing, progress, mode, setMode, expectedHash, setExpectedHash, handleFile, reset } =
         useChecksum();
     const [copiedAlgo, setCopiedAlgo] = useState<ChecksumAlgorithm | null>(null);
     const [selectedAlgo, setSelectedAlgo] = useState<ChecksumAlgorithm>('SHA256');
@@ -68,6 +96,46 @@ export function ChecksumChecker() {
                 {/* LEFT PANEL */}
                 <div className="lg:col-span-2 p-5 lg:p-6 border-b lg:border-b-0 lg:border-r border-gray-100 bg-white">
                     <div className="space-y-5">
+
+                        {/* Hashing Mode Selector */}
+                        <div className="space-y-2">
+                            <Label className="text-sm font-semibold text-gray-800">Hashing Mode</Label>
+                            <div className="grid grid-cols-2 gap-2">
+                                {HASHING_MODES.map((m) => {
+                                    const Icon = m.icon;
+                                    const active = mode === m.id;
+                                    return (
+                                        <button
+                                            key={m.id}
+                                            onClick={() => setMode(m.id)}
+                                            disabled={isComputing}
+                                            className={cn(
+                                                'flex flex-col items-start gap-1.5 p-3 rounded-xl border text-left transition-all duration-150',
+                                                active
+                                                    ? 'border-primary-400 bg-primary-50 ring-1 ring-primary-300'
+                                                    : 'border-gray-200 bg-gray-50 hover:border-primary-200 hover:bg-primary-50/30',
+                                                isComputing && 'opacity-50 cursor-not-allowed',
+                                            )}
+                                        >
+                                            <div className="flex items-center gap-1.5">
+                                                <Icon className={cn('w-3.5 h-3.5 shrink-0', active ? 'text-primary-600' : 'text-gray-400')} />
+                                                <span className={cn('text-xs font-semibold', active ? 'text-primary-700' : 'text-gray-700')}>
+                                                    {m.label}
+                                                </span>
+                                            </div>
+                                            <p className="text-[10px] leading-snug text-gray-500">{m.headline}</p>
+                                            <p className="text-[10px] leading-snug text-gray-400">{m.caveat}</p>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            {/* Mode description */}
+                            <p className="text-[11px] text-gray-500 px-0.5">
+                                {mode === 'fast'
+                                    ? 'Best for files under ~500 MB on devices with enough RAM. Uses browser-native SHA and hash-wasm MD5/CRC32.'
+                                    : 'Best for large files or low-RAM devices. Reads 8 MB per chunk — RAM stays low no matter the file size.'}
+                            </p>
+                        </div>
 
                         {/* File Drop Zone */}
                         <div className="space-y-2">
@@ -125,10 +193,10 @@ export function ChecksumChecker() {
                                     </button>
                                 </div>
                             )}
-                            {/* Large file note */}
-                            {fileInfo && fileInfo.size > 500 * 1024 * 1024 && (
+                            {/* Large file note for fast mode */}
+                            {fileInfo && fileInfo.size > 500 * 1024 * 1024 && mode === 'fast' && (
                                 <p className="text-[11px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-                                    Large file ({formatFileSize(fileInfo.size)}). Hashing chunk by chunk — this may take a moment.
+                                    Large file ({formatFileSize(fileInfo.size)}) in Fast mode — this will load the full file into RAM. Switch to <strong>Efficient</strong> mode if you have limited memory.
                                 </p>
                             )}
                         </div>
@@ -240,14 +308,14 @@ export function ChecksumChecker() {
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75" />
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500" />
                                 </span>
-                                Computing… {progress}%
+                                {mode === 'efficient' ? `Computing… ${progress}%` : 'Computing…'}
                             </span>
                         )}
                     </div>
 
-                    {/* Progress bar — visible only while computing */}
-                    <div className={cn('h-0.5 rounded-full mb-3 overflow-hidden', isComputing ? 'bg-gray-200' : 'bg-transparent')}>
-                        {isComputing && (
+                    {/* Progress bar — visible only in efficient mode while computing */}
+                    <div className={cn('h-0.5 rounded-full mb-3 overflow-hidden', isComputing && mode === 'efficient' ? 'bg-gray-200' : 'bg-transparent')}>
+                        {isComputing && mode === 'efficient' && (
                             <div
                                 className="h-full bg-primary-500 transition-all duration-200 ease-out"
                                 style={{ width: `${progress}%` }}

@@ -24,7 +24,7 @@ import { ChecksumAlgorithm } from '../types';
 import { formatFileSize } from '../lib/checksum-utils';
 
 export function ChecksumChecker() {
-    const { file, fileInfo, results, isComputing, expectedHash, setExpectedHash, handleFile, reset } =
+    const { file, fileInfo, results, isComputing, progress, expectedHash, setExpectedHash, handleFile, reset } =
         useChecksum();
     const [copiedAlgo, setCopiedAlgo] = useState<ChecksumAlgorithm | null>(null);
     const [selectedAlgo, setSelectedAlgo] = useState<ChecksumAlgorithm>('SHA256');
@@ -125,10 +125,10 @@ export function ChecksumChecker() {
                                     </button>
                                 </div>
                             )}
-                            {/* Large file warning */}
+                            {/* Large file note */}
                             {fileInfo && fileInfo.size > 500 * 1024 * 1024 && (
                                 <p className="text-[11px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-                                    Large file detected ({formatFileSize(fileInfo.size)}). Computing checksums may take a moment.
+                                    Large file ({formatFileSize(fileInfo.size)}). Hashing chunk by chunk — this may take a moment.
                                 </p>
                             )}
                         </div>
@@ -232,7 +232,7 @@ export function ChecksumChecker() {
 
                 {/* RIGHT PANEL */}
                 <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[360px]">
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-1">
                         <h3 className="text-sm font-semibold text-gray-800">Computed Checksums</h3>
                         {isComputing && (
                             <span className="flex items-center gap-1.5 text-xs font-medium text-primary-600">
@@ -240,8 +240,18 @@ export function ChecksumChecker() {
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75" />
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500" />
                                 </span>
-                                Computing...
+                                Computing… {progress}%
                             </span>
+                        )}
+                    </div>
+
+                    {/* Progress bar — visible only while computing */}
+                    <div className={cn('h-0.5 rounded-full mb-3 overflow-hidden', isComputing ? 'bg-gray-200' : 'bg-transparent')}>
+                        {isComputing && (
+                            <div
+                                className="h-full bg-primary-500 transition-all duration-200 ease-out"
+                                style={{ width: `${progress}%` }}
+                            />
                         )}
                     </div>
 

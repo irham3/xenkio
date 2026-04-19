@@ -10,6 +10,7 @@ interface UseChecksumReturn {
     fileInfo: ChecksumFileInfo | null;
     results: ChecksumResult[];
     isComputing: boolean;
+    progress: number;
     expectedHash: string;
     setExpectedHash: (v: string) => void;
     handleFile: (f: File) => void;
@@ -31,6 +32,7 @@ export function useChecksum(): UseChecksumReturn {
     const [fileInfo, setFileInfo] = useState<ChecksumFileInfo | null>(null);
     const [results, setResults] = useState<ChecksumResult[]>(buildInitialResults());
     const [isComputing, setIsComputing] = useState(false);
+    const [progress, setProgress] = useState(0);
     const [expectedHash, setExpectedHash] = useState('');
 
     const handleFile = useCallback(async (f: File) => {
@@ -49,9 +51,10 @@ export function useChecksum(): UseChecksumReturn {
             isLoading: true,
         })));
         setIsComputing(true);
+        setProgress(0);
 
         try {
-            const all = await computeAllChecksums(f);
+            const all = await computeAllChecksums(f, (pct) => setProgress(pct));
             setResults(CHECKSUM_ALGORITHMS.map((a) => ({
                 algorithm: a.id,
                 hash: all[a.id],
@@ -77,6 +80,7 @@ export function useChecksum(): UseChecksumReturn {
         setFileInfo(null);
         setResults(buildInitialResults());
         setIsComputing(false);
+        setProgress(0);
         setExpectedHash('');
     }, []);
 
@@ -89,5 +93,5 @@ export function useChecksum(): UseChecksumReturn {
         [results],
     );
 
-    return { file, fileInfo, results, isComputing, expectedHash, setExpectedHash, handleFile, reset, verifyAgainst };
+    return { file, fileInfo, results, isComputing, progress, expectedHash, setExpectedHash, handleFile, reset, verifyAgainst };
 }

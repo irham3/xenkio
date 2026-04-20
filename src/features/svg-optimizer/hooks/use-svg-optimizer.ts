@@ -69,15 +69,15 @@ export function useSvgOptimizer() {
 
       setResult({
         output: optimized.data,
-        originalSize: options.svg.length,
-        resultSize: optimized.data.length,
+        originalSize: new Blob([options.svg]).size,
+        resultSize: new Blob([optimized.data]).size,
         executionTime,
       });
       setStats(calculateStats(options.svg, optimized.data));
     } catch (error) {
       setResult({
         output: '',
-        originalSize: options.svg.length,
+        originalSize: new Blob([options.svg]).size,
         resultSize: 0,
         executionTime: 0,
         error: error instanceof Error ? error.message : 'Optimization failed',

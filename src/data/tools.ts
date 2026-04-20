@@ -607,6 +607,16 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
+        id: '131',
+        title: 'SVG Optimizer',
+        description: 'Optimize and compress SVG files using SVGO. Remove metadata, comments, and redundant data to reduce file size.',
+        icon: FileCode,
+        href: '/tools/svg-optimizer',
+        slug: 'svg-optimizer',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
         id: '31',
         title: 'Regex Tester',
         description: 'Test and debug regular expressions with live matching.',

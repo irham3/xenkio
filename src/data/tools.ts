@@ -84,6 +84,9 @@ import {
     GitBranch,
     Monitor,
     ScreenShare,
+    FileSearch2,
+    ShieldAlert,
+    FileCheck,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -401,6 +404,16 @@ export const TOOLS: ToolData[] = [
         categoryId: 'media-images',
         isNew: true,
     },
+    {
+        id: '129',
+        title: 'EXIF Viewer',
+        description: 'View embedded metadata from photos — camera model, settings, GPS, date and more. 100% private.',
+        icon: FileSearch2,
+        href: '/tools/exif-viewer',
+        slug: 'exif-viewer',
+        categoryId: 'media-images',
+        isNew: true,
+    },
     // =====================================================
     // SECURITY & PRIVACY TOOLS
     // =====================================================
@@ -464,6 +477,16 @@ export const TOOLS: ToolData[] = [
         icon: ShieldCheck,
         href: '/tools/totp-authenticator',
         slug: 'totp-authenticator',
+        isNew: true,
+        categoryId: 'security-privacy',
+    },
+    {
+        id: '130',
+        title: 'Checksum Checker',
+        description: 'Verify file integrity by computing MD5, SHA-1, SHA-256, SHA-512, and CRC32 checksums. Drop any file — runs entirely in your browser.',
+        icon: FileCheck,
+        href: '/tools/checksum-checker',
+        slug: 'checksum-checker',
         isNew: true,
         categoryId: 'security-privacy',
     },
@@ -1346,6 +1369,19 @@ export const TOOLS: ToolData[] = [
         slug: 'hypothesis-test',
         isNew: true,
         categoryId: 'calculators',
+    },
+    // =====================================================
+    // DEVELOPER TOOLS - Chmod Calculator
+    // =====================================================
+    {
+        id: '129',
+        title: 'Chmod Calculator',
+        description: 'Calculate Unix file permissions interactively. Toggle read, write, execute bits for owner, group, and others. Get octal, symbolic, and chmod command output instantly.',
+        icon: ShieldAlert,
+        href: '/tools/chmod-calculator',
+        slug: 'chmod-calculator',
+        isNew: true,
+        categoryId: 'developer-tools',
     },
 ];
 

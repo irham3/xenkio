@@ -1,18 +1,22 @@
 import { useState, useCallback, useEffect } from 'react';
 import { SvgOptimizerOptions, SvgOptimizerResult, SvgOptimizerStats, SvgoPlugin } from '../types';
 import { calculateStats } from '../lib/svg-optimizer-utils';
-import { DEFAULT_OPTIONS, SVGO_CDN_URL } from '../constants';
+import { DEFAULT_OPTIONS } from '../constants';
+
+type OptimizeFn = (
+  svg: string,
+  config: {
+    multipass?: boolean;
+    plugins?: (string | { name: string; params?: Record<string, unknown> })[];
+  }
+) => { data: string };
+
+let svgoLoadPromise: Promise<void> | null = null;
 
 declare global {
   interface Window {
     svgo?: {
-      optimize: (
-        svg: string,
-        config: {
-          multipass?: boolean;
-          plugins?: (string | { name: string; params?: Record<string, unknown> })[];
-        }
-      ) => { data: string };
+      optimize: OptimizeFn;
     };
   }
 }
@@ -26,27 +30,37 @@ export function useSvgOptimizer() {
   const [isSvgoLoading, setIsSvgoLoading] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     if (typeof window === 'undefined') return;
     if (window.svgo) {
       setIsSvgoLoaded(true);
       return;
     }
 
-    const existing = document.getElementById('svgo-cdn-script');
-    if (existing) return;
-
     setIsSvgoLoading(true);
-    const script = document.createElement('script');
-    script.id = 'svgo-cdn-script';
-    script.src = SVGO_CDN_URL;
-    script.onload = () => {
-      setIsSvgoLoaded(true);
-      setIsSvgoLoading(false);
+
+    if (!svgoLoadPromise) {
+      svgoLoadPromise = import('svgo/dist/svgo.browser.js')
+        .then((module) => {
+          window.svgo = { optimize: module.optimize as OptimizeFn };
+        });
+    }
+
+    svgoLoadPromise
+      .then(() => {
+        if (!isMounted) return;
+        setIsSvgoLoaded(true);
+        setIsSvgoLoading(false);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setIsSvgoLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
     };
-    script.onerror = () => {
-      setIsSvgoLoading(false);
-    };
-    document.head.appendChild(script);
   }, []);
 
   const optimize = useCallback(() => {

@@ -87,6 +87,7 @@ import {
     FileSearch2,
     ShieldAlert,
     FileCheck,
+    ScanText,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1392,6 +1393,19 @@ export const TOOLS: ToolData[] = [
         slug: 'chmod-calculator',
         isNew: true,
         categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // TEXT UTILITIES - Unicode Analyzer
+    // =====================================================
+    {
+        id: '132',
+        title: 'Unicode Analyzer',
+        description: 'Inspect every character: code points (U+XXXX), UTF-8 bytes, categories, Unicode blocks, and normalization forms. Detects invisible and special characters.',
+        icon: ScanText,
+        href: '/tools/unicode-analyzer',
+        slug: 'unicode-analyzer',
+        isNew: true,
+        categoryId: 'text-utilities',
     },
 ];
 

@@ -92,13 +92,11 @@ function getUnicodeBlock(cp: number): string {
     if (cp <= 0xFFEF) return 'Halfwidth and Fullwidth Forms';
     if (cp <= 0xFFFF) return 'Specials';
     if (cp <= 0x1007F) return 'Linear B Syllabary';
-    if (cp <= 0x1CFFF) return 'Supplementary Multilingual Plane';
     if (cp <= 0x1FFFF) return 'Supplementary Multilingual Plane';
     if (cp <= 0x2A6DF) return 'CJK Unified Ideographs Extension B';
     if (cp <= 0x2CEAF) return 'CJK Extension C/D';
     if (cp <= 0x2EBEF) return 'CJK Extension E/F';
     if (cp <= 0x2FA1F) return 'CJK Compatibility Ideographs Supplement';
-    if (cp <= 0xDFFFF) return 'Supplementary Private Use Area-A';
     if (cp <= 0xFFFFF) return 'Supplementary Private Use Area-A';
     return 'Supplementary Private Use Area-B';
 }

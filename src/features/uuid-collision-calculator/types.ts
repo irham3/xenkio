@@ -22,7 +22,7 @@ export interface CollisionResult {
     riskLevel: RiskLevel;
     safeCount50: string;        // IDs before 50% collision chance
     safeCount1pct: string;      // IDs before 1% collision chance
-    safeCount0001pct: string;   // IDs before 0.001% collision chance
+    safeCount1in1million: string; // IDs before 1-in-a-million (0.0001%) collision chance
     idCount: number;
     bitsOfEntropy: number;
     spaceSize: string;          // formatted string like "5.3 × 10^36"

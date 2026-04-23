@@ -112,7 +112,7 @@ export function CollisionResultCard({ result }: CollisionResultCardProps) {
                 <StatCard
                     label="1-in-a-million Risk"
                     sublabel="0.0001% chance"
-                    value={result.safeCount0001pct}
+                    value={result.safeCount1in1million}
                     accent="green"
                 />
                 <StatCard

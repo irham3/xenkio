@@ -153,7 +153,7 @@ export function computeCollisionResult(n: number, bits: number): CollisionResult
         riskLevel: getRiskLevel(probability),
         safeCount50: formatCount(safeCountForProbability(0.5, bits)),
         safeCount1pct: formatCount(safeCountForProbability(0.01, bits)),
-        safeCount0001pct: formatCount(safeCountForProbability(0.00001, bits)),
+        safeCount1in1million: formatCount(safeCountForProbability(0.00001, bits)),
         idCount: n,
         bitsOfEntropy: bits,
         spaceSize: formatScientific(N),

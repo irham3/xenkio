@@ -88,6 +88,7 @@ import {
     ShieldAlert,
     FileCheck,
     ScanText,
+    Shuffle,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1393,6 +1394,16 @@ export const TOOLS: ToolData[] = [
         slug: 'chmod-calculator',
         isNew: true,
         categoryId: 'developer-tools',
+    },
+    {
+        id: '133',
+        title: 'UUID Collision Calculator',
+        description: 'Calculate the probability of generating duplicate UUIDs, ULIDs, or NanoIDs using the Birthday Problem formula.',
+        icon: Shuffle,
+        href: '/tools/uuid-collision-calculator',
+        slug: 'uuid-collision-calculator',
+        isNew: true,
+        categoryId: 'security-privacy',
     },
     // =====================================================
     // TEXT UTILITIES - Unicode Analyzer

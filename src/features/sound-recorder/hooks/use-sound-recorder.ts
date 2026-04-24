@@ -49,7 +49,7 @@ export function useSoundRecorder() {
             if (audioContextRef.current) audioContextRef.current.close()
             if (result?.url) URL.revokeObjectURL(result.url)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- result URL is revoked only once on unmount; including it would re-register the effect on every recording
     }, [])
 
     const stopAllTracks = useCallback((): void => {

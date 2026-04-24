@@ -87,6 +87,8 @@ import {
     FileSearch2,
     ShieldAlert,
     FileCheck,
+    ScanText,
+    Shuffle,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1392,6 +1394,29 @@ export const TOOLS: ToolData[] = [
         slug: 'chmod-calculator',
         isNew: true,
         categoryId: 'developer-tools',
+    },
+    {
+        id: '133',
+        title: 'UUID Collision Calculator',
+        description: 'Calculate the probability of generating duplicate UUIDs, ULIDs, or NanoIDs using the Birthday Problem formula.',
+        icon: Shuffle,
+        href: '/tools/uuid-collision-calculator',
+        slug: 'uuid-collision-calculator',
+        isNew: true,
+        categoryId: 'security-privacy',
+    },
+    // =====================================================
+    // TEXT UTILITIES - Unicode Analyzer
+    // =====================================================
+    {
+        id: '132',
+        title: 'Unicode Analyzer',
+        description: 'Inspect every character: code points (U+XXXX), UTF-8 bytes, categories, Unicode blocks, and normalization forms. Detects invisible and special characters.',
+        icon: ScanText,
+        href: '/tools/unicode-analyzer',
+        slug: 'unicode-analyzer',
+        isNew: true,
+        categoryId: 'text-utilities',
     },
 ];
 

@@ -662,6 +662,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'developer-tools',
     },
+    {
+        id: '134',
+        title: 'YAML Validator',
+        description: 'Validate, format, and convert YAML in real-time. Pinpoints errors by line and column. Convert YAML ↔ JSON instantly.',
+        icon: FileCode,
+        href: '/tools/yaml-validator',
+        slug: 'yaml-validator',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
 
     // =====================================================
     // DESIGN & COLOR TOOLS

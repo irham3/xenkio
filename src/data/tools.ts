@@ -407,6 +407,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
     },
     {
+        id: '134',
+        title: 'Sound Recorder',
+        description: 'Record audio from your microphone directly in your browser. Pause, resume, and download as WebM or MP4. No installation, no upload, 100% private.',
+        icon: Mic,
+        href: '/tools/sound-recorder',
+        slug: 'sound-recorder',
+        categoryId: 'media-images',
+        isNew: true,
+    },
+    {
         id: '129',
         title: 'EXIF Viewer',
         description: 'View embedded metadata from photos — camera model, settings, GPS, date and more. 100% private.',

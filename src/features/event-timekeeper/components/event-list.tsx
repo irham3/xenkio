@@ -213,7 +213,6 @@ function SortableRow({
 export function EventList({
     schedule,
     items,
-    activeIndex: _activeIndex,
     isRunning,
     onReorder,
     onAddEvent,

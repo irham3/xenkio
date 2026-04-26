@@ -544,11 +544,11 @@ export default function ImageAnnotator() {
                     case 'line':
                     case 'rectangle':
                     case 'sensor':
-                        (moved as any).start = shiftPoint((initial as any).start);
-                        (moved as any).end = shiftPoint((initial as any).end);
+                        (moved as ArrowAnnotation | LineAnnotation | RectangleAnnotation | SensorAnnotation).start = shiftPoint((initial as ArrowAnnotation | LineAnnotation | RectangleAnnotation | SensorAnnotation).start);
+                        (moved as ArrowAnnotation | LineAnnotation | RectangleAnnotation | SensorAnnotation).end = shiftPoint((initial as ArrowAnnotation | LineAnnotation | RectangleAnnotation | SensorAnnotation).end);
                         break;
                     case 'ellipse':
-                        (moved as any).center = shiftPoint((initial as any).center);
+                        (moved as EllipseAnnotation).center = shiftPoint((initial as EllipseAnnotation).center);
                         break;
                     case 'freehand':
                         (moved as FreehandAnnotation).points = (initial as FreehandAnnotation).points.map(shiftPoint);

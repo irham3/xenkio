@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { TOOLS } from '@/data/tools';
 import { notFound } from 'next/navigation';
 import RunningTextClient from './client';
@@ -87,7 +88,9 @@ export default function RunningTextPage() {
                 </p>
             </div>
 
-            <RunningTextClient />
+            <Suspense fallback={null}>
+                <RunningTextClient />
+            </Suspense>
         </div>
     );
 }

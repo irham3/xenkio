@@ -34,6 +34,7 @@ import { useState } from 'react';
 interface EventListProps {
     schedule: ScheduleEvent[];
     items: EventItem[];
+    activeIndex: number;
     isRunning: boolean;
     onReorder: (items: EventItem[]) => void;
     onAddEvent: (event: EventItem) => void;
@@ -221,6 +222,7 @@ function SortableRow({
 export function EventList({
     schedule,
     items,
+    activeIndex: _activeIndex,
     isRunning,
     onReorder,
     onAddEvent,

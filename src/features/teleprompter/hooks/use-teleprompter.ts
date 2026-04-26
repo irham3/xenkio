@@ -125,17 +125,19 @@ export function useTeleprompter() {
         });
     }, []);
 
-    // Countdown effect
     useEffect(() => {
-        if (state.countdown === null || state.countdown <= 0) return;
+        if (state.countdown === null) return;
 
         const timer = setTimeout(() => {
             setState((prev) => {
-                if (prev.countdown === 1) {
+                if (prev.countdown === null) return prev;
+                if (prev.countdown > 1) {
+                    return { ...prev, countdown: prev.countdown - 1 };
+                } else {
+                    // Transition from 1 to null (starting playback)
                     lastFrameTsRef.current = null;
                     return { ...prev, countdown: null, isPlaying: true };
                 }
-                return { ...prev, countdown: prev.countdown! - 1 };
             });
         }, 1000);
 

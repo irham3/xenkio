@@ -251,6 +251,7 @@ export function HypothesisTestTool() {
         [setField],
     );
 
+
     // ── Handle contingency/anova column add/remove (need to update columns) ──
     const handleFormChangeWithColumns = useCallback(
         (newData: string[][]) => {

@@ -2,7 +2,7 @@ const CACHE_NAME = 'xenkio-cache-v1';
 const STATIC_ASSETS = [
     '/',
     '/icon.svg',
-    '/manifest.json',
+    '/manifest.webmanifest',
     '/offline.html',
     '/pdf.worker.min.mjs',
 ];
@@ -10,7 +10,9 @@ const STATIC_ASSETS = [
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(STATIC_ASSETS);
+            return Promise.all(
+                STATIC_ASSETS.map((asset) => cache.add(asset).catch(() => null))
+            );
         })
     );
     self.skipWaiting();

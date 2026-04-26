@@ -5,7 +5,8 @@ export type AnnotationTool =
     | 'ellipse'
     | 'line'
     | 'text'
-    | 'freehand';
+    | 'freehand'
+    | 'sensor';
 
 export interface Point {
     x: number;
@@ -60,13 +61,20 @@ export interface FreehandAnnotation extends BaseAnnotation {
     points: Point[];
 }
 
+export interface SensorAnnotation extends BaseAnnotation {
+    type: 'sensor';
+    start: Point;
+    end: Point;
+}
+
 export type Annotation =
     | ArrowAnnotation
     | RectangleAnnotation
     | EllipseAnnotation
     | LineAnnotation
     | TextAnnotation
-    | FreehandAnnotation;
+    | FreehandAnnotation
+    | SensorAnnotation;
 
 export interface AnnotatorState {
     image: HTMLImageElement | null;

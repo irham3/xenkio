@@ -1,4 +1,97 @@
 
+import {
+    QrCode,
+    ImageDown,
+    FileText,
+    Braces,
+    Hash,
+    Palette,
+    Maximize2,
+    Clock,
+    Terminal,
+    Code2,
+    Regex,
+    Diff,
+    Lock,
+    GitCompare,
+    Merge,
+    GalleryHorizontal,
+    Key,
+    Link,
+    Cpu,
+    FileJson,
+    TextCursor,
+    FileEdit,
+    Layers,
+    Split,
+    FileOutput,
+    Calculator,
+    FileImage,
+    Archive,
+    ScanLine,
+    Barcode,
+    FileCode,
+    Paintbrush,
+    Contrast,
+    Volume2,
+    Globe,
+    Map,
+    Bot,
+    Calendar,
+    Activity,
+    Coins,
+    Timer,
+    FilePlus,
+    Mic,
+    Receipt,
+    Wand2,
+    GraduationCap,
+    ArrowLeftRight,
+    Crop,
+    Shield,
+    ShieldCheck,
+    LockKeyhole,
+    KeyRound,
+    Box,
+    Square,
+    Triangle,
+    Type,
+    Eye,
+    LayoutGrid,
+    ListFilter,
+    Share2,
+    Twitter,
+    Link2,
+    Globe2,
+    Server,
+    DollarSign,
+    CalendarRange,
+    TrendingUp,
+    Film,
+    Wifi,
+    Percent,
+    ClipboardCheck,
+    GlassWater,
+    Database,
+    Replace,
+    BarChart3,
+    ScanFace,
+    Scroll,
+    PenLine,
+    Grid3x3,
+    Clapperboard,
+    FlaskConical,
+    GitBranch,
+    Monitor,
+    ScreenShare,
+    FileSearch2,
+    ShieldAlert,
+    FileCheck,
+    ScanText,
+    Shuffle,
+} from 'lucide-react';
+import { PdfReaderIcon } from '@/components/icons';
+
 
 
 export interface ToolData {
@@ -273,6 +366,36 @@ export const TOOLS: ToolData[] = [
         href: '/tools/image-resizer',
         categoryId: 'media-images',
     },
+    {
+        id: '127',
+        title: 'Screen Recorder',
+        description: 'Record your screen, window, or browser tab with audio. No installation, no upload, 100% private.',
+        icon: ScreenShare,
+        href: '/tools/screen-recorder',
+        slug: 'screen-recorder',
+        categoryId: 'media-images',
+        isNew: true,
+    },
+    {
+        id: '136',
+        title: 'Sound Recorder',
+        description: 'Record audio from your microphone directly in your browser. Pause, resume, and download as WebM or MP4. No installation, no upload, 100% private.',
+        icon: Mic,
+        href: '/tools/sound-recorder',
+        slug: 'sound-recorder',
+        categoryId: 'media-images',
+        isNew: true,
+    },
+    {
+        id: '135',
+        title: 'EXIF Viewer',
+        description: 'View embedded metadata from photos — camera model, settings, GPS, date and more. 100% private.',
+        icon: FileSearch2,
+        href: '/tools/exif-viewer',
+        slug: 'exif-viewer',
+        categoryId: 'media-images',
+        isNew: true,
+    },
     // =====================================================
     // SECURITY & PRIVACY TOOLS
     // =====================================================
@@ -328,6 +451,26 @@ export const TOOLS: ToolData[] = [
         href: '/tools/jwt-debugger',
         categoryId: 'security-privacy',
         isNew: true,
+    },
+    {
+        id: '25',
+        title: '2FA TOTP Authenticator',
+        description: 'Generate TOTP 2FA codes from secret keys or QR codes. Supports SHA1/SHA256/SHA512. 100% client-side.',
+        icon: ShieldCheck,
+        href: '/tools/totp-authenticator',
+        slug: 'totp-authenticator',
+        isNew: true,
+        categoryId: 'security-privacy',
+    },
+    {
+        id: '130',
+        title: 'Checksum Checker',
+        description: 'Verify file integrity by computing MD5, SHA-1, SHA-256, SHA-512, and CRC32 checksums. Drop any file — runs entirely in your browser.',
+        icon: FileCheck,
+        href: '/tools/checksum-checker',
+        slug: 'checksum-checker',
+        isNew: true,
+        categoryId: 'security-privacy',
     },
 
 
@@ -413,6 +556,16 @@ export const TOOLS: ToolData[] = [
         categoryId: 'developer-tools',
     },
     {
+        id: '131',
+        title: 'SVG Optimizer',
+        description: 'Optimize and compress SVG files using SVGO. Remove metadata, comments, and redundant data to reduce file size.',
+        icon: FileCode,
+        href: '/tools/svg-optimizer',
+        slug: 'svg-optimizer',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
         id: '31',
         title: 'Regex Tester',
         description: 'Test and debug regular expressions with live matching.',
@@ -443,6 +596,26 @@ export const TOOLS: ToolData[] = [
         icon: 'CodeSimple',
         href: '/tools/html-entity-encoder',
         slug: 'html-entity-encoder',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '108',
+        title: 'SQL Formatter',
+        description: 'Format and beautify SQL queries with support for multiple dialects.',
+        icon: Database,
+        href: '/tools/sql-formatter',
+        slug: 'sql-formatter',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '134',
+        title: 'YAML Validator',
+        description: 'Validate, format, and convert YAML in real-time. Pinpoints errors by line and column. Convert YAML ↔ JSON instantly.',
+        icon: FileCode,
+        href: '/tools/yaml-validator',
+        slug: 'yaml-validator',
         isNew: true,
         categoryId: 'developer-tools',
     },
@@ -929,6 +1102,16 @@ export const TOOLS: ToolData[] = [
         isComingSoon: true,
         categoryId: 'web-seo',
     },
+    {
+        id: '126',
+        title: 'User Agent Checker',
+        description: 'Detect your browser, OS, device type, and rendering engine from your user agent string.',
+        icon: Monitor,
+        href: '/tools/user-agent-checker',
+        slug: 'user-agent-checker',
+        isNew: true,
+        categoryId: 'web-seo',
+    },
 
     // =====================================================
     // CALCULATORS - Tambahan
@@ -982,6 +1165,160 @@ export const TOOLS: ToolData[] = [
         slug: 'grade-calculator',
         isComingSoon: true,
         categoryId: 'calculators',
+    },
+
+    // =====================================================
+    // DEVELOPER TOOLS - Time Complexity Calculator
+    // =====================================================
+    {
+        id: '128',
+        title: 'Tree Visualizer',
+        description: 'Build and animate binary trees from arrays or BST insertions. See interactive step-by-step traversal visualizations.',
+        icon: GitBranch,
+        href: '/tools/tree-visualizer',
+        slug: 'tree-visualizer',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // DEVELOPER TOOLS - Time Complexity Calculator
+    // =====================================================
+    {
+        id: '121',
+        title: 'Time Complexity Calculator',
+        description: 'Analyze time and space complexity of your algorithm. Paste code or pseudocode and get instant Big O notation with detailed explanation.',
+        icon: BarChart3,
+        href: '/tools/time-complexity-calculator',
+        slug: 'time-complexity-calculator',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+
+    // =====================================================
+    // DEVELOPER TOOLS - Crontab Generator
+    // =====================================================
+    {
+        id: '112',
+        title: 'Crontab Generator',
+        description: 'Build cron expressions visually or parse existing ones into human-readable schedules.',
+        icon: Timer,
+        href: '/tools/crontab-generator',
+        slug: 'crontab-generator',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '113',
+        title: 'Instant Visualizer',
+        description: 'Paste data from Excel or CSV and instantly get interactive charts, KPI cards, and insights — zero config needed.',
+        icon: BarChart3,
+        href: '/tools/instant-visualizer',
+        slug: 'instant-visualizer',
+        isNew: true,
+        featured: true,
+        categoryId: 'developer-tools',
+    },
+
+    // =====================================================
+    // MEDIA & IMAGES - Face Anonymizer
+    // =====================================================
+    {
+        id: '124',
+        title: 'Face Anonymizer',
+        description: 'Automatically detect and blur or pixelate faces in photos. Select all or individual faces. 100% private — runs in your browser.',
+        icon: ScanFace,
+        href: '/tools/face-anonymizer',
+        slug: 'face-anonymizer',
+        isNew: true,
+        categoryId: 'media-images',
+    },
+    // DEVELOPER TOOLS - HTML Viewer
+    // =====================================================
+    {
+        id: '117',
+        title: 'HTML Viewer',
+        description: 'Paste HTML, CSS, and JavaScript and see the live rendered result instantly. Manage separate files or write everything in a single document.',
+        icon: Code2,
+        href: '/tools/html-viewer',
+        slug: 'html-viewer',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // MEDIA & IMAGES - Image Annotator
+    // =====================================================
+    {
+        id: '125',
+        title: 'Image Annotator',
+        description: 'Annotate images with arrows, shapes, text, and freehand drawing. Upload or paste an image and download the result.',
+        icon: PenLine,
+        href: '/tools/image-annotator',
+        slug: 'image-annotator',
+        isNew: true,
+        categoryId: 'media-images',
+    },
+    // =====================================================
+    // DEVELOPER TOOLS - P2P Local Data Transfer
+    // =====================================================
+    {
+        id: '120',
+        title: 'P2P Local Data Transfer',
+        description: 'Send text and files directly between devices via WebRTC — no uploads, no accounts, nothing stored on any server.',
+        icon: Share2,
+        href: '/tools/p2p-share',
+        slug: 'p2p-share',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // CALCULATORS - Hypothesis Test
+    // =====================================================
+    {
+        id: '122',
+        title: 'Statistical Hypothesis Test',
+        description: 'Calculate hypothesis tests for research: t-test, z-test, chi-square, ANOVA, and Pearson correlation. Paste data directly from Excel.',
+        icon: FlaskConical,
+        href: '/tools/hypothesis-test',
+        slug: 'hypothesis-test',
+        isNew: true,
+        categoryId: 'calculators',
+    },
+    // =====================================================
+    // DEVELOPER TOOLS - Chmod Calculator
+    // =====================================================
+    {
+        id: '129',
+        title: 'Chmod Calculator',
+        description: 'Calculate Unix file permissions interactively. Toggle read, write, execute bits for owner, group, and others. Get octal, symbolic, and chmod command output instantly.',
+        icon: ShieldAlert,
+        href: '/tools/chmod-calculator',
+        slug: 'chmod-calculator',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    {
+        id: '133',
+        title: 'UUID Collision Calculator',
+        description: 'Calculate the probability of generating duplicate UUIDs, ULIDs, or NanoIDs using the Birthday Problem formula.',
+        icon: Shuffle,
+        href: '/tools/uuid-collision-calculator',
+        slug: 'uuid-collision-calculator',
+        isNew: true,
+        categoryId: 'security-privacy',
+    },
+    // =====================================================
+    // TEXT UTILITIES - Unicode Analyzer
+    // =====================================================
+    {
+        id: '132',
+        title: 'Unicode Analyzer',
+        description: 'Inspect every character: code points (U+XXXX), UTF-8 bytes, categories, Unicode blocks, and normalization forms. Detects invisible and special characters.',
+        icon: ScanText,
+        href: '/tools/unicode-analyzer',
+        slug: 'unicode-analyzer',
+        isNew: true,
+        categoryId: 'text-utilities',
     },
 ];
 

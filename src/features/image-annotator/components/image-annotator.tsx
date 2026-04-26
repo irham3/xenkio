@@ -10,7 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
-import { Minus, Plus, DownloadSimple, UploadSimple, Trash, ArrowCounterClockwise, ArrowClockwise, ArrowUpRight, Square, Circle, TextT, Pencil, Minus as LineIcon, MagnifyingGlassPlus, MagnifyingGlassMinus, Cursor, Gear } from '@phosphor-icons/react/dist/ssr';
+import { Minus, Plus, DownloadSimple, UploadSimple, Trash, ArrowCounterClockwise, ArrowClockwise, ArrowUpRight, Square, Circle, TextT, Pencil, Minus as LineIcon, MagnifyingGlassPlus, MagnifyingGlassMinus, Cursor, Gear, EyeSlash } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import type {
@@ -23,6 +23,7 @@ import type {
     Point,
     RectangleAnnotation,
     TextAnnotation,
+    SensorAnnotation,
 } from '../types';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -57,7 +58,7 @@ function drawArrow(ctx: CanvasRenderingContext2D, start: Point, end: Point, stro
     ctx.stroke();
 }
 
-function renderAnnotation(ctx: CanvasRenderingContext2D, ann: Annotation) {
+function renderAnnotation(ctx: CanvasRenderingContext2D, ann: Annotation, imageEl: HTMLImageElement | null) {
     ctx.save();
     ctx.strokeStyle = ann.color;
     ctx.lineWidth = ann.strokeWidth;
@@ -113,6 +114,29 @@ function renderAnnotation(ctx: CanvasRenderingContext2D, ann: Annotation) {
             ctx.stroke();
             break;
         }
+        case 'sensor': {
+            if (!imageEl) break;
+            const x = Math.min(ann.start.x, ann.end.x);
+            const y = Math.min(ann.start.y, ann.end.y);
+            const w = Math.abs(ann.end.x - ann.start.x);
+            const h = Math.abs(ann.end.y - ann.start.y);
+            if (w < 1 || h < 1) break;
+            
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(x, y, w, h);
+            ctx.clip();
+            ctx.filter = 'blur(15px)';
+            ctx.drawImage(imageEl, 0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.restore();
+            
+            ctx.save();
+            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, w, h);
+            ctx.restore();
+            break;
+        }
     }
     ctx.restore();
 }
@@ -145,6 +169,7 @@ const TOOLS: { id: AnnotationTool; label: string; icon: React.ElementType; curso
     { id: 'line', label: 'Line', icon: LineIcon, cursor: 'crosshair' },
     { id: 'text', label: 'Text', icon: TextT, cursor: 'text' },
     { id: 'freehand', label: 'Freehand', icon: Pencil, cursor: 'crosshair' },
+    { id: 'sensor', label: 'Sensor / Blur', icon: EyeSlash, cursor: 'crosshair' },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -206,6 +231,45 @@ function TextInputOverlay({ position, color, fontSize, onSubmit, onCancel }: Tex
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Selection Helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+function getBoundingBox(ann: Annotation) {
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    const addPt = (x: number, y: number) => {
+        if (x < minX) minX = x; if (x > maxX) maxX = x;
+        if (y < minY) minY = y; if (y > maxY) maxY = y;
+    };
+    switch (ann.type) {
+        case 'arrow':
+        case 'line':
+        case 'rectangle':
+        case 'sensor':
+            addPt(ann.start.x, ann.start.y);
+            addPt(ann.end.x, ann.end.y);
+            break;
+        case 'ellipse':
+            addPt(ann.center.x - ann.radiusX, ann.center.y - ann.radiusY);
+            addPt(ann.center.x + ann.radiusX, ann.center.y + ann.radiusY);
+            break;
+        case 'freehand':
+            ann.points.forEach(p => addPt(p.x, p.y));
+            break;
+        case 'text':
+            addPt(ann.position.x, ann.position.y - ann.fontSize);
+            addPt(ann.position.x + ann.text.length * ann.fontSize * 0.6, ann.position.y);
+            break;
+    }
+    const padding = Math.max(10, ann.strokeWidth || 3);
+    return { minX: minX - padding, minY: minY - padding, maxX: maxX + padding, maxY: maxY + padding };
+}
+
+function hitTest(pt: Point, ann: Annotation): boolean {
+    const box = getBoundingBox(ann);
+    return pt.x >= box.minX && pt.x <= box.maxX && pt.y >= box.minY && pt.y <= box.maxY;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Main component
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -242,6 +306,10 @@ export default function ImageAnnotator() {
         screenY: number;
     } | null>(null);
 
+    // ── selection state ──────────────────────────────────────────────────────
+    const [selectedAnnotationId, setSelectedAnnotationId] = useState<string | null>(null);
+    const draggedAnnotationInitial = useRef<Annotation | null>(null);
+
     // ── refs ─────────────────────────────────────────────────────────────────
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -251,22 +319,33 @@ export default function ImageAnnotator() {
     // ─────────────────────────────────────────────────────────────────────────
 
     const renderCanvas = useCallback(
-        (anns: Annotation[], preview?: Annotation | null) => {
+        (anns: Annotation[], preview: Annotation | null, activeSelId: string | null) => {
             const canvas = canvasRef.current;
             if (!canvas || !imageEl) return;
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(imageEl, 0, 0, canvas.width, canvas.height);
-            anns.forEach((a) => renderAnnotation(ctx, a));
-            if (preview) renderAnnotation(ctx, preview);
+            anns.forEach((a) => {
+                renderAnnotation(ctx, a, imageEl);
+                if (a.id === activeSelId) {
+                    const box = getBoundingBox(a);
+                    ctx.save();
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeStyle = '#3b82f6';
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(box.minX, box.minY, box.maxX - box.minX, box.maxY - box.minY);
+                    ctx.restore();
+                }
+            });
+            if (preview) renderAnnotation(ctx, preview, imageEl);
         },
         [imageEl],
     );
 
     useEffect(() => {
-        renderCanvas(annotations, previewAnnotation);
-    }, [annotations, previewAnnotation, renderCanvas]);
+        renderCanvas(annotations, previewAnnotation, selectedAnnotationId);
+    }, [annotations, previewAnnotation, selectedAnnotationId, renderCanvas]);
 
     // ─────────────────────────────────────────────────────────────────────────
     // History helpers
@@ -352,6 +431,24 @@ export default function ImageAnnotator() {
         return () => window.removeEventListener('paste', handlePaste);
     }, [handleFile]);
 
+    // Keyboard handlers
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                if (activeTool === 'select' && selectedAnnotationId) {
+                    const tag = document.activeElement?.tagName.toLowerCase();
+                    if (tag === 'input' || tag === 'textarea') return;
+
+                    const newAnns = annotations.filter(a => a.id !== selectedAnnotationId);
+                    pushHistory(newAnns);
+                    setSelectedAnnotationId(null);
+                }
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [activeTool, selectedAnnotationId, annotations, pushHistory]);
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop: (files) => { if (files[0]) handleFile(files[0]); },
         accept: { 'image/*': [] },
@@ -364,24 +461,16 @@ export default function ImageAnnotator() {
     // Canvas coordinate helpers
     // ─────────────────────────────────────────────────────────────────────────
 
-    const getCanvasPoint = useCallback((e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>): Point => {
+    const getCanvasPoint = useCallback((e: React.PointerEvent<HTMLCanvasElement>): Point => {
         const canvas = canvasRef.current!;
         const rect = canvas.getBoundingClientRect();
-        let clientX: number, clientY: number;
-        if ('touches' in e) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-        } else {
-            clientX = e.clientX;
-            clientY = e.clientY;
-        }
         return {
-            x: ((clientX - rect.left) / rect.width) * canvas.width,
-            y: ((clientY - rect.top) / rect.height) * canvas.height,
+            x: ((e.clientX - rect.left) / rect.width) * canvas.width,
+            y: ((e.clientY - rect.top) / rect.height) * canvas.height,
         };
     }, []);
 
-    const getScreenPoint = useCallback((e: React.MouseEvent<HTMLCanvasElement>): { screenX: number; screenY: number } => {
+    const getScreenPoint = useCallback((e: React.PointerEvent<HTMLCanvasElement>): { screenX: number; screenY: number } => {
         const canvas = canvasRef.current!;
         const rect = canvas.getBoundingClientRect();
         return {
@@ -400,26 +489,79 @@ export default function ImageAnnotator() {
     // Mouse / touch handlers
     // ─────────────────────────────────────────────────────────────────────────
 
-    const handlePointerDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-        if (activeTool === 'select') return;
+    const handlePointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
+        if (activeTool === 'select') {
+            const pt = getCanvasPoint(e);
+            let hitId: string | null = null;
+            for (let i = annotations.length - 1; i >= 0; i--) {
+                if (hitTest(pt, annotations[i])) {
+                    hitId = annotations[i].id;
+                    break;
+                }
+            }
+            setSelectedAnnotationId(hitId);
+            if (hitId) {
+                e.currentTarget.setPointerCapture(e.pointerId);
+                isDrawing.current = true;
+                drawStart.current = pt;
+                const initial = annotations.find((a) => a.id === hitId);
+                draggedAnnotationInitial.current = initial ? JSON.parse(JSON.stringify(initial)) : null;
+            }
+            return;
+        }
+
         if (activeTool === 'text') {
             const pt = getCanvasPoint(e);
             const { screenX, screenY } = getScreenPoint(e);
             setTextInput({ canvasX: pt.x, canvasY: pt.y, screenX, screenY });
             return;
         }
+        e.currentTarget.setPointerCapture(e.pointerId);
         isDrawing.current = true;
         const pt = getCanvasPoint(e);
         drawStart.current = pt;
         if (activeTool === 'freehand') {
             currentFreehand.current = [pt];
         }
-    }, [activeTool, getCanvasPoint, getScreenPoint]);
+    }, [activeTool, getCanvasPoint, getScreenPoint, annotations]);
 
-    const handlePointerMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    const handlePointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
         if (!isDrawing.current) return;
         const pt = getCanvasPoint(e);
         const start = drawStart.current;
+
+        if (activeTool === 'select') {
+            if (selectedAnnotationId && draggedAnnotationInitial.current) {
+                const dx = pt.x - start.x;
+                const dy = pt.y - start.y;
+                const initial = draggedAnnotationInitial.current;
+                
+                const shiftPoint = (p: Point) => ({ x: p.x + dx, y: p.y + dy });
+                const moved = JSON.parse(JSON.stringify(initial)) as Annotation;
+
+                switch (moved.type) {
+                    case 'arrow':
+                    case 'line':
+                    case 'rectangle':
+                    case 'sensor':
+                        (moved as any).start = shiftPoint((initial as any).start);
+                        (moved as any).end = shiftPoint((initial as any).end);
+                        break;
+                    case 'ellipse':
+                        (moved as any).center = shiftPoint((initial as any).center);
+                        break;
+                    case 'freehand':
+                        (moved as FreehandAnnotation).points = (initial as FreehandAnnotation).points.map(shiftPoint);
+                        break;
+                    case 'text':
+                        (moved as TextAnnotation).position = shiftPoint((initial as TextAnnotation).position);
+                        break;
+                }
+                
+                setAnnotations(prev => prev.map(a => a.id === selectedAnnotationId ? moved : a));
+            }
+            return;
+        }
 
         let preview: Annotation | null = null;
 
@@ -444,18 +586,30 @@ export default function ImageAnnotator() {
                 preview = { id: '__preview__', type: 'freehand', color: activeColor, strokeWidth, points: [...currentFreehand.current] } as FreehandAnnotation;
                 break;
             }
+            case 'sensor':
+                preview = { id: '__preview__', type: 'sensor', color: activeColor, strokeWidth, start, end: pt } as SensorAnnotation;
+                break;
             default:
                 break;
         }
         setPreviewAnnotation(preview);
-    }, [activeTool, activeColor, strokeWidth, fillShape, fillOpacity, getCanvasPoint]);
+    }, [activeTool, activeColor, strokeWidth, fillShape, fillOpacity, getCanvasPoint, selectedAnnotationId]);
 
-    const handlePointerUp = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    const handlePointerUp = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
         if (!isDrawing.current) return;
+        e.currentTarget.releasePointerCapture(e.pointerId);
         isDrawing.current = false;
         const pt = getCanvasPoint(e);
         const start = drawStart.current;
         setPreviewAnnotation(null);
+
+        if (activeTool === 'select') {
+            if (draggedAnnotationInitial.current && (Math.abs(pt.x - start.x) > 1 || Math.abs(pt.y - start.y) > 1)) {
+                pushHistory(annotations);
+            }
+            draggedAnnotationInitial.current = null;
+            return;
+        }
 
         let newAnn: Annotation | null = null;
 
@@ -494,6 +648,13 @@ export default function ImageAnnotator() {
                 if (currentFreehand.current.length < 2) break;
                 newAnn = { id: nextId(), type: 'freehand', color: activeColor, strokeWidth, points: [...currentFreehand.current] } as FreehandAnnotation;
                 currentFreehand.current = [];
+                break;
+            }
+            case 'sensor': {
+                const w = Math.abs(pt.x - start.x);
+                const h = Math.abs(pt.y - start.y);
+                if (w < 4 || h < 4) break;
+                newAnn = { id: nextId(), type: 'sensor', color: activeColor, strokeWidth, start, end: pt } as SensorAnnotation;
                 break;
             }
             default:
@@ -621,7 +782,7 @@ export default function ImageAnnotator() {
                     <button
                         key={t.id}
                         title={t.label}
-                        onClick={() => { setActiveTool(t.id); setTextInput(null); }}
+                        onClick={() => { setActiveTool(t.id); setTextInput(null); setSelectedAnnotationId(null); }}
                         className={cn(
                             'w-10 h-10 rounded-xl flex items-center justify-center border transition-all cursor-pointer',
                             activeTool === t.id
@@ -683,15 +844,9 @@ export default function ImageAnnotator() {
                 <div style={{ transform: `scale(${zoom})`, transformOrigin: 'top left', position: 'relative' }}>
                     <canvas
                         ref={canvasRef}
-                        onMouseDown={handlePointerDown}
-                        onMouseMove={handlePointerMove}
-                        onMouseUp={handlePointerUp}
-                        onMouseLeave={() => {
-                            if (isDrawing.current) {
-                                isDrawing.current = false;
-                                setPreviewAnnotation(null);
-                            }
-                        }}
+                        onPointerDown={handlePointerDown}
+                        onPointerMove={handlePointerMove}
+                        onPointerUp={handlePointerUp}
                         className="block shadow-xl rounded-sm"
                         style={{ cursor, maxWidth: '100%' }}
                     />

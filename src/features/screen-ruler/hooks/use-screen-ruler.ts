@@ -4,7 +4,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import type { Unit, Guide, ScreenRulerState } from '../types';
 
 function generateId(): string {
-    return Math.random().toString(36).slice(2, 9);
+    return crypto.randomUUID();
 }
 
 function detectDpi(): number {
@@ -139,13 +139,14 @@ export function useScreenRuler() {
 
             setState((s) => {
                 if (isMeasuringActiveRef.current && measureStartRef.current) {
+                    const start = measureStartRef.current;
                     return {
                         ...s,
                         mouseX: x,
                         mouseY: y,
                         measurement: {
-                            startX: measureStartRef.current!.x,
-                            startY: measureStartRef.current!.y,
+                            startX: start.x,
+                            startY: start.y,
                             endX: x,
                             endY: y,
                         },

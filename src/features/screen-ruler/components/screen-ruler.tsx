@@ -8,6 +8,25 @@ const RULER_SIZE = 24;
 const TICK_SMALL = 4;
 const TICK_MED = 8;
 const TICK_LARGE = 14;
+const CM_PER_INCH = 2.54;
+
+const HINTS = [
+    {
+        icon: '\u{1F4CF}',
+        title: 'Add Guides',
+        desc: 'Drag from the top or left ruler to create horizontal / vertical guide lines.',
+    },
+    {
+        icon: '\u{1F4D0}',
+        title: 'Measure Distance',
+        desc: 'Enable the Measure mode then click-drag on the canvas to measure width, height, and diagonal.',
+    },
+    {
+        icon: '\u{1F3AF}',
+        title: 'Calibrate DPI',
+        desc: 'Adjust the DPI value to match your screen for accurate real-world measurements (cm, mm, in).',
+    },
+];
 
 interface TickInterval {
     minor: number;
@@ -18,9 +37,9 @@ interface TickInterval {
 function getTickInterval(unit: string, dpi: number): TickInterval {
     switch (unit) {
         case 'cm':
-            return { minor: dpi * 0.1 * 2.54, major: dpi * 0.5 * 2.54, label: dpi * 2.54 };
+            return { minor: dpi * 0.1 * CM_PER_INCH, major: dpi * 0.5 * CM_PER_INCH, label: dpi * CM_PER_INCH };
         case 'mm':
-            return { minor: (dpi * 0.1 * 2.54) / 10, major: (dpi * 0.5 * 2.54) / 10, label: dpi * 2.54 / 10 };
+            return { minor: dpi * 0.0254, major: dpi * 0.127, label: dpi * CM_PER_INCH / 10 };
         case 'in':
             return { minor: dpi / 16, major: dpi / 4, label: dpi };
         default:
@@ -515,11 +534,7 @@ export function ScreenRuler() {
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                    { icon: '\u{1F4CF}', title: 'Add Guides', desc: 'Drag from the top or left ruler to create horizontal / vertical guide lines.' },
-                    { icon: '\u{1F4D0}', title: 'Measure Distance', desc: 'Enable the Measure mode then click-drag on the canvas to measure width, height, and diagonal.' },
-                    { icon: '\u{1F3AF}', title: 'Calibrate DPI', desc: 'Adjust the DPI value to match your screen for accurate real-world measurements (cm, mm, in).' },
-                ].map((h) => (
+                {HINTS.map((h) => (
                     <div key={h.title} className="flex items-start gap-3 bg-gray-50 border border-gray-200 rounded-xl p-4">
                         <span className="text-xl shrink-0">{h.icon}</span>
                         <div>

@@ -89,6 +89,7 @@ import {
     FileCheck,
     ScanText,
     Shuffle,
+    Ruler,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1437,6 +1438,19 @@ export const TOOLS: ToolData[] = [
         slug: 'unicode-analyzer',
         isNew: true,
         categoryId: 'text-utilities',
+    },
+    // =====================================================
+    // DESIGN TOOLS - Screen Ruler
+    // =====================================================
+    {
+        id: '134',
+        title: 'Screen Ruler',
+        description: 'Measure anything on your screen in pixels, centimeters, millimeters, or inches. Add draggable guides, use the click-drag measurement tool, and calibrate DPI for accurate real-world sizes.',
+        icon: Ruler,
+        href: '/tools/screen-ruler',
+        slug: 'screen-ruler',
+        isNew: true,
+        categoryId: 'design-tools',
     },
 ];
 

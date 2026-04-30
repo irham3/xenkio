@@ -928,6 +928,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'calculators',
     },
+    {
+        id: '137',
+        title: 'Aspect Ratio Calculator',
+        description: 'Calculate the aspect ratio of any dimensions and scale width or height proportionally. Supports 16:9, 4:3, 1:1, 21:9, 9:16, and all common ratios.',
+        icon: Maximize2,
+        href: '/tools/aspect-ratio-calculator',
+        slug: 'aspect-ratio-calculator',
+        isNew: true,
+        categoryId: 'calculators',
+    },
     // =====================================================
     // SECURITY & PRIVACY - Additional
     // =====================================================

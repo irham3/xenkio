@@ -29,6 +29,10 @@ const COMMON_RATIOS = [
     { label: '3:4', w: 3, h: 4, desc: 'Portrait monitor' },
 ];
 
+function capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function findCommonMatch(wPart: number, hPart: number): string | null {
     const match = COMMON_RATIOS.find((r) => r.w === wPart && r.h === hPart);
     return match ? match.label : null;
@@ -85,9 +89,12 @@ export function AspectRatioCalculator() {
     }, [scaleWidth, scaleHeight, scaleNewWidth, scaleNewHeight, scaleLock]);
 
     const handleCopy = useCallback((text: string, key: string) => {
-        navigator.clipboard.writeText(text);
-        setCopied(key);
-        setTimeout(() => setCopied(null), 1500);
+        navigator.clipboard.writeText(text).then(() => {
+            setCopied(key);
+            setTimeout(() => setCopied(null), 1500);
+        }).catch(() => {
+            // Silently fail if clipboard is not available
+        });
     }, []);
 
     const handleReset = useCallback(() => {
@@ -253,7 +260,7 @@ export function AspectRatioCalculator() {
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
                                         { label: 'Decimal', value: calcResult.decimal.toFixed(4), key: 'decimal' },
-                                        { label: 'Orientation', value: calcResult.orientation.charAt(0).toUpperCase() + calcResult.orientation.slice(1), key: 'orientation' },
+                                        { label: 'Orientation', value: capitalize(calcResult.orientation), key: 'orientation' },
                                         { label: 'GCD', value: String(calcResult.gcd), key: 'gcd' },
                                         { label: 'Reduced', value: `${calcResult.widthPart} × ${calcResult.heightPart}`, key: 'reduced' },
                                     ].map((stat) => (

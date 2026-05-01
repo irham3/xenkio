@@ -90,6 +90,7 @@ import {
     ScanText,
     Shuffle,
     Ruler,
+    Network,
 } from 'lucide-react';
 import { PdfReaderIcon } from '@/components/icons';
 
@@ -1423,6 +1424,19 @@ export const TOOLS: ToolData[] = [
         icon: ShieldAlert,
         href: '/tools/chmod-calculator',
         slug: 'chmod-calculator',
+        isNew: true,
+        categoryId: 'developer-tools',
+    },
+    // =====================================================
+    // DEVELOPER TOOLS - IPv4 Subnet Calculator
+    // =====================================================
+    {
+        id: '138',
+        title: 'IPv4 Subnet Calculator',
+        description: 'Calculate IPv4 subnet details instantly — network address, broadcast, subnet mask, wildcard mask, host ranges, IP class, and binary visualization.',
+        icon: Network,
+        href: '/tools/ipv4-subnet-calculator',
+        slug: 'ipv4-subnet-calculator',
         isNew: true,
         categoryId: 'developer-tools',
     },

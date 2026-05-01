@@ -95,9 +95,18 @@ export function getIPType(ipValue: number, octets: number[]): string {
 }
 
 export function formatNumber(n: number): string {
-  if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2).replace(/\.00$/, '') + 'B';
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(2).replace(/\.00$/, '') + 'M';
-  if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
+  if (n >= 1_000_000_000) {
+    const v = n / 1_000_000_000;
+    return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2).replace(/\.?0+$/, '')) + 'B';
+  }
+  if (n >= 1_000_000) {
+    const v = n / 1_000_000;
+    return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2).replace(/\.?0+$/, '')) + 'M';
+  }
+  if (n >= 1_000) {
+    const v = n / 1_000;
+    return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1).replace(/\.?0+$/, '')) + 'K';
+  }
   return n.toLocaleString();
 }
 

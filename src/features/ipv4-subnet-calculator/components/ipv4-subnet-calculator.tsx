@@ -263,7 +263,7 @@ export function IPv4SubnetCalculator() {
       {/* Input Card */}
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <h2 className="text-sm font-semibold text-gray-700">IP Address &amp; Prefix</h2>
+          <h2 className="text-sm font-semibold text-gray-700">IP Address & Prefix</h2>
           <button
             onClick={handleReset}
             className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"

@@ -1068,6 +1068,16 @@ export const TOOLS: ToolData[] = [
         slug: 'flexbox-generator',
         categoryId: 'design-tools',
     },
+    {
+        id: '150',
+        title: 'Screen Ruler',
+        description: 'Measure objects in screenshots or screen captures with pixel rulers, boxes, calibration, and exportable results.',
+        icon: 'Ruler',
+        href: '/tools/screen-ruler',
+        slug: 'screen-ruler',
+        isNew: true,
+        categoryId: 'design-tools',
+    },
 
     // =====================================================
     // TEXT UTILITIES - Tambahan
@@ -1401,6 +1411,7 @@ export const SEARCH_SUGGESTIONS = [
     { type: 'tool' as const, name: 'Teleprompter', category: 'Text Utilities' },
     { type: 'tool' as const, name: 'Running Text', category: 'Media & Images' },
     { type: 'tool' as const, name: 'Compare PDF', category: 'Documents' },
+    { type: 'tool' as const, name: 'Screen Ruler', category: 'Design Tools' },
     { type: 'category' as const, name: 'PDF & Documents', count: 10 },
     { type: 'category' as const, name: 'Media & Images', count: 12 },
     { type: 'category' as const, name: 'Developer Tools', count: 13 },

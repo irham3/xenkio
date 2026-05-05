@@ -1,30 +1,4 @@
 
-import React from 'react';
-import {
-    Code2,
-    FileCode,
-    Timer,
-    Mic,
-    ShieldCheck,
-    Share2,
-    Database,
-    BarChart3,
-    ScanFace,
-    PenLine,
-    FlaskConical,
-    GitBranch,
-    Monitor,
-    ScreenShare,
-    FileSearch2,
-    ShieldAlert,
-    FileCheck,
-    ScanText,
-    Shuffle,
-    Ruler,
-    Network,
-} from 'lucide-react';
-
-
 
 export interface ToolData {
     id: string;
@@ -154,7 +128,7 @@ export const TOOLS: ToolData[] = [
         id: '139',
         title: 'Compare PDF',
         description: 'Compare two PDF files side-by-side with visual ghosting overlay and pixel-level diff highlighting.',
-        icon: 'FileSearch2',
+        icon: 'FileMagnifyingGlass',
         href: '/tools/compare-pdf',
         slug: 'compare-pdf',
         isNew: true,
@@ -164,7 +138,7 @@ export const TOOLS: ToolData[] = [
         id: '138',
         title: 'Stamp PDF',
         description: 'Add professional stamps to your PDF documents — approval, date, checklist, notes, and more.',
-        icon: 'FileCheck',
+        icon: 'FileText',
         href: '/tools/stamp-pdf',
         slug: 'stamp-pdf',
         isNew: true,
@@ -929,12 +903,12 @@ export const TOOLS: ToolData[] = [
         id: '137',
         title: 'Aspect Ratio Calculator',
         description: 'Calculate the aspect ratio of any dimensions and scale width or height proportionally. Supports 16:9, 4:3, 1:1, 21:9, 9:16, and all common ratios.',
-        icon: Maximize2,
+        icon: 'ArrowsOut',
         href: '/tools/aspect-ratio-calculator',
         slug: 'aspect-ratio-calculator',
         isNew: true,
         categoryId: 'calculators',
-    }
+    },
     // =====================================================
     // SECURITY & PRIVACY - Tambahan
     // =====================================================
@@ -1384,7 +1358,7 @@ export const TOOLS: ToolData[] = [
         id: '138',
         title: 'IPv4 Subnet Calculator',
         description: 'Calculate IPv4 subnet details instantly — network address, broadcast, subnet mask, wildcard mask, host ranges, IP class, and binary visualization.',
-        icon: Network,
+        icon: 'Network',
         href: '/tools/ipv4-subnet-calculator',
         slug: 'ipv4-subnet-calculator',
         isNew: true,
@@ -1420,7 +1394,7 @@ export const TOOLS: ToolData[] = [
         id: '134',
         title: 'Screen Ruler',
         description: 'Measure anything on your screen in pixels, centimeters, millimeters, or inches. Add draggable guides, use the click-drag measurement tool, and calibrate DPI for accurate real-world sizes.',
-        icon: Ruler,
+        icon: 'Ruler',
         href: '/tools/screen-ruler',
         slug: 'screen-ruler',
         isNew: true,

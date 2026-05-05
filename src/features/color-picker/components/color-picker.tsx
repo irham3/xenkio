@@ -7,7 +7,7 @@ import { isValidHex, rgbToHex, hslToRgb } from '../lib/color-utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, Pipette, Palette } from 'lucide-react';
+import { Copy, Check, Eyedropper, Palette } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 export function ColorPicker() {
@@ -95,7 +95,7 @@ export function ColorPicker() {
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/10">
                     <div className="flex items-center gap-2 px-3 py-1.5 bg-white/90 rounded-full shadow-sm">
-                      <Pipette className="w-4 h-4" />
+                      <Eyedropper className="w-4 h-4" />
                       <span className="text-sm font-medium">Click to pick</span>
                     </div>
                   </div>
@@ -134,7 +134,7 @@ export function ColorPicker() {
                       copiedFormat === 'hex' && "text-success-600 border-success-500 bg-success-50"
                     )}
                   >
-                    {copiedFormat === 'hex' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                    {copiedFormat === 'hex' ? <Check className="w-4 h-4"  weight="duotone"/> : <Copy className="w-4 h-4"  weight="duotone"/>}
                   </Button>
                 </div>
               </div>
@@ -165,7 +165,7 @@ export function ColorPicker() {
               {recentColors.length > 0 && (
                 <div className="space-y-2">
                   <Label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
-                    <Palette className="w-4 h-4" />
+                    <Palette className="w-4 h-4"  weight="duotone"/>
                     Recent Colors
                   </Label>
                   <div className="flex flex-wrap gap-2">
@@ -206,7 +206,7 @@ export function ColorPicker() {
                       copiedFormat === 'rgb' && "text-success-600"
                     )}
                   >
-                    {copiedFormat === 'rgb' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copiedFormat === 'rgb' ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     {rgbString}
                   </Button>
                 </div>
@@ -266,7 +266,7 @@ export function ColorPicker() {
                       copiedFormat === 'hsl' && "text-success-600"
                     )}
                   >
-                    {copiedFormat === 'hsl' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copiedFormat === 'hsl' ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     {hslString}
                   </Button>
                 </div>

@@ -1,19 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-    Bot,
-    Plus,
-    Trash2,
-    Download,
-    RotateCcw,
-    Sparkles,
-    Globe,
-    ShieldCheck,
-    ChevronDown,
-    ChevronUp,
-    X,
-} from 'lucide-react';
+import { Robot, Plus, Trash, DownloadSimple, ArrowCounterClockwise, Sparkle, Globe, ShieldCheck, CaretDown, CaretUp, X } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -76,7 +64,7 @@ export function RobotsTxtGenerator() {
             {/* Presets */}
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary-500" />
+                    <Sparkle className="h-4 w-4 text-primary-500"  weight="duotone"/>
                     Quick Presets
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -104,7 +92,7 @@ export function RobotsTxtGenerator() {
                     <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                                <Bot className="h-5 w-5 text-primary-500" />
+                                <Robot className="h-5 w-5 text-primary-500"  weight="duotone"/>
                                 User-Agent Rules
                             </h3>
                             <Button
@@ -113,7 +101,7 @@ export function RobotsTxtGenerator() {
                                 size="sm"
                                 className="rounded-xl border-gray-200 hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 cursor-pointer"
                             >
-                                <Plus className="h-4 w-4 mr-1" />
+                                <Plus className="h-4 w-4 mr-1"  weight="duotone"/>
                                 Add Rule
                             </Button>
                         </div>
@@ -150,13 +138,13 @@ export function RobotsTxtGenerator() {
                                                         }}
                                                         className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer"
                                                     >
-                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                        <Trash className="h-3.5 w-3.5"  weight="duotone"/>
                                                     </button>
                                                 )}
                                                 {expandedRules.has(rule.id) ? (
-                                                    <ChevronUp className="h-4 w-4 text-gray-400" />
+                                                    <CaretUp className="h-4 w-4 text-gray-400"  weight="duotone"/>
                                                 ) : (
-                                                    <ChevronDown className="h-4 w-4 text-gray-400" />
+                                                    <CaretDown className="h-4 w-4 text-gray-400"  weight="duotone"/>
                                                 )}
                                             </div>
                                         </div>
@@ -196,7 +184,7 @@ export function RobotsTxtGenerator() {
                                                             onClick={() => addPathToRule(rule.id, 'disallow')}
                                                             className="text-xs font-medium text-gray-400 hover:text-primary-500 transition-colors cursor-pointer flex items-center gap-1"
                                                         >
-                                                            <Plus className="h-3 w-3" />
+                                                            <Plus className="h-3 w-3"  weight="duotone"/>
                                                             Add
                                                         </button>
                                                     </div>
@@ -225,7 +213,7 @@ export function RobotsTxtGenerator() {
                                                                         onClick={() => removePathFromRule(rule.id, 'disallow', idx)}
                                                                         className="p-1.5 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer"
                                                                     >
-                                                                        <X className="h-3.5 w-3.5" />
+                                                                        <X className="h-3.5 w-3.5"  weight="duotone"/>
                                                                     </button>
                                                                 </div>
                                                             ))}
@@ -243,7 +231,7 @@ export function RobotsTxtGenerator() {
                                                             onClick={() => addPathToRule(rule.id, 'allow')}
                                                             className="text-xs font-medium text-gray-400 hover:text-primary-500 transition-colors cursor-pointer flex items-center gap-1"
                                                         >
-                                                            <Plus className="h-3 w-3" />
+                                                            <Plus className="h-3 w-3"  weight="duotone"/>
                                                             Add
                                                         </button>
                                                     </div>
@@ -272,7 +260,7 @@ export function RobotsTxtGenerator() {
                                                                         onClick={() => removePathFromRule(rule.id, 'allow', idx)}
                                                                         className="p-1.5 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer"
                                                                     >
-                                                                        <X className="h-3.5 w-3.5" />
+                                                                        <X className="h-3.5 w-3.5"  weight="duotone"/>
                                                                     </button>
                                                                 </div>
                                                             ))}
@@ -309,7 +297,7 @@ export function RobotsTxtGenerator() {
                     <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                                <Globe className="h-5 w-5 text-primary-500" />
+                                <Globe className="h-5 w-5 text-primary-500"  weight="duotone"/>
                                 Sitemaps
                             </h3>
                             <Button
@@ -318,7 +306,7 @@ export function RobotsTxtGenerator() {
                                 size="sm"
                                 className="rounded-xl border-gray-200 hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 cursor-pointer"
                             >
-                                <Plus className="h-4 w-4 mr-1" />
+                                <Plus className="h-4 w-4 mr-1"  weight="duotone"/>
                                 Add
                             </Button>
                         </div>
@@ -341,7 +329,7 @@ export function RobotsTxtGenerator() {
                                             onClick={() => removeSitemap(idx)}
                                             className="p-2 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer"
                                         >
-                                            <X className="h-4 w-4" />
+                                            <X className="h-4 w-4"  weight="duotone"/>
                                         </button>
                                     </div>
                                 ))}
@@ -356,13 +344,13 @@ export function RobotsTxtGenerator() {
                             className="w-full flex items-center justify-between p-6 cursor-pointer hover:bg-gray-50 transition-colors"
                         >
                             <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                                <ShieldCheck className="h-5 w-5 text-primary-500" />
+                                <ShieldCheck className="h-5 w-5 text-primary-500"  weight="duotone"/>
                                 Advanced Options
                             </h3>
                             {showAdvanced ? (
-                                <ChevronUp className="h-4 w-4 text-gray-400" />
+                                <CaretUp className="h-4 w-4 text-gray-400"  weight="duotone"/>
                             ) : (
-                                <ChevronDown className="h-4 w-4 text-gray-400" />
+                                <CaretDown className="h-4 w-4 text-gray-400"  weight="duotone"/>
                             )}
                         </button>
                         {showAdvanced && (
@@ -401,7 +389,7 @@ export function RobotsTxtGenerator() {
                                     size="sm"
                                     className="rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
                                 >
-                                    <RotateCcw className="h-3.5 w-3.5 mr-1" />
+                                    <ArrowCounterClockwise className="h-3.5 w-3.5 mr-1"  weight="duotone"/>
                                     Reset
                                 </Button>
                                 <CopyButton
@@ -427,7 +415,7 @@ export function RobotsTxtGenerator() {
                                 "bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all"
                             )}
                         >
-                            <Download className="h-5 w-5 mr-2" />
+                            <DownloadSimple className="h-5 w-5 mr-2"  weight="duotone"/>
                             Download robots.txt
                         </Button>
 

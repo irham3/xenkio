@@ -6,19 +6,7 @@ import { INDENT_SIZES, SAMPLE_CSS } from '../constants';
 import { IndentSize } from '../types';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import {
-  Copy,
-  Check,
-  ChevronDown,
-  Zap,
-  Code2,
-  Minimize2,
-  RotateCcw,
-  FileCode,
-  Download,
-  AlertCircle,
-  Sparkles,
-} from 'lucide-react';
+import { Copy, Check, CaretDown, Lightning, CodeSimple, CornersIn, ArrowCounterClockwise, FileCode, DownloadSimple, WarningCircle, Sparkle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -83,7 +71,7 @@ export function CssMinifier() {
               : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
           )}
         >
-          <Minimize2 className="w-4 h-4" />
+          <CornersIn className="w-4 h-4" />
           Minify
         </button>
         <button
@@ -95,7 +83,7 @@ export function CssMinifier() {
               : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
           )}
         >
-          <Code2 className="w-4 h-4" />
+          <CodeSimple className="w-4 h-4" />
           Beautify
         </button>
       </div>
@@ -121,7 +109,7 @@ export function CssMinifier() {
                       onClick={() => loadSample(SAMPLE_CSS)}
                       className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1 transition-colors"
                     >
-                      <Sparkles className="w-3 h-3" />
+                      <Sparkle className="w-3 h-3"  weight="duotone"/>
                       Load Sample
                     </button>
                   </div>
@@ -132,7 +120,7 @@ export function CssMinifier() {
                   onChange={(e) => updateOption('css', e.target.value)}
                   placeholder="Paste your CSS code here..."
                   spellCheck={false}
-                  className="w-full min-h-[200px] lg:min-h-[280px] p-4 text-[13px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                  className="w-full min-h-50 lg:min-h-70 p-4 text-[13px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
                 />
               </div>
 
@@ -160,7 +148,7 @@ export function CssMinifier() {
                               </option>
                             ))}
                           </select>
-                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                          <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                         </div>
                       </div>
                     </div>
@@ -177,12 +165,12 @@ export function CssMinifier() {
                 >
                   {isProcessing ? (
                     <>
-                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      <Lightning className="w-4 h-4 mr-2 animate-pulse"  weight="duotone"/>
                       {activeTab === 'minify' ? 'Minifying...' : 'Beautifying...'}
                     </>
                   ) : (
                     <>
-                      <Zap className="w-4 h-4 mr-2" />
+                      <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                       {activeTab === 'minify' ? 'Minify CSS' : 'Beautify CSS'}
                     </>
                   )}
@@ -193,7 +181,7 @@ export function CssMinifier() {
                   onClick={reset}
                   className="h-9 gap-1.5 text-xs font-medium border-gray-200 hover:bg-gray-100"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
+                  <ArrowCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                   Reset
                 </Button>
               </div>
@@ -201,7 +189,7 @@ export function CssMinifier() {
           </div>
 
           {/* RIGHT PANEL: Output */}
-          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[400px]">
+          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-100">
             <div className="flex flex-col h-full">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-gray-800">
@@ -210,7 +198,7 @@ export function CssMinifier() {
                 <div className="flex items-center gap-2">
                   {result?.executionTime !== undefined && !result.error && result.output && (
                     <span className="flex items-center gap-1.5 text-[11px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                      <Zap className="w-3 h-3" />
+                      <Lightning className="w-3 h-3"  weight="duotone"/>
                       {result.executionTime.toFixed(1)}ms
                     </span>
                   )}
@@ -231,7 +219,7 @@ export function CssMinifier() {
 
               <div className="flex-1 relative group">
                 <div className={cn(
-                  "w-full h-full min-h-[280px] p-4 rounded-xl border font-mono text-[12px] leading-relaxed overflow-auto transition-all duration-300 whitespace-pre",
+                  "w-full h-full min-h-70 p-4 rounded-xl border font-mono text-[12px] leading-relaxed overflow-auto transition-all duration-300 whitespace-pre",
                   isProcessing
                     ? "bg-white border-primary-200 text-gray-400"
                     : result?.error
@@ -252,7 +240,7 @@ export function CssMinifier() {
                     </div>
                   ) : result?.error ? (
                     <div className="flex flex-col items-center justify-center h-full gap-2">
-                      <AlertCircle className="w-8 h-8 text-error-400 mb-2" />
+                      <WarningCircle className="w-8 h-8 text-error-400 mb-2"  weight="duotone"/>
                       <p className="font-semibold font-sans">Processing Failed</p>
                       <p className="text-xs opacity-80 font-sans">{result.error}</p>
                     </div>
@@ -260,7 +248,7 @@ export function CssMinifier() {
                     result.output
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
-                      <FileCode className="w-8 h-8 text-gray-300" />
+                      <FileCode className="w-8 h-8 text-gray-300"  weight="duotone"/>
                       <p className="font-sans">Paste CSS and click {activeTab === 'minify' ? 'Minify' : 'Beautify'}...</p>
                     </div>
                   )}
@@ -275,7 +263,7 @@ export function CssMinifier() {
                       onClick={handleDownload}
                       className="h-8 gap-1.5 text-xs font-medium border-gray-200 bg-white hover:bg-gray-50 transition-all"
                     >
-                      <Download className="w-3.5 h-3.5" />
+                      <DownloadSimple className="w-3.5 h-3.5"  weight="duotone"/>
                       Download
                     </Button>
                     <Button
@@ -287,7 +275,7 @@ export function CssMinifier() {
                         copied && "text-success-600 border-success-500 bg-success-50"
                       )}
                     >
-                      {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copied ? <Check className="w-3.5 h-3.5"  weight="duotone"/> : <Copy className="w-3.5 h-3.5"  weight="duotone"/>}
                       {copied ? 'Copied' : 'Copy'}
                     </Button>
                   </div>

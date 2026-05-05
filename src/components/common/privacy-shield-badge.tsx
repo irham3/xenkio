@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { ShieldCheck, Wifi, WifiOff, Activity } from 'lucide-react';
+import { ShieldCheck, WifiHigh, WifiSlash, ChartLineUp } from '@phosphor-icons/react/dist/ssr';
 
 /**
  * Detects approximate device memory capacity.
@@ -88,12 +88,12 @@ export function PrivacyShieldBadge({
     if (variant === 'inline') {
         return (
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-200 rounded-full text-xs font-medium text-emerald-700">
-                <ShieldCheck className="w-3.5 h-3.5" />
+                <ShieldCheck className="w-3.5 h-3.5"  weight="duotone"/>
                 <span>Processed locally | your files never leave this device</span>
                 {isOfflineCapable && (
                     <>
                         <span className="text-emerald-300">·</span>
-                        <WifiOff className="w-3 h-3" />
+                        <WifiSlash className="w-3 h-3"  weight="duotone"/>
                         <span>Works offline</span>
                     </>
                 )}
@@ -105,12 +105,12 @@ export function PrivacyShieldBadge({
         return (
             <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
                 <div className="flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-500"  weight="duotone"/>
                     <span>Processed on your device</span>
                 </div>
                 {showNetworkMonitor && (
                     <div className="flex items-center gap-1.5">
-                        <Activity className="w-3.5 h-3.5 text-emerald-500" />
+                        <ChartLineUp className="w-3.5 h-3.5 text-emerald-500" />
                         <span>
                             {requestCount === 0
                                 ? 'Zero data sent to servers'
@@ -120,7 +120,7 @@ export function PrivacyShieldBadge({
                 )}
                 {isOfflineCapable && (
                     <div className="flex items-center gap-1.5">
-                        <WifiOff className="w-3.5 h-3.5 text-emerald-500" />
+                        <WifiSlash className="w-3.5 h-3.5 text-emerald-500"  weight="duotone"/>
                         <span>Works offline</span>
                     </div>
                 )}
@@ -133,7 +133,7 @@ export function PrivacyShieldBadge({
         <div className="rounded-xl border border-emerald-100 bg-emerald-50/50 p-5">
             <div className="flex items-start gap-4">
                 <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 shrink-0">
-                    <ShieldCheck className="w-5 h-5" />
+                    <ShieldCheck className="w-5 h-5"  weight="duotone"/>
                 </div>
                 <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-semibold text-gray-900 mb-1">
@@ -163,7 +163,7 @@ export function PrivacyShieldBadge({
                         {/* Offline Badge */}
                         {isOfflineCapable && (
                             <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
-                                <WifiOff className="w-3 h-3" />
+                                <WifiSlash className="w-3 h-3"  weight="duotone"/>
                                 Works offline
                             </div>
                         )}
@@ -171,7 +171,7 @@ export function PrivacyShieldBadge({
                         {/* Device Capacity */}
                         {showCapacity && memoryGB && (
                             <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                                <Wifi className="w-3 h-3" />
+                                <WifiHigh className="w-3 h-3"  weight="duotone"/>
                                 Your device can handle files up to ~{maxFileMB >= 1024 ? `${(maxFileMB / 1024).toFixed(1)}GB` : `${maxFileMB}MB`}
                             </div>
                         )}
@@ -198,7 +198,7 @@ export function DeviceCapacityInfo() {
 
     return (
         <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 flex items-start gap-3 text-xs">
-            <Activity className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+            <ChartLineUp className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
             <div className="flex-1">
                 <p className="text-amber-800 font-medium">Device capacity detected: {memoryGB}GB RAM</p>
                 <p className="text-amber-700 mt-0.5">

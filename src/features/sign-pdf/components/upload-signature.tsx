@@ -1,7 +1,7 @@
 
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { ImageIcon } from 'lucide-react';
+import { Image as ImageIcon } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 export function UploadSignature({ onSave }: { onSave: (dataUrl: string) => void }) {
@@ -42,7 +42,7 @@ export function UploadSignature({ onSave }: { onSave: (dataUrl: string) => void 
                         <ImageIcon className={cn(
                             "w-8 h-8 transition-colors",
                             isDragActive ? "text-primary-600" : "text-gray-400"
-                        )} />
+                        )} aria-hidden="true" />
                     </div>
                     <div className="space-y-1">
                         <p className="text-sm font-semibold text-gray-900">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Lock, Unlock, Copy, Hash } from 'lucide-react';
+import { Lock, LockOpen, Copy, Hash } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { Color } from '../types';
 import { getContrastColor, getContrastRatio } from '../lib/utils';
@@ -55,7 +55,7 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock,
 
     return (
         <div
-            className="group relative flex-1 flex flex-col items-center justify-center min-h-[120px] md:min-h-0 transition-all duration-500 ease-in-out hover:flex-2"
+            className="group relative flex-1 flex flex-col items-center justify-center min-h-30 md:min-h-0 transition-all duration-500 ease-in-out hover:flex-2"
             style={{ backgroundColor: color.hex }}
         >
             {/* Overlay for visual depth */}
@@ -78,7 +78,7 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock,
                                     className={cn("rounded-full h-10 w-10 transition-all hover:scale-110", bgHover, textColor)}
                                     onClick={(e) => { e.stopPropagation(); onToggleLock(color.id); }}
                                 >
-                                    {color.locked ? <Lock className="w-5 h-5" /> : <Unlock className="w-5 h-5 opacity-40 group-hover:opacity-100" />}
+                                    {color.locked ? <Lock className="w-5 h-5"  weight="duotone"/> : <LockOpen className="w-5 h-5 opacity-40 group-hover:opacity-100"  weight="duotone"/>}
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>{color.locked ? "Unlock" : "Lock Color"}</TooltipContent>
@@ -100,7 +100,7 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock,
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button variant="ghost" size="icon" className={cn("rounded-full h-10 w-10", bgHover, textColor)} onClick={handleCopy} title="Copy HEX">
-                                    <Copy className="w-5 h-5" />
+                                    <Copy className="w-5 h-5"  weight="duotone"/>
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>Copy HEX</TooltipContent>
@@ -197,7 +197,7 @@ export const PaletteStrip: React.FC<PaletteStripProps> = ({ color, onToggleLock,
                 "absolute bottom-8 left-0 right-0 flex flex-col items-center transition-opacity duration-300 md:group-hover:opacity-0",
                 textColor
             )}>
-                {color.locked && <Lock className="w-4 h-4 mb-2 opacity-60" />}
+                {color.locked && <Lock className="w-4 h-4 mb-2 opacity-60"  weight="duotone"/>}
                 <span className="text-sm font-bold opacity-40 uppercase tracking-widest">{color.hex}</span>
             </div>
         </div>

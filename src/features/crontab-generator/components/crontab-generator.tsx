@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, Sparkles, Terminal, RotateCcw, AlertCircle, CheckCircle2, Calendar } from 'lucide-react';
+import { Clock, Sparkle, TerminalWindow, ArrowCounterClockwise, WarningCircle, CheckCircle, Calendar } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -43,7 +43,7 @@ export function CrontabGenerator() {
                                 : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                         )}
                     >
-                        <Sparkles className="h-4 w-4" />
+                        <Sparkle className="h-4 w-4"  weight="duotone"/>
                         Generator
                     </button>
                     <button
@@ -55,7 +55,7 @@ export function CrontabGenerator() {
                                 : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                         )}
                     >
-                        <Terminal className="h-4 w-4" />
+                        <TerminalWindow className="h-4 w-4"  weight="duotone"/>
                         Parser
                     </button>
                 </div>
@@ -65,7 +65,7 @@ export function CrontabGenerator() {
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
                     <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                        <Clock className="h-5 w-5 text-primary-500" />
+                        <Clock className="h-5 w-5 text-primary-500"  weight="duotone"/>
                         Cron Expression
                     </h3>
                     <div className="flex items-center gap-3">
@@ -75,7 +75,7 @@ export function CrontabGenerator() {
                                 variant="outline"
                                 className="rounded-xl h-11 border border-gray-200 hover:bg-gray-50 transition-all font-medium text-gray-700 hover:text-primary-600 cursor-pointer"
                             >
-                                <RotateCcw className="mr-2 h-4 w-4" />
+                                <ArrowCounterClockwise className="mr-2 h-4 w-4"  weight="duotone"/>
                                 Reset
                             </Button>
                         )}
@@ -131,9 +131,9 @@ export function CrontabGenerator() {
                         : "bg-red-50/30 border-red-200"
                 )}>
                     {isValid ? (
-                        <CheckCircle2 className="h-5 w-5 text-primary-500 shrink-0 mt-0.5" />
+                        <CheckCircle className="h-5 w-5 text-primary-500 shrink-0 mt-0.5"  weight="duotone"/>
                     ) : (
-                        <AlertCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
+                        <WarningCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5"  weight="duotone"/>
                     )}
                     <p className={cn(
                         "text-sm font-medium",
@@ -174,7 +174,7 @@ export function CrontabGenerator() {
                         <div className="space-y-8">
                             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 sticky top-24">
                                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                    <Sparkles className="h-4 w-4 text-primary-500" />
+                                    <Sparkle className="h-4 w-4 text-primary-500"  weight="duotone"/>
                                     Quick Presets
                                 </h3>
                                 <div className="space-y-2 max-h-[60vh] overflow-y-auto">
@@ -211,7 +211,7 @@ export function CrontabGenerator() {
                         <div className="lg:col-span-2">
                             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                                 <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                    <Calendar className="h-5 w-5 text-primary-500" />
+                                    <Calendar className="h-5 w-5 text-primary-500"  weight="duotone"/>
                                     Next Executions
                                 </h3>
                                 {nextExecutions.length > 0 ? (
@@ -249,7 +249,7 @@ export function CrontabGenerator() {
                                     </div>
                                 ) : (
                                     <div className="text-center py-12 text-gray-400">
-                                        <Calendar className="h-12 w-12 mx-auto mb-4 opacity-30" />
+                                        <Calendar className="h-12 w-12 mx-auto mb-4 opacity-30"  weight="duotone"/>
                                         <p className="text-sm font-medium">
                                             {parserInput.trim() ? 'Invalid cron expression' : 'Enter a cron expression to see next executions'}
                                         </p>
@@ -262,7 +262,7 @@ export function CrontabGenerator() {
                         <div>
                             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 sticky top-24">
                                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                    <Terminal className="h-4 w-4 text-primary-500" />
+                                    <TerminalWindow className="h-4 w-4 text-primary-500"  weight="duotone"/>
                                     Examples
                                 </h3>
                                 <div className="space-y-2 max-h-[60vh] overflow-y-auto">

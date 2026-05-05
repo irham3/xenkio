@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Key, ShieldCheck } from 'lucide-react';
+import { Key, ShieldCheck } from '@phosphor-icons/react/dist/ssr';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SymmetricPanel } from '@/features/text-encryptor/components/symmetric-panel';
 import { AsymmetricPanel } from '@/features/text-encryptor/components/asymmetric-panel';
@@ -18,7 +18,7 @@ export default function TextEncryptorClient() {
                         value="symmetric"
                         className="h-full rounded-xl text-sm font-semibold text-gray-600 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm transition-all cursor-pointer"
                     >
-                        <ShieldCheck className="w-4 h-4 mr-2" />
+                        <ShieldCheck className="w-4 h-4 mr-2"  weight="duotone"/>
                         Symmetric Encryption
                     </TabsTrigger>
                     <TabsTrigger

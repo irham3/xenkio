@@ -1,6 +1,6 @@
 'use client';
 
-import { FileCode, Download, Network } from 'lucide-react';
+import { FileCode, DownloadSimple, Graph } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { JsonGraphView } from './json-graph-view';
@@ -73,7 +73,7 @@ export function JsonOutputPanel({
                         </div>
                     ) : (
                         <>
-                            <FileCode className="w-12 h-12 text-gray-200" />
+                            <FileCode className="w-12 h-12 text-gray-200"  weight="duotone"/>
                             <p className="text-sm font-medium">Results will appear here...</p>
                         </>
                     )}
@@ -85,7 +85,7 @@ export function JsonOutputPanel({
                             <JsonGraphView data={getParsedJson()} />
                         ) : (
                             <div className="flex flex-col items-center justify-center h-full gap-4 text-gray-400">
-                                <Network className="w-12 h-12 opacity-20" />
+                                <Graph className="w-12 h-12 opacity-20"  weight="duotone"/>
                                 <p className="text-sm font-medium">Please parse valid JSON to see the tree view</p>
                             </div>
                         )}
@@ -118,7 +118,7 @@ export function JsonOutputPanel({
                             onClick={onDownload}
                             className="h-9 bg-white/90 backdrop-blur-sm border-gray-200 font-bold hover:bg-white cursor-pointer"
                         >
-                            <Download className="w-4 h-4 mr-2" />
+                            <DownloadSimple className="w-4 h-4 mr-2"  weight="duotone"/>
                             Save
                         </Button>
                         <CopyButton

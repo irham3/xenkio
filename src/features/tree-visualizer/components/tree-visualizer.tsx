@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { 
     Play, Pause, SkipForward, SkipBack, 
     RefreshCw, Download, Copy, Check,
-    ZoomIn, ZoomOut, Maximize, FlipHorizontal, Image, Search, Plus
+    ZoomIn, ZoomOut, Maximize, FlipHorizontal, Image as ImageIcon, Search, Plus
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { TreeNode } from '../types';
@@ -364,7 +364,7 @@ export function TreeVisualizer() {
                             <span className="hidden sm:inline">SVG</span>
                         </Button>
                         <Button onClick={handleDownloadPNG} variant="ghost" size="sm" className="h-8 gap-1.5 text-gray-500">
-                            <Image className="w-4 h-4" />
+                            <ImageIcon className="w-4 h-4" />
                             <span className="hidden sm:inline">PNG</span>
                         </Button>
                     </div>

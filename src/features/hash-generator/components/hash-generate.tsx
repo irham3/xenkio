@@ -7,7 +7,7 @@ import { HashAlgorithm } from '../types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, ChevronDown, ShieldX, Zap, Hash, RotateCcw } from 'lucide-react';
+import { Copy, Check, CaretDown, ShieldSlash, Lightning, Hash, ArrowCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 export function HashGenerate() {
@@ -49,7 +49,7 @@ export function HashGenerate() {
                                 value={options.text}
                                 onChange={(e) => updateOption('text', e.target.value)}
                                 placeholder="Type something to hash..."
-                                className="w-full min-h-[120px] p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                                className="w-full min-h-30 p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
                             />
                         </div>
 
@@ -68,7 +68,7 @@ export function HashGenerate() {
                                         </option>
                                     ))}
                                 </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                             </div>
                         </div>
 
@@ -154,12 +154,12 @@ export function HashGenerate() {
                             >
                                 {isGenerating ? (
                                     <>
-                                        <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                                        <Lightning className="w-4 h-4 mr-2 animate-pulse"  weight="duotone"/>
                                         Generating...
                                     </>
                                 ) : (
                                     <>
-                                        <Zap className="w-4 h-4 mr-2" />
+                                        <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                                         Generate Hash
                                     </>
                                 )}
@@ -170,20 +170,20 @@ export function HashGenerate() {
                                 className="px-3 border-gray-200 hover:bg-gray-100"
                                 title="Reset"
                             >
-                                <RotateCcw className="w-4 h-4" />
+                                <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                             </Button>
                         </div>
                     </div>
                 </div>
 
                 {/* RIGHT PANEL: Output & Results */}
-                <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px] border-l border-gray-100">
+                <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-75 border-l border-gray-100">
                     <div className="flex flex-col h-auto">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-sm font-semibold text-gray-800">Generated Hash</h3>
                             {result?.executionTime !== undefined && !result.error && (
                                 <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                                    <Zap className="w-3 h-3" />
+                                    <Lightning className="w-3 h-3"  weight="duotone"/>
                                     {result.executionTime.toFixed(1)}ms
                                 </span>
                             )}
@@ -191,7 +191,7 @@ export function HashGenerate() {
 
                         <div className="flex-1 relative group">
                             <div className={cn(
-                                "w-full min-h-[120px] p-5 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
+                                "w-full min-h-30 p-5 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
                                 isGenerating
                                     ? "bg-white border-primary-200 text-gray-400"
                                     : result?.error
@@ -210,7 +210,7 @@ export function HashGenerate() {
                                     </div>
                                 ) : result?.error ? (
                                     <div className="flex flex-col items-center justify-center h-full gap-2">
-                                        <ShieldX className="w-8 h-8 text-error-400 mb-2" />
+                                        <ShieldSlash className="w-8 h-8 text-error-400 mb-2" />
                                         <p className="font-semibold">Error Generation Failed</p>
                                         <p className="text-xs opacity-80">{result.error}</p>
                                     </div>
@@ -236,7 +236,7 @@ export function HashGenerate() {
                                             copied && "text-success-600 border-success-500 bg-success-50"
                                         )}
                                     >
-                                        {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                        {copied ? <Check className="w-3.5 h-3.5"  weight="duotone"/> : <Copy className="w-3.5 h-3.5"  weight="duotone"/>}
                                         {copied ? 'Copied' : 'Copy'}
                                     </Button>
                                 </div>

@@ -1,7 +1,7 @@
 
 import { Metadata } from 'next';
 import ZipExtractorClient from './client';
-import { Shield, Zap, HardDrive } from 'lucide-react';
+import { Shield, Lightning, HardDrive } from '@phosphor-icons/react/dist/ssr';
 
 
 
@@ -78,7 +78,7 @@ export default function ZipExtractorPage() {
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <Zap className="w-6 h-6 text-primary-500" />
+                                <Lightning className="w-6 h-6 text-primary-500"  weight="duotone"/>
                             </div>
                             <h3 className="font-bold text-gray-900">Lightning Fast</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">
@@ -87,7 +87,7 @@ export default function ZipExtractorPage() {
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <Shield className="w-6 h-6 text-primary-500" />
+                                <Shield className="w-6 h-6 text-primary-500"  weight="duotone"/>
                             </div>
                             <h3 className="font-bold text-gray-900">100% Private</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">
@@ -96,7 +96,7 @@ export default function ZipExtractorPage() {
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm border border-gray-100">
-                                <HardDrive className="w-6 h-6 text-primary-500" />
+                                <HardDrive className="w-6 h-6 text-primary-500"  weight="duotone"/>
                             </div>
                             <h3 className="font-bold text-gray-900">No Installation</h3>
                             <p className="text-sm text-gray-500 leading-relaxed">

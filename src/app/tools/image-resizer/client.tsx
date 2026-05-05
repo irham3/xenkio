@@ -5,7 +5,7 @@ import { useImageResizer } from '@/features/image-resizer/hooks/use-image-resize
 import { ImageEditor } from '@/features/image-resizer/components/image-editor';
 import { ResizeControls } from '@/features/image-resizer/components/resize-controls';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { DownloadSimple } from '@phosphor-icons/react/dist/ssr';
 
 export default function ImageResizerClient() {
     const {
@@ -86,7 +86,7 @@ export default function ImageResizerClient() {
                                     onClick={handleDownload}
                                     disabled={isCropping}
                                 >
-                                    <Download className="w-5 h-5 mr-2" />
+                                    <DownloadSimple className="w-5 h-5 mr-2"  weight="duotone"/>
                                     Download Image
                                 </Button>
                                 {isCropping && (

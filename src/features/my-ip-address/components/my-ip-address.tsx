@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, Check, RefreshCw, MapPin, Globe2, Clock, Building2, Network, AlertTriangle } from 'lucide-react';
+import { Copy, Check, ArrowsClockwise, MapPin, Globe, Clock, Buildings, ShareNetwork, Warning } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useMyIp } from '../hooks/use-my-ip';
@@ -37,7 +37,7 @@ export function MyIpAddress() {
                 <div className="p-6 md:p-8">
                     <div className="flex flex-col items-center text-center space-y-4">
                         <div className="flex items-center gap-2 text-sm font-medium text-gray-500 uppercase tracking-wide">
-                            <Network className="w-4 h-4 text-primary-500" />
+                            <ShareNetwork className="w-4 h-4 text-primary-500"  weight="duotone"/>
                             Your Public IP Address
                         </div>
 
@@ -48,7 +48,7 @@ export function MyIpAddress() {
                             </div>
                         ) : isError ? (
                             <div className="flex flex-col items-center gap-3 py-4 text-gray-500">
-                                <AlertTriangle className="w-10 h-10 text-error-400" />
+                                <Warning className="w-10 h-10 text-error-400"  weight="duotone"/>
                                 <p className="text-sm font-medium text-error-600">Could not detect your IP address</p>
                                 <p className="text-xs text-gray-400 max-w-sm">{state.error}</p>
                                 <Button
@@ -57,7 +57,7 @@ export function MyIpAddress() {
                                     size="sm"
                                     className="gap-2 mt-2 border-gray-200 hover:bg-gray-50"
                                 >
-                                    <RefreshCw className="w-3.5 h-3.5" />
+                                    <ArrowsClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                                     Try Again
                                 </Button>
                             </div>
@@ -71,7 +71,7 @@ export function MyIpAddress() {
 
                                 {location && (
                                     <p className="text-sm text-gray-500 flex items-center gap-1.5">
-                                        <MapPin className="w-3.5 h-3.5 text-primary-500 shrink-0" />
+                                        <MapPin className="w-3.5 h-3.5 text-primary-500 shrink-0"  weight="duotone"/>
                                         {location}
                                     </p>
                                 )}
@@ -88,12 +88,12 @@ export function MyIpAddress() {
                                     >
                                         {copied ? (
                                             <>
-                                                <Check className="w-4 h-4" />
+                                                <Check className="w-4 h-4"  weight="duotone"/>
                                                 Copied!
                                             </>
                                         ) : (
                                             <>
-                                                <Copy className="w-4 h-4" />
+                                                <Copy className="w-4 h-4"  weight="duotone"/>
                                                 Copy IP
                                             </>
                                         )}
@@ -105,7 +105,7 @@ export function MyIpAddress() {
                                         className="gap-2 border-gray-200 hover:bg-gray-50"
                                         disabled={isLoading}
                                     >
-                                        <RefreshCw className={cn('w-4 h-4', isLoading && 'animate-spin')} />
+                                        <ArrowsClockwise className={cn('w-4 h-4', isLoading && 'animate-spin')}  weight="duotone"/>
                                         Refresh
                                     </Button>
                                 </div>
@@ -121,7 +121,7 @@ export function MyIpAddress() {
                     {/* Location */}
                     <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-2 shadow-sm">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                            <MapPin className="w-3.5 h-3.5 text-primary-500" />
+                            <MapPin className="w-3.5 h-3.5 text-primary-500"  weight="duotone"/>
                             Location
                         </div>
                         <p className="font-semibold text-gray-900 text-sm leading-snug">
@@ -143,7 +143,7 @@ export function MyIpAddress() {
                     {/* ISP / Organization */}
                     <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-2 shadow-sm">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                            <Building2 className="w-3.5 h-3.5 text-primary-500" />
+                            <Buildings className="w-3.5 h-3.5 text-primary-500"  weight="duotone"/>
                             ISP / Organization
                         </div>
                         <p className="font-semibold text-gray-900 text-sm leading-snug">
@@ -157,7 +157,7 @@ export function MyIpAddress() {
                     {/* Hostname */}
                     <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-2 shadow-sm">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                            <Globe2 className="w-3.5 h-3.5 text-primary-500" />
+                            <Globe className="w-3.5 h-3.5 text-primary-500"  weight="duotone"/>
                             Hostname
                         </div>
                         <p className="font-semibold text-gray-900 text-sm leading-snug break-all">
@@ -168,7 +168,7 @@ export function MyIpAddress() {
                     {/* Timezone */}
                     <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-2 shadow-sm">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                            <Clock className="w-3.5 h-3.5 text-primary-500" />
+                            <Clock className="w-3.5 h-3.5 text-primary-500"  weight="duotone"/>
                             Timezone
                         </div>
                         <p className="font-semibold text-gray-900 text-sm leading-snug">

@@ -84,7 +84,7 @@ export function CarouselGeneratorForm({ config, onChange }: CarouselGeneratorFor
               type="text"
               value={config.backgroundColor}
               onChange={(e) => onChange({ backgroundColor: e.target.value })}
-              className="flex-1 font-mono uppercase bg-transparent border-none focus-visible:ring-0 h-9 text-gray-700 bg-white rounded-md shadow-sm"
+              className="flex-1 font-mono uppercase bg-transparent border-none focus-visible:ring-0 h-9 text-gray-700 rounded-md shadow-sm"
               placeholder="#FFFFFF"
             />
           </div>

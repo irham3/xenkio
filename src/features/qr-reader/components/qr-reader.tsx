@@ -7,7 +7,7 @@ import { QrUploader } from "./qr-uploader"
 import { QrScanner } from "./qr-scanner"
 import { QrResult } from "./qr-result"
 import { Button } from "@/components/ui/button"
-import { Camera, Upload, AlertCircle } from "lucide-react"
+import { Camera, UploadSimple, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 
 export function QrReader() {
     const { result, isScanning, error, scanImage, clearResult, setResult } = useQrReader();
@@ -26,7 +26,7 @@ export function QrReader() {
         <div className="w-full space-y-8">
             {error && (mode === 'upload' || !mode) && (
                 <div className="max-w-4xl mx-auto p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-700 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <AlertCircle className="w-5 h-5 shrink-0" />
+                    <WarningCircle className="w-5 h-5 shrink-0"  weight="duotone"/>
                     <p className="text-sm font-medium">{error}</p>
                 </div>
             )}
@@ -54,7 +54,7 @@ export function QrReader() {
                                 className="group p-8 rounded-3xl border-2 border-dashed border-gray-200 bg-white hover:border-primary-500 hover:bg-primary-50/50 transition-all duration-300 cursor-pointer text-center space-y-4"
                             >
                                 <div className="w-16 h-16 rounded-2xl bg-gray-50 group-hover:bg-white group-hover:scale-110 flex items-center justify-center mx-auto transition-all shadow-medium group-hover:shadow-primary">
-                                    <Upload className="w-8 h-8 text-primary-500" />
+                                    <UploadSimple className="w-8 h-8 text-primary-500"  weight="duotone"/>
                                 </div>
                                 <div className="space-y-1">
                                     <h3 className="font-bold text-gray-900 group-hover:text-primary-700">Upload Image</h3>

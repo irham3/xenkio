@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { Home, Search, Ghost } from 'lucide-react';
+import { IconRenderer } from "@/components/ui/icon-renderer";
 
 export default function NotFound() {
   return (
@@ -16,7 +16,7 @@ export default function NotFound() {
         <div className="max-w-xl w-full text-center relative z-10">
           <div className="mb-8 flex justify-center">
             <div className="relative">
-              <Ghost className="w-24 h-24 text-primary-500 animate-bounce" />
+              <IconRenderer name="Ghost" className="w-24 h-24 text-primary-500 animate-bounce" />
             </div>
           </div>
 
@@ -33,7 +33,7 @@ export default function NotFound() {
               href="/"
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 bg-linear-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/20 hover:shadow-xl hover:shadow-primary-500/30 hover:scale-[1.02] active:scale-95 transition-all"
             >
-              <Home className="w-4 h-4" />
+              <IconRenderer name="House" className="w-4 h-4" />
               Go Home
             </Link>
 
@@ -41,7 +41,7 @@ export default function NotFound() {
               href="/tools"
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-gray-700 font-semibold rounded-xl border border-gray-200 shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all"
             >
-              <Search className="w-4 h-4" />
+              <IconRenderer name="MagnifyingGlass" className="w-4 h-4" />
               Browse Tools
             </Link>
           </div>

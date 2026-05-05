@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Clapperboard, BookOpen } from 'lucide-react';
+import { FilmStrip, BookOpen } from '@phosphor-icons/react/dist/ssr';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
@@ -93,7 +93,7 @@ export function TeleprompterSetup({
                                 : 'text-gray-400 hover:text-gray-600'
                         }`}
                     >
-                        <Clapperboard className="w-4 h-4" />
+                        <FilmStrip className="w-4 h-4"  weight="duotone"/>
                         Teleprompter Mode
                         {activeTab === 'teleprompter' && (
                             <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-500 rounded-t" />
@@ -107,7 +107,7 @@ export function TeleprompterSetup({
                                 : 'text-gray-400 hover:text-gray-600'
                         }`}
                     >
-                        <BookOpen className="w-4 h-4" />
+                        <BookOpen className="w-4 h-4"  weight="duotone"/>
                         Reading Mode
                         {activeTab === 'reading' && (
                             <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 rounded-t" />
@@ -183,7 +183,7 @@ export function TeleprompterSetup({
                                         : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                 }`}
                             >
-                                <Clapperboard className="w-4 h-4" />
+                                <FilmStrip className="w-4 h-4"  weight="duotone"/>
                                 Start Teleprompter
                             </button>
                             {!canStart && (
@@ -240,7 +240,7 @@ export function TeleprompterSetup({
                                         : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                 }`}
                             >
-                                <BookOpen className="w-4 h-4" />
+                                <BookOpen className="w-4 h-4"  weight="duotone"/>
                                 Start Reading Mode
                             </button>
                             {!canStart && (

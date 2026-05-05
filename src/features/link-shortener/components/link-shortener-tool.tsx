@@ -1,6 +1,6 @@
 'use client';
 
-import { Link2, RotateCcw, Scissors, Trash2, ExternalLink, Clock, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { Link, ArrowCounterClockwise, Scissors, Trash, ArrowSquareOut, Clock, WarningCircle, CheckCircle, CircleNotch } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { CopyButton } from '@/components/shared';
 import { cn } from '@/lib/utils';
@@ -38,7 +38,7 @@ export function LinkShortenerTool() {
             {/* Main Input Card */}
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8 space-y-6">
                 <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <Scissors className="h-5 w-5 text-primary-500" />
+                    <Scissors className="h-5 w-5 text-primary-500"  weight="duotone"/>
                     Shorten a URL
                 </h2>
 
@@ -107,9 +107,9 @@ export function LinkShortenerTool() {
                         )}
                     >
                         {isLoading ? (
-                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            <CircleNotch className="h-4 w-4 mr-2 animate-spin"  weight="duotone"/>
                         ) : (
-                            <Scissors className="h-4 w-4 mr-2" />
+                            <Scissors className="h-4 w-4 mr-2"  weight="duotone"/>
                         )}
                         {isLoading ? 'Shortening…' : 'Shorten URL'}
                     </Button>
@@ -119,14 +119,14 @@ export function LinkShortenerTool() {
                         disabled={isLoading}
                         className="h-11 rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
                     >
-                        <RotateCcw className="h-4 w-4" />
+                        <ArrowCounterClockwise className="h-4 w-4"  weight="duotone"/>
                     </Button>
                 </div>
 
                 {/* Error */}
                 {state.status === 'error' && state.error && (
                     <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
-                        <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
+                        <WarningCircle className="h-4 w-4 mt-0.5 shrink-0"  weight="duotone"/>
                         <p>{state.error}</p>
                     </div>
                 )}
@@ -135,11 +135,11 @@ export function LinkShortenerTool() {
                 {state.status === 'success' && state.result && (
                     <div className="p-4 rounded-xl bg-green-50 border border-green-200 space-y-3">
                         <div className="flex items-center gap-2 text-green-700">
-                            <CheckCircle2 className="h-4 w-4 shrink-0" />
+                            <CheckCircle className="h-4 w-4 shrink-0"  weight="duotone"/>
                             <span className="text-sm font-semibold">URL shortened successfully!</span>
                         </div>
                         <div className="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2">
-                            <Link2 className="h-4 w-4 text-green-600 shrink-0" />
+                            <Link className="h-4 w-4 text-green-600 shrink-0"/>
                             <a
                                 href={state.result}
                                 target="_blank"
@@ -159,7 +159,7 @@ export function LinkShortenerTool() {
                 <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                            <Clock className="h-5 w-5 text-primary-500" />
+                            <Clock className="h-5 w-5 text-primary-500"  weight="duotone"/>
                             History
                             <span className="text-sm font-normal text-gray-400">({state.history.length})</span>
                         </h2>
@@ -169,7 +169,7 @@ export function LinkShortenerTool() {
                             onClick={clearHistory}
                             className="rounded-xl border-gray-200 hover:bg-red-50 hover:border-red-200 hover:text-red-600 text-gray-500 cursor-pointer transition-colors"
                         >
-                            <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+                            <Trash className="h-3.5 w-3.5 mr-1.5"  weight="duotone"/>
                             Clear All
                         </Button>
                     </div>
@@ -190,7 +190,7 @@ export function LinkShortenerTool() {
                                         >
                                             {item.shortUrl}
                                         </a>
-                                        <ExternalLink className="h-3 w-3 text-gray-300 group-hover:text-gray-400 transition-colors" />
+                                        <ArrowSquareOut className="h-3 w-3 text-gray-300 group-hover:text-gray-400 transition-colors"  weight="duotone"/>
                                     </div>
                                     <p className="text-xs text-gray-400 truncate">
                                         {truncate(item.originalUrl, 70)}
@@ -211,7 +211,7 @@ export function LinkShortenerTool() {
                                         className="p-1.5 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
                                         aria-label="Delete from history"
                                     >
-                                        <Trash2 className="h-3.5 w-3.5" />
+                                        <Trash className="h-3.5 w-3.5"  weight="duotone"/>
                                     </button>
                                 </div>
                             </div>

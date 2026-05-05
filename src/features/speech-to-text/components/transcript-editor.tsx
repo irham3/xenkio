@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, Download, Trash2, Check } from "lucide-react";
+import { Copy, DownloadSimple, Trash, Check } from '@phosphor-icons/react/dist/ssr';
 import { toast } from "sonner";
 
 interface TranscriptEditorProps {
@@ -72,7 +72,7 @@ export function TranscriptEditor({
                         onClick={handleCopy}
                         disabled={!value}
                     >
-                        {copied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
+                        {copied ? <Check className="h-4 w-4 mr-2"  weight="duotone"/> : <Copy className="h-4 w-4 mr-2"  weight="duotone"/>}
                         {copied ? "Copied" : "Copy"}
                     </Button>
                     <Button
@@ -81,7 +81,7 @@ export function TranscriptEditor({
                         onClick={handleDownload}
                         disabled={!value}
                     >
-                        <Download className="h-4 w-4 mr-2" />
+                        <DownloadSimple className="h-4 w-4 mr-2"  weight="duotone"/>
                         Export
                     </Button>
                     <Button
@@ -91,7 +91,7 @@ export function TranscriptEditor({
                         disabled={!value}
                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
                     >
-                        <Trash2 className="h-4 w-4 mr-2" />
+                        <Trash className="h-4 w-4 mr-2"  weight="duotone"/>
                         Clear
                     </Button>
                 </div>

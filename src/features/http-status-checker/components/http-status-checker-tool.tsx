@@ -1,15 +1,7 @@
 'use client';
 
 import { useState, useRef, KeyboardEvent } from 'react';
-import {
-    Search,
-    AlertTriangle,
-    Clock,
-    Globe2,
-    FileText,
-    RefreshCw,
-    ExternalLink,
-} from 'lucide-react';
+import { MagnifyingGlass, Warning, Clock, Globe, FileText, ArrowsClockwise, ArrowSquareOut } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useHttpStatusChecker } from '../hooks/use-http-status-checker';
@@ -111,7 +103,7 @@ export function HttpStatusCheckerTool() {
                         <label className="text-sm font-semibold text-gray-700">URL to Check</label>
                         <div className="relative flex gap-3">
                             <div className="relative flex-1">
-                                <Globe2 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <Globe className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                                 <input
                                     ref={inputRef}
                                     type="text"
@@ -136,7 +128,7 @@ export function HttpStatusCheckerTool() {
                                     </span>
                                 ) : (
                                     <>
-                                        <Search className="w-4 h-4" />
+                                        <MagnifyingGlass className="w-4 h-4"  weight="duotone"/>
                                         Check
                                     </>
                                 )}
@@ -188,7 +180,7 @@ export function HttpStatusCheckerTool() {
             {hasError && !isLoading && (
                 <div className="bg-white rounded-2xl border border-red-200 shadow-soft p-6 md:p-8">
                     <div className="flex flex-col items-center gap-4 text-center py-4">
-                        <AlertTriangle className="w-10 h-10 text-red-400" />
+                        <Warning className="w-10 h-10 text-red-400"  weight="duotone"/>
                         <div className="space-y-1">
                             <p className="text-sm font-semibold text-red-700">Check Failed</p>
                             <p className="text-sm text-gray-500 max-w-md">{state.error}</p>
@@ -199,7 +191,7 @@ export function HttpStatusCheckerTool() {
                             size="sm"
                             className="gap-2 border-gray-200 hover:bg-gray-50"
                         >
-                            <RefreshCw className="w-3.5 h-3.5" />
+                            <ArrowsClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                             Try Again
                         </Button>
                     </div>
@@ -257,7 +249,7 @@ export function HttpStatusCheckerTool() {
                         {/* Content Type */}
                         <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-2 shadow-sm">
                             <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                                <FileText className="w-3.5 h-3.5 text-primary-500" />
+                                <FileText className="w-3.5 h-3.5 text-primary-500"  weight="duotone"/>
                                 Content-Type
                             </div>
                             <p className="font-semibold text-gray-900 text-sm leading-snug font-mono break-all">
@@ -268,7 +260,7 @@ export function HttpStatusCheckerTool() {
                         {/* Response Time */}
                         <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-2 shadow-sm">
                             <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                                <Clock className="w-3.5 h-3.5 text-primary-500" />
+                                <Clock className="w-3.5 h-3.5 text-primary-500"  weight="duotone"/>
                                 Response Time
                             </div>
                             <p className="font-semibold text-gray-900 text-sm leading-snug font-mono">
@@ -279,7 +271,7 @@ export function HttpStatusCheckerTool() {
                         {/* Final URL */}
                         <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-2 shadow-sm">
                             <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                                <ExternalLink className="w-3.5 h-3.5 text-primary-500" />
+                                <ArrowSquareOut className="w-3.5 h-3.5 text-primary-500"  weight="duotone"/>
                                 Final URL
                             </div>
                             <p className="font-semibold text-gray-900 text-sm leading-snug font-mono break-all">
@@ -300,7 +292,7 @@ export function HttpStatusCheckerTool() {
                             size="sm"
                             className="gap-2 border-gray-200 hover:bg-gray-50"
                         >
-                            <RefreshCw className="w-3.5 h-3.5" />
+                            <ArrowsClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                             Check Another URL
                         </Button>
                     </div>

@@ -1,4 +1,32 @@
 /**
+ * Polyfills for PDF.js Worker
+ */
+if (typeof Promise.withResolvers === 'undefined') {
+    Promise.withResolvers = function() {
+        let resolve, reject;
+        const promise = new Promise((res, rej) => {
+            resolve = res;
+            reject = rej;
+        });
+        return { promise, resolve, reject };
+    };
+}
+
+if (typeof ReadableStream !== 'undefined' && !ReadableStream.prototype[Symbol.asyncIterator]) {
+    ReadableStream.prototype[Symbol.asyncIterator] = async function* () {
+        const reader = this.getReader();
+        try {
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) return;
+                yield value;
+            }
+        } finally {
+            reader.releaseLock();
+        }
+    };
+}
+/**
  * @licstart The following is the entire license notice for the
  * JavaScript code in this page
  *

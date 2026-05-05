@@ -8,7 +8,7 @@ import {
     TimerSettings,
     TimerPresets
 } from '@/features/timer';
-import { Bell, BellOff, Info } from 'lucide-react';
+import { Bell, BellSlash, Info } from '@phosphor-icons/react/dist/ssr';
 
 export function TimerClient() {
     const {
@@ -24,7 +24,7 @@ export function TimerClient() {
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Column: Settings & Presets */}
+            {/* Left Column: Gear & Presets */}
             <div className="lg:col-span-4 space-y-6">
                 <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
@@ -37,7 +37,7 @@ export function TimerClient() {
                             className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-400 hover:text-primary-600"
                             title={config.soundEnabled ? "Disable Alarm" : "Enable Alarm"}
                         >
-                            {config.soundEnabled ? <Bell className="w-5 h-5" /> : <BellOff className="w-5 h-5" />}
+                            {config.soundEnabled ? <Bell className="w-5 h-5"  weight="duotone"/> : <BellSlash className="w-5 h-5"  weight="duotone"/>}
                         </button>
                     </div>
 
@@ -57,7 +57,7 @@ export function TimerClient() {
 
                 <div className="p-4 bg-primary-50 rounded-xl border border-primary-100">
                     <div className="flex gap-3">
-                        <Info className="w-5 h-5 text-primary-500 shrink-0" />
+                        <Info className="w-5 h-5 text-primary-500 shrink-0"  weight="duotone"/>
                         <p className="text-sm text-primary-700 leading-relaxed">
                             <strong>Tip:</strong> You can set a target &quot;Target Time&quot; to end your work or meeting.
                             The timer will automatically calculate how much time you have left.

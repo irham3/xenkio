@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Info, ChevronDown, ChevronUp, BarChart2 } from 'lucide-react';
+import { Info, CaretDown, CaretUp, ChartBar } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -299,7 +299,7 @@ export function TimeComplexityCalculator() {
             {/* Quick Patterns */}
             <div className="bg-white border border-gray-200 rounded-xl p-5">
                 <h2 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                    <BarChart2 className="w-4 h-4 text-indigo-500" />
+                    <ChartBar className="w-4 h-4 text-indigo-500"  weight="duotone"/>
                     Quick Patterns
                 </h2>
                 <div className="flex flex-wrap gap-2">
@@ -373,7 +373,7 @@ export function TimeComplexityCalculator() {
                     {/* Explanation */}
                     <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-4 space-y-1.5">
                         <p className="text-xs font-semibold text-indigo-700 flex items-center gap-1.5">
-                            <Info className="w-3.5 h-3.5" /> Explanation
+                            <Info className="w-3.5 h-3.5"  weight="duotone"/> Explanation
                         </p>
                         <ul className="space-y-1">
                             {result.explanation.map((line, i) => (
@@ -417,7 +417,7 @@ export function TimeComplexityCalculator() {
                     className="w-full flex items-center justify-between px-5 py-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                     <span>Big O Complexity Reference</span>
-                    {showTable ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                    {showTable ? <CaretUp className="w-4 h-4 text-gray-400"  weight="duotone"/> : <CaretDown className="w-4 h-4 text-gray-400"  weight="duotone"/>}
                 </button>
 
                 {showTable && (

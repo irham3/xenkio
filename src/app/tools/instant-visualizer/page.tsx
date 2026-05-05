@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import InstantVisualizerClient from './client';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from '@phosphor-icons/react/dist/ssr';
 
 export const metadata: Metadata = {
     title: 'Instant Visualizer | Quick Data Dashboard from Pasted Data',
@@ -64,7 +64,7 @@ export default function InstantVisualizerPage(): React.ReactElement {
                 <div className="container mx-auto px-4 py-12 max-w-7xl">
                     <div className="text-center space-y-4">
                         <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-50 rounded-full text-xs font-medium text-primary-600 mb-2">
-                            <ShieldCheck className="w-4 h-4" />
+                            <ShieldCheck className="w-4 h-4"  weight="duotone"/>
                             100% Secure Client-Side Processing
                         </div>
                         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">

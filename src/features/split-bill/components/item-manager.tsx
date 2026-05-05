@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Person, SplitItem, Currency } from '../types';
 import { Button } from '@/components/ui/button';
-import { Plus, Trash2, Receipt, Users, Check, Banknote } from 'lucide-react';
+import { Plus, Trash, Receipt, Users, Check, Money } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 interface ItemManagerProps {
@@ -119,13 +119,13 @@ export function ItemManager({
                             disabled={!newItem.name.trim() || !newItem.price}
                             className="w-full sm:w-auto h-10 px-5 bg-gray-900 hover:bg-gray-800 text-white shadow-sm"
                         >
-                            <Plus className="w-4 h-4 sm:mr-1.5" />
+                            <Plus className="w-4 h-4 sm:mr-1.5"  weight="duotone"/>
                             <span className="hidden sm:inline">Add Item</span>
                         </Button>
                     </div>
                 </div>
                 <p className="text-[10px] text-gray-400 mt-2 flex items-center gap-1.5">
-                    <Banknote className="w-3.5 h-3.5" />
+                    <Money className="w-3.5 h-3.5"  weight="duotone"/>
                     Price should be the unit price. It will be multiplied by quantity.
                 </p>
             </div>
@@ -172,7 +172,7 @@ export function ItemManager({
                                         className="text-gray-400 hover:text-red-500 p-1.5 rounded-md hover:bg-red-50 transition-colors"
                                         title="Remove Item"
                                     >
-                                        <Trash2 className="w-4 h-4" />
+                                        <Trash className="w-4 h-4"  weight="duotone"/>
                                     </button>
                                 </div>
                             </div>
@@ -181,7 +181,7 @@ export function ItemManager({
                             <div className="p-3 sm:px-4">
                                 <div className="flex items-center justify-between mb-2.5">
                                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-                                        <Users className="w-3.5 h-3.5" />
+                                        <Users className="w-3.5 h-3.5"  weight="duotone"/>
                                         Split Among
                                     </label>
 
@@ -227,7 +227,7 @@ export function ItemManager({
                                                         person.avatarColor
                                                     )}>
                                                         {isSelected ? (
-                                                            <Check className="w-3.5 h-3.5" />
+                                                            <Check className="w-3.5 h-3.5"  weight="duotone"/>
                                                         ) : (
                                                             person.name.substring(0, 2).toUpperCase()
                                                         )}

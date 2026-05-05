@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { CircleNotch, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import { CompareViewMode } from '@/features/compare-pdf/types';
 import { usePdfCompare } from '@/features/compare-pdf/hooks/use-pdf-compare';
 import { PdfUploadPair } from '@/features/compare-pdf/components/pdf-upload-pair';
@@ -73,7 +73,7 @@ export default function ComparePdfClient() {
                                     exit={{ opacity: 0, height: 0 }}
                                     className="mt-4 bg-white rounded-2xl ring-1 ring-gray-100 p-5 flex flex-col items-center gap-3"
                                 >
-                                    <Loader2 className="w-8 h-8 text-primary-500 animate-spin" />
+                                    <CircleNotch className="w-8 h-8 text-primary-500 animate-spin"  weight="duotone"/>
                                     <p className="text-sm font-medium text-gray-700">
                                         Comparing PDFs — {progress}%
                                     </p>
@@ -97,7 +97,7 @@ export default function ComparePdfClient() {
                                     exit={{ opacity: 0, height: 0 }}
                                     className="mt-4 flex items-center gap-3 p-4 bg-error-50 text-error-700 rounded-xl border border-error-100 text-sm"
                                 >
-                                    <AlertCircle className="w-5 h-5 shrink-0" />
+                                    <WarningCircle className="w-5 h-5 shrink-0"  weight="duotone"/>
                                     {error}
                                 </motion.div>
                             )}
@@ -144,7 +144,7 @@ export default function ComparePdfClient() {
                         </div>
 
                         {/* Sidebar controls */}
-                        <div className="w-full lg:w-[280px] shrink-0 lg:sticky lg:top-6 bg-white rounded-2xl ring-1 ring-gray-100 shadow-sm p-5">
+                        <div className="w-full lg:w-70 shrink-0 lg:sticky lg:top-6 bg-white rounded-2xl ring-1 ring-gray-100 shadow-sm p-5">
                             <h3 className="text-sm font-bold text-gray-900 mb-4">
                                 Comparison Settings
                             </h3>

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, Download, Eye, RotateCcw, Info } from 'lucide-react';
+import { UploadSimple, DownloadSimple, Eye, ArrowCounterClockwise, Info } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -235,12 +235,12 @@ export function ColorBlindnessTool() {
                 isDragActive ? 'scale-110 shadow-primary' : 'group-hover:scale-105'
               )}
             >
-              <Upload
+              <UploadSimple
                 className={cn(
                   'w-10 h-10 transition-colors',
                   isDragActive ? 'text-primary-600' : 'text-primary-500'
                 )}
-              />
+               weight="duotone"/>
             </div>
             <div className="space-y-2">
               <h3 className="text-xl font-bold text-gray-900">
@@ -266,7 +266,7 @@ export function ColorBlindnessTool() {
               className="mt-4 rounded-xl px-8 bg-primary-600 hover:bg-primary-700 shadow-primary hover:shadow-primary-lg transition-all cursor-pointer"
               type="button"
             >
-              <Eye className="w-4 h-4 mr-2" />
+              <Eye className="w-4 h-4 mr-2"  weight="duotone"/>
               Choose Image
             </Button>
           </div>
@@ -287,7 +287,7 @@ export function ColorBlindnessTool() {
                   onClick={handleDownload}
                   className="rounded-lg text-xs cursor-pointer"
                 >
-                  <Download className="w-3.5 h-3.5 mr-1.5" />
+                  <DownloadSimple className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                   Download
                 </Button>
                 <Button
@@ -296,7 +296,7 @@ export function ColorBlindnessTool() {
                   onClick={handleReset}
                   className="rounded-lg text-xs cursor-pointer"
                 >
-                  <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+                  <ArrowCounterClockwise className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>
                   New Image
                 </Button>
               </div>
@@ -330,7 +330,7 @@ export function ColorBlindnessTool() {
           {/* Info Banner */}
           {currentSimulation && (
             <div className="flex items-start gap-3 bg-primary-50 border border-primary-100 rounded-xl px-4 py-3">
-              <Info className="w-4 h-4 text-primary-600 mt-0.5 shrink-0" />
+              <Info className="w-4 h-4 text-primary-600 mt-0.5 shrink-0"  weight="duotone"/>
               <div>
                 <p className="text-sm font-semibold text-primary-900">
                   {currentSimulation.label}
@@ -348,10 +348,10 @@ export function ColorBlindnessTool() {
               <div className="px-4 py-3 border-b border-gray-100">
                 <h4 className="text-sm font-bold text-gray-900">Original</h4>
               </div>
-              <div className="p-3 flex items-center justify-center bg-gray-50 min-h-[200px]">
+              <div className="p-3 flex items-center justify-center bg-gray-50 min-h-50">
                 <canvas
                   ref={sourceCanvasRef}
-                  className="max-w-full max-h-[500px] rounded-lg object-contain"
+                  className="max-w-full max-h-125 rounded-lg object-contain"
                 />
               </div>
             </div>
@@ -362,10 +362,10 @@ export function ColorBlindnessTool() {
                   Simulated | {currentSimulation?.label}
                 </h4>
               </div>
-              <div className="p-3 flex items-center justify-center bg-gray-50 min-h-[200px]">
+              <div className="p-3 flex items-center justify-center bg-gray-50 min-h-50">
                 <canvas
                   ref={simulatedCanvasRef}
-                  className="max-w-full max-h-[500px] rounded-lg object-contain"
+                  className="max-w-full max-h-125 rounded-lg object-contain"
                 />
               </div>
             </div>

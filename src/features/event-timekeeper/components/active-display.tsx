@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { ScheduleEvent } from '../types';
-import { Play, Pause, SkipForward, SkipBack, Square, Clock } from 'lucide-react';
+import { Play, Pause, SkipForward, SkipBack, Square, Clock } from '@phosphor-icons/react/dist/ssr';
 import { useState, useEffect } from 'react';
 
 interface ActiveDisplayProps {
@@ -95,7 +95,7 @@ export function ActiveDisplay({
         )}>
             {/* Wall Clock — always visible top-right */}
             <div className="absolute top-4 right-4 flex items-center gap-1.5 text-gray-400">
-                <Clock className="w-3.5 h-3.5" />
+                <Clock className="w-3.5 h-3.5"  weight="duotone"/>
                 <span className="text-sm font-mono">{wallClock}</span>
             </div>
 
@@ -190,7 +190,7 @@ export function ActiveDisplay({
                         onClick={onStart}
                         className="flex items-center gap-2 px-10 py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 font-bold text-white text-lg transition-all transform active:scale-95 shadow-lg"
                     >
-                        <Play className="w-6 h-6 fill-current" />
+                        <Play className="w-6 h-6 fill-current"  weight="duotone"/>
                         START
                     </button>
                 ) : (
@@ -200,7 +200,7 @@ export function ActiveDisplay({
                             className="flex items-center justify-center w-14 h-14 rounded-full border-2 border-gray-200 text-gray-400 hover:text-gray-700 hover:border-gray-300 transition-colors"
                             title="Previous Session"
                         >
-                            <SkipBack className="w-6 h-6" />
+                            <SkipBack className="w-6 h-6"  weight="duotone"/>
                         </button>
 
                         {isPaused ? (
@@ -208,7 +208,7 @@ export function ActiveDisplay({
                                 onClick={onResume}
                                 className="flex items-center gap-2 px-10 py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 font-bold text-white text-lg transition-all transform active:scale-95 shadow-lg"
                             >
-                                <Play className="w-6 h-6 fill-current" />
+                                <Play className="w-6 h-6 fill-current"  weight="duotone"/>
                                 RESUME
                             </button>
                         ) : (
@@ -216,7 +216,7 @@ export function ActiveDisplay({
                                 onClick={onPause}
                                 className="flex items-center gap-2 px-10 py-4 rounded-full bg-amber-500 hover:bg-amber-600 font-bold text-white text-lg transition-all transform active:scale-95 shadow-lg"
                             >
-                                <Pause className="w-6 h-6 fill-current" />
+                                <Pause className="w-6 h-6 fill-current"  weight="duotone"/>
                                 PAUSE
                             </button>
                         )}
@@ -227,7 +227,7 @@ export function ActiveDisplay({
                             title="Next Session"
                         >
                             NEXT
-                            <SkipForward className="w-6 h-6" />
+                            <SkipForward className="w-6 h-6"  weight="duotone"/>
                         </button>
 
                         <button
@@ -235,7 +235,7 @@ export function ActiveDisplay({
                             className="flex items-center justify-center w-14 h-14 rounded-full border-2 border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200 transition-colors"
                             title="Stop All"
                         >
-                            <Square className="w-6 h-6 fill-current" />
+                            <Square className="w-6 h-6 fill-current"  weight="duotone"/>
                         </button>
                     </>
                 )}
@@ -245,7 +245,7 @@ export function ActiveDisplay({
             {nextEvent && isRunning && (
                 <div className="mt-6 pt-4 border-t border-gray-100">
                     <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
-                        <SkipForward className="w-3.5 h-3.5" />
+                        <SkipForward className="w-3.5 h-3.5"  weight="duotone"/>
                         <span>Next: <strong className="text-gray-600">{nextEvent.title}</strong></span>
                         {nextEvent.presenter && nextEvent.presenter !== '-' && (
                             <span className="text-gray-300">— {nextEvent.presenter}</span>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Settings2, Lock, Brain } from 'lucide-react';
+import { Sliders, Lock, Brain } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { type PasswordConfig } from '../types';
 
@@ -14,7 +14,7 @@ export function ConfigPanel({ config, updateConfig }: ConfigPanelProps) {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <Settings2 className="h-5 w-5 text-primary-500" />
+                    <Sliders className="h-5 w-5 text-primary-500"  weight="duotone"/>
                     Customize
                 </h3>
 
@@ -28,7 +28,7 @@ export function ConfigPanel({ config, updateConfig }: ConfigPanelProps) {
                                 : "text-gray-500 hover:text-gray-700"
                         )}
                     >
-                        <Lock className="h-4 w-4" />
+                        <Lock className="h-4 w-4"  weight="duotone"/>
                         Random
                     </button>
                     <button

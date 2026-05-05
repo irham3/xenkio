@@ -4,7 +4,7 @@
 import { useState } from "react"
 import { QrReaderResult } from "../types"
 import { Button } from "@/components/ui/button"
-import { Copy, Check, ExternalLink, RefreshCw, Trash2, Globe, FileText, Calendar, Info } from "lucide-react"
+import { Copy, Check, ArrowSquareOut, ArrowsClockwise, Trash, Globe, FileText, Calendar, Info } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { isValidUrl } from "../lib/qr-utils"
 import Image from "next/image"
@@ -63,13 +63,13 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                             "w-12 h-12 rounded-2xl flex items-center justify-center transition-colors",
                             isUrl ? "bg-primary-50 text-primary-600" : "bg-gray-50 text-gray-600"
                         )}>
-                            {isUrl ? <Globe className="w-6 h-6" /> : <FileText className="w-6 h-6" />}
+                            {isUrl ? <Globe className="w-6 h-6"  weight="duotone"/> : <FileText className="w-6 h-6"  weight="duotone"/>}
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-xl font-bold text-gray-900">Scanned Result</h3>
                             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-400 font-medium">
                                 <div className="flex items-center gap-1.5">
-                                    <Calendar className="w-3.5 h-3.5" />
+                                    <Calendar className="w-3.5 h-3.5"  weight="duotone"/>
                                     <span>{formatDate(result.timestamp)}</span>
                                 </div>
                                 <span className="hidden sm:inline opacity-50">•</span>
@@ -83,7 +83,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <div className="flex items-center gap-1.5 cursor-help group transition-colors hover:text-gray-600">
-                                                        <Info className="w-3.5 h-3.5" />
+                                                        <Info className="w-3.5 h-3.5"  weight="duotone"/>
                                                         <span className="max-w-[120px] truncate underline decoration-dotted underline-offset-2">
                                                             {result.fileName}
                                                         </span>
@@ -113,7 +113,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                             onClick={onRescan}
                             className="h-10 rounded-xl px-4 border-gray-200 hover:bg-gray-50 hover:text-gray-900 cursor-pointer"
                         >
-                            <RefreshCw className="w-4 h-4 mr-2" />
+                            <ArrowsClockwise className="w-4 h-4 mr-2"  weight="duotone"/>
                             Scan Another
                         </Button>
                         <Button
@@ -122,7 +122,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                             onClick={onClear}
                             className="h-10 rounded-xl px-4 text-gray-400 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                         >
-                            <Trash2 className="w-4 h-4 mr-2" />
+                            <Trash className="w-4 h-4 mr-2"  weight="duotone"/>
                             Clear
                         </Button>
                     </div>
@@ -137,8 +137,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                                     src={result.imageUrl}
                                     alt="Uploaded QR Code"
                                     fill
-                                    className="object-contain p-4 transition-transform duration-500 group-hover/img:scale-110"
-                                />
+                                    className="object-contain p-4 transition-transform duration-500 group-hover/img:scale-110"/>
                             </div>
                         </div>
                     )}
@@ -159,7 +158,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                                         copied ? "bg-success-600 text-white border-success-600 hover:bg-success-700 hover:text-white" : "bg-white/80 hover:bg-white text-gray-700"
                                     )}
                                 >
-                                    {copied ? <Check className="w-3.5 h-3.5 mr-1.5" /> : <Copy className="w-3.5 h-3.5 mr-1.5" />}
+                                    {copied ? <Check className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/> : <Copy className="w-3.5 h-3.5 mr-1.5"  weight="duotone"/>}
                                     {copied ? 'Copied!' : 'Copy Result'}
                                 </Button>
                             </div>
@@ -178,7 +177,7 @@ export function QrResult({ result, onClear, onRescan }: QrResultProps) {
                             className="w-full sm:w-auto rounded-xl px-8 bg-primary-600 hover:bg-primary-700 shadow-primary hover:shadow-primary-lg transition-all cursor-pointer"
                             onClick={() => window.open(result.data, '_blank')}
                         >
-                            <ExternalLink className="w-4 h-4 mr-2" />
+                            <ArrowSquareOut className="w-4 h-4 mr-2"  weight="duotone"/>
                             Open Link
                         </Button>
                     </div>

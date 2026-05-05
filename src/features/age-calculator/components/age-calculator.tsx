@@ -1,14 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    Calendar,
-    Cake,
-    Clock,
-    CalendarDays,
-    PartyPopper,
-    Star,
-} from 'lucide-react';
+import { Calendar, Cake, Clock, CalendarDots, Confetti, Star } from '@phosphor-icons/react/dist/ssr';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAgeCalculator } from '../hooks/use-age-calculator';
@@ -164,7 +157,7 @@ export function AgeCalculator() {
                             {/* Today's Date Info */}
                             <div className="pt-4 border-t border-gray-100">
                                 <div className="flex items-center gap-2 text-xs text-gray-500">
-                                    <CalendarDays className="w-3.5 h-3.5" />
+                                    <CalendarDots weight="duotone" className="w-3.5 h-3.5" />
                                     <span>Today: {formatDate(new Date())}</span>
                                 </div>
                             </div>
@@ -265,7 +258,7 @@ export function AgeCalculator() {
                                                 <div className="p-3 bg-white rounded-lg border border-gray-200">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-8 h-8 rounded-lg bg-accent-50 flex items-center justify-center">
-                                                            <PartyPopper className="w-4 h-4 text-accent-600" />
+                                                            <Confetti weight="duotone" className="w-4 h-4 text-accent-600" />
                                                         </div>
                                                         <div className="flex-1">
                                                             <p className="text-xs text-gray-500">
@@ -300,7 +293,7 @@ export function AgeCalculator() {
                         label="Total Months"
                         value={formatNumber(ageDetails.totalMonths)}
                         sublabel="months lived"
-                        icon={<Calendar className="w-4 h-4" />}
+                        icon={<Calendar weight="duotone" className="w-4 h-4" />}
                         color="text-primary-600"
                         bgColor="bg-primary-50"
                     />
@@ -308,7 +301,7 @@ export function AgeCalculator() {
                         label="Total Weeks"
                         value={formatNumber(ageDetails.totalWeeks)}
                         sublabel="weeks lived"
-                        icon={<CalendarDays className="w-4 h-4" />}
+                        icon={<CalendarDots weight="duotone" className="w-4 h-4" />}
                         color="text-emerald-600"
                         bgColor="bg-emerald-50"
                     />
@@ -316,7 +309,7 @@ export function AgeCalculator() {
                         label="Total Days"
                         value={formatNumber(ageDetails.totalDays)}
                         sublabel="days lived"
-                        icon={<Clock className="w-4 h-4" />}
+                        icon={<Clock weight="duotone" className="w-4 h-4" />}
                         color="text-amber-600"
                         bgColor="bg-amber-50"
                     />
@@ -327,18 +320,18 @@ export function AgeCalculator() {
             {isCalculated && ageDetails && (
                 <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-soft">
                     <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                        <Star className="w-4 h-4 text-accent-500" />
+                        <Star weight="duotone" className="w-4 h-4 text-accent-500" />
                         Birth Details
                     </h3>
                     <div>
                         <DetailRow
-                            icon={<Calendar className="w-4 h-4" />}
+                            icon={<Calendar weight="duotone" className="w-4 h-4" />}
                             label="Born on"
                             value={ageDetails.dayOfBirth}
                             color="text-primary-500"
                         />
                         <DetailRow
-                            icon={<Star className="w-4 h-4" />}
+                            icon={<Star weight="duotone" className="w-4 h-4" />}
                             label="Leap Year Birth"
                             value={ageDetails.leapYearBorn ? 'Yes' : 'No'}
                             color="text-amber-500"

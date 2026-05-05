@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Smartphone, RefreshCw, Check } from 'lucide-react';
+import { DeviceMobile, ArrowsClockwise, Check } from '@phosphor-icons/react/dist/ssr';
 
 interface MobileSignatureProps {
     onSave: (dataUrl: string) => void;
@@ -54,19 +54,19 @@ export function MobileSignature({ onSave }: MobileSignatureProps) {
                 />
                 {status === 'generating' && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <RefreshCw className="w-8 h-8 text-primary-600 animate-spin" />
+                        <ArrowsClockwise className="w-8 h-8 text-primary-600 animate-spin"  weight="duotone"/>
                     </div>
                 )}
                 {status === 'scanned' && (
                     <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
-                        <Check className="w-12 h-12 text-green-500" />
+                        <Check className="w-12 h-12 text-green-500"  weight="duotone"/>
                     </div>
                 )}
             </div>
 
             <div className="space-y-2 max-w-sm">
                 <h3 className="font-semibold text-gray-900 flex items-center justify-center gap-2">
-                    <Smartphone className="w-5 h-5 text-primary-600" />
+                    <DeviceMobile className="w-5 h-5 text-primary-600"  weight="duotone"/>
                     Sign from your mobile device
                 </h3>
                 <p className="text-sm text-gray-500">
@@ -80,7 +80,7 @@ export function MobileSignature({ onSave }: MobileSignatureProps) {
 
             {/* Demo Control */}
             <Button variant="outline" size="sm" onClick={handleSimulateMobileSign} className="text-xs text-gray-400">
-                <RefreshCw className="w-3 h-3 mr-2" />
+                <ArrowsClockwise className="w-3 h-3 mr-2"  weight="duotone"/>
                 Simulate (Demo)
             </Button>
         </div>

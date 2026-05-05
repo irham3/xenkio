@@ -3,9 +3,9 @@
 import { Navbar } from "@/components/layout/navbar";
 import { HeroSection } from "@/components/home/hero-section";
 import { ToolCardCompact } from "@/components/tools/tool-card-compact";
+import { IconRenderer } from "@/components/ui/icon-renderer";
 import { CATEGORIES } from "@/data/categories";
 import { TOOLS, type ToolData } from "@/data/tools";
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
@@ -77,7 +77,7 @@ export default function Home() {
       {CATEGORIES.map((category, index) => {
         const categoryTools = TOOLS.filter((t: ToolData) => t.categoryId === category.id);
         const isEven = index % 2 === 0;
-        const CategoryIcon = category.icon;
+        // const CategoryIcon = category.icon;
 
         return (
           <section
@@ -92,7 +92,7 @@ export default function Home() {
                   <div
                     className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gray-100 border border-gray-200/50 shrink-0"
                   >
-                    <CategoryIcon className="w-6 h-6 sm:w-7 sm:h-7 text-gray-600" />
+                    <IconRenderer name={category.icon} className="w-6 h-6 sm:w-7 sm:h-7 text-gray-600" />
                   </div>
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight mt-0.5 sm:mt-0">
@@ -109,7 +109,7 @@ export default function Home() {
                 >
                   <span className="hidden sm:inline">View All</span>
                   <span className="sm:hidden">View All</span>
-                  <ArrowRight className="w-4 h-4 ml-0.5" />
+                  <IconRenderer name="ArrowRight" className="w-4 h-4 ml-0.5" />
                 </Link>
               </div>
 

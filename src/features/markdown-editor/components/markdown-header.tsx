@@ -1,6 +1,6 @@
 'use client';
 
-import { Code, Eye, Columns2, Sparkles, Maximize2, X } from 'lucide-react';
+import { Code, Eye, Columns, Sparkle, ArrowsOut, X } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { type ViewMode } from '../types';
 
@@ -27,7 +27,7 @@ export function MarkdownHeader({
 }: MarkdownHeaderProps) {
     const VIEW_MODES: { id: ViewMode; name: string; icon: React.ElementType }[] = [
         { id: 'editor', name: 'Editor', icon: Code },
-        { id: 'split', name: 'Split', icon: Columns2 },
+        { id: 'split', name: 'Split', icon: Columns },
         { id: 'preview', name: 'Preview', icon: Eye },
     ];
 
@@ -66,7 +66,7 @@ export function MarkdownHeader({
                     onClick={onLoadSample}
                     className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all flex items-center gap-1 cursor-pointer"
                 >
-                    <Sparkles className="w-3 h-3" />
+                    <Sparkle className="w-3 h-3"  weight="duotone"/>
                     Load Sample
                 </button>
                 <button
@@ -74,7 +74,7 @@ export function MarkdownHeader({
                     className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all cursor-pointer"
                     title={isFullscreen ? "Exit Fullscreen (Esc)" : "Fullscreen"}
                 >
-                    {isFullscreen ? <X className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                    {isFullscreen ? <X className="w-4 h-4"  weight="duotone"/> : <ArrowsOut className="w-4 h-4"  weight="duotone"/>}
                 </button>
             </div>
         </div>

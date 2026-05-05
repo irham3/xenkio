@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import UrlEncoder from './client';
 
-import { Link, Shield, Globe } from 'lucide-react';
+import { Link, Shield, Globe } from '@phosphor-icons/react/dist/ssr';
 
 
 
@@ -77,7 +77,7 @@ export default function UrlEncoderPage() {
                         <div className="grid md:grid-cols-3 gap-8 text-center">
                             <div className="p-6 space-y-4 bg-white rounded-2xl border border-gray-100 shadow-sm">
                                 <div className="w-12 h-12 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto">
-                                    <Link className="w-6 h-6 text-primary-600" />
+                                    <Link className="w-6 h-6 text-primary-600"/>
                                 </div>
                                 <h3 className="font-bold text-gray-900">Standard Compliant</h3>
                                 <p className="text-sm text-gray-500 leading-relaxed">
@@ -86,7 +86,7 @@ export default function UrlEncoderPage() {
                             </div>
                             <div className="p-6 space-y-4 bg-white rounded-2xl border border-gray-100 shadow-sm">
                                 <div className="w-12 h-12 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto">
-                                    <Shield className="w-6 h-6 text-primary-600" />
+                                    <Shield className="w-6 h-6 text-primary-600"  weight="duotone"/>
                                 </div>
                                 <h3 className="font-bold text-gray-900">Client-Side Security</h3>
                                 <p className="text-sm text-gray-500 leading-relaxed">
@@ -95,7 +95,7 @@ export default function UrlEncoderPage() {
                             </div>
                             <div className="p-6 space-y-4 bg-white rounded-2xl border border-gray-100 shadow-sm">
                                 <div className="w-12 h-12 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto">
-                                    <Globe className="w-6 h-6 text-primary-600" />
+                                    <Globe className="w-6 h-6 text-primary-600"  weight="duotone"/>
                                 </div>
                                 <h3 className="font-bold text-gray-900">Universal Compatibility</h3>
                                 <p className="text-sm text-gray-500 leading-relaxed">

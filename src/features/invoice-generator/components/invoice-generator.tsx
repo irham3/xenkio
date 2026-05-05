@@ -5,7 +5,7 @@ import { InvoiceForm } from './invoice-form';
 import { InvoicePreview } from './invoice-preview';
 import { generateInvoicePDF } from '../lib/pdf-generator';
 import { Button } from '@/components/ui/button';
-import { Download, RotateCcw, Eye, ChevronDown } from 'lucide-react';
+import { DownloadSimple, ArrowCounterClockwise, Eye, CaretDown } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
@@ -58,16 +58,16 @@ export function InvoiceGenerator() {
                             onClick={() => setShowMobilePreview(!showMobilePreview)}
                             className="lg:hidden flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
                         >
-                            <Eye className="w-4 h-4" />
+                            <Eye className="w-4 h-4"  weight="duotone"/>
                             Preview
-                            <ChevronDown className={cn("w-4 h-4 transition-transform", showMobilePreview && "rotate-180")} />
+                            <CaretDown className={cn("w-4 h-4 transition-transform", showMobilePreview && "rotate-180")}  weight="duotone"/>
                         </button>
                         <Button
                             onClick={handleDownloadPDF}
                             disabled={isGenerating}
                             className="bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all"
                         >
-                            <Download className="w-4 h-4 mr-2" />
+                            <DownloadSimple className="w-4 h-4 mr-2"  weight="duotone"/>
                             {isGenerating ? 'Generating...' : 'Download PDF'}
                         </Button>
                         <Button
@@ -75,7 +75,7 @@ export function InvoiceGenerator() {
                             variant="outline"
                             className="border-gray-300 hover:bg-gray-50"
                         >
-                            <RotateCcw className="w-4 h-4 mr-2" />
+                            <ArrowCounterClockwise className="w-4 h-4 mr-2"  weight="duotone"/>
                             Reset
                         </Button>
                     </div>

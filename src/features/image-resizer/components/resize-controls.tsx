@@ -2,7 +2,7 @@
 import { ResizeConfig } from '../types';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Lock, Unlock } from 'lucide-react';
+import { Lock, LockOpen } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 
 interface ResizeControlsProps {
@@ -62,9 +62,9 @@ export function ResizeControls({ config, onChange, onReset, baseWidth, disabled 
                     disabled={disabled}
                 >
                     {config.maintainAspectRatio ? (
-                        <Lock className="w-3 h-3 mr-1 text-primary-500" />
+                        <Lock className="w-3 h-3 mr-1 text-primary-500"  weight="duotone"/>
                     ) : (
-                        <Unlock className="w-3 h-3 mr-1 text-gray-400" />
+                        <LockOpen className="w-3 h-3 mr-1 text-gray-400"  weight="duotone"/>
                     )}
                     {config.maintainAspectRatio ? 'Aspect Ratio Locked' : 'Aspect Ratio Unlocked'}
                 </Button>

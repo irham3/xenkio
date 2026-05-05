@@ -31,7 +31,7 @@ export function SplitDiffView({ changes }: SplitDiffViewProps) {
                     <span className="w-2 h-2 rounded-full bg-error-400"></span>
                     Original
                 </div>
-                <div className="font-mono text-[13px] leading-relaxed bg-gray-50 rounded-xl border border-gray-200 p-4 overflow-x-auto min-h-[100px]">
+                <div className="font-mono text-[13px] leading-relaxed bg-gray-50 rounded-xl border border-gray-200 p-4 overflow-x-auto min-h-25">
                     <div className="whitespace-pre-wrap wrap-break-word">
                         {leftContent.map((item, index) => (
                             <span
@@ -54,7 +54,7 @@ export function SplitDiffView({ changes }: SplitDiffViewProps) {
                     <span className="w-2 h-2 rounded-full bg-success-400"></span>
                     Modified
                 </div>
-                <div className="font-mono text-[13px] leading-relaxed bg-gray-50 rounded-xl border border-gray-200 p-4 overflow-x-auto min-h-[100px]">
+                <div className="font-mono text-[13px] leading-relaxed bg-gray-50 rounded-xl border border-gray-200 p-4 overflow-x-auto min-h-25">
                     <div className="whitespace-pre-wrap wrap-break-word">
                         {rightContent.map((item, index) => (
                             <span

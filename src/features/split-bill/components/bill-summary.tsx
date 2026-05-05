@@ -1,5 +1,5 @@
 import { BillSummary as BillSummaryType, Currency } from '../types';
-import { Download, Users, Calculator, Info } from 'lucide-react';
+import { DownloadSimple, Users, Calculator, Info } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -19,7 +19,7 @@ export function BillSummary({ summary, currency, onExportPdf, paymentInfo }: Bil
         return (
             <div className="bg-white rounded-xl border-2 border-dashed border-gray-100 p-12 text-center h-full flex flex-col items-center justify-center space-y-4">
                 <div className="p-4 bg-gray-50 rounded-full">
-                    <Users className="w-10 h-10 text-gray-300" />
+                    <Users className="w-10 h-10 text-gray-300"  weight="duotone"/>
                 </div>
                 <div className="max-w-xs mx-auto">
                     <h4 className="font-bold text-gray-900 text-lg">No Results Yet</h4>
@@ -55,7 +55,7 @@ export function BillSummary({ summary, currency, onExportPdf, paymentInfo }: Bil
                     variant="outline"
                     className="h-9 border-primary-200 hover:bg-primary-50 hover:text-primary-700 font-semibold"
                 >
-                    <Download className="w-4 h-4 mr-2" />
+                    <DownloadSimple className="w-4 h-4 mr-2"  weight="duotone"/>
                     Export PDF
                 </Button>
             </div>
@@ -125,7 +125,7 @@ export function BillSummary({ summary, currency, onExportPdf, paymentInfo }: Bil
 
                     {summary.peopleSummaries.length === 0 && (
                         <div className="text-center py-10 px-4">
-                            <Users className="w-10 h-10 text-gray-200 mx-auto mb-3" />
+                            <Users className="w-10 h-10 text-gray-200 mx-auto mb-3"  weight="duotone"/>
                             <p className="text-sm font-medium text-gray-500">Add people and items to see breakdown</p>
                         </div>
                     )}
@@ -144,7 +144,7 @@ export function BillSummary({ summary, currency, onExportPdf, paymentInfo }: Bil
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <button className="text-gray-500 hover:text-gray-300">
-                                                <Info className="w-4 h-4" />
+                                                <Info className="w-4 h-4"  weight="duotone"/>
                                             </button>
                                         </TooltipTrigger>
                                         <TooltipContent side="top" className="text-xs max-w-xs">

@@ -1,14 +1,4 @@
-import {
-    CheckCircle2,
-    XCircle,
-    FileClock,
-    ShieldAlert,
-    BadgeCheck,
-    Calendar,
-    ListChecks,
-    FileEdit,
-    Banknote
-} from 'lucide-react';
+import { CheckCircle, XCircle, Clock, ShieldWarning, SealCheck, Calendar, ListChecks, NotePencil, Money } from '@phosphor-icons/react/dist/ssr';
 import { StampTemplate } from './types';
 
 export const MAX_PDF_SIZE = 20 * 1024 * 1024; // 20MB
@@ -31,7 +21,7 @@ export const STAMP_TEMPLATES: StampTemplate[] = [
         id: 'approved',
         name: 'Approved',
         type: 'approval',
-        icon: CheckCircle2,
+        icon: CheckCircle,
         defaultConfig: {
             label: 'APPROVED',
             status: 'approved',
@@ -67,7 +57,7 @@ export const STAMP_TEMPLATES: StampTemplate[] = [
         id: 'draft',
         name: 'Draft',
         type: 'approval',
-        icon: FileClock,
+        icon: Clock,
         defaultConfig: {
             label: 'DRAFT',
             status: 'draft',
@@ -85,7 +75,7 @@ export const STAMP_TEMPLATES: StampTemplate[] = [
         id: 'confidential',
         name: 'Confidential',
         type: 'approval',
-        icon: ShieldAlert,
+        icon: ShieldWarning,
         defaultConfig: {
             label: 'CONFIDENTIAL',
             status: 'confidential',
@@ -103,7 +93,7 @@ export const STAMP_TEMPLATES: StampTemplate[] = [
         id: 'reviewed',
         name: 'Reviewed',
         type: 'approval',
-        icon: BadgeCheck,
+        icon: SealCheck,
         defaultConfig: {
             label: 'REVIEWED',
             status: 'reviewed',
@@ -161,7 +151,7 @@ export const STAMP_TEMPLATES: StampTemplate[] = [
         id: 'notes',
         name: 'Notes',
         type: 'notes',
-        icon: FileEdit,
+        icon: NotePencil,
         defaultConfig: {
             notes: '',
             color: STAMP_COLORS.amber.color,
@@ -178,7 +168,7 @@ export const STAMP_TEMPLATES: StampTemplate[] = [
         id: 'cost',
         name: 'Cost / Fee',
         type: 'cost',
-        icon: Banknote,
+        icon: Money,
         defaultConfig: {
             costLabel: 'Total',
             costAmount: '0',
@@ -194,4 +184,3 @@ export const STAMP_TEMPLATES: StampTemplate[] = [
         },
     },
 ];
-

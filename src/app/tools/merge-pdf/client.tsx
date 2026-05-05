@@ -4,7 +4,7 @@ import { useState, useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { PDFDocument, PageSizes, degrees } from "pdf-lib"
 import { motion } from "framer-motion"
-import { Trash2, Plus } from "lucide-react"
+import { Trash, Plus } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import {
@@ -266,7 +266,7 @@ export function MergePdfClient() {
           </div>
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" onClick={clearAll} className="text-gray-500 hover:text-red-600 cursor-pointer">
-              <Trash2 className="w-4 h-4 mr-2" />
+              <Trash className="w-4 h-4 mr-2"  weight="duotone"/>
               Clear all
             </Button>
           </div>
@@ -276,7 +276,7 @@ export function MergePdfClient() {
           <div
             {...getRootProps()}
             className={cn(
-              "lg:col-span-3 min-h-[400px] rounded-2xl border-2 border-dashed p-6 transition-colors relative",
+              "lg:col-span-3 min-h-100 rounded-2xl border-2 border-dashed p-6 transition-colors relative",
               isDragActive ? "border-primary-500 bg-primary-50/50" : "border-transparent bg-gray-50/50"
             )}
           >
@@ -297,11 +297,11 @@ export function MergePdfClient() {
 
                 {/* Add More Card */}
                 <motion.div
-                  className="relative w-[calc(50%-8px)] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-12px)] bg-white/60 rounded-xl border-2 border-dashed border-gray-200 p-4 cursor-pointer hover:border-primary-300 hover:bg-primary-50/30 transition-all duration-200 flex flex-col items-center justify-center text-center min-h-[200px]"
+                  className="relative w-[calc(50%-8px)] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-12px)] bg-white/60 rounded-xl border-2 border-dashed border-gray-200 p-4 cursor-pointer hover:border-primary-300 hover:bg-primary-50/30 transition-all duration-200 flex flex-col items-center justify-center text-center min-h-50"
                   onClick={open}
                 >
                   <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
-                    <Plus className="w-6 h-6 text-gray-400" />
+                    <Plus className="w-6 h-6 text-gray-400"  weight="duotone"/>
                   </div>
                   <p className="text-sm text-gray-500 font-medium">Add PDF</p>
                 </motion.div>

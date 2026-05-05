@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Copy, Check, Trash2, FileEdit, RefreshCw } from 'lucide-react';
+import { Copy, Check, Trash, NotePencil, ArrowsClockwise } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -164,7 +164,7 @@ export function LoremIpsumTool() {
         {/* Options Section */}
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-2 mb-3">
-            <FileEdit className="w-4 h-4 text-gray-500" />
+            <NotePencil className="w-4 h-4 text-gray-500"  weight="duotone"/>
             <span className="text-sm font-semibold text-gray-800">
               Options
             </span>
@@ -226,7 +226,7 @@ export function LoremIpsumTool() {
               onClick={handleGenerate}
               className="flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold bg-primary-500 text-white rounded-xl hover:bg-primary-600 shadow-sm transition-all duration-200"
             >
-              <RefreshCw className="w-4 h-4" />
+              <ArrowsClockwise className="w-4 h-4"  weight="duotone"/>
               Generate
             </button>
             <button
@@ -242,9 +242,9 @@ export function LoremIpsumTool() {
               )}
             >
               {copied ? (
-                <Check className="w-4 h-4" />
+                <Check className="w-4 h-4"  weight="duotone"/>
               ) : (
-                <Copy className="w-4 h-4" />
+                <Copy className="w-4 h-4"  weight="duotone"/>
               )}
               {copied ? 'Copied' : 'Copy'}
             </button>
@@ -258,7 +258,7 @@ export function LoremIpsumTool() {
                   : 'text-gray-300 bg-gray-50 border-gray-100 cursor-not-allowed'
               )}
             >
-              <Trash2 className="w-3.5 h-3.5" />
+              <Trash className="w-3.5 h-3.5"  weight="duotone"/>
               Clear
             </button>
           </div>

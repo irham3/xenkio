@@ -1,6 +1,6 @@
 'use client';
 
-import { Layers, ScanSearch, Columns2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Stack, MagnifyingGlass, Columns, CaretLeft, CaretRight } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { CompareViewMode } from '../types';
@@ -18,9 +18,9 @@ interface CompareControlsProps {
 }
 
 const MODES: { id: CompareViewMode; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: 'ghost', label: 'Ghost Overlay', icon: Layers },
-    { id: 'diff', label: 'Pixel Diff', icon: ScanSearch },
-    { id: 'sidebyside', label: 'Side by Side', icon: Columns2 },
+    { id: 'ghost', label: 'Ghost Overlay', icon: Stack },
+    { id: 'diff', label: 'Pixel Diff', icon: MagnifyingGlass },
+    { id: 'sidebyside', label: 'Side by Side', icon: Columns },
 ];
 
 export function CompareControls({
@@ -54,7 +54,7 @@ export function CompareControls({
                                     : 'text-gray-600 hover:bg-gray-100'
                             )}
                         >
-                            <Icon className="w-4 h-4 shrink-0" />
+                            <Icon className="w-4 h-4 shrink-0"/>
                             {label}
                         </button>
                     ))}
@@ -120,7 +120,7 @@ export function CompareControls({
                             disabled={currentPage <= 1}
                             onClick={() => onPageChange(currentPage - 1)}
                         >
-                            <ChevronLeft className="w-4 h-4" />
+                            <CaretLeft className="w-4 h-4"  weight="duotone"/>
                         </Button>
                         <span className="flex-1 text-center text-sm font-medium text-gray-900">
                             {currentPage} / {maxPages}
@@ -132,7 +132,7 @@ export function CompareControls({
                             disabled={currentPage >= maxPages}
                             onClick={() => onPageChange(currentPage + 1)}
                         >
-                            <ChevronRight className="w-4 h-4" />
+                            <CaretRight className="w-4 h-4"  weight="duotone"/>
                         </Button>
                     </div>
                 </div>

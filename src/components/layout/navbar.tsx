@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search } from 'lucide-react';
+import { ListBullets, X, MagnifyingGlass, CaretDown } from '@phosphor-icons/react/dist/ssr';
 import { XenkioLogo } from '@/components/ui/xenkio-logo';
 import ShinyText from '@/components/reactbits/shiny-text';
 import dynamic from 'next/dynamic';
@@ -15,8 +15,8 @@ import { cn } from '@/lib/utils';
 import { CATEGORIES } from '@/data/categories';
 import { FeedbackPopover } from '@/features/feedback/components/feedback-popover';
 
+import { IconRenderer } from '../ui/icon-renderer';
 import { TOOLS } from '@/data/tools';
-import { ChevronDown } from 'lucide-react';
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -106,11 +106,11 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Gradient line at top */}
-      <div className="h-[2px] bg-linear-to-r from-primary-500 via-primary-600 to-accent-500" />
+      <div className="h-0.5 bg-linear-to-r from-primary-500 via-primary-600 to-accent-500" />
 
       <nav className="bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative h-[72px] flex items-center">
+          <div className="relative h-18 flex items-center">
             {/* Logo - Left aligned */}
             <div className="flex items-center gap-2 shrink-0 z-10">
               <Link href="/" className="flex items-center gap-3 group">
@@ -155,19 +155,19 @@ export function Navbar() {
                         )}
                       >
                         {category.name}
-                        <ChevronDown
+                        <CaretDown
                           className={cn(
                             "w-3.5 h-3.5 transition-transform duration-200 mt-px",
                             hoveredCategory === category.id ? "rotate-180" : ""
                           )}
-                        />
+                         weight="duotone"/>
                       </a>
 
                       <div
                         className={cn(
                           "absolute top-full left-1/2 mt-2 p-3 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left transition-all duration-200 origin-top -translate-x-1/2",
                           hoveredCategory === category.id ? "opacity-100 visible translate-y-0 scale-100" : "opacity-0 invisible translate-y-2 scale-95",
-                          isTwoColumns ? "w-[540px]" : "w-[290px]"
+                          isTwoColumns ? "w-135" : "w-72.5"
                         )}
                       >
                         <div className={cn("grid gap-2", isTwoColumns ? "grid-cols-2" : "grid-cols-1")}>
@@ -178,7 +178,7 @@ export function Navbar() {
                                   "flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 group-hover:bg-white group-hover:shadow-sm transition-all",
                                   "text-gray-500 group-hover:text-primary-600"
                                 )}>
-                                  <tool.icon className="w-4 h-4" />
+                                  <IconRenderer name={tool.icon} className="w-4 h-4" />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-1.5 min-w-0">
@@ -211,8 +211,7 @@ export function Navbar() {
                               <Link
                                 key={tool.id}
                                 href={tool.href}
-                                className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors"
-                              >
+                                className="group flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
                                 {content}
                               </Link>
                             );
@@ -246,17 +245,17 @@ export function Navbar() {
                     )}
                   >
                     More
-                    <ChevronDown
+                    <CaretDown
                       className={cn(
                         "w-3.5 h-3.5 transition-transform duration-200 mt-px",
                         hoveredCategory === 'more' ? "rotate-180" : ""
                       )}
-                    />
+                     weight="duotone"/>
                   </button>
 
                   <div
                     className={cn(
-                      "absolute top-full left-1/2 mt-2 w-[260px] p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left transition-all duration-200 origin-top -translate-x-1/2",
+                      "absolute top-full left-1/2 mt-2 w-65 p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 text-left transition-all duration-200 origin-top -translate-x-1/2",
                       hoveredCategory === 'more' ? "opacity-100 visible translate-y-0 scale-100" : "opacity-0 invisible translate-y-2 scale-95"
                     )}
                   >
@@ -293,11 +292,11 @@ export function Navbar() {
                                     ? "bg-white text-primary-600"
                                     : "bg-gray-100 text-gray-500 group-hover/item:bg-white group-hover/item:text-primary-600"
                                 )}>
-                                  <category.icon className="w-4 h-4" />
+                                  <IconRenderer name={category.icon} className="w-4 h-4" />
                                 </div>
                                 <span className="text-sm font-medium">{category.name}</span>
                               </div>
-                              <ChevronDown className="w-3 h-3 rotate-90 text-gray-400 mt-px" />
+                              <CaretDown className="w-3 h-3 rotate-90 text-gray-400 mt-px"  weight="duotone"/>
                             </a>
 
                             {/* Nested Tool Menu */}
@@ -305,18 +304,18 @@ export function Navbar() {
                               className={cn(
                                 "absolute top-0 right-full mr-2 p-2 bg-white backdrop-blur-xl border border-gray-100 rounded-xl shadow-xl z-50 transition-all duration-200",
                                 activeSubCategory === category.id ? "opacity-100 visible translate-x-0" : "opacity-0 invisible translate-x-2",
-                                isTwoColumns ? "w-[540px]" : "w-[290px]"
+                                isTwoColumns ? "w-135" : "w-72.5"
                               )}
                             >
                               <div className={cn(
-                                "grid gap-2 max-h-[600px] overflow-y-auto scrollbar-themed",
+                                "grid gap-2 max-h-150 overflow-y-auto scrollbar-themed",
                                 isTwoColumns ? "grid-cols-2" : "grid-cols-1"
                               )}>
                                 {categoryTools.map((tool) => {
                                   const content = (
                                     <>
                                       <div className="flex items-center justify-center shrink-0 w-8 h-8 rounded-md bg-gray-100 text-gray-500">
-                                        <tool.icon className="w-4 h-4" />
+                                        <IconRenderer name={tool.icon} className="w-4 h-4" />
                                       </div>
                                       <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-1.5">
@@ -349,8 +348,7 @@ export function Navbar() {
                                     <Link
                                       key={tool.id}
                                       href={tool.href}
-                                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
-                                    >
+                                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
                                       {content}
                                     </Link>
                                   );
@@ -377,9 +375,9 @@ export function Navbar() {
               <button
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Search tools"
-                className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-[160px] cursor-pointer"
+                className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 min-w-40 cursor-pointer"
               >
-                <Search className="w-4 h-4 shrink-0" />
+                <MagnifyingGlass className="w-4 h-4 shrink-0"  weight="duotone"/>
                 <span className="text-gray-600">Search tools...</span>
                 <kbd className="ml-auto hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 text-[12px] font-medium text-gray-500 bg-white border border-gray-200 rounded">
                   <span className="text-xs">⌘</span>K
@@ -392,8 +390,7 @@ export function Navbar() {
 
               {/* <Link
                 href="/sign-up"
-                className="hidden sm:inline-flex items-center px-5 py-2.5 text-[14px] font-semibold text-white bg-linear-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-lg shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300"
-              >
+                className="hidden sm:inline-flex items-center px-5 py-2.5 text-[14px] font-semibold text-white bg-linear-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-lg shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300">
                 Get Started
               </Link> */}
 
@@ -403,7 +400,7 @@ export function Navbar() {
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 className="xl:hidden p-2 text-gray-600 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-6 h-6"  weight="duotone"/> : <ListBullets className="w-6 h-6" />}
               </button>
             </div>
           </div>
@@ -413,22 +410,11 @@ export function Navbar() {
         <div
           className={cn(
             'xl:hidden overflow-hidden transition-all duration-300 ease-in-out',
-            mobileMenuOpen ? 'max-h-[600px] opacity-100 shadow-xl' : 'max-h-0 opacity-0'
+            mobileMenuOpen ? 'max-h-150 opacity-100 shadow-xl' : 'max-h-0 opacity-0'
           )}
         >
           <div className="px-4 py-3 space-y-1 bg-white border-t border-gray-100 max-h-[80vh] overflow-y-auto">
-            {/* <Link
-              href="/tools"
-              onClick={handleAllToolsClick}
-              className={cn(
-                "flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-lg transition-colors",
-                effectiveActiveCategory === '' && pathname === '/'
-                  ? "text-primary-600 bg-primary-50"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-              )}
-            >
-              All Tools
-            </Link> */}
+
             {CATEGORIES.map((category) => (
               <a
                 key={category.id}
@@ -445,7 +431,7 @@ export function Navbar() {
                   "flex items-center justify-center w-8 h-8 rounded-lg",
                   effectiveActiveCategory === category.id ? "bg-primary-100" : "bg-gray-100"
                 )}>
-                  <category.icon className={cn(
+                  <IconRenderer name={category.icon} className={cn(
                     "w-4 h-4",
                     effectiveActiveCategory === category.id ? "text-primary-600" : "text-gray-500"
                   )} />
@@ -453,22 +439,6 @@ export function Navbar() {
                 {category.name}
               </a>
             ))}
-            {/* <div className="pt-3 mt-3 border-t border-gray-200 space-y-2">
-              <Link
-                href="/sign-in"
-                className="block px-4 py-3 text-center text-[15px] font-medium text-gray-700 hover:text-gray-900 bg-gray-50 rounded-lg border border-gray-200"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/sign-up"
-                className="block px-4 py-3 text-center text-[15px] font-semibold text-white bg-linear-to-r from-primary-500 to-primary-600 rounded-lg shadow-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Started
-              </Link>
-            </div> */}
           </div>
         </div>
       </nav>

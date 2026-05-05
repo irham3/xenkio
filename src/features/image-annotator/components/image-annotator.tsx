@@ -10,26 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
-import {
-    Minus,
-    Plus,
-    Download,
-    Upload,
-    Trash2,
-    Undo2,
-    Redo2,
-    ArrowUpRight,
-    Square,
-    Circle,
-    Type,
-    Pencil,
-    Minus as LineIcon,
-    ZoomIn,
-    ZoomOut,
-    MousePointer2,
-    Settings2,
-    EyeOff,
-} from 'lucide-react';
+import { Minus, Plus, DownloadSimple, UploadSimple, Trash, ArrowCounterClockwise, ArrowClockwise, ArrowUpRight, Square, Circle, TextT, Pencil, Minus as LineIcon, MagnifyingGlassPlus, MagnifyingGlassMinus, Cursor, Gear, EyeSlash } from '@phosphor-icons/react/dist/ssr';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import type {
@@ -181,14 +162,14 @@ const COLOR_PRESETS = [
 // ─────────────────────────────────────────────────────────────────────────────
 
 const TOOLS: { id: AnnotationTool; label: string; icon: React.ElementType; cursor: string }[] = [
-    { id: 'select', label: 'Select / Pan', icon: MousePointer2, cursor: 'default' },
+    { id: 'select', label: 'Select / Pan', icon: Cursor, cursor: 'default' },
     { id: 'arrow', label: 'Arrow', icon: ArrowUpRight, cursor: 'crosshair' },
     { id: 'rectangle', label: 'Rectangle', icon: Square, cursor: 'crosshair' },
     { id: 'ellipse', label: 'Ellipse', icon: Circle, cursor: 'crosshair' },
     { id: 'line', label: 'Line', icon: LineIcon, cursor: 'crosshair' },
-    { id: 'text', label: 'Text', icon: Type, cursor: 'text' },
+    { id: 'text', label: 'Text', icon: TextT, cursor: 'text' },
     { id: 'freehand', label: 'Freehand', icon: Pencil, cursor: 'crosshair' },
-    { id: 'sensor', label: 'Sensor / Blur', icon: EyeOff, cursor: 'crosshair' },
+    { id: 'sensor', label: 'Sensor / Blur', icon: EyeSlash, cursor: 'crosshair' },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -563,11 +544,11 @@ export default function ImageAnnotator() {
                     case 'line':
                     case 'rectangle':
                     case 'sensor':
-                        (moved as any).start = shiftPoint((initial as any).start);
-                        (moved as any).end = shiftPoint((initial as any).end);
+                        (moved as ArrowAnnotation | LineAnnotation | RectangleAnnotation | SensorAnnotation).start = shiftPoint((initial as ArrowAnnotation | LineAnnotation | RectangleAnnotation | SensorAnnotation).start);
+                        (moved as ArrowAnnotation | LineAnnotation | RectangleAnnotation | SensorAnnotation).end = shiftPoint((initial as ArrowAnnotation | LineAnnotation | RectangleAnnotation | SensorAnnotation).end);
                         break;
                     case 'ellipse':
-                        (moved as any).center = shiftPoint((initial as any).center);
+                        (moved as EllipseAnnotation).center = shiftPoint((initial as EllipseAnnotation).center);
                         break;
                     case 'freehand':
                         (moved as FreehandAnnotation).points = (initial as FreehandAnnotation).points.map(shiftPoint);
@@ -763,10 +744,10 @@ export default function ImageAnnotator() {
                             'w-20 h-20 rounded-2xl flex items-center justify-center transition-all',
                             isDragActive ? 'bg-primary-100' : 'bg-gray-100',
                         )}>
-                            <Upload className={cn(
+                            <UploadSimple className={cn(
                                 'w-10 h-10 transition-colors',
                                 isDragActive ? 'text-primary-600' : 'text-gray-400',
-                            )} />
+                            )}  weight="duotone"/>
                         </div>
                         <div className="space-y-2">
                             <p className="text-xl font-semibold text-gray-900">
@@ -779,7 +760,7 @@ export default function ImageAnnotator() {
                             </p>
                         </div>
                         <Button size="lg" className="mt-4 pointer-events-none">
-                            <Plus className="w-4 h-4 mr-2" />
+                            <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                             Select Image
                         </Button>
                     </div>
@@ -822,7 +803,7 @@ export default function ImageAnnotator() {
                     disabled={historyIdx === 0}
                     className="w-10 h-10 rounded-xl flex items-center justify-center border bg-white border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
                 >
-                    <Undo2 className="w-4 h-4" />
+                    <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                 </button>
 
                 {/* Redo */}
@@ -832,7 +813,7 @@ export default function ImageAnnotator() {
                     disabled={historyIdx >= history.length - 1}
                     className="w-10 h-10 rounded-xl flex items-center justify-center border bg-white border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
                 >
-                    <Redo2 className="w-4 h-4" />
+                    <ArrowClockwise className="w-4 h-4"  weight="duotone"/>
                 </button>
 
                 {/* Zoom In */}
@@ -841,7 +822,7 @@ export default function ImageAnnotator() {
                     onClick={() => setZoom((z) => Math.min(z + 0.25, 4))}
                     className="w-10 h-10 rounded-xl flex items-center justify-center border bg-white border-gray-200 text-gray-600 hover:bg-gray-50 cursor-pointer transition-all"
                 >
-                    <ZoomIn className="w-4 h-4" />
+                    <MagnifyingGlassPlus className="w-4 h-4"  weight="duotone"/>
                 </button>
 
                 {/* Zoom Out */}
@@ -850,7 +831,7 @@ export default function ImageAnnotator() {
                     onClick={() => setZoom((z) => Math.max(z - 0.25, 0.25))}
                     className="w-10 h-10 rounded-xl flex items-center justify-center border bg-white border-gray-200 text-gray-600 hover:bg-gray-50 cursor-pointer transition-all"
                 >
-                    <ZoomOut className="w-4 h-4" />
+                    <MagnifyingGlassMinus className="w-4 h-4"  weight="duotone"/>
                 </button>
             </div>
 
@@ -884,14 +865,14 @@ export default function ImageAnnotator() {
             {/* ── Settings panel ────────────────────────────────────────────── */}
             <div className="w-full lg:w-64 bg-white border border-gray-200 rounded-2xl p-5 space-y-5 sticky top-6 h-fit">
                 <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                    <Settings2 className="w-5 h-5 text-primary-600" />
+                    <Gear className="w-5 h-5 text-primary-600"  weight="duotone"/>
                     <h2 className="font-semibold text-sm">Settings</h2>
                     <button
                         title="New image"
                         onClick={resetImage}
                         className="ml-auto p-1 rounded text-gray-400 hover:text-red-500 hover:bg-red-50 cursor-pointer transition-all"
                     >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                     </button>
                 </div>
 
@@ -928,9 +909,9 @@ export default function ImageAnnotator() {
                         <span className="text-[10px] text-gray-500 font-mono bg-gray-100 px-1.5 py-0.5 rounded">{strokeWidth}px</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Minus className="w-3 h-3 text-gray-400" />
+                        <Minus className="w-3 h-3 text-gray-400"  weight="duotone"/>
                         <Slider value={[strokeWidth]} min={1} max={20} step={1} onValueChange={(v) => setStrokeWidth(v[0])} className="cursor-pointer" />
-                        <Plus className="w-3 h-3 text-gray-400" />
+                        <Plus className="w-3 h-3 text-gray-400"  weight="duotone"/>
                     </div>
                 </div>
 
@@ -942,9 +923,9 @@ export default function ImageAnnotator() {
                             <span className="text-[10px] text-gray-500 font-mono bg-gray-100 px-1.5 py-0.5 rounded">{fontSize}px</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Minus className="w-3 h-3 text-gray-400" />
+                            <Minus className="w-3 h-3 text-gray-400"  weight="duotone"/>
                             <Slider value={[fontSize]} min={10} max={120} step={2} onValueChange={(v) => setFontSize(v[0])} className="cursor-pointer" />
-                            <Plus className="w-3 h-3 text-gray-400" />
+                            <Plus className="w-3 h-3 text-gray-400"  weight="duotone"/>
                         </div>
                     </div>
                 )}
@@ -999,7 +980,7 @@ export default function ImageAnnotator() {
                     disabled={annotations.length === 0}
                     className="w-full cursor-pointer disabled:opacity-50"
                 >
-                    <Trash2 className="w-3.5 h-3.5 mr-2" />
+                    <Trash className="w-3.5 h-3.5 mr-2"  weight="duotone"/>
                     Clear All
                 </Button>
 
@@ -1009,7 +990,7 @@ export default function ImageAnnotator() {
                     size="lg"
                     className="w-full h-12 bg-linear-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 shadow-lg shadow-primary-500/25 cursor-pointer"
                 >
-                    <Download className="w-5 h-5 mr-2" />
+                    <DownloadSimple className="w-5 h-5 mr-2"  weight="duotone"/>
                     Download
                 </Button>
             </div>

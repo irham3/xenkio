@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FileUp, FileText, Maximize, ShieldCheck } from 'lucide-react';
+import { UploadSimple, FileText, ArrowsOut, ShieldCheck } from '@phosphor-icons/react/dist/ssr';
 
 import { usePdfReader } from '../hooks/use-pdf-reader';
 import { useGestureControl } from '../hooks/use-gesture-control';
@@ -124,9 +124,9 @@ export function PdfReader() {
                             transition-colors
                         `}
                     >
-                        <FileUp
+                        <UploadSimple
                             className={`w-7 h-7 ${isDragActive ? 'text-primary-600' : 'text-gray-400'}`}
-                        />
+                         weight="duotone"/>
                     </div>
                     <p className="text-base font-medium text-gray-900 mb-1">
                         {isDragActive ? 'Drop your PDF here' : 'Drop a PDF file or click to browse'}
@@ -143,17 +143,17 @@ export function PdfReader() {
                 {/* Feature highlight */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <FeatureCard
-                        icon={<FileText className="w-5 h-5 text-blue-500" />}
+                        icon={<FileText className="w-5 h-5 text-blue-500"  weight="duotone"/>}
                         title="Read PDF"
                         description="Render crystal-clear PDF pages right in your browser"
                     />
                     <FeatureCard
-                        icon={<Maximize className="w-5 h-5 text-purple-500" />}
+                        icon={<ArrowsOut className="w-5 h-5 text-purple-500"  weight="duotone"/>}
                         title="Gesture Navigation"
                         description="Swipe in the air to flip pages. Hands-free reading."
                     />
                     <FeatureCard
-                        icon={<ShieldCheck className="w-5 h-5 text-emerald-500" />}
+                        icon={<ShieldCheck className="w-5 h-5 text-emerald-500"  weight="duotone"/>}
                         title="Private AI"
                         description="Edge-based hand detection — camera stays in your browser"
                     />
@@ -167,7 +167,7 @@ export function PdfReader() {
         return (
             <div className="flex flex-col items-center justify-center py-32">
                 <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center mb-4 animate-pulse">
-                    <FileText className="w-6 h-6 text-primary-600" />
+                    <FileText className="w-6 h-6 text-primary-600"  weight="duotone"/>
                 </div>
                 <p className="text-sm font-medium text-gray-600">Loading PDF...</p>
                 {file && (
@@ -183,7 +183,7 @@ export function PdfReader() {
             {/* Header info - Hide in fullscreen to maximize space */}
             {!isFullscreen && (
                 <div className="flex items-center gap-3 px-4 py-2.5 bg-white border border-gray-200 rounded-xl">
-                    <FileText className="w-4 h-4 text-primary-600 shrink-0" />
+                    <FileText className="w-4 h-4 text-primary-600 shrink-0"  weight="duotone"/>
                     <span className="text-sm font-medium text-gray-900 truncate">
                         {file?.name}
                     </span>
@@ -192,7 +192,7 @@ export function PdfReader() {
                         className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 ml-auto transition-colors"
                         title="Fullscreen"
                     >
-                        <Maximize className="w-4 h-4" />
+                        <ArrowsOut className="w-4 h-4"  weight="duotone"/>
                     </button>
                 </div>
             )}

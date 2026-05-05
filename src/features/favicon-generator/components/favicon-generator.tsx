@@ -9,17 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import {
-    Upload,
-    Download,
-    RefreshCcw,
-    Image as ImageIcon,
-    Check,
-    Settings2,
-    Monitor,
-    Smartphone,
-    Apple
-} from 'lucide-react';
+import { UploadSimple, DownloadSimple, ArrowsCounterClockwise, ImageSquare as PhosphorImage, Check, Sliders, Monitor, DeviceMobile, AppleLogo } from '@phosphor-icons/react/dist/ssr';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -61,7 +51,7 @@ export function FaviconGenerator() {
                 <div className="lg:col-span-4 space-y-6">
                     <Card className="p-6 border-gray-100 shadow-soft">
                         <div className="flex items-center gap-2 mb-6">
-                            <Settings2 className="w-5 h-5 text-primary" />
+                            <Sliders weight="duotone" className="w-5 h-5 text-primary" />
                             <h2 className="text-lg font-semibold text-gray-900">Customization</h2>
                         </div>
 
@@ -130,7 +120,7 @@ export function FaviconGenerator() {
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                        <Apple className="w-4 h-4 text-gray-400" />
+                                        <AppleLogo weight="duotone" className="w-4 h-4 text-gray-400" />
                                         <Label className="text-sm text-gray-600">iOS Icons</Label>
                                     </div>
                                     <Switch
@@ -140,7 +130,7 @@ export function FaviconGenerator() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                        <Smartphone className="w-4 h-4 text-gray-400" />
+                                        <DeviceMobile weight="duotone" className="w-4 h-4 text-gray-400" />
                                         <Label className="text-sm text-gray-600">Android Icons</Label>
                                     </div>
                                     <Switch
@@ -150,7 +140,7 @@ export function FaviconGenerator() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                        <Monitor className="w-4 h-4 text-gray-400" />
+                                        <Monitor weight="duotone" className="w-4 h-4 text-gray-400" />
                                         <Label className="text-sm text-gray-600">Desktop ICO</Label>
                                     </div>
                                     <Switch
@@ -169,7 +159,7 @@ export function FaviconGenerator() {
                         <div
                             {...getRootProps()}
                             className={cn(
-                                "relative group cursor-pointer h-[400px] rounded-3xl border-2 border-dashed transition-all flex flex-col items-center justify-center p-12 text-center",
+                                "relative group cursor-pointer h-100 rounded-3xl border-2 border-dashed transition-all flex flex-col items-center justify-center p-12 text-center",
                                 isDragActive
                                     ? "border-primary bg-primary-50/30 scale-[0.99]"
                                     : "border-gray-200 bg-white hover:border-primary/50 hover:bg-gray-50/50"
@@ -177,7 +167,7 @@ export function FaviconGenerator() {
                         >
                             <input {...getInputProps()} />
                             <div className="w-20 h-20 bg-primary-50 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110">
-                                <Upload className="w-10 h-10 text-primary" />
+                                <UploadSimple weight="duotone" className="w-10 h-10 text-primary" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-2">Generate Your Favicon</h3>
                             <p className="text-gray-500 max-w-xs mx-auto">
@@ -185,16 +175,16 @@ export function FaviconGenerator() {
                             </p>
                         </div>
                     ) : (
-                        <Card className="overflow-hidden border-gray-100 shadow-medium h-fit min-h-[400px] flex flex-col bg-white">
+                        <Card className="overflow-hidden border-gray-100 shadow-medium h-fit min-h-100 flex flex-col bg-white">
                             {/* Toolbar */}
                             <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
                                 <div className="flex items-center gap-3">
-                                    <ImageIcon className="w-5 h-5 text-primary" />
-                                    <span className="font-medium text-gray-900 truncate max-w-[200px]">{file.name}</span>
+                                    <PhosphorImage weight="duotone" className="w-5 h-5 text-primary" />
+                                    <span className="font-medium text-gray-900 truncate max-w-50">{file.name}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Button variant="ghost" size="sm" onClick={reset} className="text-gray-500 hover:text-error-600">
-                                        <RefreshCcw className="w-4 h-4 mr-2" />
+                                        <ArrowsCounterClockwise weight="duotone" className="w-4 h-4 mr-2" />
                                         Change
                                     </Button>
                                     {!result && (
@@ -235,8 +225,7 @@ export function FaviconGenerator() {
                                                             alt="Preview"
                                                             fill
                                                             unoptimized
-                                                            className="object-contain transition-transform duration-500 hover:scale-105"
-                                                        />
+                                                            className="object-contain transition-transform duration-500 hover:scale-105"/>
                                                     )}
                                                 </div>
                                             </div>
@@ -258,8 +247,7 @@ export function FaviconGenerator() {
                                                                 width={96}
                                                                 height={96}
                                                                 unoptimized
-                                                                className="max-w-full max-h-full object-contain"
-                                                            />
+                                                                className="max-w-full max-h-full object-contain"/>
                                                         </div>
                                                     </div>
                                                     <div className="text-center space-y-1">
@@ -278,7 +266,7 @@ export function FaviconGenerator() {
                                 <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
                                     <div className="flex items-center gap-2 text-primary font-medium">
                                         <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
-                                            <Check className="w-3 h-3" />
+                                            <Check weight="duotone" className="w-3 h-3" />
                                         </div>
                                         <span>Full set of {result.files.length} icons generated</span>
                                     </div>
@@ -296,7 +284,7 @@ export function FaviconGenerator() {
                                             onClick={downloadZip}
                                             className="flex-1 md:flex-none bg-primary hover:bg-primary-700 shadow-primary animate-pulse-slow"
                                         >
-                                            <Download className="w-5 h-5 mr-3" />
+                                            <DownloadSimple weight="duotone" className="w-5 h-5 mr-3" />
                                             Download Pack (.ZIP)
                                         </Button>
                                     </div>
@@ -315,7 +303,7 @@ export function FaviconGenerator() {
                             <ul className="space-y-2">
                                 {[
                                     '16x16 / 32x32: Standard web browsers',
-                                    '180x180: Apple iPhone touch icons',
+                                    '180x180: AppleLogo iPhone touch icons',
                                     '192x192 / 512x512: Android PWA & Chrome',
                                     'favicon.ico: Legacy browser compatibility'
                                 ].map((item, idx) => (

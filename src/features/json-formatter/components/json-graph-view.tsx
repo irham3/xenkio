@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { ChevronRight, ChevronDown, Braces, Box, Type, List, Hash } from 'lucide-react';
+import { CaretRight, CaretDown, BracketsCurly, Cube, TextT, ListBullets, Hash } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 interface JsonGraphViewProps {
@@ -35,11 +35,11 @@ function JsonNode({ name, value, isRoot = false, level = 0 }: JsonNodeProps) {
     const toggle = () => setExpanded(!expanded);
 
     const getIcon = () => {
-        if (isArray) return <List className="w-3 h-3 text-blue-500" />;
-        if (isObject) return <Braces className="w-3 h-3 text-purple-500" />;
-        if (typeof value === 'string') return <Type className="w-3 h-3 text-green-500" />;
+        if (isArray) return <ListBullets className="w-3 h-3 text-blue-500" />;
+        if (isObject) return <BracketsCurly className="w-3 h-3 text-purple-500"  weight="duotone"/>;
+        if (typeof value === 'string') return <TextT className="w-3 h-3 text-green-500"  weight="duotone"/>;
         if (typeof value === 'number') return <Hash className="w-3 h-3 text-orange-500" />;
-        return <Box className="w-3 h-3 text-gray-500" />;
+        return <Cube className="w-3 h-3 text-gray-500" />;
     };
 
     const getTypeLabel = () => {
@@ -58,7 +58,7 @@ function JsonNode({ name, value, isRoot = false, level = 0 }: JsonNodeProps) {
                 onClick={(isObject && !isEmpty) ? toggle : undefined}
             >
                 {(isObject && !isEmpty) ? (
-                    expanded ? <ChevronDown className="w-3 h-3 text-gray-400" /> : <ChevronRight className="w-3 h-3 text-gray-400" />
+                    expanded ? <CaretDown className="w-3 h-3 text-gray-400"  weight="duotone"/> : <CaretRight className="w-3 h-3 text-gray-400"  weight="duotone"/>
                 ) : (
                     <span className="w-3 h-3" />
                 )}

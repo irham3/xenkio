@@ -7,20 +7,7 @@ import { DiffType } from '@/features/diff-checker/types';
 import { hasChanges } from '@/features/diff-checker/lib/diff-utils';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import {
-  ChevronDown,
-  ArrowRightLeft,
-  Trash2,
-  Zap,
-  Plus,
-  Minus,
-  Equal,
-  FileText,
-  Columns,
-  AlignJustify,
-  Check,
-  Copy,
-} from 'lucide-react';
+import { CaretDown, ArrowsLeftRight, Trash, Lightning, Plus, Minus, Equals, FileText, Columns, TextAlignJustify, Check, Copy } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { UnifiedDiffView } from '@/features/diff-checker/components/unified-diff-view';
 import { SplitDiffView } from '@/features/diff-checker/components/split-diff-view';
@@ -86,9 +73,9 @@ export default function DiffCheckerClient() {
                   )}
                 >
                   {mode.id === 'split' ? (
-                    <Columns className="w-3.5 h-3.5" />
+                    <Columns className="w-3.5 h-3.5"  weight="duotone"/>
                   ) : (
-                    <AlignJustify className="w-3.5 h-3.5" />
+                    <TextAlignJustify className="w-3.5 h-3.5" />
                   )}
                   {mode.name}
                 </button>
@@ -108,7 +95,7 @@ export default function DiffCheckerClient() {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+              <CaretDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"  weight="duotone"/>
             </div>
 
             {/* Advanced Options Toggle */}
@@ -138,7 +125,7 @@ export default function DiffCheckerClient() {
               className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               title="Swap texts"
             >
-              <ArrowRightLeft className="w-4 h-4" />
+              <ArrowsLeftRight className="w-4 h-4"  weight="duotone"/>
             </button>
             <button
               onClick={clearAll}
@@ -146,7 +133,7 @@ export default function DiffCheckerClient() {
               className="p-2 text-gray-500 hover:text-error-600 rounded-lg hover:bg-error-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               title="Clear all"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash className="w-4 h-4"  weight="duotone"/>
             </button>
           </div>
         </div>
@@ -202,7 +189,7 @@ export default function DiffCheckerClient() {
                 value={options.originalText}
                 onChange={(e) => updateOption('originalText', e.target.value)}
                 placeholder="Paste original text here..."
-                className="w-full min-h-[200px] p-3 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
+                className="w-full min-h-50 p-3 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
               />
             </div>
           </div>
@@ -224,7 +211,7 @@ export default function DiffCheckerClient() {
                 value={options.modifiedText}
                 onChange={(e) => updateOption('modifiedText', e.target.value)}
                 placeholder="Paste modified text here..."
-                className="w-full min-h-[200px] p-3 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
+                className="w-full min-h-50 p-3 text-[14px] font-mono leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-y placeholder:text-gray-400"
               />
             </div>
           </div>
@@ -239,12 +226,12 @@ export default function DiffCheckerClient() {
           >
             {isComparing ? (
               <>
-                <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                <Lightning className="w-4 h-4 mr-2 animate-pulse"  weight="duotone"/>
                 Comparing...
               </>
             ) : (
               <>
-                <Zap className="w-4 h-4 mr-2" />
+                <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                 Compare Differences
               </>
             )}
@@ -259,21 +246,21 @@ export default function DiffCheckerClient() {
               <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 bg-gray-50/80 border-b border-gray-100">
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="flex items-center gap-1.5 text-xs font-medium text-success-600 bg-success-50 px-2.5 py-1 rounded-full">
-                    <Plus className="w-3 h-3" />
+                    <Plus className="w-3 h-3"  weight="duotone"/>
                     {result.stats.additions} added
                   </div>
                   <div className="flex items-center gap-1.5 text-xs font-medium text-error-600 bg-error-50 px-2.5 py-1 rounded-full">
-                    <Minus className="w-3 h-3" />
+                    <Minus className="w-3 h-3"  weight="duotone"/>
                     {result.stats.deletions} removed
                   </div>
                   <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
-                    <Equal className="w-3 h-3" />
+                    <Equals className="w-3 h-3" />
                     {result.stats.unchanged} unchanged
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                    <Zap className="w-3 h-3" />
+                    <Lightning className="w-3 h-3"  weight="duotone"/>
                     {result.executionTime.toFixed(1)}ms
                   </span>
                   <Button
@@ -285,7 +272,7 @@ export default function DiffCheckerClient() {
                       copied && "text-success-600 border-success-500 bg-success-50"
                     )}
                   >
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copied ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     {copied ? 'Copied' : 'Copy'}
                   </Button>
                 </div>
@@ -299,7 +286,7 @@ export default function DiffCheckerClient() {
                   <span className="relative flex h-8 w-8 mb-4">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-8 w-8 bg-primary-500 justify-center items-center">
-                      <Zap className="w-4 h-4 text-white" />
+                      <Lightning className="w-4 h-4 text-white"  weight="duotone"/>
                     </span>
                   </span>
                   <p className="text-sm font-medium text-gray-600">Computing differences...</p>
@@ -313,7 +300,7 @@ export default function DiffCheckerClient() {
               ) : result ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mb-4">
-                    <Check className="w-8 h-8 text-success-600" />
+                    <Check className="w-8 h-8 text-success-600"  weight="duotone"/>
                   </div>
                   <h3 className="text-lg font-semibold text-gray-800 mb-1">No Differences Found</h3>
                   <p className="text-sm text-gray-500">The two texts are identical.</p>
@@ -328,10 +315,10 @@ export default function DiffCheckerClient() {
           <div className="p-8 border-t border-gray-100 bg-gray-50/30">
             <div className="flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <FileText className="w-8 h-8 text-gray-400" />
+                <FileText className="w-8 h-8 text-gray-400"  weight="duotone"/>
               </div>
               <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Compare</h3>
-              <p className="text-xs text-gray-500 max-w-[250px]">
+              <p className="text-xs text-gray-500 max-w-62.5">
                 Enter or paste two texts above and click &quot;Compare Differences&quot; to see the changes.
               </p>
             </div>

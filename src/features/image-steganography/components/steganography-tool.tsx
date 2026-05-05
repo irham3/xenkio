@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
-import { Upload, Lock, Unlock, Download, Image as ImageIcon, Copy, RefreshCcw, ShieldCheck, Eye } from 'lucide-react';
+import { UploadSimple, Lock, LockOpen, DownloadSimple, ImageSquare as PhosphorImage, Copy, ArrowsCounterClockwise, ShieldCheck, Eye } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import Image from 'next/image';
@@ -76,10 +76,10 @@ export function SteganographyTool() {
                     <Tabs value={mode} onValueChange={(v) => { reset(); setMode(v as 'encode' | 'decode'); }} className="w-full max-w-md mx-auto">
                         <TabsList className="grid w-full grid-cols-2 h-12 bg-gray-100/80 p-1 rounded-xl">
                             <TabsTrigger value="encode" className="rounded-lg text-sm font-semibold data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all duration-300">
-                                <Lock className="w-4 h-4 mr-2" /> Hide Message
+                                <Lock weight="duotone" className="w-4 h-4 mr-2" /> Hide Message
                             </TabsTrigger>
                             <TabsTrigger value="decode" className="rounded-lg text-sm font-semibold data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all duration-300">
-                                <Unlock className="w-4 h-4 mr-2" /> Reveal Message
+                                <LockOpen weight="duotone" className="w-4 h-4 mr-2" /> Reveal Message
                             </TabsTrigger>
                         </TabsList>
                     </Tabs>
@@ -89,7 +89,7 @@ export function SteganographyTool() {
                     {/* Left Column: Input */}
                     <div className="space-y-6 flex flex-col">
                         <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">1. Upload Image</Label>
+                            <Label className="text-sm font-semibold text-gray-700">1. UploadSimple Image</Label>
                             <div
                                 {...getRootProps()}
                                 className={cn(
@@ -107,16 +107,15 @@ export function SteganographyTool() {
                                             alt="Selected"
                                             fill
                                             className="object-contain"
-                                            unoptimized
-                                        />
+                                            unoptimized/>
                                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                            <p className="text-white font-medium flex items-center gap-2"><Upload size={16} /> Change Image</p>
+                                            <p className="text-white font-medium flex items-center gap-2"><UploadSimple weight="duotone" size={16} /> Change Image</p>
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="text-center space-y-2">
                                         <div className="p-3 bg-white rounded-full shadow-sm inline-block mb-2 group-hover:scale-110 transition-transform duration-300">
-                                            <ImageIcon className="w-6 h-6 text-primary-500" />
+                                            <PhosphorImage weight="duotone" className="w-6 h-6 text-primary-500" />
                                         </div>
                                         <p className="text-sm font-medium text-gray-700">
                                             Drag & drop or <span className="text-primary-600">click to upload</span>
@@ -146,8 +145,8 @@ export function SteganographyTool() {
                         {mode === 'decode' && (
                             <div className="flex-1 flex items-center justify-center text-center p-8 border border-gray-100 rounded-xl bg-gray-50/30">
                                 <div className="max-w-xs space-y-2 text-gray-500">
-                                    <Eye className="w-8 h-8 mx-auto text-gray-300" />
-                                    <p className="text-sm">Upload the image containing the secret message to reveal it.</p>
+                                    <Eye weight="duotone" className="w-8 h-8 mx-auto text-gray-300" />
+                                    <p className="text-sm">UploadSimple the image containing the secret message to reveal it.</p>
                                 </div>
                             </div>
                         )}
@@ -168,7 +167,7 @@ export function SteganographyTool() {
                             <Label className="text-sm font-semibold text-gray-700">Result</Label>
                             {(outputImageUrl || decodedMessage) && (
                                 <Button variant="ghost" size="sm" onClick={reset} className="text-gray-400 hover:text-red-500 h-8">
-                                    <RefreshCcw size={14} className="mr-1.5" /> Start Over
+                                    <ArrowsCounterClockwise weight="duotone" size={14} className="mr-1.5" /> Start Over
                                 </Button>
                             )}
                         </div>
@@ -177,7 +176,7 @@ export function SteganographyTool() {
                             {/* Placeholder State */}
                             {(!outputImageUrl && !decodedMessage) && (
                                 <div className="text-center p-8 opacity-40">
-                                    <ShieldCheck className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                                    <ShieldCheck weight="duotone" className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                                     <p className="text-sm font-medium text-gray-500">Result will appear here</p>
                                 </div>
                             )}
@@ -186,14 +185,14 @@ export function SteganographyTool() {
                             {mode === 'encode' && outputImageUrl && (
                                 <div className="relative w-full h-full p-4 flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-95 duration-500">
                                     <div className="relative w-full flex-1 min-h-[200px] rounded-lg overflow-hidden shadow-sm border border-gray-100">
-                                        <Image src={outputImageUrl} alt="Result" fill className="object-contain" unoptimized />
+                                        <Image src={outputImageUrl} alt="Result" fill className="object-contain" unoptimized/>
                                     </div>
                                     <div className="w-full space-y-2">
                                         <p className="text-xs text-center text-green-600 font-medium bg-green-50 py-1 rounded-full px-3 inline-block mx-auto w-full">
                                             Message Hidden Successfully!
                                         </p>
                                         <Button onClick={handleDownload} className="w-full" variant="outline">
-                                            <Download className="mr-2 h-4 w-4" /> Download Image
+                                            <DownloadSimple className="mr-2 h-4 w-4"  weight="duotone"/> Download Image
                                         </Button>
                                         <p className="text-[10px] text-center text-gray-400">
                                             *Download this PNG to keep the message. Converting to JPG will destroy the data.
@@ -215,12 +214,12 @@ export function SteganographyTool() {
                                             className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 backdrop-blur"
                                             onClick={handleCopy}
                                         >
-                                            <Copy size={16} />
+                                            <Copy weight="duotone" size={16} />
                                         </Button>
                                     </div>
                                     <div className="mt-4 text-center">
                                         <p className="text-xs text-green-600 font-medium bg-green-50 py-1.5 rounded-full px-4 inline-block">
-                                            <Unlock className="w-3 h-3 inline mr-1" /> Secret Message Revealed
+                                            <LockOpen weight="duotone" className="w-3 h-3 inline mr-1" /> Secret Message Revealed
                                         </p>
                                     </div>
                                 </div>

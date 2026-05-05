@@ -1,6 +1,6 @@
 'use client';
 
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, CaretLeft, CaretRight } from '@phosphor-icons/react/dist/ssr';
 
 interface GestureGuideProps {
     onClose: () => void;
@@ -16,7 +16,7 @@ export function GestureGuide({ onClose }: GestureGuideProps) {
                     className="absolute top-4 right-4 z-10 p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors"
                     aria-label="Close guide"
                 >
-                    <X className="w-4 h-4" />
+                    <X className="w-4 h-4"  weight="duotone"/>
                 </button>
 
                 {/* Header */}
@@ -34,7 +34,7 @@ export function GestureGuide({ onClose }: GestureGuideProps) {
                             <div className="relative w-full h-28 flex items-center justify-center mb-3">
                                 {/* Background arrow hint */}
                                 <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
-                                    <ChevronRight className="w-24 h-24" />
+                                    <CaretRight className="w-24 h-24"  weight="duotone"/>
                                 </div>
                                 {/* Animated hand SVG */}
                                 <svg viewBox="0 0 120 100" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@ export function GestureGuide({ onClose }: GestureGuideProps) {
                             <div className="text-center">
                                 <div className="flex items-center justify-center gap-1.5 mb-1">
                                     <span className="text-sm font-bold text-gray-900">Swipe Right</span>
-                                    <ChevronRight className="w-4 h-4 text-primary-500" />
+                                    <CaretRight className="w-4 h-4 text-primary-500"  weight="duotone"/>
                                 </div>
                                 <p className="text-[11px] text-gray-500 leading-snug">Move hand right<br />to go to next page</p>
                             </div>
@@ -72,7 +72,7 @@ export function GestureGuide({ onClose }: GestureGuideProps) {
                             <div className="relative w-full h-28 flex items-center justify-center mb-3">
                                 {/* Background arrow hint */}
                                 <div className="absolute inset-0 flex items-center justify-center opacity-[0.06]">
-                                    <ChevronLeft className="w-24 h-24" />
+                                    <CaretLeft className="w-24 h-24"  weight="duotone"/>
                                 </div>
                                 {/* Animated hand SVG */}
                                 <svg viewBox="0 0 120 100" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +98,7 @@ export function GestureGuide({ onClose }: GestureGuideProps) {
                             </div>
                             <div className="text-center">
                                 <div className="flex items-center justify-center gap-1.5 mb-1">
-                                    <ChevronLeft className="w-4 h-4 text-purple-500" />
+                                    <CaretLeft className="w-4 h-4 text-purple-500"  weight="duotone"/>
                                     <span className="text-sm font-bold text-gray-900">Swipe Left</span>
                                 </div>
                                 <p className="text-[11px] text-gray-500 leading-snug">Move hand left<br />to go to previous page</p>

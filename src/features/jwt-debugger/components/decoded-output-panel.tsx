@@ -1,6 +1,6 @@
 'use client';
 
-import { FileCode, AlertCircle, Terminal } from 'lucide-react';
+import { FileCode, WarningCircle, TerminalWindow } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { JwtResult } from '../types';
 import { CopyButton } from '@/components/shared';
@@ -91,7 +91,7 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
                         )}>
                             {result.error ? (
                                 <div className="h-full flex flex-col items-center justify-center gap-2">
-                                    <AlertCircle className="w-8 h-8 opacity-20" />
+                                    <WarningCircle className="w-8 h-8 opacity-20"  weight="duotone"/>
                                     <p className="text-xs font-semibold">{result.error}</p>
                                 </div>
                             ) : result.encodedToken ? (
@@ -104,7 +104,7 @@ export function DecodedOutputPanel({ mode, result, hasToken }: DecodedOutputPane
                                 </div>
                             ) : (
                                 <div className="h-full flex flex-col items-center justify-center gap-3 text-gray-400">
-                                    <FileCode className="w-10 h-10 opacity-20" />
+                                    <FileCode className="w-10 h-10 opacity-20"  weight="duotone"/>
                                     <p className="text-xs font-medium italic">Resulting token will appear here...</p>
                                 </div>
                             )}
@@ -137,7 +137,7 @@ function CodeBlock({ content, colorClass, placeholder, className }: { content: R
                 </TooltipProvider>
             ) : (
                 <div className="flex items-center gap-2 opacity-30">
-                    <Terminal className="w-4 h-4" />
+                    <TerminalWindow className="w-4 h-4"  weight="duotone"/>
                     <span className="text-xs">{placeholder}</span>
                 </div>
             )}

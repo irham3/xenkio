@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react"
 import { useDropzone } from "react-dropzone"
-import { Plus, Trash2 } from "lucide-react"
+import { Plus, Trash } from '@phosphor-icons/react/dist/ssr';
 import JSZip from "jszip"
 import { Button } from "@/components/ui/button"
 import { ConversionOptions, ImageFile } from "@/features/image-converter/types"
@@ -375,7 +375,7 @@ export function ImageConverterClient() {
                     </div>
                     <div className="space-y-3 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                         <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto text-primary-600 mb-4">
-                            <Plus className="w-6 h-6" />
+                            <Plus className="w-6 h-6"  weight="duotone"/>
                         </div>
                         <h3 className="text-lg font-semibold text-gray-900">Batch Processing</h3>
                         <p className="text-gray-600 text-sm leading-relaxed">
@@ -406,11 +406,11 @@ export function ImageConverterClient() {
                     </h2>
                     <div className="flex gap-2">
                         <Button variant="outline" size="sm" onClick={openFileDialog} className="cursor-pointer">
-                            <Plus className="w-4 h-4 mr-2" />
+                            <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                             Add Images
                         </Button>
                         <Button variant="ghost" size="sm" onClick={handleReset} className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer">
-                            <Trash2 className="w-4 h-4 mr-2" />
+                            <Trash className="w-4 h-4 mr-2"  weight="duotone"/>
                             Clear All
                         </Button>
                     </div>
@@ -429,7 +429,7 @@ export function ImageConverterClient() {
                 <input {...getInputProps()} className="hidden" />
             </div>
 
-            {/* Right: Settings Panel */}
+            {/* Right: Gear Panel */}
             <ImageSettings
                 options={options}
                 onOptionsChange={setOptions}
@@ -449,7 +449,7 @@ export function ImageConverterClient() {
                         className="ml-2 h-6 w-6 p-0 rounded-full hover:bg-red-100"
                         onClick={() => setError(null)}
                     >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash className="w-3 h-3"  weight="duotone"/>
                     </Button>
                 </div>
             )}

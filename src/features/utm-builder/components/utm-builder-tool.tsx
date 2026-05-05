@@ -1,6 +1,6 @@
 'use client';
 
-import { Link2, RotateCcw, Download, Info, Sparkles } from 'lucide-react';
+import { Link, ArrowCounterClockwise, DownloadSimple, Info, Sparkle } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { CopyButton } from '@/components/shared';
 import { cn } from '@/lib/utils';
@@ -60,7 +60,7 @@ export function UTMBuilderTool() {
         <div className="space-y-8">
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary-500" />
+                    <Sparkle className="h-4 w-4 text-primary-500"  weight="duotone"/>
                     Quick Presets
                 </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -84,7 +84,7 @@ export function UTMBuilderTool() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8 space-y-5">
                     <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                        <Link2 className="h-5 w-5 text-primary-500" />
+                        <Link className="h-5 w-5 text-primary-500"/>
                         UTM Configuration
                     </h2>
 
@@ -129,7 +129,7 @@ export function UTMBuilderTool() {
                                     size="sm"
                                     className="rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
                                 >
-                                    <RotateCcw className="h-3.5 w-3.5 mr-1" />
+                                    <ArrowCounterClockwise className="h-3.5 w-3.5 mr-1"  weight="duotone"/>
                                     Reset
                                 </Button>
                                 <CopyButton
@@ -154,7 +154,7 @@ export function UTMBuilderTool() {
                                 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all'
                             )}
                         >
-                            <Download className="h-4 w-4 mr-2" />
+                            <DownloadSimple className="h-4 w-4 mr-2"  weight="duotone"/>
                             Download URL (.txt)
                         </Button>
                     </div>
@@ -167,7 +167,7 @@ export function UTMBuilderTool() {
 
                         {!isReady && (
                             <div className="flex items-start gap-2 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs leading-relaxed">
-                                <Info className="h-4 w-4 mt-0.5 shrink-0" />
+                                <Info className="h-4 w-4 mt-0.5 shrink-0"  weight="duotone"/>
                                 <p>
                                     Required fields: {missingFields.join(', ') || 'base URL'}.
                                     Fill source, medium, and campaign to create a complete tracking URL.

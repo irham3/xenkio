@@ -2,20 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import {
-    Upload,
-    Plus,
-    Download,
-    RotateCcw,
-    Loader2,
-    FileText,
-    Crop,
-    Copy,
-    ChevronLeft,
-    ChevronRight,
-    Check,
-    ChevronDown,
-} from 'lucide-react';
+import { UploadSimple, Plus, DownloadSimple, ArrowCounterClockwise, SpinnerGap, FileText, Crop, Copy, CaretLeft, CaretRight, Check, CaretDown } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -143,7 +130,7 @@ function PdfCanvas({ pdfDocument, arrayBuffer, pageNumber, scale, onDimensionsRe
     if (hasError) {
         return (
             <div className="w-full h-full flex items-center justify-center bg-red-50 rounded-lg">
-                <FileText className="w-10 h-10 text-red-300" />
+                <FileText className="w-10 h-10 text-red-300"  weight="duotone"/>
             </div>
         );
     }
@@ -152,7 +139,7 @@ function PdfCanvas({ pdfDocument, arrayBuffer, pageNumber, scale, onDimensionsRe
         <div className="relative w-full h-full">
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-50 rounded-lg z-10">
-                    <Loader2 className="w-6 h-6 text-primary-500 animate-spin" />
+                    <SpinnerGap className="w-6 h-6 text-primary-500 animate-spin" />
                 </div>
             )}
             <canvas
@@ -405,7 +392,7 @@ function PageThumbnail({ pageNumber, isActive, hasCrop, onClick, pdfDocument, ar
             </div>
             {hasCrop && (
                 <div className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-primary-500 rounded-full flex items-center justify-center">
-                    <Check className="w-2 h-2 text-white" />
+                    <Check className="w-2 h-2 text-white"  weight="duotone"/>
                 </div>
             )}
         </button>
@@ -679,12 +666,12 @@ export default function CropPdfTool() {
                                     isDragActive ? 'bg-primary-100' : 'bg-gray-100'
                                 )}
                             >
-                                <Upload
+                                <UploadSimple
                                     className={cn(
                                         'w-10 h-10 transition-colors',
                                         isDragActive ? 'text-primary-600' : 'text-gray-400'
                                     )}
-                                />
+                                 weight="duotone"/>
                             </div>
                             <div className="space-y-2">
                                 <p className="text-xl font-semibold text-gray-900">
@@ -695,7 +682,7 @@ export default function CropPdfTool() {
                                 </p>
                             </div>
                             <Button size="lg" className="mt-4" type="button">
-                                <Plus className="w-4 h-4 mr-2" />
+                                <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Select PDF file
                             </Button>
                         </div>
@@ -715,7 +702,7 @@ export default function CropPdfTool() {
                     </div>
                     <div className="space-y-3 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                         <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto text-primary-600 mb-4">
-                            <Copy className="w-6 h-6" />
+                            <Copy className="w-6 h-6"  weight="duotone"/>
                         </div>
                         <h3 className="text-lg font-semibold text-gray-900">Batch or Per-Page</h3>
                         <p className="text-gray-600 text-sm leading-relaxed">
@@ -798,7 +785,7 @@ export default function CropPdfTool() {
                                         ))}
                                     </optgroup>
                                 </select>
-                                <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                                <CaretDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"  weight="duotone"/>
                             </div>
                         </div>
                     </div>
@@ -810,13 +797,13 @@ export default function CropPdfTool() {
                             onClick={handleApplyToAll}
                             className="text-xs"
                         >
-                            <Copy className="w-3.5 h-3.5 mr-1" />
+                            <Copy className="w-3.5 h-3.5 mr-1"  weight="duotone"/>
                             Apply to All
                         </Button>
                     )}
 
                     <Button variant="outline" size="sm" onClick={handleResetCrop} className="text-xs">
-                        <RotateCcw className="w-3.5 h-3.5 mr-1" />
+                        <ArrowCounterClockwise className="w-3.5 h-3.5 mr-1"  weight="duotone"/>
                         Reset Crop
                     </Button>
 
@@ -838,12 +825,12 @@ export default function CropPdfTool() {
                     >
                         {isProcessing ? (
                             <>
-                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                <SpinnerGap className="w-4 h-4 mr-2 animate-spin" />
                                 Processing...
                             </>
                         ) : (
                             <>
-                                <Download className="w-4 h-4 mr-2" />
+                                <DownloadSimple className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Download Cropped PDF
                             </>
                         )}
@@ -855,7 +842,7 @@ export default function CropPdfTool() {
             <div className="flex gap-6">
                 {/* Page thumbnails (left sidebar) */}
                 {pdfFile.pageCount > 1 && (
-                    <div className="hidden md:flex flex-col gap-2 max-h-[680px] overflow-y-auto pr-1 scrollbar-themed">
+                    <div className="hidden md:flex flex-col gap-2 max-h-170 overflow-y-auto pr-1 scrollbar-themed">
                         {Array.from({ length: pdfFile.pageCount }, (_, i) => (
                             <PageThumbnail
                                 key={i}
@@ -915,7 +902,7 @@ export default function CropPdfTool() {
                                 disabled={currentPage <= 1}
                                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                             >
-                                <ChevronLeft className="w-4 h-4" />
+                                <CaretLeft className="w-4 h-4"  weight="duotone"/>
                             </Button>
                             <span className="text-sm text-gray-700 font-medium">
                                 Page {currentPage} of {pdfFile.pageCount}
@@ -926,7 +913,7 @@ export default function CropPdfTool() {
                                 disabled={currentPage >= pdfFile.pageCount}
                                 onClick={() => setCurrentPage((p) => Math.min(pdfFile.pageCount, p + 1))}
                             >
-                                <ChevronRight className="w-4 h-4" />
+                                <CaretRight className="w-4 h-4"  weight="duotone"/>
                             </Button>
                         </div>
                     )}

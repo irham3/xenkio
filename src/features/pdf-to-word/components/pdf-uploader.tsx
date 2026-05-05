@@ -1,6 +1,6 @@
 "use client"
 
-import { Upload, FileText } from "lucide-react"
+import { UploadSimple, FileText } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { DropzoneRootProps, DropzoneInputProps } from "react-dropzone"
@@ -29,10 +29,10 @@ export function PdfUploader({ isDragActive, getRootProps, getInputProps }: PdfUp
                         "w-20 h-20 rounded-2xl flex items-center justify-center transition-all",
                         isDragActive ? "bg-primary-100" : "bg-gray-100"
                     )}>
-                        <Upload className={cn(
+                        <UploadSimple className={cn(
                             "w-10 h-10 transition-colors",
                             isDragActive ? "text-primary-600" : "text-gray-400"
-                        )} />
+                        )}  weight="duotone"/>
                     </div>
                     <div className="space-y-2">
                         <h3 className="text-xl font-semibold text-gray-900">
@@ -43,7 +43,7 @@ export function PdfUploader({ isDragActive, getRootProps, getInputProps }: PdfUp
                         </p>
                     </div>
                     <Button size="lg" className="mt-4">
-                        <FileText className="w-4 h-4 mr-2" />
+                        <FileText className="w-4 h-4 mr-2"  weight="duotone"/>
                         Choose PDF File
                     </Button>
                 </div>

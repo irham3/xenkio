@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { PDFFile, PDFSignature } from '../types';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
+import { CaretLeft, CaretRight, MagnifyingGlassPlus, MagnifyingGlassMinus } from '@phosphor-icons/react/dist/ssr';
 import { DraggableSignature } from './draggable-signature';
 
 interface PdfViewerProps {
@@ -69,23 +69,23 @@ export function PdfViewer({
             <div className="flex items-center justify-between p-3 border-b bg-white">
                 <div className="flex items-center gap-2">
                     <Button variant="ghost" size="sm" onClick={() => updatePage('prev')} disabled={pageIndex === 0}>
-                        <ChevronLeft className="w-4 h-4" />
+                        <CaretLeft className="w-4 h-4"  weight="duotone"/>
                     </Button>
                     <span className="text-sm font-medium text-gray-600">
                         Page {pageIndex + 1} of {file.totalPages}
                     </span>
                     <Button variant="ghost" size="sm" onClick={() => updatePage('next')} disabled={pageIndex >= file.totalPages - 1}>
-                        <ChevronRight className="w-4 h-4" />
+                        <CaretRight className="w-4 h-4"  weight="duotone"/>
                     </Button>
                 </div>
 
                 <div className="flex items-center gap-2">
                     <Button variant="ghost" size="icon" onClick={() => setScale(s => Math.max(0.5, s - 0.1))}>
-                        <ZoomOut className="w-4 h-4" />
+                        <MagnifyingGlassMinus className="w-4 h-4"  weight="duotone"/>
                     </Button>
                     <span className="text-xs w-12 text-center text-gray-500">{Math.round(scale * 100)}%</span>
                     <Button variant="ghost" size="icon" onClick={() => setScale(s => Math.min(2, s + 0.1))}>
-                        <ZoomIn className="w-4 h-4" />
+                        <MagnifyingGlassPlus className="w-4 h-4"  weight="duotone"/>
                     </Button>
                 </div>
             </div>

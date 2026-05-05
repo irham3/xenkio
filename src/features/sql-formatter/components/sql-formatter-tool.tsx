@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Sparkles, AlertCircle, ChevronDown, Zap, FileCode, Download } from 'lucide-react';
+import { Sparkle, WarningCircle, CaretDown, Lightning, FileCode, DownloadSimple } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -67,7 +67,7 @@ export function SqlFormatterTool({
                                         onClick={() => onLoadSample(SAMPLE_SQL)}
                                         className="text-xs text-primary-600 hover:text-primary-700 font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                                     >
-                                        <Sparkles className="w-3.5 h-3.5" />
+                                        <Sparkle className="w-3.5 h-3.5"  weight="duotone"/>
                                         Load Sample Query
                                     </button>
                                 </div>
@@ -96,7 +96,7 @@ export function SqlFormatterTool({
                                             exit={{ opacity: 0, y: -10 }}
                                             className="flex items-start gap-2.5 p-3 bg-red-50 rounded-xl border border-red-100"
                                         >
-                                            <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                                            <WarningCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5"  weight="duotone"/>
                                             <p className="text-xs text-red-700 leading-normal font-medium">{validationError}</p>
                                         </motion.div>
                                     )}
@@ -117,7 +117,7 @@ export function SqlFormatterTool({
                                                 <option key={lang.id} value={lang.id}>{lang.label}</option>
                                             ))}
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                                     </div>
                                 </div>
                                 <div className="space-y-2">
@@ -132,7 +132,7 @@ export function SqlFormatterTool({
                                                 <option key={kc.id} value={kc.id}>{kc.label}</option>
                                             ))}
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +150,7 @@ export function SqlFormatterTool({
                                                 <option key={style.id} value={style.id}>{style.label}</option>
                                             ))}
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                                     </div>
                                 </div>
                                 <div className="space-y-2">
@@ -165,7 +165,7 @@ export function SqlFormatterTool({
                                                 <option key={tw.id} value={tw.id}>{tw.label}</option>
                                             ))}
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"  weight="duotone"/>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@ export function SqlFormatterTool({
                                     disabled={!options.sql.trim() || isFormatting}
                                     className="flex-1 h-12 bg-primary-600 hover:bg-primary-700 text-white font-bold shadow-lg shadow-primary-500/20 cursor-pointer"
                                 >
-                                    <Zap className="w-4 h-4 mr-2" />
+                                    <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                                     Format SQL
                                 </Button>
                             </div>
@@ -223,7 +223,7 @@ export function SqlFormatterTool({
                                     <pre className="w-full whitespace-pre-wrap break-all">{result.formatted}</pre>
                                 ) : (
                                     <>
-                                        <FileCode className="w-12 h-12 text-gray-200" />
+                                        <FileCode className="w-12 h-12 text-gray-200"  weight="duotone"/>
                                         <p className="text-sm font-medium">Formatted SQL will appear here...</p>
                                     </>
                                 )}
@@ -237,7 +237,7 @@ export function SqlFormatterTool({
                                         onClick={handleDownload}
                                         className="h-9 bg-white/90 backdrop-blur-sm border-gray-200 font-bold hover:bg-white cursor-pointer"
                                     >
-                                        <Download className="w-4 h-4 mr-2" />
+                                        <DownloadSimple className="w-4 h-4 mr-2"  weight="duotone"/>
                                         Save
                                     </Button>
                                     <CopyButton

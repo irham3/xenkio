@@ -1,6 +1,6 @@
 'use client';
 
-import { Download, Upload, Wifi, RotateCcw, Play, AlertTriangle, Zap } from 'lucide-react';
+import { DownloadSimple, UploadSimple, WifiHigh, ArrowCounterClockwise, Play, Warning, Lightning } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useSpeedTest } from '../hooks/use-speed-test';
@@ -245,7 +245,7 @@ export function SpeedTest() {
                                         <p className="text-[10px] font-semibold text-gray-400 mt-0.5">ms</p>
                                     </>
                                 ) : (
-                                    <Wifi className="w-7 h-7 text-gray-300" />
+                                    <WifiHigh className="w-7 h-7 text-gray-300"  weight="duotone"/>
                                 )}
                             </div>
                             <p className="text-sm font-semibold text-gray-600">Ping</p>
@@ -266,7 +266,7 @@ export function SpeedTest() {
                     {/* Error state */}
                     {isError && (
                         <div className="flex items-start gap-3 bg-error-50 border border-error-200 rounded-xl p-4 max-w-md mx-auto">
-                            <AlertTriangle className="w-5 h-5 text-error-500 shrink-0 mt-0.5" />
+                            <Warning className="w-5 h-5 text-error-500 shrink-0 mt-0.5"  weight="duotone"/>
                             <p className="text-sm text-error-700">{state.error}</p>
                         </div>
                     )}
@@ -279,7 +279,7 @@ export function SpeedTest() {
                                 size="lg"
                                 className="gap-2 px-10 bg-primary-600 hover:bg-primary-700 text-white rounded-full text-base font-bold shadow-md hover:shadow-lg transition-all"
                             >
-                                <Play className="w-5 h-5" />
+                                <Play className="w-5 h-5"  weight="duotone"/>
                                 Start Test
                             </Button>
                         ) : isDone ? (
@@ -289,7 +289,7 @@ export function SpeedTest() {
                                 size="lg"
                                 className="gap-2 px-8 rounded-full border-gray-200 hover:bg-gray-50 font-semibold"
                             >
-                                <RotateCcw className="w-4 h-4" />
+                                <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                                 Test Again
                             </Button>
                         ) : (
@@ -299,7 +299,7 @@ export function SpeedTest() {
                                 size="sm"
                                 className="gap-2 border-gray-200 hover:bg-gray-50 text-gray-500"
                             >
-                                <RotateCcw className="w-3.5 h-3.5" />
+                                <ArrowCounterClockwise className="w-3.5 h-3.5"  weight="duotone"/>
                                 Cancel
                             </Button>
                         )}
@@ -311,7 +311,7 @@ export function SpeedTest() {
             {(isDone || isRunning) && (
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <StatPill
-                        icon={<Wifi className="w-5 h-5 text-primary-500" />}
+                        icon={<WifiHigh className="w-5 h-5 text-primary-500"  weight="duotone"/>}
                         label="Ping"
                         value={result.ping !== null ? `${result.ping} ms` : '—'}
                         ratingLabel={pingRating.label}
@@ -319,7 +319,7 @@ export function SpeedTest() {
                         ratingBg={pingRating.bgColor}
                     />
                     <StatPill
-                        icon={<Zap className="w-5 h-5 text-primary-500" />}
+                        icon={<Lightning className="w-5 h-5 text-primary-500"  weight="duotone"/>}
                         label="Jitter"
                         value={result.jitter !== null ? `${result.jitter} ms` : '—'}
                         ratingLabel={jitterRating.label}
@@ -327,7 +327,7 @@ export function SpeedTest() {
                         ratingBg={jitterRating.bgColor}
                     />
                     <StatPill
-                        icon={<Download className="w-5 h-5 text-primary-500" />}
+                        icon={<DownloadSimple className="w-5 h-5 text-primary-500"  weight="duotone"/>}
                         label="Download"
                         value={formatSpeed(result.download)}
                         ratingLabel={downloadRating.label}
@@ -335,7 +335,7 @@ export function SpeedTest() {
                         ratingBg={downloadRating.bgColor}
                     />
                     <StatPill
-                        icon={<Upload className="w-5 h-5 text-primary-500" />}
+                        icon={<UploadSimple className="w-5 h-5 text-primary-500"  weight="duotone"/>}
                         label="Upload"
                         value={formatSpeed(result.upload)}
                         ratingLabel={uploadRating.label}

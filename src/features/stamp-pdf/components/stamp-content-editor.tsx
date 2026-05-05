@@ -5,7 +5,7 @@ import React from 'react';
 import { PDFStamp, ChecklistItem } from '../types';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash } from '@phosphor-icons/react/dist/ssr';
 import { v4 as uuidv4 } from 'uuid';
 
 interface StampContentEditorProps {
@@ -152,7 +152,7 @@ function ChecklistEditor({ stamp, onUpdate }: StampContentEditorProps) {
                             onClick={() => removeItem(item.id)}
                             className="text-gray-400 hover:text-red-500 transition-colors p-0.5"
                         >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                         </button>
                     </div>
                 ))}
@@ -162,7 +162,7 @@ function ChecklistEditor({ stamp, onUpdate }: StampContentEditorProps) {
                     onClick={addItem}
                     className="w-full h-7 text-xs mt-1"
                 >
-                    <Plus className="w-3 h-3 mr-1" />
+                    <Plus className="w-3 h-3 mr-1"  weight="duotone"/>
                     Add Item
                 </Button>
             </div>

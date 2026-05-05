@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Check } from 'lucide-react';
+import { Check } from '@phosphor-icons/react/dist/ssr';
 import { fontDancing, fontGreatVibes, fontAlexBrush, fontPacifico, fontSatisfy } from '../fonts';
 
 const FONTS = [
@@ -81,7 +81,7 @@ export function TextSignature({ onSave, color }: TextSignatureProps) {
                 disabled={!text.trim()}
                 className="w-full bg-primary-600 hover:bg-primary-700 h-11 text-base font-semibold transition-all shadow-lg shadow-primary-600/20"
             >
-                <Check className="w-4 h-4 mr-2" />
+                <Check className="w-4 h-4 mr-2"  weight="duotone"/>
                 Use Text Signature
             </Button>
         </div>

@@ -1,15 +1,6 @@
 'use client';
 
-import {
-    Download,
-    Globe,
-    Link2,
-    ListTree,
-    Plus,
-    RotateCcw,
-    Sparkles,
-    Trash2,
-} from 'lucide-react';
+import { DownloadSimple, Globe, Link, TreeStructure, Plus, ArrowCounterClockwise, Sparkle, Trash } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { CopyButton } from '@/components/shared';
@@ -36,7 +27,7 @@ export function SitemapGenerator() {
         <div className="w-full space-y-8">
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary-500" />
+                    <Sparkle className="h-4 w-4 text-primary-500"  weight="duotone"/>
                     Quick Presets
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -61,7 +52,7 @@ export function SitemapGenerator() {
                 <div className="space-y-6">
                     <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                         <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                            <Globe className="h-5 w-5 text-primary-500" />
+                            <Globe className="h-5 w-5 text-primary-500"  weight="duotone"/>
                             Website Settings
                         </h3>
 
@@ -107,7 +98,7 @@ export function SitemapGenerator() {
                     <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                                <ListTree className="h-5 w-5 text-primary-500" />
+                                <TreeStructure className="h-5 w-5 text-primary-500"  weight="duotone"/>
                                 URL Entries
                             </h3>
                             <Button
@@ -116,7 +107,7 @@ export function SitemapGenerator() {
                                 size="sm"
                                 className="rounded-xl border-gray-200 hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 cursor-pointer"
                             >
-                                <Plus className="h-4 w-4 mr-1" />
+                                <Plus className="h-4 w-4 mr-1"  weight="duotone"/>
                                 Add URL
                             </Button>
                         </div>
@@ -133,14 +124,14 @@ export function SitemapGenerator() {
                                                 onClick={() => removeUrl(entry.id)}
                                                 className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer"
                                             >
-                                                <Trash2 className="h-3.5 w-3.5" />
+                                                <Trash className="h-3.5 w-3.5"  weight="duotone"/>
                                             </button>
                                         )}
                                     </div>
 
                                     <div className="space-y-2">
                                         <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                            <Link2 className="h-3 w-3" />
+                                            <Link className="h-3 w-3"/>
                                             URL Path or Full URL
                                         </label>
                                         <input
@@ -216,7 +207,7 @@ export function SitemapGenerator() {
                                     size="sm"
                                     className="rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
                                 >
-                                    <RotateCcw className="h-3.5 w-3.5 mr-1" />
+                                    <ArrowCounterClockwise className="h-3.5 w-3.5 mr-1"  weight="duotone"/>
                                     Reset
                                 </Button>
                                 <CopyButton
@@ -244,7 +235,7 @@ export function SitemapGenerator() {
                                 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all',
                             )}
                         >
-                            <Download className="h-5 w-5 mr-2" />
+                            <DownloadSimple className="h-5 w-5 mr-2"  weight="duotone"/>
                             Download sitemap.xml
                         </Button>
                     </div>

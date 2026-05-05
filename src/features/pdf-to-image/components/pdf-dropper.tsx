@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FileText, Plus } from 'lucide-react';
+import { FileText, Plus } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
@@ -48,7 +48,7 @@ export function PdfDropper({ onFileSelect }: PdfDropperProps) {
                         <FileText className={cn(
                             "w-10 h-10 transition-colors",
                             isDragActive ? "text-primary-600" : "text-gray-400"
-                        )} />
+                        )}  weight="duotone"/>
                     </div>
 
                     <div className="space-y-2">
@@ -61,7 +61,7 @@ export function PdfDropper({ onFileSelect }: PdfDropperProps) {
                     </div>
 
                     <Button size="lg" className="mt-4 rounded-xl h-12 px-8">
-                        <Plus className="w-5 h-5 mr-2" />
+                        <Plus className="w-5 h-5 mr-2"  weight="duotone"/>
                         Select PDF File
                     </Button>
                 </div>

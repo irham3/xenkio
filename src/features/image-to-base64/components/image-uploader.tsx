@@ -1,7 +1,7 @@
 
 "use client"
 
-import { FileImage, Plus } from "lucide-react"
+import { FileImage, Plus } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useDropzone } from "react-dropzone"
@@ -66,7 +66,7 @@ export function ImageUploader({ onUpload, isProcessing }: ImageUploaderProps) {
                         type="button"
                         disabled={isProcessing}
                     >
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus className="w-4 h-4 mr-2"  weight="duotone"/>
                         {isProcessing ? "Processing..." : "Choose Image"}
                     </Button>
                 </div>

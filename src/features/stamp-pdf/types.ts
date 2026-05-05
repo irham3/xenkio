@@ -1,3 +1,4 @@
+import { Icon } from "@phosphor-icons/react";
 
 export type StampType = 'approval' | 'date' | 'notes' | 'checklist' | 'cost';
 
@@ -48,13 +49,12 @@ export interface PDFStamp {
     fontSize: number;
 }
 
-import { LucideIcon } from 'lucide-react';
 
 export interface StampTemplate {
     id: string;
     name: string;
     type: StampType;
-    icon: LucideIcon;
+    icon: Icon;
     defaultConfig: Partial<PDFStamp>;
 }
 

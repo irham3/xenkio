@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, Check, Plus, Trash2, Shuffle, Maximize2, Minimize2 } from 'lucide-react';
+import { Copy, Check, Plus, Trash, Shuffle, ArrowsOut, CornersIn } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -249,7 +249,7 @@ export function GradientGeneratorTool() {
           onClick={() => setIsFullScreen(false)}
           className="absolute top-4 right-4 bg-white/90 hover:bg-white shadow-md"
         >
-          <Minimize2 className="w-4 h-4 mr-2" />
+          <CornersIn className="w-4 h-4 mr-2" />
           Exit Full Screen
         </Button>
       </div>
@@ -271,7 +271,7 @@ export function GradientGeneratorTool() {
             onClick={() => setIsFullScreen(true)}
             className="absolute top-3 right-3 bg-white/90 hover:bg-white shadow-sm"
           >
-            <Maximize2 className="w-4 h-4" />
+            <ArrowsOut className="w-4 h-4"  weight="duotone"/>
           </Button>
         </div>
 
@@ -433,7 +433,7 @@ export function GradientGeneratorTool() {
                   onClick={handleRandomGradient}
                   className="flex-1 gap-1.5"
                 >
-                  <Shuffle className="w-4 h-4" />
+                  <Shuffle className="w-4 h-4"  weight="duotone"/>
                   Random
                 </Button>
                 <Button
@@ -442,7 +442,7 @@ export function GradientGeneratorTool() {
                   onClick={() => setIsFullScreen(true)}
                   className="flex-1 gap-1.5"
                 >
-                  <Maximize2 className="w-4 h-4" />
+                  <ArrowsOut className="w-4 h-4"  weight="duotone"/>
                   Full Screen
                 </Button>
               </div>
@@ -462,7 +462,7 @@ export function GradientGeneratorTool() {
                     onClick={addColorStop}
                     className="h-7 text-xs gap-1"
                   >
-                    <Plus className="w-3 h-3" />
+                    <Plus className="w-3 h-3"  weight="duotone"/>
                     Add Stop
                   </Button>
                 </div>
@@ -524,7 +524,7 @@ export function GradientGeneratorTool() {
                         )}
                         aria-label="Remove color stop"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                       </button>
                     </div>
                   ))}
@@ -544,7 +544,7 @@ export function GradientGeneratorTool() {
                       copied && 'text-green-600 border-green-500 bg-green-50'
                     )}
                   >
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copied ? <Check className="w-3 h-3"  weight="duotone"/> : <Copy className="w-3 h-3"  weight="duotone"/>}
                     {copied ? 'Copied!' : 'Copy CSS'}
                   </Button>
                 </div>

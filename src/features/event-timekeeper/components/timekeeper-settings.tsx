@@ -1,7 +1,7 @@
 'use client';
 
 import { TimekeeperConfig } from '../types';
-import { Settings } from 'lucide-react';
+import { Gear } from '@phosphor-icons/react/dist/ssr';
 
 interface TimekeeperSettingsProps {
     config: TimekeeperConfig;
@@ -22,7 +22,7 @@ export function TimekeeperSettings({
     return (
         <div className="space-y-4">
             <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <Settings className="w-4 h-4" />
+                <Gear className="w-4 h-4"  weight="duotone"/>
                 Settings
             </div>
 

@@ -4,7 +4,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { PDFStamp } from '../types';
 import { cn } from '@/lib/utils';
-import { X, Maximize2, Pencil } from 'lucide-react';
+import { X, ArrowsOut, Pencil } from '@phosphor-icons/react/dist/ssr';
 
 interface DraggableStampProps {
     stamp: PDFStamp;
@@ -178,7 +178,7 @@ export function DraggableStamp({
                             }}
                             title="Remove"
                         >
-                            <X className="w-3.5 h-3.5" />
+                            <X className="w-3.5 h-3.5"  weight="duotone"/>
                         </div>
 
                         {/* Edit button */}
@@ -195,7 +195,7 @@ export function DraggableStamp({
                             }}
                             title="Edit content"
                         >
-                            <Pencil className="w-3.5 h-3.5" />
+                            <Pencil className="w-3.5 h-3.5"  weight="duotone"/>
                         </div>
 
                         {/* Resize handle */}
@@ -204,7 +204,7 @@ export function DraggableStamp({
                             onMouseDown={handleResizeStart}
                             onTouchStart={handleResizeStart}
                         >
-                            <Maximize2 className="w-3 h-3 text-primary-500 rotate-90" />
+                            <ArrowsOut className="w-3 h-3 text-primary-500 rotate-90"  weight="duotone"/>
                         </div>
                     </>
                 )}

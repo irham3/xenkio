@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Scale, Activity, TrendingDown, TrendingUp, Minus, Heart } from 'lucide-react';
+import { Scales, Pulse, TrendDown, TrendUp, Minus, Heart } from '@phosphor-icons/react/dist/ssr';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useBmiCalculator } from '../hooks/use-bmi-calculator';
@@ -311,7 +311,7 @@ export function BmiCalculator() {
                                     className="flex flex-col items-center justify-center h-full text-center opacity-60"
                                 >
                                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                        <Scale className="w-8 h-8 text-gray-400" />
+                                        <Scales className="w-8 h-8 text-gray-400"  weight="duotone"/>
                                     </div>
                                     <h3 className="text-sm font-semibold text-gray-800 mb-1">
                                         Enter Your Measurements
@@ -362,7 +362,7 @@ export function BmiCalculator() {
                                             {/* Health Risk */}
                                             <div className={cn('p-3 rounded-lg border', result.bgColor, 'border-opacity-50')}>
                                                 <div className="flex items-start gap-2">
-                                                    <Heart className={cn('w-4 h-4 mt-0.5 shrink-0', result.color)} />
+                                                    <Heart className={cn('w-4 h-4 mt-0.5 shrink-0', result.color)}  weight="duotone"/>
                                                     <p className="text-xs text-gray-700 leading-relaxed">
                                                         {result.healthRisk}
                                                     </p>
@@ -383,9 +383,9 @@ export function BmiCalculator() {
                                                             : 'bg-blue-50'
                                                     )}>
                                                         {weightToGoal.direction === 'lose' ? (
-                                                            <TrendingDown className="w-4 h-4 text-amber-600" />
+                                                            <TrendDown className="w-4 h-4 text-amber-600"  weight="duotone"/>
                                                         ) : (
-                                                            <TrendingUp className="w-4 h-4 text-blue-600" />
+                                                            <TrendUp className="w-4 h-4 text-blue-600"  weight="duotone"/>
                                                         )}
                                                     </div>
                                                     <div>
@@ -415,7 +415,7 @@ export function BmiCalculator() {
                         label="BMI Value"
                         value={result.bmi.toFixed(1)}
                         sublabel="kg/m²"
-                        icon={<Activity className="w-4 h-4" />}
+                        icon={<Pulse className="w-4 h-4"  weight="duotone"/>}
                         color={result.color}
                         bgColor={result.bgColor}
                     />
@@ -423,7 +423,7 @@ export function BmiCalculator() {
                         label="Category"
                         value={result.label}
                         sublabel={`BMI ${result.range}`}
-                        icon={<Scale className="w-4 h-4" />}
+                        icon={<Scales className="w-4 h-4"  weight="duotone"/>}
                         color={result.color}
                         bgColor={result.bgColor}
                     />
@@ -449,11 +449,11 @@ export function BmiCalculator() {
                         }
                         icon={
                             result.category === 'normal' ? (
-                                <Minus className="w-4 h-4" />
+                                <Minus className="w-4 h-4"  weight="duotone"/>
                             ) : result.category === 'underweight' ? (
-                                <TrendingUp className="w-4 h-4" />
+                                <TrendUp className="w-4 h-4"  weight="duotone"/>
                             ) : (
-                                <TrendingDown className="w-4 h-4" />
+                                <TrendDown className="w-4 h-4"  weight="duotone"/>
                             )
                         }
                         color={
@@ -482,7 +482,7 @@ export function BmiCalculator() {
                     className="bg-white rounded-2xl border border-gray-200 p-5 shadow-soft"
                 >
                     <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                        <Activity className="w-4 h-4 text-primary-500" />
+                        <Pulse className="w-4 h-4 text-primary-500"  weight="duotone"/>
                         BMI Reference Chart
                     </h3>
                     <div className="overflow-hidden rounded-lg border border-gray-100">

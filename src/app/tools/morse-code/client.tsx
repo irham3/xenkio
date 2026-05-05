@@ -5,7 +5,7 @@ import { MORSE_MODES } from '@/features/morse-code/constants';
 import { type MorseMode } from '@/features/morse-code/types';
 import { Button } from '@/components/ui/button';
 import { Label } from "@/components/ui/label";
-import { ArrowRightLeft, FileCode, FileText, Zap, AlertCircle } from 'lucide-react';
+import { ArrowsLeftRight, FileCode, FileText, Lightning, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CopyButton, ClearButton } from '@/components/shared';
@@ -36,7 +36,7 @@ export default function MorseCodeClient() {
                 : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
             )}
           >
-            {mode.id === 'encode' ? <FileCode className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+            {mode.id === 'encode' ? <FileCode className="w-4 h-4"  weight="duotone"/> : <FileText className="w-4 h-4"  weight="duotone"/>}
             {mode.name}
           </button>
         ))}
@@ -68,7 +68,7 @@ export default function MorseCodeClient() {
                   ? "Type or paste text to encode..."
                   : "Paste Morse code to decode (e.g. .... . .-.. .-.. --- / .-- --- .-. .-.. -..)..."
                 }
-                className="w-full min-h-[200px] p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
+                className="w-full min-h-50 p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
               />
 
               <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export default function MorseCodeClient() {
                   disabled={!result?.output || !!result.error}
                   className="flex-1 gap-2 cursor-pointer"
                 >
-                  <ArrowRightLeft className="w-4 h-4" />
+                  <ArrowsLeftRight className="w-4 h-4"  weight="duotone"/>
                   Swap
                 </Button>
                 <ClearButton onClick={clear} disabled={!options.input} className="flex-1" />
@@ -94,12 +94,12 @@ export default function MorseCodeClient() {
                 >
                   {isProcessing ? (
                     <>
-                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      <Lightning className="w-4 h-4 mr-2 animate-pulse"  weight="duotone"/>
                       Processing...
                     </>
                   ) : (
                     <>
-                      <Zap className="w-4 h-4 mr-2" />
+                      <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>
                       {options.mode === 'encode' ? 'Encode to Morse Code' : 'Decode from Morse Code'}
                     </>
                   )}
@@ -114,7 +114,7 @@ export default function MorseCodeClient() {
           </div>
 
           {/* RIGHT PANEL: Output */}
-          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px]">
+          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-75">
             <div className="flex flex-col h-auto">
               {/* Output Header */}
               <div className="flex items-center justify-between mb-4">
@@ -123,7 +123,7 @@ export default function MorseCodeClient() {
                 </h3>
                 {result?.executionTime !== undefined && !result.error && result.output && (
                   <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
-                    <Zap className="w-3 h-3" />
+                    <Lightning className="w-3 h-3"  weight="duotone"/>
                     {result.executionTime.toFixed(1)}ms
                   </span>
                 )}
@@ -139,7 +139,7 @@ export default function MorseCodeClient() {
                     exit={{ opacity: 0, y: -5 }}
                     transition={{ duration: 0.2 }}
                     className={cn(
-                      "w-full min-h-[200px] p-4 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
+                      "w-full min-h-50 p-4 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
                       result?.error
                         ? "bg-error-50 border-error-200 text-error-600"
                         : result?.output
@@ -149,18 +149,18 @@ export default function MorseCodeClient() {
                   >
                     {result?.error ? (
                       <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
-                        <AlertCircle className="w-10 h-10 text-error-400" />
+                        <WarningCircle className="w-10 h-10 text-error-400"  weight="duotone"/>
                         <p className="font-semibold text-sm">Decoding Error</p>
-                        <p className="text-xs opacity-80 text-center max-w-[250px]">{result.error}</p>
+                        <p className="text-xs opacity-80 text-center max-w-62.5">{result.error}</p>
                       </div>
                     ) : result?.output ? (
                       result.output
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full gap-3 py-8 opacity-50">
                         {options.mode === 'encode' ? (
-                          <FileCode className="w-10 h-10 text-gray-300" />
+                          <FileCode className="w-10 h-10 text-gray-300"  weight="duotone"/>
                         ) : (
-                          <FileText className="w-10 h-10 text-gray-300" />
+                          <FileText className="w-10 h-10 text-gray-300"  weight="duotone"/>
                         )}
                         <p className="text-sm">
                           {options.mode === 'encode'

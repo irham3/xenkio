@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs"
 import { PdfFile, SplitMode, SplitOptions } from "../types"
 import { PdfPageGrid } from "./pdf-page-grid"
-import { Download, Files, Scissors, Trash2, Settings2, Loader2, FileText } from "lucide-react"
+import { DownloadSimple, Files, Scissors, Trash, Sliders, SpinnerGap, FileText } from '@phosphor-icons/react/dist/ssr';
 
 interface SplitSettingsProps {
     pdf: PdfFile;
@@ -140,16 +140,16 @@ export function SplitSettings({ pdf, onReset, onSplit, isProcessing }: SplitSett
                 />
             </div>
 
-            {/* Right: Settings Panel */}
+            {/* Right: Gear Panel */}
             <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-5 sticky top-6 h-fit lg:col-span-1">
                 <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
-                    <Settings2 className="w-5 h-5 text-primary-600" />
+                    <Sliders className="w-5 h-5 text-primary-600"  weight="duotone"/>
                     <h2 className="font-semibold">Settings</h2>
                 </div>
 
                 <div className="p-3 rounded-xl bg-gray-50 border border-gray-100 space-y-2">
                     <div className="flex items-center gap-2 text-gray-900">
-                        <FileText className="w-4 h-4 text-primary-500" />
+                        <FileText className="w-4 h-4 text-primary-500"  weight="duotone"/>
                         <span className="text-sm font-medium truncate" title={pdf.name}>{pdf.name}</span>
                     </div>
                     <div className="flex items-center gap-4 text-[10px] text-gray-500 font-medium uppercase tracking-wider">
@@ -168,7 +168,7 @@ export function SplitSettings({ pdf, onReset, onSplit, isProcessing }: SplitSett
                             className="h-6 w-6 text-gray-400 hover:text-red-500 hover:bg-red-50 cursor-pointer"
                             title="Reset all"
                         >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                         </Button>
                     </div>
 
@@ -190,7 +190,7 @@ export function SplitSettings({ pdf, onReset, onSplit, isProcessing }: SplitSett
                             />
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <Scissors className="w-4 h-4 text-gray-700" />
+                                    <Scissors className="w-4 h-4 text-gray-700"  weight="duotone"/>
                                     <p className="font-medium text-sm text-gray-900">Custom Ranges</p>
                                 </div>
                                 <p className="text-xs text-gray-500 mt-0.5">Select pages or define ranges</p>
@@ -331,12 +331,12 @@ export function SplitSettings({ pdf, onReset, onSplit, isProcessing }: SplitSett
                     >
                         {isProcessing ? (
                             <>
-                                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                <SpinnerGap className="mr-2 h-5 w-5 animate-spin" />
                                 Processing...
                             </>
                         ) : (
                             <>
-                                <Download className="mr-2 h-5 w-5" />
+                                <DownloadSimple className="mr-2 h-5 w-5"  weight="duotone"/>
                                 Split PDF
                             </>
                         )}

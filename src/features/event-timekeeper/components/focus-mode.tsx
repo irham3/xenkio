@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { ScheduleEvent } from '../types';
-import { Minimize2, SkipForward, Pause, Play } from 'lucide-react';
+import { ArrowsIn, SkipForward, Pause, Play } from '@phosphor-icons/react/dist/ssr';
 import { useState, useEffect } from 'react';
 
 interface FocusModeProps {
@@ -73,7 +73,7 @@ export function FocusMode({
                 className="absolute top-6 right-6 p-3 text-gray-500 hover:text-white rounded-full hover:bg-white/10 transition-colors"
                 title="Exit Focus Mode"
             >
-                <Minimize2 className="w-6 h-6" />
+                <ArrowsIn className="w-6 h-6"  weight="duotone"/>
             </button>
 
             {/* Delay Info (Subtle) */}
@@ -116,21 +116,21 @@ export function FocusMode({
                         onClick={onResume}
                         className="p-4 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
                     >
-                        <Play className="w-6 h-6 fill-current" />
+                        <Play className="w-6 h-6 fill-current"  weight="duotone"/>
                     </button>
                 ) : (
                     <button
                         onClick={onPause}
                         className="p-4 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
                     >
-                        <Pause className="w-6 h-6 fill-current" />
+                        <Pause className="w-6 h-6 fill-current"  weight="duotone"/>
                     </button>
                 )}
                 <button
                     onClick={onNext}
                     className="p-4 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
                 >
-                    <SkipForward className="w-6 h-6" />
+                    <SkipForward className="w-6 h-6"  weight="duotone"/>
                 </button>
             </div>
 

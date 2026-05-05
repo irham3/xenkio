@@ -1,31 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import {
-    Undo2,
-    Redo2,
-    Bold,
-    Italic,
-    Underline,
-    Strikethrough,
-    Heading1,
-    Heading2,
-    Heading3,
-    Heading4,
-    Heading5,
-    Heading6,
-    List,
-    ListOrdered,
-    CheckSquare,
-    Quote,
-    Link as LinkIcon,
-    Image as ImageIcon,
-    Code,
-    SquareCode,
-    Table as TableIcon,
-    Minus,
-    MoreHorizontal,
-    Eraser,
-} from "lucide-react";
+import { ArrowCounterClockwise, ArrowClockwise, TextB, TextItalic, TextUnderline, TextStrikethrough, TextHOne, TextHTwo, TextHThree, TextHFour, TextHFive, TextHSix, ListBullets, ListNumbers, CheckSquare, Quotes, Link as LinkIcon, Image as ImageIcon, Code, Table as Table, Minus, DotsThree, Eraser } from '@phosphor-icons/react/dist/ssr';
 
 interface ToolbarProps {
     undo: () => void;
@@ -55,7 +30,7 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md disabled:opacity-30 disabled:hover:bg-transparent transition-all cursor-pointer"
                     title="Undo (Ctrl+Z)"
                 >
-                    <Undo2 className="w-4 h-4" />
+                    <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                 </button>
                 <button
                     onClick={redo}
@@ -63,7 +38,7 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md disabled:opacity-30 disabled:hover:bg-transparent transition-all cursor-pointer"
                     title="Redo (Ctrl+Y/Ctrl+Shift+Z)"
                 >
-                    <Redo2 className="w-4 h-4" />
+                    <ArrowClockwise className="w-4 h-4"  weight="duotone"/>
                 </button>
             </div>
 
@@ -74,28 +49,28 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Bold (Ctrl+B)"
                 >
-                    <Bold className="w-4 h-4" />
+                    <TextB className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => applyFormatting('*', '*', 'italic text')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Italic (Ctrl+I)"
                 >
-                    <Italic className="w-4 h-4" />
+                    <TextItalic className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => applyFormatting('<u>', '</u>', 'underlined text')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Underline"
                 >
-                    <Underline className="w-4 h-4" />
+                    <TextUnderline className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => applyFormatting('~~', '~~', 'strikethrough text')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Strikethrough"
                 >
-                    <Strikethrough className="w-4 h-4" />
+                    <TextStrikethrough className="w-4 h-4" />
                 </button>
             </div>
 
@@ -106,42 +81,42 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Heading 1"
                 >
-                    <Heading1 className="w-4 h-4" />
+                    <TextHOne className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => insertLinePrefix('## ')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Heading 2"
                 >
-                    <Heading2 className="w-4 h-4" />
+                    <TextHTwo className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => insertLinePrefix('### ')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Heading 3"
                 >
-                    <Heading3 className="w-4 h-4" />
+                    <TextHThree className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => insertLinePrefix('#### ')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Heading 4"
                 >
-                    <Heading4 className="w-4 h-4" />
+                    <TextHFour className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => insertLinePrefix('##### ')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Heading 5"
                 >
-                    <Heading5 className="w-4 h-4" />
+                    <TextHFive className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => insertLinePrefix('###### ')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Heading 6"
                 >
-                    <Heading6 className="w-4 h-4" />
+                    <TextHSix className="w-4 h-4" />
                 </button>
             </div>
 
@@ -152,14 +127,14 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Bullet List"
                 >
-                    <List className="w-4 h-4" />
+                    <ListBullets className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => insertLinePrefix('1. ')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Numbered List"
                 >
-                    <ListOrdered className="w-4 h-4" />
+                    <ListNumbers className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => insertLinePrefix('- [ ] ')}
@@ -173,7 +148,7 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Quote"
                 >
-                    <Quote className="w-4 h-4" />
+                    <Quotes className="w-4 h-4" />
                 </button>
             </div>
 
@@ -191,28 +166,28 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Image"
                 >
-                    <ImageIcon className="w-4 h-4" />
+                    <ImageIcon className="w-4 h-4" aria-hidden="true" />
                 </button>
                 <button
                     onClick={() => applyFormatting('`', '`', 'inline code')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Inline Code"
                 >
-                    <Code className="w-4 h-4" />
+                    <Code className="w-4 h-4"  weight="duotone"/>
                 </button>
                 <button
                     onClick={() => applyFormatting('```javascript\\n', '\\n```', '// code here')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Code Block"
                 >
-                    <SquareCode className="w-4 h-4" />
+                    <Code className="w-4 h-4"  weight="duotone"/>
                 </button>
                 <button
                     onClick={() => applyFormatting('\n' + tableTemplate + '\n', '', '')}
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Insert Table"
                 >
-                    <TableIcon className="w-4 h-4" />
+                    <Table className="w-4 h-4"  weight="duotone"/>
                 </button>
             </div>
 
@@ -223,7 +198,7 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                     className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all cursor-pointer"
                     title="Horizontal Rule"
                 >
-                    <Minus className="w-4 h-4" />
+                    <Minus className="w-4 h-4"  weight="duotone"/>
                 </button>
 
                 <div className="relative group">
@@ -235,7 +210,7 @@ export const Toolbar = ({ undo, redo, canUndo, canRedo, applyFormatting, insertL
                         )}
                         title="Advanced Tools"
                     >
-                        <MoreHorizontal className="w-4 h-4" />
+                        <DotsThree className="w-4 h-4"  weight="duotone"/>
                     </button>
 
                     {showTools && (

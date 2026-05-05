@@ -79,7 +79,7 @@ export function CronFieldEditor({ fieldType, field, onChange }: CronFieldEditorP
                                 key={val}
                                 onClick={() => handleToggleValue(val)}
                                 className={cn(
-                                    "min-w-[36px] h-8 text-xs font-bold rounded-lg transition-all cursor-pointer",
+                                    "min-w-9 h-8 text-xs font-bold rounded-lg transition-all cursor-pointer",
                                     field.values.includes(val)
                                         ? "bg-primary-500 text-white shadow-sm"
                                         : "bg-white text-gray-500 hover:text-gray-900 border border-gray-100 hover:border-gray-200"

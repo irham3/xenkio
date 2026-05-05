@@ -5,7 +5,7 @@ import { useState } from "react"
 import { ImageToBase64Result } from "../types"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Copy, Check, ImageIcon, Code2, Trash2 } from "lucide-react"
+import { Copy, Check, ImageSquare as PhosphorImage, CodeSimple, Trash } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { formatBytes } from "../lib/base64-utils"
 import Image from "next/image"
@@ -46,7 +46,7 @@ export function Base64Result({ result, onClear }: Base64ResultProps) {
                         <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-medium p-6 space-y-6">
                             <div className="flex items-center justify-between">
                                 <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
-                                    <ImageIcon className="w-4 h-4 text-primary-500" />
+                                    <PhosphorImage weight="duotone" className="w-4 h-4 text-primary-500" />
                                     Preview
                                 </h3>
                                 <Button
@@ -55,7 +55,7 @@ export function Base64Result({ result, onClear }: Base64ResultProps) {
                                     onClick={onClear}
                                     className="h-8 text-gray-400 hover:text-error-600 hover:bg-error-50 rounded-lg cursor-pointer"
                                 >
-                                    <Trash2 className="w-3.5 h-3.5 mr-1.5" />
+                                    <Trash weight="duotone" className="w-3.5 h-3.5 mr-1.5" />
                                     Clear
                                 </Button>
                             </div>
@@ -65,8 +65,7 @@ export function Base64Result({ result, onClear }: Base64ResultProps) {
                                     src={result.dataUrl}
                                     alt="Preview"
                                     fill
-                                    className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                                />
+                                    className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"/>
                             </div>
 
                             <div className="space-y-4">
@@ -107,7 +106,7 @@ export function Base64Result({ result, onClear }: Base64ResultProps) {
                             <div className="p-6 border-b border-gray-50 bg-gray-50/30">
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                     <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
-                                        <Code2 className="w-4 h-4 text-primary-500" />
+                                        <CodeSimple weight="duotone" className="w-4 h-4 text-primary-500" />
                                         Encoded Output
                                     </h3>
                                     <span className="text-[10px] sm:text-xs font-medium text-primary-600 bg-primary-100/50 px-2.5 py-1 rounded-full w-fit">
@@ -138,7 +137,7 @@ export function Base64Result({ result, onClear }: Base64ResultProps) {
                                                             copied === type ? "bg-success-600 text-white border-success-600 hover:bg-success-700 hover:text-white" : "bg-white/80 hover:bg-white text-gray-700"
                                                         )}
                                                     >
-                                                        {copied === type ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
+                                                        {copied === type ? <Check weight="duotone" className="w-4 h-4 mr-2" /> : <Copy weight="duotone" className="w-4 h-4 mr-2" />}
                                                         {copied === type ? 'Copied!' : 'Copy Snippet'}
                                                     </Button>
                                                 </div>

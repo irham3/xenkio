@@ -3,10 +3,7 @@
 import { CarouselImage } from '../types';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import {
-  Trash2, RotateCw, ArrowUp, ArrowDown, ArrowLeft, ArrowRight,
-  BringToFront, SendToBack, RefreshCw
-} from 'lucide-react';
+import { Trash, ArrowClockwise, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Cards, ArrowsClockwise } from '@phosphor-icons/react/dist/ssr';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface CarouselImageControlsProps {
@@ -27,7 +24,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
           <p className="text-[11px] text-gray-500 font-medium">Fine-tune your selection</p>
         </div>
         <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-full transition-all" onClick={onDelete}>
-          <Trash2 size={16} />
+          <Trash weight="duotone" size={16} />
         </Button>
       </div>
 
@@ -41,7 +38,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white hover:text-primary-600 hover:shadow-sm transition-all rounded-lg" onClick={() => onLayerChange('back')}>
-                    <SendToBack size={16} />
+                    <Cards weight="duotone" size={16} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Send to Back</TooltipContent>
@@ -49,7 +46,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white hover:text-primary-600 hover:shadow-sm transition-all rounded-lg" onClick={() => onLayerChange('front')}>
-                    <BringToFront size={16} />
+                    <Cards weight="duotone" size={16} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Bring to Front</TooltipContent>
@@ -69,7 +66,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-5 w-5 hover:bg-gray-100 text-gray-400 hover:text-gray-600 rounded-full" onClick={() => onChange({ scale: 1 })}>
-                    <RefreshCw size={10} />
+                    <ArrowsClockwise weight="duotone" size={10} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Reset Scale</TooltipContent>
@@ -107,7 +104,7 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
             className="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-500 hover:accent-primary-600"
           />
           <Button variant="outline" size="icon" className="h-8 w-8 rounded-lg border-gray-200 hover:bg-gray-50 text-gray-500" onClick={() => onChange({ rotation: 0 })}>
-            <RotateCw size={14} />
+            <ArrowClockwise weight="duotone" size={14} />
           </Button>
         </div>
       </div>
@@ -118,17 +115,17 @@ export function CarouselImageControls({ image, onChange, onDelete, onLayerChange
         <div className="grid grid-cols-3 gap-1.5 w-fit mx-auto bg-gray-50 p-2 rounded-xl border border-gray-200">
           <div />
           <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg bg-white border border-gray-200 shadow-sm hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 transition-all" onClick={() => onChange({ y: image.y - 1 })}>
-            <ArrowUp size={14} />
+            <ArrowUp weight="duotone" size={14} />
           </Button>
           <div />
           <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg bg-white border border-gray-200 shadow-sm hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 transition-all" onClick={() => onChange({ x: image.x - 1 })}>
-            <ArrowLeft size={14} />
+            <ArrowLeft weight="duotone" size={14} />
           </Button>
           <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg bg-white border border-gray-200 shadow-sm hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 transition-all" onClick={() => onChange({ y: image.y + 1 })}>
-            <ArrowDown size={14} />
+            <ArrowDown weight="duotone" size={14} />
           </Button>
           <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg bg-white border border-gray-200 shadow-sm hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 transition-all" onClick={() => onChange({ x: image.x + 1 })}>
-            <ArrowRight size={14} />
+            <ArrowRight weight="duotone" size={14} />
           </Button>
         </div>
       </div>

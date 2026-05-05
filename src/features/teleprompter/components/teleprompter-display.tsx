@@ -1,18 +1,6 @@
 'use client';
 
-import {
-    Play,
-    Pause,
-    RotateCcw,
-    ArrowLeft,
-    Maximize,
-    Minimize,
-    Plus,
-    Minus,
-    ChevronRight,
-    ChevronLeft,
-    Clock,
-} from 'lucide-react';
+import { Play, Pause, ArrowCounterClockwise, ArrowLeft, ArrowsOut, ArrowsIn, Plus, Minus, CaretRight, CaretLeft, Clock } from '@phosphor-icons/react/dist/ssr';
 import { useCallback, useEffect, useRef, useMemo } from 'react';
 import { TeleprompterConfig, TeleprompterState } from '../types';
 import { FONT_FAMILIES, estimateDuration } from '../lib/teleprompter-utils';
@@ -169,7 +157,7 @@ export function TeleprompterDisplay({
                     className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-80"
                     style={{ color: config.textColor, border: `1.5px solid ${config.textColor}44` }}
                 >
-                    <ArrowLeft className="w-4 h-4" />
+                    <ArrowLeft className="w-4 h-4"  weight="duotone"/>
                     <span className="hidden sm:inline">Setup</span>
                 </button>
 
@@ -179,7 +167,7 @@ export function TeleprompterDisplay({
                         className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl"
                         style={{ border: `1.5px solid ${config.textColor}22`, color: `${config.textColor}88` }}
                     >
-                        <Clock className="w-3.5 h-3.5" />
+                        <Clock className="w-3.5 h-3.5"  weight="duotone"/>
                         <span className="text-xs font-mono">{estimatedTime}</span>
                     </div>
 
@@ -194,7 +182,7 @@ export function TeleprompterDisplay({
                             style={{ color: config.textColor }}
                             title="Decrease font size (–)"
                         >
-                            <Minus className="w-3.5 h-3.5" />
+                            <Minus className="w-3.5 h-3.5"  weight="duotone"/>
                         </button>
                         <span
                             className="text-xs font-mono w-10 text-center font-semibold"
@@ -208,7 +196,7 @@ export function TeleprompterDisplay({
                             style={{ color: config.textColor }}
                             title="Increase font size (+)"
                         >
-                            <Plus className="w-3.5 h-3.5" />
+                            <Plus className="w-3.5 h-3.5"  weight="duotone"/>
                         </button>
                     </div>
 
@@ -223,7 +211,7 @@ export function TeleprompterDisplay({
                             style={{ color: config.textColor }}
                             title="Slow down (↓)"
                         >
-                            <Minus className="w-3.5 h-3.5" />
+                            <Minus className="w-3.5 h-3.5"  weight="duotone"/>
                         </button>
                         <span
                             className="text-xs w-6 text-center font-semibold"
@@ -237,7 +225,7 @@ export function TeleprompterDisplay({
                             style={{ color: config.textColor }}
                             title="Speed up (↑)"
                         >
-                            <Plus className="w-3.5 h-3.5" />
+                            <Plus className="w-3.5 h-3.5"  weight="duotone"/>
                         </button>
                     </div>
 
@@ -248,7 +236,7 @@ export function TeleprompterDisplay({
                         style={{ color: config.textColor, border: `1.5px solid ${config.textColor}33` }}
                         title="Restart (R)"
                     >
-                        <RotateCcw className="w-4 h-4" />
+                        <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                     </button>
 
                     {/* Fullscreen */}
@@ -259,9 +247,9 @@ export function TeleprompterDisplay({
                         title={state.isFullscreen ? 'Exit fullscreen (F)' : 'Fullscreen (F)'}
                     >
                         {state.isFullscreen ? (
-                            <Minimize className="w-4 h-4" />
+                            <ArrowsIn className="w-4 h-4"  weight="duotone"/>
                         ) : (
-                            <Maximize className="w-4 h-4" />
+                            <ArrowsOut className="w-4 h-4"  weight="duotone"/>
                         )}
                     </button>
                 </div>
@@ -317,13 +305,13 @@ export function TeleprompterDisplay({
                 className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pointer-events-none"
                 style={{ color: `${config.textColor}99` }}
             >
-                <ChevronRight className="w-8 h-8 -ml-1 flex-shrink-0" />
+                <CaretRight className="w-8 h-8 -ml-1 flex-shrink-0"  weight="duotone"/>
             </div>
             <div
                 className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pointer-events-none"
                 style={{ color: `${config.textColor}99` }}
             >
-                <ChevronLeft className="w-8 h-8 -mr-1 flex-shrink-0" />
+                <CaretLeft className="w-8 h-8 -mr-1 flex-shrink-0"  weight="duotone"/>
             </div>
 
             {/* Center line indicator */}
@@ -348,12 +336,12 @@ export function TeleprompterDisplay({
                 >
                     {state.isPlaying || state.countdown !== null ? (
                         <>
-                            <Pause className="w-6 h-6" />
+                            <Pause className="w-6 h-6"  weight="duotone"/>
                             Pause
                         </>
                     ) : (
                         <>
-                            <Play className="w-6 h-6" />
+                            <Play className="w-6 h-6"  weight="duotone"/>
                             Start
                         </>
                     )}

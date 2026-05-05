@@ -2,11 +2,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import {
-    ShieldCheck, Infinity, WifiOff, ArrowRight, Upload, Server, Download,
-    MonitorSmartphone, Cpu, Lock, Globe, Zap, UserX, Scale, Briefcase,
-    FileText, Code, Search
-} from 'lucide-react';
+import { ShieldCheck, Infinity, WifiSlash, ArrowRight, UploadSimple, HardDrives, DownloadSimple, DeviceMobile, Cpu, Lock, Globe, Lightning, UserMinus, Scales, Briefcase, FileText, Code, MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
 
 // Hook: observe elements and add 'is-visible' class on scroll
 function useScrollReveal() {
@@ -99,11 +95,11 @@ export function HowItWorksClient() {
                                 <p className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Other tools</p>
                             </div>
                             <div className="space-y-6">
-                                <FlowStep icon={Upload} label="Upload your file" sublabel="Wait for upload..." tone="red" />
+                                <FlowStep icon={UploadSimple} label="Upload your file" sublabel="Wait for upload..." tone="red" />
                                 <FlowArrow />
-                                <FlowStep icon={Server} label="Server processes it" sublabel="File is on their server" tone="red" />
+                                <FlowStep icon={HardDrives} label="Server processes it" sublabel="File is on their server" tone="red" />
                                 <FlowArrow />
-                                <FlowStep icon={Download} label="Download result" sublabel="Wait again..." tone="red" />
+                                <FlowStep icon={DownloadSimple} label="Download result" sublabel="Wait again..." tone="red" />
                             </div>
                             <div className="mt-8 pt-6 border-t border-gray-100">
                                 <div className="flex flex-wrap gap-2">
@@ -128,11 +124,11 @@ export function HowItWorksClient() {
                                 <p className="text-sm font-semibold text-gray-400 uppercase tracking-wider">How we do it</p>
                             </div>
                             <div className="space-y-6">
-                                <FlowStep icon={MonitorSmartphone} label="Open in browser" sublabel="No upload needed" tone="green" />
+                                <FlowStep icon={DeviceMobile} label="Open in browser" sublabel="No upload needed" tone="green" />
                                 <FlowArrow color="emerald" />
                                 <FlowStep icon={Cpu} label="Browser processes it" sublabel="Stays on your device" tone="green" />
                                 <FlowArrow color="emerald" />
-                                <FlowStep icon={Download} label="Done" sublabel="Instant, save directly" tone="green" />
+                                <FlowStep icon={DownloadSimple} label="Done" sublabel="Instant, save directly" tone="green" />
                             </div>
                             <div className="mt-8 pt-6 border-t border-primary-100">
                                 <div className="flex flex-wrap gap-2">
@@ -168,13 +164,13 @@ export function HowItWorksClient() {
                             delay={1}
                         />
                         <PillarCard
-                            icon={Zap}
+                            icon={Lightning}
                             title="Instant, no waiting"
                             description="No upload queue, no server processing time. Files are processed at the speed of your device. On slow WiFi? Doesn't matter | everything happens locally."
                             delay={2}
                         />
                         <PillarCard
-                            icon={UserX}
+                            icon={UserMinus}
                             title="No account, no friction"
                             description="No sign-up, no email capture, no paywall after 3 uses. Just open a tool and get results. We don't need your data because we never see your files."
                             delay={3}
@@ -184,7 +180,7 @@ export function HowItWorksClient() {
                     {/* Offline capability sub-card */}
                     <div className="reveal reveal-delay-4 mt-8 rounded-2xl border border-gray-100 bg-white p-8 lg:p-10 flex flex-col md:flex-row items-start gap-6">
                         <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 shrink-0">
-                            <WifiOff className="w-7 h-7" />
+                            <WifiSlash className="w-7 h-7"  weight="duotone"/>
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">Works offline | that&apos;s the proof</h3>
@@ -286,7 +282,7 @@ export function HowItWorksClient() {
                         <div className="p-8 lg:p-10 bg-linear-to-br from-primary-50/60 to-white border-b border-gray-100">
                             <div className="flex items-start gap-5">
                                 <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-100 text-primary-700 shrink-0">
-                                    <Scale className="w-7 h-7" />
+                                    <Scales className="w-7 h-7"  weight="duotone"/>
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -331,7 +327,7 @@ export function HowItWorksClient() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
                         <SegmentCard
-                            icon={Scale}
+                            icon={Scales}
                             title="Lawyers & Notaries"
                             description="Client contracts, NDAs, legal briefs | documents that must never be uploaded to a third-party server. Attorney-client privilege is maintained because files never leave your device."
                             delay={1}
@@ -374,16 +370,14 @@ export function HowItWorksClient() {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link
                             href="/"
-                            className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300"
-                        >
+                            className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-md shadow-primary-500/20 hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-300">
                             Explore tools
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowRight className="w-4 h-4"  weight="duotone"/>
                         </Link>
                         <Link
                             href="/tools"
-                            className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-gray-700 bg-white border border-gray-200 hover:border-gray-300 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
-                        >
-                            <Search className="w-4 h-4" />
+                            className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-gray-700 bg-white border border-gray-200 hover:border-gray-300 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                            <MagnifyingGlass className="w-4 h-4"  weight="duotone"/>
                             Browse all tools
                         </Link>
                     </div>
@@ -405,7 +399,7 @@ function FlowStep({ icon: Icon, label, sublabel, tone }: {
     return (
         <div className="flex items-center gap-4">
             <div className={`flex items-center justify-center w-11 h-11 rounded-xl shrink-0 ${bg}`}>
-                <Icon className="w-5 h-5" />
+                <Icon className="w-5 h-5"/>
             </div>
             <div>
                 <p className="text-sm font-semibold text-gray-900">{label}</p>
@@ -443,7 +437,7 @@ function PillarCard({ icon: Icon, title, description, delay }: {
     return (
         <div className={`reveal reveal-delay-${delay} group bg-white border border-gray-100 rounded-2xl p-8 hover:border-gray-200 hover:shadow-sm transition-all duration-200`}>
             <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gray-50 text-gray-500 mb-6 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
-                <Icon className="w-6 h-6" />
+                <Icon className="w-6 h-6"/>
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-3">{title}</h3>
             <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
@@ -460,7 +454,7 @@ function TechCard({ icon: Icon, title, description, delay }: {
     return (
         <div className={`reveal reveal-delay-${delay} group bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-md transition-all duration-200`}>
             <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 text-gray-600 mb-5 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
-                <Icon className="w-5 h-5" />
+                <Icon className="w-5 h-5"/>
             </div>
             <h3 className="text-base font-semibold text-gray-900 mb-2">{title}</h3>
             <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
@@ -486,7 +480,7 @@ function SegmentCard({ icon: Icon, title, description, delay }: {
     return (
         <div className={`reveal reveal-delay-${delay} flex items-start gap-5 bg-white border border-gray-100 rounded-2xl p-8 hover:border-gray-200 hover:shadow-sm transition-all duration-200`}>
             <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gray-50 text-gray-500 shrink-0">
-                <Icon className="w-6 h-6" />
+                <Icon className="w-6 h-6"/>
             </div>
             <div>
                 <h3 className="text-base font-semibold text-gray-900 mb-2">{title}</h3>

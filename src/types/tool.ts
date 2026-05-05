@@ -1,13 +1,8 @@
-import { LucideIcon } from 'lucide-react';
-
-/**
- * Tool data interface for all tools in the application
- */
 export interface Tool {
   id: string;
   title: string;
   description: string;
-  icon: LucideIcon;
+  icon: string;
   href: string;
   featured?: boolean;
   isNew?: boolean;
@@ -23,7 +18,7 @@ export interface ToolCategory {
   id: string;
   name: string;
   description: string;
-  icon: LucideIcon;
+  icon: string;
   toolCount: number;
 }
 

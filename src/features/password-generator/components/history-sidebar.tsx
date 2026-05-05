@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield, History } from 'lucide-react';
+import { Shield, ClockCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateStrength } from '../lib/password-utils';
@@ -26,7 +26,7 @@ export function HistorySidebar({ history }: HistorySidebarProps) {
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 flex flex-col h-[500px] md:h-auto md:min-h-[600px] sticky top-8">
                 <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/50 rounded-t-2xl">
                     <h3 className="font-bold text-gray-700 flex items-center gap-2">
-                        <History className="h-4 w-4" />
+                        <ClockCounterClockwise className="h-4 w-4"  weight="duotone"/>
                         Recent
                     </h3>
                     <span className="text-xs font-mono text-gray-400">{history.length}/10</span>
@@ -35,7 +35,7 @@ export function HistorySidebar({ history }: HistorySidebarProps) {
                 <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
                     {history.length === 0 ? (
                         <div className="h-full flex flex-col items-center justify-center text-center text-gray-400 p-4">
-                            <Shield className="h-12 w-12 mb-4 opacity-10" />
+                            <Shield className="h-12 w-12 mb-4 opacity-10"  weight="duotone"/>
                             <p className="text-sm font-medium">No history yet</p>
                             <p className="text-xs opacity-70 mt-1">Generated passwords will live here</p>
                         </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { Check } from "lucide-react"
+import { Check } from '@phosphor-icons/react/dist/ssr';
 import { PdfPageThumbnail } from "./pdf-page-thumbnail"
 import { PdfFile } from "../types"
 import {
@@ -82,7 +82,7 @@ function SortablePageItem({ pageNum, isSelected, onToggle, pdf }: SortablePageIt
                     ? "bg-primary-500 border-primary-500 text-white"
                     : "bg-white/80 border-gray-300 text-transparent group-hover:border-primary-400"
             )}>
-                <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                <Check className="w-3.5 h-3.5" strokeWidth={3}  weight="duotone"/>
             </div>
 
             <PdfPageThumbnail

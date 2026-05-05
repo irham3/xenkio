@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Lock, Unlock, Zap, Settings2, Key, RefreshCw } from 'lucide-react';
+import { Lock, LockOpen, Lightning, Sliders, Key, ArrowsClockwise } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -18,7 +18,7 @@ import { toast } from 'sonner';
 import { type AsymmetricAlgorithm } from '../utils/encryption-utils';
 import { cn } from '@/lib/utils';
 import { CopyButton, ClearButton } from '@/components/shared';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from '@phosphor-icons/react/dist/ssr';
 
 const ASYMMETRIC_ALGORITHMS: { value: AsymmetricAlgorithm; label: string; description: string }[] = [
     { value: 'RSA', label: 'RSA', description: 'Standard PKI encryption (2048/4096-bit).' },
@@ -102,7 +102,7 @@ export function AsymmetricPanel() {
                         <div className="space-y-6 border border-gray-200 p-6 rounded-2xl bg-gray-50/50">
                             <div className="flex items-center gap-3 pb-4 border-b border-gray-200">
                                 <div className="p-2 bg-white rounded-lg border border-gray-200 shadow-sm">
-                                    <Settings2 className="w-5 h-5 text-gray-700" />
+                                    <Sliders className="w-5 h-5 text-gray-700"  weight="duotone"/>
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-gray-900">Identity Details</h3>
@@ -140,7 +140,7 @@ export function AsymmetricPanel() {
                                     disabled={isAsymLoading}
                                     className="w-full h-11 bg-primary-600 hover:bg-primary-700 font-semibold text-white shadow-md mt-4 cursor-pointer"
                                 >
-                                    {isAsymLoading ? <RefreshCw className="w-4 h-4 animate-spin mr-2" /> : <Zap className="w-4 h-4 mr-2" />}
+                                    {isAsymLoading ? <ArrowsClockwise className="w-4 h-4 animate-spin mr-2"  weight="duotone"/> : <Lightning className="w-4 h-4 mr-2"  weight="duotone"/>}
                                     Generate Key Pair
                                 </Button>
                             </div>
@@ -150,7 +150,7 @@ export function AsymmetricPanel() {
                     <div className="space-y-6">
                         <div className="space-y-4">
                             <div className="flex justify-between items-center">
-                                <Label className="flex items-center gap-2"><Lock className="w-3 h-3" /> Public Key</Label>
+                                <Label className="flex items-center gap-2"><Lock className="w-3 h-3"  weight="duotone"/> Public Key</Label>
                                 <CopyButton value={generatedKeys?.pub || ''} />
                             </div>
                             <Textarea readOnly value={generatedKeys?.pub || ''} className="h-[160px] font-mono text-xs bg-gray-50 border-gray-200 text-gray-600 resize-none rounded-xl" placeholder="Generated Public Key will appear here..." />
@@ -189,7 +189,7 @@ export function AsymmetricPanel() {
                         <div className="p-6 bg-gray-50 rounded-2xl border border-gray-200 space-y-4">
                             <div className="space-y-3">
                                 <Label className="flex items-center gap-2 font-semibold text-gray-900">
-                                    {asymAction === 'encrypt' ? <ShieldCheck className="w-4 h-4 text-primary-500" /> : <Key className="w-4 h-4 text-primary-500" />}
+                                    {asymAction === 'encrypt' ? <ShieldCheck className="w-4 h-4 text-primary-500"  weight="duotone"/> : <Key className="w-4 h-4 text-primary-500" />}
                                     {asymAction === 'encrypt' ? "Recipient's Public Key" : "Your Private Key"}
                                 </Label>
                                 <Textarea
@@ -219,10 +219,10 @@ export function AsymmetricPanel() {
                                 className="w-full h-11 mt-2 font-semibold shadow-md bg-primary-600 hover:bg-primary-700 text-white cursor-pointer"
                             >
                                 {isAsymLoading ? (
-                                    <span className="flex items-center gap-2"><RefreshCw className="w-4 h-4 animate-spin" /> Processing...</span>
+                                    <span className="flex items-center gap-2"><ArrowsClockwise className="w-4 h-4 animate-spin"  weight="duotone"/> Processing...</span>
                                 ) : (
                                     <span className="flex items-center gap-2">
-                                        {asymAction === 'encrypt' ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
+                                        {asymAction === 'encrypt' ? <Lock className="w-4 h-4"  weight="duotone"/> : <LockOpen className="w-4 h-4"  weight="duotone"/>}
                                         {asymAction === 'encrypt' ? "Encrypt Message" : "Decrypt Message"}
                                     </span>
                                 )}

@@ -1,11 +1,12 @@
 'use client';
 
-import { Download, Globe, Image as ImageIcon, RotateCcw, Sparkles, Twitter, User, Play, Smartphone, Info } from 'lucide-react';
+import { DownloadSimple, Globe, Image as ImageIcon, ArrowCounterClockwise, Sparkle, TwitterLogo, User, Play, DeviceMobile, Info } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/components/ui/button';
 import { CopyButton } from '@/components/shared';
 import { cn } from '@/lib/utils';
 import { useTwitterCardGenerator } from '../hooks/use-twitter-card';
 import { CARD_TYPES, PRESETS, getCharacterCount } from '../lib/twitter-card-utils';
+import { ImagesIcon } from '@phosphor-icons/react';
 
 function CharCount({ value, max }: { value: string; max: number }) {
     const { count, isOver } = getCharacterCount(value, max);
@@ -29,14 +30,14 @@ function CardPreview({ config }: { config: { cardType: string; title: string; de
         return (
             <div className="rounded-xl border border-gray-200 overflow-hidden bg-white">
                 <div className="flex items-center gap-4 p-4">
-                    <div className="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-                        <Smartphone className="h-7 w-7 text-gray-300" />
+                    <div className="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center shrink-0">
+                        <DeviceMobile className="h-7 w-7 text-gray-300"  weight="duotone"/>
                     </div>
                     <div className="min-w-0 flex-1">
                         <p className="text-sm font-semibold text-gray-900 truncate">{displayTitle}</p>
                         <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{displayDescription}</p>
                         <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                            <Smartphone className="h-3 w-3" />
+                            <DeviceMobile className="h-3 w-3"  weight="duotone"/>
                             View on App Store
                         </p>
                     </div>
@@ -48,13 +49,13 @@ function CardPreview({ config }: { config: { cardType: string; title: string; de
     if (isLargeImage || isPlayer) {
         return (
             <div className="rounded-xl border border-gray-200 overflow-hidden bg-white">
-                <div className="aspect-[2/1] bg-gray-100 relative flex items-center justify-center">
+                <div className="aspect-2/1 bg-gray-100 relative flex items-center justify-center">
                     {config.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={config.image} alt="Card preview" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                     ) : (
                         <div className="flex flex-col items-center gap-2 text-gray-300">
-                            {isPlayer ? <Play className="h-10 w-10" /> : <ImageIcon className="h-10 w-10" />}
+                            {isPlayer ? <Play className="h-10 w-10"  weight="duotone"/> : <ImageIcon className="h-10 w-10" weight="duotone"/>}
                             <span className="text-xs">{isPlayer ? 'Player preview' : '1200 x 600'}</span>
                         </div>
                     )}
@@ -63,7 +64,7 @@ function CardPreview({ config }: { config: { cardType: string; title: string; de
                     <p className="text-sm font-semibold text-gray-900 truncate">{displayTitle}</p>
                     <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{displayDescription}</p>
                     <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
-                        <Globe className="h-3 w-3" />
+                        <Globe className="h-3 w-3"  weight="duotone"/>
                         {displaySite}
                     </p>
                 </div>
@@ -74,19 +75,19 @@ function CardPreview({ config }: { config: { cardType: string; title: string; de
     // Summary card
     return (
         <div className="rounded-xl border border-gray-200 overflow-hidden bg-white flex">
-            <div className="w-[125px] h-[125px] bg-gray-100 flex-shrink-0 flex items-center justify-center">
+            <div className="w-31.25 h-31.25 bg-gray-100 shrink-0 flex items-center justify-center">
                 {config.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={config.image} alt="Card preview" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                 ) : (
-                    <ImageIcon className="h-8 w-8 text-gray-300" />
+                    <ImageIcon className="h-8 w-8 text-gray-300"/>
                 )}
             </div>
             <div className="p-3 min-w-0 flex-1 flex flex-col justify-center">
                 <p className="text-sm font-semibold text-gray-900 truncate">{displayTitle}</p>
                 <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{displayDescription}</p>
                 <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
-                    <Globe className="h-3 w-3" />
+                    <Globe className="h-3 w-3"  weight="duotone"/>
                     {displaySite}
                 </p>
             </div>
@@ -109,7 +110,7 @@ export function TwitterCardGenerator() {
             {/* Presets */}
             <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary-500" />
+                    <Sparkle className="h-4 w-4 text-primary-500"  weight="duotone"/>
                     Quick Presets
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -134,7 +135,7 @@ export function TwitterCardGenerator() {
                 {/* Settings Panel */}
                 <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8 space-y-5">
                     <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                        <Twitter className="h-5 w-5 text-primary-500" />
+                        <TwitterLogo className="h-5 w-5 text-primary-500"  weight="duotone"/>
                         Card Settings
                     </h3>
 
@@ -189,7 +190,7 @@ export function TwitterCardGenerator() {
                         <textarea
                             value={config.description}
                             onChange={(e) => updateField('description', e.target.value)}
-                            className="w-full min-h-[86px] px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all resize-y"
+                            className="w-full min-h-21.5 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 transition-all resize-y"
                             placeholder="Short description for your Twitter card"
                         />
                     </div>
@@ -198,7 +199,7 @@ export function TwitterCardGenerator() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                <User className="h-3 w-3" />
+                                <User className="h-3 w-3"  weight="duotone"/>
                                 @site
                             </label>
                             <input
@@ -211,7 +212,7 @@ export function TwitterCardGenerator() {
                         </div>
                         <div className="space-y-2">
                             <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                <User className="h-3 w-3" />
+                                <User className="h-3 w-3"  weight="duotone"/>
                                 @creator
                             </label>
                             <input
@@ -229,7 +230,7 @@ export function TwitterCardGenerator() {
                         <>
                             <div className="space-y-2">
                                 <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5">
-                                    <ImageIcon className="h-3 w-3" />
+                                   <ImagesIcon className="h-3 w-3" weight="duotone" />
                                     Image URL
                                 </label>
                                 <input
@@ -260,7 +261,7 @@ export function TwitterCardGenerator() {
                     {config.cardType === 'player' && (
                         <div className="space-y-4 pt-2 border-t border-gray-100">
                             <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5 pt-2">
-                                <Play className="h-3 w-3" />
+                                <Play className="h-3 w-3"  weight="duotone"/>
                                 Player Settings
                             </h4>
                             <div className="space-y-2">
@@ -302,7 +303,7 @@ export function TwitterCardGenerator() {
                     {config.cardType === 'app' && (
                         <div className="space-y-4 pt-2 border-t border-gray-100">
                             <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-1.5 pt-2">
-                                <Smartphone className="h-3 w-3" />
+                                <DeviceMobile className="h-3 w-3"  weight="duotone"/>
                                 App Store Details
                             </h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -380,14 +381,14 @@ export function TwitterCardGenerator() {
                     {/* Live Preview */}
                     <div className="bg-white rounded-2xl shadow-soft border border-gray-200 p-6 md:p-8">
                         <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                            <Twitter className="h-4 w-4 text-primary-500" />
+                            <TwitterLogo className="h-4 w-4 text-primary-500"  weight="duotone"/>
                             Live Preview
                         </h3>
                         <div className="bg-gray-50 rounded-xl p-4">
                             <CardPreview config={config} />
                         </div>
                         <div className="mt-3 flex items-start gap-2 text-xs text-gray-400">
-                            <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                            <Info className="h-3.5 w-3.5 mt-0.5 shrink-0"  weight="duotone"/>
                             <span>This is an approximation. Actual appearance may vary on Twitter/X.</span>
                         </div>
                     </div>
@@ -403,7 +404,7 @@ export function TwitterCardGenerator() {
                                     size="sm"
                                     className="rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
                                 >
-                                    <RotateCcw className="h-3.5 w-3.5 mr-1" />
+                                    <ArrowCounterClockwise className="h-3.5 w-3.5 mr-1"  weight="duotone"/>
                                     Reset
                                 </Button>
                                 <CopyButton value={output} label="Copy" className="rounded-xl" />
@@ -424,7 +425,7 @@ export function TwitterCardGenerator() {
                                 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all',
                             )}
                         >
-                            <Download className="h-5 w-5 mr-2" />
+                            <DownloadSimple className="h-5 w-5 mr-2"  weight="duotone"/>
                             Download twitter-card-tags.html
                         </Button>
 

@@ -5,7 +5,7 @@ import React, { useRef, useCallback } from 'react';
 import { PDFStamp, PDFFile } from '../types';
 import { DraggableStamp } from './draggable-stamp';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { CaretLeft, CaretRight } from '@phosphor-icons/react/dist/ssr';
 
 interface PdfViewerProps {
     file: PDFFile;
@@ -80,7 +80,7 @@ export function PdfViewer({
                             : 'border-gray-300 text-gray-600 hover:bg-gray-50'
                     )}
                 >
-                    <ChevronLeft className="w-4 h-4" />
+                    <CaretLeft className="w-4 h-4"  weight="duotone"/>
                 </button>
                 <span className="text-sm text-gray-600 font-medium min-w-[80px] text-center">
                     Page {currentPageIndex + 1} / {file.totalPages}
@@ -97,7 +97,7 @@ export function PdfViewer({
                             : 'border-gray-300 text-gray-600 hover:bg-gray-50'
                     )}
                 >
-                    <ChevronRight className="w-4 h-4" />
+                    <CaretRight className="w-4 h-4"  weight="duotone"/>
                 </button>
             </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Play, Pause, Square } from "lucide-react";
+import { Play, Pause, Square } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -77,17 +77,17 @@ export function SpeechControls({
                 >
                     {isSpeaking && !isPaused ? (
                         <>
-                            <Pause className="h-5 w-5" />
+                            <Pause className="h-5 w-5"  weight="duotone"/>
                             Pause Speech
                         </>
                     ) : isPaused ? (
                         <>
-                            <Play className="h-5 w-5" />
+                            <Play className="h-5 w-5"  weight="duotone"/>
                             Resume Speech
                         </>
                     ) : (
                         <>
-                            <Play className="h-5 w-5" />
+                            <Play className="h-5 w-5"  weight="duotone"/>
                             Play Speech
                         </>
                     )}
@@ -101,7 +101,7 @@ export function SpeechControls({
                     onClick={onStop}
                     className="w-full h-12 gap-2"
                 >
-                    <Square className="h-5 w-5" />
+                    <Square className="h-5 w-5"  weight="duotone"/>
                     Stop
                 </Button>
             )}

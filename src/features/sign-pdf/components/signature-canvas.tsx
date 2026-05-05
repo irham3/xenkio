@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { COLORS } from '../constants';
 import { cn } from '@/lib/utils';
-import { Eraser, Check, PenTool, Trash2, Undo, Redo, Palette } from 'lucide-react';
+import { Eraser, Check, PenNib, Trash, ArrowCounterClockwise, ArrowClockwise, Palette } from '@phosphor-icons/react/dist/ssr';
 
 export function SignatureCanvas({
     onSave,
@@ -242,7 +242,7 @@ export function SignatureCanvas({
                         className={cn("h-8 w-8 rounded-full shadow-sm", drawMode === 'brush' ? "bg-primary-600 text-white" : "bg-white/90")}
                         title="Brush"
                     >
-                        <PenTool className="w-4 h-4" />
+                        <PenNib className="w-4 h-4" />
                     </Button>
                     <Button
                         variant={drawMode === 'eraser' ? "default" : "secondary"}
@@ -260,7 +260,7 @@ export function SignatureCanvas({
                         className="h-8 w-8 rounded-full bg-white/90 shadow-sm text-gray-700"
                         title="Tint All"
                     >
-                        <Palette className="w-4 h-4" />
+                        <Palette className="w-4 h-4"  weight="duotone"/>
                     </Button>
                     <div className="h-px bg-gray-200 my-1 mx-2" />
                     <Button
@@ -271,7 +271,7 @@ export function SignatureCanvas({
                         className="h-8 w-8 rounded-full bg-white/90 shadow-sm disabled:opacity-50"
                         title="Undo"
                     >
-                        <Undo className="w-4 h-4" />
+                        <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                     </Button>
                     <Button
                         variant="secondary"
@@ -281,17 +281,17 @@ export function SignatureCanvas({
                         className="h-8 w-8 rounded-full bg-white/90 shadow-sm disabled:opacity-50"
                         title="Redo"
                     >
-                        <Redo className="w-4 h-4" />
+                        <ArrowClockwise className="w-4 h-4"  weight="duotone"/>
                     </Button>
                     <div className="h-px bg-gray-200 my-1 mx-2" />
                     <Button variant="secondary" size="icon" onClick={clearCanvas} className="h-8 w-8 rounded-full bg-white/90 shadow-sm border-red-100 hover:bg-red-50 hover:text-red-500" title="Clear All">
-                        <Trash2 className="w-4 h-4" />
+                        <Trash className="w-4 h-4"  weight="duotone"/>
                     </Button>
                 </div>
             </div>
 
             <Button onClick={handleSave} disabled={!hasContent && !initialImage} className="w-full bg-primary-600 hover:bg-primary-700 h-11 text-base font-semibold shadow-lg shadow-primary-500/20">
-                <Check className="w-4 h-4 mr-2" />
+                <Check className="w-4 h-4 mr-2"  weight="duotone"/>
                 Apply Signature
             </Button>
         </div>

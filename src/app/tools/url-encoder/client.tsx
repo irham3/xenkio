@@ -3,11 +3,7 @@
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-    AlertCircle,
-    FileCode,
-    FileText
-} from "lucide-react";
+import { WarningCircle, FileCode, FileText } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from 'framer-motion';
 import { CopyButton, ClearButton } from '@/components/shared';
@@ -83,7 +79,7 @@ export default function UrlEncoderClient() {
                                 : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                         )}
                     >
-                        {m.id === 'encode' ? <FileCode className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+                        {m.id === 'encode' ? <FileCode className="w-4 h-4"  weight="duotone"/> : <FileText className="w-4 h-4"  weight="duotone"/>}
                         {m.name}
                     </button>
                 ))}
@@ -110,7 +106,7 @@ export default function UrlEncoderClient() {
                                     ? "Type or paste text to encode..."
                                     : "Paste URL encoded text to decode..."
                                 }
-                                className="w-full min-h-[300px] p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
+                                className="w-full min-h-75 p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
                             />
 
                             <div className="flex items-center gap-2">
@@ -130,7 +126,7 @@ export default function UrlEncoderClient() {
                         </div>
                     </div>
 
-                    <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px]">
+                    <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-75">
                         <div className="flex flex-col h-full">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-sm font-semibold text-gray-800">
@@ -152,7 +148,7 @@ export default function UrlEncoderClient() {
                                         exit={{ opacity: 0, y: -5 }}
                                         transition={{ duration: 0.2 }}
                                         className={cn(
-                                            "w-full h-full min-h-[300px] p-4 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
+                                            "w-full h-full min-h-75 p-4 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
                                             error
                                                 ? "bg-red-50 border-red-200 text-red-600"
                                                 : output
@@ -162,18 +158,18 @@ export default function UrlEncoderClient() {
                                     >
                                         {error ? (
                                             <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
-                                                <AlertCircle className="w-10 h-10 text-red-400" />
+                                                <WarningCircle className="w-10 h-10 text-red-400"  weight="duotone"/>
                                                 <p className="font-semibold text-sm">Decoding Error</p>
-                                                <p className="text-xs opacity-80 text-center max-w-[250px]">{error}</p>
+                                                <p className="text-xs opacity-80 text-center max-w-62.5">{error}</p>
                                             </div>
                                         ) : output ? (
                                             output
                                         ) : (
                                             <div className="flex flex-col items-center justify-center h-full gap-3 py-8 opacity-50">
                                                 {mode === 'encode' ? (
-                                                    <FileCode className="w-10 h-10 text-gray-300" />
+                                                    <FileCode className="w-10 h-10 text-gray-300"  weight="duotone"/>
                                                 ) : (
-                                                    <FileText className="w-10 h-10 text-gray-300" />
+                                                    <FileText className="w-10 h-10 text-gray-300"  weight="duotone"/>
                                                 )}
                                                 <p className="text-sm text-center">
                                                     {mode === 'encode'

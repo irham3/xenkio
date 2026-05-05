@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { FileText } from "lucide-react"
+import { FileText } from '@phosphor-icons/react/dist/ssr';
 import { cn } from "@/lib/utils"
 import { getPdfjs } from "@/lib/pdf-worker"
 
@@ -101,7 +101,7 @@ export function PdfThumbnail({ arrayBuffer, onLoad, rotation }: PdfThumbnailProp
     if (hasError) {
         return (
             <div className="w-full h-full flex items-center justify-center bg-red-50">
-                <FileText className="w-10 h-10 text-red-300" />
+                <FileText className="w-10 h-10 text-red-300"  weight="duotone"/>
             </div>
         )
     }

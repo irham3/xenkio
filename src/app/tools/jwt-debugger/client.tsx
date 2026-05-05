@@ -3,7 +3,7 @@
 import { useJwtDebugger } from '@/features/jwt-debugger/hooks/use-jwt-debugger';
 import { TokenInputPanel } from '@/features/jwt-debugger/components/token-input-panel';
 import { DecodedOutputPanel } from '@/features/jwt-debugger/components/decoded-output-panel';
-import { FileSearch, Code2 } from 'lucide-react';
+import { FileMagnifyingGlass, CodeSimple } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 
 import { DEFAULT_TOKEN } from '@/features/jwt-debugger/types';
@@ -31,7 +31,7 @@ export function JwtDebuggerClient() {
                             : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                     )}
                 >
-                    <Code2 className="w-4 h-4" />
+                    <CodeSimple className="w-4 h-4" />
                     Sign & Encode
                 </button>
                 <button
@@ -43,7 +43,7 @@ export function JwtDebuggerClient() {
                             : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                     )}
                 >
-                    <FileSearch className="w-4 h-4" />
+                    <FileMagnifyingGlass className="w-4 h-4" />
                     Verify & Decode
                 </button>
             </div>

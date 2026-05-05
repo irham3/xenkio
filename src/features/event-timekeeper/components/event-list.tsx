@@ -19,16 +19,7 @@ import {
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import {
-    GripVertical,
-    Plus,
-    Trash2,
-    Minus,
-    ChevronRight,
-    Check,
-    Clock,
-    Play,
-} from 'lucide-react';
+import { DotsSixVertical, Plus, Trash, Minus, CaretRight, Check, Clock, Play } from '@phosphor-icons/react/dist/ssr';
 import { useState } from 'react';
 
 interface EventListProps {
@@ -106,14 +97,14 @@ function SortableRow({
                 className="cursor-grab active:cursor-grabbing text-gray-300 hover:text-gray-500 shrink-0"
                 tabIndex={-1}
             >
-                <GripVertical className="w-4 h-4" />
+                <DotsSixVertical className="w-4 h-4"  weight="duotone"/>
             </button>
 
             {/* Status Icon */}
             <div className="shrink-0 w-6 h-6 flex items-center justify-center">
-                {event.status === 'completed' && <Check className="w-4 h-4 text-emerald-500" />}
-                {event.status === 'ongoing' && <Play className="w-4 h-4 text-emerald-600 fill-emerald-600" />}
-                {event.status === 'upcoming' && <Clock className="w-4 h-4 text-gray-300" />}
+                {event.status === 'completed' && <Check className="w-4 h-4 text-emerald-500"  weight="duotone"/>}
+                {event.status === 'ongoing' && <Play className="w-4 h-4 text-emerald-600 fill-emerald-600"  weight="duotone"/>}
+                {event.status === 'upcoming' && <Clock className="w-4 h-4 text-gray-300"  weight="duotone"/>}
             </div>
 
             {/* Time & Delay Badge */}
@@ -184,7 +175,7 @@ function SortableRow({
                     className="p-1 text-gray-300 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
                     title="−1 minute"
                 >
-                    <Minus className="w-3 h-3" />
+                    <Minus className="w-3 h-3"  weight="duotone"/>
                 </button>
                 <span className="text-xs font-mono text-gray-500 w-8 text-center">{event.durationMinutes}m</span>
                 <button
@@ -192,7 +183,7 @@ function SortableRow({
                     className="p-1 text-gray-300 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
                     title="+1 minute"
                 >
-                    <Plus className="w-3 h-3" />
+                    <Plus className="w-3 h-3"  weight="duotone"/>
                 </button>
             </div>
 
@@ -204,7 +195,7 @@ function SortableRow({
                         className="p-1 text-gray-300 hover:text-emerald-600 rounded transition-colors"
                         title="Jump to this session"
                     >
-                        <ChevronRight className="w-4 h-4" />
+                        <CaretRight className="w-4 h-4"  weight="duotone"/>
                     </button>
                 )}
                 <button
@@ -212,7 +203,7 @@ function SortableRow({
                     className="p-1 text-gray-300 hover:text-red-500 rounded transition-colors"
                     title="Remove"
                 >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash className="w-3.5 h-3.5"  weight="duotone"/>
                 </button>
             </div>
         </div>
@@ -222,7 +213,6 @@ function SortableRow({
 export function EventList({
     schedule,
     items,
-    activeIndex: _activeIndex,
     isRunning,
     onReorder,
     onAddEvent,
@@ -333,7 +323,7 @@ export function EventList({
                     onClick={() => setShowAddForm(true)}
                     className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 border border-dashed border-gray-200 rounded-xl text-sm text-gray-400 hover:text-primary-600 hover:border-primary-300 transition-colors"
                 >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-4 h-4"  weight="duotone"/>
                     Add Session
                 </button>
             )}

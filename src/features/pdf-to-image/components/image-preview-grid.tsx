@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Download, ZoomIn } from 'lucide-react';
+import { DownloadSimple, MagnifyingGlassPlus } from '@phosphor-icons/react/dist/ssr';
 import { PagePreview } from '../types';
 import { Button } from '@/components/ui/button';
 import { saveAs } from 'file-saver';
@@ -50,7 +50,7 @@ export function ImagePreviewGrid({ images }: ImagePreviewGridProps) {
                                 onClick={() => setSelectedImage(image)}
                                 title="View Full Size"
                             >
-                                <ZoomIn className="w-4 h-4" />
+                                <MagnifyingGlassPlus className="w-4 h-4"  weight="duotone"/>
                             </Button>
                             <Button
                                 size="icon"
@@ -58,7 +58,7 @@ export function ImagePreviewGrid({ images }: ImagePreviewGridProps) {
                                 onClick={() => handleDownloadSingle(image)}
                                 title="Download Image"
                             >
-                                <Download className="w-4 h-4" />
+                                <DownloadSimple className="w-4 h-4"  weight="duotone"/>
                             </Button>
                         </div>
                     </motion.div>

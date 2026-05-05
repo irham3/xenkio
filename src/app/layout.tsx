@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { DM_Sans } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import "@/lib/polyfills";
 import { Providers } from "./providers";
 import { PwaRegister } from "@/components/pwa-register";
 
-const fontSans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800'], variable: '--font-sans', display: 'swap' });
+const fontHeading = DM_Sans({ subsets: ["latin"], weight: ['400', '500', '600', '700'], variable: '--font-heading', display: 'swap' });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://xenkio.com"),
@@ -69,11 +71,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${fontHeading.variable} ${GeistSans.variable}`}>
       <head>
         <link rel="preconnect" href="https://static.cloudflareinsights.com" />
       </head>
-      <body className={`${fontSans.variable} font-sans`} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

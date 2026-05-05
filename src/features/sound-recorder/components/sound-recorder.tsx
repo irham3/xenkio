@@ -303,7 +303,7 @@ export function SoundRecorder() {
                 <div className="border border-gray-200 rounded-xl bg-white overflow-hidden">
                     <div className="p-6">
                         {/* Audio player */}
-                        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                        { }
                         <audio
                             src={result.url}
                             controls

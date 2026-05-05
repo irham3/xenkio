@@ -7,7 +7,7 @@ import { HashAlgorithm } from '../types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ChevronDown, ShieldCheck, ShieldX, Zap, FileCheck, RotateCcw } from 'lucide-react';
+import { CaretDown, ShieldCheck, ShieldSlash, Lightning, CheckCircle, ArrowCounterClockwise } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
@@ -63,7 +63,7 @@ export function HashVerify() {
                                     setIsMatch(null);
                                 }}
                                 placeholder="Enter the original text..."
-                                className="w-full min-h-[100px] p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                                className="w-full min-h-25 p-3 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
                             />
                         </div>
 
@@ -85,7 +85,7 @@ export function HashVerify() {
                                         </option>
                                     ))}
                                 </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                <CaretDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"  weight="duotone"/>
                             </div>
                         </div>
 
@@ -119,12 +119,12 @@ export function HashVerify() {
                             >
                                 {isVerifying ? (
                                     <>
-                                        <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                                        <Lightning className="w-4 h-4 mr-2 animate-pulse"  weight="duotone"/>
                                         Verifying...
                                     </>
                                 ) : (
                                     <>
-                                        <ShieldCheck className="w-4 h-4 mr-2" />
+                                        <ShieldCheck className="w-4 h-4 mr-2"  weight="duotone"/>
                                         Verify Hash
                                     </>
                                 )}
@@ -135,21 +135,21 @@ export function HashVerify() {
                                 className="px-3 border-gray-200 hover:bg-gray-100"
                                 title="Reset"
                             >
-                                <RotateCcw className="w-4 h-4" />
+                                <ArrowCounterClockwise className="w-4 h-4"  weight="duotone"/>
                             </Button>
                         </div>
                     </div>
                 </div>
 
                 {/* RIGHT PANEL: Results */}
-                <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-[300px] border-l border-gray-100">
+                <div className="lg:col-span-3 p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-75 border-l border-gray-100">
                     <div className="flex flex-col h-full justify-center">
                         {isVerifying ? (
                             <div className="flex flex-col items-center justify-center p-8 opacity-60">
                                 <span className="relative flex h-8 w-8 mb-4">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-8 w-8 bg-primary-500 justify-center items-center">
-                                        <Zap className="w-4 h-4 text-white" />
+                                        <Lightning className="w-4 h-4 text-white"  weight="duotone"/>
                                     </span>
                                 </span>
                                 <h3 className="text-sm font-semibold text-gray-800 mb-1">Verifying...</h3>
@@ -171,8 +171,8 @@ export function HashVerify() {
                                     isMatch ? "bg-success-100 text-success-600" : "bg-error-100 text-error-600"
                                 )}>
                                     {isMatch
-                                        ? <ShieldCheck className="w-10 h-10" />
-                                        : <ShieldX className="w-10 h-10" />
+                                        ? <ShieldCheck className="w-10 h-10"  weight="duotone"/>
+                                        : <ShieldSlash className="w-10 h-10" />
                                     }
                                 </div>
 
@@ -196,10 +196,10 @@ export function HashVerify() {
                         ) : (
                             <div className="flex flex-col items-center text-center p-8 opacity-60">
                                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                                    <FileCheck className="w-8 h-8 text-gray-400" />
+                                    <CheckCircle className="w-8 h-8 text-gray-400"  weight="duotone"/>
                                 </div>
                                 <h3 className="text-sm font-semibold text-gray-800 mb-1">Ready to Verify</h3>
-                                <p className="text-xs text-gray-500 max-w-[200px]">Enter original text and the hash to compare them instantly.</p>
+                                <p className="text-xs text-gray-500 max-w-50">Enter original text and the hash to compare them instantly.</p>
                             </div>
                         )}
                     </div>

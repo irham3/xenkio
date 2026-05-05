@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeftRight, Copy, Check, AlertTriangle, CheckCircle } from 'lucide-react';
+import { ArrowsLeftRight, Copy, Check, Warning, CheckCircle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -235,7 +235,7 @@ export function ContrastCheckerTool() {
                   onClick={swapColors}
                   className="gap-2 text-gray-600 hover:text-gray-900"
                 >
-                  <ArrowLeftRight className="w-4 h-4" />
+                  <ArrowsLeftRight className="w-4 h-4"  weight="duotone"/>
                   Swap Colors
                 </Button>
               </div>
@@ -297,9 +297,9 @@ export function ContrastCheckerTool() {
                       )}
                     >
                       {result.pass ? (
-                        <CheckCircle className="w-4 h-4 shrink-0" />
+                        <CheckCircle className="w-4 h-4 shrink-0"  weight="duotone"/>
                       ) : (
-                        <AlertTriangle className="w-4 h-4 shrink-0" />
+                        <Warning className="w-4 h-4 shrink-0"  weight="duotone"/>
                       )}
                       <div className="min-w-0">
                         <p className="font-medium text-xs leading-tight">{result.label}</p>
@@ -316,7 +316,7 @@ export function ContrastCheckerTool() {
                 className="w-full gap-2"
                 onClick={copyReport}
               >
-                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                {copied ? <Check className="w-4 h-4"  weight="duotone"/> : <Copy className="w-4 h-4"  weight="duotone"/>}
                 {copied ? 'Copied!' : 'Copy Contrast Report'}
               </Button>
             </div>
@@ -329,7 +329,7 @@ export function ContrastCheckerTool() {
               <div className="space-y-2">
                 <Label className="text-sm font-semibold text-gray-800">Preview</Label>
                 <div
-                  className="rounded-xl border border-gray-200 p-6 space-y-4 min-h-[200px]"
+                  className="rounded-xl border border-gray-200 p-6 space-y-4 min-h-50"
                   style={{ backgroundColor: background }}
                 >
                   <p style={{ color: foreground, fontSize: '28px', fontWeight: 700, lineHeight: 1.3 }}>

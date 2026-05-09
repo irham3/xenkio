@@ -865,6 +865,16 @@ export const TOOLS: ToolData[] = [
         categoryId: 'calculators',
     },
     {
+        id: '153',
+        title: 'Percentage Calculator',
+        description: 'Calculate percent of a value, percentage share, percent change, and increase or decrease by percentage.',
+        icon: 'Percent',
+        href: '/tools/percentage-calculator',
+        slug: 'percentage-calculator',
+        isNew: true,
+        categoryId: 'calculators',
+    },
+    {
         id: '151',
         title: 'Aspect Ratio Calculator',
         description: 'Simplify ratios and resize images, videos, and layouts while preserving proportions.',

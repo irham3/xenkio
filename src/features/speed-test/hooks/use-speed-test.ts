@@ -18,27 +18,31 @@ const INITIAL_STATE: SpeedTestState = {
 
 export function useSpeedTest() {
     const [state, setState] = useState<SpeedTestState>(INITIAL_STATE);
-    const abortRef = useRef(false);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     const runTest = useCallback(async () => {
-        abortRef.current = false;
+        abortControllerRef.current?.abort();
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+
         setState({ ...INITIAL_STATE, phase: 'ping' });
 
         try {
-            // ── Phase 1: Ping ────────────────────────────────────────────
+            // Phase 1: Ping
             const { avg: ping, jitter } = await measurePingStats(
                 8,
                 (done, total, latestMs) => {
-                    if (abortRef.current) return;
+                    if (controller.signal.aborted) return;
                     setState(prev => ({
                         ...prev,
                         progress: Math.round((done / total) * 100),
                         liveValue: Math.round(latestMs),
                     }));
                 },
+                controller.signal,
             );
 
-            if (abortRef.current) return;
+            if (controller.signal.aborted) return;
 
             setState(prev => ({
                 ...prev,
@@ -48,17 +52,17 @@ export function useSpeedTest() {
                 liveValue: null,
             }));
 
-            // ── Phase 2: Download ────────────────────────────────────────
+            // Phase 2: Download
             const download = await measureDownloadSpeed((pct, mbps) => {
-                if (abortRef.current) return;
+                if (controller.signal.aborted) return;
                 setState(prev => ({
                     ...prev,
                     progress: Math.round(pct),
                     liveValue: Math.round(mbps * 10) / 10,
                 }));
-            });
+            }, controller.signal);
 
-            if (abortRef.current) return;
+            if (controller.signal.aborted) return;
 
             setState(prev => ({
                 ...prev,
@@ -68,17 +72,17 @@ export function useSpeedTest() {
                 liveValue: null,
             }));
 
-            // ── Phase 3: Upload ──────────────────────────────────────────
+            // Phase 3: Upload
             const upload = await measureUploadSpeed((pct, mbps) => {
-                if (abortRef.current) return;
+                if (controller.signal.aborted) return;
                 setState(prev => ({
                     ...prev,
                     progress: Math.round(pct),
                     liveValue: Math.round(mbps * 10) / 10,
                 }));
-            });
+            }, controller.signal);
 
-            if (abortRef.current) return;
+            if (controller.signal.aborted) return;
 
             setState(prev => ({
                 ...prev,
@@ -88,23 +92,35 @@ export function useSpeedTest() {
                 liveValue: null,
             }));
         } catch (err) {
-            if (!abortRef.current) {
+            if (!controller.signal.aborted) {
                 setState(prev => ({
                     ...prev,
                     phase: 'error',
-                    error:
-                        err instanceof Error
-                            ? err.message
-                            : 'Speed test failed. Please check your connection and try again.',
+                    error: getSpeedTestErrorMessage(err),
                 }));
+            }
+        } finally {
+            if (abortControllerRef.current === controller) {
+                abortControllerRef.current = null;
             }
         }
     }, []);
 
     const reset = useCallback(() => {
-        abortRef.current = true;
+        abortControllerRef.current?.abort();
+        abortControllerRef.current = null;
         setState(INITIAL_STATE);
     }, []);
 
     return { state, runTest, reset };
+}
+
+function getSpeedTestErrorMessage(err: unknown): string {
+    if (err instanceof TypeError) {
+        return 'Chrome or an extension blocked the external speed test server. Allow speed.cloudflare.com and try again.';
+    }
+
+    return err instanceof Error
+        ? err.message
+        : 'Speed test failed. Please check your connection and try again.';
 }

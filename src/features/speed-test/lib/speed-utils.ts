@@ -1,10 +1,16 @@
-/** Cloudflare Speed Test endpoints — CORS-enabled, no API key required */
+/** Cloudflare Speed Test endpoints - CORS-enabled, no API key required */
 const CF_BASE = 'https://speed.cloudflare.com';
 
 /** Measure round-trip latency in milliseconds */
-export async function measurePing(): Promise<number> {
+export async function measurePing(signal?: AbortSignal): Promise<number> {
+    const url = `${CF_BASE}/__down?bytes=0&nocache=${Date.now()}`;
     const start = performance.now();
-    await fetch(`${CF_BASE}/cdn-cgi/trace`, { cache: 'no-store' });
+    const res = await fetch(url, {
+        cache: 'no-store',
+        mode: 'cors',
+        signal,
+    });
+    assertOk(res, 'Latency check');
     return performance.now() - start;
 }
 
@@ -12,15 +18,17 @@ export async function measurePing(): Promise<number> {
 export async function measurePingStats(
     samples = 8,
     onProgress?: (done: number, total: number, latestMs: number) => void,
+    signal?: AbortSignal,
 ): Promise<{ avg: number; jitter: number }> {
     const latencies: number[] = [];
 
     for (let i = 0; i < samples; i++) {
-        const ms = await measurePing();
+        throwIfAborted(signal);
+        const ms = await measurePing(signal);
         latencies.push(ms);
         onProgress?.(i + 1, samples, ms);
         // Brief pause between samples so the browser doesn't batch them
-        await sleep(80);
+        await sleep(80, signal);
     }
 
     const avg = average(latencies);
@@ -29,10 +37,15 @@ export async function measurePingStats(
 }
 
 /** Download `bytes` from Cloudflare and return elapsed ms */
-export async function downloadChunk(bytes: number): Promise<number> {
+export async function downloadChunk(bytes: number, signal?: AbortSignal): Promise<number> {
     const url = `${CF_BASE}/__down?bytes=${bytes}&nocache=${Date.now()}`;
     const start = performance.now();
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, {
+        cache: 'no-store',
+        mode: 'cors',
+        signal,
+    });
+    assertOk(res, 'Download test');
     // Drain the body so we measure full transfer
     await res.arrayBuffer();
     return performance.now() - start;
@@ -41,6 +54,7 @@ export async function downloadChunk(bytes: number): Promise<number> {
 /** Run a multi-chunk download speed test and return Mbps */
 export async function measureDownloadSpeed(
     onProgress?: (pct: number, currentMbps: number) => void,
+    signal?: AbortSignal,
 ): Promise<number> {
     // Progressive sizes: warm-up small, then increase
     const chunks = [
@@ -55,12 +69,13 @@ export async function measureDownloadSpeed(
     let done = 0;
 
     for (const { bytes, weight } of chunks) {
-        const elapsed = await downloadChunk(bytes);
+        throwIfAborted(signal);
+        const elapsed = await downloadChunk(bytes, signal);
         const mbps = bytesToMbps(bytes, elapsed);
         samples.push(mbps);
         done += weight;
         onProgress?.(Math.min(done * 100, 98), mbps);
-        await sleep(50);
+        await sleep(50, signal);
     }
 
     onProgress?.(100, average(samples));
@@ -68,22 +83,27 @@ export async function measureDownloadSpeed(
 }
 
 /** Upload `bytes` to Cloudflare and return elapsed ms */
-export async function uploadChunk(bytes: number): Promise<number> {
+export async function uploadChunk(bytes: number, signal?: AbortSignal): Promise<number> {
     const body = generatePayload(bytes);
     const url = `${CF_BASE}/__up?nocache=${Date.now()}`;
     const start = performance.now();
-    await fetch(url, {
+    // Keep this CORS-simple; application/octet-stream triggers a preflight
+    // that Cloudflare's upload endpoint rejects.
+    const res = await fetch(url, {
         method: 'POST',
         body,
         cache: 'no-store',
-        headers: { 'Content-Type': 'application/octet-stream' },
+        mode: 'cors',
+        signal,
     });
+    assertOk(res, 'Upload test');
     return performance.now() - start;
 }
 
 /** Run a multi-chunk upload speed test and return Mbps */
 export async function measureUploadSpeed(
     onProgress?: (pct: number, currentMbps: number) => void,
+    signal?: AbortSignal,
 ): Promise<number> {
     const chunks = [
         { bytes: 100_000, weight: 0.05 },
@@ -96,22 +116,53 @@ export async function measureUploadSpeed(
     let done = 0;
 
     for (const { bytes, weight } of chunks) {
-        const elapsed = await uploadChunk(bytes);
+        throwIfAborted(signal);
+        const elapsed = await uploadChunk(bytes, signal);
         const mbps = bytesToMbps(bytes, elapsed);
         samples.push(mbps);
         done += weight;
         onProgress?.(Math.min(done * 100, 98), mbps);
-        await sleep(50);
+        await sleep(50, signal);
     }
 
     onProgress?.(100, average(samples));
     return Math.round(trimmedMean(samples) * 100) / 100;
 }
 
-// ─── Helpers ────────────────────────────────────────────────────────────────
+// Helpers
 
-function sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+    if (!signal) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    throwIfAborted(signal);
+
+    return new Promise((resolve, reject) => {
+        const timeout = globalThis.setTimeout(() => {
+            signal.removeEventListener('abort', onAbort);
+            resolve();
+        }, ms);
+
+        const onAbort = () => {
+            globalThis.clearTimeout(timeout);
+            reject(signal.reason ?? new DOMException('The operation was aborted.', 'AbortError'));
+        };
+
+        signal.addEventListener('abort', onAbort, { once: true });
+    });
+}
+
+function assertOk(res: Response, label: string): void {
+    if (!res.ok) {
+        throw new Error(`${label} failed with HTTP ${res.status}`);
+    }
+}
+
+function throwIfAborted(signal?: AbortSignal): void {
+    if (signal?.aborted) {
+        throw signal.reason ?? new DOMException('The operation was aborted.', 'AbortError');
+    }
 }
 
 function average(values: number[]): number {

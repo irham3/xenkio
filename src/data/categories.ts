@@ -54,7 +54,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Word counter, case converter, slug generator, and text formatting | fast and private',
         icon: 'TextT',
         color: '#E4E4E7',
-        toolCount: 13,
+        toolCount: 15,
     },
     {
         id: 'web-seo',

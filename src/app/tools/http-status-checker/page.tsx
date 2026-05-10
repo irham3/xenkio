@@ -109,7 +109,7 @@ export default function HttpStatusCheckerPage() {
                                         HTTP status code checker
                                     </strong>{' '}
                                     sends a request to a URL and reports the HTTP response code
-                                    returned by the server — for example <code>200 OK</code>,{' '}
+                                    returned by the server - for example <code>200 OK</code>,{' '}
                                     <code>301 Moved Permanently</code>, or{' '}
                                     <code>404 Not Found</code>.
                                 </p>
@@ -165,7 +165,7 @@ export default function HttpStatusCheckerPage() {
                                 },
                                 {
                                     code: '302 Found',
-                                    desc: 'Temporary redirect — the resource is at a different URI.',
+                                    desc: 'Temporary redirect - the resource is at a different URI.',
                                     color: 'text-amber-700',
                                     bg: 'bg-amber-50',
                                     border: 'border-amber-200',

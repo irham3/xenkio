@@ -1208,7 +1208,6 @@ export const TOOLS: ToolData[] = [
         icon: 'Globe',
         href: '/tools/http-status-checker',
         slug: 'http-status-checker',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {

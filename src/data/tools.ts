@@ -1457,6 +1457,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'text-utilities',
     },
+    {
+        id: '156',
+        title: 'Text Sorter',
+        description: 'Sort lists with 10 modes: alphabetical, natural, numeric, by length, reverse, and shuffle. Remove duplicates and pick any separator.',
+        icon: 'SortAscending',
+        href: '/tools/text-sorter',
+        slug: 'text-sorter',
+        isNew: true,
+        categoryId: 'text-utilities',
+    },
 ];
 
 // Search suggestions for the search bar

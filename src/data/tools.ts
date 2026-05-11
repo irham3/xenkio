@@ -1447,6 +1447,16 @@ export const TOOLS: ToolData[] = [
         isNew: true,
         categoryId: 'text-utilities',
     },
+    {
+        id: '155',
+        title: 'Linebreak Swap',
+        description: 'Convert whitespace to newlines and vice versa. Split inline text into lines or join lines into one.',
+        icon: 'ArrowsDownUp',
+        href: '/tools/linebreak-swap',
+        slug: 'linebreak-swap',
+        isNew: true,
+        categoryId: 'text-utilities',
+    },
 ];
 
 // Search suggestions for the search bar

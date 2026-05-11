@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import {
   Archive,
+  ArrowsDownUp,
   ArrowsLeftRight,
   ArrowsOut,
   Barcode,
@@ -70,6 +71,7 @@ import type { IconProps } from '@phosphor-icons/react';
 
 const icons: Record<string, ComponentType<IconProps>> = {
   Archive: Archive,
+  ArrowsDownUp: ArrowsDownUp,
   ArrowsLeftRight: ArrowsLeftRight,
   ArrowsOut: ArrowsOut,
   Barcode: Barcode,

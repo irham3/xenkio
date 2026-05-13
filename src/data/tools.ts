@@ -416,6 +416,16 @@ export const TOOLS: ToolData[] = [
         categoryId: 'security-privacy',
     },
     {
+        id: '157',
+        title: 'Binary Converter',
+        description: 'Convert text to binary code and decode binary strings back to text.',
+        icon: 'CodeSimple',
+        href: '/tools/binary-converter',
+        slug: 'binary-converter',
+        isNew: true,
+        categoryId: 'security-privacy',
+    },
+    {
         id: '23',
         title: 'URL Encoder',
         description: 'Encode and decode URLs for safe transmission.',

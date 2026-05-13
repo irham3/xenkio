@@ -1,0 +1,312 @@
+"use client";
+
+import { useBinaryConverter } from "@/features/binary-converter/hooks/use-binary-converter";
+import {
+  BINARY_MODES,
+  BINARY_SEPARATORS,
+} from "@/features/binary-converter/constants";
+import {
+  type BinaryMode,
+  type BinarySeparator,
+} from "@/features/binary-converter/types";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  ArrowsLeftRight,
+  CodeSimple,
+  FileText,
+  Lightning,
+  WarningCircle,
+} from "@phosphor-icons/react/dist/ssr";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { CopyButton, ClearButton } from "@/components/shared";
+
+export default function BinaryConverterClient() {
+  const {
+    options,
+    result,
+    isProcessing,
+    updateOption,
+    process,
+    swapInputOutput,
+    setSeparator,
+    clear,
+  } = useBinaryConverter();
+
+  const currentMode = BINARY_MODES.find((m) => m.id === options.mode);
+
+  return (
+    <div className="w-full">
+      {/* Mode Switcher */}
+      <div
+        className="flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl mb-6 w-full border border-gray-200"
+        role="tablist"
+        aria-label="Binary converter mode selection"
+      >
+        {BINARY_MODES.map((mode) => (
+          <button
+            key={mode.id}
+            role="tab"
+            aria-selected={options.mode === mode.id}
+            onClick={() => updateOption("mode", mode.id as BinaryMode)}
+            className={cn(
+              "flex-1 flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+              options.mode === mode.id
+                ? "bg-white text-primary-600 shadow-sm border border-gray-100"
+                : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50",
+            )}
+          >
+            {mode.id === "encode" ? (
+              <CodeSimple className="w-4 h-4" weight="duotone" />
+            ) : (
+              <FileText className="w-4 h-4" weight="duotone" />
+            )}
+            {mode.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Separator Option (encode mode only) */}
+      {options.mode === "encode" && (
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-sm text-gray-500 font-medium shrink-0">
+            Byte separator:
+          </span>
+          <div className="flex items-center gap-1">
+            {BINARY_SEPARATORS.map((sep) => (
+              <button
+                key={sep.id}
+                onClick={() => setSeparator(sep.id as BinarySeparator)}
+                className={cn(
+                  "px-3 py-1 text-xs rounded-lg border font-medium transition-all duration-150",
+                  options.separator === sep.id
+                    ? "bg-primary-50 border-primary-300 text-primary-700"
+                    : "bg-white border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700",
+                )}
+              >
+                {sep.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Main Tool Area */}
+      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft">
+        <div className="grid lg:grid-cols-2 gap-0">
+          {/* LEFT PANEL: Input */}
+          <div className="p-5 lg:p-6 border-b lg:border-b-0 lg:border-r border-gray-100 bg-white">
+            <div className="space-y-4">
+              {/* Input Header */}
+              <div className="flex items-baseline justify-between">
+                <Label
+                  htmlFor="binary-input"
+                  className="text-sm font-semibold text-gray-800"
+                >
+                  {options.mode === "encode" ? "Text Input" : "Binary Input"}
+                </Label>
+                <span className="text-xs text-gray-400 font-medium tabular-nums">
+                  {options.input.length} chars
+                </span>
+              </div>
+
+              {/* Input Textarea */}
+              <textarea
+                id="binary-input"
+                value={options.input}
+                onChange={(e) => updateOption("input", e.target.value)}
+                placeholder={
+                  options.mode === "encode"
+                    ? "Type or paste text to convert to binary…"
+                    : "Paste binary (e.g. 01001000 01100101 01101100 01101100 01101111)…"
+                }
+                className="w-full min-h-50 p-4 text-[14px] leading-relaxed bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400 font-mono"
+              />
+
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={swapInputOutput}
+                  disabled={!result?.output || !!result.error}
+                  className="flex-1 gap-2 cursor-pointer"
+                >
+                  <ArrowsLeftRight className="w-4 h-4" weight="duotone" />
+                  Swap
+                </Button>
+                <ClearButton
+                  onClick={clear}
+                  disabled={!options.input}
+                  className="flex-1"
+                />
+              </div>
+
+              {/* Process Button */}
+              <div className="pt-2">
+                <Button
+                  onClick={process}
+                  disabled={isProcessing || !options.input.trim()}
+                  className="w-full bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-all"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Lightning
+                        className="w-4 h-4 mr-2 animate-pulse"
+                        weight="duotone"
+                      />
+                      Converting…
+                    </>
+                  ) : (
+                    <>
+                      <Lightning className="w-4 h-4 mr-2" weight="duotone" />
+                      {options.mode === "encode"
+                        ? "Convert to Binary"
+                        : "Convert to Text"}
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* Mode Description */}
+              <p className="text-xs text-gray-500 leading-relaxed">
+                {currentMode?.description}
+              </p>
+            </div>
+          </div>
+
+          {/* RIGHT PANEL: Output */}
+          <div className="p-5 lg:p-6 bg-gray-50/50 flex flex-col min-h-75">
+            <div className="flex flex-col h-auto">
+              {/* Output Header */}
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold text-gray-800">
+                  {options.mode === "encode" ? "Binary Output" : "Decoded Text"}
+                </h3>
+                {result?.executionTime !== undefined &&
+                  !result.error &&
+                  result.output && (
+                    <span className="flex items-center gap-1.5 text-[12px] font-medium text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">
+                      <Lightning className="w-3 h-3" weight="duotone" />
+                      {result.executionTime.toFixed(1)}ms
+                    </span>
+                  )}
+              </div>
+
+              {/* Output Area */}
+              <div
+                className="flex-1 relative group"
+                aria-live="polite"
+                aria-label="Conversion result"
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={
+                      result?.error
+                        ? "error"
+                        : result?.output
+                          ? "output"
+                          : "empty"
+                    }
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    className={cn(
+                      "w-full min-h-50 p-4 rounded-xl border font-mono text-[13px] leading-relaxed break-all transition-all duration-300",
+                      result?.error
+                        ? "bg-error-50 border-error-200 text-error-600"
+                        : result?.output
+                          ? "bg-white border-gray-200 text-gray-700 shadow-sm"
+                          : "bg-white/50 border-dashed border-gray-200 text-gray-400",
+                    )}
+                  >
+                    {result?.error ? (
+                      <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
+                        <WarningCircle
+                          className="w-10 h-10 text-error-400"
+                          weight="duotone"
+                        />
+                        <p className="font-semibold text-sm">
+                          Conversion Error
+                        </p>
+                        <p className="text-xs opacity-80 text-center max-w-xs">
+                          {result.error}
+                        </p>
+                      </div>
+                    ) : result?.output ? (
+                      result.output
+                    ) : (
+                      <div className="flex flex-col items-center justify-center h-full gap-3 py-8 opacity-50">
+                        {options.mode === "encode" ? (
+                          <CodeSimple
+                            className="w-10 h-10 text-gray-300"
+                            weight="duotone"
+                          />
+                        ) : (
+                          <FileText
+                            className="w-10 h-10 text-gray-300"
+                            weight="duotone"
+                          />
+                        )}
+                        <p className="text-sm">
+                          {options.mode === "encode"
+                            ? "Enter text to see binary output…"
+                            : "Enter binary to see decoded text…"}
+                        </p>
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+
+                {result?.output && !result.error && (
+                  <div className="absolute top-3 right-3">
+                    <CopyButton value={result.output} size="sm" />
+                  </div>
+                )}
+              </div>
+
+              {/* Stats */}
+              {result?.output && !result.error && (
+                <div className="mt-4 flex items-center justify-center gap-4 text-xs text-gray-500">
+                  <span>
+                    Input:{" "}
+                    <strong className="text-gray-700">
+                      {result.inputLength}
+                    </strong>{" "}
+                    chars
+                  </span>
+                  <span className="text-gray-300">→</span>
+                  {options.mode === "encode" ? (
+                    <span>
+                      Bytes:{" "}
+                      <strong className="text-gray-700">
+                        {result.charCount}
+                      </strong>
+                    </span>
+                  ) : (
+                    <span>
+                      Output:{" "}
+                      <strong className="text-gray-700">
+                        {result.charCount}
+                      </strong>{" "}
+                      chars
+                    </span>
+                  )}
+                  <span className="text-gray-300">·</span>
+                  <span>
+                    Length:{" "}
+                    <strong className="text-gray-700">
+                      {result.outputLength}
+                    </strong>{" "}
+                    chars
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

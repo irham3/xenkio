@@ -78,6 +78,7 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
     }, [query, fuse]);
 
     const handleSelect = useCallback((tool: typeof TOOLS[0]) => {
+        if (tool.isComingSoon) return;
         router.push(tool.href);
         onClose();
     }, [router, onClose]);
@@ -165,9 +166,11 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                                         key={tool.id}
                                         onClick={() => handleSelect(tool)}
                                         onMouseEnter={() => setSelectedIndex(index)}
+                                        aria-disabled={tool.isComingSoon}
                                         className={cn(
                                             "w-full flex items-center gap-4 px-4 py-3 rounded-lg text-left transition-colors",
-                                            selectedIndex === index ? "bg-primary-50" : "hover:bg-gray-50"
+                                            tool.isComingSoon ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
+                                            selectedIndex === index && !tool.isComingSoon ? "bg-primary-50" : !tool.isComingSoon && "hover:bg-gray-50"
                                         )}
                                     >
                                         <div className={cn(
@@ -190,7 +193,11 @@ function SearchModalContent({ onClose }: { onClose: () => void }) {
                                                 {tool.description}
                                             </div>
                                         </div>
-                                        {selectedIndex === index && (
+                                        {tool.isComingSoon ? (
+                                            <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase text-gray-500 bg-gray-100 rounded border border-gray-200">
+                                                Soon
+                                            </span>
+                                        ) : selectedIndex === index && (
                                             <ArrowRight className="w-4 h-4 text-primary-500"  weight="duotone"/>
                                         )}
                                     </button>

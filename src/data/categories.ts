@@ -14,7 +14,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Merge, split, compress, and convert PDFs | processed locally, no uploads required',
         icon: 'FileText',
         color: '#E4E4E7',
-        toolCount: 9,
+        toolCount: 15,
     },
     {
         id: 'media-images',
@@ -22,7 +22,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Compress, resize, and convert images in your browser | no file size limits',
         icon: 'FileImage',
         color: '#E4E4E7',
-        toolCount: 15,
+        toolCount: 20,
     },
     {
         id: 'security-privacy',
@@ -30,7 +30,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Password generation, hashing, encryption, and JWT tools | everything stays on your device',
         icon: 'Lock',
         color: '#E4E4E7',
-        toolCount: 7,
+        toolCount: 13,
     },
     {
         id: 'developer-tools',
@@ -38,7 +38,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'JSON formatter, regex tester, diff checker, and code utilities | instant, no server needed',
         icon: 'CodeSimple',
         color: '#E4E4E7',
-        toolCount: 16,
+        toolCount: 24,
     },
     {
         id: 'design-tools',
@@ -62,7 +62,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Meta tags, sitemap, robots.txt, and URL tools | generate locally, no data sent',
         icon: 'Globe',
         color: '#E4E4E7',
-        toolCount: 10,
+        toolCount: 15,
     },
     {
         id: 'calculators',
@@ -70,7 +70,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Unit converter, percentage, age, BMI, and loan calculators | instant results offline',
         icon: 'Calculator',
         color: '#E4E4E7',
-        toolCount: 8,
+        toolCount: 17,
     },
 ];
 

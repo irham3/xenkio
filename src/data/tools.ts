@@ -426,15 +426,6 @@ export const TOOLS: ToolData[] = [
         categoryId: 'security-privacy',
     },
     {
-        id: '23',
-        title: 'URL Encoder',
-        description: 'Encode and decode URLs for safe transmission.',
-        icon: 'Link',
-        href: '/tools/url-encoder',
-        slug: 'url-encoder',
-        categoryId: 'security-privacy',
-    },
-    {
         id: '24',
         title: 'JWT Debugger',
         description: 'Decode, verify signature, and generate JSON Web Tokens (JWT) securely.',
@@ -1029,7 +1020,6 @@ export const TOOLS: ToolData[] = [
         icon: 'Globe',
         href: '/tools/my-ip-address',
         slug: 'my-ip-address',
-        isComingSoon: true,
         categoryId: 'web-seo',
     },
     {
@@ -1230,7 +1220,7 @@ export const TOOLS: ToolData[] = [
         categoryId: 'web-seo',
     },
     {
-        id: '151',
+        id: '159',
         title: 'IPv4 Subnet Calculator',
         description: 'Calculate CIDR ranges, subnet masks, wildcard masks, broadcast addresses, and usable IPv4 hosts.',
         icon: 'HardDrives',
@@ -1260,16 +1250,6 @@ export const TOOLS: ToolData[] = [
         icon: 'CurrencyDollar',
         href: '/tools/tip-calculator',
         slug: 'tip-calculator',
-        isComingSoon: true,
-        categoryId: 'calculators',
-    },
-    {
-        id: '89',
-        title: 'Date Calculator',
-        description: 'Calculate differences between dates or add/subtract days.',
-        icon: 'CalendarDots',
-        href: '/tools/date-calculator',
-        slug: 'date-calculator',
         isComingSoon: true,
         categoryId: 'calculators',
     },
@@ -1491,7 +1471,7 @@ export const TOOLS: ToolData[] = [
 
 // Search suggestions for the search bar
 export const SEARCH_SUGGESTIONS = [
-    { type: 'tool' as const, name: 'GitMerge PDF', category: 'Documents' },
+    { type: 'tool' as const, name: 'Merge PDF', category: 'Documents' },
     { type: 'tool' as const, name: 'Image Compressor', category: 'Media & Images' },
     { type: 'tool' as const, name: 'Password Generator', category: 'Security & Privacy' },
     { type: 'tool' as const, name: 'QR Code Generator', category: 'Media & Images' },
@@ -1505,7 +1485,12 @@ export const SEARCH_SUGGESTIONS = [
     { type: 'tool' as const, name: 'Screen Ruler', category: 'Design Tools' },
     { type: 'tool' as const, name: 'Aspect Ratio Calculator', category: 'Calculators' },
     { type: 'tool' as const, name: 'IPv4 Subnet Calculator', category: 'Web & SEO' },
-    { type: 'category' as const, name: 'PDF & Documents', count: 10 },
-    { type: 'category' as const, name: 'Media & Images', count: 12 },
-    { type: 'category' as const, name: 'Developer Tools', count: 13 },
+    { type: 'category' as const, name: 'PDF & Documents', count: 15 },
+    { type: 'category' as const, name: 'Media & Images', count: 20 },
+    { type: 'category' as const, name: 'Security & Privacy', count: 13 },
+    { type: 'category' as const, name: 'Developer Tools', count: 24 },
+    { type: 'category' as const, name: 'Design Tools', count: 13 },
+    { type: 'category' as const, name: 'Text Utilities', count: 18 },
+    { type: 'category' as const, name: 'Web & SEO', count: 15 },
+    { type: 'category' as const, name: 'Calculators', count: 17 },
 ];

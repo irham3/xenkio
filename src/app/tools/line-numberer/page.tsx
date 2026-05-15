@@ -4,7 +4,7 @@ import LineNumbererClient from './client';
 export const metadata: Metadata = {
   title: 'Line Numberer | Add or Remove Line Numbers',
   description:
-    'Add numbered prefixes to every line or remove copied line numbers from text and code snippets. Clean up blog snippets and lists instantly in your browser.',
+    'Add decimal, padded, alphabetic, roman, and bracketed prefixes to every line or remove copied line numbers from text and code snippets.',
   keywords: [
     'line numberer',
     'add line numbers',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Line Numberer | Add or Remove Line Numbers',
     description:
-      'Prefix each line with 1., 2., 3. or strip copied line numbers from code snippets and text.',
+      'Prefix each line with formats like 1., 1), [1], A., I., or i. and strip copied line numbers from code snippets and text.',
     type: 'website',
     images: [
       {
@@ -44,9 +44,9 @@ export default function LineNumbererPage() {
       priceCurrency: 'USD',
     },
     description:
-      'Add numbered prefixes to every line or remove copied line numbers from text and code snippets.',
+      'Add decimal, padded, alphabetic, roman, and bracketed prefixes to every line or remove copied line numbers from text and code snippets.',
     featureList: [
-      'Add 1., 2., 3. prefixes to every line',
+      'Add decimal, padded, alphabetic, roman, and bracketed prefixes to every line',
       'Remove common line number prefixes',
       'Clean code snippets copied from blogs',
       'Client-side text processing',
@@ -85,7 +85,7 @@ export default function LineNumbererPage() {
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
                   <strong className="text-gray-800">Quick Numbered Lists</strong> | Prefix each line with sequential
-                  numbers such as <code>1.</code>, <code>2.</code>, and <code>3.</code> for drafts, instructions, or
+                  formats such as <code>1.</code>, <code>1)</code>, <code>[1]</code>, <code>A.</code>, <code>I.</code>, and <code>i.</code> for drafts, instructions, or
                   checklist-style text.
                 </p>
                 <p>
@@ -99,7 +99,7 @@ export default function LineNumbererPage() {
               <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
                 <p>
                   <strong className="text-gray-800">Clean Blog Snippets</strong> | Strip common prefixes like
-                  <code>1.</code>, <code>1)</code>, <code>1:</code>, <code>1 |</code>, and <code>[1]</code> from copied
+                  <code>1.</code>, <code>1)</code>, <code>[1]</code>, <code>A.</code>, <code>I.</code>, and <code>i.</code> from copied
                   code without manually editing every line.
                 </p>
                 <p>

@@ -1460,7 +1460,7 @@ export const TOOLS: ToolData[] = [
     {
         id: '158',
         title: 'Line Numberer',
-        description: 'Add numbered prefixes to every line or strip copied line numbers from text and code snippets.',
+        description: 'Add multiple numbering styles to every line or strip copied line numbers from text and code snippets.',
         icon: 'ListNumbers',
         href: '/tools/line-numberer',
         slug: 'line-numberer',

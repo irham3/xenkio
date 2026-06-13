@@ -70,7 +70,7 @@ export const CATEGORIES: CategoryData[] = [
         description: 'Unit converter, percentage, age, BMI, and loan calculators | instant results offline',
         icon: 'Calculator',
         color: '#E4E4E7',
-        toolCount: 17,
+        toolCount: 18,
     },
 ];
 

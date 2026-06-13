@@ -916,6 +916,16 @@ export const TOOLS: ToolData[] = [
         categoryId: 'calculators',
     },
     {
+        id: '160',
+        title: 'Time Calculator',
+        description: 'Calculate the difference between two times or add/subtract hours, minutes, and seconds from any time.',
+        icon: 'Clock',
+        href: '/tools/time-calculator',
+        slug: 'time-calculator',
+        isNew: true,
+        categoryId: 'calculators',
+    },
+    {
         id: '149',
         title: 'Event Timekeeper',
         description: 'Professional event schedule manager with real-time countdown and presenter focus mode.',
@@ -1492,5 +1502,6 @@ export const SEARCH_SUGGESTIONS = [
     { type: 'category' as const, name: 'Design Tools', count: 13 },
     { type: 'category' as const, name: 'Text Utilities', count: 18 },
     { type: 'category' as const, name: 'Web & SEO', count: 15 },
-    { type: 'category' as const, name: 'Calculators', count: 17 },
+    { type: 'tool' as const, name: 'Time Calculator', category: 'Calculators' },
+    { type: 'category' as const, name: 'Calculators', count: 18 },
 ];

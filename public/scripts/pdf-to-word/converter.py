@@ -212,26 +212,45 @@ def detect_cell_alignments(cell_bbox, cell_words):
     text_y0 = min(w['top'] for w in cell_words)
     text_y1 = max(w['bottom'] for w in cell_words)
     
-    left_margin = text_x0 - cx0
-    right_margin = cx1 - text_x1
+    # Vertical alignment (uses overall text block position)
     top_margin = text_y0 - cy0
     bottom_margin = cy1 - text_y1
-    
-    # Horizontal
-    if left_margin < 15:
-        h_align = 'left'
-    elif cell_w > 0 and abs(left_margin - right_margin) < max(10, cell_w * 0.15):
-        h_align = 'center'
-    else:
-        h_align = 'left'
-    
-    # Vertical
     if cell_h > 0 and abs(top_margin - bottom_margin) < max(5, cell_h * 0.15):
         v_align = 'center'
     elif top_margin < bottom_margin:
         v_align = 'top'
     else:
         v_align = 'bottom'
+    
+    # Horizontal alignment: analyze per-line to avoid false centers
+    # Group words into lines
+    line_groups = {}
+    for w in cell_words:
+        y_key = round(w['top'] / 3) * 3
+        if y_key not in line_groups:
+            line_groups[y_key] = []
+        line_groups[y_key].append(w)
+    
+    center_votes = 0
+    left_votes = 0
+    for y_key in sorted(line_groups.keys()):
+        lw = sorted(line_groups[y_key], key=lambda w: w['x0'])
+        line_x0 = lw[0]['x0']
+        line_x1 = lw[-1]['x1']
+        l_margin = line_x0 - cx0
+        r_margin = cx1 - line_x1
+        
+        # A line is centered if it has significant and balanced margins on both sides
+        if l_margin > 10 and r_margin > 10 and abs(l_margin - r_margin) < max(10, cell_w * 0.15):
+            center_votes += 1
+        else:
+            left_votes += 1
+    
+    total = center_votes + left_votes
+    if total > 0 and center_votes > total * 0.6:
+        h_align = 'center'
+    else:
+        h_align = 'left'
     
     return h_align, v_align
 
@@ -299,21 +318,27 @@ def convert_pdf_to_word(input_path, output_path, ocr_words=None):
         ocr_words = {}
         
     doc = Document()
-    
-    # Configure document to use A4 and exact margins based on PDF mediabox
-    for section in doc.sections:
-        section.page_width = Pt(595)
-        section.page_height = Pt(842)
-        section.top_margin = Inches(0.5)
-        section.bottom_margin = Inches(0.5)
-        section.left_margin = Inches(0.5)
-        section.right_margin = Inches(0.5)
-        
     word_count = 0
     reader = pypdf.PdfReader(input_path)
     
     with pdfplumber.open(input_path) as pdf:
         for page_num, page in enumerate(pdf.pages):
+            # Use actual PDF page dimensions instead of hardcoded A4
+            page_w = page.width   # e.g. 612 for Letter, 595 for A4
+            page_h = page.height  # e.g. 792 for Letter, 842 for A4
+            
+            if page_num == 0:
+                for section in doc.sections:
+                    section.page_width = Pt(page_w)
+                    section.page_height = Pt(page_h)
+                    section.top_margin = Inches(0.5)
+                    section.bottom_margin = Inches(0.5)
+                    section.left_margin = Inches(0.5)
+                    section.right_margin = Inches(0.5)
+            
+            # Margins in PDF points (0.5 inch = 36pt)
+            pdf_left_margin = 36
+            pdf_right_edge = page_w - 36  # e.g. 576 for Letter
             pypdf_page = reader.pages[page_num]
             tables = page.find_tables()
             table_bboxes = [t.bbox for t in tables]
@@ -405,7 +430,8 @@ def convert_pdf_to_word(input_path, output_path, ocr_words=None):
             for r in page.rects:
                 w = r['width']
                 h = r['height']
-                if w > 300 and h > 50:
+                # Ignore rectangles that are practically the entire page (page backgrounds)
+                if w > 300 and h > 50 and not (w > page.width * 0.95 and h > page.height * 0.95):
                     rect_bbox = (r['x0'], r['top'], r['x1'], r['bottom'])
                     
                     overlap = False
@@ -721,7 +747,17 @@ def convert_pdf_to_word(input_path, output_path, ocr_words=None):
                                         p = docx_cell.paragraphs[0]
                                     else:
                                         p = docx_cell.add_paragraph()
-                                    add_words_to_paragraph(p, line, cell_bbox, h_align=detected_h)
+                                    # Per-line alignment within cell
+                                    line_x0 = line[0]['x0']
+                                    line_x1 = line[-1]['x1']
+                                    l_m = line_x0 - cell_bbox[0]
+                                    r_m = cell_bbox[2] - line_x1
+                                    cw_w = cell_bbox[2] - cell_bbox[0]
+                                    if l_m > max(20, cw_w * 0.1) and r_m > max(20, cw_w * 0.1) and abs(l_m - r_m) < max(15, cw_w * 0.15):
+                                        line_h_align = 'center'
+                                    else:
+                                        line_h_align = 'left'
+                                    add_words_to_paragraph(p, line, cell_bbox, h_align=line_h_align)
                     
                     doc.add_paragraph().paragraph_format.space_after = Pt(2)
                     last_bottom = e['bbox'][3] if 'bbox' in e else e['top'] + 20
@@ -739,10 +775,10 @@ def convert_pdf_to_word(input_path, output_path, ocr_words=None):
                     if not line_words:
                         continue
                     
-                    left_margin = line_words[0]['x0'] - 36
-                    right_margin = 559 - line_words[-1]['x1']
+                    left_margin = line_words[0]['x0'] - pdf_left_margin
+                    right_margin = pdf_right_edge - line_words[-1]['x1']
                     
-                    if left_margin > 30 and right_margin > 30 and abs(left_margin - right_margin) < 30:
+                    if left_margin > 70 and right_margin > 70 and abs(left_margin - right_margin) < 30:
                         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     else:
                         p.alignment = WD_ALIGN_PARAGRAPH.LEFT

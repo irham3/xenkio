@@ -28,6 +28,8 @@ const PRELOAD_PACKAGES = [
     'python-docx',
     'python-pptx',
     'openpyxl',
+    'pandas',
+    'xlrd',
     'mammoth',
     'beautifulsoup4',
     'striprtf',
@@ -142,10 +144,10 @@ export function useDocToMd(strategy: LoadingStrategy = 'preload') {
             // Call the appropriate Python converter
             let result = '';
             if (strategy === 'preload') {
-                const fn = pyodide.globals.get('convert_preload');
+                const fn = pyodide.runPython('convert_preload');
                 result = fn(fsPath);
             } else {
-                const fn = pyodide.globals.get('convert_lazy');
+                const fn = pyodide.runPython('convert_lazy');
                 result = fn(fsPath, ext);
             }
 

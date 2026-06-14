@@ -162,8 +162,18 @@ def init_preload() -> None:
 
 
 def convert_preload(file_path: str) -> str:
-    """Convert a document using markitdown (preload strategy)."""
+    """Convert a document using markitdown (preload strategy), with fallback to lazy."""
     if _markitdown_instance is None:
         raise RuntimeError("init_preload() must be called before convert_preload()")
-    result = _markitdown_instance.convert(file_path)
-    return result.text_content
+    
+    try:
+        result = _markitdown_instance.convert(file_path)
+        return result.text_content
+    except Exception as e:
+        # MarkItDown sometimes fails in Pyodide due to complex dependencies like pandas.
+        # If it fails, fallback to our lightweight, pure-Python lazy converters.
+        ext = file_path.split('.')[-1].lower()
+        if ext in _LAZY_CONVERTERS:
+            print(f"MarkItDown failed for .{ext}, falling back to lazy converter. Error: {e}")
+            return convert_lazy(file_path, ext)
+        raise e

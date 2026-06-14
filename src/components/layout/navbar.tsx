@@ -188,6 +188,9 @@ export function Navbar() {
                                     {tool.isComingSoon && (
                                       <span className="shrink-0 px-1 py-0.5 text-[8px] font-bold uppercase text-gray-400 bg-gray-50 rounded border border-gray-100">Soon</span>
                                     )}
+                                    {tool.isNew && !tool.isComingSoon && (
+                                      <span className="shrink-0 px-1 py-0.5 text-[8px] font-bold uppercase text-primary-500 bg-primary-50 rounded border border-primary-200">New</span>
+                                    )}
                                   </div>
                                   <p className="text-[12px] text-gray-700 line-clamp-1 mt-0.5">
                                     {tool.description}
@@ -324,6 +327,9 @@ export function Navbar() {
                                           </div>
                                           {tool.isComingSoon && (
                                             <span className="shrink-0 px-1 py-0.5 text-[8px] font-bold uppercase text-gray-400 bg-gray-50 rounded border border-gray-100">Soon</span>
+                                          )}
+                                          {tool.isNew && !tool.isComingSoon && (
+                                            <span className="shrink-0 px-1 py-0.5 text-[8px] font-bold uppercase text-primary-500 bg-primary-50 rounded border border-primary-200">New</span>
                                           )}
                                         </div>
                                         <div className="text-[11px] text-gray-700 line-clamp-1">

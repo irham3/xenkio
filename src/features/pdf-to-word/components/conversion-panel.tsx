@@ -33,7 +33,8 @@ export function ConversionPanel({
     onDownload,
     onReset
 }: ConversionPanelProps) {
-    const isIdle = status === 'idle';
+    const isIdleOrReady = status === 'idle' || status === 'ready';
+    const isInitializing = status === 'loading_pyodide' || status === 'installing_deps';
     const isProcessing = status === 'processing';
     const isCompleted = status === 'completed';
     const isError = status === 'error';
@@ -71,7 +72,7 @@ export function ConversionPanel({
             </div>
 
             {/* Conversion Arrow */}
-            {isIdle && (
+            {(isIdleOrReady || isInitializing) && (
                 <div className="flex items-center justify-center gap-6 mb-6">
                     <div className="flex items-center gap-3 px-4 py-2 bg-error-50 rounded-lg">
                         <FileText className="w-5 h-5 text-error-500"  weight="duotone"/>
@@ -87,7 +88,21 @@ export function ConversionPanel({
 
             {/* Main Action Area */}
             <div className="bg-white border border-gray-200 rounded-xl p-8">
-                {isIdle && (
+                {isInitializing && (
+                    <div className="text-center py-8">
+                        <div className="w-16 h-16 mx-auto mb-6 relative">
+                            <SpinnerGap className="w-16 h-16 animate-spin text-primary-500" />
+                        </div>
+                        <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                            Initializing Environment...
+                        </h4>
+                        <p className="text-gray-500 text-sm">
+                            {status === 'loading_pyodide' ? 'Loading Python runtime...' : 'Installing dependencies (PyMuPDF, docx)...'}
+                        </p>
+                    </div>
+                )}
+
+                {isIdleOrReady && (
                     <div className="text-center">
                         <div className="max-w-md mx-auto mb-8">
                             <h4 className="text-lg font-semibold text-gray-900 mb-2">
@@ -102,9 +117,10 @@ export function ConversionPanel({
                             size="lg"
                             className="px-12 py-6 text-base h-auto"
                             onClick={onConvert}
+                            disabled={status !== 'ready'}
                         >
                             <FileArrowDown className="w-5 h-5 mr-3" />
-                            Convert to Word
+                            {status === 'idle' ? 'Loading Engine...' : 'Convert to Word'}
                         </Button>
 
                         <div className="mt-8 pt-6 border-t border-gray-100">
@@ -227,7 +243,7 @@ export function ConversionPanel({
             </div>
 
             {/* Info Note */}
-            {isIdle && (
+            {(isIdleOrReady || isInitializing) && (
                 <div className="mt-6 p-4 bg-gray-50 border border-gray-100 rounded-xl">
                     <p className="text-xs text-gray-500 leading-relaxed">
                         <span className="font-semibold text-gray-600">What gets preserved:</span> Bold, italic, text colors (RGB/CMYK), fonts, font sizes, headings, and paragraph alignment.

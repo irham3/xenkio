@@ -67,6 +67,28 @@ const MOCK_SETUP_SCRIPT = [
     '    def head(self, *args, **kwargs): return MockResponse()',
     "sys.modules['requests'] = MockRequests()",
     "sys.modules['requests.exceptions'] = MockExceptions()",
+    '',
+    '# Mock pdfplumber (requires native pypdfium2 which cannot run in WASM)',
+    'class MockPdfPage:',
+    '    chars = []',
+    '    images = []',
+    '    width = 0',
+    '    height = 0',
+    '    def extract_text(self): return ""',
+    '    def extract_tables(self): return []',
+    '    def extract_words(self): return []',
+    'class MockPdfPlumber:',
+    '    pages = []',
+    '    metadata = {}',
+    '    def close(self): pass',
+    '    def __enter__(self): return self',
+    '    def __exit__(self, *args): pass',
+    '    @staticmethod',
+    '    def open(*args, **kwargs): return MockPdfPlumber()',
+    'class MockPdfPlumberModule:',
+    '    def open(self, *args, **kwargs): return MockPdfPlumber()',
+    "sys.modules['pdfplumber'] = MockPdfPlumberModule()",
+    "sys.modules['pypdfium2'] = type(sys)('pypdfium2')",
 ].join('\n');
 
 const LAZY_PYTHON_SCRIPT = [
@@ -224,7 +246,6 @@ export function useDocToMd(strategy: LoadingStrategy = 'preload') {
                 // the failure and won't detect them later.
                 await Promise.all([
                     micropip.install('pdfminer.six'),
-                    micropip.install('pdfplumber'),
                     micropip.install('python-docx'),
                     micropip.install('python-pptx'),
                     micropip.install('openpyxl'),

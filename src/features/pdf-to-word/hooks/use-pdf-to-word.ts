@@ -110,13 +110,13 @@ export function usePdfToWord() {
                     URL.revokeObjectURL(blobUrl);
                     
                     // Expose to window for Pyodide
-                    (window as any).ocrWordsJson = JSON.stringify(ocrWords);
+                    (window as unknown as { ocrWordsJson: string }).ocrWordsJson = JSON.stringify(ocrWords);
                 } catch (err) {
                     console.error("OCR Failed:", err);
-                    (window as any).ocrWordsJson = "{}";
+                    (window as unknown as { ocrWordsJson: string }).ocrWordsJson = "{}";
                 }
             } else {
-                (window as any).ocrWordsJson = "{}";
+                (window as unknown as { ocrWordsJson: string }).ocrWordsJson = "{}";
                 setProgress(50);
             }
 

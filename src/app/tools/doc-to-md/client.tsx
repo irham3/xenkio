@@ -56,6 +56,7 @@ export function DocToMdClient({ title, description }: { title?: string, descript
 
     const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
         onDrop,
+        noClick: true,
         accept: {
             // PDF
             'application/pdf': ['.pdf'],
@@ -88,7 +89,25 @@ export function DocToMdClient({ title, description }: { title?: string, descript
     })
 
     return (
-        <div className="space-y-4 sm:space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
+        <div 
+            {...getRootProps()}
+            className="space-y-4 sm:space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full relative outline-none"
+        >
+            <input {...getInputProps()} />
+            
+            {isDragActive && files.length > 0 && (
+                <div className="absolute inset-0 z-50 bg-primary-500/10 backdrop-blur-sm border-2 border-primary-500 border-dashed rounded-xl flex items-center justify-center">
+                    <div className="bg-white px-6 py-4 rounded-xl shadow-lg flex items-center space-x-3">
+                        <div className="p-2 bg-primary-100 rounded-lg text-primary-600">
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                        </div>
+                        <span className="text-lg font-semibold text-gray-800">Drop files to add them</span>
+                    </div>
+                </div>
+            )}
+
             {title && description && (
                 <div className="text-center mb-6">
                     <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">{title}</h1>
@@ -103,8 +122,7 @@ export function DocToMdClient({ title, description }: { title?: string, descript
             {files.length === 0 ? (
                 <DocumentUploader
                     isDragActive={isDragActive}
-                    getRootProps={getRootProps}
-                    getInputProps={getInputProps}
+                    openDialog={open}
                     strategy={strategy}
                     onStrategyChange={handleStrategyChange}
                 />

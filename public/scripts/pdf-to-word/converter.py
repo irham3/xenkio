@@ -294,7 +294,10 @@ def group_words_into_lines(cell_words):
 
 # --- Main Converter ---
 
-def convert_pdf_to_word(input_path, output_path):
+def convert_pdf_to_word(input_path, output_path, ocr_words=None):
+    if ocr_words is None:
+        ocr_words = {}
+        
     doc = Document()
     
     # Configure document to use A4 and exact margins based on PDF mediabox
@@ -315,6 +318,11 @@ def convert_pdf_to_word(input_path, output_path):
             tables = page.find_tables()
             table_bboxes = [t.bbox for t in tables]
             words = page.extract_words(extra_attrs=['fontname', 'size'])
+            
+            if str(page_num) in ocr_words:
+                words.extend(ocr_words[str(page_num)])
+                
+            word_count += len(words)
             all_rects = page.rects
             all_lines = page.lines
             all_pdf_lines = all_lines  # lines used for border analysis

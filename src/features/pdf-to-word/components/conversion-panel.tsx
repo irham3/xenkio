@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from 'react';
 import { FileText, DownloadSimple, SpinnerGap, CheckCircle, WarningCircle, ArrowsClockwise, FileArrowDown, ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { PdfFile, ConversionResult, ConversionStatus } from "../types"
@@ -10,7 +11,7 @@ interface ConversionPanelProps {
     progress: number
     error: string | null
     result: ConversionResult | null
-    onConvert: () => void
+    onConvert: (useOcr: boolean) => void
     onDownload: () => void
     onReset: () => void
 }
@@ -38,6 +39,8 @@ export function ConversionPanel({
     const isProcessing = status === 'processing';
     const isCompleted = status === 'completed';
     const isError = status === 'error';
+
+    const [useOcr, setUseOcr] = useState(false);
 
     return (
         <div className="w-full max-w-4xl mx-auto">
@@ -108,15 +111,29 @@ export function ConversionPanel({
                             <h4 className="text-lg font-semibold text-gray-900 mb-2">
                                 Ready to Convert
                             </h4>
-                            <p className="text-gray-500 text-sm">
+                            <p className="text-gray-500 text-sm mb-6">
                                 Your PDF styling (<strong>bold</strong>, <em>italic</em>, colors, fonts) will be preserved in Word.
                             </p>
+                            
+                            <label className="flex items-center justify-center gap-3 mb-8 cursor-pointer group">
+                                <div className="relative flex items-center">
+                                    <input 
+                                        type="checkbox" 
+                                        className="w-5 h-5 border-2 border-gray-300 rounded cursor-pointer text-primary-600 focus:ring-primary-500"
+                                        checked={useOcr}
+                                        onChange={(e) => setUseOcr(e.target.checked)}
+                                    />
+                                </div>
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 select-none">
+                                    Use OCR (Read text from scanned images - Slower)
+                                </span>
+                            </label>
                         </div>
 
                         <Button
                             size="lg"
                             className="px-12 py-6 text-base h-auto"
-                            onClick={onConvert}
+                            onClick={() => onConvert(useOcr)}
                             disabled={status !== 'ready'}
                         >
                             <FileArrowDown className="w-5 h-5 mr-3" />

@@ -6,6 +6,7 @@ import {
     PyodideInterface,
     MicropipInterface
 } from '../types'
+import { extractOcrWordsFromPdf } from '../utils/ocr'
 
 /** Fetch a Python script from /public/scripts/ and return its text. */
 async function fetchPythonScript(path: string): Promise<string> {
@@ -74,7 +75,7 @@ export function usePdfToWord() {
         return () => clearTimeout(timer);
     }, [initPyodide]);
 
-    const convertToWord = useCallback(async (pdfFile: PdfFile): Promise<void> => {
+    const convertToWord = useCallback(async (pdfFile: PdfFile, enableOcr: boolean = false): Promise<void> => {
         if (!pyodideRef.current) {
             setError("Python environment is not ready.");
             setStatus('error');
@@ -94,11 +95,38 @@ export function usePdfToWord() {
             // Write PDF file to virtual filesystem
             const uint8Array = new Uint8Array(pdfFile.arrayBuffer);
             pyodide.FS.writeFile(inputPath, uint8Array);
-            setProgress(40);
+
+            if (enableOcr) {
+                setStatus('processing');
+                setProgress(10);
+                
+                try {
+                    // Blob URL for pdf.js to read
+                    const blob = new Blob([uint8Array], { type: 'application/pdf' });
+                    const blobUrl = URL.createObjectURL(blob);
+                    const ocrWords = await extractOcrWordsFromPdf(blobUrl, (p) => {
+                        setProgress(10 + p * 0.4); // 10% to 50%
+                    });
+                    URL.revokeObjectURL(blobUrl);
+                    
+                    // Expose to window for Pyodide
+                    (window as any).ocrWordsJson = JSON.stringify(ocrWords);
+                } catch (err) {
+                    console.error("OCR Failed:", err);
+                    (window as any).ocrWordsJson = "{}";
+                }
+            } else {
+                (window as any).ocrWordsJson = "{}";
+                setProgress(50);
+            }
 
             // Run conversion (async to avoid blocking UI)
             const resultStr = await pyodide.runPythonAsync(`
-                convert_pdf_to_word('${inputPath}', '${outputPath}')
+                import js
+                import json
+                
+                ocr_words = json.loads(js.window.ocrWordsJson)
+                convert_pdf_to_word('${inputPath}', '${outputPath}', ocr_words)
             `) as string;
 
             setProgress(80);

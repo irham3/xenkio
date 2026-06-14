@@ -92,6 +92,7 @@ export interface PyodideInterface {
     loadPackage: (names: string | string[]) => Promise<void>;
     pyimport: (name: string) => unknown;
     runPython: (code: string) => unknown;
+    runPythonAsync: (code: string) => Promise<unknown>;
     FS: {
         writeFile: (path: string, data: Uint8Array | string) => void;
         readFile: (path: string, opts?: { encoding: string }) => Uint8Array | string;
@@ -104,7 +105,7 @@ export interface PyodideInterface {
 }
 
 export interface MicropipInterface {
-    install: (pkg: string | string[], kwargs?: any) => Promise<void>;
+    install: (pkg: string | string[], kwargs?: Record<string, unknown>) => Promise<void>;
     add_mock_package: (name: string, version: string) => void;
 }
 

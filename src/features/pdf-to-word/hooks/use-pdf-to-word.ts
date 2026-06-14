@@ -96,8 +96,8 @@ export function usePdfToWord() {
             pyodide.FS.writeFile(inputPath, uint8Array);
             setProgress(40);
 
-            // Run conversion
-            const resultStr = pyodide.runPython(`
+            // Run conversion (async to avoid blocking UI)
+            const resultStr = await pyodide.runPythonAsync(`
                 convert_pdf_to_word('${inputPath}', '${outputPath}')
             `) as string;
 

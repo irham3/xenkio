@@ -144,10 +144,10 @@ export function useDocToMd(strategy: LoadingStrategy = 'preload') {
             // Call the appropriate Python converter
             let result = '';
             if (strategy === 'preload') {
-                const fn = pyodide.runPython('convert_preload');
+                const fn = pyodide.runPython('convert_preload') as (fsPath: string) => string;
                 result = fn(fsPath);
             } else {
-                const fn = pyodide.runPython('convert_lazy');
+                const fn = pyodide.runPython('convert_lazy') as (fsPath: string, ext: string) => string;
                 result = fn(fsPath, ext);
             }
 

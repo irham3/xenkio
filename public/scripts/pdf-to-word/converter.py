@@ -243,12 +243,21 @@ def add_words_to_paragraph(p, line_words, cell_bbox=None, h_align=None):
         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     # else: default LEFT
     
-    set_paragraph_spacing(p, before=0, after=0)
-    
     last_x1 = line_words[0]['x0']
     for w in line_words:
         gap = w['x0'] - last_x1
         if gap > 8:
+            # Add a custom tab stop exactly where the word should start
+            # tab stops are relative to the paragraph's left edge (margin + indent)
+            # if we are inside a cell, margin is 0. If free text, margin is 36.
+            # It's safer to just let docx handle it by adding a tab_stop
+            # We'll calculate relative to line_words[0]['x0'] for simplicity if it's the same paragraph
+            rel_pos = w['x0'] - line_words[0]['x0']
+            if rel_pos > 0:
+                try:
+                    p.paragraph_format.tab_stops.add_tab_stop(Pt(rel_pos))
+                except Exception:
+                    pass
             tab_run = p.add_run('\t')
             tab_run.font.size = Pt(round(w['size']))
         
@@ -720,8 +729,8 @@ def convert_pdf_to_word(input_path, output_path):
                     if abs(line_center - page_center) < 30:
                         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     else:
-                        indent = line_words[0]['x0']
-                        if indent > 15:
+                        indent = line_words[0]['x0'] - 36 # 36 is the 0.5 inch margin
+                        if indent > 0:
                             p.paragraph_format.left_indent = Pt(indent)
                     
                     add_words_to_paragraph(p, line_words, h_align=None)

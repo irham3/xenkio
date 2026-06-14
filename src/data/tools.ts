@@ -132,6 +132,7 @@ export const TOOLS: ToolData[] = [
         href: '/tools/doc-to-md',
         slug: 'doc-to-md',
         isNew: true,
+        featured: true,
         categoryId: 'documents',
     },
     {

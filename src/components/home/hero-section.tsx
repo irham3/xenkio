@@ -28,7 +28,7 @@ const BENTO_TOOLS = [
   TOOLS.find(t => t.id === '8'),  // Image Compressor
   TOOLS.find(t => t.id === '16'), // QR Code Generator
   TOOLS.find(t => t.id === '19'), // Password Generator
-  TOOLS.find(t => t.id === '26'), // JSON Formatter
+  TOOLS.find(t => t.id === '103'),// Document to Markdown
   TOOLS.find(t => t.id === '36'), // Color Picker
   TOOLS.find(t => t.id === '6'),  // PDF Compressor
   TOOLS.find(t => t.id === '11'), // Image Converter

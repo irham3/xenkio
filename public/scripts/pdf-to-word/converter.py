@@ -218,7 +218,9 @@ def detect_cell_alignments(cell_bbox, cell_words):
     bottom_margin = cy1 - text_y1
     
     # Horizontal
-    if cell_w > 0 and abs(left_margin - right_margin) < max(10, cell_w * 0.15):
+    if left_margin < 15:
+        h_align = 'left'
+    elif cell_w > 0 and abs(left_margin - right_margin) < max(10, cell_w * 0.15):
         h_align = 'center'
     else:
         h_align = 'left'
@@ -655,14 +657,19 @@ def convert_pdf_to_word(input_path, output_path):
                             
                             # Borders
                             border_kw = {}
+                            is_fake = t.__class__.__name__ == 'FakeTable'
                             for edge_name in ('top', 'bottom', 'left', 'right'):
-                                cls = classify_border(cell_bbox, edge_name, all_pdf_lines)
-                                if cls == 'dotted':
-                                    border_kw[edge_name] = {"val": "dotted", "sz": "4", "color": "000000", "space": "0"}
-                                elif cls == 'nil':
-                                    border_kw[edge_name] = {"val": "nil"}
+                                if is_fake:
+                                    cls = 'single'
                                 else:
-                                    border_kw[edge_name] = {"val": "single", "sz": "4", "color": "000000", "space": "0"}
+                                    cls = classify_border(cell_bbox, edge_name, all_pdf_lines)
+                                
+                                if cls == 'dotted':
+                                    border_kw[edge_name] = {'val': 'dotted', 'sz': '4', 'space': '0', 'color': 'auto'}
+                                elif cls == 'single':
+                                    border_kw[edge_name] = {'val': 'single', 'sz': '4', 'space': '0', 'color': 'auto'}
+                                else:
+                                    border_kw[edge_name] = {'val': 'nil'}
                             set_cell_border(docx_cell, **border_kw)
                             
                             # Background
@@ -724,14 +731,15 @@ def convert_pdf_to_word(input_path, output_path):
                     if not line_words:
                         continue
                     
-                    page_center = page.width / 2 if page.width else 300
-                    line_center = (line_words[0]['x0'] + line_words[-1]['x1']) / 2
-                    if abs(line_center - page_center) < 30:
+                    left_margin = line_words[0]['x0'] - 36
+                    right_margin = 559 - line_words[-1]['x1']
+                    
+                    if left_margin > 30 and right_margin > 30 and abs(left_margin - right_margin) < 30:
                         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     else:
-                        indent = line_words[0]['x0'] - 36 # 36 is the 0.5 inch margin
-                        if indent > 0:
-                            p.paragraph_format.left_indent = Pt(indent)
+                        p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                        if left_margin > 0:
+                            p.paragraph_format.left_indent = Pt(left_margin)
                     
                     add_words_to_paragraph(p, line_words, h_align=None)
                     last_bottom = e['bbox'][3]

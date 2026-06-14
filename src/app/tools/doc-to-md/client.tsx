@@ -8,7 +8,7 @@ import { useDocToMd } from "@/features/doc-to-md/hooks/use-doc-to-md"
 import { DocFile, LoadingStrategy } from "@/features/doc-to-md/types"
 import { toast } from "sonner"
 
-export function DocToMdClient() {
+export function DocToMdClient({ title, description }: { title?: string, description?: string }) {
     const [file, setFile] = useState<DocFile | null>(null)
     const [strategy, setStrategy] = useState<LoadingStrategy>(() => {
         if (typeof window !== 'undefined') {
@@ -85,7 +85,18 @@ export function DocToMdClient() {
     }, [reset])
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="space-y-4 sm:space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
+            {status !== 'success' && title && description && (
+                <div className="text-center mb-6">
+                    <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">{title}</h1>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-snug">{description}</p>
+                    <div className="mt-3 flex items-center justify-center">
+                        <span className="text-xs text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-200">
+                            Powered by <a href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary-600 hover:text-primary-700 hover:underline">Microsoft MarkItDown</a>
+                        </span>
+                    </div>
+                </div>
+            )}
             {!file ? (
                 <DocumentUploader
                     isDragActive={isDragActive}

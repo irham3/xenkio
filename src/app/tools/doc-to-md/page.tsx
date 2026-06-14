@@ -54,24 +54,13 @@ export default function DocToMdPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-12 max-w-6xl">
+        <div className="container mx-auto px-4 py-6 sm:py-8 max-w-6xl">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            {/* Tool Header */}
-            <div className="text-center mb-12">
-                <h1 className="text-4xl font-extrabold text-gray-900 mb-4">{tool.title}</h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">{tool.description}</p>
-                <div className="mt-4 flex items-center justify-center">
-                    <span className="text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-200">
-                        Powered by <a href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary-600 hover:text-primary-700 hover:underline">Microsoft MarkItDown</a>
-                    </span>
-                </div>
-            </div>
-
             {/* Feature UI (Client Component) */}
-            <DocToMdClient />
+            <DocToMdClient title={tool.title} description={tool.description} />
         </div>
     );
 }

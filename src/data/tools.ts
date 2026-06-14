@@ -125,6 +125,16 @@ export const TOOLS: ToolData[] = [
     },
 
     {
+        id: '103',
+        title: 'Document to Markdown',
+        description: 'Convert PDF, Word, Excel, and other documents into Markdown. Runs securely in your browser.',
+        icon: 'FileText',
+        href: '/tools/doc-to-md',
+        slug: 'doc-to-md',
+        isNew: true,
+        categoryId: 'documents',
+    },
+    {
         id: '7',
         title: 'ZIP Extractor',
         description: 'Extract ZIP archive files online. View contents, download individual files, or save everything instantly.',

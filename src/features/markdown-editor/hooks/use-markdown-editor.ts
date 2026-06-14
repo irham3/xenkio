@@ -2,8 +2,8 @@ import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { markdownToHtml, SAMPLE_MARKDOWN } from '../lib/markdown-utils';
 import { ViewMode } from '../types';
 
-export function useMarkdownEditor() {
-    const [markdown, setMarkdown] = useState(SAMPLE_MARKDOWN);
+export function useMarkdownEditor(initialValue: string = SAMPLE_MARKDOWN) {
+    const [markdown, setMarkdown] = useState(initialValue);
     const [viewMode, setViewMode] = useState<ViewMode>('split');
     const [isMounted, setIsMounted] = useState(false);
 
@@ -19,7 +19,7 @@ export function useMarkdownEditor() {
         future: string[];
     }>({
         past: [],
-        present: SAMPLE_MARKDOWN,
+        present: initialValue,
         future: []
     });
 

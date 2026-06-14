@@ -1,9 +1,3 @@
-import { createWorker } from 'tesseract.js';
-import * as pdfjsLib from 'pdfjs-dist';
-
-// Ensure the worker is configured
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
-
 export interface OCRWord {
     text: string;
     x0: number;
@@ -17,6 +11,13 @@ export async function extractOcrWordsFromPdf(
     fileUrl: string, 
     onProgress?: (progress: number) => void
 ): Promise<Record<number, OCRWord[]>> {
+    
+    // Dynamically import libraries to prevent SSR crashes (DOMMatrix is not defined)
+    const { createWorker } = await import('tesseract.js');
+    const pdfjsLib = await import('pdfjs-dist');
+    
+    // Ensure the worker is configured
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
     
     onProgress?.(0);
     

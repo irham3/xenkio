@@ -9,7 +9,7 @@ import { MarkdownHeader } from "@/features/markdown-editor/components/markdown-h
 import { EditorPanel } from "@/features/markdown-editor/components/editor-panel";
 import { PreviewPanel } from "@/features/markdown-editor/components/preview-panel";
 
-export function MarkdownEditorClient({ initialValue, hideSampleButton, heightClass = "h-[70vh]" }: { initialValue?: string, hideSampleButton?: boolean, heightClass?: string } = {}) {
+export function MarkdownEditorClient({ initialValue, hideSampleButton, heightClass = "h-[70vh]", wrapperClass = "w-full pt-4 pb-4" }: { initialValue?: string, hideSampleButton?: boolean, heightClass?: string, wrapperClass?: string } = {}) {
     const {
         markdown,
         html,
@@ -321,7 +321,7 @@ export function MarkdownEditorClient({ initialValue, hideSampleButton, heightCla
                 </div>
             )}
 
-            <div className={cn("w-full pt-4 pb-4", isFullscreen && "invisible")}>
+            <div className={cn(wrapperClass, isFullscreen && "invisible")}>
                 <div className={cn("bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft flex flex-col", heightClass)}>
                     <MarkdownHeader
                         viewMode={viewMode}

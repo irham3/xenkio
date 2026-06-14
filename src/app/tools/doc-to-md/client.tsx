@@ -5,11 +5,12 @@ import { useDropzone } from "react-dropzone"
 import { DocumentUploader } from "@/features/doc-to-md/components/document-uploader"
 import { ConversionPanel } from "@/features/doc-to-md/components/conversion-panel"
 import { useDocToMd } from "@/features/doc-to-md/hooks/use-doc-to-md"
-import { DocFile, LoadingStrategy } from "@/features/doc-to-md/types"
+import { DocFileState, LoadingStrategy } from "@/features/doc-to-md/types"
 import { toast } from "sonner"
+import { v4 as uuidv4 } from "uuid"
 
 export function DocToMdClient({ title, description }: { title?: string, description?: string }) {
-    const [file, setFile] = useState<DocFile | null>(null)
+    const [files, setFiles] = useState<DocFileState[]>([])
     const [strategy, setStrategy] = useState<LoadingStrategy>(() => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('docToMdStrategy')
@@ -25,28 +26,35 @@ export function DocToMdClient({ title, description }: { title?: string, descript
         localStorage.setItem('docToMdStrategy', newStrategy)
     }
 
-    const { status, error, markdown, convert, reset } = useDocToMd(strategy)
+    const { pyodideStatus, pyodideError, convertFile } = useDocToMd(strategy)
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
-            const uploadedFile = acceptedFiles[0]
-
-            // Check file size (e.g. 50MB limit)
-            if (uploadedFile.size > 50 * 1024 * 1024) {
-                toast.error("File is too large. Please upload a file smaller than 50MB.")
-                return
+            const newFiles: DocFileState[] = [];
+            for (const uploadedFile of acceptedFiles) {
+                if (uploadedFile.size > 50 * 1024 * 1024) {
+                    toast.error(`File ${uploadedFile.name} is too large. Max size is 50MB.`)
+                    continue;
+                }
+                newFiles.push({
+                    id: uuidv4(),
+                    file: uploadedFile,
+                    name: uploadedFile.name,
+                    size: uploadedFile.size,
+                    status: 'pending'
+                });
             }
-
-            setFile({
-                file: uploadedFile,
-                name: uploadedFile.name,
-                size: uploadedFile.size
-            })
-            reset()
+            if (newFiles.length > 0) {
+                setFiles(prev => [...prev, ...newFiles])
+            }
         }
-    }, [reset])
+    }, [])
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    const handleReset = useCallback(() => {
+        setFiles([])
+    }, [])
+
+    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
         onDrop,
         accept: {
             // PDF
@@ -76,17 +84,12 @@ export function DocToMdClient({ title, description }: { title?: string, descript
             // Outlook
             'application/vnd.ms-outlook': ['.msg'],
         },
-        maxFiles: 1
+        maxFiles: 50
     })
-
-    const handleReset = useCallback(() => {
-        setFile(null)
-        reset()
-    }, [reset])
 
     return (
         <div className="space-y-4 sm:space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
-            {status !== 'success' && title && description && (
+            {title && description && (
                 <div className="text-center mb-6">
                     <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">{title}</h1>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-snug">{description}</p>
@@ -97,7 +100,7 @@ export function DocToMdClient({ title, description }: { title?: string, descript
                     </div>
                 </div>
             )}
-            {!file ? (
+            {files.length === 0 ? (
                 <DocumentUploader
                     isDragActive={isDragActive}
                     getRootProps={getRootProps}
@@ -107,12 +110,13 @@ export function DocToMdClient({ title, description }: { title?: string, descript
                 />
             ) : (
                 <ConversionPanel
-                    file={file}
-                    status={status}
-                    error={error}
-                    markdown={markdown}
+                    files={files}
+                    setFiles={setFiles}
+                    pyodideStatus={pyodideStatus}
+                    pyodideError={pyodideError}
+                    convertFile={convertFile}
                     onReset={handleReset}
-                    onConvert={convert}
+                    onAddFiles={open}
                 />
             )}
         </div>

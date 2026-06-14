@@ -4,6 +4,15 @@ export interface DocFile {
     size: number;
 }
 
+export type FileStatus = 'pending' | 'converting' | 'success' | 'error';
+
+export interface DocFileState extends DocFile {
+    id: string;
+    status: FileStatus;
+    markdown?: string;
+    error?: string;
+}
+
 export type ConversionStatus = 'idle' | 'loading_pyodide' | 'installing_deps' | 'ready' | 'converting' | 'success' | 'error';
 
 export type LoadingStrategy = 'preload' | 'lazy';

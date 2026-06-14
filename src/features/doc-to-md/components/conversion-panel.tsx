@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { CheckCircle2, Download, RefreshCw, AlertCircle, Loader2, Copy, FileText, File as FileIcon, Archive, Play, Clock, Plus, Trash2 } from "lucide-react"
 import { DocFileState, ConversionStatus } from "../types"
@@ -105,16 +105,14 @@ export function ConversionPanel({ files, setFiles, pyodideStatus, pyodideError, 
         setIsConvertingAll(false);
     };
 
+    useEffect(() => {
+        if (files.length > 0 && !files.find(f => f.id === activeFileId)) {
+            setActiveFileId(files[0].id);
+        }
+    }, [files, activeFileId]);
+
     const handleRemoveFile = (id: string) => {
-        setFiles(prev => {
-            const next = prev.filter(f => f.id !== id);
-            if (next.length === 0) {
-                // Let the parent component handle empty state by calling onReset or automatically rendering DocumentUploader
-            } else if (activeFileId === id) {
-                setActiveFileId(next[0].id);
-            }
-            return next;
-        });
+        setFiles(prev => prev.filter(f => f.id !== id));
     };
 
     const totalFiles = files.length;

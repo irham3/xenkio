@@ -13,7 +13,7 @@ declare global {
  */
 const EXTENSION_DEPS: Record<string, string> = {
     pdf:  'pdfminer.six',
-    docx: 'mammoth',
+    docx: 'python-docx',
     xlsx: 'openpyxl',
     xls:  'openpyxl',
     pptx: 'python-pptx',

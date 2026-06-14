@@ -9,7 +9,7 @@ import { MarkdownHeader } from "@/features/markdown-editor/components/markdown-h
 import { EditorPanel } from "@/features/markdown-editor/components/editor-panel";
 import { PreviewPanel } from "@/features/markdown-editor/components/preview-panel";
 
-export function MarkdownEditorClient({ initialValue }: { initialValue?: string } = {}) {
+export function MarkdownEditorClient({ initialValue, hideSampleButton }: { initialValue?: string, hideSampleButton?: boolean } = {}) {
     const {
         markdown,
         html,
@@ -279,6 +279,7 @@ export function MarkdownEditorClient({ initialValue }: { initialValue?: string }
                         onLoadSample={resetToSample}
                         isFullscreen={true}
                         setIsFullscreen={setIsFullscreen}
+                        hideSampleButton={hideSampleButton}
                     />
                     {(viewMode === 'editor' || viewMode === 'split') && (
                         <Toolbar
@@ -331,6 +332,7 @@ export function MarkdownEditorClient({ initialValue }: { initialValue?: string }
                         onLoadSample={resetToSample}
                         isFullscreen={false}
                         setIsFullscreen={setIsFullscreen}
+                        hideSampleButton={hideSampleButton}
                     />
                     {(viewMode === 'editor' || viewMode === 'split') && (
                         <Toolbar

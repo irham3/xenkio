@@ -101,8 +101,7 @@ export function ConversionPanel({ file, status, error, markdown, onReset, onConv
 
             {status === 'success' && markdown && (
                 <div className="mt-8">
-                    <h4 className="text-lg font-medium text-gray-900 mb-4">Edit & Preview</h4>
-                    <MarkdownEditorClient initialValue={markdown} />
+                    <MarkdownEditorClient initialValue={markdown} hideSampleButton={true} />
                 </div>
             )}
 

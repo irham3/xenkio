@@ -13,6 +13,7 @@ interface MarkdownHeaderProps {
     onLoadSample: () => void;
     isFullscreen: boolean;
     setIsFullscreen: (val: boolean) => void;
+    hideSampleButton?: boolean;
 }
 
 export function MarkdownHeader({
@@ -23,7 +24,8 @@ export function MarkdownHeader({
     formattedLines,
     onLoadSample,
     isFullscreen,
-    setIsFullscreen
+    setIsFullscreen,
+    hideSampleButton
 }: MarkdownHeaderProps) {
     const VIEW_MODES: { id: ViewMode; name: string; icon: React.ElementType }[] = [
         { id: 'editor', name: 'Editor', icon: Code },
@@ -62,13 +64,15 @@ export function MarkdownHeader({
             </div>
 
             <div className="flex items-center gap-2">
-                <button
-                    onClick={onLoadSample}
-                    className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all flex items-center gap-1 cursor-pointer"
-                >
-                    <Sparkle className="w-3 h-3"  weight="duotone"/>
-                    Load Sample
-                </button>
+                {!hideSampleButton && (
+                    <button
+                        onClick={onLoadSample}
+                        className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:text-primary-700 rounded-lg hover:bg-primary-50 transition-all flex items-center gap-1 cursor-pointer"
+                    >
+                        <Sparkle className="w-3 h-3"  weight="duotone"/>
+                        Load Sample
+                    </button>
+                )}
                 <button
                     onClick={() => setIsFullscreen(!isFullscreen)}
                     className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-all cursor-pointer"

@@ -381,8 +381,38 @@ def convert_pdf_to_word(input_path, output_path):
                             })
                             table_bboxes.append(dashed_bbox)
             
+            # Detect large standalone rectangles (like "Catatan" box) missed by find_tables
+            tables_to_process = list(tables)
+            for r in page.rects:
+                w = r['width']
+                h = r['height']
+                if w > 300 and h > 50:
+                    rect_bbox = (r['x0'], r['top'], r['x1'], r['bottom'])
+                    
+                    overlap = False
+                    for tb in table_bboxes:
+                        if overlap_area(rect_bbox, tb) > 0.5 * bbox_area(rect_bbox):
+                            overlap = True
+                            break
+                    for e in elements: # check dashed_table overlaps
+                        if e['type'] == 'dashed_table' and overlap_area(rect_bbox, e['bbox']) > 0.5 * bbox_area(rect_bbox):
+                            overlap = True
+                            break
+                            
+                    if not overlap:
+                        class FakeRow:
+                            def __init__(self, bbox):
+                                self.cells = [bbox]
+                        class FakeTable:
+                            def __init__(self, bbox):
+                                self.bbox = bbox
+                                self.rows = [FakeRow(bbox)]
+                        
+                        tables_to_process.append(FakeTable(rect_bbox))
+                        table_bboxes.append(rect_bbox)
+            
             # Tables
-            for t in tables:
+            for t in tables_to_process:
                 elements.append({
                     'type': 'table',
                     'data': t,
@@ -407,18 +437,26 @@ def convert_pdf_to_word(input_path, output_path):
             
             for y in sorted(text_lines_map.keys()):
                 line_words = sorted(text_lines_map[y], key=lambda w: w['x0'])
+                # Calculate bbox for line
+                x0 = line_words[0]['x0']
+                x1 = line_words[-1]['x1']
+                y0 = min(w['top'] for w in line_words)
+                y1 = max(w['bottom'] for w in line_words)
                 elements.append({
                     'type': 'text',
                     'words': line_words,
-                    'top': y
+                    'top': y0,
+                    'bbox': (x0, y0, x1, y1)
                 })
             
             elements.sort(key=lambda e: e['top'])
             
             # ===== Render elements =====
             image_placed = set()
+            last_bottom = 0
             
             for e in elements:
+                space_before = max(0, e['top'] - last_bottom) if last_bottom > 0 else 0
                 
                 # --- DASHED TABLE (Nomor Dokumen / Revisi / Halaman) ---
                 if e['type'] == 'dashed_table':
@@ -662,11 +700,16 @@ def convert_pdf_to_word(input_path, output_path):
                                     add_words_to_paragraph(p, line, cell_bbox, h_align=detected_h)
                     
                     doc.add_paragraph().paragraph_format.space_after = Pt(2)
+                    last_bottom = e['bbox'][3] if 'bbox' in e else e['top'] + 20
                 
                 # --- FREE TEXT ---
                 elif e['type'] == 'text':
                     p = doc.add_paragraph()
-                    set_paragraph_spacing(p, before=0, after=2)
+                    if space_before > 15:
+                        p.paragraph_format.space_before = Pt(space_before - 5)
+                    else:
+                        p.paragraph_format.space_before = Pt(0)
+                    p.paragraph_format.space_after = Pt(2)
                     
                     line_words = e['words']
                     if not line_words:
@@ -682,6 +725,7 @@ def convert_pdf_to_word(input_path, output_path):
                             p.paragraph_format.left_indent = Pt(indent)
                     
                     add_words_to_paragraph(p, line_words, h_align=None)
+                    last_bottom = e['bbox'][3]
             
             # Place any remaining images that weren't in a cell
             for vi, vimg in enumerate(valid_images):

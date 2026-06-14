@@ -9,7 +9,7 @@ import { MarkdownHeader } from "@/features/markdown-editor/components/markdown-h
 import { EditorPanel } from "@/features/markdown-editor/components/editor-panel";
 import { PreviewPanel } from "@/features/markdown-editor/components/preview-panel";
 
-export function MarkdownEditorClient() {
+export function MarkdownEditorClient({ initialValue }: { initialValue?: string } = {}) {
     const {
         markdown,
         html,
@@ -23,7 +23,7 @@ export function MarkdownEditorClient() {
         canUndo,
         canRedo,
         isMounted,
-    } = useMarkdownEditor();
+    } = useMarkdownEditor(initialValue);
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const fsTextareaRef = useRef<HTMLTextAreaElement>(null);

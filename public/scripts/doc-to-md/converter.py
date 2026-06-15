@@ -95,9 +95,16 @@ def _convert_docx(file_path: str) -> str:
             from docx.table import Table  # type: ignore
             t = Table(element, doc)
             table_lines = []
+            seen_tc_ids = set()
             for r_idx, row in enumerate(t.rows):
                 row_data = []
                 for cell in row.cells:
+                    tc_id = id(cell._tc)
+                    if tc_id in seen_tc_ids:
+                        row_data.append("")
+                        continue
+                    seen_tc_ids.add(tc_id)
+                    
                     cell_text = ""
                     for cell_p in cell.paragraphs:
                         p_text = ""
@@ -137,7 +144,20 @@ def _convert_pptx(file_path: str) -> str:
     for i, slide in enumerate(prs.slides, start=1):
         sections.append(f"## Slide {i}\n")
         for shape in slide.shapes:
-            if hasattr(shape, "text") and shape.text.strip():
+            if shape.has_table:
+                table_lines = []
+                for r_idx, row in enumerate(shape.table.rows):
+                    row_data = []
+                    for cell in row.cells:
+                        if cell.is_spanned:
+                            row_data.append("")
+                        else:
+                            row_data.append(cell.text.replace("\n", "<br>").strip())
+                    table_lines.append("| " + " | ".join(row_data) + " |")
+                    if r_idx == 0:
+                        table_lines.append("| " + " | ".join(["---"] * len(row_data)) + " |")
+                sections.append("\n".join(table_lines) + "\n")
+            elif hasattr(shape, "text") and shape.text.strip():
                 sections.append(shape.text)
         sections.append("")
     return "\n".join(sections)
@@ -217,7 +237,38 @@ def init_preload() -> None:
 
     # 2. Fresh import
     from markitdown import MarkItDown
-    import markitdown
+    from markitdown.converters._markdownify import _CustomMarkdownify
+    
+    # --- MONKEY PATCHES for MarkItDown to support <u> tags ---
+    try:
+        import mammoth
+        # Patch Mammoth to emit <u> tags for underlines
+        original_convert_to_html = mammoth.convert_to_html
+        def custom_convert_to_html(document, **kwargs):
+            custom_map = "u => u"
+            if "style_map" in kwargs and kwargs["style_map"]:
+                kwargs["style_map"] = kwargs["style_map"] + "\n" + custom_map
+            else:
+                kwargs["style_map"] = custom_map
+            return original_convert_to_html(document, **kwargs)
+        mammoth.convert_to_html = custom_convert_to_html
+    except ImportError:
+        pass
+    
+    # Patch _CustomMarkdownify to keep <u> tags
+    original_init = _CustomMarkdownify.__init__
+    def custom_init(self, **kwargs):
+        keep = kwargs.get('keep', [])
+        if 'u' not in keep:
+            kwargs['keep'] = tuple(list(keep) + ['u'])
+        original_init(self, **kwargs)
+    
+    _CustomMarkdownify.__init__ = custom_init
+    
+    def custom_convert_u(self, el, text, convert_as_inline=False, **kwargs):
+        return f"<u>{text}</u>"
+    _CustomMarkdownify.convert_u = custom_convert_u
+    # ---------------------------------------------------------
 
     # 3. Safety net: clear any stale _dependency_exc_info in converter modules
     for mod_name, mod_obj in list(sys.modules.items()):
@@ -232,10 +283,13 @@ def convert_preload(file_path: str) -> str:
     if _markitdown_instance is None:
         raise RuntimeError("init_preload() must be called before convert_preload()")
     
-    # Intercept docx to use our custom robust converter
+    # Intercept specific formats to use our custom robust converters
+    # We DO NOT intercept docx so markitdown can natively process it with rich formatting.
+    # We intercept xlsx because markitdown outputs NaN for empty cells.
+    # We intercept pptx because markitdown extracts raw text without preserving tables.
     ext = file_path.split('.')[-1].lower()
-    if ext == 'docx':
-        return _convert_docx(file_path)
+    if ext in ['xlsx', 'xls', 'pptx']:
+        return convert_lazy(file_path, ext)
     
     try:
         result = _markitdown_instance.convert(file_path)

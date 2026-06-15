@@ -3,7 +3,7 @@
 import { UploadSimple, FileText, Gear } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { DropzoneOptions } from "react-dropzone"
+
 import { LoadingStrategy } from "../types"
 
 interface DocumentUploaderProps {

@@ -3,22 +3,21 @@
 import { UploadSimple, FileText, Gear } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { DropzoneRootProps, DropzoneInputProps } from "react-dropzone"
+
 import { LoadingStrategy } from "../types"
 
 interface DocumentUploaderProps {
     isDragActive: boolean
-    getRootProps: <T extends DropzoneRootProps>(props?: T) => T
-    getInputProps: <T extends DropzoneInputProps>(props?: T) => T
+    openDialog: () => void
     strategy: LoadingStrategy
     onStrategyChange: (strategy: LoadingStrategy) => void
 }
 
-export function DocumentUploader({ isDragActive, getRootProps, getInputProps, strategy, onStrategyChange }: DocumentUploaderProps) {
+export function DocumentUploader({ isDragActive, openDialog, strategy, onStrategyChange }: DocumentUploaderProps) {
     return (
         <div className="w-full max-w-4xl mx-auto space-y-6">
             <div
-                {...getRootProps()}
+                onClick={openDialog}
                 className={cn(
                     "relative border-2 border-dashed rounded-2xl p-16 transition-all duration-300 cursor-pointer",
                     isDragActive
@@ -26,7 +25,6 @@ export function DocumentUploader({ isDragActive, getRootProps, getInputProps, st
                         : "border-gray-300 hover:border-primary-400 hover:bg-gray-50"
                 )}
             >
-                <input {...getInputProps()} />
                 <div className="flex flex-col items-center justify-center text-center space-y-6">
                     <div className={cn(
                         "w-20 h-20 rounded-2xl flex items-center justify-center transition-all",
@@ -45,7 +43,7 @@ export function DocumentUploader({ isDragActive, getRootProps, getInputProps, st
                             or drag and drop your file here (PDF, Word, Excel, PPTX, etc.)
                         </p>
                     </div>
-                    <Button size="lg" className="mt-4">
+                    <Button size="lg" className="mt-4" onClick={openDialog} type="button">
                         <FileText className="w-4 h-4 mr-2"  weight="duotone"/>
                         Choose File
                     </Button>

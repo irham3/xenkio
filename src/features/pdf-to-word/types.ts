@@ -86,7 +86,28 @@ export interface ConversionResult {
     wordCount: number;
 }
 
-export type ConversionStatus = 'idle' | 'loading' | 'processing' | 'completed' | 'error';
+export type ConversionStatus = 'idle' | 'loading_pyodide' | 'installing_deps' | 'ready' | 'processing' | 'completed' | 'error';
+
+export interface PyodideInterface {
+    loadPackage: (names: string | string[]) => Promise<void>;
+    pyimport: (name: string) => unknown;
+    runPython: (code: string) => unknown;
+    runPythonAsync: (code: string) => Promise<unknown>;
+    FS: {
+        writeFile: (path: string, data: Uint8Array | string) => void;
+        readFile: (path: string, opts?: { encoding: string }) => Uint8Array | string;
+        unlink: (path: string) => void;
+        mkdir: (path: string) => void;
+    };
+    globals: {
+        get: (name: string) => (...args: string[]) => string;
+    };
+}
+
+export interface MicropipInterface {
+    install: (pkg: string | string[], kwargs?: Record<string, unknown>) => Promise<void>;
+    add_mock_package: (name: string, version: string) => void;
+}
 
 // Helper functions
 export function rgbToHex(color: RGBColor): string {

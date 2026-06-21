@@ -54,19 +54,13 @@ export default function DocToMdPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-12 max-w-6xl">
+        <div className="container mx-auto px-4 py-6 sm:py-8 max-w-6xl">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            {/* Tool Header */}
-            <div className="text-center mb-12">
-                <h1 className="text-4xl font-extrabold text-gray-900 mb-4">{tool.title}</h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">{tool.description}</p>
-            </div>
-
             {/* Feature UI (Client Component) */}
-            <DocToMdClient />
+            <DocToMdClient title={tool.title} description={tool.description} />
         </div>
     );
 }

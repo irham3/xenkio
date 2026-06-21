@@ -63,9 +63,9 @@ export function PdfToWordClient() {
         reset()
     }
 
-    const handleConvert = () => {
+    const handleConvert = (useOcr: boolean) => {
         if (pdfFile) {
-            convertToWord(pdfFile)
+            convertToWord(pdfFile, useOcr)
         }
     }
 

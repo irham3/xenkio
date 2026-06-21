@@ -413,7 +413,7 @@ export function HeroSection() {
                     >
                       <div className={`bento-card relative h-full flex flex-col items-center justify-center gap-2.5 p-3 backdrop-blur-sm rounded-2xl border overflow-hidden ${
                         isCenterCard
-                          ? 'bg-linear-to-br from-primary-50/95 to-white/95 border-primary-300/50 shadow-[0_2px_20px_rgba(14,165,233,0.14),_0_0_0_1px_rgba(14,165,233,0.06)]'
+                          ? 'bg-linear-to-br from-primary-50/95 to-white/95 border-primary-300/50 shadow-[0_2px_20px_rgba(14,165,233,0.14),0_0_0_1px_rgba(14,165,233,0.06)]'
                           : 'bg-white/80 border-gray-200/50 shadow-[0_1px_6px_rgba(0,0,0,0.03)]'
                       }`}>
                         {/* Shimmer overlay on hover */}

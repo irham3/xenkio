@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from 'react';
 import { FileText, DownloadSimple, SpinnerGap, CheckCircle, WarningCircle, ArrowsClockwise, FileArrowDown, ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import { Button } from "@/components/ui/button"
 import { PdfFile, ConversionResult, ConversionStatus } from "../types"
@@ -10,7 +11,7 @@ interface ConversionPanelProps {
     progress: number
     error: string | null
     result: ConversionResult | null
-    onConvert: () => void
+    onConvert: (useOcr: boolean) => void
     onDownload: () => void
     onReset: () => void
 }
@@ -33,10 +34,13 @@ export function ConversionPanel({
     onDownload,
     onReset
 }: ConversionPanelProps) {
-    const isIdle = status === 'idle';
+    const isIdleOrReady = status === 'idle' || status === 'ready';
+    const isInitializing = status === 'loading_pyodide' || status === 'installing_deps';
     const isProcessing = status === 'processing';
     const isCompleted = status === 'completed';
     const isError = status === 'error';
+
+    const [useOcr, setUseOcr] = useState(false);
 
     return (
         <div className="w-full max-w-4xl mx-auto">
@@ -71,7 +75,7 @@ export function ConversionPanel({
             </div>
 
             {/* Conversion Arrow */}
-            {isIdle && (
+            {(isIdleOrReady || isInitializing) && (
                 <div className="flex items-center justify-center gap-6 mb-6">
                     <div className="flex items-center gap-3 px-4 py-2 bg-error-50 rounded-lg">
                         <FileText className="w-5 h-5 text-error-500"  weight="duotone"/>
@@ -87,24 +91,53 @@ export function ConversionPanel({
 
             {/* Main Action Area */}
             <div className="bg-white border border-gray-200 rounded-xl p-8">
-                {isIdle && (
+                {isInitializing && (
+                    <div className="text-center py-8">
+                        <div className="w-16 h-16 mx-auto mb-6 relative">
+                            <SpinnerGap className="w-16 h-16 animate-spin text-primary-500" />
+                        </div>
+                        <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                            Initializing Environment...
+                        </h4>
+                        <p className="text-gray-500 text-sm">
+                            {status === 'loading_pyodide' ? 'Loading Python runtime...' : 'Installing dependencies (PyMuPDF, docx)...'}
+                        </p>
+                    </div>
+                )}
+
+                {isIdleOrReady && (
                     <div className="text-center">
                         <div className="max-w-md mx-auto mb-8">
                             <h4 className="text-lg font-semibold text-gray-900 mb-2">
                                 Ready to Convert
                             </h4>
-                            <p className="text-gray-500 text-sm">
+                            <p className="text-gray-500 text-sm mb-6">
                                 Your PDF styling (<strong>bold</strong>, <em>italic</em>, colors, fonts) will be preserved in Word.
                             </p>
+                            
+                            <label className="flex items-center justify-center gap-3 mb-8 cursor-pointer group">
+                                <div className="relative flex items-center">
+                                    <input 
+                                        type="checkbox" 
+                                        className="w-5 h-5 border-2 border-gray-300 rounded cursor-pointer text-primary-600 focus:ring-primary-500"
+                                        checked={useOcr}
+                                        onChange={(e) => setUseOcr(e.target.checked)}
+                                    />
+                                </div>
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 select-none">
+                                    Use OCR (Read text from scanned images - Slower)
+                                </span>
+                            </label>
                         </div>
 
                         <Button
                             size="lg"
                             className="px-12 py-6 text-base h-auto"
-                            onClick={onConvert}
+                            onClick={() => onConvert(useOcr)}
+                            disabled={status !== 'ready'}
                         >
                             <FileArrowDown className="w-5 h-5 mr-3" />
-                            Convert to Word
+                            {status === 'idle' ? 'Loading Engine...' : 'Convert to Word'}
                         </Button>
 
                         <div className="mt-8 pt-6 border-t border-gray-100">
@@ -209,7 +242,7 @@ export function ConversionPanel({
                         <div className="flex items-center justify-center gap-4">
                             <Button
                                 size="lg"
-                                onClick={onConvert}
+                                onClick={() => onConvert(useOcr)}
                             >
                                 <ArrowsClockwise className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Try Again
@@ -227,7 +260,7 @@ export function ConversionPanel({
             </div>
 
             {/* Info Note */}
-            {isIdle && (
+            {(isIdleOrReady || isInitializing) && (
                 <div className="mt-6 p-4 bg-gray-50 border border-gray-100 rounded-xl">
                     <p className="text-xs text-gray-500 leading-relaxed">
                         <span className="font-semibold text-gray-600">What gets preserved:</span> Bold, italic, text colors (RGB/CMYK), fonts, font sizes, headings, and paragraph alignment.

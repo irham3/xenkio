@@ -45,10 +45,83 @@ def _convert_pdf(file_path: str) -> str:
 
 
 def _convert_docx(file_path: str) -> str:
-    import mammoth  # type: ignore
-    with open(file_path, "rb") as f:
-        result = mammoth.convert_to_markdown(f)
-        return result.value
+    from docx import Document  # type: ignore
+    doc = Document(file_path)
+    md_lines = []
+    
+    def extract_run_text(run):
+        text = run.text
+        if not text.strip():
+            return text
+        l_space = len(text) - len(text.lstrip())
+        r_space = len(text) - len(text.rstrip())
+        clean_text = text.strip()
+        if run.bold:
+            clean_text = f"**{clean_text}**"
+        if run.italic:
+            clean_text = f"*{clean_text}*"
+        if run.underline:
+            clean_text = f"<u>{clean_text}</u>"
+        return (" " * l_space) + clean_text + (" " * r_space)
+        
+    for element in doc.element.body:
+        if element.tag.endswith('p'):
+            from docx.text.paragraph import Paragraph  # type: ignore
+            p = Paragraph(element, doc)
+            text = ""
+            for run in p.runs:
+                text += extract_run_text(run)
+            
+            style_name = p.style.name.lower()
+            if 'heading' in style_name:
+                try:
+                    level = int(''.join(filter(str.isdigit, style_name)))
+                    if level > 0 and level <= 6:
+                        text = f"{'#' * level} {text}"
+                except ValueError:
+                    pass
+            elif style_name == 'title':
+                text = f"# {text}"
+            elif style_name == 'subtitle':
+                text = f"## {text}"
+                
+            if 'list paragraph' in style_name or p.style.name == 'List Paragraph':
+                text = f"- {text}"
+                
+            if text.strip() or len(text) > 0:
+                md_lines.append(text)
+                
+        elif element.tag.endswith('tbl'):
+            from docx.table import Table  # type: ignore
+            t = Table(element, doc)
+            table_lines = []
+            seen_tc_ids = set()
+            for r_idx, row in enumerate(t.rows):
+                row_data = []
+                for cell in row.cells:
+                    tc_id = id(cell._tc)
+                    if tc_id in seen_tc_ids:
+                        row_data.append("")
+                        continue
+                    seen_tc_ids.add(tc_id)
+                    
+                    cell_text = ""
+                    for cell_p in cell.paragraphs:
+                        p_text = ""
+                        for run in cell_p.runs:
+                            p_text += extract_run_text(run)
+                        cell_text += p_text + "<br>"
+                    if cell_text.endswith("<br>"):
+                        cell_text = cell_text[:-4]
+                    cell_text = cell_text.replace("\n", " ").strip()
+                    row_data.append(cell_text)
+                
+                table_lines.append("| " + " | ".join(row_data) + " |")
+                if r_idx == 0:
+                    table_lines.append("| " + " | ".join(["---"] * len(row_data)) + " |")
+            md_lines.append("\n".join(table_lines) + "\n")
+            
+    return "\n\n".join(md_lines)
 
 
 def _convert_xlsx(file_path: str) -> str:
@@ -71,7 +144,20 @@ def _convert_pptx(file_path: str) -> str:
     for i, slide in enumerate(prs.slides, start=1):
         sections.append(f"## Slide {i}\n")
         for shape in slide.shapes:
-            if hasattr(shape, "text") and shape.text.strip():
+            if shape.has_table:
+                table_lines = []
+                for r_idx, row in enumerate(shape.table.rows):
+                    row_data = []
+                    for cell in row.cells:
+                        if cell.is_spanned:
+                            row_data.append("")
+                        else:
+                            row_data.append(cell.text.replace("\n", "<br>").strip())
+                    table_lines.append("| " + " | ".join(row_data) + " |")
+                    if r_idx == 0:
+                        table_lines.append("| " + " | ".join(["---"] * len(row_data)) + " |")
+                sections.append("\n".join(table_lines) + "\n")
+            elif hasattr(shape, "text") and shape.text.strip():
                 sections.append(shape.text)
         sections.append("")
     return "\n".join(sections)
@@ -151,7 +237,38 @@ def init_preload() -> None:
 
     # 2. Fresh import
     from markitdown import MarkItDown
-    import markitdown
+    from markitdown.converters._markdownify import _CustomMarkdownify
+    
+    # --- MONKEY PATCHES for MarkItDown to support <u> tags ---
+    try:
+        import mammoth
+        # Patch Mammoth to emit <u> tags for underlines
+        original_convert_to_html = mammoth.convert_to_html
+        def custom_convert_to_html(document, **kwargs):
+            custom_map = "u => u"
+            if "style_map" in kwargs and kwargs["style_map"]:
+                kwargs["style_map"] = kwargs["style_map"] + "\n" + custom_map
+            else:
+                kwargs["style_map"] = custom_map
+            return original_convert_to_html(document, **kwargs)
+        mammoth.convert_to_html = custom_convert_to_html
+    except ImportError:
+        pass
+    
+    # Patch _CustomMarkdownify to keep <u> tags
+    original_init = _CustomMarkdownify.__init__
+    def custom_init(self, **kwargs):
+        keep = kwargs.get('keep', [])
+        if 'u' not in keep:
+            kwargs['keep'] = tuple(list(keep) + ['u'])
+        original_init(self, **kwargs)
+    
+    _CustomMarkdownify.__init__ = custom_init
+    
+    def custom_convert_u(self, el, text, convert_as_inline=False, **kwargs):
+        return f"<u>{text}</u>"
+    _CustomMarkdownify.convert_u = custom_convert_u
+    # ---------------------------------------------------------
 
     # 3. Safety net: clear any stale _dependency_exc_info in converter modules
     for mod_name, mod_obj in list(sys.modules.items()):
@@ -166,13 +283,20 @@ def convert_preload(file_path: str) -> str:
     if _markitdown_instance is None:
         raise RuntimeError("init_preload() must be called before convert_preload()")
     
+    # Intercept specific formats to use our custom robust converters
+    # We DO NOT intercept docx so markitdown can natively process it with rich formatting.
+    # We intercept xlsx because markitdown outputs NaN for empty cells.
+    # We intercept pptx because markitdown extracts raw text without preserving tables.
+    ext = file_path.split('.')[-1].lower()
+    if ext in ['xlsx', 'xls', 'pptx']:
+        return convert_lazy(file_path, ext)
+    
     try:
         result = _markitdown_instance.convert(file_path)
         return result.text_content
     except Exception as e:
         # MarkItDown sometimes fails in Pyodide due to complex dependencies like pandas.
         # If it fails, fallback to our lightweight, pure-Python lazy converters.
-        ext = file_path.split('.')[-1].lower()
         if ext in _LAZY_CONVERTERS:
             print(f"MarkItDown failed for .{ext}, falling back to lazy converter. Error: {e}")
             return convert_lazy(file_path, ext)

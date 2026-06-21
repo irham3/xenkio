@@ -5,11 +5,12 @@ import { useDropzone } from "react-dropzone"
 import { DocumentUploader } from "@/features/doc-to-md/components/document-uploader"
 import { ConversionPanel } from "@/features/doc-to-md/components/conversion-panel"
 import { useDocToMd } from "@/features/doc-to-md/hooks/use-doc-to-md"
-import { DocFile, LoadingStrategy } from "@/features/doc-to-md/types"
+import { DocFileState, LoadingStrategy } from "@/features/doc-to-md/types"
 import { toast } from "sonner"
+import { v4 as uuidv4 } from "uuid"
 
-export function DocToMdClient() {
-    const [file, setFile] = useState<DocFile | null>(null)
+export function DocToMdClient({ title, description }: { title?: string, description?: string }) {
+    const [files, setFiles] = useState<DocFileState[]>([])
     const [strategy, setStrategy] = useState<LoadingStrategy>(() => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('docToMdStrategy')
@@ -25,29 +26,37 @@ export function DocToMdClient() {
         localStorage.setItem('docToMdStrategy', newStrategy)
     }
 
-    const { status, error, markdown, convert, reset } = useDocToMd(strategy)
+    const { pyodideStatus, pyodideError, convertFile } = useDocToMd(strategy)
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
-            const uploadedFile = acceptedFiles[0]
-
-            // Check file size (e.g. 50MB limit)
-            if (uploadedFile.size > 50 * 1024 * 1024) {
-                toast.error("File is too large. Please upload a file smaller than 50MB.")
-                return
+            const newFiles: DocFileState[] = [];
+            for (const uploadedFile of acceptedFiles) {
+                if (uploadedFile.size > 50 * 1024 * 1024) {
+                    toast.error(`File ${uploadedFile.name} is too large. Max size is 50MB.`)
+                    continue;
+                }
+                newFiles.push({
+                    id: uuidv4(),
+                    file: uploadedFile,
+                    name: uploadedFile.name,
+                    size: uploadedFile.size,
+                    status: 'pending'
+                });
             }
-
-            setFile({
-                file: uploadedFile,
-                name: uploadedFile.name,
-                size: uploadedFile.size
-            })
-            reset()
+            if (newFiles.length > 0) {
+                setFiles(prev => [...prev, ...newFiles])
+            }
         }
-    }, [reset])
+    }, [])
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    const handleReset = useCallback(() => {
+        setFiles([])
+    }, [])
+
+    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
         onDrop,
+        noClick: true,
         accept: {
             // PDF
             'application/pdf': ['.pdf'],
@@ -76,32 +85,56 @@ export function DocToMdClient() {
             // Outlook
             'application/vnd.ms-outlook': ['.msg'],
         },
-        maxFiles: 1
+        maxFiles: 50
     })
 
-    const handleReset = useCallback(() => {
-        setFile(null)
-        reset()
-    }, [reset])
-
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {!file ? (
+        <div 
+            {...getRootProps()}
+            className="space-y-4 sm:space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 w-full relative outline-none"
+        >
+            <input {...getInputProps()} />
+            
+            {isDragActive && files.length > 0 && (
+                <div className="absolute inset-0 z-50 bg-primary-500/10 backdrop-blur-sm border-2 border-primary-500 border-dashed rounded-xl flex items-center justify-center">
+                    <div className="bg-white px-6 py-4 rounded-xl shadow-lg flex items-center space-x-3">
+                        <div className="p-2 bg-primary-100 rounded-lg text-primary-600">
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                        </div>
+                        <span className="text-lg font-semibold text-gray-800">Drop files to add them</span>
+                    </div>
+                </div>
+            )}
+
+            {title && description && (
+                <div className="text-center mb-6">
+                    <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">{title}</h1>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-snug">{description}</p>
+                    <div className="mt-3 flex items-center justify-center">
+                        <span className="text-xs text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-200">
+                            Powered by <a href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary-600 hover:text-primary-700 hover:underline">Microsoft MarkItDown</a>
+                        </span>
+                    </div>
+                </div>
+            )}
+            {files.length === 0 ? (
                 <DocumentUploader
                     isDragActive={isDragActive}
-                    getRootProps={getRootProps}
-                    getInputProps={getInputProps}
+                    openDialog={open}
                     strategy={strategy}
                     onStrategyChange={handleStrategyChange}
                 />
             ) : (
                 <ConversionPanel
-                    file={file}
-                    status={status}
-                    error={error}
-                    markdown={markdown}
+                    files={files}
+                    setFiles={setFiles}
+                    pyodideStatus={pyodideStatus}
+                    pyodideError={pyodideError}
+                    convertFile={convertFile}
                     onReset={handleReset}
-                    onConvert={convert}
+                    onAddFiles={open}
                 />
             )}
         </div>

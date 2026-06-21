@@ -114,9 +114,8 @@ export function useVideoCompressor() {
     const runEncode = async (
         ffmpeg: FFmpegInstance,
         file: File,
-        crf: number,
+        targetKbps: number,
         resolution: string,
-        maxrateKbps: number,
         audioMode: 'copy' | 'compress' | 'remove',
         audioBitrate: number,
     ): Promise<{ blob: Blob; url: string } | null> => {
@@ -131,15 +130,18 @@ export function useVideoCompressor() {
 
             const args = ['-i', inputFileName]
 
-            // Video: H.264 with CRF + hard maxrate cap
+            // Video: Strict Average Bitrate (ABR)
             args.push('-c:v', 'libx264')
-            args.push('-crf', crf.toString())
-            args.push('-preset', 'veryfast')
+            args.push('-preset', 'fast') // Use fast instead of veryfast for better size-efficiency
 
-            // Hard bitrate ceiling — this is what actually guarantees smaller output
-            if (maxrateKbps > 0) {
-                args.push('-maxrate', `${maxrateKbps}k`)
-                args.push('-bufsize', `${Math.round(maxrateKbps * 2)}k`)
+            // Force strict bitrate to guarantee smaller output file
+            if (targetKbps > 0) {
+                args.push('-b:v', `${targetKbps}k`)
+                args.push('-maxrate', `${Math.round(targetKbps * 1.5)}k`)
+                args.push('-bufsize', `${Math.round(targetKbps * 2)}k`)
+            } else {
+                // Fallback extremely aggressive compression
+                args.push('-crf', '40')
             }
 
             // Resolution downscale
@@ -164,7 +166,7 @@ export function useVideoCompressor() {
             args.push('-y') // overwrite output
             args.push(outputFileName)
 
-            console.log(`[VideoCompressor] Encoding: crf=${crf} maxrate=${maxrateKbps}k res=${resolution} audio=${audioMode}`)
+            console.log(`[VideoCompressor] Encoding: target=${targetKbps}k res=${resolution} audio=${audioMode}`)
             console.log(`[VideoCompressor] Args: ${args.join(' ')}`)
 
             await ffmpeg.run(...args)
@@ -211,29 +213,34 @@ export function useVideoCompressor() {
         const startTime = Date.now()
 
         try {
-            // Get video duration to calculate maxrate
+            // Get video duration to calculate exact target bitrate
             let duration: number
             try {
                 duration = await getVideoDuration(file)
             } catch {
-                console.warn('[VideoCompressor] Could not get duration, estimating 30s')
-                duration = 30
+                console.warn('[VideoCompressor] Could not get duration, assuming 60s to prevent huge file sizes')
+                duration = 60
             }
 
-            // Calculate original bitrate
+            // Calculate original bitrate: file size in kilobits / duration
             const originalKbps = (file.size * 8) / duration / 1000
+            
+            // Deduct requested audio bitrate from target to ensure total size shrinks
+            const targetAudioKbps = settings.audioMode === 'compress' ? settings.audioBitrate : 0
+            
+            // Target video bitrate
+            let targetKbps = Math.round((originalKbps * settings.ratio) - targetAudioKbps)
+            
+            // Guard rail: minimum 50kbps for video
+            if (targetKbps < 50) targetKbps = 50
 
-            // Target: desired ratio of the original bitrate
-            const targetKbps = Math.round(originalKbps * settings.ratio)
-
-            console.log(`[VideoCompressor] Original: ${Math.round(originalKbps)} kbps, Target max: ${targetKbps} kbps, Duration: ${duration.toFixed(1)}s`)
+            console.log(`[VideoCompressor] Original: ${Math.round(originalKbps)} kbps, Target Video max: ${targetKbps} kbps, Duration: ${duration.toFixed(1)}s`)
 
             // ================================================================
-            // Attempt 1: CRF + maxrate cap at target bitrate
+            // Attempt 1: Strict Target Bitrate
             // ================================================================
-            const crf1 = settings.ratio >= 0.6 ? 28 : settings.ratio >= 0.4 ? 32 : settings.ratio >= 0.2 ? 36 : 40
             let encodeResult = await runEncode(
-                ffmpeg, file, crf1, settings.resolution, targetKbps,
+                ffmpeg, file, targetKbps, settings.resolution,
                 settings.audioMode, settings.audioBitrate,
             )
 
@@ -241,7 +248,7 @@ export function useVideoCompressor() {
             if (!encodeResult && settings.audioMode === 'copy') {
                 console.warn('[VideoCompressor] Audio copy failed, retrying with AAC...')
                 encodeResult = await runEncode(
-                    ffmpeg, file, crf1, settings.resolution, targetKbps,
+                    ffmpeg, file, targetKbps, settings.resolution,
                     'compress', 96,
                 )
             }
@@ -252,46 +259,24 @@ export function useVideoCompressor() {
             }
 
             // ================================================================
-            // Attempt 2: If still larger, retry with higher CRF + lower res
+            // Attempt 2: If somehow still larger (unlikely with strict bitrate), retry heavily
             // ================================================================
             if (encodeResult.blob.size >= file.size) {
-                console.warn(`[VideoCompressor] Attempt 1 output ${(encodeResult.blob.size / 1024 / 1024).toFixed(2)} MB >= original ${(file.size / 1024 / 1024).toFixed(2)} MB, retrying harder...`)
+                console.warn(`[VideoCompressor] Output ${(encodeResult.blob.size / 1024 / 1024).toFixed(2)} MB >= original ${(file.size / 1024 / 1024).toFixed(2)} MB, retrying with nuclear options...`)
 
                 // Revoke first attempt
                 URL.revokeObjectURL(encodeResult.url)
 
-                // More aggressive: higher CRF, lower maxrate, force 480p
                 const lowerRes = settings.resolution === 'original' ? '480' : settings.resolution
-                const lowerMaxrate = Math.round(targetKbps * 0.5)
-                const crf2 = Math.min(51, crf1 + 8)
+                const extremelyLowTarget = Math.round(targetKbps * 0.4)
 
                 encodeResult = await runEncode(
-                    ffmpeg, file, crf2, lowerRes, lowerMaxrate,
-                    'compress', 64,
-                )
-
-                if (!encodeResult) {
-                    setError('Compression failed on retry.')
-                    return null
-                }
-            }
-
-            // ================================================================
-            // Attempt 3: Nuclear option — if STILL larger
-            // ================================================================
-            if (encodeResult.blob.size >= file.size) {
-                console.warn('[VideoCompressor] Still larger after attempt 2, nuclear option...')
-
-                URL.revokeObjectURL(encodeResult.url)
-
-                // CRF 45, 360p, no audio, extremely low maxrate
-                encodeResult = await runEncode(
-                    ffmpeg, file, 45, '360', Math.round(targetKbps * 0.2),
+                    ffmpeg, file, extremelyLowTarget, lowerRes,
                     'remove', 0,
                 )
 
                 if (!encodeResult) {
-                    setError('Compression failed after all attempts.')
+                    setError('Compression failed on retry.')
                     return null
                 }
             }

@@ -9,7 +9,7 @@ import { MarkdownHeader } from "@/features/markdown-editor/components/markdown-h
 import { EditorPanel } from "@/features/markdown-editor/components/editor-panel";
 import { PreviewPanel } from "@/features/markdown-editor/components/preview-panel";
 
-export function MarkdownEditorClient({ initialValue }: { initialValue?: string } = {}) {
+export function MarkdownEditorClient({ initialValue, hideSampleButton, heightClass = "h-[70vh]", wrapperClass = "w-full pt-4 pb-4" }: { initialValue?: string, hideSampleButton?: boolean, heightClass?: string, wrapperClass?: string } = {}) {
     const {
         markdown,
         html,
@@ -279,6 +279,7 @@ export function MarkdownEditorClient({ initialValue }: { initialValue?: string }
                         onLoadSample={resetToSample}
                         isFullscreen={true}
                         setIsFullscreen={setIsFullscreen}
+                        hideSampleButton={hideSampleButton}
                     />
                     {(viewMode === 'editor' || viewMode === 'split') && (
                         <Toolbar
@@ -320,8 +321,8 @@ export function MarkdownEditorClient({ initialValue }: { initialValue?: string }
                 </div>
             )}
 
-            <div className={cn("w-full pt-4 pb-12", isFullscreen && "invisible")}>
-                <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft flex flex-col h-[70vh]">
+            <div className={cn(wrapperClass, isFullscreen && "invisible")}>
+                <div className={cn("bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-soft flex flex-col", heightClass)}>
                     <MarkdownHeader
                         viewMode={viewMode}
                         setViewMode={setViewMode}
@@ -331,6 +332,7 @@ export function MarkdownEditorClient({ initialValue }: { initialValue?: string }
                         onLoadSample={resetToSample}
                         isFullscreen={false}
                         setIsFullscreen={setIsFullscreen}
+                        hideSampleButton={hideSampleButton}
                     />
                     {(viewMode === 'editor' || viewMode === 'split') && (
                         <Toolbar
@@ -356,7 +358,7 @@ export function MarkdownEditorClient({ initialValue }: { initialValue?: string }
                                 onKeyDown={handleKeyDown}
                                 formattedChars={formattedChars}
                                 onDownload={handleDownloadMarkdown}
-                                heightClass="h-[calc(100vh-480px)] min-h-[250px]"
+                                heightClass="h-full min-h-[250px]"
                                 textareaRef={textareaRef}
                             />
                         )}
@@ -365,7 +367,7 @@ export function MarkdownEditorClient({ initialValue }: { initialValue?: string }
                                 html={html}
                                 markdown={markdown}
                                 onDownload={handleDownloadHtml}
-                                heightClass="h-[calc(100vh-480px)] min-h-[250px]"
+                                heightClass="h-full min-h-[250px]"
                             />
                         )}
                     </div>

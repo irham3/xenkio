@@ -13,7 +13,7 @@ declare global {
  */
 const EXTENSION_DEPS: Record<string, string> = {
     pdf:  'pdfminer.six',
-    docx: 'mammoth',
+    docx: 'python-docx',
     xlsx: 'openpyxl',
     xls:  'openpyxl',
     pptx: 'python-pptx',
@@ -47,7 +47,6 @@ async function fetchPythonScript(path: string): Promise<string> {
 export function useDocToMd(strategy: LoadingStrategy = 'preload') {
     const [status, setStatus] = useState<ConversionStatus>('idle');
     const [error, setError] = useState<string | null>(null);
-    const [markdown, setMarkdown] = useState<string | null>(null);
     const pyodideRef = useRef<PyodideInterface | null>(null);
 
     const initPyodide = useCallback(async () => {
@@ -105,12 +104,10 @@ export function useDocToMd(strategy: LoadingStrategy = 'preload') {
         return () => clearTimeout(timeout);
     }, [initPyodide]);
 
-    const convert = useCallback(async (file: File) => {
-        if (!pyodideRef.current || status !== 'ready') return;
-
-        setStatus('converting');
-        setError(null);
-        setMarkdown(null);
+    const convertFile = useCallback(async (file: File): Promise<string> => {
+        if (!pyodideRef.current || (status !== 'ready' && status !== 'error')) {
+            throw new Error('Pyodide is not ready');
+        }
 
         try {
             const pyodide = pyodideRef.current;
@@ -120,10 +117,8 @@ export function useDocToMd(strategy: LoadingStrategy = 'preload') {
             if (strategy === 'lazy') {
                 const dep = EXTENSION_DEPS[ext];
                 if (dep) {
-                    setStatus('installing_deps');
                     const micropip = pyodide.pyimport('micropip') as MicropipInterface;
                     await micropip.install(dep);
-                    setStatus('converting');
                 }
             }
 
@@ -153,28 +148,16 @@ export function useDocToMd(strategy: LoadingStrategy = 'preload') {
 
             pyodide.FS.unlink(fsPath);
 
-            setMarkdown(result);
-            setStatus('success');
+            return result;
         } catch (err) {
             console.error('Conversion error:', err);
-            setError(err instanceof Error ? err.message : 'Failed to convert document.');
-            setStatus('error');
+            throw err instanceof Error ? err : new Error('Failed to convert document.');
         }
     }, [status, strategy]);
 
-    const reset = useCallback(() => {
-        if (status === 'success' || status === 'error') {
-            setStatus('ready');
-            setMarkdown(null);
-            setError(null);
-        }
-    }, [status]);
-
     return {
-        status,
-        error,
-        markdown,
-        convert,
-        reset
+        pyodideStatus: status,
+        pyodideError: error,
+        convertFile
     };
 }

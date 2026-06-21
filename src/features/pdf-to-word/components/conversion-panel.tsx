@@ -242,7 +242,7 @@ export function ConversionPanel({
                         <div className="flex items-center justify-center gap-4">
                             <Button
                                 size="lg"
-                                onClick={onConvert}
+                                onClick={() => onConvert(useOcr)}
                             >
                                 <ArrowsClockwise className="w-4 h-4 mr-2"  weight="duotone"/>
                                 Try Again

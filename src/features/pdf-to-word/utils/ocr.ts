@@ -48,6 +48,7 @@ export async function extractOcrWordsFromPdf(
         canvas.width = viewport.width;
         
         await page.render({
+            canvas: canvas,
             canvasContext: context,
             viewport: viewport
         }).promise;
@@ -56,7 +57,8 @@ export async function extractOcrWordsFromPdf(
         const dataUrl = canvas.toDataURL('image/png');
         
         // Run OCR
-        const { data } = await worker.recognize(dataUrl);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data } = await worker.recognize(dataUrl) as { data: any };
         
         const pageWords: OCRWord[] = [];
         
